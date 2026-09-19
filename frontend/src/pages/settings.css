@@ -1,0 +1,109 @@
+/* ---------------- Tabs ---------------- */
+
+.tabs {
+  display: flex;
+  gap: var(--s5);
+  border-bottom: 1px solid var(--line);
+  margin-bottom: var(--s6);
+  overflow-x: auto;
+}
+
+.tab {
+  padding: var(--s3) 0;
+  font-size: var(--fs-sm);
+  font-weight: 500;
+  color: var(--ink-muted);
+  border-bottom: 2px solid transparent;
+  margin-bottom: -1px;
+  cursor: pointer;
+  white-space: nowrap;
+  min-height: 42px;
+  transition: color var(--t), border-color var(--t);
+}
+
+.tab:hover { color: var(--ink); }
+.tab.is-active { color: var(--ink); border-bottom-color: var(--ink); font-weight: 600; }
+
+/* ---------------- Endpoint rows ---------------- */
+
+.endpoint {
+  display: flex;
+  align-items: center;
+  gap: var(--s3);
+  padding: var(--s2) var(--s3);
+  border: 1px solid var(--line);
+  border-radius: var(--r);
+  flex-wrap: wrap;
+}
+
+/* ---------------- Audit log ---------------- */
+
+.log-row {
+  display: flex;
+  align-items: flex-start;
+  gap: var(--s3);
+  padding: var(--s3);
+  border-radius: var(--r);
+  transition: background var(--t);
+}
+.log-row:hover { background: var(--surface-hover); }
+
+.log-mark {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: var(--line-strong);
+  margin-top: 7px;
+  flex-shrink: 0;
+}
+
+/* ---------------- Alerts ---------------- */
+
+.alert-card { transition: border-color var(--t); }
+.alert-card.is-unread { border-left: 2px solid var(--ink); }
+
+.alert-icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 34px;
+  height: 34px;
+  flex-shrink: 0;
+  border-radius: var(--r);
+  background: var(--surface-sunk);
+  border: 1px solid var(--line);
+  color: var(--ink-soft);
+}
+
+.sub-row {
+  display: flex;
+  align-items: flex-start;
+  gap: var(--s3);
+  padding: var(--s3);
+  border-radius: var(--r);
+  cursor: pointer;
+  transition: background var(--t);
+}
+.sub-row:hover { background: var(--surface-hover); }
+
+.sub-row input {
+  margin-top: 3px;
+  width: 16px;
+  height: 16px;
+  accent-color: var(--ink);
+  cursor: pointer;
+  flex-shrink: 0;
+}
+
+/* ---------------- Chart tooltip ---------------- */
+
+.chart-tip {
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+  padding: var(--s2) var(--s3);
+  background: var(--surface);
+  border: 1px solid var(--line-strong);
+  border-radius: var(--r);
+  box-shadow: var(--shade);
+}

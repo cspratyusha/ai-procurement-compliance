@@ -1,0 +1,121 @@
+/* ------------------------- Spec basket ------------------------- */
+
+.basket-tab {
+  position: fixed;
+  right: 0;
+  top: 50%;
+  transform: translateY(-50%);
+  z-index: calc(var(--z-drawer) - 1);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+  padding: var(--s3) 10px;
+  background: var(--surface);
+  border: 1px solid var(--line-strong);
+  border-right: 0;
+  border-radius: var(--r) 0 0 var(--r);
+  color: var(--ink-muted);
+  cursor: pointer;
+  transition: background var(--t), color var(--t);
+}
+
+.basket-tab:hover { background: var(--surface-hover); color: var(--ink); }
+.basket-tab.has-items { color: var(--ink); border-color: var(--ink); }
+
+.basket-tab-count {
+  font-size: var(--fs-xs);
+  font-weight: 600;
+}
+
+.basket-tab-dot {
+  position: absolute;
+  top: 6px;
+  right: 6px;
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: var(--crit);
+}
+
+.basket {
+  position: fixed;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  width: 340px;
+  max-width: 92vw;
+  z-index: var(--z-drawer);
+  background: var(--surface);
+  border-left: 1px solid var(--line);
+  display: flex;
+  flex-direction: column;
+  transform: translateX(100%);
+  transition: transform var(--t);
+}
+
+.basket.is-open { transform: none; }
+
+.basket-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--s3);
+  padding: var(--s4);
+  border-bottom: 1px solid var(--line);
+  flex-shrink: 0;
+}
+
+.basket-body {
+  flex: 1;
+  overflow-y: auto;
+  padding: var(--s4);
+}
+
+.basket-group + .basket-group { margin-top: var(--s5); }
+
+.basket-item {
+  display: flex;
+  align-items: flex-start;
+  gap: var(--s2);
+  padding: var(--s3);
+  background: var(--surface-sunk);
+  border: 1px solid var(--line);
+  border-radius: var(--r);
+}
+
+.basket-item-title {
+  line-height: 1.45;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+.basket-item-actions {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  flex-shrink: 0;
+}
+
+.basket-mini {
+  min-height: 22px;
+  width: 22px;
+  border-radius: var(--r-sm);
+}
+.basket-mini:disabled { opacity: 0.3; cursor: not-allowed; }
+
+.basket-foot {
+  display: flex;
+  flex-direction: column;
+  gap: var(--s2);
+  padding: var(--s4);
+  border-top: 1px solid var(--line);
+  flex-shrink: 0;
+}
+
+@media (max-width: 720px) {
+  .basket-tab { top: auto; bottom: var(--s5); transform: none; }
+}

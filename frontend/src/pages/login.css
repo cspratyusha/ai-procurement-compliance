@@ -1,0 +1,88 @@
+.auth {
+  min-height: 100vh;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+}
+
+.auth-aside {
+  background: var(--surface);
+  border-right: 1px solid var(--line);
+  padding: var(--s8) var(--s7);
+  display: flex;
+  align-items: center;
+}
+
+.auth-quote {
+  font-size: var(--fs-lg);
+  font-weight: 500;
+  letter-spacing: -0.02em;
+  line-height: 1.4;
+  max-width: 20ch;
+  color: var(--ink);
+}
+
+.auth-marks {
+  display: flex;
+  flex-direction: column;
+  gap: var(--s3);
+  padding-top: var(--s5);
+  border-top: 1px solid var(--line);
+}
+
+.auth-main {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding: var(--s7) var(--s5);
+}
+
+.auth-card {
+  width: 100%;
+  max-width: 400px;
+  margin: 0 auto;
+}
+
+.auth-or {
+  display: flex;
+  align-items: center;
+  gap: var(--s3);
+}
+.auth-or::before, .auth-or::after {
+  content: '';
+  flex: 1;
+  height: 1px;
+  background: var(--line);
+}
+
+.role-option {
+  display: flex;
+  align-items: flex-start;
+  gap: var(--s3);
+  padding: var(--s3) var(--s4);
+  border: 1px solid var(--line-strong);
+  border-radius: var(--r);
+  cursor: pointer;
+  background: var(--surface);
+  transition: border-color var(--t), background var(--t);
+}
+
+.role-option:hover { background: var(--surface-hover); }
+
+.role-option.is-selected {
+  border-color: var(--ink);
+  background: var(--surface-sunk);
+}
+
+.role-option input {
+  margin-top: 3px;
+  width: 15px;
+  height: 15px;
+  accent-color: var(--ink);
+  cursor: pointer;
+  flex-shrink: 0;
+}
+
+@media (max-width: 860px) {
+  .auth { grid-template-columns: 1fr; }
+  .auth-aside { display: none; }
+}

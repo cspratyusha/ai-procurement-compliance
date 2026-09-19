@@ -1,0 +1,357 @@
+.landing { min-height: 100vh; display: flex; flex-direction: column; }
+
+.landing-nav {
+  position: sticky;
+  top: 0;
+  z-index: var(--z-nav);
+  height: 60px;
+  display: flex;
+  align-items: center;
+  background: color-mix(in srgb, var(--paper) 88%, transparent);
+  backdrop-filter: blur(8px);
+  border-bottom: 1px solid var(--line);
+}
+
+/* ----- Hero: Swiss 12-column grid -----
+   Asymmetric 7/5 split. The left column is editorial (kicker rule, headline,
+   lede, CTA, facts); the right column shows a real query resolving into its
+   cluster, which is the product's entire claim made visible rather than
+   described. No gradients, no glow — structure and type do the work. */
+
+.hero {
+  padding: var(--s8) 0;
+  border-bottom: 1px solid var(--line);
+}
+
+.hero-grid {
+  display: grid;
+  grid-template-columns: repeat(12, 1fr);
+  gap: var(--s6) var(--s7);
+  /* stretch, not start: the facts row then aligns to the panel's foot
+     instead of leaving a ragged gap under the shorter column */
+  align-items: stretch;
+}
+
+.hero-lede {
+  grid-column: 1 / span 7;
+  display: flex;
+  flex-direction: column;
+  gap: var(--s5);
+  min-width: 0;
+}
+
+.hero-panel {
+  grid-column: 8 / span 5;
+  min-width: 0;
+  background: var(--surface);
+  border: 1px solid var(--line);
+  border-radius: var(--r-lg);
+  padding: var(--s5);
+  display: flex;
+  flex-direction: column;
+  gap: var(--s4);
+  box-shadow: var(--e2);
+}
+
+/* --- Kicker with a rule, print-style --- */
+
+.hero-kicker {
+  display: flex;
+  align-items: center;
+  gap: var(--s3);
+  font-size: var(--fs-xs);
+  font-weight: 600;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--ink-faint);
+}
+
+.hero-rule {
+  width: 40px;
+  height: 2px;
+  background: var(--accent);
+  flex-shrink: 0;
+}
+
+/* --- Headline --- */
+
+.hero-title {
+  font-size: clamp(2.25rem, 5.2vw, 4rem);
+  line-height: 1.02;
+  letter-spacing: -0.04em;
+  font-weight: 600;
+  margin: 0;
+}
+
+/* Second line set in the muted tone: the contrast carries the idea that one
+   thing becomes many, without needing an illustration. */
+.hero-line-2 {
+  display: block;
+  color: var(--ink-faint);
+}
+
+.hero-sub {
+  font-size: var(--fs-md);
+  line-height: 1.6;
+  color: var(--ink-muted);
+  max-width: 46ch;
+}
+
+.hero-cta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--s3);
+}
+
+/* --- Facts row --- */
+
+.hero-facts {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--s6);
+  margin: auto 0 0;          /* push to the foot of the column */
+  padding-top: var(--s5);
+  border-top: 1px solid var(--line);
+}
+
+.hero-fact { display: flex; flex-direction: column; gap: 2px; }
+
+.hero-fact-v {
+  font-size: var(--fs-lg);
+  font-weight: 600;
+  letter-spacing: -0.025em;
+  color: var(--ink);
+}
+
+.hero-fact-l {
+  margin: 0;
+  font-size: var(--fs-xs);
+  color: var(--ink-faint);
+}
+
+/* --- Resolution panel --- */
+
+.hero-panel-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--s3);
+  padding-bottom: var(--s3);
+  border-bottom: 1px solid var(--line);
+}
+
+.hero-query {
+  margin: 0;
+  padding: var(--s3) var(--s4);
+  background: var(--surface-sunk);
+  border: 1px solid var(--line);
+  border-left: 2px solid var(--ink);
+  border-radius: var(--r);
+  font-size: var(--fs-xs);
+  line-height: 1.6;
+  color: var(--ink-soft);
+}
+
+.hero-arrow {
+  display: flex;
+  align-items: center;
+  gap: var(--s3);
+}
+
+.hero-arrow-line {
+  flex: 1;
+  height: 1px;
+  background: var(--line-strong);
+}
+
+.hero-cluster {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 1px;
+}
+
+/* Each node is a row on a shared spine — the vertical line reads as the
+   graph edge connecting the cluster back to the primary standard. */
+.hero-node {
+  position: relative;
+  display: grid;
+  grid-template-columns: 14px minmax(0, auto) minmax(0, 1fr) auto;
+  align-items: center;
+  gap: var(--s3);
+  padding: 9px var(--s3) 9px 0;
+}
+
+.hero-node + .hero-node { border-top: 1px solid var(--line); }
+
+.hero-node-mark {
+  width: 7px;
+  height: 7px;
+  margin-left: 3px;
+  border-radius: 50%;
+  border: 1.5px solid var(--line-strong);
+  background: var(--surface);
+}
+
+.hero-node.is-lead .hero-node-mark {
+  border-color: var(--ink);
+  background: var(--ink);
+}
+
+/* Spine connecting the nodes */
+.hero-node:not(:last-child)::before {
+  content: '';
+  position: absolute;
+  left: 6.5px;
+  top: 50%;
+  bottom: -1px;
+  width: 1px;
+  background: var(--line-strong);
+}
+
+.hero-node-code {
+  font-size: var(--fs-xs);
+  font-weight: 500;
+  color: var(--ink);
+  white-space: nowrap;
+}
+
+.hero-node.is-lead .hero-node-code { font-weight: 700; }
+
+.hero-node-role {
+  font-size: var(--fs-xs);
+  color: var(--ink-faint);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.hero-cert {
+  display: flex;
+  align-items: center;
+  gap: var(--s2);
+  padding: var(--s3);
+  background: var(--accent-soft);
+  border: 1px solid var(--accent-line);
+  border-radius: var(--r);
+  color: var(--accent);
+}
+
+/* --- Responsive: the grid folds to one column --- */
+
+@media (max-width: 1080px) {
+  .hero-lede  { grid-column: 1 / span 12; }
+  .hero-panel { grid-column: 1 / span 12; }
+  .hero-sub   { max-width: 62ch; }
+}
+
+@media (max-width: 720px) {
+  .hero { padding: var(--s7) 0 var(--s6); }
+  .hero-grid { gap: var(--s5); }
+  .hero-facts { gap: var(--s5); }
+  .hero-panel { padding: var(--s4); }
+  .hero-node { grid-template-columns: 14px minmax(0, 1fr) auto; }
+  /* The role label is the first thing to go when space is tight —
+     the IS number and its match band carry the meaning. */
+  .hero-node-role { display: none; }
+}
+
+/* ----- Stat strip ----- */
+
+.strip {
+  padding: var(--s6) 0;
+  border-top: 1px solid var(--line);
+  border-bottom: 1px solid var(--line);
+  background: var(--surface);
+}
+
+.strip-value {
+  font-size: var(--fs-lg);
+  font-weight: 600;
+  letter-spacing: -0.025em;
+}
+
+/* ----- Sections ----- */
+
+.section { padding: var(--s9) 0; }
+
+.section-sunk {
+  background: var(--surface);
+  border-top: 1px solid var(--line);
+  border-bottom: 1px solid var(--line);
+}
+
+.section-title {
+  font-size: var(--fs-xl);
+  letter-spacing: -0.03em;
+}
+
+@media (max-width: 720px) {
+  .section { padding: var(--s7) 0; }
+  .section-title { font-size: var(--fs-lg); }
+}
+
+.benefit-icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 38px; height: 38px;
+  border-radius: var(--r);
+  background: var(--surface-sunk);
+  border: 1px solid var(--line);
+  color: var(--ink-soft);
+}
+
+/* ----- Steps ----- */
+
+.steps {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  gap: var(--s3);
+  max-width: 760px;
+  margin-inline: auto;
+  counter-reset: step;
+}
+
+.step {
+  display: flex;
+  align-items: flex-start;
+  gap: var(--s4);
+  padding: var(--s4) var(--s5);
+  background: var(--paper);
+  border: 1px solid var(--line);
+  border-radius: var(--r);
+}
+
+.step-n {
+  font-size: var(--fs-xs);
+  font-weight: 500;
+  color: var(--ink-faint);
+  padding-top: 2px;
+  flex-shrink: 0;
+}
+
+/* ----- CTA ----- */
+
+.cta-band {
+  display: flex;
+  justify-content: center;
+  padding: var(--s8) var(--s5);
+  background: var(--surface);
+  border: 1px solid var(--line);
+  border-radius: var(--r-lg);
+}
+
+.cta-band .stack { align-items: center; }
+
+/* ----- Footer ----- */
+
+.landing-foot {
+  margin-top: auto;
+  padding: var(--s5) 0;
+  border-top: 1px solid var(--line);
+}

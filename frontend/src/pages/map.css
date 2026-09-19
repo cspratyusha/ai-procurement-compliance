@@ -1,0 +1,146 @@
+.branch-row {
+  display: flex;
+  align-items: center;
+  gap: var(--s3);
+  width: 100%;
+  padding: var(--s3);
+  border: 1px solid var(--line);
+  border-radius: var(--r);
+  background: var(--surface);
+  color: var(--ink-muted);
+  cursor: pointer;
+  min-height: 48px;
+  transition: background var(--t), border-color var(--t), color var(--t);
+}
+.branch-row:hover {
+  background: var(--surface-hover);
+  border-color: var(--line-strong);
+  color: var(--ink);
+}
+
+/* ------------------------- BOQ line items ------------------------- */
+
+.li-row {
+  display: flex;
+  align-items: flex-start;
+  gap: var(--s4);
+  padding: var(--s4);
+  border: 1px solid var(--line);
+  border-radius: var(--r);
+  background: var(--surface);
+  transition: border-color var(--t), opacity var(--t);
+}
+.li-row:hover { border-color: var(--line-strong); }
+.li-row.is-done { opacity: 0.66; border-color: color-mix(in srgb, var(--ok) 40%, var(--line)); }
+.li-row.is-unparsed { border-style: dashed; background: var(--surface-sunk); }
+
+.li-sr {
+  width: 26px;
+  height: 26px;
+  flex-shrink: 0;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: var(--r-sm);
+  background: var(--surface-sunk);
+  border: 1px solid var(--line);
+  color: var(--ink-faint);
+  font-size: var(--fs-xs);
+  font-weight: 600;
+}
+
+.li-progress {
+  display: flex;
+  align-items: center;
+  gap: var(--s3);
+  padding: var(--s3) var(--s4);
+  background: var(--surface-sunk);
+  border: 1px solid var(--line);
+  border-radius: var(--r);
+}
+
+/* ------------------------- Parsed attribute chips -------------------------
+   In the narrow rail these read as a definition list, not pills: the label sits
+   above its value, and the edit control stays pinned to the right so a long
+   value never pushes it onto its own line. */
+
+.chip {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  align-items: center;
+  gap: 0 var(--s2);
+  width: 100%;
+  padding: var(--s2) var(--s2) var(--s2) var(--s3);
+  background: var(--surface);
+  border: 1px solid var(--line);
+  border-radius: var(--r);
+  font-size: var(--fs-xs);
+  box-shadow: var(--e1);
+  transition: border-color var(--t), background var(--t);
+}
+
+.chip:hover { border-color: var(--line-strong); }
+
+.chip.is-uncertain {
+  border-color: var(--warn);
+  border-left-width: 2px;
+  background: var(--warn-soft);
+}
+
+.chip-key {
+  grid-column: 1;
+  color: var(--ink-faint);
+  font-size: 11px;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  line-height: 1.4;
+}
+
+.chip-val {
+  grid-column: 1;
+  font-weight: 500;
+  color: var(--ink);
+  line-height: 1.4;
+  overflow-wrap: anywhere;
+}
+
+.chip > .badge { grid-column: 1; justify-self: start; margin-top: 2px; }
+
+.chip-edit {
+  grid-column: 2;
+  grid-row: 1 / -1;
+  min-height: 26px;
+  width: 26px;
+  border-radius: var(--r-sm);
+  color: var(--ink-faint);
+  align-self: center;
+}
+.chip-edit:hover { color: var(--ink); background: var(--surface-hover); }
+
+.chip-input {
+  grid-column: 1;
+  width: 100%;
+  min-width: 0;
+  padding: 4px var(--s2);
+  font-size: var(--fs-xs);
+  border: 1px solid var(--ink-soft);
+  border-radius: var(--r-sm);
+  background: var(--surface);
+  color: var(--ink);
+}
+
+.chip-list {
+  display: flex;
+  flex-direction: column;
+  gap: var(--s2);
+}
+
+/* Save + cancel share the chip's right-hand column while editing */
+.chip-actions {
+  grid-column: 2;
+  grid-row: 1 / -1;
+  display: flex;
+  align-items: center;
+  gap: 2px;
+}
+.chip-actions .chip-edit { grid-column: auto; grid-row: auto; }
