@@ -1,11 +1,8 @@
 import logging
-from typing import List, Dict, Any, Optional
+from typing import List, Dict, Any, Optional, Tuple
 from sqlalchemy.orm import Session
+import numpy as np
 
-from app.db.vector_store import vector_store_client
-from app.db.bm25_index import bm25_index_client
-from app.db.neo4j_client import neo4j_client
-from app.services.embedding_service import embedding_service
 from app.models.postgres_models import (
     StandardModel,
     ProductCategoryModel,
@@ -13,6 +10,16 @@ from app.models.postgres_models import (
     CertificationRuleModel,
     CrossReferenceModel,
 )
+
+# Import our standards-retrieval pipeline
+from app.services.standards_retrieval.data_loader import load_corpus, get_standard_by_id
+from app.services.standards_retrieval.indexing.embed_index import dense_search
+from app.services.standards_retrieval.indexing.bm25_index import bm25_search
+from app.services.standards_retrieval.retrieval.hybrid import hybrid_search as raw_hybrid_search
+from app.services.standards_retrieval.retrieval.rerank import rerank
+from app.services.standards_retrieval.retrieval.postprocess import apply_supersession_penalty
+from app.services.standards_retrieval.ltr.features import build_features, fallback_score
+from app.services.standards_retrieval.ltr.train import load_model
 
 logger = logging.getLogger(__name__)
 
@@ -25,45 +32,30 @@ class RetrievalService:
         category_id: Optional[str] = None,
         db: Optional[Session] = None,
     ) -> List[Dict[str, Any]]:
-        """
-        Dense semantic search using sentence-transformer embeddings and ChromaDB vector store.
-        """
-        query_vec = embedding_service.embed_query(query)
-        where_filter = {"category_id": category_id} if category_id else None
-
-        results = vector_store_client.query(
-            query_embedding=query_vec,
-            n_results=top_k,
-            where_filter=where_filter,
-        )
+        """Dense semantic search using intfloat/e5-base-v2 and FAISS vector index."""
+        corpus = {s.id: s for s in load_corpus()}
+        hits = dense_search(query=query, top_k=top_k * 2)
 
         candidates = []
-        if results and "ids" in results and results["ids"] and results["ids"][0]:
-            ids = results["ids"][0]
-            metadatas = results["metadatas"][0] if "metadatas" in results and results["metadatas"] else []
-            distances = results["distances"][0] if "distances" in results and results["distances"] else []
-            documents = results["documents"][0] if "documents" in results and results["documents"] else []
+        for std_id, score in hits:
+            std = corpus.get(std_id)
+            if not std:
+                continue
+            if category_id and std.category != category_id:
+                continue
 
-            for idx, std_number in enumerate(ids):
-                meta = metadatas[idx] if idx < len(metadatas) else {}
-                dist = distances[idx] if idx < len(distances) else 1.0
-                doc = documents[idx] if idx < len(documents) else ""
+            candidates.append({
+                "standard_id": std.id,
+                "standard_number": std.number,
+                "title": std.title,
+                "category_id": std.category,
+                "status": std.status,
+                "dense_score": round(float(score), 4),
+                "document_preview": f"{std.title}. {std.scope[:150]}...",
+            })
+            if len(candidates) >= top_k:
+                break
 
-                # Cosine distance to similarity conversion
-                similarity = max(0.0, 1.0 - float(dist))
-
-                candidates.append({
-                    "standard_number": std_number,
-                    "title": meta.get("title", ""),
-                    "category_id": meta.get("category_id", ""),
-                    "sector": meta.get("sector", ""),
-                    "status": meta.get("status", "active"),
-                    "year_published": meta.get("year_published", 0),
-                    "dense_score": round(similarity, 4),
-                    "document_preview": doc[:200] if doc else "",
-                })
-
-        # Enrich with PostgreSQL metadata if DB session provided
         if db and candidates:
             RetrievalService._enrich_with_db(candidates, db)
 
@@ -75,22 +67,28 @@ class RetrievalService:
         top_k: int = 10,
         db: Optional[Session] = None,
     ) -> List[Dict[str, Any]]:
-        """
-        Sparse keyword search using BM25 index over standard numbers, titles, and scopes.
-        """
-        hits = bm25_index_client.search(query=query, top_k=top_k)
-        candidates = []
+        """Sparse keyword search using BM25Okapi over standard numbers, titles, scopes, and keywords."""
+        corpus = {s.id: s for s in load_corpus()}
+        hits = bm25_search(query=query, top_k=top_k * 2)
 
+        candidates = []
         max_score = hits[0][1] if hits else 1.0
-        for std_number, score, doc in hits:
+        for std_id, score in hits:
+            std = corpus.get(std_id)
+            if not std:
+                continue
+
             norm_score = (score / max_score) if max_score > 0 else 0.0
             candidates.append({
-                "standard_number": std_number,
-                "title": doc.get("title", ""),
-                "scope_text": doc.get("scope_text", ""),
+                "standard_id": std.id,
+                "standard_number": std.number,
+                "title": std.title,
+                "scope_text": std.scope,
                 "bm25_score": round(float(norm_score), 4),
                 "raw_bm25_score": round(float(score), 4),
             })
+            if len(candidates) >= top_k:
+                break
 
         if db and candidates:
             RetrievalService._enrich_with_db(candidates, db)
@@ -106,57 +104,110 @@ class RetrievalService:
         sparse_weight: float = 0.4,
         db: Optional[Session] = None,
     ) -> List[Dict[str, Any]]:
+        """Stage 1 & 2 Full AI Retrieval Pipeline:
+        1. Hybrid Dense (e5-base-v2 FAISS) + Sparse (BM25Okapi) RRF retrieval
+        2. Cross-Encoder joint semantic re-ranking (ms-marco-MiniLM-L-6-v2)
+        3. Learning-to-Rank (LambdaMART LightGBM / fallback scoring)
+        4. Deterministic supersession penalty & tie-breaking post-processing
+        5. PostgreSQL metadata enrichment (annotations applied post-ranking; preserves ordering)
         """
-        Stage 1 & 2 AI Pipeline: Hybrid retrieval combining Dense Vector Search + BM25 Sparse Search
-        with reciprocal/linear score fusion and PostgreSQL metadata enrichment.
-        """
-        # Fetch dense candidates
-        dense_results = RetrievalService.vector_search(
-            query=query, top_k=top_k * 2, category_id=category_id
-        )
-        dense_map = {c["standard_number"]: c for c in dense_results}
+        if not query or not query.strip():
+            return []
 
-        # Fetch sparse candidates
-        sparse_results = RetrievalService.keyword_search(
-            query=query, top_k=top_k * 2
-        )
-        sparse_map = {c["standard_number"]: c for c in sparse_results}
+        corpus = {s.id: s for s in load_corpus()}
 
-        # Candidate fusion
-        all_std_numbers = set(dense_map.keys()) | set(sparse_map.keys())
-        merged_candidates = []
+        # 1. First-Stage: Hybrid Search (Dense + BM25 RRF)
+        candidate_pool_k = max(20, top_k * 2)
+        hybrid_candidates = raw_hybrid_search(query, top_k=candidate_pool_k)
+        candidate_ids = [cid for cid, _ in hybrid_candidates]
+        if not candidate_ids:
+            return []
 
-        for std_num in all_std_numbers:
-            dense_item = dense_map.get(std_num)
-            sparse_item = sparse_map.get(std_num)
+        # 2. Second-Stage: Cross-Encoder Re-Ranking
+        ce_ranked = rerank(query=query, candidate_ids=candidate_ids, corpus=corpus, top_k=len(candidate_ids))
+        ce_dict = dict(ce_ranked)
 
-            d_score = dense_item["dense_score"] if dense_item else 0.0
-            s_score = sparse_item["bm25_score"] if sparse_item else 0.0
+        dense_dict = dict(dense_search(query, top_k=len(candidate_ids) + 10))
+        bm25_dict = dict(bm25_search(query, top_k=len(candidate_ids) + 10))
 
-            hybrid_score = round((dense_weight * d_score) + (sparse_weight * s_score), 4)
+        raw_bm25_vals = [bm25_dict.get(cid, 0.0) for cid in candidate_ids]
+        min_b = min(raw_bm25_vals) if raw_bm25_vals else 0.0
+        max_b = max(raw_bm25_vals) if raw_bm25_vals else 0.0
+        range_b = max_b - min_b
 
-            title = (
-                (dense_item.get("title") if dense_item else None)
-                or (sparse_item.get("title") if sparse_item else "")
+        valid_cids = []
+        features_list = []
+        raw_candidates_meta = []
+
+        for cid in candidate_ids:
+            std = corpus.get(cid)
+            if not std:
+                continue
+            if category_id and std.category != category_id:
+                continue
+
+            valid_cids.append(cid)
+            d_s = float(dense_dict.get(cid, 0.0))
+            raw_b = float(bm25_dict.get(cid, 0.0))
+            b_norm = (raw_b - min_b) / (range_b + 1e-6) if range_b > 1e-6 else 0.5
+            ce_s = float(ce_dict.get(cid, -10.0))
+
+            fv = build_features(
+                query=query,
+                candidate_id=cid,
+                standard=std,
+                dense_score=d_s,
+                bm25_score_normalized=b_norm,
+                cross_encoder_score=ce_s,
+                historical_acceptance_rate=0.0,
             )
-            category = (dense_item.get("category_id") if dense_item else "") or ""
-            status = (dense_item.get("status") if dense_item else "active") or "active"
-            sector = (dense_item.get("sector") if dense_item else "") or ""
-
-            merged_candidates.append({
-                "standard_number": std_num,
-                "title": title,
-                "category_id": category,
-                "sector": sector,
-                "status": status,
-                "dense_score": d_score,
-                "bm25_score": s_score,
-                "hybrid_score": hybrid_score,
+            features_list.append(fv)
+            raw_candidates_meta.append({
+                "dense": d_s,
+                "bm25": raw_b,
+                "cross_encoder": ce_s,
+                "standard": std,
             })
 
-        merged_candidates.sort(key=lambda x: x["hybrid_score"], reverse=True)
-        top_candidates = merged_candidates[:top_k]
+        if not valid_cids:
+            return []
 
+        # 3. Third-Stage: LTR Prediction or Fallback
+        booster = load_model()
+        if booster is not None:
+            X = np.array(features_list, dtype=np.float32)
+            ltr_scores = booster.predict(X)
+            ranker_used = "ltr"
+        else:
+            ltr_scores = [fallback_score(fv) for fv in features_list]
+            ranker_used = "fallback"
+
+        unadjusted = []
+        for cid, meta, score in zip(valid_cids, raw_candidates_meta, ltr_scores):
+            std = meta["standard"]
+            unadjusted.append({
+                "id": cid,
+                "standard_id": cid,
+                "standard_number": std.number,
+                "title": std.title,
+                "category_id": std.category,
+                "status": std.status,
+                "dense_score": round(meta["dense"], 4),
+                "bm25_score": round(meta["bm25"], 4),
+                "cross_encoder_score": round(meta["cross_encoder"], 4),
+                "ltr_score": round(float(score), 4),
+                "final_score": float(score),
+                "ranker_used": ranker_used,
+            })
+
+        # 4. Fourth-Stage: Deterministic Supersession Penalty Post-Processing
+        penalized_results = apply_supersession_penalty(
+            unadjusted, corpus=corpus, penalty=2.0, top_k=top_k, return_metadata=False
+        )
+
+        top_candidates = penalized_results[:top_k]
+
+        # 5. Enrichment: runs AFTER ranking, adding PG metadata without re-ordering
         if db and top_candidates:
             RetrievalService._enrich_with_db(top_candidates, db)
 
@@ -164,42 +215,49 @@ class RetrievalService:
 
     @staticmethod
     def _enrich_with_db(candidates: List[Dict[str, Any]], db: Session):
-        """Enrich candidates with latest versions, amendments count, and mandatory certification flags."""
-        std_numbers = [c["standard_number"] for c in candidates]
-        stds = (
-            db.query(StandardModel)
-            .filter(StandardModel.standard_number.in_(std_numbers))
-            .all()
-        )
-        std_by_num = {s.standard_number: s for s in stds}
+        """Enrich candidates in-place with latest versions, amendments count, and mandatory certification flags.
+        Preserves ranking order strictly (annotates in-place).
+        """
+        std_numbers = [c.get("standard_number") or c.get("number") for c in candidates if c.get("standard_number") or c.get("number")]
+        if not std_numbers:
+            return
 
-        # Check certification rules
-        categories = {s.category_id for s in stds if s.category_id}
-        cert_rules = (
-            db.query(CertificationRuleModel)
-            .filter(CertificationRuleModel.category_id.in_(categories))
-            .all()
-        ) if categories else []
+        try:
+            stds = (
+                db.query(StandardModel)
+                .filter(StandardModel.standard_number.in_(std_numbers))
+                .all()
+            )
+            std_by_num = {s.standard_number: s for s in stds}
 
-        cat_rules_map = {}
-        for r in cert_rules:
-            cat_rules_map.setdefault(r.category_id, []).append({
-                "scheme_type": r.scheme_type,
-                "mandatory": r.mandatory_flag,
-            })
+            categories = {s.category_id for s in stds if s.category_id}
+            cert_rules = (
+                db.query(CertificationRuleModel)
+                .filter(CertificationRuleModel.category_id.in_(categories))
+                .all()
+            ) if categories else []
 
-        for c in candidates:
-            std = std_by_num.get(c["standard_number"])
-            if std:
-                c["standard_id"] = std.standard_id
-                c["current_version"] = std.current_version
-                c["status"] = std.status
-                c["scope_text"] = std.scope_text
-                c["abstract"] = std.abstract
-                c["year_published"] = std.year_published
-                c["category_id"] = std.category_id
-                c["amendments_count"] = len(std.amendments) if std.amendments else 0
-                c["certification_rules"] = cat_rules_map.get(std.category_id, [])
+            cat_rules_map = {}
+            for r in cert_rules:
+                cat_rules_map.setdefault(r.category_id, []).append({
+                    "scheme_type": r.scheme_type,
+                    "mandatory": r.mandatory_flag,
+                })
+
+            for c in candidates:
+                num = c.get("standard_number") or c.get("number")
+                std = std_by_num.get(num)
+                if std:
+                    c["current_version"] = getattr(std, "current_version", c.get("version"))
+                    c["status"] = getattr(std, "status", c.get("status"))
+                    c["scope_text"] = getattr(std, "scope_text", c.get("scope"))
+                    c["abstract"] = getattr(std, "abstract", "")
+                    c["year_published"] = getattr(std, "year_published", 0)
+                    c["category_id"] = getattr(std, "category_id", c.get("category_id"))
+                    c["amendments_count"] = len(std.amendments) if hasattr(std, "amendments") and std.amendments else 0
+                    c["certification_rules"] = cat_rules_map.get(getattr(std, "category_id", ""), [])
+        except Exception as exc:
+            logger.warning(f"DB enrichment skipped due to exception: {exc}")
 
     @staticmethod
     def get_standard_detail(standard_number: str, db: Session) -> Optional[Dict[str, Any]]:
@@ -218,7 +276,7 @@ class RetrievalService:
                 "date_issued": a.date_issued,
                 "change_summary": a.change_summary,
             }
-            for a in std.amendments
+            for a in getattr(std, "amendments", [])
         ]
 
         rules = (
@@ -238,7 +296,6 @@ class RetrievalService:
             for r in rules
         ]
 
-        # Cross references from PostgreSQL
         xrefs = (
             db.query(CrossReferenceModel)
             .filter(

@@ -1,8 +1,13 @@
 import os
 import logging
 from typing import List, Dict, Any, Optional
-import chromadb
-from chromadb.config import Settings as ChromaSettings
+
+try:
+    import chromadb
+    from chromadb.config import Settings as ChromaSettings
+except ImportError:
+    chromadb = None
+
 from app.config import settings
 
 logger = logging.getLogger(__name__)
@@ -11,7 +16,10 @@ class VectorStoreClient:
     def __init__(self):
         self.client = None
         self.collection = None
-        self._init_chroma()
+        if chromadb is not None:
+            self._init_chroma()
+        else:
+            logger.info("ChromaDB not installed; FAISS is the primary vector store.")
 
     def _init_chroma(self):
         try:
@@ -38,7 +46,7 @@ class VectorStoreClient:
         metadatas: List[Dict[str, Any]]
     ):
         """Upsert documents, vectors, and metadata into vector store."""
-        if not ids:
+        if not ids or self.collection is None:
             return
         self.collection.upsert(
             ids=ids,
@@ -54,25 +62,12 @@ class VectorStoreClient:
         where_filter: Optional[Dict[str, Any]] = None
     ) -> Dict[str, Any]:
         """Perform dense vector search with optional metadata filtering."""
+        if self.collection is None:
+            return {"ids": [[]], "metadatas": [[]], "distances": [[]], "documents": [[]]}
         return self.collection.query(
             query_embeddings=[query_embedding],
             n_results=n_results,
             where=where_filter
-        )
-
-    def count(self) -> int:
-        """Return total number of vector records in collection."""
-        return self.collection.count()
-
-    def clear(self):
-        """Purge vector collection."""
-        try:
-            self.client.delete_collection(name=settings.CHROMA_COLLECTION_NAME)
-        except Exception:
-            pass
-        self.collection = self.client.get_or_create_collection(
-            name=settings.CHROMA_COLLECTION_NAME,
-            metadata={"hnsw:space": "cosine"}
         )
 
 vector_store_client = VectorStoreClient()
