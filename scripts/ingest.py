@@ -5,7 +5,7 @@ from __future__ import annotations
 import argparse
 import json
 import re
-import sqlite3
+import os
 from datetime import date
 from pathlib import Path
 from typing import Any
@@ -88,7 +88,9 @@ def validate_certification_rules(rules: Any) -> list[dict[str, Any]]:
     return rules
 
 
-def rebuild(source_dir: Path, output_dir: Path) -> None:
+def rebuild(source_dir: Path, output_dir: Path, database_url: str) -> None:
+    import psycopg
+
     standards = validate_standards(load_json(source_dir / "standards.json"))
     ids = {record["id"] for record in standards}
     relationships = validate_relationships(load_json(source_dir / "relationships.json"), ids)
@@ -99,18 +101,15 @@ def rebuild(source_dir: Path, output_dir: Path) -> None:
     if not schema_path.exists():
         raise FileNotFoundError(f"schema.sql not found beside {source_dir}")
 
-    output_dir.mkdir(parents=True, exist_ok=True)
-    with sqlite3.connect(output_dir / "standards.db") as connection:
-        connection.execute("PRAGMA foreign_keys = ON")
-        connection.executescript(schema_path.read_text(encoding="utf-8"))
-        connection.execute("DELETE FROM standard_relationships")
-        connection.execute("DELETE FROM certification_rules")
-        connection.execute("DELETE FROM standards")
-        connection.executemany(
+    with psycopg.connect(database_url) as connection:
+        connection.execute(schema_path.read_text(encoding="utf-8"))
+        connection.execute("TRUNCATE audit_findings, interaction_logs, standard_relationships, certification_rules, standards")
+        with connection.cursor() as cursor:
+            cursor.executemany(
             """INSERT INTO standards
             (id, number, title, scope, description, category, version,
              last_amended, status, keywords_json)
-            VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)""",
+            VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s)""",
             [
                 (
                     record["id"], record["number"], record["title"], record["scope"],
@@ -120,15 +119,15 @@ def rebuild(source_dir: Path, output_dir: Path) -> None:
                 )
                 for record in standards
             ],
-        )
-        connection.executemany(
-            "INSERT INTO standard_relationships (source_id, target_id, type) VALUES (?, ?, ?)",
-            [(relation["source_id"], relation["target_id"], relation["type"]) for relation in relationships],
-        )
-        connection.executemany(
-            "INSERT INTO certification_rules (category, scheme_type, mandatory) VALUES (?, ?, ?)",
-            [(rule["category"], rule["scheme_type"], int(rule["mandatory"])) for rule in rules],
-        )
+            )
+            cursor.executemany(
+                "INSERT INTO standard_relationships (source_id, target_id, type) VALUES (%s, %s, %s)",
+                [(relation["source_id"], relation["target_id"], relation["type"]) for relation in relationships],
+            )
+            cursor.executemany(
+                "INSERT INTO certification_rules (category, scheme_type, mandatory) VALUES (%s, %s, %s)",
+                [(rule["category"], rule["scheme_type"], rule["mandatory"]) for rule in rules],
+            )
         connection.commit()
 
     (output_dir / "keyword-index.json").write_text(
@@ -157,8 +156,9 @@ def main() -> None:
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--source", type=Path, default=repository_root / "data" / "raw")
     parser.add_argument("--output", type=Path, default=repository_root / "data" / "derived")
+    parser.add_argument("--database-url", default=os.getenv("DATABASE_URL", "postgresql://procurement:procurement@localhost:55432/procurement"))
     args = parser.parse_args()
-    rebuild(args.source, args.output)
+    rebuild(args.source, args.output, args.database_url)
 
 
 if __name__ == "__main__":

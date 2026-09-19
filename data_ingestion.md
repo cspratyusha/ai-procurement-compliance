@@ -54,11 +54,12 @@ The script:
 6. Writes a keyword-search projection to `data/derived/keyword-index.json`.
 7. Writes a graph relationship projection to `data/derived/graph.json`.
 
-PostgreSQL, Neo4j, vector search and BM25 services are intentionally not
-required for this first data-foundation increment. The SQLite database is the
-local source-of-truth implementation, while the JSON files are rebuildable
-derived projections. This keeps the corpus usable immediately and leaves the
-fan-out adapters replaceable when those services are introduced.
+PostgreSQL is the source of truth. Start it with `docker compose up -d
+postgres`, install `requirements.txt`, then run the ingestion command. The
+JSON files under `data/derived` remain rebuildable projections for local graph
+and keyword consumers. Neo4j, Qdrant and Redis are provisioned by Compose for
+the graph, vector and background-job stages; their adapters must be populated
+from PostgreSQL rather than treated as independent sources.
 
 ## Verification
 
