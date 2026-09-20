@@ -2,6 +2,7 @@ import { useState } from 'react';
 import Icon from '../components/Icon';
 import { USER, ROLES, API_KEYS } from '../data/mock';
 import './settings.css';
+import DemoDataNotice from '../components/DemoDataNotice';
 
 const TABS = [
   { id: 'profile', label: 'Profile' },
@@ -23,6 +24,9 @@ export default function Settings() {
 
   return (
     <div className="container page">
+      <DemoDataNotice
+        what="Settings shown are not persisted anywhere."
+      />
       <div className="page-head">
         <div>
           <h1 className="page-title">Settings</h1>

@@ -1,4 +1,5 @@
 import logging
+import re
 from contextlib import asynccontextmanager
 from pathlib import Path
 from typing import List, Optional, Dict, Any, Literal
@@ -463,6 +464,20 @@ def search_standards_get(query: str, top_k: int = 10):
     return retrieve_standards_post(RetrieveRequest(query=query, top_k=top_k))
 
 
+def _normalize_is_number(value: str) -> str:
+    """Canonical form of an IS number for comparison.
+
+    Collapses whitespace, normalises `(Part n)` casing and strips spaces
+    around the edition colon, so user- and URL-supplied spellings match the
+    corpus. Mirrors the normalisation in data/consolidate.py.
+    """
+    text = " ".join(value.strip().split())
+    text = re.sub(r"\(\s*part\s*", "(Part ", text, flags=re.IGNORECASE)
+    text = re.sub(r"\s*\)", ")", text)
+    text = re.sub(r"\s*:\s*", ":", text)
+    return text.upper()
+
+
 @app.get("/standards", response_model=List[Standard], summary="List Standards")
 def list_standards(category: Optional[str] = None):
     """List all available standards in the corpus, optionally filtered by category."""
@@ -477,13 +492,32 @@ def list_standards(category: Optional[str] = None):
     return standards
 
 
-@app.get("/standards/{standard_id}", response_model=Standard, summary="Get Standard by ID")
+@app.get("/standards/{standard_id}", response_model=Standard, summary="Get Standard by ID or IS Number")
 def get_standard(standard_id: str):
-    """Retrieve a single standard by its identifier."""
+    """Retrieve a single standard by internal id or by IS number.
+
+    Accepts either form because the internal id (`IS-ELEC-009`) is an
+    implementation detail that changes when the corpus is rebuilt, whereas the
+    IS number (`IS 694:2010`) is what a procurement officer actually has and
+    what the UI puts in its URLs.
+    """
     standard = get_standard_by_id(standard_id)
-    if not standard:
-        raise HTTPException(status_code=404, detail=f"Standard with ID '{standard_id}' not found.")
-    return standard
+    if standard:
+        return standard
+
+    # Fall back to IS-number lookup, normalising case and spacing so that
+    # "is 694:2010" and "IS 694 : 2010" resolve to the same standard.
+    wanted = _normalize_is_number(standard_id)
+    corpus = getattr(app.state, "corpus", None)
+    standards = list(corpus.values()) if corpus else load_corpus()
+    for candidate in standards:
+        if _normalize_is_number(candidate.number) == wanted:
+            return candidate
+
+    raise HTTPException(
+        status_code=404,
+        detail=f"No standard found with id or IS number '{standard_id}'.",
+    )
 
 
 # --- Feedback & Interaction Logging Endpoints (Part 6) ---

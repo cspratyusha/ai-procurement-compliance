@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom';
 import Icon from '../components/Icon';
 import { useSpec } from '../state/SpecStore';
 import { BOQ_ITEMS, BANDS, STANDARD_DETAIL } from '../data/catalogue';
+import DemoDataNotice from '../components/DemoDataNotice';
 
 /**
  * Workflow B — full document analysis.
@@ -49,6 +50,10 @@ export default function BOQ() {
   if (phase === 'idle') {
     return (
       <div className="container page">
+      <DemoDataNotice
+        what="Tender and BOQ upload is not implemented; the parsed line items shown are a worked example."
+        next="Document parsing (PDF/DOCX extraction) is a planned phase."
+      />
         <div className="page-head">
           <div>
             <h1 className="page-title">Upload tender or BOQ</h1>

@@ -2,6 +2,7 @@ import { useState, useMemo } from 'react';
 import Icon from '../components/Icon';
 import { SIM_PARAMS, SIM_DELTAS, RECOMMENDATIONS } from '../data/mock';
 import './simulator.css';
+import DemoDataNotice from '../components/DemoDataNotice';
 
 const BASE = RECOMMENDATIONS.filter((r) => r.confidence >= 0.6).map((r) => r.code);
 
@@ -42,6 +43,10 @@ export default function Simulator() {
 
   return (
     <div className="container page">
+      <DemoDataNotice
+        what="Impact figures and cost deltas are illustrative."
+        next="Nothing here is computed from real procurement data."
+      />
       <div className="page-head">
         <div>
           <h1 className="page-title">Scenario simulator</h1>

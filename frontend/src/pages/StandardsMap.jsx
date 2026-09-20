@@ -6,6 +6,7 @@ import { useSpec } from '../state/SpecStore';
 import { GRAPH, NODE_KINDS } from '../data/mock';
 import { STANDARD_DETAIL } from '../data/catalogue';
 import './map.css';
+import DemoDataNotice from '../components/DemoDataNotice';
 
 /** Graph kind -> basket role. */
 const KIND_ROLE = {
@@ -80,6 +81,10 @@ export default function StandardsMap() {
 
   return (
     <div className="container page">
+      <DemoDataNotice
+        what="The relationship graph is hand-authored sample data."
+        next="Normative references and test-method links are not yet in the dataset."
+      />
       <div className="page-head">
         <div>
           <h1 className="page-title">Related standards map</h1>

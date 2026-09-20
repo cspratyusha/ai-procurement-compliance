@@ -1,5 +1,6 @@
 import Icon from '../components/Icon';
 import { CATALOGUE_SYNC } from '../data/catalogue';
+import DemoDataNotice from '../components/DemoDataNotice';
 
 const SOURCE_STATUS = {
   ok:    { label: 'Synced', cls: 'badge-ok',   icon: 'check' },
@@ -17,6 +18,9 @@ export default function Admin() {
 
   return (
     <div className="container page">
+      <DemoDataNotice
+        what="User accounts, roles and usage figures are sample data."
+      />
       <div className="page-head">
         <div>
           <h1 className="page-title">Admin console</h1>

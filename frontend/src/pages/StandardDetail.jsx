@@ -1,25 +1,81 @@
+import { useEffect, useState } from 'react';
 import { useParams, Link, useNavigate } from 'react-router-dom';
 import Icon from '../components/Icon';
 import { EmptyState } from '../components/Primitives';
 import { AddButton } from '../components/SpecBasket';
-import { useSpec } from '../state/SpecStore';
-import { STANDARD_DETAIL, STATUS_BADGE, CERTIFICATION, CONFLICTS } from '../data/catalogue';
+import { getStandard, ApiError } from '../api/client';
+import { STANDARD_DETAIL } from '../data/catalogue';
 import './detail.css';
+
+const SECTOR_LABEL = {
+  electrical_cables: 'Electrical cables',
+  electrical_installations: 'Electrical installations',
+  cement_building_materials: 'Cement & building materials',
+  steel_pipes_fittings: 'Steel pipes & fittings',
+  structural_steel: 'Structural steel',
+  plastic_pipes: 'Plastic pipes',
+  ppe: 'Personal protective equipment',
+};
+
+const sectorLabel = (slug) => SECTOR_LABEL[slug] ?? (slug || '—').replace(/_/g, ' ');
+
+/** BIS publishes the official record; we link to it rather than reproduce it. */
+const bisSearchUrl = (number) =>
+  `https://www.bis.gov.in/know-your-standard/?lang=en&q=${encodeURIComponent(number)}`;
 
 export default function StandardDetail() {
   const { code } = useParams();
   const navigate = useNavigate();
-  const spec = useSpec();
-  const d = STANDARD_DETAIL[decodeURIComponent(code)];
+  const decoded = decodeURIComponent(code);
 
-  if (!d) {
+  const [standard, setStandard] = useState(null);
+  const [state, setState] = useState('loading'); // loading | ready | missing | error
+  const [error, setError] = useState(null);
+
+  useEffect(() => {
+    const controller = new AbortController();
+    setState('loading');
+    setError(null);
+
+    getStandard(decoded, { signal: controller.signal })
+      .then((data) => {
+        if (controller.signal.aborted) return;
+        setStandard(data);
+        setState('ready');
+      })
+      .catch((err) => {
+        if (controller.signal.aborted || err.name === 'AbortError') return;
+        if (err instanceof ApiError && err.status === 404) {
+          setState('missing');
+        } else {
+          setError(err);
+          setState('error');
+        }
+      });
+
+    return () => controller.abort();
+  }, [decoded]);
+
+  if (state === 'loading') {
+    return (
+      <div className="container page" aria-busy="true">
+        <div className="stack stack-4">
+          <div className="skeleton" style={{ height: 30, width: 220 }} />
+          <div className="skeleton" style={{ height: 18, width: '55%' }} />
+          <div className="skeleton" style={{ height: 240 }} />
+        </div>
+      </div>
+    );
+  }
+
+  if (state === 'error') {
     return (
       <div className="container page">
         <div className="card">
           <EmptyState
-            icon="search"
-            title="Standard not in the local catalogue"
-            body={`No detail record for ${decodeURIComponent(code)} in this demo dataset. In the deployed system this loads from the PostgreSQL catalogue.`}
+            icon="alert"
+            title="Could not load this standard"
+            body={error?.message ?? 'The standards engine did not respond.'}
             action={<Link to="/app/catalogue" className="btn btn-secondary btn-sm">Browse catalogue</Link>}
           />
         </div>
@@ -27,15 +83,38 @@ export default function StandardDetail() {
     );
   }
 
-  const status = STATUS_BADGE[d.status];
-  const cert = CERTIFICATION[d.code];
-  const conflict = CONFLICTS.find((c) => c.a === d.code || c.b === d.code);
+  if (state === 'missing') {
+    return (
+      <div className="container page">
+        <div className="card">
+          <EmptyState
+            icon="search"
+            title="Not in the current corpus"
+            body={`${decoded} is not among the standards loaded by the engine. The pilot corpus covers a few sectors only — see the coverage note in the README.`}
+            action={<Link to="/app/catalogue" className="btn btn-secondary btn-sm">Browse what is covered</Link>}
+          />
+        </div>
+      </div>
+    );
+  }
 
-  const addWithRefs = () => {
-    spec.addMany([
-      { code: d.code, title: d.title, role: d.role, version: d.status === 'superseded' ? 'superseded' : 'latest', amendment: d.amendment, addedFrom: 'detail page' },
-      ...d.normative.map((n) => ({ code: n.code, title: n.title, role: n.role, version: 'latest', addedFrom: `normative ref of ${d.code}` })),
-    ]);
+  const isSuperseded = standard.status === 'superseded';
+  const statusBadge = isSuperseded
+    ? { cls: 'badge-crit', icon: 'alert', label: 'Superseded' }
+    : { cls: 'badge-ok', icon: 'check', label: 'Current' };
+
+  // Relationship and certification data is not in the corpus yet. Where a
+  // curated fixture happens to exist for this standard we show it, explicitly
+  // labelled, rather than implying the engine derived it.
+  const fixture = STANDARD_DETAIL[standard.number];
+
+  const basketItem = {
+    code: standard.number,
+    title: standard.title,
+    role: 'primary',
+    version: isSuperseded ? 'superseded' : 'latest',
+    amendment: standard.last_amended || undefined,
+    addedFrom: 'detail page',
   };
 
   return (
@@ -47,184 +126,154 @@ export default function StandardDetail() {
       <div className="page-head">
         <div className="stack stack-3" style={{ minWidth: 0 }}>
           <div className="row wrap" style={{ gap: 'var(--s2)' }}>
-            <h1 className="mono" style={{ fontSize: 'var(--fs-lg)', fontWeight: 600 }}>{d.code}</h1>
-            <span className={`badge ${status.cls}`}><Icon name={status.icon} size={12} />{status.label}</span>
-            {d.amendment && <span className="badge badge-neutral">{d.amendment}</span>}
-            {cert?.mandatory && <span className="badge badge-accent"><Icon name="shield" size={12} />Certification required</span>}
+            <h1 className="mono" style={{ fontSize: 'var(--fs-lg)', fontWeight: 600 }}>{standard.number}</h1>
+            <span className={`badge ${statusBadge.cls}`}>
+              <Icon name={statusBadge.icon} size={12} />{statusBadge.label}
+            </span>
+            {standard.category && (
+              <span className="badge badge-neutral">{sectorLabel(standard.category)}</span>
+            )}
           </div>
-          <p style={{ fontSize: 'var(--fs-md)', color: 'var(--ink-soft)', maxWidth: '62ch' }}>{d.title}</p>
-          <span className="xs faint">{d.edition} · {d.division}</span>
+          <p style={{ fontSize: 'var(--fs-md)', color: 'var(--ink-soft)', maxWidth: '62ch' }}>
+            {standard.title}
+          </p>
+          <span className="xs faint">
+            {standard.version || 'Edition not recorded'}
+            {standard.last_amended ? ` · amended ${standard.last_amended}` : ''}
+          </span>
         </div>
 
         <div className="row" style={{ gap: 'var(--s2)' }}>
-          <a href={d.bisUrl} target="_blank" rel="noopener noreferrer" className="btn btn-secondary">
-            <Icon name="external" size={15} /> BIS record
+          <a
+            href={bisSearchUrl(standard.number)}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="btn btn-secondary"
+          >
+            <Icon name="external" size={15} /> Look up on BIS
           </a>
-          <AddButton
-            item={{ code: d.code, title: d.title, role: d.role, version: d.status === 'superseded' ? 'superseded' : 'latest', amendment: d.amendment, addedFrom: 'detail page' }}
-            size="md"
-          />
+          <AddButton item={basketItem} size="md" />
         </div>
       </div>
 
-      <div className="grid split" style={{ "--rail": "320px" }}>
+      <div className="grid split" style={{ '--rail': '320px' }}>
         <div className="stack stack-4">
-          {conflict && (
+          {isSuperseded && (
             <div className="notice notice-warn">
               <Icon name="alert" size={15} />
               <div className="stack stack-2">
-                <span className="xs strong">Overlapping scope with {conflict.a === d.code ? conflict.b : conflict.a}</span>
-                <span className="xs">{conflict.difference}</span>
-                <Link to="/app/query" className="xs" style={{ textDecoration: 'underline' }}>Compare side by side</Link>
+                <span className="xs strong">This edition has been superseded</span>
+                <span className="xs">
+                  Citing it in a live tender risks procuring to a withdrawn specification.
+                  Check the BIS record for the current edition before use.
+                </span>
               </div>
             </div>
           )}
 
-          {/* ---- Version timeline ---- */}
-          <section className="card card-flush">
-            <div className="card-head">
-              <h2 className="card-title">Version history</h2>
-              <span className="xs faint">Superseded editions greyed</span>
-            </div>
-            <div className="card-body">
-              <ol className="timeline">
-                {d.timeline.map((t, i) => (
-                  <li key={i} className={`tl-node is-${t.state}`}>
-                    <span className="tl-dot" />
-                    <span className="stack stack-2">
-                      <span className="mono xs strong">{t.ed}</span>
-                      <span className="xs faint">{t.year}</span>
-                    </span>
-                  </li>
-                ))}
-              </ol>
-              <div className="row wrap" style={{ gap: 'var(--s4)', marginTop: 'var(--s4)' }}>
-                {[['current', 'Current'], ['amendment', 'Amendment'], ['superseded', 'Superseded'], ['revision', 'Under revision']].map(([k, label]) => (
-                  <span key={k} className="legend-item">
-                    <span className={`tl-dot tl-legend is-${k}`} />
-                    <span className="xs faint">{label}</span>
-                  </span>
-                ))}
-              </div>
-            </div>
-          </section>
-
-          {/* ---- Scope ---- */}
           <section className="card stack stack-4">
-            <span className="eyebrow">Scope — plain language</span>
-            <p className="small" style={{ color: 'var(--ink-soft)' }}>{d.scopePlain}</p>
-            <details className="scope-official">
-              <summary className="xs muted">Show official scope text</summary>
-              <blockquote className="clause" style={{ marginTop: 'var(--s3)' }}>{d.scopeOfficial}</blockquote>
-            </details>
+            <span className="eyebrow">Scope</span>
+            <p className="small" style={{ color: 'var(--ink-soft)' }}>{standard.scope}</p>
+            {standard.description && (
+              <>
+                <hr className="divider" />
+                <div className="stack stack-2">
+                  <span className="xs faint">Where it applies</span>
+                  <p className="small" style={{ color: 'var(--ink-soft)' }}>{standard.description}</p>
+                </div>
+              </>
+            )}
           </section>
 
-          {/* ---- References ---- */}
-          <div className="grid grid-2" style={{ alignItems: 'start' }}>
-            <section className="card card-flush">
-              <div className="card-head">
-                <div className="stack stack-2">
-                  <h2 className="card-title">Normative references</h2>
-                  <span className="xs faint">What this standard depends on</span>
-                </div>
+          {standard.keywords?.length > 0 && (
+            <section className="card stack stack-3">
+              <span className="eyebrow">Indexed terms</span>
+              <div className="row wrap" style={{ gap: 5 }}>
+                {standard.keywords.map((k) => (
+                  <span key={k} className="badge badge-neutral">{k}</span>
+                ))}
               </div>
-              <div className="stack" style={{ padding: 'var(--s3)' }}>
-                {d.normative.length === 0 ? (
-                  <p className="xs faint" style={{ padding: 'var(--s3)' }}>None recorded.</p>
-                ) : (
-                  d.normative.map((n) => (
-                    <Link key={n.code} to={`/app/standard/${encodeURIComponent(n.code)}`} className="ref-row">
-                      <Icon name="chevronRight" size={13} />
-                      <span className="stack stack-2 grow" style={{ minWidth: 0 }}>
-                        <span className="mono xs strong">{n.code}</span>
-                        <span className="xs faint">{n.title}</span>
-                      </span>
-                    </Link>
-                  ))
-                )}
-              </div>
-              {d.normative.length > 0 && (
-                <div className="card-body" style={{ borderTop: '1px solid var(--line)' }}>
-                  <button className="btn btn-secondary btn-sm" style={{ width: '100%' }} onClick={addWithRefs}>
-                    <Icon name="plus" size={14} />
-                    Add this standard and its references
-                  </button>
-                </div>
-              )}
+              <p className="xs muted">
+                These terms feed the keyword half of the search index.
+              </p>
             </section>
+          )}
 
-            <section className="card card-flush">
-              <div className="card-head">
-                <div className="stack stack-2">
-                  <h2 className="card-title">Reverse references</h2>
-                  <span className="xs faint">What depends on this</span>
-                </div>
-              </div>
-              <div className="stack" style={{ padding: 'var(--s3)' }}>
-                {d.reverse.length === 0 ? (
-                  <p className="xs faint" style={{ padding: 'var(--s3)' }}>Nothing in the catalogue cites this standard.</p>
-                ) : (
-                  d.reverse.map((n) => (
-                    <Link key={n.code} to={`/app/standard/${encodeURIComponent(n.code)}`} className="ref-row">
+          {/* Relationship data is not modelled in the corpus yet. Saying so is
+              more useful than rendering an empty panel that looks like a
+              genuine "no references" answer. */}
+          <section className="card stack stack-3">
+            <div className="row-between wrap" style={{ gap: 'var(--s2)' }}>
+              <span className="eyebrow">Related standards</span>
+              <span className="badge badge-neutral">Not yet built</span>
+            </div>
+            {fixture?.normative?.length ? (
+              <>
+                <p className="xs muted">
+                  The references below are hand-curated sample data for this standard,
+                  not derived by the engine.
+                </p>
+                <div className="stack">
+                  {fixture.normative.map((n) => (
+                    <Link
+                      key={n.code}
+                      to={`/app/standard/${encodeURIComponent(n.code)}`}
+                      className="ref-row"
+                    >
                       <Icon name="chevronRight" size={13} />
                       <span className="stack stack-2 grow" style={{ minWidth: 0 }}>
                         <span className="mono xs strong">{n.code}</span>
                         <span className="xs faint">{n.title}</span>
                       </span>
                     </Link>
-                  ))
-                )}
-              </div>
-            </section>
-          </div>
+                  ))}
+                </div>
+              </>
+            ) : (
+              <p className="xs muted">
+                Normative references, test methods and installation standards are not
+                yet part of the dataset, so none can be shown for this standard.
+              </p>
+            )}
+          </section>
         </div>
 
-        {/* ---- Right column ---- */}
         <div className="stack stack-4">
           <div className="card stack stack-3">
             <span className="eyebrow">Catalogue record</span>
             {[
-              ['Status', status.label],
-              ['Edition', d.edition],
-              ['Latest amendment', d.amendment || 'None'],
-              ['BIS division', d.division],
-              ['Committee', d.committee],
+              ['Internal id', standard.id],
+              ['Status', statusBadge.label],
+              ['Edition', standard.version || '—'],
+              ['Latest amendment', standard.last_amended || 'None recorded'],
+              ['Sector', sectorLabel(standard.category)],
             ].map(([k, v]) => (
               <div key={k} className="stack stack-2">
                 <span className="xs faint">{k}</span>
-                <span className="small">{v}</span>
+                <span className="small mono">{v}</span>
               </div>
             ))}
           </div>
 
           <div className="card stack stack-3">
-            <span className="eyebrow">Certification</span>
-            {cert?.mandatory ? (
-              <>
-                <div className="notice notice-warn">
-                  <Icon name="shield" size={14} />
-                  <span className="xs strong">Mandatory certification applies</span>
-                </div>
-                <div className="stack stack-2">
-                  <span className="xs faint">Scheme</span>
-                  <span className="small">{cert.scheme}</span>
-                </div>
-                <Link to={`/app/certification/${encodeURIComponent(d.code)}`} className="btn btn-secondary btn-sm">
-                  View requirement and clause
-                </Link>
-              </>
-            ) : (
-              <p className="xs muted">
-                {cert?.note || 'No mandatory product certification scheme attaches to this standard.'}
-              </p>
-            )}
+            <div className="row-between wrap" style={{ gap: 'var(--s2)' }}>
+              <span className="eyebrow">Certification</span>
+              <span className="badge badge-neutral">Not yet built</span>
+            </div>
+            <p className="xs muted">
+              Mandatory certification requirements (BIS Product Certification / ISI mark,
+              CRS, Hallmarking) are not yet mapped in this dataset. Check the official
+              compulsory-certification lists on the BIS site before relying on a tender.
+            </p>
+            <a
+              href="https://www.bis.gov.in/product-certification/products-under-compulsory-certification/"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="btn btn-secondary btn-sm"
+            >
+              <Icon name="external" size={14} /> BIS compulsory certification
+            </a>
           </div>
-
-          <Link to="/app/map" className="card card-link stack stack-3">
-            <span style={{ color: 'var(--ink-soft)' }}><Icon name="graph" size={18} /></span>
-            <span className="small strong">Open in related-standards map</span>
-            <span className="xs muted">See the full cluster around this standard and add a whole branch at once.</span>
-          </Link>
         </div>
       </div>
     </div>

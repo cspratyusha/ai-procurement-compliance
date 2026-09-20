@@ -269,6 +269,45 @@ class TestStandardsRetrievalAPI(unittest.TestCase):
                     "a 'none' verdict must carry an explanation for display",
                 )
 
+    def test_standard_lookup_accepts_id_and_is_number(self):
+        """The UI routes by IS number; internal ids are an implementation detail.
+
+        Internal ids are reassigned whenever the corpus is rebuilt, so a URL
+        built from one would break on the next rebuild. Both forms must work,
+        and IS-number matching must tolerate the spellings a person types.
+        """
+        by_id = self.client.get("/standards/IS-ELEC-001")
+        self.assertEqual(by_id.status_code, 200)
+        number = by_id.json()["number"]
+
+        for spelling in (number, number.lower(), number.replace(":", " : ")):
+            with self.subTest(spelling=spelling):
+                resp = self.client.get(f"/standards/{spelling}")
+                self.assertEqual(resp.status_code, 200)
+                self.assertEqual(resp.json()["number"], number)
+
+    def test_unknown_standard_returns_404(self):
+        """A standard outside the corpus must 404, not return a near match."""
+        resp = self.client.get("/standards/IS 9999:1900")
+        self.assertEqual(resp.status_code, 404)
+        self.assertIn("9999", resp.json()["detail"])
+
+    def test_list_standards_and_category_filter(self):
+        """The catalogue screen lists the corpus and filters it by sector."""
+        everything = self.client.get("/standards")
+        self.assertEqual(everything.status_code, 200)
+        standards = everything.json()
+        self.assertGreater(len(standards), 0)
+
+        category = standards[0]["category"]
+        filtered = self.client.get("/standards", params={"category": category})
+        self.assertEqual(filtered.status_code, 200)
+        returned = filtered.json()
+        self.assertGreater(len(returned), 0)
+        self.assertLessEqual(len(returned), len(standards))
+        for item in returned:
+            self.assertEqual(item["category"], category)
+
     def test_results_carry_presentation_fields(self):
         """Result items must be renderable without a follow-up request."""
         resp = self.client.post(

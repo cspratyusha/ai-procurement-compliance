@@ -5,6 +5,79 @@ at the top.
 
 ---
 
+## Phase E — Catalogue and detail wired; fixture screens labelled (2026-09-21)
+
+**Goal:** wire the two screens that have real backing endpoints, and stop the
+remaining fixture screens from passing as live.
+
+### Lookup by IS number
+
+`GET /standards/{id}` resolved internal ids only (`IS-ELEC-001`), but the UI
+routes by IS number (`/app/standard/IS 694:2010`) — correctly, because
+internal ids are reassigned whenever the corpus is rebuilt, so a URL built
+from one breaks on the next rebuild. The endpoint now accepts either, and
+normalises case, spacing and `(Part n)` casing so `is 694:2010` and
+`IS 694 : 2010` resolve to the same standard.
+
+### Two screens now live
+
+- **Standards catalogue** (`/app/catalogue`) — lists the whole corpus from
+  `GET /standards`, grouped by sector so partial coverage is visible at a
+  glance, with client-side search over number, title, scope and keywords, a
+  sector filter and a superseded toggle. It replaces a fixture browser whose
+  side panel claimed graph data "loads incrementally from Neo4j".
+- **Standard detail** (`/app/standard/:code`) — real scope, description,
+  indexed terms, edition and amendment date from `GET /standards/{id}`, with
+  a superseded warning and a link out to the BIS record. Sections the dataset
+  cannot support (normative references, certification) carry a "Not yet
+  built" badge and say plainly why they are empty, instead of rendering an
+  empty panel that reads as a genuine "no references" answer.
+
+### The other twelve screens are now labelled
+
+Dashboard, BOQ, Builder, Standards map, Certification, Audit, Simulator,
+Projects, Admin, Alerts, Settings and Compliance all render fixture data.
+That is a fair way to show an intended workflow, but only while it is obvious
+which is which — a dashboard reading "1,248 queries this month" is
+indistinguishable from a live one until someone checks.
+
+Each now carries a `DemoDataNotice` naming what is illustrative on that
+screen and what would make it real, and pointing at the two screens that do
+run against the engine. The three live screens deliberately do not have one.
+
+### Tested
+
+- **`pytest` — 43 passed** (was 40). New tests cover lookup by id and by IS
+  number across three spellings, a 404 for a standard outside the corpus, and
+  the catalogue listing plus its category filter.
+- Browser-verified against the live backend: catalogue renders 30 standards
+  in 3 sector groups, filtering to "cement" narrows to 7, clicking through
+  loads the detail page, a direct IS-number URL resolves, and an unknown
+  standard shows the honest "not in the current corpus" state.
+- Badge presence asserted per route: present on fixture screens, absent on
+  `/app/query` and `/app/catalogue`.
+- **45 route-renders** (15 routes x desktop, mobile, dark) with zero console
+  errors and zero horizontal overflow.
+
+### A stale server nearly hid a real bug
+
+The detail page appeared broken during verification — every lookup returned
+"not in the current corpus". The cause was an old uvicorn process still
+holding port 8000, so the newly started one exited and the browser kept
+talking to code from two phases ago. Worth remembering when a change seems
+not to take effect: check the port owner, not just the log.
+
+### Still open
+
+- Ten fixture screens remain unwired. The next candidates need backend work
+  first: certification needs the compulsory-certification lists, the
+  standards map needs relationship data.
+- Query history is not persisted, so the dashboard cannot be made real yet.
+- Document upload, multilingual query support and the related-standards graph
+  remain unbuilt.
+
+---
+
 ## Phase D — Canonical corpus made servable; two dangerous bugs found (2026-09-21)
 
 **Goal:** let the engine actually serve the 45-standard consolidated corpus

@@ -1,170 +1,215 @@
-import { useState, useMemo } from 'react';
+import { useState, useEffect, useMemo } from 'react';
+import { Link } from 'react-router-dom';
 import Icon from '../components/Icon';
-import ClusterGraph from '../components/ClusterGraph';
-import { VersionBadge, EmptyState } from '../components/Primitives';
-import { EXPLORER_STANDARDS, GRAPH, NODE_KINDS } from '../data/mock';
+import { EmptyState } from '../components/Primitives';
+import { listStandards, ApiError } from '../api/client';
 
-const CATEGORIES = ['All categories', ...new Set(EXPLORER_STANDARDS.map((s) => s.category))];
+const SECTOR_LABEL = {
+  electrical_cables: 'Electrical cables',
+  electrical_installations: 'Electrical installations',
+  cement_building_materials: 'Cement & building materials',
+  steel_pipes_fittings: 'Steel pipes & fittings',
+  structural_steel: 'Structural steel',
+  plastic_pipes: 'Plastic pipes',
+  ppe: 'Personal protective equipment',
+};
+
+const sectorLabel = (slug) => SECTOR_LABEL[slug] ?? (slug || '').replace(/_/g, ' ');
+
+const ALL = 'All sectors';
 
 export default function Explorer() {
-  const [q, setQ] = useState('');
-  const [cat, setCat] = useState('All categories');
-  const [selected, setSelected] = useState('IS 694:2010');
+  const [standards, setStandards] = useState([]);
+  const [state, setState] = useState('loading'); // loading | ready | error
+  const [error, setError] = useState(null);
+  const [query, setQuery] = useState('');
+  const [sector, setSector] = useState(ALL);
+  const [showSuperseded, setShowSuperseded] = useState(true);
+
+  useEffect(() => {
+    const controller = new AbortController();
+    listStandards({ signal: controller.signal })
+      .then((data) => {
+        if (controller.signal.aborted) return;
+        setStandards(data);
+        setState('ready');
+      })
+      .catch((err) => {
+        if (controller.signal.aborted || err.name === 'AbortError') return;
+        setError(err instanceof ApiError ? err : new ApiError('Could not load the catalogue.'));
+        setState('error');
+      });
+    return () => controller.abort();
+  }, []);
+
+  const sectors = useMemo(
+    () => [ALL, ...[...new Set(standards.map((s) => s.category))].sort()],
+    [standards],
+  );
 
   const results = useMemo(() => {
-    const term = q.trim().toLowerCase();
-    return EXPLORER_STANDARDS.filter((s) => {
-      const matchesCat = cat === 'All categories' || s.category === cat;
-      const matchesTerm = !term
-        || s.code.toLowerCase().includes(term)
-        || s.title.toLowerCase().includes(term);
-      return matchesCat && matchesTerm;
+    const term = query.trim().toLowerCase();
+    return standards.filter((s) => {
+      if (sector !== ALL && s.category !== sector) return false;
+      if (!showSuperseded && s.status === 'superseded') return false;
+      if (!term) return true;
+      return (
+        s.number.toLowerCase().includes(term)
+        || s.title.toLowerCase().includes(term)
+        || (s.scope ?? '').toLowerCase().includes(term)
+        || (s.keywords ?? []).some((k) => k.toLowerCase().includes(term))
+      );
     });
-  }, [q, cat]);
+  }, [standards, query, sector, showSuperseded]);
 
-  const node = GRAPH.nodes.find((n) => n.id === selected);
-  const related = GRAPH.edges
-    .filter((e) => e.from === selected || e.to === selected)
-    .map((e) => ({ id: e.from === selected ? e.to : e.from, kind: e.kind }));
+  // Group by sector so the shape of the corpus is visible at a glance --
+  // which is the honest way to show that coverage is partial.
+  const grouped = useMemo(() => {
+    const map = new Map();
+    for (const s of results) {
+      if (!map.has(s.category)) map.set(s.category, []);
+      map.get(s.category).push(s);
+    }
+    return [...map.entries()].sort(([a], [b]) => a.localeCompare(b));
+  }, [results]);
+
+  const supersededCount = standards.filter((s) => s.status === 'superseded').length;
 
   return (
     <div className="container page">
       <div className="page-head">
         <div>
-          <h1 className="page-title">Standards explorer</h1>
+          <h1 className="page-title">Standards catalogue</h1>
           <p className="page-sub">
-            Search the registry or open any standard to see its relationship graph — normative
-            references, test methods, supersession chain and certification linkage.
+            Everything the engine can currently search. This is a pilot corpus, not the
+            full BIS catalogue — if a product category is not listed here, the engine
+            cannot recommend a standard for it.
           </p>
         </div>
       </div>
 
-      <div className="grid split split-left" style={{ "--rail": "340px" }}>
-        {/* ---- Search column ---- */}
-        <div className="card card-flush">
-          <div className="card-body stack stack-3">
-            <div className="field">
-              <label className="label sr-only" htmlFor="std-search">Search standards</label>
-              <div style={{ position: 'relative' }}>
-                <span style={{ position: 'absolute', left: 11, top: '50%', transform: 'translateY(-50%)', color: 'var(--ink-faint)' }}>
-                  <Icon name="search" size={15} />
-                </span>
-                <input
-                  id="std-search"
-                  className="input"
-                  style={{ paddingLeft: 34 }}
-                  placeholder="IS number or title…"
-                  value={q}
-                  onChange={(e) => setQ(e.target.value)}
-                />
-              </div>
-            </div>
-
-            <div className="field">
-              <label className="label sr-only" htmlFor="std-cat">Category</label>
-              <select id="std-cat" className="select" value={cat} onChange={(e) => setCat(e.target.value)}>
-                {CATEGORIES.map((c) => <option key={c}>{c}</option>)}
-              </select>
-            </div>
-
-            <span className="xs faint">{results.length} standard{results.length === 1 ? '' : 's'}</span>
-          </div>
-
-          <hr className="divider" />
-
-          <div className="stack" style={{ padding: 'var(--s2)', maxHeight: 520, overflowY: 'auto' }}>
-            {results.length === 0 ? (
-              <EmptyState icon="search" title="No matches" body="Try a different IS number, title keyword, or category." />
-            ) : (
-              results.map((s) => (
-                <button
-                  key={s.code}
-                  className={`alert-mini ${selected === s.code ? 'is-active-row' : ''}`}
-                  style={{ textAlign: 'left', width: '100%' }}
-                  onClick={() => setSelected(s.code)}
-                  aria-pressed={selected === s.code}
-                >
-                  <span className="stack stack-2 grow" style={{ minWidth: 0 }}>
-                    <span className="row wrap" style={{ gap: 6 }}>
-                      <span className="mono xs strong">{s.code}</span>
-                      {s.version === 'superseded' && <span className="badge badge-crit">Superseded</span>}
-                      {s.cert && <span className="badge badge-accent">{s.cert}</span>}
-                    </span>
-                    <span className="xs faint" style={{ lineHeight: 1.45 }}>{s.title}</span>
-                  </span>
-                </button>
-              ))
-            )}
-          </div>
+      {state === 'loading' && (
+        <div className="stack stack-3" aria-busy="true">
+          {[0, 1, 2, 3].map((i) => <div key={i} className="skeleton" style={{ height: 64 }} />)}
         </div>
+      )}
 
-        {/* ---- Graph column ---- */}
-        <div className="stack stack-4">
-          <div className="card card-flush">
-            <div className="card-head">
-              <div className="stack stack-2">
-                <h2 className="card-title mono">{selected}</h2>
-                <span className="xs faint">{node?.title || 'Relationship graph'}</span>
-              </div>
-              <button className="btn btn-secondary btn-sm">
-                <Icon name="external" size={13} />
-                Open record
+      {state === 'error' && (
+        <div className="card">
+          <EmptyState
+            icon="alert"
+            title="Could not load the catalogue"
+            body={error?.message ?? 'The standards engine did not respond.'}
+            action={
+              <button className="btn btn-primary btn-sm" onClick={() => window.location.reload()}>
+                Reload
               </button>
-            </div>
-            <div className="card-body">
-              <ClusterGraph data={GRAPH} height={330} selected={selected} onSelect={setSelected} />
-            </div>
-          </div>
+            }
+          />
+        </div>
+      )}
 
-          <div className="grid grid-2">
-            <div className="card stack stack-4">
-              <span className="eyebrow">Node detail</span>
-              {node ? (
-                <div className="stack stack-3">
-                  <div className="row-between">
-                    <span className="xs faint">Type</span>
-                    <span className="badge badge-neutral">{NODE_KINDS[node.kind].label}</span>
-                  </div>
-                  <hr className="divider" />
-                  <div className="row-between">
-                    <span className="xs faint">Version state</span>
-                    <VersionBadge version="latest" />
-                  </div>
-                  <hr className="divider" />
-                  <div className="row-between">
-                    <span className="xs faint">Relationships</span>
-                    <span className="small tabular">{related.length}</span>
-                  </div>
-                  <hr className="divider" />
-                  <p className="xs muted">
-                    Graph sub-queries load incrementally from Neo4j; metadata resolves from
-                    PostgreSQL on node expansion.
-                  </p>
-                </div>
-              ) : (
-                <p className="small muted">Select a node in the graph to inspect it.</p>
-              )}
-            </div>
-
-            <div className="card stack stack-4">
-              <span className="eyebrow">Connected standards</span>
-              <div className="stack stack-2">
-                {related.map((r) => (
-                  <button
-                    key={r.id}
-                    className="connected-row"
-                    onClick={() => GRAPH.nodes.some((n) => n.id === r.id) && setSelected(r.id)}
+      {state === 'ready' && (
+        <div className="stack stack-5">
+          <div className="card stack stack-4">
+            <div className="row wrap" style={{ gap: 'var(--s3)' }}>
+              <div className="field grow" style={{ minWidth: 240 }}>
+                <label className="label sr-only" htmlFor="cat-search">Search the catalogue</label>
+                <div style={{ position: 'relative' }}>
+                  <span
+                    style={{
+                      position: 'absolute', left: 11, top: '50%',
+                      transform: 'translateY(-50%)', color: 'var(--ink-faint)',
+                    }}
                   >
-                    <span className="legend-dot" style={{ background: NODE_KINDS[r.kind].color }} />
-                    <span className="mono xs grow" style={{ textAlign: 'left' }}>{r.id}</span>
-                    <span className="xs faint nowrap">{NODE_KINDS[r.kind].label}</span>
-                  </button>
-                ))}
+                    <Icon name="search" size={15} />
+                  </span>
+                  <input
+                    id="cat-search"
+                    className="input"
+                    style={{ paddingLeft: 34 }}
+                    placeholder="IS number, title or keyword…"
+                    value={query}
+                    onChange={(e) => setQuery(e.target.value)}
+                  />
+                </div>
+              </div>
+
+              <div className="field" style={{ minWidth: 200 }}>
+                <label className="label sr-only" htmlFor="cat-sector">Sector</label>
+                <select
+                  id="cat-sector"
+                  className="select"
+                  value={sector}
+                  onChange={(e) => setSector(e.target.value)}
+                >
+                  {sectors.map((s) => (
+                    <option key={s} value={s}>{s === ALL ? ALL : sectorLabel(s)}</option>
+                  ))}
+                </select>
               </div>
             </div>
+
+            <div className="row-between wrap" style={{ gap: 'var(--s3)' }}>
+              <span className="xs faint">
+                {results.length} of {standards.length} standards
+                {supersededCount > 0 && ` · ${supersededCount} superseded`}
+              </span>
+              <label className="check">
+                <input
+                  type="checkbox"
+                  checked={showSuperseded}
+                  onChange={() => setShowSuperseded((v) => !v)}
+                />
+                <span className="xs">Include superseded editions</span>
+              </label>
+            </div>
           </div>
+
+          {results.length === 0 ? (
+            <div className="card">
+              <EmptyState
+                icon="search"
+                title="Nothing matches"
+                body="No standard in the pilot corpus matches that. Try a broader term, or clear the sector filter."
+              />
+            </div>
+          ) : (
+            grouped.map(([group, items]) => (
+              <section key={group} className="stack stack-3">
+                <div className="row" style={{ gap: 'var(--s2)' }}>
+                  <h2 style={{ fontSize: 'var(--fs-md)' }}>{sectorLabel(group)}</h2>
+                  <span className="badge badge-neutral">{items.length}</span>
+                </div>
+
+                <div className="stack stack-2">
+                  {items.map((s) => (
+                    <Link
+                      key={s.id}
+                      to={`/app/standard/${encodeURIComponent(s.number)}`}
+                      className="card card-link stack stack-3"
+                    >
+                      <div className="row wrap" style={{ gap: 'var(--s2)' }}>
+                        <span className="mono small strong">{s.number}</span>
+                        {s.status === 'superseded'
+                          ? <span className="badge badge-crit"><Icon name="alert" size={11} />Superseded</span>
+                          : <span className="badge badge-ok"><Icon name="check" size={11} />Current</span>}
+                        {s.version && <span className="badge badge-neutral">{s.version}</span>}
+                      </div>
+                      <span className="small" style={{ color: 'var(--ink-soft)' }}>{s.title}</span>
+                      {s.scope && (
+                        <span className="xs muted" style={{ lineHeight: 1.5 }}>
+                          {s.scope.length > 180 ? `${s.scope.slice(0, 180)}…` : s.scope}
+                        </span>
+                      )}
+                    </Link>
+                  ))}
+                </div>
+              </section>
+            ))
+          )}
         </div>
-      </div>
+      )}
     </div>
   );
 }

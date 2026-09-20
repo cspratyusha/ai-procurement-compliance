@@ -2,6 +2,7 @@ import { Link } from 'react-router-dom';
 import Icon from '../components/Icon';
 import { StatTile } from '../components/Primitives';
 import { USER, SUMMARY_TILES, RECENT_QUERIES, AUDITED_TENDERS, ALERTS } from '../data/mock';
+import DemoDataNotice from '../components/DemoDataNotice';
 
 const ACTIONS = [
   { to: '/app/query', icon: 'search', title: 'New specification', body: 'Describe a product and get the applicable standards cluster.' },
@@ -24,6 +25,10 @@ export default function Dashboard() {
 
   return (
     <div className="container page">
+      <DemoDataNotice
+        what="Query counts, compliance rates and activity figures are sample data."
+        next="They would come from stored query history once the engine logs searches."
+      />
       <div className="page-head">
         <div>
           <h1 className="page-title">Good afternoon, {firstName}</h1>

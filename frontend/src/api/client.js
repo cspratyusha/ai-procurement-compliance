@@ -101,4 +101,21 @@ export function retrieve(query, { topK = 10, signal } = {}) {
   });
 }
 
+/**
+ * Every standard in the corpus, optionally filtered by sector.
+ * The corpus is small enough to fetch whole; the catalogue filters client-side.
+ */
+export function listStandards({ category, signal } = {}) {
+  const query = category ? `?category=${encodeURIComponent(category)}` : '';
+  return request(`/standards${query}`, { signal });
+}
+
+/**
+ * One standard, by internal id (`IS-ELEC-009`) or IS number (`IS 694:2010`).
+ * Throws an ApiError with `status === 404` when there is no such standard.
+ */
+export function getStandard(idOrNumber, { signal } = {}) {
+  return request(`/standards/${encodeURIComponent(idOrNumber)}`, { signal });
+}
+
 export { BASE_URL };

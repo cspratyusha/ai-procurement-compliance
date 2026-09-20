@@ -4,6 +4,7 @@ import Icon from '../components/Icon';
 import { CopyButton, EmptyState } from '../components/Primitives';
 import { useSpec } from '../state/SpecStore';
 import { CERTIFICATION, STANDARD_DETAIL } from '../data/catalogue';
+import DemoDataNotice from '../components/DemoDataNotice';
 
 const ALL = Object.entries(CERTIFICATION);
 
@@ -20,6 +21,10 @@ export default function Certification() {
 
   return (
     <div className="container page">
+      <DemoDataNotice
+        what="Certification requirements shown are placeholder rules."
+        next="They are not sourced from the official BIS compulsory-certification lists."
+      />
       <div className="page-head">
         <div>
           <h1 className="page-title">Certification &amp; compliance</h1>

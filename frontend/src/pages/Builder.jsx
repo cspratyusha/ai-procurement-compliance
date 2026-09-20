@@ -5,6 +5,7 @@ import { CopyButton, EmptyState } from '../components/Primitives';
 import { useSpec, ROLE_ORDER, ROLE_LABEL, buildClause } from '../state/SpecStore';
 import { CERTIFICATION } from '../data/catalogue';
 import './builder.css';
+import DemoDataNotice from '../components/DemoDataNotice';
 
 const EXPORTS = [
   { id: 'docx', icon: 'file', label: 'DOCX', hint: 'Word, for the tender document' },
@@ -35,6 +36,10 @@ export default function Builder() {
   if (count === 0) {
     return (
       <div className="container page">
+      <DemoDataNotice
+        what="The specification clauses assembled here are sample text."
+        next="Clause generation from a matched standard is not built yet."
+      />
         <div className="page-head">
           <div>
             <h1 className="page-title">Spec builder</h1>

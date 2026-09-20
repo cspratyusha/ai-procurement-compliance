@@ -3,12 +3,16 @@ import Icon from '../components/Icon';
 import { useSpec } from '../state/SpecStore';
 import { PROJECTS, PROJECT_STATUS, TEMPLATES } from '../data/catalogue';
 import { AUDITED_TENDERS, RECENT_QUERIES } from '../data/mock';
+import DemoDataNotice from '../components/DemoDataNotice';
 
 export default function Projects() {
   const spec = useSpec();
 
   return (
     <div className="container page">
+      <DemoDataNotice
+        what="Projects and their standards are sample records."
+      />
       <div className="page-head">
         <div>
           <h1 className="page-title">My projects</h1>

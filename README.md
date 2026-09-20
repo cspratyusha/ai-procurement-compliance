@@ -171,11 +171,17 @@ To point at a backend on a different host or port, copy `.env.example` to
 
 | Screen | State |
 |---|---|
-| `/app/query` — search and results | **Live.** Calls `POST /retrieve` |
+| `/app/query` — search and results | **Live.** `POST /retrieve` |
+| `/app/catalogue` — standards catalogue | **Live.** `GET /standards` |
+| `/app/standard/:code` — standard detail | **Live.** `GET /standards/{id}` |
 | Landing page | Static copy; the hero panel is an illustration |
-| The other 17 screens | Still render fixture data from `src/data/` |
+| The other 12 screens | Fixture data, each labelled "Illustrative screen — not live data" in the UI |
 
-Wiring the remaining screens is tracked in [`PROGRESS.md`](PROGRESS.md).
+The twelve fixture screens show an intended workflow rather than computed
+results, and say so on the page. Wiring them needs backend work that does not
+exist yet — certification requires the official compulsory-certification
+lists, the standards map requires relationship data, the dashboard requires
+persisted query history. Progress is tracked in [`PROGRESS.md`](PROGRESS.md).
 
 ### Tests
 

@@ -3,6 +3,7 @@ import Icon from '../components/Icon';
 import { SeverityBadge, EmptyState } from '../components/Primitives';
 import { AUDIT_FINDINGS, SEVERITY } from '../data/mock';
 import './audit.css';
+import DemoDataNotice from '../components/DemoDataNotice';
 
 export default function Audit() {
   const [phase, setPhase] = useState('idle');   // idle | parsing | done
@@ -30,6 +31,10 @@ export default function Audit() {
 
   return (
     <div className="container page">
+      <DemoDataNotice
+        what="The audit trail entries are sample records."
+        next="Real entries would be written as officials run and accept recommendations."
+      />
       <div className="page-head">
         <div>
           <h1 className="page-title">Audit tender</h1>

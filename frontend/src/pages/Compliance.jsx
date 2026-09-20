@@ -8,6 +8,7 @@ import { StatTile } from '../components/Primitives';
 import {
   SUMMARY_TILES, TREND_DATA, CATEGORY_DATA, COMPLIANCE_DATA, DEPARTMENTS,
 } from '../data/mock';
+import DemoDataNotice from '../components/DemoDataNotice';
 
 /* Matte, theme-aware chart palette. Read at render so the theme toggle applies. */
 const readVar = (name, fallback) => {
@@ -48,6 +49,9 @@ export default function Compliance() {
 
   return (
     <div className="container page">
+      <DemoDataNotice
+        what="Compliance scores and the charts on this page are sample data."
+      />
       <div className="page-head">
         <div>
           <h1 className="page-title">Compliance dashboard</h1>

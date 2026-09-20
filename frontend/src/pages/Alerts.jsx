@@ -2,6 +2,7 @@ import { useState } from 'react';
 import Icon from '../components/Icon';
 import { EmptyState } from '../components/Primitives';
 import { ALERTS, SUBSCRIPTIONS } from '../data/mock';
+import DemoDataNotice from '../components/DemoDataNotice';
 
 const KIND = {
   revision:      { icon: 'refresh', label: 'Revision',      cls: 'badge-crit' },
@@ -23,6 +24,10 @@ export default function Alerts() {
 
   return (
     <div className="container page">
+      <DemoDataNotice
+        what="Amendment and supersession alerts are sample notifications."
+        next="Live alerts need amendment tracking, which is not built."
+      />
       <div className="page-head">
         <div>
           <h1 className="page-title">Alerts &amp; subscriptions</h1>
