@@ -208,4 +208,14 @@ export function getRelated(idOrNumber, { signal } = {}) {
   return request(`/standards/${encodeURIComponent(idOrNumber)}/related`, { signal });
 }
 
+/**
+ * Published amendments for one standard.
+ *
+ * `checked: false` means the standard has not been researched — which is not
+ * a statement that it has no amendments.
+ */
+export function getAmendments(idOrNumber, { signal } = {}) {
+  return request(`/standards/${encodeURIComponent(idOrNumber)}/amendments`, { signal });
+}
+
 export { BASE_URL };

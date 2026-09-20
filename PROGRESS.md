@@ -5,6 +5,78 @@ at the top.
 
 ---
 
+## Phase K — Published amendments (2026-09-21)
+
+**Goal:** the last unmet requirement in the problem statement — "shows the
+latest published version and any amendments".
+
+### Why this matters more than it sounds
+
+An amendment can change the material, the test regime or the acceptance
+criteria. A tender citing the base edition of a standard that has since been
+amended can specify something no longer conformant. IS 456:2000 has **six**
+amendments; a tender citing it bare is citing a 2000 document while the site
+is built to a 2024 one.
+
+### Researched, not generated
+
+Read from BIS product manuals and published amendment documents:
+
+| Standard | Amendments | Source |
+|---|---|---|
+| IS 694:2010 | **4** | BIS Product Manual PM/IS 694/3 (May 2020), "No. of Amendments: 4" |
+| IS 456:2000 | **6** | Published amendment documents; No. 4 read in full |
+| IS 800:2007 | **2** | Published amendment documents |
+
+Amendment No. 4 to IS 456 was extracted from the published PDF, so its
+summary is real clause-level content: *"Revises clauses 5.3 and 5.3.4
+(aggregates and batching), 5.4 (water, to permit treated water) and 5.4.3
+(sea water)."*
+
+### A count without dates stays a count
+
+BIS states IS 694:2010 has four amendments but the sources read did not give
+their numbers or dates. Listing four entries with plausible-looking dates
+would be fabrication, so the count is reported and the list stays empty:
+
+> IS 694:2010, incorporating all 4 published amendments
+
+Where individual amendments *are* known, the citation names the latest:
+
+> IS 456:2000, incorporating all 6 amendments, latest (Amendment No. 6, June 2024)
+
+Dates from secondary sources are marked `likely` and the UI shows them as
+"unconfirmed date" next to the confirmed one — the same three-way honesty as
+certification's `none` / `not_verified`.
+
+### The corpus dates were placeholders
+
+The corpus records `last_amended` for 42 of 45 standards. Checked against
+reality, these are invented: IS 800:2007 carries `2019-10-10`, which matches
+neither of its real amendments (January 2012 and one undated). The researched
+data now takes precedence in the citation, and the corpus field is left alone
+rather than silently "corrected" with more guesses.
+
+### Tested
+
+- **`pytest` — 92 passed** (was 84). Eight new tests, the important ones being
+  that a count without dates does not become invented dates, that an
+  unresearched standard reports `checked: false` rather than "no amendments",
+  and that a citation omits an unknown date instead of printing "None".
+- **Playwright — 22 passed.**
+- Browser-verified: IS 456 shows "6 in force" with the full history and
+  clause-level summary on No. 4; IS 694 shows "4 in force" with the
+  count-only citation; IS 17048 says amendments have not been checked.
+
+### Still open
+
+- 42 of 45 standards have unresearched amendments.
+- Standards map screen still fixture data.
+- No demo script; no fresh-clone verification.
+- OCR for scanned tenders; UI chrome i18n.
+
+---
+
 ## Phase J — Tender builder, and a committed end-to-end suite (2026-09-21)
 
 **Goal:** the problem statement's "demoed as if embedded inside a procurement

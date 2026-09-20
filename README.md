@@ -20,6 +20,7 @@ We would rather state our scope plainly than imply coverage we do not have.
 | **Data provenance** | IS numbers and titles are realistic but **not verified against the BIS catalogue**; every record carries `"verified": false`. Two entries (IS 8112:2018, IS 12269:2019) name editions that never existed — both standards were withdrawn into IS 269:2015 in 2016 — and the API flags them rather than serving them silently |
 | **Sectors represented** | Electrical cables, cement & building materials, steel pipes & fittings, structural steel, plastic pipes, electrical installations, PPE |
 | **Certification data** | **17 of 45 standards verified** against the BIS Scheme I list and QCO notifications, with the governing order recorded. The remaining 28 report `not_verified`, which is explicitly not a clearance |
+| **Amendments** | **3 standards researched** from BIS product manuals and published amendment documents (IS 456 has 6, IS 694 has 4, IS 800 has 2). The other 42 report `checked: false`, which is not a statement that they have none |
 | **Related-standards graph** | **25 relationships across 16 standards**, read from the referred-standards annexes of the standards themselves. Citations to standards outside the corpus are shown and flagged rather than hidden |
 
 **What this means in practice:** queries inside the covered sectors return

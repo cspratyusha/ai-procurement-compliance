@@ -502,7 +502,14 @@ export default function Query() {
 
                       <div className="row wrap" style={{ gap: 5 }}>
                         {r.version && <span className="badge badge-neutral">{r.version}</span>}
-                        {r.last_amended && <span className="badge badge-neutral">Amended {r.last_amended}</span>}
+                        {r.amendment_count > 0 && (
+                          <span
+                            className="badge badge-warn"
+                            title={r.citation}
+                          >
+                            {r.amendment_count} amendment{r.amendment_count === 1 ? '' : 's'}
+                          </span>
+                        )}
                         {r.superseded_by && (
                           <span className="badge badge-warn">Replaced by {r.superseded_by}</span>
                         )}

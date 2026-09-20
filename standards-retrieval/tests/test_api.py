@@ -187,6 +187,9 @@ class TestStandardsRetrievalAPI(unittest.TestCase):
             # One-sentence LLM reason; None unless explanations were requested
             # and a local model answered.
             "explanation",
+            # How to cite the standard including its amendments, and how many
+            # are in force. Null count means the standard was never researched.
+            "citation", "amendment_count",
         }
         expected_stage_keys = {"dense", "bm25", "cross_encoder", "ltr_or_fallback"}
 

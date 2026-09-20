@@ -14,6 +14,7 @@ import extraction
 import translation
 import relationships as relationships_data
 import explanation as explanation_engine
+import amendments as amendments_data
 from data.models import Standard
 from data_loader import load_corpus, get_standard_by_id
 from feedback.schema import FeedbackRequest, InteractionLog
@@ -107,6 +108,17 @@ class StandardResult(BaseModel):
     superseded_by: Optional[str] = Field(default=None, description="Id of the active replacement, when this entry was penalised as superseded.")
     certification: "CertificationInfo" = Field(..., description="Mandatory BIS certification status for this standard.")
     data_warning: Optional[str] = Field(default=None, description="Known problem with this corpus entry, e.g. an edition that was never published.")
+    citation: str = Field(
+        default="",
+        description=(
+            "How to cite this standard in a tender, including its amendments where "
+            "they have been researched. Falls back to the bare IS number otherwise."
+        ),
+    )
+    amendment_count: Optional[int] = Field(
+        default=None,
+        description="Number of published amendments in force, or null when not researched.",
+    )
     explanation: Optional[str] = Field(
         default=None,
         description=(
@@ -511,6 +523,7 @@ def retrieve_standards_post(body: RetrieveRequest):
     results = []
     for item in penalized_results[:top_k]:
         std = corpus.get(item["id"])
+        amendment_info = amendments_data.for_standard(item["number"])
         results.append(
             StandardResult(
                 id=item["id"],
@@ -526,6 +539,8 @@ def retrieve_standards_post(body: RetrieveRequest):
                 last_amended=getattr(std, "last_amended", "") if std else "",
                 superseded_by=item.get("superseded_by"),
                 certification=CertificationInfo(**certification.lookup(item["number"])),
+                citation=amendment_info["citation"],
+                amendment_count=amendment_info["count"],
                 data_warning=(certification.withdrawn_note(item["number"]) or {}).get("issue"),
             )
         )
@@ -695,6 +710,24 @@ async def extract_and_search(file: UploadFile = File(...), top_k: int = 10):
         warnings=extracted.warnings,
         retrieval=retrieval,
     )
+
+
+@app.get(
+    "/standards/{standard_id}/amendments",
+    summary="Published Amendments",
+)
+def get_amendments(standard_id: str):
+    """Amendments in force for one standard.
+
+    `checked: false` means this standard has not been researched, which is
+    explicitly not a statement that it has no amendments.
+    """
+    standard = get_standard(standard_id)  # reuses id/IS-number resolution and 404
+    return {
+        "number": standard.number,
+        "title": standard.title,
+        **amendments_data.for_standard(standard.number),
+    }
 
 
 @app.get(

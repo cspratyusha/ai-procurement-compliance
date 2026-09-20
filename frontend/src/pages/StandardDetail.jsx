@@ -3,7 +3,7 @@ import { useParams, Link, useNavigate } from 'react-router-dom';
 import Icon from '../components/Icon';
 import { EmptyState } from '../components/Primitives';
 import { AddButton } from '../components/SpecBasket';
-import { getStandard, getRelated, ApiError } from '../api/client';
+import { getStandard, getRelated, getAmendments, ApiError } from '../api/client';
 import './detail.css';
 
 const SECTOR_LABEL = {
@@ -29,6 +29,7 @@ export default function StandardDetail() {
 
   const [standard, setStandard] = useState(null);
   const [related, setRelated] = useState(null);
+  const [amendments, setAmendments] = useState(null);
   const [state, setState] = useState('loading'); // loading | ready | missing | error
   const [error, setError] = useState(null);
 
@@ -45,6 +46,9 @@ export default function StandardDetail() {
         // Secondary: the page is usable without it, so it must not gate render.
         getRelated(data.number, { signal: controller.signal })
           .then((r) => { if (!controller.signal.aborted) setRelated(r); })
+          .catch(() => { /* leave the section in its unknown state */ });
+        getAmendments(data.number, { signal: controller.signal })
+          .then((a) => { if (!controller.signal.aborted) setAmendments(a); })
           .catch(() => { /* leave the section in its unknown state */ });
       })
       .catch((err) => {
@@ -197,6 +201,55 @@ export default function StandardDetail() {
               </p>
             </section>
           )}
+
+          <section className="card stack stack-4">
+            <div className="row-between wrap" style={{ gap: 'var(--s2)' }}>
+              <span className="eyebrow">Amendments</span>
+              {amendments?.count > 0 && (
+                <span className="badge badge-warn">{amendments.count} in force</span>
+              )}
+            </div>
+
+            {amendments === null && <div className="skeleton" style={{ height: 48 }} />}
+
+            {amendments && !amendments.checked && (
+              <p className="xs muted">{amendments.note}</p>
+            )}
+
+            {amendments?.checked && (
+              <>
+                <div className="stack stack-2">
+                  <span className="xs faint">Cite this standard as</span>
+                  <blockquote className="clause xs" style={{ margin: 0 }}>
+                    {amendments.citation}
+                  </blockquote>
+                </div>
+
+                {amendments.amendments.length > 0 ? (
+                  <div className="stack stack-2">
+                    {amendments.amendments.map((a) => (
+                      <div key={a.number} className="row" style={{ gap: 'var(--s3)', alignItems: 'flex-start' }}>
+                        <span className="badge badge-neutral mono" style={{ flexShrink: 0 }}>
+                          No. {a.number}
+                        </span>
+                        <span className="stack stack-2 grow" style={{ minWidth: 0 }}>
+                          <span className="xs">
+                            {a.readable_date || 'Date not recorded'}
+                            {a.confidence === 'likely' && (
+                              <span className="xs faint"> · unconfirmed date</span>
+                            )}
+                          </span>
+                          {a.summary && <span className="xs muted">{a.summary}</span>}
+                        </span>
+                      </div>
+                    ))}
+                  </div>
+                ) : (
+                  <p className="xs muted">{amendments.note}</p>
+                )}
+              </>
+            )}
+          </section>
 
           <section className="card stack stack-4">
             <div className="row-between wrap" style={{ gap: 'var(--s2)' }}>
