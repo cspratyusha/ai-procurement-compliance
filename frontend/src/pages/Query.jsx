@@ -72,6 +72,7 @@ export default function Query() {
   const [extraction, setExtraction] = useState(null);
   const [languages, setLanguages] = useState([]);
   const [language, setLanguage] = useState('auto');
+  const [explain, setExplain] = useState(false);
   const abortRef = useRef(null);
   const fileRef = useRef(null);
 
@@ -105,6 +106,7 @@ export default function Query() {
       const data = await retrieve(query, {
         topK: 10,
         language: language === 'auto' ? null : language,
+        explain,
         signal: controller.signal,
       });
       if (controller.signal.aborted) return;
@@ -118,7 +120,7 @@ export default function Query() {
       setError(err instanceof ApiError ? err : new ApiError('Unexpected error while searching.'));
       setPhase('error');
     }
-  }, [text, language]);
+  }, [text, language, explain]);
 
   const onFile = useCallback(async (event) => {
     const file = event.target.files?.[0];
@@ -245,9 +247,16 @@ export default function Query() {
                   ))}
                 </select>
               </div>
-              <span className="xs faint">
-                Type in any listed language — it is translated before searching
-              </span>
+              <span className="xs faint">Translated before searching</span>
+              <label className="check" title="Uses a local language model; adds a few seconds">
+                <input
+                  type="checkbox"
+                  checked={explain}
+                  onChange={() => setExplain((v) => !v)}
+                  disabled={phase === 'running'}
+                />
+                <span className="xs">Explain why each standard matched</span>
+              </label>
             </div>
           )}
 
@@ -482,6 +491,11 @@ export default function Query() {
                       </div>
 
                       <p className="small" style={{ color: 'var(--ink-soft)' }}>{r.title}</p>
+                      {r.explanation && (
+                        <p className="xs" style={{ color: 'var(--ink-soft)', fontStyle: 'italic' }}>
+                          {r.explanation}
+                        </p>
+                      )}
                       {r.scope && <p className="xs muted">{r.scope}</p>}
                       <DataWarning warning={r.data_warning} />
                       <CertificationBanner certification={r.certification} />

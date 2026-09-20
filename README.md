@@ -27,6 +27,30 @@ sensible results. Queries outside them (textiles, machinery, chemicals, food,
 and the overwhelming majority of the catalogue) have no correct answer
 available.
 
+## Plain-language explanations (optional)
+
+With a local [Ollama](https://ollama.com) server running and
+`qwen2.5:7b-instruct` pulled, each result can carry a one-sentence reason it
+matched. Tick "Explain why each standard matched" before searching.
+
+```bash
+ollama pull qwen2.5:7b-instruct
+```
+
+It is **off by default** and entirely optional: a query is ~380 ms without it
+and ~2.5 s with it, and the results are identical either way — only prose is
+added. Without Ollama the option is not offered and nothing else changes.
+
+**The model never decides anything.** It only describes candidates retrieval
+already chose; it does not rank, filter, or contribute to certification or
+supersession verdicts. Every IS number it returns is checked against the
+candidate list and discarded if it was not one of them, because a fabricated
+standard number in a tender document is the worst output this system could
+produce. Out-of-scope queries skip it entirely, so a no-match result never
+acquires a fluent explanation of why the wrong standards almost fit.
+
+---
+
 ## Languages
 
 Queries can be written in **English, Hindi, Tamil, Bengali, Marathi or

@@ -5,6 +5,91 @@ at the top.
 
 ---
 
+## Phase I — LLM explanation layer, local via Ollama (2026-09-21)
+
+**Goal:** the brief's Phase 3 — a plain-language reason per result — built so
+that it cannot damage the trustworthiness of everything around it.
+
+### Hardware
+
+Checked before choosing a model: i9-13900HX (24 cores), RTX 4060 laptop GPU
+(8 GB VRAM), 15.7 GB RAM, 100 GB free. Installed Ollama 0.34.2 and pulled
+**qwen2.5:7b-instruct** — fits in VRAM, strong at constrained JSON.
+
+### The design rule
+
+The LLM **only describes candidates it was given**. It never chooses which
+standards are returned, never reorders them, and contributes nothing to the
+certification or supersession verdicts. Retrieval and curated data stay
+authoritative.
+
+This matters because the product's value is being trustworthy about legal
+requirements. A fabricated IS number reaching a tender document is the worst
+output this system could produce, so:
+
+- Ollama's JSON mode constrains decoding, which is what makes a 7B model
+  reliable enough to parse without a retry loop (3/3 valid on first probe).
+- **Every returned IS number is checked against the candidate list.** Anything
+  else is discarded and logged. A model that helpfully adds "IS 9999:2020"
+  gets that line dropped while the legitimate explanations survive.
+- Only the top 5 candidates are sent, so a long result list cannot become a
+  long prompt.
+- Any failure — unreachable, timeout, unparseable — returns no explanations
+  rather than an error. The search already succeeded; explanations are a
+  bonus on top of it.
+
+### Off by default
+
+`explain` is opt-in per request. Without it, a query is ~380 ms. With it,
+~2.5 s warm. The results are byte-identical either way; only prose is added.
+`explanations_available` tells the UI whether to offer the checkbox at all, so
+a machine without Ollama simply never sees it.
+
+### Quality, observed
+
+The explanations are genuinely discriminating:
+
+- *"This fits the requirement as it specifies 43 grade ordinary Portland cement."* (IS 8112)
+- *"This does not fit as it specifies 53 grade cement, not 43 grade."* (IS 12269)
+- *"This does not fit the requirement as it is for submersible pump cables intended for borewells."* (IS 14257)
+
+It correctly separates 43-grade from 53-grade cement and rejects an
+irrelevant cable — the kind of distinction a procurement official actually
+needs to see stated.
+
+### A bug the out-of-scope test caught
+
+The first implementation generated explanations for a query the confidence
+gate had already marked `none`. The guard read `confidence != "none"` where
+`confidence` is the dict returned by `assess_confidence`, so it was always
+true. A "banana" query was getting three fluent explanations of why cable
+standards did not match it — directly undercutting the "these are not
+recommendations" framing.
+
+Fixed to `confidence["level"] != "none"`. Out-of-scope queries now skip the
+LLM entirely and return in 176 ms instead of 2.4 s.
+
+### Tested
+
+- **`pytest` — 84 passed** (was 74). Ten new tests, most of them on the
+  hallucination guard: invented numbers discarded while valid ones survive,
+  prose-wrapped JSON salvaged, unparseable output yielding nothing, model
+  failure degrading to empty, malformed entries skipped individually,
+  overlong reasons trimmed, and the top-5 cap enforced.
+- End-to-end against the live model: cold 3.3 s, warm 2.3-2.5 s, out-of-scope
+  176 ms with zero explanations.
+- Browser-verified: both the language selector and the explanation toggle are
+  visible, 4 of 5 cards carry explanations, no console errors.
+
+### Still open
+
+- Standards map screen still fixture data.
+- No committed end-to-end test suite (Playwright runs have been ad-hoc).
+- No demo script; no fresh-clone verification.
+- OCR for scanned tenders; UI chrome i18n.
+
+---
+
 ## Phase H — Allied standards, and a visibility fix (2026-09-21)
 
 **Goal:** build the related-standards cluster the problem statement asks for,

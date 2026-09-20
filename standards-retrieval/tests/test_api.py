@@ -163,6 +163,9 @@ class TestStandardsRetrievalAPI(unittest.TestCase):
                 # Set only for non-English queries, so the UI can show what was
                 # actually searched rather than translating behind the user's back.
                 "translation",
+                # Whether a local explanation model is reachable, so the UI can
+                # offer the option without probing Ollama itself.
+                "explanations_available",
             },
         )
         self.assertEqual(data["query"], query)
@@ -181,6 +184,9 @@ class TestStandardsRetrievalAPI(unittest.TestCase):
             # Mandatory certification status, and any known problem with the
             # corpus entry itself (e.g. an edition that was never published).
             "certification", "data_warning",
+            # One-sentence LLM reason; None unless explanations were requested
+            # and a local model answered.
+            "explanation",
         }
         expected_stage_keys = {"dense", "bm25", "cross_encoder", "ltr_or_fallback"}
 

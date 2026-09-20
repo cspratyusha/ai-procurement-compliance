@@ -93,10 +93,10 @@ export async function getHealth({ signal } = {}) {
  * means the corpus does not cover this query: results are nearest text
  * matches, not recommendations, and the UI must present them that way.
  */
-export function retrieve(query, { topK = 10, language, signal } = {}) {
+export function retrieve(query, { topK = 10, language, explain = false, signal } = {}) {
   return request('/retrieve', {
     method: 'POST',
-    body: { query, top_k: topK, language: language ?? null },
+    body: { query, top_k: topK, language: language ?? null, explain },
     signal,
   });
 }
