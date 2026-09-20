@@ -74,41 +74,89 @@ survives any future re-numbering.
 
 ## Measured effect of consolidating
 
-Rebuilding the indexes over 45 standards instead of 30 and re-running the
-benchmark:
+Rebuilding the indexes over 45 standards instead of 30, NDCG@5 on the same 24
+queries:
 
-| Pipeline | 30 standards | 45 standards |
+| Pipeline | 30 standards | 45, old model | 45, retrained |
+|---|---|---|---|
+| Hybrid (dense + BM25 RRF) | 0.9430 | 0.9382 | 0.9382 |
+| + Cross-encoder | 0.9609 | 0.9609 | 0.9609 |
+| + LTR | **0.9846** | 0.9692 | **0.9846** |
+
+The middle column served the **mock-corpus ranker** over the canonical corpus.
+That mismatch, not corpus difficulty, accounts for most of the drop: with the
+ranker retrained on the corpus it serves, the score returns to 0.9846.
+
+So the honest reading is narrower than it first appeared: **a corpus-size
+effect has not been demonstrated here** — both corpora are small enough that
+retrieval stays easy. The reason to expect decline at realistic scale
+(~22,000 standards) is that near-duplicate standards become far more common,
+not anything these numbers show.
+
+What the numbers *do* establish is that each stage improves on the one before
+it, consistently across both corpora.
+
+### A larger corpus answers more queries
+
+Consolidation brought PPE and structural sections into scope, so queries the
+30-standard corpus could not answer now resolve:
+
+| Query | 30 standards | 45 standards |
 |---|---|---|
-| Hybrid (dense + BM25 RRF) | 0.9430 | 0.9382 |
-| + Cross-encoder | 0.9609 | 0.9609 |
-| + LTR | **0.9846** | **0.9692** |
+| "hot rolled structural steel angle" | `uncertain` — returned a steel *tube* standard | `strong` — IS 808:1989 |
+| "safety helmet for construction workers" | `none` | `strong` — IS 2925:1984 |
+| "banana" | `none` | `none` |
 
-LTR Top-1 accuracy fell from 95.8% to 91.7%. **Adding 15 standards measurably
-lowered the scores**, which is the clearest available evidence that the
-headline numbers are a function of corpus size rather than of real-world
-accuracy. Expect further decline as the corpus approaches realistic scale
-(BIS publishes ~22,000 standards).
+## Selecting a corpus
 
-## Rebuilding indexes
+`STANDARDS_CORPUS` picks which corpus the engine loads, indexes and trains
+against. It is read in one place (`standards-retrieval/data_loader.py`),
+because `load_corpus()` is called from a dozen sites with no argument.
 
-The retrieval indexes are built from whichever corpus you point at:
+```bash
+STANDARDS_CORPUS=canonical   # data/standards_corpus.json (45 standards)
+STANDARDS_CORPUS=mock        # data/mock_corpus.json (30) — the default
+STANDARDS_CORPUS=/some/path  # that file
+```
+
+Artifacts are kept **per corpus**, because an index or a trained ranker is
+only valid for the corpus it was built from:
+
+| | mock (default) | canonical |
+|---|---|---|
+| Indexes | `standards-retrieval/data/` | `standards-retrieval/data/index/standards_corpus/` |
+| Model | `standards-retrieval/models/` | `standards-retrieval/models/standards_corpus/` |
+
+## Rebuilding indexes and retraining
 
 ```bash
 cd standards-retrieval
-PYTHONPATH=. python indexing/build.py --corpus ../data/standards_corpus.json
+
+# Indexes
+STANDARDS_CORPUS=canonical PYTHONPATH=. python indexing/build.py
+
+# Ranker (uses the matching query sets automatically)
+STANDARDS_CORPUS=canonical PYTHONPATH=. python ltr/train.py
 ```
 
-**Caution:** `indexing/build.py` always writes to
-`standards-retrieval/data/` (`faiss.index`, `bm25.pkl`, …), overwriting the
-committed indexes that the test suite expects. After building against the
-consolidated corpus, restore them with:
+Training ends at a promotion gate: a candidate is only written to the live
+model path if it beats both the cross-encoder baseline and a conservative
+lower bound from 5-fold CV. On rejection the previous model is moved to
+`ltr_model_previous.txt` rather than deleted.
+
+**If you change the corpus, remap the query sets first.** Both reference
+standards by id, and `consolidate.py` renumbers ids:
 
 ```bash
-git checkout -- standards-retrieval/data/
+python data/remap_to_canonical.py --check   # report
+python data/remap_to_canonical.py           # write
 ```
 
-Making the output location follow the corpus choice is tracked in
-[`../PROGRESS.md`](../PROGRESS.md).
+Training the ranker against a mismatched query set produces a model whose
+labels point at the wrong standards. It shows up as a large gap between the
+cross-validation score and the held-out score — see Phase D in
+[`../PROGRESS.md`](../PROGRESS.md) for a worked example (CV 0.93, held-out
+0.24).
 
 ## Other files
 

@@ -14,8 +14,18 @@ _CACHED_FAISS_INDEX: Optional[faiss.Index] = None
 _CACHED_FAISS_IDS: Optional[List[str]] = None
 
 _BASE_DIR = Path(__file__).resolve().parent.parent
-_DEFAULT_INDEX_PATH = _BASE_DIR / "data" / "faiss.index"
-_DEFAULT_IDS_PATH = _BASE_DIR / "data" / "faiss_ids.json"
+
+
+# Resolved per call rather than at import, so STANDARDS_CORPUS is honoured
+# even when it is set after this module is first imported (as in tests).
+def _default_index_path() -> Path:
+    from data_loader import index_dir
+    return index_dir() / "faiss.index"
+
+
+def _default_ids_path() -> Path:
+    from data_loader import index_dir
+    return index_dir() / "faiss_ids.json"
 
 
 def get_embedding_model() -> SentenceTransformer:
@@ -63,8 +73,8 @@ def build_index(
     if not corpus:
         raise ValueError("Cannot build FAISS index from an empty corpus.")
 
-    target_index_path = Path(index_path) if index_path else _DEFAULT_INDEX_PATH
-    target_ids_path = Path(ids_path) if ids_path else _DEFAULT_IDS_PATH
+    target_index_path = Path(index_path) if index_path else _default_index_path()
+    target_ids_path = Path(ids_path) if ids_path else _default_ids_path()
 
     target_index_path.parent.mkdir(parents=True, exist_ok=True)
     target_ids_path.parent.mkdir(parents=True, exist_ok=True)
@@ -121,8 +131,8 @@ def load_index(
     if _CACHED_FAISS_INDEX is not None and _CACHED_FAISS_IDS is not None and not force_reload:
         return _CACHED_FAISS_INDEX, _CACHED_FAISS_IDS
 
-    target_index_path = Path(index_path) if index_path else _DEFAULT_INDEX_PATH
-    target_ids_path = Path(ids_path) if ids_path else _DEFAULT_IDS_PATH
+    target_index_path = Path(index_path) if index_path else _default_index_path()
+    target_ids_path = Path(ids_path) if ids_path else _default_ids_path()
 
     if not target_index_path.exists():
         raise FileNotFoundError(

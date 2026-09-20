@@ -5,6 +5,118 @@ at the top.
 
 ---
 
+## Phase D — Canonical corpus made servable; two dangerous bugs found (2026-09-21)
+
+**Goal:** let the engine actually serve the 45-standard consolidated corpus
+built in Phase B, which until now existed only as a file nothing read.
+
+### One switch, not a dozen edits
+
+`load_corpus()` is called from a dozen places with no argument, so the corpus
+is selected by environment variable and resolved in one place:
+
+```
+STANDARDS_CORPUS=canonical   -> data/standards_corpus.json (45 standards)
+STANDARDS_CORPUS=mock        -> data/mock_corpus.json (30, still the default)
+STANDARDS_CORPUS=/some/path  -> that file
+```
+
+`mock` remains the default so existing behaviour, the committed artifacts and
+the test suite are unaffected.
+
+### Artifacts are now per-corpus
+
+Indexes and trained models are only valid for the corpus they were built
+from. Both previously wrote to one fixed location, so building or training
+against the canonical corpus silently overwrote the committed 30-standard
+artifacts — the index-clobbering noted at the end of Phase B, and the same
+flaw for models. Both now resolve to a per-corpus directory:
+
+- `standards-retrieval/data/index/standards_corpus/` — FAISS + BM25
+- `standards-retrieval/models/standards_corpus/` — trained ranker
+
+### Query sets remapped
+
+`data/consolidate.py` renumbers ids, so the training and eval sets had to be
+remapped onto the canonical corpus. `data/remap_to_canonical.py` joins on the
+**IS number**, which is stable across renumbering, and records
+`correct_number` on every record so a future renumbering can be redone from
+the number rather than from an id that may have moved. All 74 records (24
+eval + 50 training) remapped with zero dangling references.
+
+### Two dangerous bugs, found by retraining
+
+**1. The trainer evaluated against the wrong eval set.** `ltr/train.py` had
+the old `data/eval_set.json` hardcoded. Training against the canonical corpus
+therefore learned canonical ids and was then scored against old ids, so
+nearly every query counted as a miss:
+
+| | NDCG@5 |
+|---|---|
+| reported | **0.2387** |
+| after fixing the eval path | **0.9846** |
+
+The 5-fold CV score during the same run was 0.9276, so the pipeline was
+healthy throughout; only the final measurement was wrong. A gap that large
+between CV and held-out score is the signature of a label mismatch rather
+than a quality problem.
+
+**2. A rejected experiment deleted the working model.** On gate rejection the
+trainer called `unlink()` on the live model. So the bad measurement above did
+not just report a failure — it took the committed, working
+`ltr_model.txt` with it. It was only recoverable because it was in git.
+
+Now archived to `ltr_model_previous.txt` instead of deleted. Serving still
+degrades to `fallback_score()` as intended, but the previous model is one
+rename away.
+
+### Measured on the canonical corpus, after retraining
+
+| Pipeline | P@1 | Recall@5 | NDCG@5 |
+|---|---|---|---|
+| Hybrid (dense + BM25 RRF) | 0.8750 | 1.0000 | 0.9382 |
+| + Cross-encoder | 0.9167 | 1.0000 | 0.9609 |
+| + LTR (retrained on 45) | **0.9583** | 1.0000 | **0.9846** |
+
+**This revises the Phase B conclusion.** Phase B measured NDCG@5 0.9692 on 45
+standards and read it as corpus-size difficulty. That measurement used the
+*mock-corpus model* against the canonical corpus. With the ranker retrained
+on the corpus it serves, performance returns to 0.9846 — so most of that drop
+was model/corpus mismatch, not difficulty. The honest statement is now
+narrower: **we have not yet demonstrated a corpus-size effect**, because both
+measurements are at small scale.
+
+### Better answers, as a side effect of more data
+
+Queries the 30-standard corpus could not answer now resolve correctly,
+because consolidation brought in PPE and structural sections:
+
+| Query | 30 standards | 45 standards |
+|---|---|---|
+| "hot rolled structural steel angle" | `uncertain` — a steel *tube* standard | `strong` — **IS 808:1989** |
+| "safety helmet for construction workers" | `none` — nothing relevant held | `strong` — **IS 2925:1984** |
+| "banana" | `none` | `none` |
+
+The confidence gate still correctly rejects nonsense.
+
+### Tested
+
+- **`pytest` — 40 passed** on the default corpus; no regression.
+- Both corpora load and serve: `/health` reports `corpus_size` 30 or 45
+  according to `STANDARDS_CORPUS`, with `ltr_model_loaded: true` in both.
+- Building canonical indexes leaves the committed 30-standard indexes
+  untouched, verified with `git status`.
+
+### Still open
+
+- `STANDARDS_CORPUS=mock` is still the default. Switching requires committing
+  the canonical indexes and model, which is the natural next step.
+- The confidence thresholds were tuned against the 30-standard corpus and
+  have not been re-tuned for 45.
+- 17 of 18 screens still render fixture data.
+
+---
+
 ## Phase C — Frontend wired to the live engine (2026-09-21)
 
 **Goal:** make the UI actually call the backend, stop presenting wrong

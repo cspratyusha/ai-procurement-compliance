@@ -1,4 +1,5 @@
 import json
+import os
 import random
 import sys
 from datetime import datetime
@@ -29,10 +30,26 @@ from ltr.features import build_features, fallback_score, FEATURE_NAMES
 # top-level import here forms a cycle that leaves `ltr.train` partially
 # initialized whenever `feedback` is imported first.
 
-_DEFAULT_MODEL_PATH = _PROJECT_ROOT / "models" / "ltr_model.txt"
-_REJECTED_MODEL_PATH = _PROJECT_ROOT / "models" / "ltr_model_rejected.txt"
-_DEFAULT_REPORT_PATH = _PROJECT_ROOT / "models" / "training_report.json"
-_DEFAULT_PLOT_PATH = _PROJECT_ROOT / "models" / "training_curve.png"
+def _models_dir() -> Path:
+    """Directory holding the trained ranker for the active corpus.
+
+    A model's feature values are computed against a specific corpus, and its
+    training labels reference that corpus's ids, so a model is only valid for
+    the corpus it was trained on. Each corpus therefore gets its own directory
+    — otherwise retraining against the canonical corpus silently overwrites
+    the committed model that the mock corpus (and the test suite) depend on.
+    """
+    if os.environ.get("STANDARDS_CORPUS", "").strip().lower() in {"canonical", "consolidated"}:
+        directory = _PROJECT_ROOT / "models" / "standards_corpus"
+        directory.mkdir(parents=True, exist_ok=True)
+        return directory
+    return _PROJECT_ROOT / "models"
+
+
+_DEFAULT_MODEL_PATH = _models_dir() / "ltr_model.txt"
+_REJECTED_MODEL_PATH = _models_dir() / "ltr_model_rejected.txt"
+_DEFAULT_REPORT_PATH = _models_dir() / "training_report.json"
+_DEFAULT_PLOT_PATH = _models_dir() / "training_curve.png"
 
 _CACHED_LTR_MODEL: Optional[lgb.Booster] = None
 
@@ -52,15 +69,30 @@ def build_training_data(
     corpus_list = load_corpus()
     corpus_dict = {s.id: s for s in corpus_list}
 
-    # Determine input files
+    # Determine input files.
+    #
+    # The query sets reference standards by id, and data/consolidate.py
+    # renumbers ids when it merges the source datasets. So the query sets must
+    # come from the same generation as the corpus being trained against:
+    # training the ranker on ids that no longer exist would silently produce a
+    # model whose labels point at the wrong standards.
     if query_file_path is None or query_file_path == "combined":
-        file_candidates = [
-            _PROJECT_ROOT / "data" / "train_queries.json",
-            _PROJECT_ROOT / "data" / "eval_set.json"
-        ]
+        if os.environ.get("STANDARDS_CORPUS", "").strip().lower() in {"canonical", "consolidated"}:
+            file_candidates = [
+                _PROJECT_ROOT.parent / "data" / "train_queries_consolidated.json",
+                _PROJECT_ROOT.parent / "data" / "eval_set_consolidated.json",
+            ]
+        else:
+            file_candidates = [
+                _PROJECT_ROOT / "data" / "train_queries.json",
+                _PROJECT_ROOT / "data" / "eval_set.json",
+            ]
         file_paths = [p for p in file_candidates if p.exists()]
         if not file_paths:
-            file_paths = [_PROJECT_ROOT / "data" / "eval_set.json"]
+            raise FileNotFoundError(
+                "No query sets found for the selected corpus. Expected one of: "
+                + ", ".join(str(p) for p in file_candidates)
+            )
     elif isinstance(query_file_path, list):
         file_paths = [Path(p) for p in query_file_path]
     else:
@@ -743,7 +775,14 @@ def main(reuse_cv_run_id: Optional[str] = None, cv_reuse_reason: Optional[str] =
     print("=" * 85)
     from eval.evaluate import run_evaluation, print_comparison_tables
 
-    eval_path = str(_PROJECT_ROOT / "data" / "eval_set.json")
+    # Must be the eval set matching the corpus being trained against. The ids
+    # differ between generations, so evaluating a canonical-corpus model
+    # against the old eval set scores almost every query as a miss and makes a
+    # healthy model look broken.
+    if os.environ.get("STANDARDS_CORPUS", "").strip().lower() in {"canonical", "consolidated"}:
+        eval_path = str(_PROJECT_ROOT.parent / "data" / "eval_set_consolidated.json")
+    else:
+        eval_path = str(_PROJECT_ROOT / "data" / "eval_set.json")
     hybrid_res = run_evaluation(lambda q: hybrid_search(q, top_k=20), eval_set_path=eval_path)
     rerank_res = run_evaluation(lambda q: full_retrieve(q, top_k=10), eval_set_path=eval_path)
     candidate_ltr_res = run_evaluation(
@@ -790,11 +829,24 @@ def main(reuse_cv_run_id: Optional[str] = None, cv_reuse_reason: Optional[str] =
     else:
         rejected_path = save_model(candidate_booster, path=_REJECTED_MODEL_PATH, num_iteration=candidate_report["best_iteration"])
         if _DEFAULT_MODEL_PATH.exists():
+            # A failed experiment must not destroy the working model. Move it
+            # aside instead of deleting it: serving still falls back to
+            # fallback_score() because the live path is gone, but the previous
+            # model is one `mv` from being restored.
+            #
+            # This previously called unlink(). A training run against a
+            # mismatched eval set scored 0.24 and took the committed model
+            # with it -- recoverable only because it happened to be in git.
+            archived_path = _DEFAULT_MODEL_PATH.with_name(
+                f"{_DEFAULT_MODEL_PATH.stem}_previous{_DEFAULT_MODEL_PATH.suffix}"
+            )
             try:
-                _DEFAULT_MODEL_PATH.unlink()
-                print(f"[CLEANUP] Removed stale live model from {_DEFAULT_MODEL_PATH}")
+                archived_path.unlink(missing_ok=True)
+                _DEFAULT_MODEL_PATH.rename(archived_path)
+                print(f"[CLEANUP] Live model archived to {archived_path}")
+                print("          Restore it by renaming it back if this rejection was a mistake.")
             except Exception as e:
-                print(f"[CLEANUP WARNING] Could not remove {_DEFAULT_MODEL_PATH}: {e}")
+                print(f"[CLEANUP WARNING] Could not archive {_DEFAULT_MODEL_PATH}: {e}")
         _CACHED_LTR_MODEL = None
         print(f"\n[GATE REJECTION] LTR candidate underperforms threshold -- NOT promoted, main.py will use fallback_score().")
         print(f"  Model saved to rejected path: {rejected_path}")

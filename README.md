@@ -43,18 +43,24 @@ queries written alongside it. At that scale retrieval is an easy problem.
 stage improves on the previous one — they are not a claim about real-world
 accuracy over the full BIS catalogue.**
 
-We can show this directly. Rebuilding the indexes over the consolidated
-45-standard corpus and re-running the same 24 queries:
+Rebuilding the indexes over the consolidated 45-standard corpus, NDCG@5 on
+the same 24 queries:
 
-| Pipeline | 30 standards | 45 standards |
-|---|---|---|
-| Hybrid (dense + BM25 RRF) | 0.9430 | 0.9382 |
-| + Cross-encoder | 0.9609 | 0.9609 |
-| + LTR | **0.9846** | **0.9692** |
+| Pipeline | 30 standards | 45, old model | 45, retrained |
+|---|---|---|---|
+| Hybrid (dense + BM25 RRF) | 0.9430 | 0.9382 | 0.9382 |
+| + Cross-encoder | 0.9609 | 0.9609 | 0.9609 |
+| + LTR | **0.9846** | 0.9692 | **0.9846** |
 
-LTR Top-1 accuracy fell from 95.8% to 91.7%. Adding 15 standards measurably
-degraded the scores, and we should expect that trend to continue toward
-realistic corpus sizes.
+What these numbers support is that **each stage improves on the one before
+it**, consistently across both corpora. What they do *not* yet show is a
+corpus-size effect: the middle column served the ranker trained on the
+smaller corpus, and retraining on the corpus actually being served recovers
+the score. Both corpora are small enough that retrieval remains easy.
+
+Decline should still be expected at realistic scale, because near-duplicate
+standards become far more common — but that is a reasoned expectation, not
+something measured here.
 
 Expanding to a verified, curated pilot dataset is tracked in
 [`PROGRESS.md`](PROGRESS.md).
@@ -131,6 +137,20 @@ cache.
 
 - API docs: http://localhost:8000/docs
 - Health: http://localhost:8000/health
+
+#### Choosing a corpus
+
+The engine serves the 30-standard `mock_corpus.json` by default, because the
+committed indexes and trained ranker were built against it. To serve the
+consolidated 45-standard corpus instead:
+
+```bash
+STANDARDS_CORPUS=canonical python -m uvicorn main:app --port 8000
+```
+
+`/health` reports which is loaded. Indexes and models are stored per corpus,
+so switching never overwrites the other one's artifacts. See
+[`data/README.md`](data/README.md) for how to rebuild them.
 
 ### Frontend
 

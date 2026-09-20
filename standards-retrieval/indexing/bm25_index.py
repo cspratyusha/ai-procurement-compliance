@@ -11,9 +11,23 @@ _CACHED_BM25_INDEX: Optional[BM25Okapi] = None
 _CACHED_BM25_IDS: Optional[List[str]] = None
 
 _BASE_DIR = Path(__file__).resolve().parent.parent
-_DEFAULT_PKL_PATH = _BASE_DIR / "data" / "bm25.pkl"
-_DEFAULT_IDS_PATH = _BASE_DIR / "data" / "bm25_ids.json"
-_DEFAULT_TOKENS_PATH = _BASE_DIR / "data" / "bm25_tokens.json"
+
+
+# Resolved per call rather than at import, so STANDARDS_CORPUS is honoured
+# even when it is set after this module is first imported (as in tests).
+def _default_pkl_path() -> Path:
+    from data_loader import index_dir
+    return index_dir() / "bm25.pkl"
+
+
+def _default_ids_path() -> Path:
+    from data_loader import index_dir
+    return index_dir() / "bm25_ids.json"
+
+
+def _default_tokens_path() -> Path:
+    from data_loader import index_dir
+    return index_dir() / "bm25_tokens.json"
 
 
 def tokenize(text: str) -> List[str]:
@@ -62,9 +76,9 @@ def build_index(
     if not corpus:
         raise ValueError("Cannot build BM25 index from an empty corpus.")
 
-    target_pkl_path = Path(pkl_path) if pkl_path else _DEFAULT_PKL_PATH
-    target_ids_path = Path(ids_path) if ids_path else _DEFAULT_IDS_PATH
-    target_tokens_path = Path(tokens_path) if tokens_path else _DEFAULT_TOKENS_PATH
+    target_pkl_path = Path(pkl_path) if pkl_path else _default_pkl_path()
+    target_ids_path = Path(ids_path) if ids_path else _default_ids_path()
+    target_tokens_path = Path(tokens_path) if tokens_path else _default_tokens_path()
 
     target_pkl_path.parent.mkdir(parents=True, exist_ok=True)
     target_ids_path.parent.mkdir(parents=True, exist_ok=True)
@@ -114,8 +128,8 @@ def load_index(
     if _CACHED_BM25_INDEX is not None and _CACHED_BM25_IDS is not None and not force_reload:
         return _CACHED_BM25_INDEX, _CACHED_BM25_IDS
 
-    target_pkl_path = Path(pkl_path) if pkl_path else _DEFAULT_PKL_PATH
-    target_ids_path = Path(ids_path) if ids_path else _DEFAULT_IDS_PATH
+    target_pkl_path = Path(pkl_path) if pkl_path else _default_pkl_path()
+    target_ids_path = Path(ids_path) if ids_path else _default_ids_path()
 
     if not target_pkl_path.exists():
         raise FileNotFoundError(

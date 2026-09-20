@@ -34,7 +34,13 @@ logger = logging.getLogger("standards-retrieval")
 logging.basicConfig(level=logging.INFO)
 
 _PROJECT_ROOT = Path(__file__).resolve().parent
-_LTR_MODEL_PATH = _PROJECT_ROOT / "models" / "ltr_model.txt"
+# Models are per-corpus: a ranker's labels reference a specific corpus's ids,
+# so serving the mock-corpus model over the canonical corpus would rank
+# against standards that are no longer at those ids. ltr/train.py writes to
+# the matching directory.
+from ltr.train import _models_dir  # noqa: E402
+
+_LTR_MODEL_PATH = _models_dir() / "ltr_model.txt"
 
 
 # --- Pydantic Schema Contracts ---
