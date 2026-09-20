@@ -5,6 +5,82 @@ at the top.
 
 ---
 
+## Phase J — Tender builder, and a committed end-to-end suite (2026-09-21)
+
+**Goal:** the problem statement's "demoed as if embedded inside a procurement
+portal", and a regression suite that actually protects the honesty guarantees.
+
+### Tender builder
+
+A simplified tender form with live recommendations beside it. As the official
+types the item description, the engine searches in the background (debounced
+900 ms) and offers the standards that belong in the specification. Accepting
+one assembles a conformance clause:
+
+> **2. CONFORMANCE** — The item shall conform in all respects to IS 694:2010,
+> in the latest edition in force on the date of supply, including all amendments.
+>
+> **3. CERTIFICATION** — IS 694:2010 falls under mandatory BIS certification.
+> The supplier shall hold a valid BIS licence and the goods shall bear the
+> Standard Mark (ISI). The licence number shall be quoted in the bid.
+> Governing order: Electrical Wires, Cables, Appliances and Protection Devices
+> and Accessories (Quality Control) Order, 2003.
+
+That is a paste-ready clause citing a real QCO, assembled from the standards
+the official accepted — not from what the engine happened to suggest.
+
+A superseded standard in the accepted set adds its own NOTE clause, because an
+official pasting this into a live tender needs to know.
+
+The screen states plainly that it is not connected to GeM. The pattern is
+demonstrated; the integration is not claimed.
+
+### End-to-end suite
+
+Playwright runs have been ad-hoc all along. They are now committed as
+`frontend/e2e/journey.spec.js`, run with `npm run test:e2e` against a live
+backend — deliberately unmocked, because the failures worth catching here are
+integration failures: missing CORS, a stale server, a response shape the UI
+cannot render.
+
+**11 tests x desktop and mobile = 22 passing.** Two of them exist specifically
+to stop the honesty guarantees regressing:
+
+- an out-of-scope query must render **zero** recommendation cards in the
+  browser, whatever the API returned;
+- fixture screens must carry the "Illustrative screen" label and live screens
+  must not — asserted per route, both directions.
+
+The rest cover search, the certification badge surviving the round trip, Hindi
+translation being shown rather than applied silently, catalogue filtering,
+the allied-standards cluster, a standard outside the corpus, the tender
+clause, and a sweep asserting no route logs a console error or scrolls
+horizontally.
+
+### A test-selector bug, not a product bug
+
+The out-of-scope test first failed on a strict-mode violation: "not
+recommendations" appears twice on that screen, in the banner and in the
+reference-list heading. Both are correct — the duplication is the point — so
+the assertion was changed to check presence rather than uniqueness.
+
+### Tested
+
+- **`pytest` — 84 passed**; **Playwright — 22 passed** (11 x 2 projects).
+- Manual browser check of the tender builder: 5 live suggestions for a cable
+  spec, clause generated with quantity and certification, out-of-scope
+  description suppressed.
+
+### Still open
+
+- Amendment lists: the corpus records `last_amended` as a date but not the
+  individual amendments. The problem statement asks for amendments.
+- Standards map screen still fixture data.
+- No demo script; no fresh-clone verification.
+- OCR for scanned tenders; UI chrome i18n.
+
+---
+
 ## Phase I — LLM explanation layer, local via Ollama (2026-09-21)
 
 **Goal:** the brief's Phase 3 — a plain-language reason per result — built so

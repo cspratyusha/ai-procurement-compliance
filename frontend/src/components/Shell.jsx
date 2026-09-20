@@ -15,6 +15,7 @@ const NAV = [
     sub: [
       { to: '/app/boq', label: 'Upload tender / BOQ' },
       { to: '/app/builder', label: 'Spec builder' },
+      { to: '/app/tender', label: 'Tender builder' },
       { to: '/app/map', label: 'Related standards map' },
       { to: '/app/certification', label: 'Certification' },
     ],

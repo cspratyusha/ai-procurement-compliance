@@ -10,6 +10,7 @@ import Dashboard from './pages/Dashboard';
 import Query from './pages/Query';
 import BOQ from './pages/BOQ';
 import Builder from './pages/Builder';
+import TenderBuilder from './pages/TenderBuilder';
 import StandardDetail from './pages/StandardDetail';
 import StandardsMap from './pages/StandardsMap';
 import Certification from './pages/Certification';
@@ -96,6 +97,7 @@ export default function App() {
           <Route path="/app/query"         element={app(<Query />)} />
           <Route path="/app/boq"           element={app(<BOQ />)} />
           <Route path="/app/builder"       element={app(<Builder />)} />
+          <Route path="/app/tender"        element={app(<TenderBuilder />)} />
           <Route path="/app/map"           element={app(<StandardsMap />)} />
           <Route path="/app/standard/:code" element={app(<StandardDetail />)} />
           <Route path="/app/certification" element={app(<Certification />)} />

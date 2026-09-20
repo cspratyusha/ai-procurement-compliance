@@ -52,3 +52,27 @@
   color: var(--ink);
 }
 .export-row:disabled { opacity: 0.45; cursor: not-allowed; }
+
+
+/* ---------------- Tender builder: live recommendation rows ---------------- */
+
+.rec-mini {
+  display: flex;
+  align-items: flex-start;
+  gap: var(--s3);
+  padding: var(--s3);
+  border: 1px solid var(--line);
+  border-radius: var(--r);
+  background: var(--surface);
+  transition: border-color var(--t), background var(--t);
+}
+
+.rec-mini:hover { border-color: var(--line-strong); }
+
+/* An accepted standard is in the tender; make that unmistakable at a glance. */
+.rec-mini.is-accepted {
+  border-color: color-mix(in srgb, var(--ok) 42%, transparent);
+  background: var(--ok-soft);
+}
+
+.rec-mini > button { flex-shrink: 0; }
