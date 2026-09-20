@@ -93,12 +93,28 @@ export async function getHealth({ signal } = {}) {
  * means the corpus does not cover this query: results are nearest text
  * matches, not recommendations, and the UI must present them that way.
  */
-export function retrieve(query, { topK = 10, signal } = {}) {
+export function retrieve(query, { topK = 10, language, signal } = {}) {
   return request('/retrieve', {
     method: 'POST',
-    body: { query, top_k: topK },
+    body: { query, top_k: topK, language: language ?? null },
     signal,
   });
+}
+
+/**
+ * Languages the engine accepts queries in.
+ *
+ * Served by the backend rather than hardcoded here, so the list cannot drift
+ * from what the translator actually supports. Falls back to English-only if
+ * the backend is unreachable — the selector should not break the page.
+ */
+export async function listLanguages({ signal } = {}) {
+  try {
+    const data = await request('/languages', { signal });
+    return data.languages ?? [];
+  } catch {
+    return [{ code: 'en', name: 'English', native: 'English' }];
+  }
 }
 
 /** Files the backend can read. Mirrors SUPPORTED_EXTENSIONS in extraction.py. */

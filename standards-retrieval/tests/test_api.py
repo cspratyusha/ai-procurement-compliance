@@ -158,7 +158,12 @@ class TestStandardsRetrievalAPI(unittest.TestCase):
         # instead of presenting the nearest text match as a recommendation.
         self.assertEqual(
             set(data.keys()),
-            {"query", "results", "confidence", "confidence_reason", "corpus_size"},
+            {
+                "query", "results", "confidence", "confidence_reason", "corpus_size",
+                # Set only for non-English queries, so the UI can show what was
+                # actually searched rather than translating behind the user's back.
+                "translation",
+            },
         )
         self.assertEqual(data["query"], query)
         self.assertIsInstance(data["results"], list)

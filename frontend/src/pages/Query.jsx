@@ -5,7 +5,7 @@ import { EmptyState } from '../components/Primitives';
 import { AddButton } from '../components/SpecBasket';
 import { useSpec } from '../state/SpecStore';
 import {
-  retrieve, getHealth, extractAndSearch, ApiError, BASE_URL,
+  retrieve, getHealth, extractAndSearch, listLanguages, ApiError, BASE_URL,
   SUPPORTED_UPLOAD_TYPES,
 } from '../api/client';
 import {
@@ -19,6 +19,13 @@ const EXAMPLES = [
   'OPC 43 grade cement for reinforced concrete',
   'Hot rolled structural steel for building frames',
   'Galvanized steel pipe for water supply',
+];
+
+/** Shown alongside the English examples so the feature is discoverable. */
+const LANGUAGE_EXAMPLES = [
+  { lang: 'hi', label: 'हिन्दी', query: 'घर की वायरिंग के लिए तांबे का तार' },
+  { lang: 'ta', label: 'தமிழ்', query: 'குடிநீர் விநியோகத்திற்கான எஃகு குழாய்' },
+  { lang: 'bn', label: 'বাংলা', query: 'শ্রমিকদের জন্য নিরাপত্তা হেলমেট' },
 ];
 
 /** Sector slugs from the backend rendered as readable labels. */
@@ -63,6 +70,8 @@ export default function Query() {
   const [dismissing, setDismissing] = useState(null);
   const [health, setHealth] = useState(undefined); // undefined = checking
   const [extraction, setExtraction] = useState(null);
+  const [languages, setLanguages] = useState([]);
+  const [language, setLanguage] = useState('auto');
   const abortRef = useRef(null);
   const fileRef = useRef(null);
 
@@ -71,6 +80,7 @@ export default function Query() {
   useEffect(() => {
     let alive = true;
     getHealth().then((h) => { if (alive) setHealth(h); });
+    listLanguages().then((l) => { if (alive) setLanguages(l); });
     return () => { alive = false; };
   }, []);
 
@@ -92,7 +102,11 @@ export default function Query() {
     const started = performance.now();
 
     try {
-      const data = await retrieve(query, { topK: 10, signal: controller.signal });
+      const data = await retrieve(query, {
+        topK: 10,
+        language: language === 'auto' ? null : language,
+        signal: controller.signal,
+      });
       if (controller.signal.aborted) return;
       setResponse(data);
       setElapsed(Math.round(performance.now() - started));
@@ -104,7 +118,7 @@ export default function Query() {
       setError(err instanceof ApiError ? err : new ApiError('Unexpected error while searching.'));
       setPhase('error');
     }
-  }, [text]);
+  }, [text, language]);
 
   const onFile = useCallback(async (event) => {
     const file = event.target.files?.[0];
@@ -232,6 +246,20 @@ export default function Query() {
                   </button>
                 ))}
               </div>
+
+              <span className="xs faint">Or try another language</span>
+              <div className="row wrap" style={{ gap: 'var(--s2)' }}>
+                {LANGUAGE_EXAMPLES.map((ex) => (
+                  <button
+                    key={ex.lang}
+                    type="button"
+                    className="example-chip"
+                    onClick={() => { setLanguage(ex.lang); setText(ex.query); run(null, ex.query); }}
+                  >
+                    <span className="strong">{ex.label}</span>&nbsp; {ex.query}
+                  </button>
+                ))}
+              </div>
             </div>
           )}
 
@@ -254,6 +282,23 @@ export default function Query() {
               >
                 <Icon name="upload" size={14} /> Upload tender
               </button>
+              {languages.length > 1 && (
+                <div className="field" style={{ minWidth: 160 }}>
+                  <label className="label sr-only" htmlFor="q-lang">Query language</label>
+                  <select
+                    id="q-lang"
+                    className="select"
+                    value={language}
+                    onChange={(e) => setLanguage(e.target.value)}
+                    disabled={phase === 'running'}
+                  >
+                    <option value="auto">Detect language</option>
+                    {languages.map((l) => (
+                      <option key={l.code} value={l.code}>{l.native}</option>
+                    ))}
+                  </select>
+                </div>
+              )}
               <span className="xs faint">
                 {health
                   ? `${health.corpus_size} standards${health.ltr_model_loaded ? ' · learned ranker' : ''}`
@@ -299,6 +344,32 @@ export default function Query() {
 
         {phase === 'done' && response && (
           <div className="stack stack-4 fade-in">
+            {response?.translation && (
+              <div className={`notice ${response.translation.translated ? 'notice-info' : 'notice-warn'}`} role="status">
+                <Icon name={response.translation.translated ? 'info' : 'alert'} size={15} />
+                <div className="stack stack-2">
+                  <span className="small strong">
+                    {response.translation.translated
+                      ? `Translated from ${response.translation.language_name}`
+                      : `Could not translate this ${response.translation.language_name} query`}
+                  </span>
+                  <span className="xs">
+                    <strong>You typed:</strong> {response.translation.original}
+                  </span>
+                  <span className="xs">
+                    <strong>Searched for:</strong> {response.translation.translated_text}
+                  </span>
+                  {response.translation.error
+                    ? <span className="xs">{response.translation.error}</span>
+                    : (
+                      <span className="xs">
+                        Machine translation. Check it matches what you meant before relying on the results.
+                      </span>
+                    )}
+                </div>
+              </div>
+            )}
+
             {extraction && (
               <div className="card stack stack-3">
                 <div className="row-between wrap" style={{ gap: 'var(--s2)' }}>

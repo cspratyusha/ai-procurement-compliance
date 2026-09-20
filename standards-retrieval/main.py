@@ -11,6 +11,7 @@ from fastapi.middleware.cors import CORSMiddleware
 from datetime import datetime, timezone
 import certification
 import extraction
+import translation
 from data.models import Standard
 from data_loader import load_corpus, get_standard_by_id
 from feedback.schema import FeedbackRequest, InteractionLog
@@ -65,6 +66,20 @@ class CertificationInfo(BaseModel):
     product: Optional[str] = Field(default=None, description="Product description as listed by BIS.")
 
 
+class TranslationInfo(BaseModel):
+    """What happened to a non-English query before it was searched.
+
+    Surfaced so the user can check the machine translation. A wrong
+    translation silently producing wrong standards is the failure to avoid.
+    """
+    original: str = Field(..., description="Query exactly as the user typed it.")
+    translated_text: str = Field(..., description="English text actually searched.")
+    detected_language: str = Field(..., description="Language code used.")
+    language_name: str = Field(..., description="Human-readable language name.")
+    translated: bool = Field(..., description="False when translation was skipped or failed.")
+    error: Optional[str] = Field(default=None, description="Why translation did not run, when applicable.")
+
+
 class StageScores(BaseModel):
     dense: float = Field(..., description="Dense vector similarity score (e5-base-v2).")
     bm25: float = Field(..., description="Raw sparse lexical score (BM25Okapi).")
@@ -95,6 +110,13 @@ class StandardResult(BaseModel):
 class RetrieveRequest(BaseModel):
     query: str = Field(..., description="Natural language procurement specification or tender query.")
     top_k: int = Field(default=10, description="Number of top standards to return (capped at 50).")
+    language: Optional[str] = Field(
+        default=None,
+        description=(
+            "Language of the query ('hi', 'ta', 'bn', 'mr', 'te', 'en'). "
+            "Omit or pass 'auto' to detect it from the script."
+        ),
+    )
 
 
 class RetrieveResponse(BaseModel):
@@ -113,6 +135,9 @@ class RetrieveResponse(BaseModel):
     )
     corpus_size: int = Field(
         default=0, description="Number of standards searched, so the UI can state coverage honestly."
+    )
+    translation: Optional["TranslationInfo"] = Field(
+        default=None, description="Set when the query was not English, so the UI can show what was searched."
     )
 
 
@@ -330,6 +355,27 @@ def retrieve_standards_post(body: RetrieveRequest):
     # Sane upper-bound cap
     top_k = min(body.top_k, 50)
 
+    # 1b. Translate non-English queries before anything touches the index.
+    #
+    # The retrieval stack is English-only. Measured on this corpus, an
+    # untranslated Hindi query scores -8 to -9 on the cross-encoder, which the
+    # confidence gate correctly reports as no match; translating first brings
+    # the same queries to +2.8 to +8.5 and returns the same standards the
+    # English phrasing returns.
+    translation_info = None
+    result = translation.translate_to_english(query, body.language)
+    if result["detected"] != "en" or result["translated"]:
+        language_entry = translation.SUPPORTED_LANGUAGES.get(result["detected"], {})
+        translation_info = TranslationInfo(
+            original=result["original"],
+            translated_text=result["text"],
+            detected_language=result["detected"],
+            language_name=language_entry.get("name", result["detected"]),
+            translated=result["translated"],
+            error=result["error"],
+        )
+    query = result["text"]
+
     # 2. Access preloaded corpus and models
     corpus = getattr(app.state, "corpus", None)
     if corpus is None:
@@ -340,7 +386,7 @@ def retrieve_standards_post(body: RetrieveRequest):
     hybrid_candidates = hybrid_search(query, top_k=20)
     candidate_ids = [cid for cid, _ in hybrid_candidates]
     if not candidate_ids:
-        return RetrieveResponse(query=query, results=[])
+        return RetrieveResponse(query=query, results=[], translation=translation_info)
 
     # 4. Step 2: Cross-Encoder Re-Ranking over candidate IDs
     ce_ranked = rerank(query, candidate_ids, corpus=corpus, top_k=len(candidate_ids))
@@ -388,7 +434,7 @@ def retrieve_standards_post(body: RetrieveRequest):
         })
 
     if not features_list:
-        return RetrieveResponse(query=query, results=[])
+        return RetrieveResponse(query=query, results=[], translation=translation_info)
 
     # 5. Step 3: Score via LTR model with graceful degradation to fallback_score()
     ltr_model = getattr(app.state, "ltr_model", None)
@@ -470,6 +516,7 @@ def retrieve_standards_post(body: RetrieveRequest):
         confidence=confidence["level"],
         confidence_reason=confidence["reason"],
         corpus_size=len(corpus),
+        translation=translation_info,
     )
 
 
@@ -541,6 +588,21 @@ def get_standard(standard_id: str):
         status_code=404,
         detail=f"No standard found with id or IS number '{standard_id}'.",
     )
+
+
+@app.get("/languages", summary="Supported Query Languages")
+def list_languages():
+    """Languages the UI can offer for queries.
+
+    Served from the backend rather than hardcoded in the frontend, so the two
+    cannot drift apart when a language is added or removed.
+    """
+    return {
+        "languages": [
+            {"code": code, "name": entry["name"], "native": entry["native"]}
+            for code, entry in translation.SUPPORTED_LANGUAGES.items()
+        ]
+    }
 
 
 class ExtractionResponse(BaseModel):

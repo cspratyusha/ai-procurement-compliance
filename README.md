@@ -27,6 +27,24 @@ sensible results. Queries outside them (textiles, machinery, chemicals, food,
 and the overwhelming majority of the catalogue) have no correct answer
 available.
 
+## Languages
+
+Queries can be written in **English, Hindi, Tamil, Bengali, Marathi or
+Telugu**. Non-English queries are translated to English before searching
+(facebook/nllb-200-distilled-600M, running locally — no API key), and the UI
+shows both what you typed and what was actually searched, because a wrong
+machine translation quietly returning wrong standards is the failure worth
+guarding against.
+
+This is not cosmetic. Untranslated, a Hindi query scores −8.4 on the
+cross-encoder and is correctly rejected as no-match; translated, the same
+query scores +3.9 and returns the standard the English phrasing returns.
+
+The interface chrome is still English-only — only queries and results are
+multilingual.
+
+---
+
 The engine detects this and says so. `/retrieve` returns a `confidence` field
 of `strong`, `uncertain` or `none`, judged on the cross-encoder relevance
 score of the top hit — which, unlike the per-response `final_score`, is

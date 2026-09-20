@@ -5,6 +5,97 @@ at the top.
 
 ---
 
+## Phase G — Multilingual queries (2026-09-21)
+
+**Goal:** let an official describe what they need in Hindi, Tamil, Bengali,
+Marathi or Telugu and get the same standards an English query returns.
+
+### Measured first, then built
+
+Before writing anything, I checked whether the existing English-only stack
+already coped with Hindi. It does not:
+
+| Query | cross-encoder score | result |
+|---|---|---|
+| "copper wire for house wiring" | **+3.5** | IS 694:2010 (correct) |
+| "घर की वायरिंग के लिए तांबे का तार" | **−8.4** | IS 456:2000 (wrong) |
+
+The confidence gate from Phase C correctly reported those as no-match, so
+Hindi queries returned nothing useful rather than returning nonsense — but
+they returned nothing useful.
+
+### Why translation rather than a multilingual embedder
+
+The brief suggested `paraphrase-multilingual-mpnet-base-v2`. Swapping the
+embedding model means rebuilding every index and retraining the ranker against
+new vectors, and it would still leave the cross-encoder monolingual.
+Translating in front of a pipeline that already scores 0.9846 is one step, and
+it is reversible.
+
+Model: **facebook/nllb-200-distilled-600M** — open weights, local, no API key,
+consistent with the free/open-source constraint. IndicTrans2 was the brief's
+suggestion but its distilled checkpoint is 1.8 GB and needs a separate
+toolkit; NLLB is a single `transformers` call.
+
+### Measured after
+
+| Language | Query | Searched as | Top result | Confidence |
+|---|---|---|---|---|
+| Hindi | घर की वायरिंग के लिए तांबे का तार | Copper wire for home wiring | IS 694 (Part 2):2016 | strong |
+| Hindi | श्रमिकों के लिए सुरक्षा हेलमेट | Safety helmet for workers | IS 2925:1984 | strong |
+| Tamil | குடிநீர் விநியோகத்திற்கான எஃகு குழாய் | Steel pipe for drinking water supply | IS 4984:2016 | strong |
+| Bengali | শ্রমিকদের জন্য নিরাপত্তা হেলমেট | Safety helmets for workers | IS 2925:1984 | strong |
+| Marathi | बांधकामासाठी पोर्टलँड सिमेंट | Portland cement for construction | IS 12269:2019 | strong |
+
+All five reach `strong` confidence and return the standard the English
+phrasing returns. English stays on the fast path at ~280 ms; translated
+queries add roughly 400–3000 ms depending on length.
+
+### The translation is shown, not hidden
+
+A wrong machine translation silently producing wrong standards is the failure
+mode that matters here, so `/retrieve` returns a `translation` object and the
+UI shows both what the user typed and what was actually searched, with the
+caveat that it is machine translation. The user can see the engine understood
+"copper wire for home wiring" and judge whether that is what they meant.
+
+### Degradation
+
+A failed or unavailable translator falls back to searching the original text
+and says so, rather than returning an error. Poor results with an explanation
+beat no results. The model loads lazily on first non-English query, so an
+English-only session never pays for it.
+
+Devanagari serves both Hindi and Marathi and script detection cannot separate
+them, so an explicit language choice always overrides detection.
+
+### Tested
+
+- **`pytest` — 66 passed** (was 57). Nine new tests: script detection across
+  four scripts, English bypassing the translator entirely, explicit language
+  overriding detection, and — most importantly — that a dead translator
+  degrades to the original query instead of raising.
+- Browser-verified: selector lists all six languages, the Hindi example chip
+  returns IS 694 with the translation panel visible, no console errors.
+- **48 route-renders** (16 routes x desktop, mobile, dark) clean.
+
+### A debugging note
+
+Hindi appeared broken through `curl` for several attempts — the query arrived
+as `?? ?? ???????`. Git Bash was mangling UTF-8 in the command line before it
+reached the server; the code was correct throughout. Non-ASCII payloads need
+`--data-binary @file` with the file written as UTF-8, or a Python client.
+
+### Still open
+
+- UI chrome (labels, buttons) is English-only. Only queries and results are
+  multilingual; i18next for static strings is not wired.
+- Results are returned in English. Translating explanations back into the
+  query language is the natural next step.
+- OCR for scanned tenders; related-standards graph.
+
+---
+
 ## Phase F — Certification data and tender upload (2026-09-21)
 
 **Goal:** add the two features that most distinguish this from a generic
