@@ -5,6 +5,7 @@ from typing import List, Optional, Dict, Any, Literal
 import numpy as np
 from pydantic import BaseModel, Field
 from fastapi import FastAPI, HTTPException, Request
+from fastapi.middleware.cors import CORSMiddleware
 
 from datetime import datetime, timezone
 from data.models import Standard
@@ -53,6 +54,15 @@ class StandardResult(BaseModel):
     stage_scores: StageScores = Field(..., description="Scores emitted by individual retrieval and ranking stages.")
     ranker_used: Literal["ltr", "fallback"] = Field(..., description="Ranker algorithm used ('ltr' or 'fallback').")
 
+    # Presentation fields. The UI needs these to render a result card, and
+    # fetching them per-result would mean N extra round-trips.
+    scope: str = Field(default="", description="Formal scope statement of the standard.")
+    category: str = Field(default="", description="Sector classification, e.g. 'electrical_cables'.")
+    status: str = Field(default="active", description="'active' or 'superseded'.")
+    version: str = Field(default="", description="Edition or revision string.")
+    last_amended: str = Field(default="", description="Date of latest amendment, YYYY-MM-DD, or empty.")
+    superseded_by: Optional[str] = Field(default=None, description="Id of the active replacement, when this entry was penalised as superseded.")
+
 
 class RetrieveRequest(BaseModel):
     query: str = Field(..., description="Natural language procurement specification or tender query.")
@@ -62,6 +72,78 @@ class RetrieveRequest(BaseModel):
 class RetrieveResponse(BaseModel):
     query: str = Field(..., description="The query string submitted.")
     results: List[StandardResult] = Field(..., description="Ranked list of standard candidates.")
+    confidence: Literal["strong", "uncertain", "none"] = Field(
+        default="strong",
+        description=(
+            "Whether the corpus plausibly contains a match for this query. "
+            "'none' means the query is very likely outside the covered sectors "
+            "and the results should NOT be presented as recommendations."
+        ),
+    )
+    confidence_reason: str = Field(
+        default="", description="Plain-language explanation of the confidence verdict, for display."
+    )
+    corpus_size: int = Field(
+        default=0, description="Number of standards searched, so the UI can state coverage honestly."
+    )
+
+
+# Confidence thresholds, on the cross-encoder logit of the top result.
+#
+# Unlike `final_score` -- which apply_supersession_penalty rescales into
+# [0, 1] *per response*, so it cannot distinguish a great match from the
+# least-bad of a uniformly bad set -- the cross-encoder logit is an absolute
+# relevance estimate and is comparable across queries.
+#
+# Measured on the 30-standard corpus:
+#   in-scope queries      +2.8 .. +9.6  (one outlier at -4.0)
+#   out-of-scope queries  -6.7 .. -11.2
+# The bands do not overlap, but the in-scope outlier sits between them, so
+# anything in the middle is reported as 'uncertain' rather than being forced
+# into a yes/no.
+_CONFIDENCE_STRONG_MIN = 0.0
+_CONFIDENCE_NONE_MAX = -6.0
+
+
+def assess_confidence(results: List["StandardResult"]) -> Dict[str, str]:
+    """Judge whether the corpus plausibly covers this query at all.
+
+    The corpus covers only a few sectors. Without this check a query for
+    something it does not contain still returns its best guess, which reads
+    to a user as a confident recommendation.
+    """
+    if not results:
+        return {
+            "level": "none",
+            "reason": "No standards matched this query.",
+        }
+
+    top_ce = results[0].stage_scores.cross_encoder
+
+    if top_ce >= _CONFIDENCE_STRONG_MIN:
+        return {
+            "level": "strong",
+            "reason": "The top result closely matches the wording of this query.",
+        }
+
+    if top_ce <= _CONFIDENCE_NONE_MAX:
+        return {
+            "level": "none",
+            "reason": (
+                "No standard in the current corpus matches this query. This product "
+                "category is most likely outside the sectors covered so far. The "
+                "entries below are the nearest text matches, not recommendations."
+            ),
+        }
+
+    return {
+        "level": "uncertain",
+        "reason": (
+            "The closest matches are only loosely related to this query. Review them "
+            "carefully, and consider rephrasing with the material, rating or "
+            "application you are procuring."
+        ),
+    }
 
 
 class HealthResponse(BaseModel):
@@ -139,6 +221,28 @@ app = FastAPI(
     ),
     version="0.2.0",
     lifespan=lifespan
+)
+
+# The React frontend runs on a different origin during development
+# (Vite on :5173, this service on :8000), so the browser preflights every
+# POST. Without this the UI cannot call the API at all.
+#
+# Origins are explicit rather than "*" because the service reads and writes
+# feedback logs; if this is ever deployed, add the deployed origin here
+# instead of loosening the list.
+_ALLOWED_ORIGINS = [
+    "http://localhost:5173",
+    "http://127.0.0.1:5173",
+    "http://localhost:4173",  # `vite preview`
+    "http://127.0.0.1:4173",
+]
+
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=_ALLOWED_ORIGINS,
+    allow_credentials=False,
+    allow_methods=["GET", "POST", "OPTIONS"],
+    allow_headers=["Content-Type"],
 )
 
 
@@ -308,19 +412,35 @@ def retrieve_standards_post(body: RetrieveRequest):
     )
 
     # 7. Step 5: Format response matching contract
-    results = [
-        StandardResult(
-            id=item["id"],
-            number=item["number"],
-            title=item["title"],
-            final_score=float(item["final_score"]),
-            stage_scores=StageScores(**item["stage_scores"]),
-            ranker_used=ranker_used
+    results = []
+    for item in penalized_results[:top_k]:
+        std = corpus.get(item["id"])
+        results.append(
+            StandardResult(
+                id=item["id"],
+                number=item["number"],
+                title=item["title"],
+                final_score=float(item["final_score"]),
+                stage_scores=StageScores(**item["stage_scores"]),
+                ranker_used=ranker_used,
+                scope=getattr(std, "scope", "") if std else "",
+                category=getattr(std, "category", "") if std else "",
+                status=getattr(std, "status", "active") if std else "active",
+                version=getattr(std, "version", "") if std else "",
+                last_amended=getattr(std, "last_amended", "") if std else "",
+                superseded_by=item.get("superseded_by"),
+            )
         )
-        for item in penalized_results[:top_k]
-    ]
 
-    return RetrieveResponse(query=query, results=results)
+    confidence = assess_confidence(results)
+
+    return RetrieveResponse(
+        query=query,
+        results=results,
+        confidence=confidence["level"],
+        confidence_reason=confidence["reason"],
+        corpus_size=len(corpus),
+    )
 
 
 # --- Convenience Endpoints for Compatibility ---

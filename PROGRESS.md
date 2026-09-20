@@ -5,6 +5,125 @@ at the top.
 
 ---
 
+## Phase C — Frontend wired to the live engine (2026-09-21)
+
+**Goal:** make the UI actually call the backend, stop presenting wrong
+answers confidently, and remove unsupportable claims from the interface.
+
+### The frontend was not connected to anything
+
+`grep -r "fetch\|axios" frontend/src` returned nothing. All 19 screens ran on
+hardcoded fixtures. `Query.jsx` faked a search with `setTimeout` timers and
+then displayed the same canned `RECOMMENDATIONS` array regardless of what was
+typed; its "no match" state triggered on *word count* (`< 3 words`), not on
+any measure of relevance.
+
+### Backend changes
+
+- **CORS was missing entirely.** The browser blocks cross-origin POSTs, so the
+  UI could not have called the API even if it had tried. Added
+  `CORSMiddleware` with an explicit localhost origin list rather than `*`,
+  since the service writes feedback logs.
+- **Enriched `/retrieve` results** with `scope`, `category`, `status`,
+  `version`, `last_amended` and `superseded_by`, so rendering a result card
+  does not cost one extra request per result.
+- **Added a confidence verdict** to the response: `confidence`
+  (`strong` | `uncertain` | `none`), `confidence_reason`, and `corpus_size`.
+
+### How the confidence gate works, and why not `final_score`
+
+`final_score` is rescaled per response, so the top hit always scores well
+even when every candidate is irrelevant — "banana" and "PVC copper wire"
+both produce a confident-looking top score. It cannot separate the two.
+
+The cross-encoder logit is an absolute relevance estimate and is comparable
+across queries. Measured on the corpus:
+
+| | cross-encoder logit of top hit |
+|---|---|
+| in-scope queries | +2.8 … +9.6 (one outlier at −4.0) |
+| out-of-scope queries | −6.7 … −11.2 |
+
+Thresholds are set at `>= 0` for `strong` and `<= -6` for `none`, with the
+gap between them reported as `uncertain` rather than forced into a binary.
+The in-scope outlier ("hot rolled structural steel angle") lands in that
+middle band, which is the honest answer for it.
+
+### Frontend changes
+
+- New `src/api/client.js`: the single place that talks to the backend.
+  Distinguishes offline / timeout / HTTP failures, with a 45 s timeout
+  because a cold start loads two transformer models.
+- `Query.jsx` rewritten against the live API. The fake pipeline animation is
+  gone. Kept the existing visual design — it was well built.
+- When the backend reports `confidence: "none"`, the heading changes from
+  "Recommended standards" to **"Nearest text matches"**, the recommendation
+  list is emptied, and everything moves into a reference section labelled
+  "not recommendations".
+- On `confidence: "uncertain"` the top candidate is still shown above the
+  caution banner, with the rest demoted. A first pass filtered on the
+  cross-encoder sign here too, which emptied the list whenever every
+  candidate scored negative — the user got a warning and nothing to act on.
+  Caught during the full-stack run-through with "hot rolled structural steel
+  angle", a query the 30-standard corpus genuinely cannot answer well
+  (it holds steel *tubes*, no structural angle).
+- Backend-unreachable state is surfaced *before* searching, with the command
+  needed to start it. The UI never silently falls back to mock data — a demo
+  that looks identical whether or not the engine is running is worse than one
+  that admits the engine is down.
+
+### Removed unsupportable claims from the landing page
+
+It advertised **"1.4M API calls served monthly"**, **"11 portals
+integrated"**, **"22,418 standards indexed"**, **"94% Top-1 retrieval
+accuracy"** and **"0 unexplained answers"**. None of that was true. Replaced
+with figures that are measured or checkable (4 retrieval stages, ~200 ms
+typical query, 45 standards in the pilot corpus, ~22,000 published Indian
+Standards for scale), plus a prototype disclosure in the hero. Feature claims
+describing unbuilt functionality are now marked "In progress".
+
+### Two UI bugs found and fixed
+
+1. `.notice` blocks clipped their text: flex children default to
+   `min-width: auto` and refuse to shrink below content width.
+2. The fixed-position spec-basket tab sat on top of page content at the right
+   edge. Reserved a gutter for it on viewports wide enough to show it.
+
+### Tested
+
+- **`pytest` — 40 passed** (was 37), including three new tests: in-scope
+  queries stay `strong`, out-of-scope queries report `none` with a reason,
+  and results carry the presentation fields. The response-shape contract test
+  was updated deliberately, not loosened.
+- **Browser-verified against the running backend** (Playwright, Chromium):
+  - in-scope query renders 5 real result cards from the live corpus
+  - `"safety helmet for construction workers"` renders the no-match banner and
+    **0 recommendation cards** — the Phase A regression is fixed
+  - **no console errors** on landing, dashboard or query
+  - no horizontal overflow at 390 px; dark mode renders correctly
+- Measured in-browser: **162–224 ms** per query against the live engine.
+- **Full-stack run-through from cold start**, both servers restarted from
+  scratch: all 17 routes render with zero console errors, zero failed
+  requests and no horizontal overflow; verified at 390 px, 768 px and
+  1440 px, in light and dark themes. Empty input disables the submit button,
+  example chips run a search, and "New query" clears the form and results.
+- **Backend-down path verified** by aborting requests to the API: the UI warns
+  on load that the engine is not running, explains the failure after a failed
+  search, and offers a retry rather than showing a blank screen.
+
+### Still open
+
+- Only `Query.jsx` is wired. The other 18 screens still render fixtures, and
+  are not yet labelled as such in the UI.
+- The pipeline still serves the 30-standard `mock_corpus.json`; switching to
+  the 45-standard consolidated corpus needs the LTR model retrained against it.
+- Confidence thresholds are tuned on ~12 probe queries against a 30-standard
+  corpus. They will need re-tuning as the corpus grows.
+- Certification logic, related-standards graph, multilingual query support and
+  document upload remain unbuilt.
+
+---
+
 ## Phase B — Consolidation: one backend, one dataset (2026-09-20)
 
 **Goal:** remove the duplicated backend and merge the three competing

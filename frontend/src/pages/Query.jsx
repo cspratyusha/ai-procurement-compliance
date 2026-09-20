@@ -1,97 +1,137 @@
-import { useState, useEffect, useRef, useMemo } from 'react';
+import { useState, useEffect, useRef, useCallback } from 'react';
 import { Link } from 'react-router-dom';
 import Icon from '../components/Icon';
 import { EmptyState } from '../components/Primitives';
 import { AddButton } from '../components/SpecBasket';
-import ParsedChips from '../components/ParsedChips';
 import { useSpec } from '../state/SpecStore';
-import { RECOMMENDATIONS, PIPELINE_STAGES } from '../data/mock';
-import {
-  BANDS, bandFor, PARSED_ATTRS, STD_TYPES, BIS_DIVISIONS,
-  STANDARD_DETAIL, CONFLICTS, CERTIFICATION, DISMISS_REASONS, LANG_SAMPLES,
-} from '../data/catalogue';
+import { retrieve, getHealth, ApiError, BASE_URL } from '../api/client';
+import { DISMISS_REASONS } from '../data/catalogue';
 import './query.css';
 
 const EXAMPLES = [
-  'PVC insulated copper cable 1100V',
-  'OPC 43 grade cement',
-  'MS structural steel angle 50x50x6',
-  'Industrial safety helmet',
+  'PVC insulated copper cable for indoor panel wiring',
+  'OPC 43 grade cement for reinforced concrete',
+  'Hot rolled structural steel for building frames',
+  'Galvanized steel pipe for water supply',
 ];
 
-const ROLE_OF = { r1: 'primary', r2: 'primary', r3: 'test', r4: 'primary' };
-const TYPE_OF = { r1: 'product', r2: 'product', r3: 'test', r4: 'product' };
+/** Sector slugs from the backend rendered as readable labels. */
+const SECTOR_LABEL = {
+  electrical_cables: 'Electrical cables',
+  electrical_installations: 'Electrical installations',
+  cement_building_materials: 'Cement & building materials',
+  steel_pipes_fittings: 'Steel pipes & fittings',
+  structural_steel: 'Structural steel',
+  plastic_pipes: 'Plastic pipes',
+  ppe: 'Personal protective equipment',
+};
+
+const sectorLabel = (slug) => SECTOR_LABEL[slug] ?? (slug || '').replace(/_/g, ' ');
+
+/**
+ * How a result is labelled.
+ *
+ * `final_score` is rescaled per response by the backend, so it ranks results
+ * against each other but says nothing absolute. The cross-encoder logit is
+ * comparable across queries, so the band comes from that.
+ */
+function bandFor(result) {
+  const ce = result?.stage_scores?.cross_encoder ?? 0;
+  if (ce >= 4) return { label: 'Strong match', cls: 'badge-ok', hint: 'Scope closely matches the query wording' };
+  if (ce >= 0) return { label: 'Probable', cls: 'badge-warn', hint: 'Related scope — confirm before citing' };
+  return { label: 'Needs review', cls: 'badge-neutral', hint: 'Weak overlap only — verify manually' };
+}
+
+const CONFIDENCE_BANNER = {
+  uncertain: { cls: 'notice-warn', icon: 'alert', title: 'Low confidence' },
+  none: { cls: 'notice-crit', icon: 'alert', title: 'No match in the covered sectors' },
+};
 
 export default function Query() {
   const spec = useSpec();
   const [text, setText] = useState('');
-  const [phase, setPhase] = useState('idle');   // idle | running | done | orphan
-  const [stage, setStage] = useState(0);
-  const [attrs, setAttrs] = useState(PARSED_ATTRS);
+  const [phase, setPhase] = useState('idle'); // idle | running | done | error
+  const [response, setResponse] = useState(null);
+  const [error, setError] = useState(null);
+  const [elapsed, setElapsed] = useState(null);
   const [dismissing, setDismissing] = useState(null);
-  const [lang, setLang] = useState('en');
-  const [interpreted, setInterpreted] = useState(null);
-  const [typeFilter, setTypeFilter] = useState([]);
-  const [mandatoryOnly, setMandatoryOnly] = useState(false);
-  const [division, setDivision] = useState('');
-  const [showConflict, setShowConflict] = useState(false);
-  const timers = useRef([]);
+  const [health, setHealth] = useState(undefined); // undefined = checking
+  const abortRef = useRef(null);
 
-  useEffect(() => () => timers.current.forEach(clearTimeout), []);
+  // Probe the backend once on mount so the UI can say up front whether the
+  // engine is reachable, rather than only failing at search time.
+  useEffect(() => {
+    let alive = true;
+    getHealth().then((h) => { if (alive) setHealth(h); });
+    return () => { alive = false; };
+  }, []);
 
-  const run = (e, override) => {
+  useEffect(() => () => abortRef.current?.abort(), []);
+
+  const run = useCallback(async (e, override) => {
     e?.preventDefault();
-    const q = override ?? text;
-    if (!q.trim()) return;
+    const query = (override ?? text).trim();
+    if (!query) return;
 
-    timers.current.forEach(clearTimeout);
-    timers.current = [];
+    abortRef.current?.abort();
+    const controller = new AbortController();
+    abortRef.current = controller;
+
     setPhase('running');
-    setStage(0);
+    setError(null);
+    setResponse(null);
+    const started = performance.now();
 
-    PIPELINE_STAGES.forEach((_, i) => {
-      timers.current.push(setTimeout(() => setStage(i + 1), (i + 1) * 340));
-    });
-    timers.current.push(setTimeout(() => {
-      setPhase(q.trim().split(/\s+/).length < 3 ? 'orphan' : 'done');
-    }, PIPELINE_STAGES.length * 340 + 240));
-  };
+    try {
+      const data = await retrieve(query, { topK: 10, signal: controller.signal });
+      if (controller.signal.aborted) return;
+      setResponse(data);
+      setElapsed(Math.round(performance.now() - started));
+      setPhase('done');
+      // A successful call is also a liveness signal.
+      setHealth((h) => h ?? { status: 'ok', corpus_size: data.corpus_size, ltr_model_loaded: true });
+    } catch (err) {
+      if (controller.signal.aborted || err.name === 'AbortError') return;
+      setError(err instanceof ApiError ? err : new ApiError('Unexpected error while searching.'));
+      setPhase('error');
+    }
+  }, [text]);
 
   const applyExample = (ex) => { setText(ex); run(null, ex); };
 
-  const applyLangSample = (key) => {
-    const s = LANG_SAMPLES[key];
-    setLang(key);
-    setText(s.raw);
-    setInterpreted(s);
-    run(null, s.english);
+  const reset = () => {
+    abortRef.current?.abort();
+    setPhase('idle');
+    setText('');
+    setResponse(null);
+    setError(null);
   };
 
   const dismissed = spec.dismissed;
+  const allResults = (response?.results ?? []).filter((r) => !dismissed[r.number]);
+  const confidence = response?.confidence ?? 'strong';
 
-  const visible = useMemo(() => {
-    return RECOMMENDATIONS.filter((r) => {
-      if (dismissed[r.code]) return false;
-      if (typeFilter.length && !typeFilter.includes(TYPE_OF[r.id])) return false;
-      if (mandatoryOnly && !CERTIFICATION[r.code]?.mandatory) return false;
-      if (division) {
-        // Match on the division prefix, e.g. "Electrotechnical (ETD)" vs "… (ETD 09)"
-        const d = STANDARD_DETAIL[r.code]?.division || '';
-        const code = division.match(/\(([A-Z]+)\)/)?.[1];
-        if (code && !d.includes(code)) return false;
-      }
-      return true;
-    });
-  }, [dismissed, typeFilter, mandatoryOnly, division]);
-
-  const strong = visible.filter((r) => r.confidence >= 0.6);
-  const weak = visible.filter((r) => r.confidence < 0.6);
-  const conflict = CONFLICTS[0];
-
-  const toggleType = (id) =>
-    setTypeFilter((p) => (p.includes(id) ? p.filter((x) => x !== id) : [...p, id]));
-
-  const reset = () => { setPhase('idle'); setText(''); setInterpreted(null); setStage(0); };
+  // How results are split between "recommended" and "for reference only".
+  //
+  //   none      — nothing is a recommendation; everything is a nearest match.
+  //   uncertain — the engine is unsure, but the user still needs something to
+  //               act on. Show the best candidate above the fold with the
+  //               caution banner, and demote the rest. Showing the warning
+  //               with an empty list below it is a dead end.
+  //   strong    — split on the cross-encoder sign: positive is a real match,
+  //               negative is background noise worth listing but not citing.
+  let recommended;
+  let reference;
+  if (confidence === 'none') {
+    recommended = [];
+    reference = allResults;
+  } else if (confidence === 'uncertain') {
+    recommended = allResults.slice(0, 1);
+    reference = allResults.slice(1);
+  } else {
+    recommended = allResults.filter((r) => (r.stage_scores?.cross_encoder ?? 0) >= 0);
+    reference = allResults.filter((r) => (r.stage_scores?.cross_encoder ?? 0) < 0);
+  }
 
   return (
     <div className="container page">
@@ -99,8 +139,8 @@ export default function Query() {
         <div>
           <h1 className="page-title">New query</h1>
           <p className="page-sub">
-            Type a product name, paste specification text, or drop a tender, BOQ or spec file.
-            Results are assembled into a spec, not just listed.
+            Describe the product or paste specification text. Results come from the live
+            retrieval engine, ranked by meaning rather than keyword match.
           </p>
         </div>
         {phase !== 'idle' && (
@@ -111,7 +151,22 @@ export default function Query() {
       </div>
 
       <div className="stack stack-5">
-        {/* ---------------- Input ---------------- */}
+        {/* Engine status — shown only when the backend is unreachable, so the
+            user learns about it before typing rather than after searching. */}
+        {health === null && (
+          <div className="notice notice-warn" role="status">
+            <Icon name="alert" size={15} />
+            <div className="stack stack-2">
+              <span className="small strong">The standards engine is not running</span>
+              <span className="xs">
+                Searches will fail until it is started. Expected at <code className="mono">{BASE_URL}</code>.
+                Start it with <code className="mono">uvicorn main:app --port 8000</code> from the
+                <code className="mono"> standards-retrieval/</code> directory.
+              </span>
+            </div>
+          </div>
+        )}
+
         <form className="card stack stack-4" onSubmit={run}>
           <div className="field">
             <label className="label sr-only" htmlFor="spec">Product description or specification text</label>
@@ -135,339 +190,199 @@ export default function Query() {
                     {ex}
                   </button>
                 ))}
-                <button type="button" className="example-chip" onClick={() => applyLangSample('hi')}>
-                  <Icon name="mic" size={12} /> वायरिंग के लिए तांबे का तार
-                </button>
               </div>
             </div>
           )}
 
-          <div className="row wrap" style={{ gap: 'var(--s3)' }}>
-            <div className="field grow" style={{ minWidth: 150 }}>
-              <label className="label xs" htmlFor="q-lang">Language</label>
-              <select id="q-lang" className="select" value={lang} onChange={(e) => setLang(e.target.value)}>
-                <option value="en">Auto-detect / English</option>
-                <option value="hi">हिन्दी (Hindi)</option>
-                <option value="ta">தமிழ் (Tamil)</option>
-                <option value="bn">বাংলা (Bengali)</option>
-              </select>
-            </div>
-            <div className="field grow" style={{ minWidth: 150 }}>
-              <label className="label xs" htmlFor="q-dept">Department</label>
-              <select id="q-dept" className="select" defaultValue="">
-                <option value="">Any</option>
-                <option>Electrical Wing</option>
-                <option>Civil Works</option>
-                <option>Mechanical</option>
-                <option>Stores &amp; Supply</option>
-              </select>
-            </div>
-            <div className="field grow" style={{ minWidth: 150 }}>
-              <label className="label xs" htmlFor="q-sector">Sector</label>
-              <select id="q-sector" className="select" defaultValue="">
-                <option value="">Any</option>
-                <option>Civil</option><option>Electrical</option><option>Food</option>
-                <option>Textiles</option><option>IT</option>
-              </select>
-            </div>
-          </div>
-
           <hr className="divider" />
 
           <div className="row-between wrap" style={{ gap: 'var(--s3)' }}>
-            <div className="row" style={{ gap: 'var(--s2)' }}>
-              <Link to="/app/boq" className="btn btn-secondary btn-sm">
-                <Icon name="upload" size={14} /> Upload tender / BOQ
-              </Link>
-              <button type="button" className="btn btn-secondary btn-sm">
-                <Icon name="mic" size={14} /> Voice
-              </button>
-            </div>
+            <span className="xs faint">
+              {health
+                ? `Searching ${health.corpus_size} standards${health.ltr_model_loaded ? ' · learned ranker active' : ''}`
+                : 'Engine status unknown'}
+            </span>
             <button className="btn btn-primary" type="submit" disabled={!text.trim() || phase === 'running'}>
-              {phase === 'running' ? <><span className="spinner" /> Analysing</> : <>Find standards <Icon name="arrowRight" size={15} /></>}
+              {phase === 'running'
+                ? <><span className="spinner" /> Searching</>
+                : <>Find standards <Icon name="arrowRight" size={15} /></>}
             </button>
           </div>
         </form>
 
-        {/* ---------------- Pipeline ---------------- */}
         {phase === 'running' && (
-          <div className="card stack stack-4 fade-in" aria-live="polite">
-            <span className="eyebrow">Analysing</span>
-            <ol className="pipeline">
-              {PIPELINE_STAGES.map((s, i) => {
-                const state = i < stage ? 'done' : i === stage ? 'active' : 'idle';
-                return (
-                  <li key={s.id} className={`pipe-step is-${state}`}>
-                    <span className="pipe-mark">
-                      {state === 'done' ? <Icon name="check" size={12} />
-                        : state === 'active' ? <span className="spinner" style={{ width: 11, height: 11 }} />
-                        : <span className="pipe-dot" />}
-                    </span>
-                    <span className="small">{s.label}</span>
-                  </li>
-                );
-              })}
-            </ol>
+          <div className="card stack stack-3 fade-in" aria-live="polite" aria-busy="true">
+            <span className="eyebrow">Searching</span>
+            <p className="xs muted">
+              Running dense and keyword retrieval, then re-ranking the candidates.
+              The first search after starting the engine also loads the models, which takes longer.
+            </p>
+            <div className="stack stack-3">
+              {[0, 1, 2].map((i) => <div key={i} className="skeleton" style={{ height: 76 }} />)}
+            </div>
           </div>
         )}
 
-        {/* ---------------- Orphan ---------------- */}
-        {phase === 'orphan' && (
+        {phase === 'error' && error && (
           <div className="card fade-in">
             <EmptyState
               icon="alert"
-              title="No confident match found"
-              body="No candidate cleared the confidence threshold. Rather than return a weak recommendation, this has been flagged as a possible gap in the standards landscape. Nearest categories are offered below as a starting point — they are not recommendations."
+              title={error.kind === 'offline' ? 'Cannot reach the standards engine' : 'Search failed'}
+              body={error.message}
               action={
-                <div className="stack stack-4" style={{ alignItems: 'center' }}>
-                  <div className="row wrap" style={{ justifyContent: 'center', gap: 'var(--s2)' }}>
-                    {['Electrical cables', 'Fasteners & brackets', 'Structural steel'].map((c) => (
-                      <button key={c} className="example-chip" onClick={() => applyExample(c)}>{c}</button>
-                    ))}
-                  </div>
-                  <div className="row" style={{ gap: 'var(--s2)' }}>
-                    <button className="btn btn-primary btn-sm">Report as standards gap</button>
-                    <Link to="/app/catalogue" className="btn btn-secondary btn-sm">Search catalogue manually</Link>
-                  </div>
+                <div className="row" style={{ gap: 'var(--s2)' }}>
+                  <button className="btn btn-primary btn-sm" onClick={() => run(null, text)}>Try again</button>
+                  <Link to="/app/catalogue" className="btn btn-secondary btn-sm">Browse catalogue</Link>
                 </div>
               }
             />
           </div>
         )}
 
-        {/* ---------------- Results: three columns ---------------- */}
-        {phase === 'done' && (
-          <div className="rec-layout fade-in">
-            {/* LEFT: what the system understood */}
-            <aside className="rec-col-left stack stack-4">
-              {interpreted && (
-                <div className="card stack stack-3">
-                  <span className="eyebrow">Interpreted query</span>
-                  <div className="stack stack-2">
-                    <span className="xs faint">{interpreted.detected} input</span>
-                    <span className="small">{interpreted.raw}</span>
-                  </div>
-                  <hr className="divider" />
-                  <div className="stack stack-2">
-                    <span className="xs faint">Understood as</span>
-                    <span className="small strong">{interpreted.english}</span>
-                  </div>
-                  <p className="xs muted">Confirm this is right before relying on the results.</p>
+        {phase === 'done' && response && (
+          <div className="stack stack-4 fade-in">
+            {confidence !== 'strong' && (
+              <div className={`notice ${CONFIDENCE_BANNER[confidence].cls}`} role="status">
+                <Icon name={CONFIDENCE_BANNER[confidence].icon} size={15} />
+                <div className="stack stack-2">
+                  <span className="small strong">{CONFIDENCE_BANNER[confidence].title}</span>
+                  <span className="xs">{response.confidence_reason}</span>
+                  {confidence === 'none' && (
+                    <span className="xs">
+                      The corpus currently covers {response.corpus_size} standards across a few
+                      pilot sectors, so most product categories are not represented yet.
+                    </span>
+                  )}
                 </div>
-              )}
-
-              <div className="card">
-                <ParsedChips attrs={attrs} onChange={setAttrs} onRerun={() => run(null, text || 'rerun')} />
               </div>
+            )}
 
-              <div className="card stack stack-3">
-                <span className="eyebrow">Filters</span>
-
-                <fieldset className="stack stack-2" style={{ border: 0, padding: 0, margin: 0 }}>
-                  <legend className="xs faint" style={{ marginBottom: 4 }}>Standard type</legend>
-                  {STD_TYPES.map((t) => (
-                    <label key={t.id} className="check">
-                      <input
-                        type="checkbox"
-                        checked={typeFilter.includes(t.id)}
-                        onChange={() => toggleType(t.id)}
-                      />
-                      <span className="xs">{t.label}</span>
-                    </label>
-                  ))}
-                </fieldset>
-
-                <hr className="divider" />
-
-                <div className="field">
-                  <label className="label xs" htmlFor="f-div">BIS division</label>
-                  <select id="f-div" className="select" value={division} onChange={(e) => setDivision(e.target.value)}>
-                    <option value="">All divisions</option>
-                    {BIS_DIVISIONS.map((d) => <option key={d}>{d}</option>)}
-                  </select>
-                </div>
-
-                <label className="check">
-                  <input type="checkbox" checked={mandatoryOnly} onChange={() => setMandatoryOnly((v) => !v)} />
-                  <span className="xs">Mandatory certification only</span>
-                </label>
-
-                {(typeFilter.length || mandatoryOnly || division) && (
-                  <button
-                    className="btn btn-ghost btn-sm"
-                    onClick={() => { setTypeFilter([]); setMandatoryOnly(false); setDivision(''); }}
-                  >
-                    Clear filters
-                  </button>
-                )}
+            <div className="row-between wrap" style={{ gap: 'var(--s2)' }}>
+              <div className="row" style={{ gap: 'var(--s2)' }}>
+                <h2 style={{ fontSize: 'var(--fs-md)' }}>
+                  {confidence === 'none' ? 'Nearest text matches' : 'Recommended standards'}
+                </h2>
+                <span className="badge badge-neutral">{recommended.length || allResults.length}</span>
               </div>
-
-              {Object.keys(dismissed).length > 0 && (
-                <div className="card stack stack-3">
-                  <span className="eyebrow">Dismissed</span>
-                  {Object.entries(dismissed).map(([code, reason]) => (
-                    <div key={code} className="stack stack-2">
-                      <div className="row-between">
-                        <span className="mono xs strong">{code}</span>
-                        <button className="btn btn-ghost btn-sm" onClick={() => spec.undismiss(code)}>Undo</button>
-                      </div>
-                      <span className="xs faint">{reason}</span>
-                    </div>
-                  ))}
-                </div>
-              )}
-            </aside>
-
-            {/* CENTRE: ranked cards */}
-            <div className="rec-col-main stack stack-4">
-              <div className="row-between wrap" style={{ gap: 'var(--s2)' }}>
-                <div className="row" style={{ gap: 'var(--s2)' }}>
-                  <h2 style={{ fontSize: 'var(--fs-md)' }}>Recommended standards</h2>
-                  <span className="badge badge-neutral">{strong.length}</span>
-                </div>
-                <button className="btn btn-secondary btn-sm" onClick={() => setShowConflict((v) => !v)}>
-                  <Icon name="alert" size={13} />
-                  {showConflict ? 'Hide' : 'Show'} scope conflict
-                </button>
-              </div>
-
-              {showConflict && conflict && (
-                <section className="card stack stack-3 fade-in">
-                  <div className="row" style={{ gap: 'var(--s2)' }}>
-                    <Icon name="alert" size={15} style={{ color: 'var(--warn)' }} />
-                    <span className="small strong">Overlapping scope</span>
-                  </div>
-                  <p className="xs muted">{conflict.overlap}</p>
-                  <div className="conflict-grid">
-                    {[conflict.a, conflict.b].map((c) => {
-                      const isAuth = c === conflict.authoritative;
-                      const det = STANDARD_DETAIL[c];
-                      return (
-                        <div key={c} className={`conflict-col ${isAuth ? 'is-authoritative' : ''}`}>
-                          <div className="row wrap" style={{ gap: 6 }}>
-                            <span className="mono small strong">{c}</span>
-                            {isAuth && <span className="badge badge-ok"><Icon name="check" size={11} />Authoritative here</span>}
-                          </div>
-                          <span className="xs muted">{det?.title}</span>
-                        </div>
-                      );
-                    })}
-                  </div>
-                  <div className="stack stack-2">
-                    <span className="xs strong">Difference</span>
-                    <span className="xs muted">{conflict.difference}</span>
-                  </div>
-                  <div className="notice notice-info">
-                    <Icon name="info" size={14} />
-                    <span className="xs">{conflict.when}</span>
-                  </div>
-                </section>
-              )}
-
-              {strong.length === 0 ? (
-                <div className="card">
-                  <EmptyState icon="filter" title="Nothing matches these filters" body="Clear a filter to see the full result set." />
-                </div>
-              ) : strong.map((r) => {
-                const band = BANDS[bandFor(r.confidence)];
-                const det = STANDARD_DETAIL[r.code];
-                const cert = CERTIFICATION[r.code];
-                const item = {
-                  code: r.code, title: r.title, role: ROLE_OF[r.id] || 'primary',
-                  version: r.version, amendment: r.amendment, addedFrom: 'recommendations',
-                };
-
-                return (
-                  <article key={r.id} className="card card-flush rec">
-                    <div className="rec-head">
-                      <div className="stack stack-3 grow" style={{ minWidth: 0 }}>
-                        <div className="row wrap" style={{ gap: 'var(--s2)' }}>
-                          <Link to={`/app/standard/${encodeURIComponent(r.code)}`} className="mono strong build-link" style={{ fontSize: 'var(--fs-md)' }}>
-                            {r.code}
-                          </Link>
-                          <span className={`badge ${band.cls}`} title={band.hint}>{band.label}</span>
-                          {r.version === 'superseded'
-                            ? <span className="badge badge-crit"><Icon name="alert" size={11} />Superseded</span>
-                            : <span className="badge badge-ok"><Icon name="check" size={11} />Current</span>}
-                          {cert?.mandatory && <span className="badge badge-accent"><Icon name="shield" size={11} />Certification</span>}
-                        </div>
-                        <p className="small" style={{ color: 'var(--ink-soft)' }}>{r.title}</p>
-                        <p className="xs muted">{r.why}</p>
-                        <div className="row wrap" style={{ gap: 5 }}>
-                          {r.matched.map((m) => <span key={m} className="badge badge-neutral mono">{m}</span>)}
-                        </div>
-                      </div>
-                    </div>
-
-                    <div className="rec-foot">
-                      <div className="row" style={{ gap: 'var(--s3)' }}>
-                        <Link to={`/app/standard/${encodeURIComponent(r.code)}`} className="btn btn-ghost btn-sm">
-                          Open detail <Icon name="chevronRight" size={13} />
-                        </Link>
-                        {det?.normative?.length > 0 && (
-                          <button
-                            className="btn btn-ghost btn-sm"
-                            onClick={() => spec.addMany([
-                              item,
-                              ...det.normative.map((n) => ({ code: n.code, title: n.title, role: n.role, version: 'latest', addedFrom: `ref of ${r.code}` })),
-                            ])}
-                          >
-                            + with references
-                          </button>
-                        )}
-                      </div>
-                      <div className="row" style={{ gap: 'var(--s2)' }}>
-                        <button className="btn btn-secondary btn-sm" onClick={() => setDismissing(r.code)}>
-                          Dismiss
-                        </button>
-                        <AddButton item={item} />
-                      </div>
-                    </div>
-
-                    {dismissing === r.code && (
-                      <div className="dismiss-panel fade-in">
-                        <span className="xs strong">Why are you dismissing this?</span>
-                        <div className="row wrap" style={{ gap: 'var(--s2)' }}>
-                          {DISMISS_REASONS.map((reason) => (
-                            <button
-                              key={reason}
-                              className="example-chip"
-                              onClick={() => { spec.dismiss(r.code, reason); setDismissing(null); }}
-                            >
-                              {reason}
-                            </button>
-                          ))}
-                        </div>
-                        <button className="btn btn-ghost btn-sm" onClick={() => setDismissing(null)}>Cancel</button>
-                      </div>
-                    )}
-                  </article>
-                );
-              })}
-
-              {weak.length > 0 && (
-                <div className="card stack stack-3">
-                  <div className="stack stack-2">
-                    <span className="eyebrow">Below threshold</span>
-                    <p className="xs muted">
-                      Shown for reference only. These are <strong>not</strong> recommendations.
-                    </p>
-                  </div>
-                  {weak.map((r) => (
-                    <div key={r.id} className="weak-row">
-                      <div className="stack stack-2 grow" style={{ minWidth: 0 }}>
-                        <div className="row wrap" style={{ gap: 6 }}>
-                          <span className="mono small strong">{r.code}</span>
-                          <span className="badge badge-neutral">{BANDS.review.label}</span>
-                          {r.version === 'superseded' && <span className="badge badge-crit">Superseded</span>}
-                        </div>
-                        <span className="xs muted">{r.why}</span>
-                      </div>
-                    </div>
-                  ))}
-                </div>
+              {elapsed != null && (
+                <span className="xs faint">
+                  {response.corpus_size} standards searched in {elapsed} ms
+                </span>
               )}
             </div>
+
+            {recommended.map((r) => {
+              const band = bandFor(r);
+              const item = {
+                code: r.number,
+                title: r.title,
+                role: 'primary',
+                version: r.status === 'superseded' ? 'superseded' : 'latest',
+                addedFrom: 'recommendations',
+              };
+
+              return (
+                <article key={r.id} className="card card-flush rec">
+                  <div className="rec-head">
+                    <div className="stack stack-3 grow" style={{ minWidth: 0 }}>
+                      <div className="row wrap" style={{ gap: 'var(--s2)' }}>
+                        <Link
+                          to={`/app/standard/${encodeURIComponent(r.number)}`}
+                          className="mono strong build-link"
+                          style={{ fontSize: 'var(--fs-md)' }}
+                        >
+                          {r.number}
+                        </Link>
+                        <span className={`badge ${band.cls}`} title={band.hint}>{band.label}</span>
+                        {r.status === 'superseded'
+                          ? <span className="badge badge-crit"><Icon name="alert" size={11} />Superseded</span>
+                          : <span className="badge badge-ok"><Icon name="check" size={11} />Current</span>}
+                        {r.category && <span className="badge badge-neutral">{sectorLabel(r.category)}</span>}
+                      </div>
+
+                      <p className="small" style={{ color: 'var(--ink-soft)' }}>{r.title}</p>
+                      {r.scope && <p className="xs muted">{r.scope}</p>}
+
+                      <div className="row wrap" style={{ gap: 5 }}>
+                        {r.version && <span className="badge badge-neutral">{r.version}</span>}
+                        {r.last_amended && <span className="badge badge-neutral">Amended {r.last_amended}</span>}
+                        {r.superseded_by && (
+                          <span className="badge badge-warn">Replaced by {r.superseded_by}</span>
+                        )}
+                      </div>
+                    </div>
+                  </div>
+
+                  <div className="rec-foot">
+                    <Link
+                      to={`/app/standard/${encodeURIComponent(r.number)}`}
+                      className="btn btn-ghost btn-sm"
+                    >
+                      Open detail <Icon name="chevronRight" size={13} />
+                    </Link>
+                    <div className="row" style={{ gap: 'var(--s2)' }}>
+                      <button className="btn btn-secondary btn-sm" onClick={() => setDismissing(r.number)}>
+                        Dismiss
+                      </button>
+                      <AddButton item={item} />
+                    </div>
+                  </div>
+
+                  {dismissing === r.number && (
+                    <div className="dismiss-panel fade-in">
+                      <span className="xs strong">Why are you dismissing this?</span>
+                      <div className="row wrap" style={{ gap: 'var(--s2)' }}>
+                        {DISMISS_REASONS.map((reason) => (
+                          <button
+                            key={reason}
+                            className="example-chip"
+                            onClick={() => { spec.dismiss(r.number, reason); setDismissing(null); }}
+                          >
+                            {reason}
+                          </button>
+                        ))}
+                      </div>
+                      <button className="btn btn-ghost btn-sm" onClick={() => setDismissing(null)}>Cancel</button>
+                    </div>
+                  )}
+                </article>
+              );
+            })}
+
+            {reference.length > 0 && (
+              <div className="card stack stack-3">
+                <div className="stack stack-2">
+                  <span className="eyebrow">
+                    {confidence === 'none' ? 'Closest entries in the corpus' : 'Below threshold'}
+                  </span>
+                  <p className="xs muted">
+                    Shown for reference only. These are <strong>not</strong> recommendations.
+                  </p>
+                </div>
+                {reference.map((r) => (
+                  <div key={r.id} className="weak-row">
+                    <div className="stack stack-2 grow" style={{ minWidth: 0 }}>
+                      <div className="row wrap" style={{ gap: 6 }}>
+                        <span className="mono small strong">{r.number}</span>
+                        <span className="badge badge-neutral">{bandFor(r).label}</span>
+                        {r.status === 'superseded' && <span className="badge badge-crit">Superseded</span>}
+                      </div>
+                      <span className="xs muted">{r.title}</span>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            )}
+
+            {allResults.length === 0 && (
+              <div className="card">
+                <EmptyState
+                  icon="filter"
+                  title="Every result was dismissed"
+                  body="Undo a dismissal or start a new query to see results again."
+                />
+              </div>
+            )}
           </div>
         )}
       </div>

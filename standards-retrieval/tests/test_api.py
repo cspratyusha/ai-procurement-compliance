@@ -152,14 +152,28 @@ class TestStandardsRetrievalAPI(unittest.TestCase):
 
         data = resp.json()
 
-        # Top-level keys must match exactly
-        self.assertEqual(set(data.keys()), {"query", "results"})
+        # Top-level keys must match exactly.
+        # `confidence`, `confidence_reason` and `corpus_size` let the UI tell a
+        # user when their query falls outside the sectors the corpus covers,
+        # instead of presenting the nearest text match as a recommendation.
+        self.assertEqual(
+            set(data.keys()),
+            {"query", "results", "confidence", "confidence_reason", "corpus_size"},
+        )
         self.assertEqual(data["query"], query)
         self.assertIsInstance(data["results"], list)
         self.assertGreater(len(data["results"]), 0)
+        self.assertIn(data["confidence"], {"strong", "uncertain", "none"})
+        self.assertIsInstance(data["confidence_reason"], str)
+        self.assertIsInstance(data["corpus_size"], int)
 
-        # Validate item schema
-        expected_result_keys = {"id", "number", "title", "final_score", "stage_scores", "ranker_used"}
+        # Validate item schema. The presentation fields (scope, category,
+        # status, version, last_amended, superseded_by) spare the UI an extra
+        # round-trip per result to render a card.
+        expected_result_keys = {
+            "id", "number", "title", "final_score", "stage_scores", "ranker_used",
+            "scope", "category", "status", "version", "last_amended", "superseded_by",
+        }
         expected_stage_keys = {"dense", "bm25", "cross_encoder", "ltr_or_fallback"}
 
         for item in data["results"]:
@@ -208,6 +222,64 @@ class TestStandardsRetrievalAPI(unittest.TestCase):
         finally:
             # Restore original model
             app.state.ltr_model = original_model
+
+    def test_in_scope_query_is_confident(self):
+        """A query squarely inside the corpus must not be hedged.
+
+        If in-scope queries get flagged as low confidence the warning becomes
+        noise and users learn to ignore it.
+        """
+        resp = self.client.post(
+            "/retrieve",
+            json={"query": "PVC insulated copper cable for indoor panel wiring", "top_k": 5},
+        )
+        self.assertEqual(resp.status_code, 200)
+        data = resp.json()
+        self.assertEqual(
+            data["confidence"],
+            "strong",
+            f"in-scope query was reported as {data['confidence']!r}",
+        )
+
+    def test_out_of_scope_query_reports_no_match(self):
+        """The corpus covers a few sectors; everything else must say so.
+
+        Without this the engine returns its nearest text match for any input,
+        which reads to a procurement officer as a real recommendation. The
+        regression this guards against is real: before the confidence gate,
+        "safety helmet for construction workers" returned a fire-survival
+        *cable* standard as its top result.
+        """
+        for query in (
+            "safety helmet for construction workers",
+            "cotton bedsheet fabric for hospital",
+            "banana",
+        ):
+            with self.subTest(query=query):
+                resp = self.client.post("/retrieve", json={"query": query, "top_k": 5})
+                self.assertEqual(resp.status_code, 200)
+                data = resp.json()
+                self.assertEqual(
+                    data["confidence"],
+                    "none",
+                    f"{query!r} was reported as {data['confidence']!r}",
+                )
+                self.assertTrue(
+                    data["confidence_reason"].strip(),
+                    "a 'none' verdict must carry an explanation for display",
+                )
+
+    def test_results_carry_presentation_fields(self):
+        """Result items must be renderable without a follow-up request."""
+        resp = self.client.post(
+            "/retrieve", json={"query": "OPC 43 grade cement", "top_k": 3}
+        )
+        data = resp.json()
+        self.assertGreater(len(data["results"]), 0)
+        for item in data["results"]:
+            self.assertIsInstance(item["scope"], str)
+            self.assertIsInstance(item["category"], str)
+            self.assertIn(item["status"], {"active", "superseded"})
 
 
 if __name__ == "__main__":

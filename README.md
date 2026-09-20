@@ -25,9 +25,15 @@ We would rather state our scope plainly than imply coverage we do not have.
 **What this means in practice:** queries inside the covered sectors return
 sensible results. Queries outside them (textiles, machinery, chemicals, food,
 and the overwhelming majority of the catalogue) have no correct answer
-available. The system currently has **no low-confidence threshold**, so such a
-query still returns its best guess as though it were a real match — this is a
-known gap, not intended behaviour.
+available.
+
+The engine detects this and says so. `/retrieve` returns a `confidence` field
+of `strong`, `uncertain` or `none`, judged on the cross-encoder relevance
+score of the top hit — which, unlike the per-response `final_score`, is
+comparable across queries. On a `none` verdict the UI drops the
+"Recommended standards" heading entirely and presents the results as
+"Nearest text matches … not recommendations". Searching for a safety helmet
+does not produce a confident cable recommendation.
 
 **About the accuracy numbers.** [`standards-retrieval/MODEL_AND_EVALUATION.md`](standards-retrieval/MODEL_AND_EVALUATION.md)
 reports Top-1 accuracy of 95.8% and NDCG@5 of 0.9846. Those figures are real
@@ -133,6 +139,23 @@ cd frontend
 npm install
 npm run dev
 ```
+
+Open http://localhost:5173. The search screen (`/app/query`) calls the live
+backend, so **start the backend first** — the UI says so plainly if it cannot
+reach it, and never substitutes canned results for live ones.
+
+To point at a backend on a different host or port, copy `.env.example` to
+`.env` and set `VITE_API_URL`.
+
+#### What is connected, and what is not
+
+| Screen | State |
+|---|---|
+| `/app/query` — search and results | **Live.** Calls `POST /retrieve` |
+| Landing page | Static copy; the hero panel is an illustration |
+| The other 17 screens | Still render fixture data from `src/data/` |
+
+Wiring the remaining screens is tracked in [`PROGRESS.md`](PROGRESS.md).
 
 ### Tests
 

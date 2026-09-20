@@ -115,6 +115,16 @@
   border: 1px solid;
 }
 
+/* A flex item defaults to min-width:auto, which refuses to shrink below its
+   content width — long explanatory text then overflows the notice instead of
+   wrapping inside it. The nested stack needs the same treatment, and the
+   text itself needs an explicit wrap for long unbroken strings. */
+.notice > * { min-width: 0; }
+.notice > .stack { flex: 1 1 auto; }
+.notice .stack > * { min-width: 0; overflow-wrap: anywhere; }
+
+.notice svg { flex-shrink: 0; }
+
 .notice-warn { background: var(--warn-soft); border-color: color-mix(in srgb, var(--warn) 28%, transparent); color: var(--warn); }
 .notice-info { background: var(--info-soft); border-color: color-mix(in srgb, var(--info) 28%, transparent); color: var(--info); }
 .notice-crit { background: var(--crit-soft); border-color: color-mix(in srgb, var(--crit) 28%, transparent); color: var(--crit); }

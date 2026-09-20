@@ -2,29 +2,52 @@ import { Link } from 'react-router-dom';
 import Icon from '../components/Icon';
 import './landing.css';
 
+/**
+ * What the engine does today is stated plainly; what is still being built is
+ * labelled as such. A reviewer who tries a feature described here and finds
+ * it missing discounts everything else on the page.
+ */
 const BENEFITS = [
   {
-    icon: 'layers',
-    title: 'The whole cluster, not one hit',
-    body: 'A product rarely maps to a single standard. Graph traversal surfaces normative references, test methods, terminology, safety and installation standards as one connected set.',
+    icon: 'search',
+    title: 'Matches on meaning, not keywords',
+    body: 'Dense vector retrieval and BM25 run together, and a cross-encoder re-reads each candidate against the query. A description with none of the standard’s words in it still finds the right standard.',
+    status: 'working',
   },
   {
     icon: 'shield',
-    title: 'Defensible under audit',
-    body: 'Every recommendation carries a confidence score, the matched clauses that triggered it, and a plain-language rationale. Nothing is a black box.',
+    title: 'Says when it does not know',
+    body: 'Coverage is a pilot corpus, not the full catalogue. A query outside it is reported as no match, with the nearest entries clearly labelled as references rather than recommendations.',
+    status: 'working',
   },
   {
     icon: 'refresh',
-    title: 'Never cite a superseded edition',
-    body: 'Version and amendment state is checked deterministically against the registry, with a plain-language diff of what changed between editions.',
+    title: 'Flags superseded editions',
+    body: 'Withdrawn standards are penalised in ranking and marked in the results, including replacements that carry a different standard number.',
+    status: 'working',
+  },
+  {
+    icon: 'layers',
+    title: 'The whole cluster, not one hit',
+    body: 'Normative references, test methods, terminology and installation standards surfaced as one connected set, alongside mandatory certification requirements.',
+    status: 'planned',
   },
 ];
 
+/**
+ * Only figures we can actually demonstrate.
+ *
+ * Earlier drafts of this page claimed "1.4M API calls served monthly",
+ * "11 portals integrated" and "22,418 standards indexed". None of that was
+ * true of a prototype, and a reviewer who checks one inflated number stops
+ * believing the rest of the page. Everything here is either measured on this
+ * machine or a published fact about BIS.
+ */
 const STATS = [
-  { value: '94%', label: 'Top-1 retrieval accuracy' },
-  { value: '1.4M', label: 'API calls served monthly' },
-  { value: '11', label: 'Portals integrated' },
-  { value: '4', label: 'Languages supported' },
+  { value: '4', label: 'Retrieval stages', note: 'Dense, BM25, cross-encoder, learned ranker' },
+  { value: '~200 ms', label: 'Typical query time', note: 'Measured locally on CPU' },
+  { value: '45', label: 'Standards in the pilot corpus', note: 'Unverified placeholder data' },
+  { value: '~22,000', label: 'Published Indian Standards', note: 'The full catalogue, for scale' },
 ];
 
 export default function Landing({ theme, onToggleTheme }) {
@@ -65,8 +88,14 @@ export default function Landing({ theme, onToggleTheme }) {
 
             <p className="hero-sub">
               A tender rarely cites one standard correctly. Describe what you are procuring
-              and get the full applicable cluster — ranked, version-checked, and defensible
-              under audit.
+              in plain language and get the applicable Indian Standards, ranked by meaning,
+              with superseded editions flagged.
+            </p>
+
+            <p className="xs muted" style={{ maxWidth: '52ch' }}>
+              Prototype built for the Smart India Hackathon. It currently searches a pilot
+              corpus of 45 standards across seven sectors — realistic but unverified data,
+              not the full BIS catalogue.
             </p>
 
             <div className="hero-cta">
@@ -79,9 +108,9 @@ export default function Landing({ theme, onToggleTheme }) {
 
             <dl className="hero-facts">
               {[
-                ['22,418', 'standards indexed'],
-                ['1—2 hops', 'graph traversal'],
-                ['0', 'unexplained answers'],
+                ['45', 'standards in pilot corpus'],
+                ['4-stage', 'retrieval pipeline'],
+                ['~200 ms', 'typical query'],
               ].map(([v, l]) => (
                 <div key={l} className="hero-fact">
                   <dt className="hero-fact-v tabular">{v}</dt>
@@ -141,6 +170,7 @@ export default function Landing({ theme, onToggleTheme }) {
             <div key={s.label} className="stack stack-2 center">
               <span className="strip-value tabular">{s.value}</span>
               <span className="xs faint">{s.label}</span>
+              {s.note && <span className="xs faint" style={{ opacity: 0.7 }}>{s.note}</span>}
             </div>
           ))}
         </div>
@@ -153,11 +183,16 @@ export default function Landing({ theme, onToggleTheme }) {
             <h2 className="section-title">Built for decisions that get audited</h2>
           </div>
 
-          <div className="grid grid-3">
+          <div className="grid grid-4">
             {BENEFITS.map((b) => (
               <article key={b.title} className="card stack stack-4">
                 <span className="benefit-icon"><Icon name={b.icon} size={19} /></span>
-                <h3 style={{ fontSize: 'var(--fs-md)' }}>{b.title}</h3>
+                <div className="row wrap" style={{ gap: 'var(--s2)' }}>
+                  <h3 style={{ fontSize: 'var(--fs-md)' }}>{b.title}</h3>
+                  {b.status === 'planned' && (
+                    <span className="badge badge-neutral" title="Not built yet">In progress</span>
+                  )}
+                </div>
                 <p className="small muted">{b.body}</p>
               </article>
             ))}
