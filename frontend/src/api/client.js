@@ -196,4 +196,16 @@ export function getStandard(idOrNumber, { signal } = {}) {
   return request(`/standards/${encodeURIComponent(idOrNumber)}`, { signal });
 }
 
+/**
+ * The allied-standards cluster around one standard.
+ *
+ * `researched: false` means no relationships have been recorded for it — not
+ * that it has none. Entries flagged `outside_corpus` are real citations to
+ * standards the pilot corpus does not hold; they are shown so the cluster is
+ * not silently truncated, but they cannot be opened.
+ */
+export function getRelated(idOrNumber, { signal } = {}) {
+  return request(`/standards/${encodeURIComponent(idOrNumber)}/related`, { signal });
+}
+
 export { BASE_URL };

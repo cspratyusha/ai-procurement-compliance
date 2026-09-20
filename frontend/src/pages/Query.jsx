@@ -223,6 +223,34 @@ export default function Query() {
         )}
 
         <form className="card stack stack-4" onSubmit={run}>
+          {languages.length > 1 && (
+            <div className="row-between wrap" style={{ gap: 'var(--s3)' }}>
+              <div className="row" style={{ gap: 'var(--s3)', alignItems: 'center' }}>
+                <label className="label xs" htmlFor="q-lang" style={{ margin: 0 }}>
+                  Query language
+                </label>
+                <select
+                  id="q-lang"
+                  className="select"
+                  style={{ width: 'auto', minWidth: 170 }}
+                  value={language}
+                  onChange={(e) => setLanguage(e.target.value)}
+                  disabled={phase === 'running'}
+                >
+                  <option value="auto">Detect automatically</option>
+                  {languages.map((l) => (
+                    <option key={l.code} value={l.code}>
+                      {l.native}{l.native !== l.name ? ` (${l.name})` : ''}
+                    </option>
+                  ))}
+                </select>
+              </div>
+              <span className="xs faint">
+                Type in any listed language — it is translated before searching
+              </span>
+            </div>
+          )}
+
           <div className="field">
             <label className="label sr-only" htmlFor="spec">Product description or specification text</label>
             <textarea
@@ -282,23 +310,6 @@ export default function Query() {
               >
                 <Icon name="upload" size={14} /> Upload tender
               </button>
-              {languages.length > 1 && (
-                <div className="field" style={{ minWidth: 160 }}>
-                  <label className="label sr-only" htmlFor="q-lang">Query language</label>
-                  <select
-                    id="q-lang"
-                    className="select"
-                    value={language}
-                    onChange={(e) => setLanguage(e.target.value)}
-                    disabled={phase === 'running'}
-                  >
-                    <option value="auto">Detect language</option>
-                    {languages.map((l) => (
-                      <option key={l.code} value={l.code}>{l.native}</option>
-                    ))}
-                  </select>
-                </div>
-              )}
               <span className="xs faint">
                 {health
                   ? `${health.corpus_size} standards${health.ltr_model_loaded ? ' · learned ranker' : ''}`

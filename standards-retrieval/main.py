@@ -12,6 +12,7 @@ from datetime import datetime, timezone
 import certification
 import extraction
 import translation
+import relationships as relationships_data
 from data.models import Standard
 from data_loader import load_corpus, get_standard_by_id
 from feedback.schema import FeedbackRequest, InteractionLog
@@ -656,6 +657,27 @@ async def extract_and_search(file: UploadFile = File(...), top_k: int = 10):
         warnings=extracted.warnings,
         retrieval=retrieval,
     )
+
+
+@app.get(
+    "/standards/{standard_id}/related",
+    summary="Allied Standards Cluster",
+)
+def get_related(standard_id: str):
+    """Standards this one cites, and standards in the corpus that cite it.
+
+    `researched: false` means no relationships have been recorded for this
+    standard — which is not a statement that it has none. Entries marked
+    `outside_corpus` are real citations to standards the pilot corpus does not
+    contain; they are listed so the cluster is not silently truncated.
+    """
+    standard = get_standard(standard_id)  # reuses id/IS-number resolution and 404
+    result = relationships_data.related_to(standard.number)
+    return {
+        "number": standard.number,
+        "title": standard.title,
+        **result,
+    }
 
 
 @app.get(

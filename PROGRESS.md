@@ -5,6 +5,84 @@ at the top.
 
 ---
 
+## Phase H — Allied standards, and a visibility fix (2026-09-21)
+
+**Goal:** build the related-standards cluster the problem statement asks for,
+and fix the language selector nobody could find.
+
+### The language selector was there, but hidden
+
+Reported as missing. It was rendering, but the label was `sr-only` and it sat
+in the bottom toolbar reading "Detect language" — easy to read as part of the
+upload controls rather than as a language choice. Moved above the input with a
+visible **"Query language"** label and the hint "Type in any listed language —
+it is translated before searching".
+
+Worth recording as a lesson: a Playwright assertion that an element exists is
+not evidence that a user will find it.
+
+### Allied standards, read from the standards themselves
+
+The problem statement asks for the applicable *cluster*, not one hit. A tender
+citing IS 694 for cable but omitting IS 8130 for the conductor and IS 10810
+for test methods is incomplete — that incompleteness is what this surfaces.
+
+Relationships were read from the referred-standards annexes and materials
+clauses of the standards themselves, via publicly hosted copies. **25
+relationships across 16 standards**, each recorded only where the source
+actually cites the target, with the clause noted where known:
+
+| Source | Cites |
+|---|---|
+| IS 456:2000 | IS 269, IS 1489 (Parts 1 & 2), IS 1786, IS 2062, IS 383, IS 432 (Part 1), IS 3812 |
+| IS 694:2010 | IS 8130 (conductor), IS 5831 (insulation), IS 10810 (test methods) |
+| IS 800:2007 | IS 2062, IS 808 |
+| IS 732:2019 | IS 694, IS 3854, IS 3043 |
+
+Nothing is inferred. Six relation types (normative reference, material spec,
+test method, terminology, installation, related product), each with an
+explanation the UI shows, so "why is this here" is answered on the page.
+
+### Citations outside the corpus are shown, not hidden
+
+Nine cited standards — IS 8130, IS 5831, IS 10810, IS 383 and others — are
+real dependencies the pilot corpus does not hold. They are listed with their
+titles and flagged "Not in this corpus" rather than omitted.
+
+Omitting them would silently truncate the cluster and produce exactly the
+incomplete citation the feature exists to prevent. This is the same principle
+as `not_verified` in Phase F: absence of data must never read as absence of
+the thing.
+
+### Reverse edges
+
+`referenced_by` is derived rather than authored, so IS 2062 correctly shows
+that IS 456, IS 800, IS 808 and IS 1786 all cite it, without those four edges
+being written twice.
+
+### Tested
+
+- **`pytest` — 74 passed** (was 66). Eight new tests: grouped clusters for
+  cement and cable, materials kept separate from test methods, outside-corpus
+  entries present and flagged, derived reverse edges, an unresearched standard
+  reporting `researched: false`, and a data check that every non-flagged
+  target actually exists in the corpus.
+- Browser-verified: IS 456 shows "10 related" across grouped sections with
+  clickable entries; IS 694 shows 4; IS 17048 shows the unresearched message.
+  No console errors.
+- **48 route-renders** clean.
+
+### Still open
+
+- 29 of 45 standards have no relationship data. The annexes have not been read
+  for them; the UI says so rather than implying they stand alone.
+- The Standards map screen is still fixture data — it now has a real data
+  source to be wired to.
+- OCR for scanned tenders; translating results back into the query language;
+  UI chrome i18n.
+
+---
+
 ## Phase G — Multilingual queries (2026-09-21)
 
 **Goal:** let an official describe what they need in Hindi, Tamil, Bengali,

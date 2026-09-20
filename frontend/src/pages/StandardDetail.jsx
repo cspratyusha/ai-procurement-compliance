@@ -3,8 +3,7 @@ import { useParams, Link, useNavigate } from 'react-router-dom';
 import Icon from '../components/Icon';
 import { EmptyState } from '../components/Primitives';
 import { AddButton } from '../components/SpecBasket';
-import { getStandard, ApiError } from '../api/client';
-import { STANDARD_DETAIL } from '../data/catalogue';
+import { getStandard, getRelated, ApiError } from '../api/client';
 import './detail.css';
 
 const SECTOR_LABEL = {
@@ -29,6 +28,7 @@ export default function StandardDetail() {
   const decoded = decodeURIComponent(code);
 
   const [standard, setStandard] = useState(null);
+  const [related, setRelated] = useState(null);
   const [state, setState] = useState('loading'); // loading | ready | missing | error
   const [error, setError] = useState(null);
 
@@ -42,6 +42,10 @@ export default function StandardDetail() {
         if (controller.signal.aborted) return;
         setStandard(data);
         setState('ready');
+        // Secondary: the page is usable without it, so it must not gate render.
+        getRelated(data.number, { signal: controller.signal })
+          .then((r) => { if (!controller.signal.aborted) setRelated(r); })
+          .catch(() => { /* leave the section in its unknown state */ });
       })
       .catch((err) => {
         if (controller.signal.aborted || err.name === 'AbortError') return;
@@ -102,11 +106,6 @@ export default function StandardDetail() {
   const statusBadge = isSuperseded
     ? { cls: 'badge-crit', icon: 'alert', label: 'Superseded' }
     : { cls: 'badge-ok', icon: 'check', label: 'Current' };
-
-  // Relationship and certification data is not in the corpus yet. Where a
-  // curated fixture happens to exist for this standard we show it, explicitly
-  // labelled, rather than implying the engine derived it.
-  const fixture = STANDARD_DETAIL[standard.number];
 
   const basketItem = {
     code: standard.number,
@@ -199,41 +198,86 @@ export default function StandardDetail() {
             </section>
           )}
 
-          {/* Relationship data is not modelled in the corpus yet. Saying so is
-              more useful than rendering an empty panel that looks like a
-              genuine "no references" answer. */}
-          <section className="card stack stack-3">
+          <section className="card stack stack-4">
             <div className="row-between wrap" style={{ gap: 'var(--s2)' }}>
-              <span className="eyebrow">Related standards</span>
-              <span className="badge badge-neutral">Not yet built</span>
+              <span className="eyebrow">Allied standards</span>
+              {related?.total > 0 && (
+                <span className="badge badge-neutral">{related.total} related</span>
+              )}
             </div>
-            {fixture?.normative?.length ? (
-              <>
-                <p className="xs muted">
-                  The references below are hand-curated sample data for this standard,
-                  not derived by the engine.
-                </p>
+
+            {related === null && (
+              <div className="skeleton" style={{ height: 60 }} />
+            )}
+
+            {related && !related.researched && (
+              <p className="xs muted">
+                No relationships have been recorded for this standard yet. That is not
+                the same as having none — the referred-standards annex has not been
+                read for it. Check the standard itself before assuming it stands alone.
+              </p>
+            )}
+
+            {related?.depends_on?.map((group) => (
+              <div key={group.type} className="stack stack-3">
+                <div className="stack stack-2">
+                  <span className="small strong">{group.heading}</span>
+                  {group.explanation && <span className="xs muted">{group.explanation}</span>}
+                </div>
                 <div className="stack">
-                  {fixture.normative.map((n) => (
+                  {group.standards.map((item) =>
+                    item.outside_corpus ? (
+                      <div key={item.number} className="ref-row" style={{ opacity: 0.72 }}>
+                        <Icon name="minus" size={13} />
+                        <span className="stack stack-2 grow" style={{ minWidth: 0 }}>
+                          <span className="row wrap" style={{ gap: 6 }}>
+                            <span className="mono xs strong">{item.number}</span>
+                            <span className="badge badge-neutral">Not in this corpus</span>
+                          </span>
+                          <span className="xs faint">{item.title}</span>
+                          {item.note && <span className="xs faint">{item.note}</span>}
+                        </span>
+                      </div>
+                    ) : (
+                      <Link
+                        key={item.number}
+                        to={`/app/standard/${encodeURIComponent(item.number)}`}
+                        className="ref-row"
+                      >
+                        <Icon name="chevronRight" size={13} />
+                        <span className="stack stack-2 grow" style={{ minWidth: 0 }}>
+                          <span className="mono xs strong">{item.number}</span>
+                          <span className="xs faint">{item.title}</span>
+                          {item.note && <span className="xs faint">{item.note}</span>}
+                        </span>
+                      </Link>
+                    ),
+                  )}
+                </div>
+              </div>
+            ))}
+
+            {related?.referenced_by?.length > 0 && (
+              <div className="stack stack-3">
+                <div className="stack stack-2">
+                  <span className="small strong">Referenced by</span>
+                  <span className="xs muted">
+                    Standards in this corpus that cite {standard.number}.
+                  </span>
+                </div>
+                <div className="stack">
+                  {related.referenced_by.map((item) => (
                     <Link
-                      key={n.code}
-                      to={`/app/standard/${encodeURIComponent(n.code)}`}
+                      key={item.number}
+                      to={`/app/standard/${encodeURIComponent(item.number)}`}
                       className="ref-row"
                     >
                       <Icon name="chevronRight" size={13} />
-                      <span className="stack stack-2 grow" style={{ minWidth: 0 }}>
-                        <span className="mono xs strong">{n.code}</span>
-                        <span className="xs faint">{n.title}</span>
-                      </span>
+                      <span className="mono xs strong">{item.number}</span>
                     </Link>
                   ))}
                 </div>
-              </>
-            ) : (
-              <p className="xs muted">
-                Normative references, test methods and installation standards are not
-                yet part of the dataset, so none can be shown for this standard.
-              </p>
+              </div>
             )}
           </section>
         </div>
