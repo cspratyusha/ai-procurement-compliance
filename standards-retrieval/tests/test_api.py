@@ -173,6 +173,9 @@ class TestStandardsRetrievalAPI(unittest.TestCase):
         expected_result_keys = {
             "id", "number", "title", "final_score", "stage_scores", "ranker_used",
             "scope", "category", "status", "version", "last_amended", "superseded_by",
+            # Mandatory certification status, and any known problem with the
+            # corpus entry itself (e.g. an edition that was never published).
+            "certification", "data_warning",
         }
         expected_stage_keys = {"dense", "bm25", "cross_encoder", "ltr_or_fallback"}
 

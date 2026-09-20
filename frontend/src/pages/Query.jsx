@@ -4,7 +4,13 @@ import Icon from '../components/Icon';
 import { EmptyState } from '../components/Primitives';
 import { AddButton } from '../components/SpecBasket';
 import { useSpec } from '../state/SpecStore';
-import { retrieve, getHealth, ApiError, BASE_URL } from '../api/client';
+import {
+  retrieve, getHealth, extractAndSearch, ApiError, BASE_URL,
+  SUPPORTED_UPLOAD_TYPES,
+} from '../api/client';
+import {
+  CertificationBadge, CertificationBanner, DataWarning,
+} from '../components/CertificationBadge';
 import { DISMISS_REASONS } from '../data/catalogue';
 import './query.css';
 
@@ -56,7 +62,9 @@ export default function Query() {
   const [elapsed, setElapsed] = useState(null);
   const [dismissing, setDismissing] = useState(null);
   const [health, setHealth] = useState(undefined); // undefined = checking
+  const [extraction, setExtraction] = useState(null);
   const abortRef = useRef(null);
+  const fileRef = useRef(null);
 
   // Probe the backend once on mount so the UI can say up front whether the
   // engine is reachable, rather than only failing at search time.
@@ -80,6 +88,7 @@ export default function Query() {
     setPhase('running');
     setError(null);
     setResponse(null);
+    setExtraction(null);
     const started = performance.now();
 
     try {
@@ -97,6 +106,37 @@ export default function Query() {
     }
   }, [text]);
 
+  const onFile = useCallback(async (event) => {
+    const file = event.target.files?.[0];
+    // Let the same file be chosen twice in a row.
+    event.target.value = '';
+    if (!file) return;
+
+    abortRef.current?.abort();
+    const controller = new AbortController();
+    abortRef.current = controller;
+
+    setPhase('running');
+    setError(null);
+    setResponse(null);
+    setExtraction(null);
+    setText('');
+    const started = performance.now();
+
+    try {
+      const data = await extractAndSearch(file, { topK: 10, signal: controller.signal });
+      if (controller.signal.aborted) return;
+      setExtraction(data);
+      setResponse(data.retrieval);
+      setElapsed(Math.round(performance.now() - started));
+      setPhase('done');
+    } catch (err) {
+      if (controller.signal.aborted || err.name === 'AbortError') return;
+      setError(err instanceof ApiError ? err : new ApiError('Could not read that document.'));
+      setPhase('error');
+    }
+  }, []);
+
   const applyExample = (ex) => { setText(ex); run(null, ex); };
 
   const reset = () => {
@@ -105,6 +145,7 @@ export default function Query() {
     setText('');
     setResponse(null);
     setError(null);
+    setExtraction(null);
   };
 
   const dismissed = spec.dismissed;
@@ -197,11 +238,28 @@ export default function Query() {
           <hr className="divider" />
 
           <div className="row-between wrap" style={{ gap: 'var(--s3)' }}>
-            <span className="xs faint">
-              {health
-                ? `Searching ${health.corpus_size} standards${health.ltr_model_loaded ? ' · learned ranker active' : ''}`
-                : 'Engine status unknown'}
-            </span>
+            <div className="row wrap" style={{ gap: 'var(--s3)' }}>
+              <input
+                ref={fileRef}
+                type="file"
+                accept={SUPPORTED_UPLOAD_TYPES.join(',')}
+                onChange={onFile}
+                style={{ display: 'none' }}
+              />
+              <button
+                type="button"
+                className="btn btn-secondary btn-sm"
+                onClick={() => fileRef.current?.click()}
+                disabled={phase === 'running'}
+              >
+                <Icon name="upload" size={14} /> Upload tender
+              </button>
+              <span className="xs faint">
+                {health
+                  ? `${health.corpus_size} standards${health.ltr_model_loaded ? ' · learned ranker' : ''}`
+                  : 'Engine status unknown'}
+              </span>
+            </div>
             <button className="btn btn-primary" type="submit" disabled={!text.trim() || phase === 'running'}>
               {phase === 'running'
                 ? <><span className="spinner" /> Searching</>
@@ -241,6 +299,46 @@ export default function Query() {
 
         {phase === 'done' && response && (
           <div className="stack stack-4 fade-in">
+            {extraction && (
+              <div className="card stack stack-3">
+                <div className="row-between wrap" style={{ gap: 'var(--s2)' }}>
+                  <span className="eyebrow">Read from {extraction.filename}</span>
+                  <span className="xs faint">
+                    {extraction.page_count ? `${extraction.page_count} page${extraction.page_count === 1 ? '' : 's'} · ` : ''}
+                    {extraction.char_count.toLocaleString()} characters
+                  </span>
+                </div>
+
+                {extraction.matched_section ? (
+                  <p className="xs muted">
+                    Searched the <strong>{extraction.matched_section}</strong> section. Other
+                    parts of the document (terms, eligibility, signatures) were ignored.
+                  </p>
+                ) : (
+                  <p className="xs muted">
+                    No specification heading was found, so the whole document was scanned
+                    for product details.
+                  </p>
+                )}
+
+                {extraction.warnings?.map((w) => (
+                  <div key={w} className="notice notice-warn">
+                    <Icon name="alert" size={14} />
+                    <span className="xs">{w}</span>
+                  </div>
+                ))}
+
+                <details>
+                  <summary className="xs muted" style={{ cursor: 'pointer' }}>
+                    Show the text that was searched
+                  </summary>
+                  <blockquote className="clause xs" style={{ marginTop: 'var(--s3)', whiteSpace: 'pre-wrap' }}>
+                    {extraction.query}
+                  </blockquote>
+                </details>
+              </div>
+            )}
+
             {confidence !== 'strong' && (
               <div className={`notice ${CONFIDENCE_BANNER[confidence].cls}`} role="status">
                 <Icon name={CONFIDENCE_BANNER[confidence].icon} size={15} />
@@ -298,10 +396,13 @@ export default function Query() {
                           ? <span className="badge badge-crit"><Icon name="alert" size={11} />Superseded</span>
                           : <span className="badge badge-ok"><Icon name="check" size={11} />Current</span>}
                         {r.category && <span className="badge badge-neutral">{sectorLabel(r.category)}</span>}
+                        <CertificationBadge certification={r.certification} />
                       </div>
 
                       <p className="small" style={{ color: 'var(--ink-soft)' }}>{r.title}</p>
                       {r.scope && <p className="xs muted">{r.scope}</p>}
+                      <DataWarning warning={r.data_warning} />
+                      <CertificationBanner certification={r.certification} />
 
                       <div className="row wrap" style={{ gap: 5 }}>
                         {r.version && <span className="badge badge-neutral">{r.version}</span>}

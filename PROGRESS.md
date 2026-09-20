@@ -5,6 +5,116 @@ at the top.
 
 ---
 
+## Phase F — Certification data and tender upload (2026-09-21)
+
+**Goal:** add the two features that most distinguish this from a generic
+search demo — mandatory certification flags, and accepting a tender document
+instead of typed text.
+
+### Certification data, read from BIS
+
+I read the BIS Scheme I (ISI Mark) product list and cross-checked the
+Quality Control Order notifications, rather than asking for it to be supplied.
+No scraper was written: the pages were read, not crawled.
+
+**17 of 45 standards now have a verified status, 13 of them mandatory**,
+spanning every sector in the corpus. Each carries its governing order and
+gazette number, e.g. IS 694:2010 → *Electrical Wires, Cables, Appliances and
+Protection Devices and Accessories (Quality Control) Order, 2003, S.O. No.
+189(E) dated 17 Feb 2003*.
+
+Stored in `data/certification/certification_rules.json`, which records its own
+source URL and retrieval date.
+
+### Three answers, not two
+
+`scheme` is `ISI` / `CRS` / `Hallmark` / `none` / `not_verified`, and the last
+two must never collapse:
+
+| | meaning |
+|---|---|
+| `none` | Checked — no scheme applies (e.g. a code of practice) |
+| `not_verified` | Nobody checked. **Not** a clearance |
+
+Telling a procurement official "no certification required" when the truth is
+"we never looked" is the failure that costs someone money. The BIS list runs
+to ~221 rows and could only be read in sections, so absence from what was read
+is weak evidence and is recorded as such.
+
+### A data problem this surfaced
+
+Cross-checking revealed that **IS 8112:2018 and IS 12269:2019 do not exist**.
+IS 8112 (43 grade OPC) and IS 12269 (53 grade OPC) were both merged into
+IS 269:2015 and withdrawn in October 2016. The placeholder corpus invented
+later editions of withdrawn standards.
+
+Rather than quietly deleting them, `/retrieve` now returns a `data_warning` on
+these entries and the UI shows it, which is the honest treatment of known-bad
+data and a good demonstration of the supersession problem the product exists
+to solve.
+
+### Tender document upload
+
+`POST /extract` accepts PDF, DOCX or TXT, extracts the text, builds a search
+query from it and runs the normal pipeline.
+
+The hard part is not getting text out — it is getting the *right* text out. A
+tender is mostly boilerplate by volume (EMD, eligibility, arbitration,
+signature blocks), so feeding the whole document to an embedding model that
+truncates at a few hundred tokens means searching the cover page. So:
+
+1. Find a recognised heading — "technical specification", "scope of supply",
+   "bill of quantities" and similar — and take that section.
+2. Within it, keep paragraphs carrying technical markers (`sq mm`, `1100 V`,
+   `IS 694`, `grade 43`) and drop boilerplate.
+3. Cap at 2000 characters on a word boundary.
+
+**Filtering by paragraph, not by line, matters.** Extracted text wraps
+mid-sentence, so "Item 3: Ordinary Portland Cement, 43 grade, for the civil
+works associated with" carries no technical marker on its own physical line.
+The first implementation filtered line-by-line and silently dropped the cement
+from a three-item tender. Caught by a test that checks both products survive.
+
+Scanned PDFs have no text layer. Rather than searching an empty string, the
+API returns 422 explaining that the file needs OCR, which is not built.
+
+Limits are enforced server-side, not just in the browser: 10 MB, and
+`.pdf`/`.docx`/`.txt` only.
+
+### UI
+
+- Result cards carry a certification badge; confirmed requirements get a full
+  banner naming the QCO, in an informational colour rather than an alarming one.
+- Upload sits beside the search button. After upload, a panel shows which
+  section was read, how much text, and an expandable view of exactly what was
+  searched — the extraction step is visible rather than invisible.
+
+### Tested
+
+- **`pytest` — 57 passed** (was 43). 14 new tests: certification lookup
+  including the `none` vs `not_verified` distinction and that every rule points
+  at a real standard; extraction across PDF/DOCX/TXT, the wrapped-line
+  regression, scanned-PDF rejection, oversize and unsupported-type guards.
+- End-to-end: uploading the sample tender returns **IS 694:2010 with its ISI
+  flag** as top hit, plus the cement standards for its third line item.
+- **48 route-renders** (16 routes x desktop, mobile, dark): no console errors,
+  no overflow.
+
+### Note on the LLM
+
+There is still **no LLM in this project and no API key is needed**. Retrieval,
+ranking, certification and extraction are all local. The brief's Phase 3 LLM
+layer (plain-language explanations, allied-standard classification) remains
+unbuilt; it is additive, not required for the core product.
+
+### Still open
+
+- 28 of 45 standards have unverified certification status.
+- OCR for scanned tenders.
+- Related-standards graph, multilingual query support.
+
+---
+
 ## Phase E — Catalogue and detail wired; fixture screens labelled (2026-09-21)
 
 **Goal:** wire the two screens that have real backing endpoints, and stop the

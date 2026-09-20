@@ -17,9 +17,9 @@ We would rather state our scope plainly than imply coverage we do not have.
 |---|---|
 | **Standards in the corpus** | **45** ([`data/standards_corpus.json`](data/standards_corpus.json)) |
 | **Real BIS coverage** | BIS publishes **~22,000** Indian Standards |
-| **Data provenance** | IS numbers and titles are realistic but **not verified against the BIS catalogue**; every record carries `"verified": false` |
+| **Data provenance** | IS numbers and titles are realistic but **not verified against the BIS catalogue**; every record carries `"verified": false`. Two entries (IS 8112:2018, IS 12269:2019) name editions that never existed — both standards were withdrawn into IS 269:2015 in 2016 — and the API flags them rather than serving them silently |
 | **Sectors represented** | Electrical cables, cement & building materials, steel pipes & fittings, structural steel, plastic pipes, electrical installations, PPE |
-| **Certification data** | Placeholder rules, not sourced from the official compulsory-certification lists |
+| **Certification data** | **17 of 45 standards verified** against the BIS Scheme I list and QCO notifications, with the governing order recorded. The remaining 28 report `not_verified`, which is explicitly not a clearance |
 | **Related-standards graph** | Fixture data, marked `verified: false` |
 
 **What this means in practice:** queries inside the covered sectors return
@@ -94,7 +94,7 @@ override.
 |---|---|
 | [`standards-retrieval/`](standards-retrieval/) | **The backend.** Retrieval, ranking, LTR training, evaluation, feedback loop. Single source of truth |
 | [`data/`](data/) | Datasets and the consolidation script — see [`data/README.md`](data/README.md) |
-| [`frontend/`](frontend/) | React + Vite UI (19 screens). **Not yet connected to the backend** |
+| [`frontend/`](frontend/) | React + Vite UI. Search, catalogue and detail screens run against the backend; the rest are labelled as illustrative |
 | [`services/knowledge-reasoning/`](services/knowledge-reasoning/) | Graph expansion & compliance validation (fixture-backed; see its `INTEGRATION.md`) |
 | [`app/`](app/) | Postgres/Neo4j/Chroma ingestion layer — the upgrade path from flat files. Reuses `standards-retrieval/` rather than vendoring it |
 | [`api/`](api/) | Earlier standalone API prototype |

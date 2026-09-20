@@ -5,10 +5,12 @@ from pathlib import Path
 from typing import List, Optional, Dict, Any, Literal
 import numpy as np
 from pydantic import BaseModel, Field
-from fastapi import FastAPI, HTTPException, Request
+from fastapi import FastAPI, HTTPException, Request, UploadFile, File
 from fastapi.middleware.cors import CORSMiddleware
 
 from datetime import datetime, timezone
+import certification
+import extraction
 from data.models import Standard
 from data_loader import load_corpus, get_standard_by_id
 from feedback.schema import FeedbackRequest, InteractionLog
@@ -46,6 +48,23 @@ _LTR_MODEL_PATH = _models_dir() / "ltr_model.txt"
 
 # --- Pydantic Schema Contracts ---
 
+class CertificationInfo(BaseModel):
+    """Whether a standard's product category legally requires BIS certification.
+
+    `scheme` distinguishes three materially different answers, and the UI must
+    keep them distinct: a confirmed requirement, a confirmed absence of one,
+    and 'not_verified' — which is not a clearance.
+    """
+    scheme: Literal["ISI", "CRS", "Hallmark", "none", "not_verified"] = Field(
+        ..., description="Certification scheme, or 'not_verified' when status is unknown."
+    )
+    mandatory: bool = Field(..., description="True only when a scheme was positively confirmed.")
+    explanation: str = Field(..., description="Plain-language guidance for a procurement official.")
+    qco: Optional[str] = Field(default=None, description="Governing Quality Control Order.")
+    gazette: Optional[str] = Field(default=None, description="Gazette notification number and date.")
+    product: Optional[str] = Field(default=None, description="Product description as listed by BIS.")
+
+
 class StageScores(BaseModel):
     dense: float = Field(..., description="Dense vector similarity score (e5-base-v2).")
     bm25: float = Field(..., description="Raw sparse lexical score (BM25Okapi).")
@@ -69,6 +88,8 @@ class StandardResult(BaseModel):
     version: str = Field(default="", description="Edition or revision string.")
     last_amended: str = Field(default="", description="Date of latest amendment, YYYY-MM-DD, or empty.")
     superseded_by: Optional[str] = Field(default=None, description="Id of the active replacement, when this entry was penalised as superseded.")
+    certification: "CertificationInfo" = Field(..., description="Mandatory BIS certification status for this standard.")
+    data_warning: Optional[str] = Field(default=None, description="Known problem with this corpus entry, e.g. an edition that was never published.")
 
 
 class RetrieveRequest(BaseModel):
@@ -436,6 +457,8 @@ def retrieve_standards_post(body: RetrieveRequest):
                 version=getattr(std, "version", "") if std else "",
                 last_amended=getattr(std, "last_amended", "") if std else "",
                 superseded_by=item.get("superseded_by"),
+                certification=CertificationInfo(**certification.lookup(item["number"])),
+                data_warning=(certification.withdrawn_note(item["number"]) or {}).get("issue"),
             )
         )
 
@@ -518,6 +541,75 @@ def get_standard(standard_id: str):
         status_code=404,
         detail=f"No standard found with id or IS number '{standard_id}'.",
     )
+
+
+class ExtractionResponse(BaseModel):
+    """Text pulled out of an uploaded tender, plus the search built from it."""
+    filename: str
+    query: str = Field(..., description="The portion describing the goods, used as the search query.")
+    text: str = Field(..., description="Full extracted text, so the user can check what was read.")
+    char_count: int
+    page_count: int = 0
+    method: str = Field(..., description="How the text was obtained, e.g. 'pdf-text-layer'.")
+    matched_section: Optional[str] = Field(
+        default=None, description="Heading the query came from, when one was recognised."
+    )
+    warnings: List[str] = Field(default_factory=list)
+    retrieval: RetrieveResponse = Field(..., description="Search results for the extracted query.")
+
+
+@app.post(
+    "/extract",
+    response_model=ExtractionResponse,
+    summary="Extract a Tender Document and Search",
+)
+async def extract_and_search(file: UploadFile = File(...), top_k: int = 10):
+    """Accept a tender (PDF/DOCX/TXT), extract the specification, and search it.
+
+    Runs the same pipeline as a typed query: the document only supplies the
+    text. The full extracted text comes back too, so the user can verify what
+    was read rather than trusting an invisible step.
+    """
+    data = await file.read()
+
+    try:
+        extracted = extraction.extract(file.filename or "upload", data)
+    except extraction.ExtractionError as exc:
+        # 422: the request was well-formed, the file was not usable. The
+        # message is written for the user, so pass it through verbatim.
+        raise HTTPException(status_code=422, detail=str(exc))
+
+    retrieval = retrieve_standards_post(
+        RetrieveRequest(query=extracted.query, top_k=top_k)
+    )
+
+    return ExtractionResponse(
+        filename=file.filename or "upload",
+        query=extracted.query,
+        text=extracted.text,
+        char_count=extracted.char_count,
+        page_count=extracted.page_count,
+        method=extracted.method,
+        matched_section=extracted.matched_section,
+        warnings=extracted.warnings,
+        retrieval=retrieval,
+    )
+
+
+@app.get(
+    "/standards/{standard_id}/certification",
+    response_model=CertificationInfo,
+    summary="Mandatory Certification Status",
+)
+def get_certification(standard_id: str):
+    """Certification requirement for one standard, by id or IS number.
+
+    A 'not_verified' scheme means the status could not be confirmed from the
+    BIS lists — it is explicitly not a statement that no certification is
+    required.
+    """
+    standard = get_standard(standard_id)  # reuses id/IS-number resolution and 404
+    return CertificationInfo(**certification.lookup(standard.number))
 
 
 # --- Feedback & Interaction Logging Endpoints (Part 6) ---

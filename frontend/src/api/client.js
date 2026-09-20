@@ -101,6 +101,68 @@ export function retrieve(query, { topK = 10, signal } = {}) {
   });
 }
 
+/** Files the backend can read. Mirrors SUPPORTED_EXTENSIONS in extraction.py. */
+export const SUPPORTED_UPLOAD_TYPES = ['.pdf', '.docx', '.txt'];
+export const MAX_UPLOAD_BYTES = 10 * 1024 * 1024;
+
+/**
+ * Upload a tender document, extract its specification, and search on it.
+ *
+ * Resolves to the extraction result with a nested `retrieval` holding the same
+ * shape `retrieve()` returns. The extracted text comes back too, so the user
+ * can check what was actually read rather than trusting an invisible step.
+ */
+export async function extractAndSearch(file, { topK = 10, signal } = {}) {
+  if (file.size > MAX_UPLOAD_BYTES) {
+    throw new ApiError(
+      `That file is ${(file.size / 1048576).toFixed(1)} MB. The limit is ${MAX_UPLOAD_BYTES / 1048576} MB.`,
+      { kind: 'http', status: 413 },
+    );
+  }
+
+  const form = new FormData();
+  form.append('file', file);
+
+  // Deliberately not using request(): FormData must not get a JSON
+  // Content-Type, and a large upload plus a cold model load needs longer.
+  const controller = new AbortController();
+  const timer = setTimeout(() => controller.abort(), 90000);
+  if (signal) signal.addEventListener('abort', () => controller.abort(), { once: true });
+
+  try {
+    const res = await fetch(`${BASE_URL}/extract?top_k=${topK}`, {
+      method: 'POST',
+      body: form,
+      signal: controller.signal,
+    });
+
+    if (!res.ok) {
+      let detail = `Upload failed (${res.status})`;
+      try {
+        const payload = await res.json();
+        if (payload?.detail) detail = payload.detail;
+      } catch {
+        /* non-JSON error body */
+      }
+      throw new ApiError(detail, { kind: 'http', status: res.status });
+    }
+
+    return await res.json();
+  } catch (err) {
+    if (err instanceof ApiError) throw err;
+    if (err.name === 'AbortError') {
+      if (signal?.aborted) throw err;
+      throw new ApiError('Reading the document took too long.', { kind: 'timeout' });
+    }
+    throw new ApiError(
+      `Cannot reach the standards engine at ${BASE_URL}. Start the backend, then try again.`,
+      { kind: 'offline' },
+    );
+  } finally {
+    clearTimeout(timer);
+  }
+}
+
 /**
  * Every standard in the corpus, optionally filtered by sector.
  * The corpus is small enough to fetch whole; the catalogue filters client-side.
