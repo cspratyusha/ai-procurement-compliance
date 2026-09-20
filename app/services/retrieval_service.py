@@ -11,15 +11,27 @@ from app.models.postgres_models import (
     CrossReferenceModel,
 )
 
-# Import our standards-retrieval pipeline
-from app.services.standards_retrieval.data_loader import load_corpus, get_standard_by_id
-from app.services.standards_retrieval.indexing.embed_index import dense_search
-from app.services.standards_retrieval.indexing.bm25_index import bm25_search
-from app.services.standards_retrieval.retrieval.hybrid import hybrid_search as raw_hybrid_search
-from app.services.standards_retrieval.retrieval.rerank import rerank
-from app.services.standards_retrieval.retrieval.postprocess import apply_supersession_penalty
-from app.services.standards_retrieval.ltr.features import build_features, fallback_score
-from app.services.standards_retrieval.ltr.train import load_model
+# Import the canonical retrieval pipeline from `standards-retrieval/`.
+#
+# That directory previously existed as a second copy vendored under
+# `app/services/standards_retrieval/`, which drifted from the original.
+# The copy has been removed; `standards-retrieval/` is now the single
+# source of truth. Because its directory name contains a hyphen it is not
+# a valid package name, and its modules import each other by bare name
+# (`from data_loader import ...`), so it is added to sys.path rather than
+# imported as a package.
+from app.services.standards_retrieval_path import ensure_retrieval_on_path
+
+ensure_retrieval_on_path()
+
+from data_loader import load_corpus, get_standard_by_id  # noqa: E402
+from indexing.embed_index import dense_search  # noqa: E402
+from indexing.bm25_index import bm25_search  # noqa: E402
+from retrieval.hybrid import hybrid_search as raw_hybrid_search  # noqa: E402
+from retrieval.rerank import rerank  # noqa: E402
+from retrieval.postprocess import apply_supersession_penalty  # noqa: E402
+from ltr.features import build_features, fallback_score  # noqa: E402
+from ltr.train import load_model  # noqa: E402
 
 logger = logging.getLogger(__name__)
 

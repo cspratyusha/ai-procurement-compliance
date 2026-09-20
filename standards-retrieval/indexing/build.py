@@ -1,3 +1,4 @@
+import argparse
 import sys
 import time
 from pathlib import Path
@@ -11,12 +12,27 @@ from indexing.bm25_index import build_index as build_bm25_index
 
 
 def main():
+    parser = argparse.ArgumentParser(
+        description="Rebuild the dense FAISS and sparse BM25 indices."
+    )
+    parser.add_argument(
+        "--corpus",
+        default=None,
+        help=(
+            "Path to the corpus JSON to index. Defaults to this package's "
+            "data/mock_corpus.json. Use ../data/standards_corpus.json for the "
+            "consolidated 45-standard corpus."
+        ),
+    )
+    args = parser.parse_args()
+
     print("=" * 65)
     print("Building Dual Retrieval Indices (Dense FAISS + Sparse BM25)")
     print("=" * 65)
 
-    corpus = load_corpus()
-    print(f"Loaded {len(corpus)} standards from corpus.\n")
+    corpus = load_corpus(args.corpus, force_reload=True)
+    source = args.corpus or "data/mock_corpus.json (default)"
+    print(f"Loaded {len(corpus)} standards from {source}.\n")
 
     # 1. Build Dense FAISS Vector Index
     print("--- [1/2] Building Dense FAISS Index ---")

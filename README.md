@@ -15,25 +15,40 @@ We would rather state our scope plainly than imply coverage we do not have.
 
 | | Status |
 |---|---|
-| **Standards in the corpus** | **30** (development corpus) |
+| **Standards in the corpus** | **45** ([`data/standards_corpus.json`](data/standards_corpus.json)) |
 | **Real BIS coverage** | BIS publishes **~22,000** Indian Standards |
-| **Data provenance** | IS numbers and titles are realistic but **not verified against the BIS catalogue** |
-| **Sectors represented** | Electrical cables, cement/concrete, structural steel (partial) |
+| **Data provenance** | IS numbers and titles are realistic but **not verified against the BIS catalogue**; every record carries `"verified": false` |
+| **Sectors represented** | Electrical cables, cement & building materials, steel pipes & fittings, structural steel, plastic pipes, electrical installations, PPE |
 | **Certification data** | Placeholder rules, not sourced from the official compulsory-certification lists |
 | **Related-standards graph** | Fixture data, marked `verified: false` |
 
 **What this means in practice:** queries inside the covered sectors return
-sensible results. Queries outside them (PPE, textiles, machinery, chemicals,
-food, and most of the catalogue) have no correct answer available and the
-system cannot return one.
+sensible results. Queries outside them (textiles, machinery, chemicals, food,
+and the overwhelming majority of the catalogue) have no correct answer
+available. The system currently has **no low-confidence threshold**, so such a
+query still returns its best guess as though it were a real match — this is a
+known gap, not intended behaviour.
 
 **About the accuracy numbers.** [`standards-retrieval/MODEL_AND_EVALUATION.md`](standards-retrieval/MODEL_AND_EVALUATION.md)
 reports Top-1 accuracy of 95.8% and NDCG@5 of 0.9846. Those figures are real
-and reproducible, but they are measured on the 30-standard corpus above
-against 24 queries written alongside it. At that scale retrieval is an easy
-problem. **They demonstrate that the ranking pipeline is correctly built and
-that each stage improves on the previous one — they are not a claim about
-real-world accuracy over the full BIS catalogue.**
+and reproducible, but they are measured on a **30-standard** corpus against 24
+queries written alongside it. At that scale retrieval is an easy problem.
+**They demonstrate that the ranking pipeline is correctly built and that each
+stage improves on the previous one — they are not a claim about real-world
+accuracy over the full BIS catalogue.**
+
+We can show this directly. Rebuilding the indexes over the consolidated
+45-standard corpus and re-running the same 24 queries:
+
+| Pipeline | 30 standards | 45 standards |
+|---|---|---|
+| Hybrid (dense + BM25 RRF) | 0.9430 | 0.9382 |
+| + Cross-encoder | 0.9609 | 0.9609 |
+| + LTR | **0.9846** | **0.9692** |
+
+LTR Top-1 accuracy fell from 95.8% to 91.7%. Adding 15 standards measurably
+degraded the scores, and we should expect that trend to continue toward
+realistic corpus sizes.
 
 Expanding to a verified, curated pilot dataset is tracked in
 [`PROGRESS.md`](PROGRESS.md).
@@ -65,12 +80,16 @@ override.
 
 | Path | Purpose |
 |---|---|
-| [`standards-retrieval/`](standards-retrieval/) | **Primary backend.** Retrieval, ranking, LTR training, evaluation, feedback loop |
-| [`frontend/`](frontend/) | React + Vite UI (19 screens) |
+| [`standards-retrieval/`](standards-retrieval/) | **The backend.** Retrieval, ranking, LTR training, evaluation, feedback loop. Single source of truth |
+| [`data/`](data/) | Datasets and the consolidation script — see [`data/README.md`](data/README.md) |
+| [`frontend/`](frontend/) | React + Vite UI (19 screens). **Not yet connected to the backend** |
 | [`services/knowledge-reasoning/`](services/knowledge-reasoning/) | Graph expansion & compliance validation (fixture-backed; see its `INTEGRATION.md`) |
-| [`app/`](app/) | Postgres/Neo4j/Chroma ingestion layer — **contains a stale duplicate of `standards-retrieval/`** (see PROGRESS.md) |
+| [`app/`](app/) | Postgres/Neo4j/Chroma ingestion layer — the upgrade path from flat files. Reuses `standards-retrieval/` rather than vendoring it |
 | [`api/`](api/) | Earlier standalone API prototype |
-| [`data/`](data/) | Dataset files and derived indexes |
+
+A duplicate of the retrieval pipeline previously lived under
+`app/services/standards_retrieval/`. It was removed in Phase B and archived on
+the `archive/app-standards-retrieval-duplicate` branch.
 
 ---
 
