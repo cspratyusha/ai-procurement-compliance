@@ -1,0 +1,122 @@
+# YAML variant of knowledge_reasoning/config/schema_map.py's defaults.
+#
+# This is NOT loaded automatically — pass its path via KR_SCHEMA_MAP_PATH or
+# `load_schema_map(yaml_path=...)` to override the Python defaults without
+# touching code. Any key you omit here falls back to the Python default for
+# that key, so you only need to list what actually differs once Teammate 1's
+# real schema is known.
+#
+# Every name below is validated against ^[A-Za-z_][A-Za-z0-9_]*$ at load
+# time and interpolated directly into Cypher/SQL — never edit this file with
+# anything other than a plain identifier in the name/value positions.
+
+node_labels:
+  standard: Standard
+  product_category: ProductCategory
+  certification_scheme: CertificationScheme
+
+relationship_types:
+  # direction is relative to the seed node in an expansion traversal:
+  #   outgoing -> (seed)-[:NAME]->(neighbour)
+  #   incoming -> (neighbour)-[:NAME]->(seed)
+  #   either   -> (seed)-[:NAME]-(neighbour)   (symmetric relationship)
+  normative_reference:
+    name: NORMATIVE_REFERENCE
+    direction: outgoing
+  test_method_for:
+    name: TEST_METHOD_FOR
+    direction: incoming
+  terminology_for:
+    name: TERMINOLOGY_FOR
+    direction: incoming
+  safety_requirement_for:
+    name: SAFETY_REQUIREMENT_FOR
+    direction: incoming
+  installation_guide_for:
+    name: INSTALLATION_GUIDE_FOR
+    direction: outgoing
+  design_code_for:
+    name: DESIGN_CODE_FOR
+    direction: outgoing
+  related_product:
+    name: RELATED_PRODUCT
+    direction: either
+  amended_by:
+    name: AMENDED_BY
+    direction: outgoing
+  complementary_part:
+    name: COMPLEMENTARY_PART
+    direction: either
+  related_ppe:
+    name: RELATED_PPE
+    direction: either
+  related_piping:
+    name: RELATED_PIPING
+    direction: either
+  superseded_by:
+    name: SUPERSEDED_BY
+    direction: outgoing
+  overlaps_scope_with:
+    name: OVERLAPS_SCOPE_WITH
+    direction: either
+  belongs_to:
+    name: BELONGS_TO
+    direction: outgoing
+
+property_names:
+  is_number: number
+  title: title
+  scope_text: scope_text
+  status: status
+  edition: edition_year
+  category_name: name
+  overlap_score: overlap_score
+  verified: verified
+
+table_names:
+  standards: standards
+  amendments: amendments
+  certification_rules: certification_rules
+  product_categories: product_categories
+  standard_relationships: standard_relationships
+
+# Table-scoped: column_names.<table>.<logical_name> = actual_name. See
+# schema_map.py's DEFAULT_COLUMN_NAMES docstring for why this isn't flat.
+column_names:
+  standards:
+    id: id
+    standard_number: number
+    title: title
+    scope_text: scope
+    status: status
+    current_version: version
+    last_amended: last_amended
+    category: category
+    superseded_by_id: superseded_by_id
+    product_category_id: product_category_id
+    sector: sector
+    source_url: source_url
+    source_checked_at: source_checked_at
+  amendments:
+    id: amendment_id
+    standard_id: standard_id
+    amendment_number: amendment_number
+    date_issued: date_issued
+    change_summary: change_summary
+  certification_rules:
+    category: category
+    scheme_type: scheme_type
+    mandatory: mandatory
+    notification_reference: notification_reference
+    effective_date: effective_date
+    source_url: source_url
+    required_evidence: required_evidence
+  product_categories:
+    id: category_id
+    name: name
+  standard_relationships:
+    source_id: source_id
+    target_id: target_id
+    type: type
+
+category_strategy: property

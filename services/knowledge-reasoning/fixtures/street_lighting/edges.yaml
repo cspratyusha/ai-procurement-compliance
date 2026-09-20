@@ -1,0 +1,267 @@
+# UNVERIFIED PLACEHOLDER DATA — see fixtures/README.md.
+# `type` keys match config/schema_map.py RELATIONSHIP_TYPES keys.
+# `from`/`to` is the absolute documented direction — see fixtures/README.md.
+
+# --- normative references ---------------------------------------------
+- type: normative_reference
+  from: "IS 10322-5-1:2015"
+  to: "IS 10322-1:2014"
+  verified: false
+
+- type: normative_reference
+  from: "IS 10322-5-1:2015"
+  to: "IS 12063:1987"
+  verified: false
+
+- type: normative_reference
+  from: "IS 16107-1:2018"
+  to: "IS 12063:1987"
+  verified: false
+
+- type: normative_reference
+  from: "IS 15885-2-13:2012"
+  to: "IS 12063:1987"
+  verified: false
+
+- type: normative_reference
+  from: "IS 2713-1:1980"
+  to: "IS 12063:1987"
+  verified: false
+
+- type: normative_reference
+  from: "IS 8623-1:1993"
+  to: "IS 12063:1987"
+  # Five inbound normative_reference edges land on IS 12063:1987 — the
+  # deliberate hub node (degree-based penalty test case, Phase 2).
+  verified: false
+
+- type: normative_reference
+  from: "IS 2713-1:1980"
+  to: "IS 2629:1985"
+  verified: false
+
+- type: normative_reference
+  from: "IS 2713-1:1980"
+  to: "IS 4759:1996"
+  verified: false
+
+- type: normative_reference
+  from: "IS 1944-1:1970"
+  to: "IS 9900:1981"
+  note: "reference to a withdrawn standard — ugly-case fixture, see fixtures/README.md"
+  verified: false
+
+- type: normative_reference
+  from: "IS 1944-1:1970"
+  to: "IS 99999:1999"
+  note: "dangling reference — IS 99999:1999 does not exist as a node in this fixture, ugly-case fixture"
+  verified: false
+
+# Synthetic 2-cycle, added specifically to test cycle-safety in traversal.
+# Not a real BIS cross-reference.
+- type: normative_reference
+  from: "IS 16107-1:2018"
+  to: "IS 16106:2015"
+  note: "synthetic cycle for cycle-safety testing, paired with the edge below"
+  verified: false
+
+- type: normative_reference
+  from: "IS 16106:2015"
+  to: "IS 16107-1:2018"
+  note: "synthetic cycle for cycle-safety testing, paired with the edge above"
+  verified: false
+
+# --- test methods --------------------------------------------------------
+- type: test_method_for
+  from: "IS 16106:2015"
+  to: "IS 10322-5-1:2015"
+  verified: false
+
+- type: test_method_for
+  from: "IS 16106:2015"
+  to: "IS 16107-2:2018"
+  verified: false
+
+- type: test_method_for
+  from: "IS 16101:2017"
+  to: "IS 16107-2:2018"
+  verified: false
+
+# --- terminology -----------------------------------------------------------
+- type: terminology_for
+  from: "IS 16108:2018"
+  to: "IS 10322-5-1:2015"
+  verified: false
+
+- type: terminology_for
+  from: "IS 16108:2018"
+  to: "IS 16107-1:2018"
+  verified: false
+
+# --- safety requirements ----------------------------------------------------
+- type: safety_requirement_for
+  from: "IS 16107-1:2018"
+  to: "IS 10322-5-1:2015"
+  verified: false
+
+- type: safety_requirement_for
+  from: "IS 15885-2-13:2012"
+  to: "IS 10322-5-1:2015"
+  verified: false
+
+- type: safety_requirement_for
+  from: "IS 3043:2018"
+  to: "IS 10322-5-1:2015"
+  verified: false
+
+# --- installation guides ----------------------------------------------------
+- type: installation_guide_for
+  from: "IS 10322-5-1:2015"
+  to: "IS 1944-1:1970"
+  note: "direction corrected against real Teammate 1 data (IS 694:2010 -> IS 732:2019): product -> installation code, not installation code -> product"
+  verified: false
+
+- type: installation_guide_for
+  from: "IS 10322-5-1:2015"
+  to: "IS 1944-2:1981"
+  verified: false
+
+- type: installation_guide_for
+  from: "IS 2713-1:1980"
+  to: "IS 875-3:2015"
+  verified: false
+
+- type: installation_guide_for
+  from: "IS 2713-1:1980"
+  to: "IS 3043:2018"
+  verified: false
+
+# --- related products --------------------------------------------------------
+- type: related_product
+  from: "IS 10322-5-1:2015"
+  to: "IS 2713-1:1980"
+  verified: false
+
+- type: related_product
+  from: "IS 10322-5-1:2015"
+  to: "IS 694:2010"
+  verified: false
+
+- type: related_product
+  from: "IS 10322-5-1:2015"
+  to: "IS 8623-1:1993"
+  verified: false
+
+- type: related_product
+  from: "IS 2629:1985"
+  to: "IS 4759:1996"
+  verified: false
+
+# --- supersession (decision 1: direction-critical) --------------------------
+- type: superseded_by
+  from: "IS 10322-5-1:2001"
+  to: "IS 10322-5-1:2015"
+  note: "direction-critical fixture case for the schema contract test — old -> new"
+  verified: false
+
+# --- scope overlap (decision 3: curated) -------------------------------------
+- type: overlaps_scope_with
+  from: "IS 10322-5-1:2015"
+  to: "IS 9974:1981"
+  overlap_score: 0.72
+  note: "current LED-era vs legacy HPMV street lighting luminaire standard — genuine parallel-standard overlap"
+  verified: false
+
+# --- category membership (decision 4: edge strategy) -------------------------
+# Every node below also carries a matching `category` property in
+# nodes.yaml *except* IS 8623-1:1993, whose only category source is this
+# edge — see fixtures/README.md, "category".
+- type: belongs_to
+  from: "IS 10322-5-1:2015"
+  to: "LED Street Lighting"
+  verified: false
+- type: belongs_to
+  from: "IS 10322-5-1:2001"
+  to: "LED Street Lighting"
+  verified: false
+- type: belongs_to
+  from: "IS 10322-1:2014"
+  to: "LED Street Lighting"
+  verified: false
+- type: belongs_to
+  from: "IS 16107-1:2018"
+  to: "LED Street Lighting"
+  verified: false
+- type: belongs_to
+  from: "IS 16107-2:2018"
+  to: "LED Street Lighting"
+  verified: false
+- type: belongs_to
+  from: "IS 16104:2013"
+  to: "LED Street Lighting"
+  verified: false
+- type: belongs_to
+  from: "IS 15885-2-13:2012"
+  to: "LED Street Lighting"
+  verified: false
+- type: belongs_to
+  from: "IS 16106:2015"
+  to: "LED Street Lighting"
+  verified: false
+- type: belongs_to
+  from: "IS 16101:2017"
+  to: "LED Street Lighting"
+  verified: false
+- type: belongs_to
+  from: "IS 16108:2018"
+  to: "LED Street Lighting"
+  verified: false
+- type: belongs_to
+  from: "IS 12063:1987"
+  to: "Electrical Installation"
+  verified: false
+- type: belongs_to
+  from: "IS 1944-1:1970"
+  to: "LED Street Lighting"
+  verified: false
+- type: belongs_to
+  from: "IS 1944-2:1981"
+  to: "LED Street Lighting"
+  verified: false
+- type: belongs_to
+  from: "IS 875-3:2015"
+  to: "Structural & Materials"
+  verified: false
+- type: belongs_to
+  from: "IS 2629:1985"
+  to: "Structural & Materials"
+  verified: false
+- type: belongs_to
+  from: "IS 4759:1996"
+  to: "Structural & Materials"
+  verified: false
+- type: belongs_to
+  from: "IS 2713-1:1980"
+  to: "Structural & Materials"
+  verified: false
+- type: belongs_to
+  from: "IS 3043:2018"
+  to: "Electrical Installation"
+  verified: false
+- type: belongs_to
+  from: "IS 694:2010"
+  to: "Electrical Installation"
+  verified: false
+- type: belongs_to
+  from: "IS 8623-1:1993"
+  to: "Electrical Installation"
+  note: "the fallback-to-edge test case — IS 8623-1:1993 has no category property in nodes.yaml"
+  verified: false
+- type: belongs_to
+  from: "IS 9900:1981"
+  to: "Electrical Installation"
+  verified: false
+- type: belongs_to
+  from: "IS 9974:1981"
+  to: "LED Street Lighting"
+  verified: false

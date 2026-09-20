@@ -1,0 +1,69 @@
+# UNVERIFIED PLACEHOLDER DATA — see fixtures/README.md.
+#
+# FixtureRetrievalPort (adapters/fixture/fixture_retrieval_port.py) serves
+# these as canned contracts.RetrievalResult objects, keyed by exact,
+# case-insensitive match on `query`. A query not listed here raises
+# UnknownMockQueryError rather than silently returning an empty result —
+# an empty candidate list would be indistinguishable from a genuine
+# "nothing matched" outcome, which this fixture is not trying to assert.
+
+- query: "LED street light"
+  normalised_query: "led street light"
+  original_language: "en-IN"
+  product_category: "LED Street Lighting"
+  candidates:
+    - is_number: "IS 10322-5-1:2015"
+      title: "Luminaires — Part 5: Particular requirements — Section 1: Street lighting luminaires"
+      score: 0.91
+      match_reason: hybrid
+      snippet: "particular requirements for luminaires intended for street and public thoroughfare lighting"
+    - is_number: "IS 9974:1981"
+      title: "Specification for high pressure mercury vapour street lighting luminaires"
+      score: 0.54
+      match_reason: sparse
+      snippet: "street lighting luminaires — high pressure mercury vapour"
+
+- query: "TMT bar for reinforcement"
+  normalised_query: "tmt bar for reinforcement"
+  original_language: "en-IN"
+  product_category: "Reinforcement Steel"
+  candidates:
+    - is_number: "IS 1786:2008"
+      title: "High strength deformed steel bars and wires for concrete reinforcement — Specification"
+      score: 0.93
+      match_reason: hybrid
+      snippet: "high strength deformed steel bars (TMT/CTD) used as concrete reinforcement"
+    - is_number: "IS 432-1:1982"
+      title: "Mild steel and medium tensile steel bars and hard-drawn steel wire for concrete reinforcement — Part 1"
+      score: 0.41
+      match_reason: sparse
+      snippet: "mild steel and medium tensile steel bars for concrete reinforcement"
+
+- query: "sadak battI ke liye LED light"  # Hindi-English code-switched: "LED light for street lamp"
+  normalised_query: "led street light"
+  original_language: "hi-IN"
+  product_category: "LED Street Lighting"
+  candidates:
+    - is_number: "IS 10322-5-1:2015"
+      title: "Luminaires — Part 5: Particular requirements — Section 1: Street lighting luminaires"
+      score: 0.86
+      match_reason: hybrid
+      snippet: "particular requirements for luminaires intended for street and public thoroughfare lighting"
+
+# Deliberately low-confidence — no candidate should clear a sane orphan
+# threshold (e.g. 0.5). Used to exercise the orphan gate (Phase 3).
+- query: "quantum flux capacitor mounting bracket"
+  normalised_query: "quantum flux capacitor mounting bracket"
+  original_language: "en-IN"
+  product_category: null
+  candidates:
+    - is_number: "IS 10322-1:2014"
+      title: "Luminaires — Part 1: General requirements and tests"
+      score: 0.19
+      match_reason: dense
+      snippet: "general requirements and tests"
+    - is_number: "IS 2062:2011"
+      title: "Hot rolled medium and high tensile structural steel — Specification"
+      score: 0.14
+      match_reason: dense
+      snippet: "hot rolled structural steel"

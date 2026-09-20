@@ -1,0 +1,44 @@
+# Knowledge Reasoning (Part 3 + Part 5) — my own dev stack, NOT the team's
+# shared infrastructure. Neo4j and Postgres proper belong to Teammate 1;
+# this exists so I have something real to develop and test against before
+# that infrastructure is stood up. Deliberately on non-default ports
+# (Neo4j 7688/7475, Postgres 5433) so it can never clash with a teammate's
+# stack on the same machine. See README.md, "Integrating real data" — this
+# compose file needs reconciling with whatever Teammate 1 eventually owns.
+
+services:
+  neo4j:
+    image: neo4j:5.24-community
+    environment:
+      NEO4J_AUTH: neo4j/devpassword
+      NEO4J_server_default__listen__address: 0.0.0.0
+    ports:
+      - "7475:7474" # browser UI -> http://localhost:7475
+      - "7688:7687" # bolt
+    volumes:
+      - kr_neo4j_data:/data
+    healthcheck:
+      test: ["CMD-SHELL", "wget -q -O - http://localhost:7474 || exit 1"]
+      interval: 5s
+      timeout: 5s
+      retries: 20
+
+  postgres:
+    image: postgres:16
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: devpassword
+      POSTGRES_DB: kr_dev
+    ports:
+      - "5433:5432"
+    volumes:
+      - kr_postgres_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres"]
+      interval: 5s
+      timeout: 5s
+      retries: 20
+
+volumes:
+  kr_neo4j_data:
+  kr_postgres_data:
