@@ -1,0 +1,107 @@
+/* min-width:0 — a flex child defaults to min-width:auto and so refuses to
+   shrink below its content, which lets the fallback table push the page wide
+   instead of scrolling inside its own .scroll-x container. */
+.graph-wrap {
+  display: flex;
+  flex-direction: column;
+  gap: var(--s4);
+  min-width: 0;
+}
+
+.graph-wrap > * { min-width: 0; }
+
+.graph-canvas {
+  position: relative;
+  background: var(--surface-sunk);
+  border: 1px solid var(--line);
+  border-radius: var(--r);
+  overflow: hidden;
+  background-image:
+    linear-gradient(var(--line) 1px, transparent 1px),
+    linear-gradient(90deg, var(--line) 1px, transparent 1px);
+  background-size: 28px 28px;
+  background-position: -1px -1px;
+}
+
+:root[data-theme='dark'] .graph-canvas { opacity: 0.98; }
+
+.graph-edges {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+}
+
+.graph-node {
+  position: absolute;
+  transform: translate(-50%, -50%);
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 5px 10px;
+  background: var(--surface);
+  border: 1px solid var(--line-strong);
+  border-radius: var(--r);
+  font-size: var(--fs-xs);
+  cursor: pointer;
+  white-space: nowrap;
+  box-shadow: var(--shade);
+  transition: background var(--t), opacity var(--t), border-width var(--t);
+}
+
+.graph-node:hover { background: var(--surface-hover); }
+
+.graph-node.is-primary {
+  font-weight: 600;
+  border-width: 2px;
+  padding: 7px 12px;
+}
+
+.graph-node.is-selected {
+  border-width: 2px;
+  background: var(--surface-hover);
+}
+
+.graph-dot {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  flex-shrink: 0;
+}
+
+.graph-label { letter-spacing: -0.01em; }
+
+.graph-legend {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--s4);
+}
+
+.legend-item { display: inline-flex; align-items: center; gap: 6px; }
+
+.legend-dot {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  flex-shrink: 0;
+}
+
+.graph-table summary {
+  cursor: pointer;
+  padding: var(--s2) 0;
+  user-select: none;
+}
+.graph-table summary:hover { color: var(--ink); }
+
+@media (max-width: 720px) {
+  .graph-node { font-size: 10px; padding: 4px 7px; }
+  .graph-node.is-primary { padding: 5px 9px; }
+}
+
+/* A closed <details> still contributes its contents to layout in some engines,
+   letting the wide fallback table push the page sideways while invisible.
+   Taking it out of flow when closed keeps the page width honest; the open
+   state restores normal block layout and scrolls inside .scroll-x. */
+.graph-table:not([open]) > *:not(summary) {
+  display: none;
+}

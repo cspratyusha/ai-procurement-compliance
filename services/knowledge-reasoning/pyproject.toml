@@ -1,0 +1,43 @@
+[build-system]
+requires = ["setuptools>=68"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "knowledge-reasoning"
+version = "0.1.0"
+description = "Part 3 (Graph Expansion & Compliance Validation) and Part 5 (LLM Reasoning & Generation) for the IS standards recommendation engine."
+requires-python = ">=3.11"
+dependencies = [
+    "pydantic>=2.6",
+    "PyYAML>=6.0",
+    "networkx>=3.2",
+    "neo4j>=5.19",
+    "psycopg[binary]>=3.1",
+    "python-dotenv>=1.0",
+]
+
+[project.optional-dependencies]
+dev = [
+    "pytest>=8.0",
+    "pytest-cov>=5.0",
+]
+api = [
+    "fastapi>=0.110",
+    "uvicorn>=0.29",
+]
+
+# `contracts` is deliberately packaged as its own top-level distribution unit,
+# separate from `knowledge_reasoning`. The day this is promoted to a shared
+# `packages/contracts/`, only this file's package source mapping changes —
+# every `from contracts import ...` elsewhere in this service (and in
+# teammates' services, once they depend on it) stays exactly as written.
+[tool.setuptools.packages.find]
+where = ["."]
+include = ["contracts*", "knowledge_reasoning*"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+markers = [
+    "live_neo4j: requires a reachable Neo4j instance (set KR_NEO4J_URI)",
+    "live_postgres: requires a reachable Postgres instance (set KR_POSTGRES_DSN)",
+]

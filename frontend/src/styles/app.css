@@ -1,0 +1,450 @@
+/* ============================================================
+   Shared component layer — matte primitives
+   ============================================================ */
+
+/* ---------------- Layout ---------------- */
+
+.shell { display: flex; min-height: 100vh; }
+
+.shell-main {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+}
+
+.container {
+  width: 100%;
+  max-width: 1180px;
+  margin: 0 auto;
+  padding: 0 var(--s5);
+}
+
+.page { padding: var(--s6) 0 var(--s9); }
+
+.page-head {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: var(--s5);
+  margin-bottom: var(--s6);
+  flex-wrap: wrap;
+}
+
+.page-title { font-size: var(--fs-lg); letter-spacing: -0.025em; }
+
+.page-sub {
+  color: var(--ink-muted);
+  font-size: var(--fs-sm);
+  margin-top: var(--s2);
+  max-width: 68ch;
+}
+
+.eyebrow {
+  font-size: var(--fs-xs);
+  font-weight: 600;
+  letter-spacing: 0.09em;
+  text-transform: uppercase;
+  color: var(--ink-faint);
+}
+
+.stack { display: flex; flex-direction: column; }
+.stack-2 { gap: var(--s2); } .stack-3 { gap: var(--s3); }
+.stack-4 { gap: var(--s4); } .stack-5 { gap: var(--s5); }
+.stack-6 { gap: var(--s6); }
+
+.row { display: flex; align-items: center; gap: var(--s3); }
+.row-between { display: flex; align-items: center; justify-content: space-between; gap: var(--s3); }
+.wrap { flex-wrap: wrap; }
+.grow { flex: 1; min-width: 0; }
+
+.grid { display: grid; gap: var(--s4); }
+.grid-2 {
+  /* auto-fit + minmax so a grid nested inside a narrow column collapses on its
+     own available width. A viewport media query cannot see that context, which
+     let nested pairs overflow between 900px and 1200px. */
+  grid-template-columns: repeat(auto-fit, minmax(min(240px, 100%), 1fr));
+}
+.grid-3 { grid-template-columns: repeat(3, 1fr); }
+.grid-4 { grid-template-columns: repeat(4, 1fr); }
+
+@media (max-width: 1024px) {
+  .grid-4 { grid-template-columns: repeat(2, 1fr); }
+  .grid-3 { grid-template-columns: repeat(2, 1fr); }
+}
+@media (max-width: 720px) {
+  .grid-2, .grid-3, .grid-4 { grid-template-columns: 1fr; }
+  .container { padding: 0 var(--s4); }
+}
+
+/* ---------------- Surfaces ---------------- */
+
+.card {
+  background: var(--surface);
+  border: 1px solid var(--line);
+  border-radius: var(--r-lg);
+  padding: var(--s5);
+  box-shadow: var(--e1);
+}
+
+.card-flush { padding: 0; overflow: hidden; }
+
+.card-head {
+  padding: var(--s4) var(--s5);
+  border-bottom: 1px solid var(--line);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--s3);
+}
+
+.card-title { font-size: var(--fs-base); font-weight: 600; }
+
+.card-body { padding: var(--s5); }
+
+/* Note: no `display` here — a card-link is often also a .stack, and setting
+   display:block would override the flex column and collapse its gaps. */
+.card-link {
+  text-align: left;
+  width: 100%;
+  cursor: pointer;
+  transition: background var(--t), border-color var(--t);
+}
+.card-link { box-shadow: var(--e1); }
+.card-link:hover {
+  background: var(--surface-hover);
+  border-color: var(--line-strong);
+  box-shadow: var(--e2);
+}
+
+.sunk {
+  background: var(--surface-sunk);
+  border: 1px solid var(--line);
+  border-radius: var(--r);
+  padding: var(--s4);
+}
+
+.divider { height: 1px; background: var(--line); border: 0; margin: 0; }
+
+/* ---------------- Buttons ---------------- */
+
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--s2);
+  min-height: 40px;
+  padding: 0 var(--s4);
+  border-radius: var(--r);
+  border: 1px solid transparent;
+  font-size: var(--fs-sm);
+  font-weight: 500;
+  white-space: nowrap;
+  cursor: pointer;
+  transition: background var(--t), border-color var(--t), color var(--t),
+              opacity var(--t), box-shadow var(--t), transform var(--t);
+}
+
+.btn:disabled { opacity: 0.45; cursor: not-allowed; }
+
+.btn-primary {
+  background: var(--ink);
+  color: var(--paper);
+  box-shadow: var(--e1);
+}
+.btn-primary:hover:not(:disabled) { background: var(--ink-soft); box-shadow: var(--e2); }
+.btn-primary:active:not(:disabled) { box-shadow: none; transform: translateY(0.5px); }
+
+.btn-secondary {
+  background: var(--surface);
+  color: var(--ink);
+  border-color: var(--line-strong);
+  box-shadow: var(--e1);
+}
+.btn-secondary:hover:not(:disabled) { background: var(--surface-hover); border-color: var(--ink-faint); }
+.btn-secondary:active:not(:disabled) { box-shadow: none; transform: translateY(0.5px); }
+
+.btn-ghost { background: transparent; color: var(--ink-muted); }
+.btn-ghost:hover:not(:disabled) { background: var(--surface-hover); color: var(--ink); }
+
+.btn-accent {
+  background: var(--accent-soft);
+  color: var(--accent);
+  border-color: var(--accent-line);
+}
+.btn-accent:hover:not(:disabled) { border-color: var(--accent); }
+
+.btn-lg { min-height: 48px; padding: 0 var(--s5); font-size: var(--fs-base); }
+.btn-sm { min-height: 32px; padding: 0 var(--s3); font-size: var(--fs-xs); }
+
+.btn-icon {
+  min-height: 40px; width: 40px; padding: 0;
+  color: var(--ink-muted);
+  border-radius: var(--r);
+  display: inline-flex; align-items: center; justify-content: center;
+  transition: background var(--t), color var(--t);
+}
+.btn-icon:hover { background: var(--surface-hover); color: var(--ink); }
+
+/* ---------------- Badges ---------------- */
+
+.badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  padding: 3px var(--s2);
+  border-radius: var(--r-sm);
+  font-size: var(--fs-xs);
+  font-weight: 500;
+  line-height: 1.5;
+  border: 1px solid transparent;
+  white-space: nowrap;
+}
+
+.badge > svg { flex-shrink: 0; }
+
+.badge-neutral { background: var(--surface-sunk); color: var(--ink-muted); border-color: var(--line); }
+.badge-ok      { background: var(--ok-soft);   color: var(--ok);   border-color: color-mix(in srgb, var(--ok) 26%, transparent); }
+.badge-warn    { background: var(--warn-soft); color: var(--warn); border-color: color-mix(in srgb, var(--warn) 26%, transparent); }
+.badge-crit    { background: var(--crit-soft); color: var(--crit); border-color: color-mix(in srgb, var(--crit) 26%, transparent); }
+.badge-info    { background: var(--info-soft); color: var(--info); border-color: color-mix(in srgb, var(--info) 26%, transparent); }
+.badge-accent  { background: var(--accent-soft); color: var(--accent); border-color: var(--accent-line); }
+
+.mono { font-family: var(--mono); font-size: 0.95em; letter-spacing: -0.01em; }
+
+/* ---------------- Forms ---------------- */
+
+.field { display: flex; flex-direction: column; gap: var(--s2); }
+
+.label { font-size: var(--fs-sm); font-weight: 500; color: var(--ink-soft); }
+
+.hint { font-size: var(--fs-xs); color: var(--ink-muted); }
+
+.input, .select, .textarea {
+  width: 100%;
+  background: var(--surface);
+  border: 1px solid var(--line-strong);
+  border-radius: var(--r);
+  padding: 10px var(--s3);
+  font-size: var(--fs-base);
+  color: var(--ink);
+  transition: border-color var(--t), box-shadow var(--t);
+}
+
+.input::placeholder, .textarea::placeholder { color: var(--ink-faint); }
+
+.input:hover, .select:hover, .textarea:hover { border-color: var(--ink-faint); }
+
+.input:focus, .select:focus, .textarea:focus {
+  outline: none;
+  border-color: var(--ink);
+  /* A ring, not a glow — one crisp band at low alpha */
+  box-shadow: 0 0 0 3px color-mix(in srgb, var(--ink) 11%, transparent);
+}
+
+.textarea { resize: vertical; min-height: 120px; line-height: 1.6; }
+
+.select { cursor: pointer; appearance: none;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='none' stroke='%236B6B66' stroke-width='2.5'%3E%3Cpath d='M6 9l6 6 6-6'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right var(--s3) center;
+  padding-right: var(--s6);
+}
+
+.check { display: flex; align-items: flex-start; gap: var(--s3); cursor: pointer; }
+.check input { margin-top: 3px; width: 16px; height: 16px; accent-color: var(--ink); cursor: pointer; flex-shrink: 0; }
+
+/* Segmented control */
+.seg {
+  display: inline-flex;
+  background: var(--surface-sunk);
+  border: 1px solid var(--line);
+  border-radius: var(--r);
+  padding: 2px;
+  gap: 2px;
+}
+.seg button {
+  padding: 6px var(--s3);
+  border-radius: var(--r-sm);
+  font-size: var(--fs-xs);
+  font-weight: 500;
+  color: var(--ink-muted);
+  transition: background var(--t), color var(--t);
+  min-height: 30px;
+}
+.seg button:hover { color: var(--ink); }
+.seg button[aria-pressed='true'] { background: var(--surface); color: var(--ink); box-shadow: var(--shade); }
+
+/* ---------------- Tables ---------------- */
+
+.table { width: 100%; border-collapse: collapse; font-size: var(--fs-sm); }
+
+.table th {
+  text-align: left;
+  font-size: var(--fs-xs);
+  font-weight: 600;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  color: var(--ink-faint);
+  padding: var(--s3) var(--s4);
+  border-bottom: 1px solid var(--line);
+  white-space: nowrap;
+}
+
+.table td {
+  padding: var(--s3) var(--s4);
+  border-bottom: 1px solid var(--line);
+  vertical-align: middle;
+}
+
+.table tbody tr:last-child td { border-bottom: 0; }
+.table tbody tr { transition: background var(--t); }
+.table-hover tbody tr:hover { background: var(--surface-hover); }
+
+/* A horizontally scrollable region must be reachable by keyboard, otherwise
+   its overflowed content is unreachable without a mouse. tabindex is applied
+   in markup; this keeps the focus ring inside the card rather than clipped.
+   max-width pins the box to its container so a wide table scrolls inside it
+   instead of widening the page. */
+.scroll-x {
+  overflow-x: auto;
+  max-width: 100%;
+}
+.scroll-x:focus-visible { outline: 2px solid var(--ink); outline-offset: -2px; }
+
+/* ---------------- States ---------------- */
+
+.empty {
+  text-align: center;
+  padding: var(--s8) var(--s5);
+  color: var(--ink-muted);
+}
+.empty-title { font-weight: 600; color: var(--ink); margin-bottom: var(--s2); font-size: var(--fs-base); }
+
+.skeleton {
+  background: var(--surface-sunk);
+  border-radius: var(--r-sm);
+  animation: pulse 1.6s ease-in-out infinite;
+}
+@keyframes pulse { 0%, 100% { opacity: 1; } 50% { opacity: 0.55; } }
+
+.spinner {
+  width: 15px; height: 15px;
+  border: 2px solid color-mix(in srgb, currentColor 25%, transparent);
+  border-top-color: currentColor;
+  border-radius: 50%;
+  animation: spin 0.7s linear infinite;
+  flex-shrink: 0;
+}
+@keyframes spin { to { transform: rotate(360deg); } }
+
+.fade-in { animation: fade var(--t) ease-out; }
+@keyframes fade { from { opacity: 0; transform: translateY(3px); } to { opacity: 1; transform: none; } }
+
+/* ---------------- Meter ---------------- */
+
+.meter {
+  height: 4px;
+  background: var(--surface-sunk);
+  border-radius: 2px;
+  overflow: hidden;
+}
+.meter-fill {
+  height: 100%;
+  border-radius: 2px;
+  background: var(--ink);
+  transition: width 320ms cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* ---------------- Utilities ---------------- */
+
+.muted { color: var(--ink-muted); }
+.faint { color: var(--ink-faint); }
+.small { font-size: var(--fs-sm); }
+.xs    { font-size: var(--fs-xs); }
+.strong{ font-weight: 600; }
+.center{ text-align: center; }
+.nowrap{ white-space: nowrap; }
+.tabular { font-variant-numeric: tabular-nums; }
+
+/* ---------------- Workbench split layouts ----------------
+   Two-column screens: a main column plus a side rail. The rail width varies
+   per screen, so it is passed as --rail. Collapses to one column on small
+   screens. Using a class (not an inline style) keeps the responsive rule in
+   CSS where it can actually win the cascade. */
+
+.split {
+  display: grid;
+  gap: var(--s4);
+  align-items: start;
+  grid-template-columns: minmax(0, 1fr) minmax(0, var(--rail, 320px));
+}
+
+/* Rail on the left instead of the right */
+.split-left {
+  grid-template-columns: minmax(0, var(--rail, 320px)) minmax(0, 1fr);
+}
+
+/* Between 900px and ~1200px the sidebar (248px) plus a fixed rail leaves the
+   main column too narrow, and its content pushes the page sideways. Let the
+   rail shrink in that band instead of holding its full width. */
+@media (max-width: 1200px) {
+  .split      { grid-template-columns: minmax(0, 1fr) minmax(0, 0.8fr); }
+  .split-left { grid-template-columns: minmax(0, 0.8fr) minmax(0, 1fr); }
+}
+
+@media (max-width: 900px) {
+  .split, .split-left { grid-template-columns: minmax(0, 1fr); }
+}
+
+/* ---------------- Wordmark ---------------- */
+
+.wordmark {
+  font-size: var(--fs-md);
+  font-weight: 600;
+  letter-spacing: -0.03em;
+  color: var(--ink);
+  line-height: 1.1;
+}
+
+/* The second syllable carries the accent — identity without an icon */
+.wordmark::after {
+  content: '';
+}
+
+.wordmark-sm { font-size: var(--fs-sm); }
+
+/* ---------------- Refined table treatment ---------------- */
+
+.table th {
+  background: var(--surface-sunk);
+  font-variant-numeric: tabular-nums;
+}
+
+.table thead th:first-child { border-top-left-radius: var(--r); }
+.table thead th:last-child  { border-top-right-radius: var(--r); }
+
+/* Numeric columns align on the decimal */
+.table td.tabular, .table td .tabular { font-variant-numeric: tabular-nums; }
+
+/* ---------------- Badge refinement ---------------- */
+
+.badge {
+  letter-spacing: 0.005em;
+  font-variant-numeric: tabular-nums;
+}
+
+/* ---------------- Section headings ---------------- */
+
+.eyebrow {
+  /* Slightly wider tracking reads as deliberate at small sizes */
+  letter-spacing: 0.1em;
+}
+
+/* ---------------- Focus ring consistency ---------------- */
+
+.btn:focus-visible,
+.card-link:focus-visible {
+  outline: 2px solid var(--ink);
+  outline-offset: 2px;
+}
