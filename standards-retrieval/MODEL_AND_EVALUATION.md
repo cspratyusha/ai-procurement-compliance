@@ -2,6 +2,29 @@
 
 This document provides a comprehensive technical reference for the multi-stage retrieval, ranking, and evaluation pipeline implemented in `standards-retrieval` (Part 2, Stages A–C). It details model architectures, feature engineering, hyperparameters, training methodology, cross-validation, conservative promotion gates, benchmark evaluation metrics, and scoring contracts.
 
+> ### ⚠️ Read this before quoting any number in this document
+>
+> **Every metric below is measured on a 30-standard development corpus
+> ([`data/mock_corpus.json`](data/mock_corpus.json)) against 24 evaluation queries.**
+>
+> - The corpus is **not** curated BIS data. The IS numbers and titles are
+>   realistic but have **not been verified against the BIS catalogue**.
+> - 30 documents is small enough that retrieval is an *easy* problem: with
+>   only ~10 standards per sector, a query rarely has close competitors.
+>   Scores this high are expected at this scale and **will drop** as the
+>   corpus grows toward realistic size (BIS publishes ~22,000 standards).
+> - The eval set was authored alongside the corpus, so it shares its
+>   vocabulary and assumptions.
+>
+> These numbers are therefore a **pipeline-correctness signal** — evidence
+> that each stage improves on the one before it, and that the plumbing is
+> sound — **not** a benchmark of real-world accuracy. Do not present them
+> as "the system is 95.8% accurate on Indian Standards." The honest claim
+> is: *"on our pilot corpus, the LTR stage improves Top-1 from 87.5% to
+> 95.8% over hybrid search."*
+>
+> See the "Data coverage and limitations" section of the root `README.md`.
+
 ---
 
 ## 📑 Table of Contents
@@ -211,7 +234,13 @@ $$\text{NDCG@5} = \frac{\text{DCG@5}}{\text{IDCG@5}} = \frac{1}{\log_2(\text{ran
 
 ## 6. Empirical Evaluation Benchmark Results
 
-All benchmarks are evaluated over the **24 held-out evaluation queries** in [`data/eval_set.json`](data/eval_set.json):
+All benchmarks are evaluated over the **24 held-out evaluation queries** in [`data/eval_set.json`](data/eval_set.json), against the **30-standard development corpus** in [`data/mock_corpus.json`](data/mock_corpus.json).
+
+**Scope caveat (see the banner at the top of this document):** a 30-document
+corpus makes retrieval substantially easier than the real task, and the
+corpus is unverified placeholder data. Read the table below as *relative*
+evidence that each stage adds value over the previous one — not as an
+absolute accuracy claim for Indian Standards retrieval.
 
 ### Overall Pipeline Comparison
 
@@ -221,7 +250,7 @@ All benchmarks are evaluated over the **24 held-out evaluation queries** in [`da
 | **Full Retrieve (+ Cross-Encoder Re-Ranking)** | 91.7% (22/24) | 100.0% (24/24) | 0.9609 | ~45 ms |
 | **LTR Final Pipeline (+ Post-Processing)** | **95.8% (23/24)** | **100.0% (24/24)** | **0.9846** | **~48 ms** |
 
-> **Key Takeaway**: The LTR pipeline achieves a **+8.3% increase in Top-1 Accuracy** over Hybrid Search and **+4.1% over Cross-Encoder alone**, achieving an NDCG@5 of **0.9846** with 100% Top-5 coverage.
+> **Key Takeaway**: On this pilot corpus, each stage improves on the one before it — the LTR pipeline adds **+8.3 points of Top-1 accuracy** over hybrid search and **+4.1 over the cross-encoder alone**. The ordering of the three rows is the result worth reporting; the absolute values reflect a 30-document corpus and would be lower at realistic scale.
 
 ---
 

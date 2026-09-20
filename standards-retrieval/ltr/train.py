@@ -23,7 +23,11 @@ from retrieval.hybrid import hybrid_search
 from retrieval.rerank import rerank, full_retrieve
 from retrieval.postprocess import apply_supersession_penalty
 from ltr.features import build_features, fallback_score, FEATURE_NAMES
-from feedback.retrain_and_promote import promotion_decision
+
+# NOTE: `promotion_decision` is imported lazily inside `train_and_evaluate`.
+# `feedback.retrain_and_promote` imports `ltr.train` at module level, so a
+# top-level import here forms a cycle that leaves `ltr.train` partially
+# initialized whenever `feedback` is imported first.
 
 _DEFAULT_MODEL_PATH = _PROJECT_ROOT / "models" / "ltr_model.txt"
 _REJECTED_MODEL_PATH = _PROJECT_ROOT / "models" / "ltr_model_rejected.txt"
@@ -757,6 +761,8 @@ def main(reuse_cv_run_id: Optional[str] = None, cv_reuse_reason: Optional[str] =
     # 5. Automated Conservative Promotion Gate Enforcement
     baseline_ndcg5 = rerank_res["overall"]["ndcg_at_5"]
     candidate_ndcg5 = candidate_ltr_res["overall"]["ndcg_at_5"]
+
+    from feedback.retrain_and_promote import promotion_decision
 
     print("\n" + "=" * 85)
     print(f"AUTOMATED CONSERVATIVE PROMOTION GATE DECISION [run_id: {run_id}]")

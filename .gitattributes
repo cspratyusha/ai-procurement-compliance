@@ -1,0 +1,19 @@
+# Normalize text files to LF in the repository.
+* text=auto eol=lf
+
+# Machine-learning artifacts and serialized indexes must never be
+# line-ending converted. LightGBM model files encode byte offsets in
+# their `tree_sizes=` header, so a CRLF checkout on Windows shifts every
+# offset and the model fails to load with "expect a tree here".
+*.txt -text
+*.pkl -text binary
+*.index -text binary
+*.npy -text binary
+*.bin -text binary
+*.onnx -text binary
+*.png -text binary
+*.jpg -text binary
+*.pdf -text binary
+
+# Documentation and config .txt-adjacent files are normal text again.
+requirements*.txt text eol=lf
