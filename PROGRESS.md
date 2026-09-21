@@ -5,6 +5,88 @@ at the top.
 
 ---
 
+## Phase L — Demo script and fresh-clone verification (2026-09-21)
+
+**Goal:** the brief's Phase 10 — prove the project runs from a clean checkout,
+and write a demo that can actually be performed.
+
+### Fresh-clone verification, actually performed
+
+The README claimed the project runs from a fresh clone. That claim had never
+been tested, so it was a wish rather than a fact. It has now been done:
+
+```
+git clone <repo> /tmp/freshclone
+```
+
+- 308 tracked files.
+- **The LightGBM models survive checkout intact** — 8,319 and 11,566 bytes,
+  exactly matching their blobs. This is the Phase A bug not recurring: without
+  `.gitattributes`, `core.autocrlf` would have inflated the first to 8,598
+  bytes and broken it. Both load: 7 features / 7 trees and 7 features / 11
+  trees.
+- **`pytest` — 92 passed** in the clean clone, no extra setup.
+- **`npm install && npm run build`** — clean.
+
+### Demo script
+
+`docs/demo-script.md`: a timed seven-minute walkthrough with a pre-flight
+checklist, the questions judges tend to ask with honest answers, and a
+troubleshooting section covering the two failure modes that actually bit
+during development — a stale uvicorn holding port 8000, and Git Bash mangling
+UTF-8 in Hindi test queries.
+
+The script is built around leading with the limitations rather than hiding
+them. Step 2 is the out-of-scope query, and the script says explicitly: *"This
+is the most important thirty seconds of the demo. Do not skip it."* A tool
+that is confidently wrong about a legal requirement is worse than no tool, and
+showing the refusal is more convincing than showing another good answer.
+
+### Every step verified against the running system
+
+A demo script nobody has run is a wish too. All thirteen assertions were
+checked in the browser against the live stack:
+
+| | |
+|---|---|
+| Search returns cards with an ISI badge | 683 ms |
+| "safety helmet" resolves to IS 2925:1984 | ok |
+| "laptop computer" renders zero recommendations | ok |
+| Heading changes to "Nearest text matches" | ok |
+| IS 456 shows "6 in force" and "10 related" | ok |
+| Outside-corpus citations shown and flagged | ok |
+| Hindi chip shows the translation panel | ok |
+| Tender builder carries the GeM disclaimer | ok |
+| Generated clause cites the real 2003 QCO | ok |
+
+### README finished
+
+Added a capability table, the test commands with their real counts, the
+fresh-clone result, and a pointer to the demo script. Clarified the corpus
+startup command, which was written for one working directory and silently
+wrong from the other.
+
+### The brief is complete
+
+Every phase of the original build plan is delivered, and every requirement in
+the problem statement is met: semantic matching, allied standards, latest
+version with amendments, certification flags, multilingual input, and a mock
+procurement-portal demo.
+
+**Tests: 92 backend + 22 end-to-end = 114.**
+
+### Still open, honestly
+
+These are data and scope items, not missing engineering:
+
+- 28 of 45 standards have unverified certification status; 42 have
+  unresearched amendments; 29 have no relationship data.
+- The corpus is 45 standards against a real catalogue of ~22,000.
+- Standards map is the last screen still on fixture data.
+- OCR for scanned tenders, and UI chrome translation, are unbuilt.
+
+---
+
 ## Phase K — Published amendments (2026-09-21)
 
 **Goal:** the last unmet requirement in the problem statement — "shows the

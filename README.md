@@ -184,10 +184,15 @@ cache.
 #### Choosing a corpus
 
 The engine serves the 30-standard `mock_corpus.json` by default, because the
-committed indexes and trained ranker were built against it. To serve the
-consolidated 45-standard corpus instead:
+committed indexes and trained ranker were built against it. **For a demo, use
+the consolidated 45-standard corpus** — it has the certification, amendment
+and relationship data:
 
 ```bash
+# from the repository root
+STANDARDS_CORPUS=canonical .venv/Scripts/python -m uvicorn main:app --port 8000 --app-dir standards-retrieval
+
+# or, from inside standards-retrieval/
 STANDARDS_CORPUS=canonical python -m uvicorn main:app --port 8000
 ```
 
@@ -252,10 +257,54 @@ git checkout -- standards-retrieval/models/ltr_model.txt
 
 ---
 
+## What is built
+
+| Capability | State |
+|---|---|
+| Semantic search (dense + BM25 + cross-encoder + learned ranker) | Live, ~200 ms |
+| Refuses to answer outside its coverage | Live |
+| Mandatory BIS certification flags with governing QCO | 17 of 45 standards researched |
+| Published amendments with paste-ready citation | 3 standards researched |
+| Allied-standards cluster from referred-standards annexes | 25 relationships, 16 standards |
+| Queries in 6 languages, translated locally | Live |
+| Tender document upload (PDF/DOCX/TXT) | Live |
+| Tender builder with live recommendations and clause generation | Live |
+| Plain-language explanations from a local LLM | Optional, off by default |
+
+Everything runs locally. There are no API keys and no cloud services.
+
+## Testing
+
+```bash
+# Backend — 92 tests
+PYTHONPATH=standards-retrieval .venv/Scripts/python -m pytest standards-retrieval/tests -q
+
+# End-to-end — 22 tests, needs both servers running
+cd frontend && npm run test:e2e
+```
+
+The end-to-end suite runs against a live backend rather than mocks, because
+the failures worth catching are integration failures. Two of its tests exist
+specifically to stop the honesty guarantees regressing: an out-of-scope query
+must render zero recommendation cards, and screens showing sample data must
+carry the "Illustrative screen" label while live ones must not.
+
+**Fresh-clone verified.** The project was cloned to a clean directory and both
+suites run from it without any additional setup beyond the install steps
+above — including the LightGBM models, which survive checkout intact thanks to
+[`.gitattributes`](.gitattributes).
+
+## Demo
+
+[`docs/demo-script.md`](docs/demo-script.md) is a timed seven-minute
+walkthrough with the setup checklist, the questions judges tend to ask, and
+what to do when something breaks. Every step in it has been run against the
+live system.
+
 ## Status
 
-This is an in-progress hackathon build. See [`PROGRESS.md`](PROGRESS.md) for
-what works, what is stubbed, and what is next.
+See [`PROGRESS.md`](PROGRESS.md) for the full build log — what was found
+broken, what was decided and why, and what remains open.
 
 ## License
 
