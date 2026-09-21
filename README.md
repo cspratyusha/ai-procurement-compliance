@@ -15,13 +15,20 @@ We would rather state our scope plainly than imply coverage we do not have.
 
 | | Status |
 |---|---|
-| **Standards in the corpus** | **45** ([`data/standards_corpus.json`](data/standards_corpus.json)) |
-| **Real BIS coverage** | BIS publishes **~22,000** Indian Standards |
-| **Data provenance** | IS numbers and titles are realistic but **not verified against the BIS catalogue**; every record carries `"verified": false`. Two entries (IS 8112:2018, IS 12269:2019) name editions that never existed — both standards were withdrawn into IS 269:2015 in 2016 — and the API flags them rather than serving them silently |
-| **Sectors represented** | Electrical cables, cement & building materials, steel pipes & fittings, structural steel, plastic pipes, electrical installations, PPE |
-| **Certification data** | **17 of 45 standards verified** against the BIS Scheme I list and QCO notifications, with the governing order recorded. The remaining 28 report `not_verified`, which is explicitly not a clearance |
-| **Amendments** | **3 standards researched** from BIS product manuals and published amendment documents (IS 456 has 6, IS 694 has 4, IS 800 has 2). The other 42 report `checked: false`, which is not a statement that they have none |
-| **Related-standards graph** | **25 relationships across 16 standards**, read from the referred-standards annexes of the standards themselves. Citations to standards outside the corpus are shown and flagged rather than hidden |
+| **Standards in the corpus** | **4,282** across 17 sectors ([`data/standards_corpus_full.json`](data/standards_corpus_full.json)) |
+| **Real BIS coverage** | BIS publishes **~22,000** Indian Standards, so this is roughly **19%** |
+| **Where the text comes from** | **4,186** records carry the **published SCOPE clause** of the actual standard, read from the Public.Resource.Org archive on archive.org. The text is OCR of a scanned document, so it contains recognition errors. The remaining 96 are earlier pilot records whose scope text we wrote ourselves |
+| **Verified against the BIS catalogue** | **None.** Every record carries `"verified": false`. The IS numbers and titles are real; nothing has been checked against BIS directly |
+| **Certification data** | **17 standards researched** against the BIS Scheme I list and QCO notifications, with the governing order recorded — **0.4%** of the corpus. Everything else reports `not_verified`, which is explicitly **not** a clearance |
+| **Amendments** | **3 standards researched** from BIS product manuals. The rest report `checked: false`, which is not a statement that they have none |
+| **Related-standards graph** | **25 relationships across 16 standards**, read from the referred-standards annexes. Citations to standards outside the corpus are shown and flagged rather than hidden |
+
+**The curated data did not scale with the corpus.** Certification, amendment
+and relationship research was done when the corpus was 45 standards, and it
+still covers only those. At 4,282 standards that is under half a percent. The
+engine says so per-record rather than implying coverage it does not have, but
+it is the single biggest gap between this and something a procurement officer
+could rely on.
 
 **What this means in practice:** queries inside the covered sectors return
 sensible results. Queries outside them (textiles, machinery, chemicals, food,
@@ -185,8 +192,7 @@ cache.
 
 The engine serves the 30-standard `mock_corpus.json` by default, because the
 committed indexes and trained ranker were built against it. **For a demo, use
-the consolidated 45-standard corpus** — it has the certification, amendment
-and relationship data:
+the full corpus** — it has the ingested published-text standards:
 
 ```bash
 # from the repository root
@@ -263,7 +269,7 @@ git checkout -- standards-retrieval/models/ltr_model.txt
 |---|---|
 | Semantic search (dense + BM25 + cross-encoder + learned ranker) | Live, ~200 ms |
 | Refuses to answer outside its coverage | Live |
-| Mandatory BIS certification flags with governing QCO | 17 of 45 standards researched |
+| Mandatory BIS certification flags with governing QCO | 17 standards researched, 0.4% of the corpus |
 | Published amendments with paste-ready citation | 3 standards researched |
 | Allied-standards cluster from referred-standards annexes | 25 relationships, 16 standards |
 | Queries in 6 languages, translated locally | Live |
