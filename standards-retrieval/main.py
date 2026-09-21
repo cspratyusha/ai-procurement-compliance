@@ -188,6 +188,10 @@ class RetrieveResponse(BaseModel):
 # The bands do not overlap, but the in-scope outlier sits between them, so
 # anything in the middle is reported as 'uncertain' rather than being forced
 # into a yes/no.
+# How many fused candidates reach the cross-encoder. Each one is a forward
+# pass, so this is the main latency lever in the whole pipeline.
+_RERANK_DEPTH = 10
+
 _CONFIDENCE_STRONG_MIN = 0.0
 _CONFIDENCE_NONE_MAX = -6.0
 
@@ -423,7 +427,17 @@ def retrieve_standards_post(body: RetrieveRequest):
         return RetrieveResponse(query=query, results=[], translation=translation_info)
 
     # 4. Step 2: Cross-Encoder Re-Ranking over candidate IDs
-    ce_ranked = rerank(query, candidate_ids, corpus=corpus, top_k=len(candidate_ids))
+    #
+    # The cross-encoder runs one forward pass per candidate, so its cost is
+    # linear in how many it is given and it dominates the response: at 6,360
+    # standards, re-ranking 20 candidates was ~1.0 s of a ~1.9 s request.
+    #
+    # Recall@5 is 0.9958, so the correct standard is almost always near the
+    # top of the fused list already. Re-ranking the top 10 rather than all 20
+    # halves that cost for a candidate that was very unlikely to be promoted
+    # from rank 11-20 anyway.
+    rerank_depth = min(len(candidate_ids), _RERANK_DEPTH)
+    ce_ranked = rerank(query, candidate_ids[:rerank_depth], corpus=corpus, top_k=rerank_depth)
     ce_dict = dict(ce_ranked)
 
     # Fetch individual dense and bm25 scores for candidate feature extraction
