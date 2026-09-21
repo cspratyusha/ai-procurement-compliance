@@ -1,0 +1,1290 @@
+IS 15635 (Part 6) :2006 ISO 10360-6:2001
+
+Indian Standard
+
+GEOMETRICAL PRODUCT SPECIFICATIONS (GPS) � ACCEPTANCE AND REVERIFICATION TESTS FOR COORDINATE MEASURING MACHINES (CMM)
+-PART 6 ESTIMATION OF ERRORS IN COMPUTING GAUSSIAN ASSOCIATED FEATURES
+
+Ics
+
+17.040.30
+
+@ 61S 2006
+
+BUREAU
+MANAK
+
+?3F
+BHAVAN,
+
+INDIAN
+
+STANDARDS
+SHAH 110002 ZAFAR MARG
+
+9 BAHADUR NEW DELHI
+
+February
+
+2006
+
+Price Group 8
+
+Engineering
+
+Metrology
+
+Sectional
+
+Committee,
+
+PG 25
+
+NATIONAL
+
+FOREWORD
+
+with !S0 10360-6 : x)01 `Geometrical product This Indian Standard (Part 6) which is identical Specifications (GPS) -- Acceptance and reverification tests for coordinate measuring machines (CMM) -- Part 6: Estimation of errors in computing Gaussian associated features' issued by the international Organization for Standardization (ISO) was adopted by the Bureau of Indian Standards on the recommendation of the Engineering Metrology Sectional Committee and approval of the Medical Instruments, General and Production Engineering Division Council.
+
+Coordinate measuring machines (CMMS) are most modern method of dimensional inspection. With the advent of numerically controlled machine tools, demand grew for a means to support this equipment with faster first piece inspection and in many cases 100 percent inspection. To fill this gap CMMS were developed by madifying precision layout machines.
+q
+
+The tests defined in this part are concerned with assessing the correctness of the parameters of computed associated features as measured by a coordinate measuring machine (CMM) or other coordinate measuring system. Although different criteria may be used to compute associated features, for example, by minimizing the Euclidean or Chebyshev norm of residuals, this test is applicable for software designed for unconstrained Gaussian (least-squares) features. In the case of reverification tests of CMMS, the software test of this part usually does not provide new or different information in comparison with that obtained by an acceptable test, since software is supposed to be stable over time. However, a reverification test of the software may be useful following possible corruption or alteration of the software under test. For software already in existence, the evaluation of the performance may not be obtained only by fulfilling the requirements of this part. However, such cases do not necessarily exclude the ability of the software to perform correct computation of measurement. This part is applicable to software submitted for test in respect of the values it provides for the parameters of an associated feature. The test procedure is based on applying the software under test to ~ef~ence date sets, and comparing the results obtained with reference results. The text of this ISO Standard has been app~oved as suitable for publication as an Indian Standard without deviations. Certain conventions are, however, not identical to those used in Indian Standards. Attention is particularly drawn to the following: a) Wherever the words `International be read as `Indian Standard'. Standard' appear referring to this standard, they should
+
+b)
+
+Comma (,) has been used as a decimal marker while in Indian Standards, the current practice is to use a point (.) as the decimal marker.
+
+In this adopted standard, reference appears to certain International Standards for which Indian Standards also exist. The corresponding Indian Standards which are to be substituted in their places are listed below along with their degree of equivalence for the editions indicated:
+
+International
+
+Standard
+
+Corresponding
+
+Indian
+
+Standard
+
+Degree of Equivalence Identical
+
+ISO 10360-1 :2000 Geometrical Product Specifications (GPS) -- Acceptance and reverification tests for coordinate measuring machines (CMM) -- Part 1: Vocabulary
+
+IS 15635 (Part 1) :2006 Geometrical Product Specifications (GPS) -- Acceptance and reverification tests for coordinate measuring machines (CMM): Part 1 Vocabulary
+
+(Continued
+
+on third cover)
+
+IS 15635 (Part 6) :2006 ISO 10360-6:2001
+
+Indian Standard
+
+GEOMETRICAL PRODUCT SPECIFICATIONS (GPS) � ACCEPTANCE AND REVERIFICATION TESTS FOR COORDINATE MEASUR1l'NG MACHINES (CMM)
+PART 6 ESTIMATION OF ERRORS IN COMPUTING ASSOCIATED FEATURES GAUSSIAN
+
+1
+This
+
+Scope
+
+part of ISO 10360 specifies a method for testing software used for computing associated features from coordinate measurements. The features of concern are the line (in two and three dimensions), the plane, the circle (in two and three dimensions), the sphere, the cylinder, the cone and the torus.
+
+One or more. separate tests are required for each feature claimed to be covered by the software. The test is of the software alone and therefore independent of the coordinate measuring system
+NOTE 1 If the result of the test indicates that the performance values for linear size parameters of the associated feature are significant compared with the error of indication of a CMM for size measurement (see ISO 10360-2), as provided by the CMM manufacturer, the software is inadequate for application on that measuring system. However, small performance values, obtained as a result of this test, do not provide complete assurance that the software is totally suitable for computing associated features.
+
+This part of ISO 10360 is concerned with complete features and non-extremely partial features; however, the test for complete features and that for partial features are separate, and software may be submitted for either or both tests. Cones with very large apex angles are not covered by the test,
+NOTE 2 Associated cones with very large angles are unusual in practice and the software for their stable computation is not widely available.
+
+2
+
+Normative
+
+references
+
+The following normative documents contain provisions which, through reference in this text, constitute provisions of this part of ISO 10360. For dated references, subsequent amendments to, or revisions of, any of these publications do not apply. However, parties to agreements based on this part of ISO 10360 "are encouraged to investigate the possibility of applying the most recent editions of the normative documents indicated below. For undated references, the latest edition of the normative document referred to applies. Members of ISO and IEC maintain registers of currently valid International-Standards. 1S"010360-1:2000, Geometrical product specifications measuring machines (CMM) -- Part 1: Vocabulary (GPS) -- Acceptance and reverification tests for coordinate
+
+ISO 10360-2:2001, Geometrical Product Specifications [GPS) -- Acceptance measuring machines (CMM) -- Part 2: CMMS used for measuring size
+
+and reverification
+
+tests for coordinate
+
+1S0 14253-1:1998, Geometrical product specifications (GPS) -- Inspection by measurement of workplaces measuring equipment -- Part 1: Decision rules for proving conformance or non-conformance with specifications
+
+and
+
+1
+
+IS 15635 (Part 6): 2006 ISO 10360-6:2001
+
+ISO 14660=1:1999, definitions
+
+Geometrical
+
+product specifications
+
+(GPS) -- Geometrical
+
+features -- Parf 1: General terms and
+
+ISO 14660-2:1999, Geometrical product specifications (GPS) -- Geometrical features -- Part 2: Extracted line of a cylinder and a cone, extracted median surface, local size of an extracted feature International
+OIML,
+
+median
+
+Vocabulary of Basic and General Terms in Metrology
+1993
+
+(VIM). BIPM, IFCC, IEC, ISO, IUPAC, IUPAP,
+
+2nd edition,
+
+3
+
+Terms and definitions
+of ISO 10360,
+
+For the purposes of this part ISO 14660-2 and VIM apply.
+
+the terms and definitions given in ISO 10360-1,
+
+ISO 14660-1,
+
+4
+
+Basic requirements
+
+The following basic requirements shall be met by the software supplier. a) The software under test shall have an unambiguous and unique identification (e.g. a release number). Improper applications of the test result to other versions of the software under test are forbidden. The testing body is allowed to satisfy the request by an owner of (a license of) the software under test and its test cerlficate to re-run the test based on the reference data sets identified by the release number reported in the
+test certificate.
+
+b)
+
+The software under test shall provide a means of 1) direct input of a reference data set and output of test parameter values to adequate numerical precision (see clause 8), bypassing the measurement and software correction parts of the system, and inputting 2D coordinates to the software under test for computing 2D associated features (line and circle in two dimensions); if this is not available, it is tolerated to add a dummy null z coordinate to each point in the reference data sets, thus projecting the feature onto the Xy coordinate plane.
+NOTE 1 The input and output procedures associated with some measuring systems may be limited in terms of the numerical precision of the values transmitted. This limitation may disadvantage the software under test in terms of the test results obtained.
+
+2)
+
+c)
+
+The method of input to, and output from, the processor is to be agreed with the testing body. NOTE 2
+3,5" disk).
+
+It may be convenient to use a standard computer-readable
+
+medium in a standard format (e.g. ASCII on a
+
+d)
+
+Corresponding to each feature for which the software under test is to be tested, a statement parametrization of the feature used by the software under test shall be provided.
+NOTE 3 Reference parametrizations are given in Table 3.
+
+of the
+
+e)
+
+Corresponding to each feature for which the software under test is to be tested and to the test type (see Table 2), a statement of the maximum -permissible errors, MPEq, of the relevant parameter classes (see 9.3) shall be provided.
+
+2
+
+IS 15635 (Part 6) :2006 ISO 10360-6:2001
+
+5
+5.1
+
+Reference General
+
+data sets and reference
+
+parameter values
+
+The reference data sets and the corresponding reference parameter values used for the purposes of testing the software under test shall be generated according to the procedure specified in annex A. The reference data sets are designed to simulate a range of sizes, shapes, locations, orientations and sampling of features. They are also designed to simulate typical CMM errors of Imeasurement, including probing errors, and feature form deviations. The reference data sets and the reference parameter values generated according to annex A shall be used only once for verification of any software under test (see A. 1).
+
+5.2
+
+Initial
+
+estimates of parameter values
+
+Software under test may require that a subset of the points input to the software, usually the first ones in the set, has a predefined sampling pattern. This subset is used to determine the initial estimates of the parameter values. When this requirement is written in the operating instructions of the software under test, and upon request of the software supplier, the testing body shall generate additional points consistent with the predefine sampling pattern. These additional points form the subset added to the data as generated according to annex A to form a reference data set. These circumstances shall be noted on the test certificate [see clause 11, e)].
+NOTE 1 The software under test typically employs iterative methods of calculation for determining the values of the parameters of the associated feature. For ttis purpose, identification of a subset of points may be required, from which initial estimates of these values can be computed. NOTE 2 A Gaussian associated cylinder can be used for purposes of illustration: the first six points in a reference data set could be identified as a subset for initial-estimation purposes. For instance, the line joining the centres of the circles defined by the first three points and the second three points could be used as an approximation to the axis of the associated cylinder, and the radii of these circles could be used as approximations to the radius of the associated cylinder. NOTE 3 Software under test which does not require initial estimates of the parameter contained, and does not impose an operating procedure for measuring real features. values is more robust, beingself -
+
+6
+
+Test parameter
+
+values and converted
+
+test parameter values
+
+Since different -software suppliers may use different parametrizations, for the purposes of the test, the test parameter values produced by the software under test shall be modified, if necessary, by applying a conversion rule to produce converted test parameter values. The converted test parameter values so derived correspond to the same parametrization as the reference parameter values and can meaningfully be compared with them. For this purpose, the software supplier shall provide full details of the test parametrization.' When necessary, the testing body shall implement and apply the appropriate conversion rule. It is recommended that the software supplier provide test parameter values to adequate numerical resolution (see clause 8), in order that uncertainty may not be unnecessarily added in producing converted test parameter values. Software under test may fail to produce results for some reference data sets.
+NOTE Failure to produce results may be due to, for example: a) the software under test indicating that the data set cannot be processed because it is beyond its domain of
+
+application (e.g. it contains too many data points or the data points are unsuitably-distributed), or
+
+b) lack of convergence of an iterative algorithm, or
+c) a fatal error that has arisen during execution of the software (e.g. a floating-point overflow or an attempt to take the square root of a negative number).
+
+3
+
+IS 1-5635 (Part 6) :2006 ISO 10360-6:2001
+
+7
+
+Units
+
+The units specified in Table 1 shall be used.
+
+Table 1 -- Units
+Reference data sets
+Point coordinates millimetres
+
+Reference parameter values
+--
+
+.1 Location parameters
+j Size parameters Angle parameters
+
+I
+I
+
+--
+--
+
+I
+I
+
+millimetres millimetres
+
+"1 I
+
+. --
+
+radians (dimensionless)a
+
+Orientation parameters
+
+Submultiple, for example, micrometres and microradians, may be used on the test cetilficate for quoting differences
+between the converted test parameter values and corresponding reference parameter values and their uncertainties. I a The orientation parameters are expressed as directioncosines. I
+
+8
+
+Numerical
+
+uncertainty
+
+digits
+
+It is the responsibility of the testing body to evaluate any numerical uncertainty introduced by the finite number of used to transfer information and to represent numerical values computationally. This numerical uncertainty shall be included in-the uncertainty statement reported in the test certificate (see clause 10).
+Information transferred includes point coordinates in reference data sets and reference parameter values (controlled NOTE 1 by the testing body), as well as test parameter values (submitted by the software supplier). The computational representation affects the calculation of reference parameter values from reference data sets (in NOTE 2 the case of reference sofWare, see Figure 2) or reference data sets from reference parameter values (in the case of data generators, see Figure 3), in applying conversion rules and in calculating q values [see 9.3, d)]. NOTE 3 The numerical uncertainty also depends on how well a Gaussian associated feature is defined by a reference data set or, equivalently, the numerical condition of the fitting problem (a measure of the perturbation in the reference parameter values relative to a small perturbation in the coordinate values in a refeFence data set). The condition is influenced by the type of feature, and by the number and locations of points in the reference data set. NOTE 4 The numerical uncertainty can be estimated by simulation if an analytical evaluation is not straightfomrard.
+
+Depending on the manner in which the information is produced, the testing body may regard either the reference data sets or the reference parameter values as exact, provided the appropriate uncertainty is determined in the other.
+
+9
+9.1
+
+Application of the test method
+Principle
+
+The principle underlying the method of test is that of comparing converted test parameter values with reference parameter values (see Figure 1). The converted test parameter values are obtained by applying the software under test to the reference data sets to obtain test parameter values, and by applying a conversion rule to these test parameter values. Each reference data set and the corresponding reference parameter values are regarded as a reference pair for-testing purposes.
+The testing body will prwide NOTE 1 illustrated in Figures 2 and 3. reference pairs using, for example, reference software or a data generator, as
+
+4
+
+IS 15635 (Part 6): 2006 ISO 10360-6:2001
+
+Different software under test may be intended, and regularly used, for different applications (e.g. for calculating complete or partial features), or with measurement points affected by small or large noise or form deviations or both. To tailor the test accordingly, four types of tests are possible, as summarized in Table 2; simplified tests are subsets of the corresponding regular tests, and are intended for software not designed for severe applications. The software supplier may choose the test or tests to which to submit the software under test; the test or tests chosen shall be reported in the test certificate.
+Since no partial features can be defined for lines in two and three dimensions and planes, tests are not available for `NOTE 2 thesefeatures in tests of the following types: partial feature, simplified test; partial feature, regutar test. A separate test shall be carried out for each feature and each test type (see Table 2).
+
+I
+
+Reference data set
+
+I
+
+Software under test I
+
+I
+
+t
+
+F
+I
+
+Convened test parameter values
+
+t
+
+t
+Comparison
+
+I
+
+I
+
+I
+test method
+
+Figure 1 -- Principlecf
+
+L
+
+1
+
+*
+
+Figure 2 -- Use of reference
+
+software for producing
+
+reference
+
+pairs
+
+5
+
+ts 15635 (Part 6) :2006 ISO 10360-6:2001
+
+Figure 3 -- Use of data generator for producing
+
+reference
+
+pairs
+
+Table 2 -- Types of tests Simplified test
+Full feature Partial feature a Full feature, simplified test Partial feature, simplified test a
+
+Regular test
+Full feature, regular test Partial feature, regular test a 1
+
+Not available for lines in two and three dimensionsand planes.
+
+9.2
+
+Basis
+
+for comparison
+
+For any application of software under test for a specific feature to a reference data set for that feature, the basis for comparing converted test parameter values with reference parameter values is a performance value, p, for each class of parameter values defined as follows. a) Location parameters: Euclidean distance between the location points (XOYO) or (Xo,
+YO,
+
+ZO) (see
+
+Table
+
+3),
+
+defined by the converted test parameter values and the reference parameters, respectively. b) orientation parameters: Positive angle between the unit vectors (a, b) or (a, b, c) (see Table 3), defined by the converted test parameter values and the reference parameters, respectively. Since very small angles are expected, when evaluating p particular care should be taken not to incur any significant numerical errors. If v and w are the two unit vectors, a numerically stable and recommended equation is:
+
+,=*ar~sin
+
+!!!04! ()
+2
+
+c)
+
+Size parameters:
+
+Positive difference or differences of the corresponding size parameters r or r, or r2 (see respectively. In the is
+
+Table 3) within the sets of converted test parameter values and reference parameters,
+
+case of the torus, for which there are two size parameters, rl or r2, the larger of the two Positive diff~ences taken. d)
+
+Angle parameten Positive difference of the angle parameters, v (see Table 3), within the sets of converted test parameter values and the reference parameters, respectively.
+
+The magnitude of the performance value is a measure of how well the converted test parameter values compare with the corresponding reference parameter values: the smaller the value, the better the degree of agreement.
+
+6
+
+IS 15635 (Part 6) :2006
+ISO 10360-6:2001
+
+9.3
+
+Procedure
+
+The testing body shall take the following steps for each feature and each test type. a) Instruct the software supplier to apply the software under test to the reference data sets for that feature to obtain test parameter values; this step may alternatively be carried out by the testing body if the software supplier provides a controlled documented copy of the software under test. Require the software supplier to state the measuring volume at which the test will be performed and the test results will be valid. For each reference data set for that feature for which the software under test produced parameter values:
+
+b)
+
+c)
+
+1) if the test parametrization is different from the reference parametrization, apply a conversion rule to the
+test parameter values to produce converted test parameter values; otherwise, regard the test parameter values as the converted test parameter values; 2) determine the -performance values, p, as described in 9.2, for each class of parameter values relevant to the feature; unless the feature under consideration is a circle in two dimensions or a sphere or a cone, for which this step does not apply, re-compute the performance value for the orientation parameters after changing the signs of the orientation parameters within the set of converted test parameter values; repeat step 2) for these parameters, and take the most favorable result.
+If the orientation parameters for a line or an axis are all changed in sign, the resulting parameters define NOTE 1 the same line or axis (but pointing in the opposite direction). Hence, if orientation parameters are present, the test is based on comparing the vector defined by either the converted test parameter values corresponding to orientation with the corresponding reference parameter values, or such parameters, after all their signs are changed, with the correspond ing reference parameter values. NOTE 2 The cone is the only feature for which the reversal of the direction of its axis is important, since the unit vector defining the orientation of the axis points towards the apex of the cone (see Table 3).
+
+3)
+
+d)
+
+For each class of parameter values of the feature (location, orientation, size or angle, as appropriate), define an overall value, q, as the largest of the performance values, p, determined in step c), 2).
+For each class of parameters of the feature (location, orientation, size or angle, as appropriate),
+
+e)
+
+report a record
+
+of the test result in the test certificate in the following forms: 1) 2) the corresponding value q and its numerical uncertainty; if the software under test faited to produce test parameter values for at least a reference data set, "FAIL IN n DATA SETS" (with n being the number of failed reference data sets), and the test result derived from the test parameter values actually produced.
+
+10 Compliance
+
+with specification
+
+The performance of the software under test is considered to have been verified if no "FAIL" is reported and none of the q values are greater than the corresponding maximum permissible errors, MPEq, taking into account the numerical uncertainty in accordance with ISO 14253-1. In the case where compliance with specification is numerical assessed by the testing body, the-result of this assessment shall be part of the test certificate.
+
+7
+
+IS 15635 (Part 6) :2006 ISO 10360-6:2001
+
+11 Test certificate
+The test certificate issued by the testing body shall include the following. a) b)
+Title (e.g. Test certificate). Name and address of the software supplier, and the location or locations (if different)
+
+where:
+
+1) 2) c)
+
+the test was carried out (physical location); the software under test was applied to the reference data sets.
+
+Unique identification of the test certificate, such as the serial number, and of each page and total number of pages.
+Name and address of the client, where appropriate. (e.g. release number of software under test).
+
+d) e) f) 9) h) i) N k)
+
+Description Identification Date
+
+and unambiguous of the hardware
+
+identification operating
+
+systems. to carry out test, and date or dates out in accordance of test, as appropriate,
+
+of application
+
+for the test, date of agreement
+
+Statement Description
+
+to the effect that the test was carried and unambiguous identification
+
+with this part of ISO 10360. of the reference data sets).
+
+(e.g. the release
+
+number
+
+Size of the measuring
+
+volume for which the test certificate is valid.
+
+For each feature tested and for each test type: 1) 2) 3) 4) the type of feature (e.g. cylinder); the type of test (e.g. full feature, regular test); the test result (see 9.3), including the corresponding uncertainty statement; a statement of compliance with specified MPEq (only when the compliance assessment testing body); is made by the
+
+5)
+
+an acknowledgement of whether or not the software under test made use of an identified subset of points in the reference data sets to provide initial estimates of the parameter values. or persons accepting
+
+1)
+
+Signature and title, or an equivalent authenticated identification of the person responsibility for the content of the test certificate, as well as the date of issue.
+
+m)
+
+A statement to the effect that the results relate only to the software items tested and to the reference data sets used.
+A statement
+
+n)
+
+to the effect that the test certificate is not to be reproduced except in full, without the written approval of the testing body.
+
+8
+
+IS 15635 (Part 6) :2006 ISO 10360-6:2001
+
+Table 3 -- Reference
+
+parametrizations
+
+for associated
+
+features
+
+Parameters of the associated feature k+sociated feature Location mm
+Xo, yo ne (2D) -- `q), yo, Zo ne (3D) -- ~o>J'o,Zo lane -- Xo, Yil ircle (2D) -- Xo,Yo, Z(J ircle (3D) -- -- -- -- a, b, c a, b, --
+C -- .
+
+Orientation
+
+Size
+mm
+
+Angle
+rad -- -- -- -- --
+
+Description
+
+-- a, b -- a, b, c --
+
+-- -- -- -- --
+
+Centroid of the defining data set (lying on the associated line) Direction cosines of the associated line Centroid of the defining data set (lying on the associated line) Direction cosines of the associated line Centroid of the defining data set (lying on the associated plane) Direction cosines of the normal to the associated plane Centre of the associated circle Radius of the associated circle
+
+-- r
+
+-- --
+
+.
+
+;ylinder -
+
+I
+
+Xo, Yo> 20
+
+--
+
+I
+
+I
+
+-- -- $
+-- -- -- -- Direction cosines associated circle r -- r-- ---- -- -- r-- ----
+
+Centre of the associated circle of the normal to the plane containing the
+
+Radius of the associated circle I
+
+Centre of the associated sphere Radius of the associated sphere
+
+Point on the axis of the associated cylinder closest to the centroid of the defining data set Direction cosines of the axis of the associated cvlinder I
+
+Radius of the associated cylinder
+
+Point on the axis of the associated cone closest to the centroid of the defining data set "1 Direction cosines of the axis of the associated cone, forming a unit vector pointing towards the apex of the cone. Radius of the associated cone at the point (xo, yo, Zo) measured I
+
+`one --
+Z(J XofJ+)>
+I_orus -- .
+
+F -F . I I I
+--
+c!, b, -- .
+C
+
+--
+r--
+
+--
+
+---t
+
+Inormal to the axis of the cone
+
+I
+--
+--
+
+v
+--
+--
+
+Apex angle of the associated cone (equal to twice the angle between the generator of the cone and the axis) I Centre of the associated torus Direction cosines of the axis of the associated torus Radius of the circular section of the tube of the associated torus Mean radius of the ring of the.associated torus
+
+rl
+
+"
+
+r2
+
+--
+
+9
+
+IS 15635 (Part 6): 2006 ISO 10360-6:2001
+
+Annex A
+(normative)
+
+Procedure
+
+for generating reference data sets
+
+A.1 General
+This annex describes the procedure for generating the reference data sets, such that the homogeneity of different releases is ensured. It is therefore intended mainly for testing bodies and software developers. The whole release of reference data sets shall be identified by a unique release number; the same release cannot be used to carry out more than one complete test, i.e. different test certificates shall report different reference data set release numbers, unless the test is a repetition of a previous one (see Note 1 to clause 4). For each associated feature, four different types of reference data sets are possible (see Table A.1 ): a) FI and PI reference data sets are used for -- -- full feature, and partial feature,
+
+respectively, for regular tests (see Table 2) only; b) FM and PM reference data sets are used for -- -- full feature, and partial feature,
+
+respectively, for both simplified and regular tests. Table A.1 -- Types of reference data sets and their-acronyms Intense (1)
+FI
+
+Mild (M) Full feature (F) Partial feature (P) FM
+PM a
+
+pl a
+
+I
+
+a
+
+Not available for lines in two or three dimensions or for planes.
+
+I
+
+For each associated feature and reference data set type, 10 reference data sets are provided. They are named feature. reference_data_set_ type set_number, where feature k a feature identifier to be selected in the list (Line2D, Line3D, Plane, Circle2D, Circle3D, Sphere, Cylinder, Cone, Torus]; re ference_data_set_ type is a reference data set type identifier to be selected from the list {FM, FI, PM, PI}; set_number R a one digit ordinal number of the reference data set in the range [0..9]. Examples of valid reference F18 and torus. PMO. data set names are circle3D.
+For each associated feature, a simplified test involves 10 reference NOTE involves 20 reference data sets (FM and Fl, or PM and PI), data sets (FM or PM), while a regular test
+
+10
+
+IS 15635 (Part 6) :2006 ISO 10360-6:2001
+The points of the reference data sets are located in a measuring volume shaped as a rectangular parallelepiped; the reference system is oriented along the rectangular parallelepipeds sides with origin in the central point of the rectangular parallelepiped. The rectangular parallelepipeds size shall be specified by the software supplier and reported in the test certificate [see clause 11, j)]. Each reference data set shall be generated according to the following steps: a nominal extent of the associated feature is generated; -- form deviations are superimposed by deforming the nominal extent the nominal extent is sampled to generate nominal points projected orthogonally onto the deformed extent; -- Gaussian zero-mean noise is added to each point to simulate probing and other errors.
+
+The above steps are illustrated and specified in the following clauses.
+
+/4.2 Random generation
+In this procedure, many values are required according to the following rules. a) Scalar value
+x
+
+to be generated
+
+at random.
+
+The
+
+random
+
+generations
+
+shall be done
+
+specified within the interval [a, b], a g
+
+x
+
+s
+
+b:
+
+take
+
+x
+
+=
+
+a
+
+and x = b for two data sets, respectively;
+
+for each of the others, generate a random value y uniformly distributed in the interval [0,1], and compute X = al-YbY, b) Scalar value x specified within two intervals [u, b] and [c, d], a < xs
+b or c < x < d divide the data sets into two
+
+groups of five; for either group, generate x in the interval [u, b] and [c, d], respectively, according to rule a). c) Integer value n specified within the interval [a, b], a < n s b: apply rule a) and round up to the nearest integer value. d) 2D orientation (as represented by the unit vector n): taken= (1 ,0) and n = (O,1) for two data sets, respecWel~ for each of the others, generate a random value q uniformly distributed in the interval [0,2n], and compute n = (cosfo, sinfo). e) 3D orientation (as represented by the unit vector n): take n =(1,0,0), n = (0,1 ,0) and n = (0,0,1) for three data
+
+sets, respectively; for each of the others, generate two random values, L9and z, uniformly distributed in the intervals [0,2n] and [-1,1], respectively, and compute n = (COSB 1- Z2 J_~lsineJ''!z). f) Make the choice of the reference data sets where predefine values (extremes of intervals or coordinate directions) are taken according to rules a), b), c), d) and e) at random by generating an integer value uniformly distributed in the interval [0,9], to be used as the reference data set identifier. Localization (as defined by a point chosen in the smallest convex region containing the extent): generate at random the values of the two or three coordinates uniformly distributed in the corresponding intervals of definition of the measuring volume; if the extent so localized is not completely contained within the measuring volume, generate the reference point again, and repeatedly, until the constraint is met. h)
+Form deviations (see A.4): for each Fourier harmonic, generate two random
+
+9)
+
+values, x and q, uniformly
+
+distributed in the intervals [-1,1] and [0,27r]j respectively, and to be used as the amplitude in arbitrary units and the phase, respectively after sampling (see A.5), calculate the resulting form deviations in all points and derive
+
+11
+
+IS 15635 (Part 6) :2006
+
+1s0 10360-6:2001
+
+the maximum
+
+of their absolute
+
+values
+
+x ~ax;
+
+generate
+
+a
+
+random ValUe K uniformly distributed in the interval
+< Is the maxim urn form deviations
+
+[-1 ,1], and re-scale all form deviations by the factor K</ x max, wh~re specified in A.4.
+
+i)
+
+Sampling (see A.5): for the line (2D and 3D), plane and circle (2D and 3D), generate
+distributed in each extent subset;
+
+a point uniformly of the su~ace
+
+for the other associated features, generate
+
+two
+
+random
+
+values
+
+coordinates of the point, uniformly distributed in their intervals of definition of the subset; in the case of cones not meeting the definition in the first footnote to Table A.5, the z coordinate is taken as
+
+z= ~~insteacf,
+
+where c is a random value uniformly distributed in the intewal [.zmin2,zmaxz], the
+
+interval of definition of the extent subset z being [Zmin,Zmax].
+
+J
+
+Noise (see A.6): for each sampled point, generate a zero-mean random value, x, normally distributed with the standard deviation specified in Table A.6; define a unit vector, u, normal to the nominal extent directed externally to the associated feature (2D circle, sphere, cylinder, cone, torus), or coincident with the orientation unit vector (a, b, C) (plane), or as obtained by rotating 90� clockwise the unit vector (a, b) (2D line), or generate u as a 2D orientation in the plane normal to the extent according to rule d) but overriding the constrained directions (3D line, 3D circle); take xu as a noise vector. NOTE 1 NOTE 2 The value x generated according to rule-a) possesses the property of a uniformly distributed logarithm. The unit vector n generated according to rule e) is uniformly distributed over the unit sphere. form deviation
+
+NOTE'3 The "form deviations generated according to rule h) possess the property of a maximum uniformly distributed over the specified interval [0, ~], NOTE 4 The sampled the cone extent.
+
+point generated according to rule i) in the particular case of cones is uniformly distributed over
+
+A.3 Generation
+The each orientations extents
+
+of nominal extents
+
+of the associated features from which the extents are taken shall be chosen at random, with the
+which have no orientation. associated feature; they Additional orientations are required for localizing shall be generated at random according to the
+
+exception of 2D circles and spheres
+onto the corresponding following
+
+rules (see A.2):
+
+a) b)
+
+(plane) orientation of a rectangle side: generate a 2D orientation in the plane; (circle) orientation of the radial vector pointing to the central point of the arc: generate a 2D orientation in the circle plane; (sphere) orientation of the radial vector to the point defined by the central values of (theta, phi) in their intervals (see 11.14 of 1S0 10360-1:2000): generate a 3D orientation; (cylinder and cone) orientation of the shortest vector from the axis to the point defined by the central values of (theta, z) in their intervals (see 11.14 of ISO 10360-1:2000): generate a 2D orientation in a plane normal to the axis; (torus) orientation of the shortest vectors from the axis and from the ring to the point defined by the central values of (theta, phi) in their intervals (see 11.14 of ISO 10360-1 :2000): generate two 2D orientations in a plane normal to the axis and in a plane containing it; this is equivalent to collapsing the torus to a sphere of radius rl by setting rp = O, and to generating a 3D orientation.
+
+c)
+
+d)
+
+e)
+
+12
+
+IS 15635 (Part 6) :2006
+ISO 10360-6:2001
+
+The extent sizes, defined as the maximum distances between any pair of extent points, shall be generated at random in the intervals reported in Table A.2, specified in terms of percentages of the measuring volume size, which is defined as the shortest side of the rectangular parallelepiped. Table A.2 -- Percentages of the measuring h Reference data set type \ volumes size covered by the extent sizes d Range of percentage 1
+Jlo %, 90 %] [1 %, 15 %]or [85 %,99%] I I
+
+I I 1
+
+FM, FI PM, PI
+
+The localization of the extents shall be generated at random. The extents shall fulfil the further requirements listed in Table A.3.
+
+13
+
+., IS 15635 (Part 6) :2006
+1S0 10360-6:2001
+
+Table A.3 -- Further specifications
+Associated feature Reference data set type -- . `lane FM FI No further specification
+
+of the extents
+Specifications a
+
+-and
+
+3D)
+
+(Greater) ratio ~ of length of the sides of a rectangle: 1 <<<10 1<; <100
+
+Centred angle a: FM, FI ;ircle (2D and 3D) PM, PI 1 -- rtrad < a < mad 8 ~ rtrad < @< 2zrad FM, FI Sphere 1 ~ mad< mad G u G 2xrad
+
+4 G rtrad
+
+PM, PI -- -- F P :ylinder M
+
+~-xrad G 8, @< ~rtrad Ratio #of the height to the diameter of the circular band: rwad < 8s 2nrad n : 1 ~<g<lo <t?<rI
+
+I .-- -- F P
+
++<~+orlO<<<100 Apex angle K ratio ; of the height to the largest diameter of the frustum b rwad G 8< 2rcrad n i ~nrad< ~< ~nradand~<~<-- 1 2tan $ 1 1 ~ruad<~<crwadand5< 1 2tan~ <O<rl
+
+M Cone
+
+{<--
+
+or
+
+I
+
+2 ;rtrad<
+
+~<
+
+9 ~nradand
+
+1 ~G{G--
+
+1 2tan~
+
+mad < 6< 2rcrad FM, FI 1 3 � nrad < @< � rtrad 2 2 ~ rad G 0 G rcrad 2 3 ; mad G ~s
+a
+b
+
+Torus PM, PI
+
+5 ~ mad
+
+For the geometrical definitionsand of the symbols used in the Table see the definition of extent in 11.14 of ISO 10360-1:2000.
+~is generated first, then <: for the generation of& rule a) in clause A.2 is applied but overrides the extreme values of the intewal. 1
+
+14
+
+IS 15635 (Part 6) :2006 ISO 10360-6:2001
+
+A.4 Superimposition
+
+of form deviations
+
+Each extent shall be deformed according to the rules listed in Table A.4. The maximum form deviation of the sampled poirits J [see A.2, h] is 10-4 for reference data set types (FM, PM), and 10-3 for reference data set tv~es ., (Fl, Pt), respectively, multiplied by the extent size. -` Table A.4 -- Rules to add form deviations Associated feature .ine (2!3) Rule to nominal extents Reference data set type FM FI Two orthogonal planes through the segment are chosen; in each plane the segment is deformed as a 2D line; the deformed segments are the projections on those planes of the resulting deformed 3D segment.
+2D Fourier harmonics up to order JJin either direction are added to the rectangle.
+n
+
+Fourier harmonics up to order n are added to the segment;
+
+3 6
+--
+
+.ine (3D)
+
+--
+
+`lane
+
+l++-
+
+2ircle (2D)
+
+The arc of circle is expressed in polar coordinates centred in the circle centre; the resulting segment is deformed as a 2D line with harmonics up to order n. l++ In the plane of the circle, the arc of circle is perturbed as a 2D circle; then the circumscribed rectangle is deformed as a plane. The sphere is expressed in spherical coordinates centred in the sphere centre; the resulting rectangle is deformed as a plane with harmonics up -to order n, constrained to assume a same value along each rectangle side corresponding to a pole a. The cylinder is expressed in cylindrical coordinates aligned along the axis; the resulting rectangle is deformed as a plane with harmonics up to order n in either direction. The cone is expressed in cylindrical coordinates aligned along the axis; the resulting rectangle is deformed as a plane with harmonics up to order n in either direction. The resutting form deviation is taken normal to the cone rather than to the resulting cectangle. The generic torus point p is expressed asp= rl(e) + r2(6',rj), where 0 is an angular coordinate -about the axis, $ an angular coordinate about the ring .
+
+:ircle (3D)
+
+I--
+5 8 5 8 5 8
+
+FM, PM Fl, PI F!vl, PM Fl, PI FM, PM Fl, PI
+
+Sphere
+
+Cylinder
+
+Cone
+
+FM, PM
+
+5
+
+Torus
+
+rl, and rz the shortest displacement of P from the ring; the resulting rectangle r2 (8, +) is deformed as a plane with harmonics up to order n in either direction and the ring is deformed as a 3D circle.
+
+Fl, PI
+
+8
+
+a
+
+The constraint guarantees the continuity of the deformed extent,
+
+A.5 Sampling
+Each nominal extent shall be divided intoa number of line segments of equal length (extents in two dimensions) or patches of equal area (extents in three dimensions), as specified in Table A.5. A nominal sampling point shall be generated at random in each subset and shall then be projected onto the deformed extent, normally to the nominal extent.
+
+IS 15635 (Part 6): 2006 1S0 10360-6:2001
+
+Tabte A.5 -- Specifications Associated feature .ine (2D)
+
+for subdividing
+
+nominal extents into line segments
+
+or patches
+
+Specifications The extent is divided into rrsegments of equal length.
+
+Parameter values
+
+4<rr< loo
+2<nx <lo
+
+.ine (3D) The extent is divided into rectangles regularly disposed in a grid of nX rows and nYcolumns.
+
+`lane
+
+2<7$<1O
+
+>ircle (2D) The extant is divided into n arcs of equal length. lrcle (3D) The extent is divided into patches obtained by dividing the ranges Sphere of 8 and
+z
+
+5<n
+
+<100
+
+into n@ and nz, respectively, intervals of equal length,
+
+3<no<10 2<r?z <lo
+
+where 0 and z are the angular and elevation coordinates of an associated cylindrical reference system (r, 8,
+z).
+
+Zylinder
+
+The extent is divided into patches obtained by dividing the ranges of 6and z into ne and n=, respectively, intervals of equal length. The extent is divided into patches obtained by dividing the range
+
+3<n@<10 3<nz<lo
+
+Cone
+
+of 0 into n8 intervals of equal length, and the range of z (the origin being the vertex) into n, intervals whose differences of the squares of the extremes are equal (i:e. -#i.l - .&i = constant , Vi < no) a. The extent is divided into patches obtained by dividing the range s of dand ~ into no and np, respectively, intervals of equal length b.
+
+3<no<10 3<n, <10
+
+4<n@<10 3<n9<10
+
+Torus
+
+a
+
+When the range of radii of the frustum is less than or equal to l% of the mean radius (near-cylindricalcones or thin coni( disks) the expression can be approximatedby z,-, � Zi= constant,vi < ne, thus resolvin9the ill-definitionof the vertex eieva~on.
+b The
+
+patches generated this way are not exactly of the same area; the resultingoversamplingin the part of the torus closest t~
+
+I
+
+the axis is tolerated.
+
+16
+
+IS 15635 (Part 6): 2006 ISO 10360-6:2001
+
+A.6 Superimposition
+
+of probing and accidental
+
+errors
+
+Each point shall be perturbed by a noise random vector [see A.2, j)] with the standard deviations specified in Table A.6. The noise vectors of different points are assumed to be statistically independent of each other. Table A,6 -- Standard Reference data set type deviations of the noise components
+
+Noise standard deviation [pm]
+
+FM, PM Fl, PI
+
+2 10
+
+17
+
+IS 15635 (Part 6) :2006 ISO 10360-6:2001
+
+Annex
+(informative)
+
+B
+
+Relation to the GPS matrix model
+
+For full details about the GPS matrix model, see lSO/TR 14638.
+
+B.1 Information
+
+about this part of ISO 10360 and its use
+
+This part of ISO 10360 specifies the methods for estimating errors in software used for computing Gaussian associated features on a coordinate measuring machine (CM M). The tests of this part of ISO 10360 are: -- -- -- applicable to software for calculation of the line, plane, circle, sphere, cylinder, cone and torus; designed for Gaussian (least squares) assessment of data measured by a CMM; performed on the software alone and therefore independent of the CMM.
+
+B.2 Position
+
+in the GPS matrix model
+
+This part of ISO 10360 is a general GPS standard, which influences chain link 5 of the chains of standards on size, distance, radius, angle, form, orientation, location, run-out and datums in the general GPS matrix, as graphically illustrated in Figure B. 1 Global GPS standards General GPS standards Chain link number Size Distance Radius `fundamental Angle Form of line independent of datum Form of line dependent of datum GPS Form of surface independent of datum Form of surface deoendent of datum Orientation Location standards Circular run-out Total run-out Datums Roughness profile Waviness profile Primarv mofile Surface imperfections Edges Figure f3.1 I t I I I I I I 1 1 1
+
+1
+
+2
+
+3
+
+4
+
+5
+
+6
+
+I
+
+B.3 Related standards
+The related standards are those of the chains of standards indicated in Figure B. 1
+
+18
+
+IS 1.5635 (Part 6) :2006 1S0 10360-6:2001
+
+Bibliography
+
+[1]
+
+ISO 1101 :--1), Geometrical Product Specifications orientation, location and run-out ISO 5459:1981, Technical geometrical tolerances drawings --
+
+(GPS) -- Geometrical
+
+tolerancing
+
+-- Tolerances
+
+of form,
+
+[2]
+
+Geometric/
+
+tolerancing
+
+--
+
+Datums
+
+and
+
+datum-systems
+
+for
+
+[3]
+
+ISO 10360-3:2000, Geometrical coordinate measuring machines
+
+product specifications (GPS) -- Acceptance and reverification test for (CMM) -- Part 3: CMMS with the axis of a rotary table as the fourth axis
+
+[4]
+
+Geometrical product specifications (GPS) -- Acceptance and reverification ISO 10360-4:2000, coordinate measuring machines (CMM,) -- Part 4." CMMs used in scanning measuring mode
+
+test for
+
+[5]
+
+coordinate
+
+ISO 10360-5:2000, Geometrical product specifications (GPS) -- Acceptance and reverification measuring machines (CMM) -- Part 5: CMMS using multiple-stylus probing systems
+lSO/lR 14638:1995,
+
+test
+
+for
+
+[6]
+
+Geometrical
+
+Product Specifications
+
+(GPS) -- Masterplan
+
+1)
+
+To be published
+
+(Revision
+
+ISO 1101:1983)
+
+19
+
+(Continued
+
+from second
+
+cover)
+
+International
+
+Standard
+
+Corresponding
+
+Indian
+
+Standard
+
+Degree Equivalence
+
+of
+
+ISO 10360-2:2000 Geometrical Product Specifications (GPS) -- Acceptance and reverification tests for coordinate measuring machines (C MM) -- Part 2 : CMMS used for measuring size ISO 14253-1 :1998 Geometrical Product Specifications (GPS) -- Inspection by measurement of workplaces and measuring equipment -- Part 1 : Decision rules for proving conformance or non-conformance -with specifications
+The technical committee responsible
+
+IS 15635 Product Acceptance
+
+(Part and
+
+2) :2006
+
+Geometrical (GPS) tests --
+
+Identical
+
+Specifications reverification
+
+coordinate measuring machines Part 2 CMMS used for measuring
+
+for (CMM): size
+
+IS 15371
+
+(Part
+
+1) :2003
+
+Geometrical
+
+do
+
+ProductSpecifications
+
+(GPS) -- Inspection
+
+by measurement of workpieees an-d measuring equipment: Part 1 Decision
+
+rules for proving conformance conformance with specifications
+
+or non-
+
+the following "International
+with this standard: International Standard
+
+Standards
+
+for the preparation of this standard has reviewed the provisions of and has decided that they are acceptable for use in conjunction
+
+Title Geometrical Product .Specifications (GPS) Part 1 : General terms and definitions -- Geometrical features --
+
+ISO 14660-1:1999
+
+ISO 14660-2:1999
+
+Geometrical Product Specifications (GPS) -- Geometrical features -- Part 2: Extracted median line of a cylinder and scone, extracted median surface, local size of an extracted vocabulary feature
+
+VIM prepared
+
+by OIML
+
+International
+
+of basic and general terms in metrology
+
+ISO 10360 consists of the following other parts: Part Part Part Part Part 1 2 3 4 5 Vocabulary CMMS used for measuring size CMMS with the axis of a rotary table as the fourth axis CMMS used in scanning measuring mode CMMS using multiple-stylus probing systems
+
+For the purpose of deciding whether a particular requirement of this standard is complied with, the final value, observe-d or calculated, expressing the result of a test or analysis, shall he rounded off in accordance with IS 2 : 1960 `Rules for rounding off numerical values (revised)'. The number of significant places
+retained in the rounded off value should be the same as that of the specified value in this standard.
+
+Bureau
+
+of Indian
+
+Standards
+
+BIS is a statutory harmonious
+
+institution
+
+established
+
+under the Bureau in the country.
+
+of /ndian
+
+Standards
+
+Act,
+
+1986 to promote of
+
+development
+
+of the activities matters
+
+of standardization,
+
+marking
+
+and quality certification
+
+goods and attending
+Copyright
+
+to cormected
+
+BIS has the copyright of all its publications. No part of these publications may be reproduced in any form without the prior permission in writing of BIS. This does not preclude the free use, in the course of implementing designations. Review the standard, of necessary details, such as symbols to the Director and sizes, type or grade Enquiries relating to copyright be addressed (Publication), BI-S.
+
+of Indian Standards
+are issued to standards a standard as the need arises on the basis of comments. reaffirmed Standards are also
+
+Amendments reviewed
+
+periodically;
+
+along with amendmentsis
+
+no changes
+
+are needed;
+
+if the review indicates that changes should ascertain
+
+when such review indicates that are needed, it is taken up for revision. of the latest amendments Monthly Additions'. or
+
+Users of Indian Standards
+
+that they are in possession and `Standards:
+No. PG/BP
+
+edition by referring to the latest issue of `BIS Catalogue'
+This Indian Standard has been developed from Dot:
+
+25 (0425).
+
+Amendments
+Amend No.
+
+Issued Since Publication
+Text Affected
+
+Date of Issue
+
+BUREAU OF INDIAN STANDARDS Headquarters: Manak Bhavan, 9 Bahadur Shah Zafar Marg, New Delhi 110002 Telephones 23230131,23233375,2323 9402 website: Regional Central Offices: : Manak Bhavan, 9 Bahadur Shah Zafar Marg NEW DELHI 110002 : 1/1 4 C.I.T. Scheme VI] M, V.I.P. Road, Kankurgachi KOLKATA "700054 : SCO 335-336, Sector 34-A, CHANDIGARH 160022 www.bis.org. in Telephones 23237617 { 23233841 23378499,23378561 { 23378626,23379120 2603843 { 2609285 22541216,22541442 { 22542519,22542315 28329295,28327858 { 28327891,28327892 Cf)lMBATORE. LUCKNOW. FARIDABAD. NAGPUR.
+
+Eastern
+
+Northern
+
+Southern
+
+: C.I.T. Campus,
+
+IV Cross Road, CHENNAI
+
+600113
+
+Western
+
+: Manakalaya, E9 MlDC, Marol, Andheri (East) MUMBAI 400093 AHMEDABAD. GHAZIABAD. NALAGARH. BANGALORE. GUWAHATI. PATNA. PUNE. BHOPAL. BHUBANESHWAR. HYDERABAD. JAIPUR.
+
+Branches:
+
+KANPUR.
+
+RAJKOT. THIRUVANANTHAPURAM.
+
+VISAKHAPATNAM.
+
+Printed at Simco Printing Press, Delhi
+
+

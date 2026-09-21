@@ -45,8 +45,8 @@ const BENEFITS = [
  */
 const STATS = [
   { value: '4', label: 'Retrieval stages', note: 'Dense, BM25, cross-encoder, learned ranker' },
-  { value: '~200 ms', label: 'Typical query time', note: 'Measured locally on CPU' },
-  { value: '45', label: 'Standards in the pilot corpus', note: 'Unverified placeholder data' },
+  { value: '~231 ms', label: 'Typical query time', note: 'Measured locally on CPU' },
+  { value: '6,360', label: 'Standards searchable', note: 'About 29% of the BIS catalogue' },
   { value: '~22,000', label: 'Published Indian Standards', note: 'The full catalogue, for scale' },
 ];
 
@@ -93,9 +93,10 @@ export default function Landing({ theme, onToggleTheme }) {
             </p>
 
             <p className="xs muted" style={{ maxWidth: '52ch' }}>
-              Prototype built for the Smart India Hackathon. It currently searches a pilot
-              corpus of 45 standards across seven sectors — realistic but unverified data,
-              not the full BIS catalogue.
+              Prototype built for the Smart India Hackathon. It currently searches
+              6,360 standards across 17 sectors, about 29% of the BIS catalogue. Scope
+              text comes from the published documents; no record is verified against
+              BIS directly.
             </p>
 
             <div className="hero-cta">
@@ -108,9 +109,9 @@ export default function Landing({ theme, onToggleTheme }) {
 
             <dl className="hero-facts">
               {[
-                ['45', 'standards in pilot corpus'],
+                ['6,360', 'standards searchable'],
                 ['4-stage', 'retrieval pipeline'],
-                ['~200 ms', 'typical query'],
+                ['~231 ms', 'typical query'],
               ].map(([v, l]) => (
                 <div key={l} className="hero-fact">
                   <dt className="hero-fact-v tabular">{v}</dt>

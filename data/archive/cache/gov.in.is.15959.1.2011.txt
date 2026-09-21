@@ -1,0 +1,4232 @@
+IS 15959 : 2011 
+
+
+IRENI apie (Reaffirmed 2016) 
+Aya alex AT, ger sik cis Paar D fery 
+sitesi amr fafa — veri ARI 
+
+
+Indian Standard 
+DATA EXCHANGE FOR ELECTRICITY METER 
+READING, TARIFF AND LOAD CONTROL — 
+COMPANION SPECIFICATION 
+
+
+ICS 17.220.20; 35.100.01; 91.140.50 
+
+
+© BIS 2011 
+
+
+BUREAU OF INDIAN STANDARDS 
+MANAK BHAVAN, 9 BAHADUR SHAH ZAFAR MARG 
+NEW DELHI 110002 
+
+
+April 2011 Price Group 12 
+
+
+Equipment for Electrical Energy Measurement, Tariff and Load Control Sectional Committee, ETD 13 
+
+
+FOREWORD 
+
+
+This Indian Standard was adopted by the Bureau of Indian Standards, after the draft finalized by the Equipment 
+for Electrical Energy Measurement, Tariff and Load Control Sectional Committee had been approved by the 
+Electrotechnical Division Council. 
+
+
+With development of electronic meters having possibilities of metering data being integrated into business processes 
+of service providers and in turn with generating agencies, thus opening up multiple opportunities in power system 
+management at both micro and macro levels and being guided by the National Electricity Policy of the Central 
+Government after enactment of the Electricity Act, 2003, the Committee initiated the work of formulating standards 
+on Data Exchange for Electricity Metering Equipment in 2006. 
+
+
+Two options were taken up for interoperable use of meters in a data network. In 2007, the Committee decided to 
+adopt the International Standard IEC 62056 already available in various parts. However it was felt that only 
+adoption was not sufficient for proper implementation as the selective features of the standard available at that 
+time were not adequate for use by different utilities collectively. In view of urgent power reforms programme of 
+the Central Government and the metering data integration involved, the Electrotechnical Division Council in 
+April 2008, while appreciating the other option of Common Framework based solution being developed by Indian 
+Electrical and Electronics Manufacturers Association (IEEMA), advised the committee and divergent stakeholders 
+for rapid implementation of the IEC Standard available. The Committee inducted experts and held a series of 
+meetings for evolving this Indian Standard for proper implementation of the IEC Standard based on open protocol 
+and wide ranging selective features thereof, for application in Indian networks. 
+
+
+The Central Electricity Authority (CEA), a body under the Electricity Act, 2003, to prepare regulations on installation 
+and operation of meters and to record data regarding electricity from generation to utilization and the Central 
+Power Research Institute, a Society under the Central Government, with established conformance test facilities 
+for meters conforming to IEC 62056 at its Bangalore Laboratory, both members of the Committee, were involved 
+in preparation of category-wise comprehensive list of metering parameters for use in national networks. The 
+Report titled “Standardization of Metering Parameters” finalized with object identifier codes as requested was 
+submitted to BIS in April 2009 for facilitating preparation of Indian Standards/Guides on Metering data exchange. 
+Some assistance has also been derived from CBIP Publication 304 Manual on Standardization of AC Static 
+Electrical Energy Meters (for electrical energy and tariff related parameter terminologies). 
+
+
+Device Language Message Specification (DLMS) with functionalities of Companion Specification for Energy 
+Metering (COSEM) based on open protocols and maintained by Device Language Message Specification User 
+Association, DLMS UA, Geneva, in the form of four technical Reports, namely “Blue”, “Green”, “Yellow” and 
+“White” Books, have been adopted by IEC on regular basis in the International Standards mentioned above for 
+interoperable use of electricity meters in a data network. The continuous development of DLMS/COSEM open 
+communications protocols for data retrieval, updation, and reconfiguration of metering devices, has enabled 
+diverse operators to access safely and quickly data from metering equipment provided by diverse manufacturers. 
+
+
+This standard, a Companion Specification in the form of a Guide, is intended to provide a field level basis for 
+efficient and secure transfer of electricity metering data in an open manner with judicious application of features 
+and protocols of the International Standards. 
+
+
+This specification refers to latest updates of Interface classes and OBIS codes available in 9th edition (2009) of 
+the Blue Book of DLMS UA. This also refers to updates of procedures and services available in 7th edition 
+(2009) of the DLMS UA Green Book. These revised Technical Reports of DLMS UA, considered as pre-standards 
+for several parts of IEC 62056, will be adopted by IEC in due course and subsequently by BIS in adopted Indian 
+Standards being published. Till such time these books, accessible by members of DLMS User Association in 
+
+
+(Continued on third cover) 
+
+
+IS 15959 : 2011 
+
+
+Indian Standard 
+
+
+DATA EXCHANGE FOR ELECTRICITY METER 
+READING, TARIFF AND LOAD CONTROL — 
+COMPANION SPECIFICATION 
+
+
+1 SCOPE 
+
+
+1.1 This standard is intended for use as companion to 
+IS/IEC 62056 (Parts 21, 42, 46, 47, 53, 61 and 62) 
+series of standards on ‘Electricity metering: Data 
+exchange for meter reading, tariff and load control’ for 
+proper application/implementation of the provisions 
+thereof. 
+
+
+1.2 These generic metering data exchange standards 
+based on DLMS/COSEM open protocols and features, 
+provide a coverage for structured modelling of metering 
+functionalities as available at communication 
+interface(s), with procedures for identification of these 
+data objects by mapping into respective codes, and 
+finally for direct local exchange or remote exchange 
+of these data messages by transporting over various 
+layers of communication channels with specified 
+procedures and services, as applicable. 
+
+
+1.3 This Companion Specification provides guidelines, 
+specifies optional DLMS/COSEM elements and 
+outlines boundary requirements for design of such 
+DLMS/COSEM compliant electricity meters for 
+possible applications in Indian electricity networks (see 
+also Annex A). Such selections may involve: 
+
+
+a) COSEM interface classes, their instances, 
+attributes and methods to be supported, event 
+and status tables, identified objects, DLMS 
+services, communication media and protocol 
+stacks. 
+
+b) Requirements for Direct Local Data Exchange 
+involving HHU (MRI) and Remote Data 
+Exchange with HOST Computer. 
+
+c) The necessary country/project specific codes, 
+not documented by DLMS UA, are included 
+in Annex A for specified usage of electricity 
+meters. 
+
+
+1.4 The following are outside the scope of this standard 
+and will be decided by user/manufacturer/system 
+integrator: 
+
+
+a) HOST computer — Metering equipment 
+connectivity; 
+
+b) Compatible modem (Data Communication 
+Equipment) and its requirements for chosen 
+communication medium; and 
+
+
+c) Values and distribution methods of secret 
+keys. 
+
+
+1.5 Metering functions are outside the scope of this 
+standard and are covered by prevailing Indian Standards 
+as applicable. 
+
+
+2 REFERENCES 
+
+
+The standards listed in Annex H contain provisions 
+which, through reference in this text, constitutes 
+provisions of this standard. At the time of publication 
+the editions indicated were valid. All standards are 
+subject to revision and parties to agreements based on 
+this standard are encouraged to investigate the 
+possibility of applying the most recent edition of the 
+standard indicated at Annex H. 
+
+
+3 TERMINOLOGY 
+
+
+For the purpose of this standard, the definitions given 
+in IS/IEC/TR 62051-1 and the following shall apply. 
+
+
+3.1 Network — A data communications system that 
+allows a number of devices to communicate with each 
+other. It indicates interconnection of these devices in a 
+way concordant with the communications profile 
+selected. It does not necessarily mean a diverse or wide- 
+ranging set of connections, nor any routing capability 
+(see also 13.23 of IEC 62051). 
+
+
+3.2 Architecture — Overall requirement and 
+application of the communication network, indicating 
+structure and hierarchy (see also 4.3 of IEC 62051). 
+
+
+3.3 Object — A collection of characteristic attributes 
+and specified methods (see also DLMS UA, Blue Book). 
+
+
+3.4 Object Modelling — A technology independent 
+model of a meter can be represented by a list of objects 
+as seen through an interface and provides controlled 
+access to their attributes and methods. The data objects 
+related to metering functionalities and parameters can 
+be mapped into identifier codes forming a message for 
+transportation according to an open protocol (see also 
+DLMS UA, Blue Book). 
+
+
+3.5 Access Point — A physical interface point used to 
+transfer data from/to the meter network. It may be a 
+gateway from a LAN to a higher order network or an 
+interface to temporary reading equipment such as a HHU 
+(MRI), a portable PC, etc (see also 4.2 of IEC 62051). 
+
+
+IS 15959 : 2011 
+
+
+3.6 Held Unit (HHU) — A portable device for reading 
+and programming equipment or meters at the access 
+point (see also 4.19 of IEC 62051 and Annex J). 
+
+
+3.7 Meter Reading Instrument — These are 
+synonymous with HHU (see also G-1.7 and G-1.8 of 
+IS 14697). 
+
+
+3.8 Configuration — Setting of measurement and 
+communication parameters to operate the meter 
+correctly (see also 4.7 of IEC 62051). 
+
+
+3.9 Protocol — The rules for communications system 
+operation that must be followed if communication is to 
+be effected (for example for meter reading and 
+programming) ( see also 13.72 of IEC 62051). 
+
+
+3.10 Open Protocol — The rules for communications 
+system operation suitable for meter reading and limited 
+programming of meters and data collection equipment 
+of different types and from different manufacturers 
+through open standardized documents, for example 
+DLMS/COSEM (see also 3.1.65 of IS/TEC 62051-1). 
+
+
+3.11 Interface — A point or means of interaction 
+between two systems (for example between a meter 
+and a data collection equipment) (see also 13.50 of 
+IEC 62051). 
+
+
+3.12 Parameter — A single identifiable metering or 
+other quantity which may be read or altered within 
+meter readings, tariffication, or control and may have 
+multiple aspects such as its value, scaling, timestamp, 
+etc. 
+
+
+3.13 Parameterization — Setting of those parameters 
+that define the configuration of the metering device, 
+which implies writing values of COSEM object 
+attributes. The parameterization tool can be seen as a 
+special client. 
+
+
+3.14 Data Concentrator — A device used to hold the 
+data from a number of meters, in a way that identifies 
+the data from each meter, and allows it to be accessed 
+in real time by a higher-level data collector. Typically 
+a concentrator is accessed in a manner similar to the 
+meters, but supports faster or cheaper communication, 
+and has greater storage capacity than available with 
+the meters themselves (An example of use is to 
+concentrate data from a number of electrical distribution 
+substations). 
+
+
+3.15 HOST Computer — A computer system to which 
+data collected by HHUs is returned for processing, and/ 
+or which can collect data remotely from a meter or data 
+concentrator. 
+
+
+3.16 Data Encryption — The changing of the form of 
+a data stream in such a way that only the intended 
+recipient can read or alter the information and 
+
+
+nauthorized messages may be detected. It ensures data 
+security (see also 13.29 of IEC 62051). 
+
+
+3.17 Key — Transforms a particular message using an 
+algorithm to make it unreadable to anyone except the 
+recipient, to preserve integrity, authenticity and 
+confidentiality of the message or vice versa, through a 
+standardized procedure (see also DLMS UA, Green 
+Book). 
+
+
+3.18 Confidentiality — Preserving authorized 
+restrictions on information access and disclosure, 
+including means for protecting personal privacy and 
+proprietary information. A loss of confidentiality is the 
+unauthorized disclosure of information (see also NIST 
+FIPS PUB 199 : 2004). 
+
+
+3.19 Integrity — Guarding against improper 
+information modification or destruction, and includes 
+ensuring information non-repudiation and authenticity. 
+A loss of integrity is the unauthorized modification or 
+destruction of information (see also NIST FIPS PUB 
+199 : 2004). 
+
+
+3.20 Open Systems Interconnections (OSI) — A 
+framework for communication processes in which the 
+process is divided into seven functional layers, arranged 
+one above the other with each having a separate 
+responsibility. Each layer communicates with the layer 
+immediately above and below it (see also 12.1 and 12.4 
+of IEC 62051). 
+
+
+3.21 Collapsed Architecture — A subset of the OSI 
+reference model which consists of only three layers: 
+Physical layer, Data link layer and Application layer. 
+
+
+3.22 Layer — One of seven functional entities within 
+the OSI model (normal and collapsed architecture) as 
+given in Table 1 (see also 12.2 of IEC 62051). 
+
+
+Table 1 OSI Model — Functional Layers 
+
+
+SI No. Layer Normal Collapsed 
+ad) (2) (3) (4) 
+i) 7 Application Application 
+ii) 6 Presentation — 
+ili) 5 Session — 
+iv) 4 Transport — 
+v) 3 Network — 
+vi) 2 Data link Data link 
+vii) 1 Physical Physical 
+
+
+3.22.1 Physical Layer (OSI Layer 1) — That layer of 
+the OSI reference model which provides bit 
+transmission between one node and the next, physical 
+interfacing with media, data signal encoding and defines 
+electrical parameters, connector size, shape and 
+pinouts. 
+
+
+3.22.2 Data Link Layer (OSI Layer 2) — That layer of 
+the OSI reference model which performs and controls 
+specified transmission service functions by means of a 
+link protocol. 
+
+
+3.22.3 Network Layer (OSI Layer 3) — That layer of 
+the OSI reference model which establishes the source 
+to destination path across the network, switches, routes 
+and controls congestion of information packets. 
+
+
+3.22.4 Transport Layer (OSI Layer 4) — That layer of 
+the OSI reference model which provides reliable 
+transmission of layer 7 messages end-to-end across the 
+communication network. 
+
+
+3.22.5 Session Layer (OSI Layer 5) — That layer of 
+the OSI reference model which establishes and 
+terminates end-to-end sessions, provides process 
+synchronization, and determines if half-duplex or full- 
+duplex is to be used. 
+
+
+3.22.6 Presentation Layer (OSI Layer 6) — That layer 
+of the OSI reference model which establishes the syntax 
+(form) in which data is exchanged. 
+
+
+3.22.7 Application Layer (OSI Layer 7) — That layer 
+of the OSI reference model which provides end-user 
+services such as file transfers, electronic messages and 
+remote data base access. 
+
+
+3.23 Conformance Testing — Planned and regulated 
+process of evaluation of a type of metering equipment 
+in order to gain confidence about implementation of 
+
+
+1-1 HDLC PORT. 
+
+
+Meter 
+Category 
+A/B/C 
+
+
+(Server) 1-1 HDLC PORT. 
+
+
+P2 1-1. HDLC PORT. 
+
+
+Data communication equipment 
+
+
+PSTN Modem, GSM/GPRS Modem 
+
+
+Hand held unit 
+Data concentrator 
+
+
+IS 15959 : 2011 
+
+
+declared features of this standard and generic standards 
+IEC 62056 in that particular type, by a laboratory 
+authorized for the purpose (see also DLMS UA, Yellow 
+Book and Annex K ). 
+
+
+4 ARCHITECTURE 
+
+
+4.1 The typical connectivity scheme between a meter 
+(server) and the client, considered for this standard, is 
+shown in Fig. 1. 
+
+
+4.2 Physical Requirements 
+
+
+The meter (server) shall support a minimum of two ports 
+for data communication, as given below: 
+
+
+a) P1 — An Electrical port compatible with 
+RS 232 or RS 485 specifications. This shall 
+be used for remote access from the HOST 
+(Client) or DC (Client). 
+
+b) P2—Anoptical port complying with hardware 
+specifications detailed in IS/IEC-62056-21. 
+This shall be used for local access from a HHU 
+(MRI. 
+
+c) The P1 and P2 both shall support the 3-layer 
+Connection Oriented COSEM/HDLC profile, 
+with a minimum and default baud rate of 9600. 
+
+
+d) Both Pl and P2 shall support 4 byte and one 
+byte addressing both. HHU can read from 
+either port. 
+
+
+The optical port is not required to support any mode of 
+
+
+Link to base 
+computer 
+system 
+
+
+RS 232/RS 485 Port — For remote access 
+
+
+Optical port — For local access 
+
+
+Fic. | MESSAGE FLow CONNECTIVITY SCHEME BETWEEN METER/SERVER AND CLIENT 
+
+
+IS 15959 : 2011 
+
+
+ISAEC-62056-21, that is, mode of usage shall be direct 
+HDLC (see also Fig. 1). 
+
+
+4.3 Requirements for Simultaneous Operation 
+
+
+The meter (server) is not required to allow more than 
+one association to be open at any one time. Optical 
+port shall have priority when both ports are accessed 
+simultaneously. This means that if the electrical port is 
+connected and being accessed for data, any attempt to 
+connect on optical port shall cause the connection on 
+electrical port to be interrupted and the optical 
+connection processed after sending ‘DM’ 
+(Disconnected Mode) message to HOST. Any further 
+attempts to communicate on electrical port while the 
+optical port is being used shall be returned with a ‘DM?’ 
+code. This is an indication to the HOST that the meter 
+is temporarily busy. 
+
+
+5 LOGICAL STRUCTURE OF METERS 
+
+
+The meter represents one physical device as mentioned 
+in 4.5 of IS/TEC 62056-62. 
+
+
+The physical device (meter) hosts one logical device 
+as mentioned in 4.5 of IS/IEC 62056-62, which is the 
+management logical device. This has SAP (Service 
+Access Point) address 1, as mandated in IS/IEC 62056- 
+53. The physical device address (lower HDLC address) 
+shall also be set to a default value of ‘256’ on supply 
+and the actual communication address shall be 
+programmed on installation. 
+
+
+The meter shall support the Logical Name (LN) 
+referencing mechanism as defined in Annex C.1 of 
+IS/IEC 62056-62. Short name referencing as defined in 
+Annex C.2 of IS/IEC 62056-62 is not required to be 
+supported. 
+
+
+The meter shall support three associations in the 
+management logical device 
+
+
+a) Public client association (PC); 
+b) Meter reader association (MR); and 
+c) Utility settings association (US). 
+
+
+5.1 Mandatory Objects 
+
+
+The following objects as given in Table 2 are mandated 
+by IS/IEC 62056-62. 
+
+
+5.2 Association Properties 
+
+
+5.2.1 The PC association shall contain the following in 
+addition to mandatory objects: 
+
+
+a) Meter’s real-time clock; and 
+b) Meter serial number. 
+
+
+5.2.2 The MR association shall contain the following 
+in addition to mandatory objects: 
+
+
+a) Profile objects allowing bulk collection of data 
+defined by the parameter lists in Annex C, D, 
+E, F and G; and 
+
+b) Simple objects allowing ad-hoc access to 
+items in the instantaneous parameters list. Ad- 
+hoc access to the profile objects shall also be 
+possible. 
+
+
+5.2.3 The US association shall contain in addition to 
+mandatory objects: 
+
+
+a) All the objects accessible via the MR 
+association; and 
+
+b) Simple and compound objects allowing 
+tariffication and configuration of the meter 
+(see also 9). 
+
+
+5.2.4 The object list of each association is detailed in 
+Annex C, D, E, F and G. Mandatory objects do not 
+necessarily appear in these tables. Access rights for each 
+data item are also shown in Annex C, D, E, F and G. 
+The association properties, object list, and access rights 
+
+
+Table 2 Mandatory Objects 
+(Clause 5.1) 
+
+
+SI No. Object OBIS Code Interface Class Requirements 
+
+d) (2) (3) (4) (5) 
+
+i) Logical device name 0.0.42.0.0.255 IC = 1 (Data) Value data type will be octet-string with maximum 
+length 16. 
+
+ii) Current association 0.0.40.0.0.255 IC = 15 (Association LN) This object will refer to the currently connected 
+association object. The meter shall have three 
+association objects, of which the currently 
+connected one shall be accessible via the OBIS 
+0.0.40.0.0.255 
+
+NOTES 
+
+
+1 The logical device name shall have a maximum length of 16 characters, and shall have as its first three characters the manufacturer’s 
+
+
+3-letter code as specified in 4.6.2 of IS/IEC-62056-62. 
+
+
+2 The three letters manufacturer ID's are administered by the FLAG Association, in co-operation with the DLMS UA. 
+
+
+are identical on ports Pl and P2. 
+
+
+5.2.5 The required associations shall have the properties 
+as given in Table 3. 
+
+
+5.3 Descriptive Notes for Logical Structuring 
+5.3.1 Associations 
+
+
+Each logical device can organize the data objects into 
+different associations, each having different access 
+rights to the list of objects. Each association defines 
+the SAP address pair of the client and server logical 
+device addresses that participate in the data transaction. 
+
+
+5.3.2 Objects 
+
+
+All meter data is represented by COSEM interface 
+objects. COSEM interface objects are instances of the 
+COSEM interface classes. 
+
+
+5.3.3 Attributes and Methods 
+
+
+The actual placeholders of the different data elements 
+of the meter are the attributes of the objects, whereas 
+the methods exposed by the objects allow manipulating 
+the attributes in defined manners. 
+
+
+5.4 Referencing Methods 
+
+
+5.4.1 DLMS/COSEM provides two referencing 
+methods to access the meter data, Logical name 
+referencing and Short name referencing. Under LN 
+referencing, data is accessed by specifying the Logical 
+name (OBIS code) of the object, the Class ID and the 
+attribute (or method) index. Under SN referencing each 
+attribute and method of each object has its own 
+individual address. 
+
+
+5.4.2 Access rights are specified for each attribute and 
+each method of every data object in the meter. Attributes 
+may have the following access rights: 
+
+
+a) No access; 
+
+b) Read access; 
+
+c) Write access; and 
+d) Read-write access. 
+
+
+IS 15959 : 2011 
+
+
+5.4.3 Methods may have the following access rights: 
+
+
+a) No access; and 
+b) Execute access. 
+
+
+5.4.4 Access rights are specific to each association. 
+Different associations may have different object lists, 
+or award different access rights to the same set of data 
+objects. Thus the grouping of data into associations 
+gives different views of the same real data. 
+
+
+6 USAGE OF DLMS/COSEM PROVISIONS 
+
+
+6.1 Usage of Interface Classes 
+
+
+6.1.1 This standard defines the set of interface classes 
+to be used for various types of data. The interface class 
+for the identified parameters is specified in Annex C to 
+Annex G. 
+
+
+6.1.2 Either requiring support or offering support for a 
+class shall not imply support for all its attributes. 
+Required attributes are listed under respective Annex 
+as notes. Not supporting an attribute can be 
+implemented as given below: 
+
+
+a) Attribute does not appear in the object list; 
+and 
+
+
+b) Attribute appears in the object list but with 
+no access rights. 
+
+
+6.1.3 Attribute O referencing (indicating access to all 
+attributes in one request, as specified by Bit 10 of the 
+conformance block) is not required to be supported in 
+any case. 
+
+
+6.1.4 References to classes may be made in the form 
+of capture-IDs or register-table entries even if the 
+corresponding classes are not supported for direct data 
+access. 
+
+
+6.1.5 References to OBIS codes may be made in the form 
+of capture-IDs, masks, or scripts even if the corresponding 
+objects are not individually accessible. In this case those 
+items will not appear in the Association object. 
+
+
+Table 3 Association Properties 
+(Clause 5.2.5) 
+
+
+SI No. Feature Public Client Meter Reader Utility Settings 
+ad) (2) (3) (4) (5) 
+i) SAP address pair in format (client, server) (16,1) (32,1) (48,1) 
+il) Application context — Basic security LN without ciphering LN without ciphering LN without ciphering 
+iii) Application context — Advanced security Not applicable LN-Ciphered LN-Ciphered 
+iv) Sign on authentication mechanism (see also 7.3.7.2 Lowest Level Low Level (LLS) High Level (HLS) 
+of IS/IEC-62056-53) 
+v) Services required in conformance block Get, Get 
+with block transfer Get, Get with block transfer, 
+Selective access Get, Set, Action, Get and set with 
+block transfer, Selective access 
+vi) OBIS codes 0.0.40.0.1.255 0.0.40.0.2.255 0.0.40.0.3.255 
+
+
+IS 15959 : 2011 
+
+
+6.2 Requirements for Interoperability 
+
+
+6.2.1 A client device supporting the parameters, 
+functions, and classes of the minimum specification, 
+along with suitable configuration of system-dependent 
+features (such as physical addresses, timeout thresholds, 
+and secret keys), shall be able to retrieve all of the 
+specified data items and perform any of the specified 
+updates without particular knowledge about the server. 
+
+
+6.2.2 Given the knowledge that a certain client or a 
+certain server implements particular additional features 
+defined as in this standard, a server can be built to return 
+data and receive updates from that client, or a client 
+can be built to retrieve data and perform updates upon 
+that server, respectively, without further special 
+knowledge other than system-dependent features. 
+
+
+6.2.3 Interpretation of the data shall be possible by any 
+user with adequate knowledge of electricity metering 
+provided that a complete set of data has been retrieved. 
+
+
+6.3 Country-Specific OBIS Codes 
+
+
+Within this Companion Specification, country-specific 
+variations or additions to quantities such as energy types 
+are managed by the allocation of new codes in the full 
+OBIS format. The country-specific OBIS codes 
+introduced in this document are in the format — 
+a.b.94.91.e.f, along with interface class and attributes, 
+where C = 94 indicates a country-specific code and 
+D = 91 is allocated for India. 
+
+
+7 ASSOCIATION AND DATA SECURITY 
+
+
+As per the provisions of the DLMS/COSEM protocol, 
+data access control mechanism and encryption/ 
+authentication mechanism shall be supported. Access 
+
+
+control mechanisms shall be used in the association 
+establishment phase and encryption/authentication 
+mechanism shall be used in the data communication 
+phase. 
+
+
+7.1 Security Profiles 
+Two security schemes are defined in this standard. 
+7.1.1 Basic Security 
+
+
+The basic security profile does not provide for 
+encryption or authentication during data 
+communication stage. The only security provided for 
+is the sign-on authentication security provided by low 
+level and high level security as applicable for the 
+respective associations. 
+
+
+7.1.2 Advanced Security 
+
+
+Encryption, authentication, or both can be performed 
+by the application programme and transferred using 
+ciphered PDUs. All systems must implement basic 
+security. Implementation of advanced security is 
+discretionary. When implemented it shall be as provided 
+in NIST SP 800-38-D. 
+
+
+7.2 Security Setup (Class id: 64, Version: 0) 
+
+
+The following interface class is defined in addition to 
+those published in the National/International Standard 
+(see also IS/IEC 62056-62). 
+
+
+Instances of this IC contain the necessary information 
+on the security policy applicable and the security suite 
+in use within a particular AA, between two systems 
+identified by their client system title and server system 
+title respectively. They also contain methods to increase 
+the level of security and to transfer the global keys as 
+given in Table 4. 
+
+
+Table 4 Security Setup 
+Sl Security Setup 0....n Class_id = 64, Version = 0 
+No. Data Type 
+Min Max Def. Short Name 
+a) (2) (3) (4) (5) (6) (7) 
+i) Attributes: 
+a) logical_ name (static) octet-string — — — K 
+b) security-policy (static) enum — — — x + 0x08 
+c) security-suite (static) enum — — — x + 0x10 
+d) client-system-title (dynamic) octet-string — — — x + 0x18 
+e) server-system-title (static) octet-string — — — x + 0x20 
+ii) Specific methods: m/o 
+a) security_activate o x + 0x28 
+b) global_key_transfer o x + 0x30 
+NOTE — Use of this interface class is only required for Advanced Security profile implementations. Implementations of Basic 
+
+
+Security profiles shall not contain this Class. 
+
+
+7.3 Security Setup Objects 
+
+
+7.3.1 The following object identifiers as given in Table 5 
+are defined in addition to those given in 
+IS/IEC 62056-62. 
+
+
+Table 5 Object for Security Setup 
+
+
+Security Setup IC OBIS Code 
+Objects ——— ——, 
+A B C D EF 
+(1) (2) (3) 4 6) © @ (8) 
+
+
+Security setup 64 — Security setup O b 43 0 e 255 
+
+
+7.3.2 Instances of the IC Security setup are used to set 
+up the message security features. For each Association 
+object, there is one Security setup object managing 
+security within that AA. Value group E numbers the 
+instances. This specification defines 2 values for E 
+corresponding to the 2 associations as given in Table 6. 
+
+
+Table 6 Security Setup Object OBIS Code for 
+Association Levels 
+(Clauses 7.3.2 and 7.4.1) 
+
+
+SI Security Setup Object 
+No. OBIS Code 
+ad) (2) (3) 
+
+
+i)  0b43.01.255 
+ii) 0.b.43.0.2.255 
+
+
+Association Description 
+
+
+Meter Reader Association 
+Utility Settings Association 
+NOTE — These instances of the Security Setup interface 
+Class are only required for Advanced Security profile 
+
+
+implementations. Implementations of Basic Security profile 
+shall not contain these instances. 
+
+
+7.4 LN Association Interface Class 
+
+
+7.4.1 This standard utilizes version 1 of the Association 
+
+
+IS 15959 : 2011 
+
+
+LN Interface Class (IC = 15). The version 1 of IC = 15 
+adds an extra attribute ‘security_ setup_reference’ 
+(attribute 9) which will be used to contain the reference 
+to an instance of a Security Setup class, namely one of 
+the two instances defined in Table 6. 
+
+
+7.4.2 The implementation of version 1 of Association 
+LN Interface class is not required for Basic Security 
+profile. 
+
+
+7.4.3 The following Interface Class definition is defined 
+in Table 7 in addition to those published in 
+IS/IEC 62056-62. 
+
+
+7.4.4 COSEM logical devices able to establish AAs 
+within a COSEM context using LN referencing model 
+the AAs through instances of the “Association LN’ IC. 
+A COSEM logical device has one instance of this IC 
+for each AA the device is able to support. 
+
+
+7.5 Descriptive Notes for Data Security 
+7.5.1 Access Control for Association 
+
+
+The DLMS/COSEM standard provides three different 
+sign-on authentication mechanisms for each 
+association’s access to meter data applied at the time 
+of performing COSEM OPEN operation. 
+
+
+7.5.1.1 Lowest level security 
+
+
+Open access without any authentication at sign-on. This 
+shall be used by the public client. 
+
+
+7.5.1.2 Low level security (LLS) 
+
+
+Password based sign-on where the client authenticates 
+itself to the meter using a password. The Utility Settings 
+association shall provide access to write the password 
+for all associations that utilize this authentication 
+scheme (Currently only the Meter Reader association 
+object). This is accomplished by providing write access 
+
+
+Table 7 LN Association Interface Class 
+
+
+(Clause 7.4.3) 
+SI Association LN 0 MaxNbofAss. Class_id = 15, Version = 1 
+No. Data Type F 
+Min Max Def. Short Name 
+0) (2) (4) (5) (6) (7) 
+i) Attributes: 
+
+a) logical_name (static) octet-string — — — x 
+
+b) object_list (static) object_list_type — — — x + 0x08 
+c) associated_partners_id associated_partners_type — — — x + 0x10 
+d) application_context_name application-context-name — — — x + 0x18 
+e) xDLMS_context_info xDLMS_context_type — — — x + 0x20 
+f) authentication_mechanism_name mechanism-name — — — x + 0x28 
+g) LLS_secret octet-string — — — x + 0x30 
+h) association_status enum — — — x + 0x38 
+j) security_setup_reference (static) octet-string — — — x + 0x40 
+
+ii) Specific Methods: m/o 
+
+a) reply_to_HLS_authentication (data) o x + 0x60 
+b) change_HLS_secret(data) o x + 0x68 
+c) add_object(data) o x + 0x70 
+d) remove_object(data) o x + 0x78 
+
+
+IS 15959 : 2011 
+
+
+to the ‘LLS_secret’ attribute (attribute number 7) of 
+the Meter Reader association LN object. This write 
+access is provided only through the Utility Settings 
+association. 
+
+
+The MR association object has an OBIS code 
+0.0.40.0.2.255. The LLS_secret of this object shall be 
+changed only through US association. 
+
+
+7.5.1.3 High level security (HLS) 
+
+
+HLS mechanism defines a 4-pass sign-on scheme where 
+the client and server exchange challenges (a random 
+number or code) and then reply to the challenges with 
+a processed response. The processing performed on the 
+challenges is an encryption using a secret ‘key’. The 
+Utility Settings association shall provide write access 
+to the ‘secret’ attribute of the Utility Settings 
+association. The US association object has an OBIS 
+code 0.0.40.0.3.255. The HLS secret of this object can 
+be changed using method 2 of this object. The 
+encryption mechanism used for processing the 
+challenges shall be AES-128 algorithm as provided in 
+NIST FIPS PUB 197 : 2001. 
+
+
+7.5.2 Encryption for Data Communication 
+
+
+The confidentiality of data communicated between the 
+meter and the client is handled by the encryption 
+mechanism chosen in the application context. 
+Associations utilizing the ‘Logical name with ciphering’ 
+application context provide encryption/decryption 
+services for data messages. Ciphering may be: 
+
+
+a) Authentication, providing message integrity; 
+b) Encryption, providing confidentiality; and 
+c) both. 
+
+
+8 EVENT HANDLING 
+
+
+This clause adds the definitions for the event code 
+object and event log object. 
+
+
+8.1 Event Code 
+
+
+8.1.1 An event code object is used to hold the identifier 
+corresponding to most recent event. Data, register or 
+extended register classes can be used to model this object. 
+DLMS allows defining country specific reference table 
+that lists all possible events with corresponding 
+identifiers (see Annex G). For the purposes of this 
+specification the Interface Class used for this object is 
+restricted to IC = | (Data) as given in Table 8. The value 
+attribute of the object will have a DLMS data type ‘long 
+unsigned’ (16 bit integer) which will contain the event 
+identifier for the last recorded event (identifier taken from 
+the reference tables (see Annex G). 
+
+
+8.1.2 Value group E allows to classify events into 
+different categories as needed. Currently DLMS allows 
+
+
+10 values (0...9) for value group E, enabling user to 
+define up to 10 event categories. 
+
+
+Table 8 Event Code 
+(Clause 8.1.1) 
+
+
+Event IC OBIS Code 
+Code ee 
+A B C D E F 
+a) (2) 3) © 6 © 0 (8) 
+Event code 1—Data 0 b 96 11 e 255 
+
+
+8.1.3 This standard defines 7 categories for 
+classification of events and correspondingly 7 event 
+code objects as given in Table 9. 
+
+
+Table 9 Event Code OBIS Codes 
+
+
+Sl Event Code Object 
+No. OBIS Code 
+d) (2) (3) 
+
+
+i) 0.b.96.11.0.255 
+
+ii) 0.b.96.11.1.255 
+iii) 0.b.96.11.2.255 
+iv 0.b.96.11.3.255 
+
+VW. 0.b.96.11.4.255 
+vi) 0.b.96.11.5.255 
+vii) 0.b.96.11.6.255 
+
+
+Event Category Description 
+
+
+Voltage related events 
+
+Current related events 
+
+Power failure related events 
+Transaction related events 
+
+Other events 
+
+Non-rollover events 
+
+Control events for connect/ 
+disconnect 
+
+
+NOTES 
+
+
+1 The 7th Event code object is required only where remote 
+load control by means of connect/disconnect are specified by 
+agreement between the utility and the manufacturer. 
+
+
+2 Reference to Annex G and the relevant tables may be made 
+for the valid Event Identifier values defined for the above 7 
+categories by this standard. 
+
+
+8.2 Event Log 
+
+
+8.2.1 An event log is a profile generic object provided 
+to store historical values of the event code object for a 
+given category of event as given in Table 10. The capture 
+object includes object attribute definitions of associated 
+data. Associated data includes event code and other 
+relevant information such as timestamp, instantaneous 
+electricity related information (such as current/voltage/ 
+energy register, contents etc at the time of the event). 
+
+
+8.2.2 For the purpose of this standard, the capture 
+
+
+objects will include the entries specified in Annex G. 
+
+
+Table 10 Event Log Profile 
+(Clause 8.2.1) 
+
+
+Event IC OBIS Code 
+
+Log — ov. 
+A B C D E F 
+
+a) 2) 8 4 6) © (0) (8) 
+
+
+Event log 7 — Profile Generic 0 b 99 98 e 255 
+
+
+8.2.3 Value of group E allows to classify event logs into 
+different categories as needed. Currently DLMS allows 
+10 values (0...9) for value of group E allowing to define 
+up to 10 event log categories as given in Table 11. 
+
+
+8.2.4 This standard defines 7 categories for 
+classification of event log objects with a one-to-one 
+correspondence with the 7 event code categories 
+defined in 8.1. 
+
+
+8.2.5 Event Log Storage Recommendations 
+
+
+This standard recommends a total storage of 200 events 
+in the event logs. The division of the specified storage 
+space across the 7 compartments specified above shall 
+be by the agreement between the utility and the 
+manufacturer. 
+
+
+The event code and event log parameters are accessible 
+through the MR and US associations with read-only 
+access (see Annex J). 
+
+
+Table 11 Event Log OBIS Codes 
+(Clause 8.2.3) 
+
+
+Sl Event Log Object 
+No. OBIS Code 
+d) (2) (3) 
+
+
+i) 0.b.99.98.0.255 
+ii) 0.b.99.98.1.255 
+iii) 0.b.99.98.2.255 
+iv) 0.b.99.98.3.255 
+v) 0.b.99.98.4.255 
+vi) 0.b.99.98.5.255 
+vii) 0.b.99.98.6.255 
+
+
+Event Category Description 
+
+
+Voltage related events 
+
+Current related events 
+
+Power failure related events 
+Transaction related events 
+
+Other events 
+
+Non-rollover events 
+
+Control events for connect/ 
+disconnect 
+
+
+NOTE — The 7th Event log category is reguired only where 
+remote load control by means of connect/disconnect are 
+specified by agreement between the utility and the manufacturer. 
+
+
+9 TOU METERING 
+
+
+9.1 DLMS/COSEM provide a number of interface 
+classes to deal with TOU metering. These include 
+activity calendars (objects that specify the time- 
+switches for tariffs based on a season/week/day profile 
+tree) and schedules (a simple tabular listing of time- 
+switch scripts associated with a date-time). 
+
+
+9.2 These objects associate a script (stored in a script 
+table object, IC = 9) with each time-switch. The script 
+usually defines the list of registers that get enabled for 
+that time-switch using a register activation object (IC 
+= 6) that stores masks of registers that can be selectively 
+enabled/disabled. 
+
+
+9.3 For the purpose of this standard, the activity 
+calendar (IC = 20) shall be used as given in Table 12. 
+
+
+9.4 An instance of a script table class, the tariffication 
+script table object will be used to store the scripts related 
+
+
+IS 15959 : 2011 
+to each time-switch in the schedule as given in Table 13. 
+
+
+Table 12 Activity Calendar OBIS Code 
+
+
+(Clause 9.3) 
+Activity IC OBIS Code 
+Calendar ——————. 
+A B C D E F 
+a) (2) 3) 4 6) © (7) (8) 
+Activity Oo 20 — Activity O b 13 0 0 255 
+
+
+Calendar Calendar 
+
+
+Table 13 Tariff Script Table OBIS Code 
+(Clause 9.4) 
+
+
+Script Table IC OBIS Code 
+———— ————ı 
+A B C D E F 
+
+
+NM) 6) © M (8) 
+10 0 100 255 
+
+
+d) (2) 
+9 — Script Table 0 b 
+
+
+Tariffication 
+Script Table 
+
+
+9.5 This standard utilizes a simple mechanism for 
+associating TOU/TOD scripts with tariffs, as described 
+below. Use of the Register Activation object is not 
+required. 
+
+
+9.6 Under this mechanism, script identifiers in the 
+tariffication script table are inherently associated with 
+tariffs, as defined below. 
+
+
+9.7 Script identifiers from 1 to 16 are associated with 
+the Activation of Tariff Rate Registers 1 to 16. 
+Implementations that do not require 16 different tariff 
+rates shall use identifiers from 1 to the required number. 
+For example if 8 tariffs are defined, script identifiers 1 
+to 8 shall be used, where scripts 9 to 16 are reserved 
+for future use. Scripts identifiers 17 to 32 are associated 
+with Maximum Demand tariffs 1 to 16. 
+Implementations that do not require 16 different tariff 
+rates shall use identifiers from 1 to the required number. 
+
+
+9.8 The activity calendar shall be used to associate 
+activation times to different Tariff rates simply by using 
+the appropriate script identifiers. All scripts shall point 
+to a dummy OBIS code and attribute index which has 
+no associated meaning. 
+
+
+9.9 To ensure coordination of the updates to various 
+attributes, activity calendar shall be updated by writing 
+to the passive-calendar attributes. The end of the update 
+process is indicated by update of the activation date 
+attribute with an appropriate value, causing all changes 
+to become effective simultaneously. 
+
+
+9.10 Use of the special days table is not considered 
+presently in this standard. 
+
+
+10 BILLING PERIODS 
+
+
+10.1 Billing period resets are driven by an instance of 
+
+
+IS 15959 : 2011 
+
+
+the single action schedule class in conjunction with a 
+script table. The data of the billing period is stored ina 
+profile generic object as given in Table 14. Each entry 
+in the profile buffer captures the billing period values 
+for a specific billing period. 
+
+
+Table 14 Billing Period OBIS Code 
+
+
+Profile IC OBIS Code 
+Generic 
+A B C D E F 
+a) (2) 3) (4 6) © D (8) 
+Data of 7 — Profile Generic 1 b 98 1 0 255 
+Billing 
+Period 
+Profile 
+
+
+10.2 This standard specifies the single action schedule 
+object to drive the end of billing period resets as given 
+in Table 15. The object will contain the time-date entries 
+at which billing period resets are scheduled. 
+
+
+Table 15 Single Action Schedule OBIS Code 
+
+
+Single IC OBIS Code 
+Action AL 
+Schedule 
+A B C D E F 
+(1) (2) 3) 4 6 © @ (8) 
+MDI Reset/ 22 — Single Action 0 b 15 0 0 255 
+End of Schedule 
+Billing 
+Period 
+
+
+10.3 Each time-date entry in the execution time array 
+will be associated with a link to a single script in the 
+MDI reset/end of billing period script table. The script 
+table object as given in Table 16 will be programmed 
+with scripts to handle the billing period resets. 
+
+
+Table 16 Billing Script Table OBIS Code 
+
+
+Script Table IC OBIS Code 
+A B C D E F 
+d) (2) (3) (4) (5) (6) (0) (8) 
+MDI Reset/End 9 — Script Table O b 10 O 1 255 
+of Billing 
+Period Script 
+Table 
+
+
+10.4 The script table will contain a single script that 
+specifies the capture method invocation for the 
+corresponding data of billing period profile 
+(1.0.98.1.0.255). Therefore a single action schedule 
+entry will trigger a call to the script table to execute the 
+capture method at a specific time (namely the end of 
+the billing period) which will cause a billing period 
+entry to be made in the profile for the current period 
+and trigger the start of a new billing period. Other 
+
+
+10 
+
+
+actions internal to the meter may also be triggered by 
+the end of each billing period, but are not required to 
+be expressed as scripts here. 
+
+
+11 HISTORIC DATA 
+
+
+11.1 Historic data can be accessed by two mechanisms 
+in DLMS-COSEM. One mechanism provides access to 
+past values of specific quantities by using a VZ (billing 
+period number) related value for F in the OBIS code of 
+the original quantity. The other mechanism is profile 
+generic objects, where individual billing data set is one 
+entry. Profile generic object method is supported in this 
+specification for accessing historical data. 
+
+
+11.2 Billing Period Counter 
+
+
+11.2.1 The meter will contain an instance of a billing 
+period counter object as given in Table 17. 
+
+
+Table 17 Billing Period Counter OBIS Code 
+
+
+Billing IC OBIS Code 
+Period $<“. @@ a 
+Counter 
+A B C D E F 
+a) (2) 3) 4 6) (6) @ (8) 
+Billing 1 — Data 0 b 0 1 0 255 
+Period 
+Counter 
+
+
+11.2.2 The value attribute of the object will have a 
+DLMS data type unsigned 32 bit and cumulative value 
+since installation The meter will contain an instance of 
+a Data object that provides the number of available 
+billing periods in the meter as given in Table 18. 
+
+
+Table 18 Available Billing Periods OBIS Code 
+
+
+Number of IC OBIS Code 
+Billing Periods 
+A B C D E F 
+a) (2) 3) (4) 6) © (7) (8) 
+Available Billing 1 — Data O b O 1 1 255 
+Period 
+
+
+11.2.3 The above can be read by the client to identify 
+how many previous billing period’s data is available in 
+the meter. The value attribute of the above object will 
+have a DLMS data type unsigned (8-bit character). 
+
+
+11.3 Profiles 
+
+
+11.3.1 Historic data like load profiles etc are supported 
+in IEC 62056 by the Profile Generic Interface Class 
+(IC = 7). This object supports capture of other meter 
+object attributes at specific intervals or on demand. The 
+captured data is stored in the buffer attribute 
+(Attribute 2) of the Profile generic class. This class also 
+supports selective access to filter the buffer data in 
+
+
+response to GET requests. There are two mechanisms 
+for selective access viz. selective access by entry and 
+selective access by range. 
+
+
+11.3.2 This standard requires that the selective access 
+by range shall be supported for block load profile and 
+daily load profile. This standard requires support for 
+selective access by entry for billing data profile and 
+event log profiles. 
+
+
+11.3.3 In case of selective access by range, this standard 
+imposes that the restricting object is to be an instance 
+of the clock interface class (IC = 8) and the date-time 
+attribute of the object is captured in the buffer. 
+
+
+11.3.4 Selective access by entry and range supports 
+filtering the profile buffer by rows as well as by 
+columns. However this standard doesn’t require support 
+for filtering by columns ( see also Annex L). 
+
+
+11.3.5 Any configuration change in profile capture object 
+will be treated as given in 5.6 of IS/IEC 62056-62. 
+
+
+12 COMMUNICATION PROFILES 
+
+
+IEC 62056 adopts the collapsed architecture subset of 
+the open systems interconnect reference model. 
+Figure 2 illustrates the system used. This standard 
+requires that the three-layer serial Connection- 
+Orientated (CO) profile shall at least be supported. 
+
+
+The 3-layer serial CO profile consists of COSEM, 
+logical link control (LLC), and high-level distribution 
+line control (HDLC) on a serial physical channel. This 
+profile may be extended by using modems to handle 
+different carriers such as PSTN, GSM, or GPRS, 
+Radio, Zigbee, etc, by tunneling HDLC frames over 
+these media. 
+
+
+The addition of dial-up modem connections as 
+
+
+11 
+
+
+IS 15959 : 2011 
+
+
+described in IS/IEC 62056-42 is required only where 
+modem is fitted internal to the meter. 
+
+
+13 COMMUNICATION SETUP OBJECTS 
+
+
+This stantard requires the communication setup objects 
+as given in Table 19 to be supported in the meter 
+implementation. This document also recommends that 
+a specific baud rate may be fixed between the utility 
+and the manufacturer for each project. The suggested 
+default baud rate is given in 4.2. 
+
+
+Table 19 Communication Setup Object 
+
+
+Communication IC OBIS Code 
+Setup and HAN 
+Related Objects 
+for Serial 
+Communication 
+A B C DE F 
+(1) (2) 3) 4 6) © 7 (8) 
+IEC HDLC Setup 23 —IECHDLC 0 b 22 0 0 255 
+Setup 
+
+
+14 CONNECT/DISCONNECT CONTROL 
+
+
+In implementations that reguire remote Connect/ 
+Disconnect control, effected by operation of an output 
+pulse from the meter, this specification reguires support 
+for the disconnect control object as given in Table 20. 
+
+
+Table 20 Disconnect Control Object 
+
+
+Disconnector IC OBIS Code 
+A B C D E F 
+a) (2) (3) (4) 6) © @ (8) 
+Disconnect 70 — Disconnect 0 b 96 3 10 255 
+Control Control 
+
+
+IS 15959 : 2011 
+
+
+3-layer 
+CO HDLC 
+
+
+Fic. 2 COMMUNICATION PROFILE OPTIONS 
+
+
+IS 15959 : 2011 
+
+
+ANNEX A 
+(Clause 1.3) 
+
+
+INTRODUCTION TO METERING PARAMETERS WITH DATA IDENTIFIERS 
+
+
+A-1 Three categories of electricity meters have been 
+selected for compiling comprehensive lists of metering 
+parameters with their data identifiers as required for data 
+networks in India for COSEM procedures and services. 
+The relevant reference documents are listed in Annex H. 
+
+
+A-1.1 Category A Meter 
+
+
+This meter is identified for use at sub-station feeders 
+and Distribution Transformer Centers. The parameters 
+listed for this category is for “Energy Accounting and 
+Audit’ purposes (see also Annex C). 
+
+
+A-1.2 Category B Meter 
+
+
+parameters listed for this category is for consumers who 
+draw energy from the grid. For consumers who also 
+supply energy to grid, the category B Meter is 
+recommended (see also Annex E). 
+
+
+A-2 The meters complying with this standard shall be 
+considered as servers in a data network. The data 
+collecting devices at the head end or HHU shall function 
+as client and seek required services from these servers. 
+Table 21 lists the server categories with metering 
+nomenclatures and annex references. 
+
+
+Table 21 Categories of Meters 
+
+
+: E Se SI S Metering N lature/P Ref t 
+This meter is identified for use at meter banks and No. ane GM e ee ee bni 
+network boundaries. The parameters listed for this (1) (2) (3) (4) 
+category is for import/export of energy. This meter 15 i) A Energy . acon ant “andil Br G 
+also suitable for availability based tariff (ABT) regime metering 
+(see also Annex D). ii) B Boundary/Bank/Ring/ABT metering B,D, F, G 
+
+ili) C HV (VT/CT) and LV (CT) consumer B, E, F, G 
+A-1.3 Category C Meter metering 
+NOTE — The Annex B to Annex G are in continuation to this 
+This meter is identified for use at HV (PT and CT Annex. 
+operated) and LV (CT operated) consumers. The 
+ANNEX B 
+( Table 21) 
+
+
+INTRODUCTION TO STANDARDIZED METER PARAMETERS LIST 
+
+
+B-1 CLASSIFICATION OF PARAMETERS 
+
+
+The metering parameters have been identified and 
+classified as follows: 
+
+
+a) Instantaneous parameters; 
+b) Block profile/load survey parameters; 
+c) Daily profile parameters; 
+d) Parameters for accounting/billing; 
+e) General purpose quantities; 
+
+1) Name plate details; 
+
+2) Programmable parameters; and 
+f) Event conditions. 
+
+
+The measurement and computation of each of these 
+parameters and events shall be based on standard 
+methods or based on utilities prudent practices or as 
+directed by respective regulatory commission. 
+
+
+13 
+
+
+For each of the identified parameter, the OBIS code, 
+interface class and the attributes are given in the various 
+tables in Annexures. The OBIS codes listed are 
+applicable for LN referencing and is mandatory to 
+adhere to by the servers and clients. 
+
+
+B-2 INSTANTANEOUS PARAMETERS 
+
+
+The instantaneous parameters shall be continuously 
+updated by the meter hardware/software as per internal 
+sampling and computation time. The energy values in 
+the table shall be cumulative readings from the date of 
+manufacturing or installation of meter as the case may 
+be. These shall be continuously updated and last 
+updated value shall be available for downloading as 
+and when required. Each of the parameters shall be 
+readable at any instant by the HOST from remote or by 
+HHU at site. The snap shot of all the instantaneous 
+
+
+IS 15959 : 2011 
+
+
+values of all parameters shall be readable by the HOST 
+computer. 
+
+
+B-3 PROFILE GENERIC OR LOAD SURVEY 
+PARAMETERS (CAPTURE TIME BLOCK 15 OR 
+30 MIN) 
+
+
+This is an array of parameters identified for capturing 
+and storing at specified time intervals or capture times. 
+The capture times shall be either 15 or 30 min. The 
+capture times shall be programmable by the utilities. 
+The tables lists the parameters whose profile (survey) 
+is to be captured and stored in the meter as per set 
+capture time period. The profiles shall be readable at 
+any time by the HOST from remote or by HHU (MRI) 
+at site for any specified range and time. 
+
+
+In the case of Category B meters the capture time shall 
+be of 15 min duration. 
+
+
+The data stored in the array shall be the average value 
+for the captured time block and stored at the end of 
+that block, except for energy values. The energy entries 
+are the consumption during respective capture time 
+block and posted at the end of that block. The array of 
+data shall be retained inside the meter memory for the 
+last 22 days for a capture period of 15 min or for the 
+last 45 days for a capture period of 30 min. It is assumed 
+that the number of load survey parameters is 5 which 
+can be selected from the respective tables by the 
+utilities. The storage days can be expanded by choosing 
+less number of parameters. 
+
+
+The block load profiles shall not store or return values 
+(typically zero values) for conditions where the meter 
+is powered down for a full day, where a full day is 
+defined as the 24 h period from midnight 00 h to the 
+next midnight 00 h. Under such conditions the block 
+load profile for the entire 24 h period shall not be stored 
+nor padded with zero entries. However if the meter is 
+powered up even for a small amount of time (sufficient 
+for it to boot up and record the power up event) during 
+the 24 h period, it shall store and return the block load 
+profile for the entire 24 h duration. 
+
+
+B-4 PARAMETERS 
+BILLING PURPOSE 
+
+
+FOR ACCOUNTING/ 
+
+
+These are parameters identified for accounting/billing 
+purposes. These shall be generated by the meter for each 
+billing cycle and stored in the memory. The set of data 
+for last 6 (six) cycles shall be stored in the memory. At 
+the end of each cycle corresponding set of data shall be 
+readable by the HOST from remote or by HHU at site. 
+
+
+B-5 GENERAL PURPOSE QUANTITIES 
+
+
+B-5.1 Name Plate Details 
+
+
+These parameters are electrical and non-electrical 
+
+
+14 
+
+
+quantities and are static in nature, grouped as ‘Name 
+Plate Details’, containing pertinent information about 
+the supplied meter. The parameters identified and 
+grouped as ‘Name Plate Details’ under this 
+classification are applicable for all categories of meters 
+(see Annex F). 
+
+
+B-5.2 Programmable Parameters 
+
+
+These parameters are non electrical guantities. The 
+parameters identified and grouped as ‘Programmable 
+Parameters’ shall be programmable by the utility 
+engineers. For the purpose of setting/altering the values 
+of these parameters, the security and access rights in 
+line with the methodology described in protocol, shall 
+be mutually agreed between utility and manufacturer. 
+The parameters shall be programmable by HOST from 
+remote and HHU at site. These are applicable for all 
+categories of meters ( see Annex F). 
+
+
+B-6 EVENT CONDITIONS 
+
+
+B-6.1 Any abnormal or a tamper condition is defined 
+as an event. The meters shall identify and log both 
+occurrence and restoration of such events. The meters 
+shall also capture some of the parameters at the instance 
+of above said log. This standard has identified the 
+events to be logged and the parameters to be captured 
+for each of those events (see Annex G). 
+
+
+B-6.2 This standard has further classified those events 
+in sub groups for easy handling. The sub groups are: 
+
+
+a) Voltage related events; 
+
+b) Current related events; 
+
+c) Power failure related events; 
+d) Transactional events; 
+
+e) Other events; 
+
+f) Non-rollover events; and 
+
+g) Control events. 
+
+
+B-6.3 The number of events stored in each compartment 
+shall be decided by agreement between the utility and 
+manufacturers. However the total number of events 
+shall be 200. 
+
+
+B-6.4 The event conditions identified are listed in 
+Table 32 to Table 38 covering all the sub groups. For 
+each type of event condition the parameters to be 
+captured are listed in Table 39. The required capture 
+parameters for selected event condition shall be chosen 
+by the utility as per its practices and directives. 
+
+
+B-6.5 The types of events to be recorded may be 
+selected by the utility out of the list provided in tables. 
+Table 32 to Table 38 as per utility need and practice. 
+The parameters for which snapshot is to be recorded at 
+time of tamper/event can also be selected out of list of 
+
+
+parameters provided in ‘Capture Parameters’ in 
+Table 39. 
+
+
+B-6.6 The servers shall be capable of providing the 
+entire list of parameters listed in the respective 
+Annexure. However the utility as per its practices 
+
+
+IS 15959 : 2011 
+
+
+and directives may choose required parameters from 
+the full list. Sequence of parameters in buffer shall 
+be derived from capture object. The OBIS code for 
+such selected parameters however shall remain as 
+assigned. 
+
+
+ANNEX C 
+(Clauses 6.1.1 and A-1.1; and Table 21) 
+
+
+PARAMETER LIST FOR CATEGORY A METERS 
+
+
+C-1 The parameters listed here are for energy 
+accounting and audit purposes. These meters are 
+identified for feeder metering and DTC metering where 
+the power flow is unidirectional. In circumstances 
+where bidirectional power flow is to be measured then 
+Category B meters shall be deployed. 
+
+
+C-2 The parameters identified are grouped under 
+instantaneous (see Table 22) and block load profile (see 
+Table 23). The tables include the name of the parameter, 
+the OBIS code and interface class. 
+
+
+C-3 Association access rights are as follows: 
+
+
+a) Public client — Read only for clock and no 
+access for other objects. 
+b) 
+
+
+c) 
+
+
+Meter reader — Read only for all objects. 
+
+
+Utility setting — Read and write for clock and 
+read only for others. 
+
+
+C-4 INSTANTANEOUS PARAMETERS 
+
+
+Each of the parameters is a separate entity. The OBIS 
+code for each parameter is identified as per DLMS/ 
+COSEM protocol. 
+
+
+C-4.1 Snapshot of Instantaneous Parameters 
+
+
+The parameters of Table 22 shall be captured as a profile 
+generic using the country specific OBIS code 
+1.0.94.91.0.255; the attribute 2 of each of the capture 
+objects shall be copied into the profile at the instant of 
+a request from the HOST. 
+
+
+C-4.2 Scaler Profile 
+
+
+This profile is meant for capturing the scaler-unit of 
+each of the parameter listed in Table 22. This is 
+modelled as profile generic (IC = 7) and is assigned 
+the country specific OBIS code 1.0.94.91.3.255. The 
+capture objects for this profile shall include the scaler- 
+
+
+15 
+
+
+unit attributes of the Instantaneous parameters listed 
+in Table 22. Instantaneous parameters that do not have 
+a scaler-unit (like IC = 1) shall not be included in the 
+capture objects list. The profile buffer shall have only 
+one entry. This profile is not required to be updated 
+periodically. 
+
+
+C-5 BLOCK LOAD PROFILE PARAMETERS 
+
+
+C-5.1 This is an array of load survey data captured as a 
+profile generic. The OBIS code is 1.0.99.1.0.255, with 
+Interface class as 7. The capture objects of this block 
+load profile are as per Table 23 and the captured attribute 
+shall be attribute 2 of each interface class. The capture 
+object values will be copied into buffer of this array 
+automatically as per capture period which shall be set 
+through OBIS code 1.0.0.8.4.255 of recording interval 1. 
+
+
+C-5.2 Association access rights are as follows: 
+
+
+a) Public client — No access for all objects. 
+b) Meter reader — Read only for all objects. 
+c) 
+C-5.3 Scaler Profile 
+
+
+Utility setting — Read only for all objects. 
+
+
+This profile is meant for capturing the scaler-unit of 
+each of the parameter listed in Table 23. This is 
+modelled as profile generic (IC = 7) and is assigned 
+the country specific OBIS code 1.0.94.91.4.255. The 
+capture objects for this profile shall include the scaler- 
+unit attributes of the parameters listed in Table 23. The 
+profile buffer shall have only one entry. This profile is 
+not required to be updated periodically. 
+
+
+C-6 PARAMETERS 
+BILLING 
+
+
+The list of parameters in Table 22 and Table 23 shall 
+be used for computing the daily accounting data at the 
+HOST. 
+
+
+FOR ACCOUNTING/ 
+
+
+IS 15959 : 2011 
+
+
+Table 22 Instantaneous Parameters for Class A Meters 
+(Clauses C-2, C-4.1, C-4.2 and C-6) 
+
+
+Sl Parameter OBIS Code Interface 
+No. —— 0 ——- Class No. 
+A B C D E F 
+d) (2) (3) (4) (5) (6) (7) (8) (9) 
+i) Real time clock, date and time 0 0 1 0 0 255 8 
+ii) Current, Ik 1 0 31 T 0 255 3 
+ii) Current, Iy 1 0 51 T 0 255 3 
+iv) Current, Ip 1 0 71 7 0 255 3 
+v) Voltage, Ven 1 0 32 T 0 255 3 
+vi) Voltage, Vyn 1 0 52 WA 0 255 3 
+vii) Voltage, Vey 1 0 72 T 0 255 3 
+viii) Voltage, Vey 1 0 32 T 0 255 3 
+ix) Voltage, Vey 1 0 52 7 0 255 3 
+x) Signed power factor, R-phase 1 0 33 7 0 235 3 
+xi) Signed power factor, Y-phase 1 0 93 T 0 255 3 
+xii) Signed power factor, B-phase 1 0 73 7 0 255 3 
+xiii) Three phase power factor, PF 1 0 13 T 0 255 3 
+xiv) Frequency 1 0 14 T 0 255 3 
+xv) Apparent power, kVA 1 0 9 T 0 255 3 
+xvi) Signed active power, kW 
+(+ Forward; — Reverse) | 0 1 7 0 255 3 
+xvii) Signed reactive power, kvar 
+(+ Lag; — Lead) 1 0 3 7 0 255 3 
+xviii) Cumulative energy, kWh 1 0 1 8 0 255 3 
+xix) Cumulative energy, kvarh (Lag) 1 0 5 8 0 255 3 
+xx) Cumulative energy, kvarh (Lead) 1 0 8 8 0 255 3 
+xxi) Cumulative energy, kVAh 1 0 9 8 0 255 3 
+xxii) Number of power-failures. 0 0 96 7 0 255 1 
+xxiii) Cumulative power-failure duration 0 0 94 91 8 255 3 
+xxiv) Cumulative tamper count 0 0 94 91 0 255 1 
+xxv) Cumulative billing count 0 0 0 1 0 255 1 
+xxvi) Cumulative programming count 0 0 96 2 0 255 1 
+xxvii) Billing date 0 0 0 1 2 255 3 
+xxviii) Maximum demand, kW 1 0 1 6 0 255 4 
+xxix) Maximum demand, kVA 1 0 9 6 0 255 4 
+
+
+NOTES 
+
+1 The items at SI No. (v), (vi), and (vii) are for 3®/4W system of measurement with neutral as reference point. 
+2 The items at SI No. (viii) and (ix) are for 3 @/3W system of measurement with Y-phase as reference point. 
+
+3 Signed power factor: (+) indicates lag and (—) indicates lead. 
+
+
+4 The parameters at SI No. (xviii) to (xxvi) hold cumulative values at that instant from the date of manufacturing or installation of 
+meter as the case may be. 
+
+
+5 The above list is identified for the purpose of communication to HOST or HHU. 
+6 The utilities may choose, based on needs, additional parameters for display purpose only. 
+7 Item number at SI No. (xxv) refers to the billing period counter. 
+
+
+16 
+
+
+IS 15959 : 2011 
+
+
+Table 23 Block Load Survey Parameters for Category A Meters 
+(Clauses C-2, C-5.1, C-5.3 and C-6) 
+
+
+Sl Parameter OBIS Code Interface 
+No. ,—————<———. Class No 
+A B C D E F Attribute 
+(1) (2) (3) (4) (5) (6) (7) (8) (9) 
+i) Real time clock — date and time 0 0 1 0 0 255 8/2 
+ii) Current, J 1 0 31 87 0 255 3/2 
+iii) Current, Iy 1 0 51 27 0 255 3/2 
+iv) Current, J, 1 0 71 27 0 255 3/2 
+v) Voltage, Van 1 0 32 27 0 255 3/2 
+vi) Voltage, Vyn 1 0 52 27 0 255 3/2 
+vii) Voltage, Vay 1 0 72 27 0 255 3/2 
+viii) Voltage, Vey 1 0 32 27 0 255 3/2 
+ix) Voltage, Vey 1 0 52 27 0 255 3/2 
+x) Block energy, in kWh 1 0 1 29 0 255 3/2 
+xi) Block energy, kvarh (lag) 1 0 5 29 0 233 3/2 
+xii) Block energy, in kvarh (lead) 1 0 8 29 0 255 3/2 
+xiii) Block energy, in kVAh 1 0 9 29 0 255 3/2 
+NOTES 
+
+
+1 The items at SI No. (v), (vi), and (vii) are for 3D/4W system of measurement with neutral as reference point. 
+2 The items at SI No. (viii) and (ix) are for 3 b/3W system of measurement with Y-phase as reference point. 
+
+
+3 The parameters at SI No. (ii) to (ix) are the average values during the block period time and stored at the end of that time block. 
+4 The parameters at SI No. (x) to (xiii) are the actual energy consumption during that time block. 
+
+5 Capture objects for 3 ®/4W are items SI No. (i) to (vii) and (x) to (xiii). 
+
+6 Capture objects for 3 P/3W are items SI No. (i) to (iv) and (viii) to (xiii). 
+
+
+7 Support for selective access shall be as defined in 11.3. 
+
+
+ANNEX D 
+(Clauses 6.1.1 and A-1.2; and Table 21) 
+
+
+PARAMETER LIST FOR CATEGORY B METERS 
+
+
+D-1 The parameters listed here are for Boundary/Bank/ 
+Ring Fencing/ABT Metering. The meter records 
+parameters under import and or export conditions. 
+
+
+D-2 The parameters identified for this are grouped 
+under instantaneous (see Table 24), block load profile 
+(see Table 25) and daily load profile (see Table 26). 
+The tables include the name of the parameter, the OBIS 
+code and interface class. 
+
+
+D-3 INSTANTANEOUS PARAMETERS 
+
+
+D-3.1 Each of the parameters is a separate entity. The 
+OBIS code for each parameter is identified as per DLMS/ 
+COSEM protocol. 
+
+
+D-3.2 Association access rights are as follows: 
+
+
+a) Public client — Read only for clock and no 
+access for other objects. 
+
+b) Meter reader — Read only for all objects. 
+
+c) Utility setting — Read and write for clock and 
+
+
+read only for others. 
+D-3.3 Snapshot of Instantaneous Parameters 
+
+
+The parameters of Table 24 shall be captured as a profile 
+
+
+17 
+
+
+generic using the country specific OBIS code 
+1.0.94.91.0.255. The attribute 2 of each of the capture 
+objects shall be copied into the profile at the instant of 
+a request from the HOST. 
+
+
+D-3.4 Scaler Profile 
+
+
+This profile is meant for capturing the scaler-unit of each 
+of the parameter listed in Table 24. This is modeled as 
+profile generic (IC = 7) and is assigned the country 
+specific OBIS code 1.0.94.91.3.255. The capture objects 
+for this profile shall include the scaler-unit attributes of 
+the Instantaneous parameters listed in Table 24. 
+Instantaneous parameters that do not have a scaler-unit 
+(like IC = 1) shall not be included in the capture objects 
+list. The profile buffer shall have only one entry. This 
+profile is not required to be updated periodically. 
+
+
+D-4 BLOCK LOAD PROFILE PARAMETERS 
+
+
+D-4.1 This is an array of load survey data captured as 
+a profile generic. The OBIS code is 1.0.99.1.0.255, 
+with interface class as 7. The capture objects of this 
+block load profile are as per Table 25 and the captured 
+object shall be attribute 2 of each interface class. The 
+
+
+IS 15959 : 2011 
+
+
+Table 24 Instantaneous Parameters for Category B Meters 
+(Clauses D-2, D-3.3 and D-3.4 ) 
+
+
+Sl Parameter OBIS Code Interface 
+No. ———————— a ClassNo. 
+A B C D E F 
+d) (2) (3) (4) (5) (6) (7) (8) (9) 
+i) Real time clock, date and time 0 0 1 0 0 255 8 
+ii) Current, Ik 1 0 31 T 0 255 3 
+ii) Current, Iy 1 0 51 T 0 255 3 
+iv) Current, Ip 1 0 71 7 0 255 3 
+v) Voltage, Van 1 0 32 7 0 255 3 
+vi) Voltage, Vyn 1 0 52 WA 0 255 3 
+vii) Voltage, Vey 1 0 72 T 0 255 3 
+viii) Voltage, Vey 1 0 32 T 0 255 3 
+ix) Voltage, Vey 1 0 52 7 0 255 3 
+x) Signed power factor, R-phase 1 0 33 7 0 255 3 
+xi) Signed power factor, Y-phase 1 0 53 T 0 255 3 
+xii) Signed power factor, B-phase 1 0 73 7 0 255 3 
+xiii) Three phase power factor, PF 1 0 13 T 0 255 3 
+xiv) Frequency 1 0 14 T 0 255 3 
+xv) Apparent power, kVA 1 0 9 T 0 255 3 
+xvi) Signed active power, kW 
+(+ import: — export) 1 0 1 7 0 255 3 
+xvii) Signed reactive power, kvar 
+(+ Lag; — Lead) 1 0 3 7 0 255 3 
+xviii) Cumulative energy, kWh (Import) 1 0 1 8 0 255 3 
+xix) Cumulative energy, kWh (Export) 1 0 2 8 0 255 3 
+xx) Cumulative energy, kVAh (Import) 1 0 9 8 0 255 3 
+xxi) Cumulative energy, kVAh (Export) 1 0 10 8 0 255 3 
+xxii) Number of power, failures. 0 0 96 7 0 255 1 
+xxiii) Cumulative power, failure duration 0 0 94 91 8 255 3 
+xxiv) Cumulative tamper count 0 0 94 91 0 255 1 
+xxv) Cumulative billing count 0 0 0 1 0 255 1 
+xxvi) Cumulative programming count 0 0 96 2 0 255 1 
+xxvii) Billing date 0 0 0 1 2 255 3 
+NOTES 
+
+
+1 The items at SI No. (v), (vi) and (vii) are for 3®/4W system of measurement with neutral as reference point. 
+
+
+2 The items at SI No. (viii), (ix) are for 3 D/3W system of measurement with Y-phase as reference point. 
+
+
+3 Signed Power factor: (+) indicates lag and (—) indicates lead. 
+
+
+4 The parameters at SI No. (xviii) to (xxvi) hold cumulative values at that instant from the date of manufacturing or installation of 
+
+
+meter as the case may be. 
+
+
+5 The above list is identified for the purpose of communication to HOST or HHU. 
+
+
+6 The utilities may choose, based on needs, additional parameters for display purpose only. 
+
+
+7 Item number at SI No. (xxv) refers to the billing period counter. 
+
+
+capture object values will be copied into a buffer of 
+this array automatically as per capture period which 
+shall be set through OBIS code 1.0.0.8.4.255 of 
+recording interval 1. 
+
+
+D-4.2 Association access rights are as follows: 
+
+
+a) Public client — No access for all objects. 
+b) Meter reader — Read only for all objects. 
+c) 
+D-4.3 Scaler Profile 
+
+
+Utility setting — Read only for all objects. 
+
+
+This profile is meant for capturing the scaler-unit of 
+each of the parameter listed in Table 25. This is 
+modelled as profile generic (IC = 7) and is assigned 
+the country specific OBIS code 1.0.94.91.4.255. The 
+capture objects for this profile shall include the scaler- 
+
+
+18 
+
+
+unit attributes of the parameters listed in Table 25. The 
+profile buffer shall have only one entry. This profile is 
+not required to be updated periodically. 
+
+
+D-5 DAILY LOAD PROFILE PARAMETERS 
+
+
+D-5.1 This is an array of load survey data captured as 
+a profile generic at the end of 24 h. The OBIS code is 
+1.0.99.2.0.255, with Interface class as 7. The capture 
+objects of this daily load profile are as per Table 26 
+and the captured attribute shall be attributing 2 of each 
+interface class. The capture object values will be copied 
+into a buffer of this array automatically as per capture 
+period which shall be set through OBIS code 
+1.0.0.8.5.255 of recording interval 2. The capture 
+period attribute shall be statically fixed as 24 h. 
+
+
+D-5.2 Association access rights are as follows: 
+
+
+a) Public client — No access for all objects. 
+
+
+IS 15959 : 2011 
+
+
+each of the parameter listed in Table 26. This is 
+
+
+b) Meter reader — Read only for all objects. modelled as profile generic (IC=7) and is assigned the 
+
+c) Utility setting — Read only for all objects country specific OBIS code 1.0.94.91.5.255. The 
+
+: capture objects for this profile shall include the scaler- 
+
+D-5.3 Scaler Profile unit attributes of the parameters listed in Table 26. The 
+
+
+profile buffer shall have only one entry. This profile is 
+
+
+This profile is meant for capturing the scaler-unit of not required to be updated periodically. 
+
+
+Table 25 Block Load Survey Parameters for Category B Meters 
+
+
+(Clauses D-2 and D-4.3) 
+
+
+OBIS Code Interface 
+
+
+Sl Parameter 
+No. ,——— ——. ClassNo. 
+A B C D E F Attribute 
+(1) (2) (3) (4) (5) (6) (7) (8) (9) 
+i) Real time clock, date and time 0 0 1 0 0 255 8/2 
+ii) Frequency 1 0 14 27 0 255 3/2 
+iii) Voltage, Ven 1 0 32 27 0 255 3/2 
+iv) Voltage, Vyn 1 0 52 27 0 255 3/2 
+v) Voltage, Vey 1 0 72 27 0 255 3/2 
+vi) Energy — active import 1 0 1 29 0 255 3/2 
+vii) Energy — net active energy 1 0 16 29 0 255 3/2 
+viii) Energy — active export 1 0 2 29 0 255 3/2 
+ix) Energy, kvarh, Quadrant I 1 0 5 29 0 299 3/2 
+x) Energy, kvarh, Quadrant II 1 0 6 29 0 255 3/2 
+xi) Energy, kvarh, Quadrant IH 1 0 7 29 0 259 3/2 
+xii) Energy, kvarh, Quadrant IV 1 0 8 29 0 255 3/2 
+NOTES 
+
+
+1 The parameters listed in this table are for load survey purpose and are logged as per the block period time. 
+
+2 The block period time for interface meters is fixed at 15 min for which the data storage will be for 22 days. 
+
+3 The parameters at SI No. (iii) to (vi) are the average values of 15 min block and stored at the end of that time block. 
+4 The parameters at SI No. (vii) to (xii) are the actual energy consumption during the 15 min time block. 
+
+5 Item at SI No. (ii) is an ABT parameter for absolute average value. 
+
+
+6 Item at SI No. (vii) is an ABT parameter for net energy in the current 15 min block. 
+7 Support for selective access shall be as defined in 11.3. 
+
+
+Table 26 Daily Load Profile Parameters for Category B Meters 
+
+
+(Clauses D-2 and D-5.1) 
+
+
+OBIS Code Interface 
+
+
+Sl Parameter 
+No. eo OM Class No/ 
+A B C D E F Attribute 
+ad) (2) (3) (4) (5) (6) (7) (8) (9) 
+i) Real time clock, date and time 0 0 1 0 0 255 8/2 
+ii) Cumulative energy, kWh (Import) 1 0 1 8 0 255 3/2 
+iii) Cumulative energy, kWh (Export) 1 0 2 8 0 255 3/2 
+iv) Cumulative energy, kVAh while kW Import 1 0 9 8 0 255 3/2 
+v) Cumulative energy, kVAh while kW Export 1 0 10 8 0 259 3/2 
+vi) Reactive energy high (V > 103 per cent) 1 0 94 91 1 255 3/2 
+vii) Reactive energy low (V < 97 per cent) 1 0 94 91 2 255 3/2 
+viii) Cumulative energy, kvarh, Quadrant I 1 0 5 8 0 255 3/2 
+ix) Cumulative energy, kvarh, Quadrant II 1 0 6 8 0 255 3/2 
+x) Cumulative energy, kvarh, Quadrant IIT il 0 7 8 0 255 3/2 
+xi) Cumulative energy, kvarh, Quadrant IV 1 0 8 8 0 255 3/2 
+NOTES 
+
+
+1 The parameters listed in this table are meant for billing purpose and shall be logged at midnight (00 h). 
+
+
+2 The storage time for these parameters is 22 days. 
+
+
+3 The parameters at SI No. (ii) to (xi) are cumulative values at that instant from the date of manufacturing or installation of meter as the 
+
+
+case 
+
+
+may be. 
+
+
+4 Item at SI No. (vi) is an ABT parameter. 
+5 Item at SI No. (vii) is an ABT parameter. 
+6 Support for selective access shall be as defined in 11.3. 
+
+
+19 
+
+
+IS 15959 : 2011 
+
+
+ANNEX E 
+(Clauses 6.11 and A-1.3; and Table 21) 
+
+
+PARAMETER LIST FOR CATEGORY C METERS 
+
+
+E-1 The parameters listed here are for HV (VT/CT) 
+and LV (CT) consumer metering. This meter records 
+energy in import mode. These meters shall be capable 
+of recording import of energy. For customers who 
+import energy and also export energy, use of category 
+B meters is recommended. 
+
+
+E-2 The parameters identified for this are grouped 
+under instantaneous (see Table 27), block load profile 
+(see Table 28), and billing (see Table 29). The tables 
+include the name of the parameter, the OBIS code and 
+interface class. 
+
+
+E-3 INSTANTANEOUS PARAMETERS 
+
+
+E-3.1 Each of the parameters is a separate entity. The 
+OBIS code for each parameter is identified as per 
+DLMS/COSEM protocol. 
+
+
+Association access rights are as follows: 
+
+
+a) Public client — Read only for clock and no 
+access for other objects. 
+
+b) Meter reader — Read only for all objects. 
+
+c) Utility setting — Read and write for clock and 
+
+
+read only for others. 
+
+
+E-3.2 Snapshot of Instantaneous Parameters 
+
+
+The parameters of Table 27 shall be captured as a profile 
+generic using the country specific OBIS code 
+1.0.94.91.0.255. The attribute 2 of each of the capture 
+objects shall be copied into the profile at the instant of 
+a request from the HOST. 
+
+
+E-3.3 Scaler Profile 
+
+
+This profile is meant for capturing the scaler-unit of 
+each of the parameter listed in Table 27. This is 
+modelled as profile generic (IC = 7) and is assigned 
+the country specific OBIS code 1.0.94.91.3.255. The 
+capture objects for this profile shall include the scaler- 
+unit attributes of the instantaneous parameters listed in 
+Table 27 instantaneous parameters that do not have a 
+scaler-unit (like IC = 1) shall not be included in the 
+capture objects list. The profile buffer shall have only 
+one entry. This profile is not required to be updated 
+periodically. 
+
+
+20 
+
+
+E-4 BLOCK LOAD PROFILE PARAMETERS 
+
+
+E-4.1 This is an array of load survey data captured as a 
+profile generic. The OBIS code is 1.0.99.1.0.255, with 
+Interface class as 7. The capture objects of this block 
+load profile are as per Table 28 and the captured 
+attribute shall be 2 of each interface class. The capture 
+object values will be copied into a buffer of this array 
+automatically as per capture period which shall be set 
+through OBIS code 1.0.0.8.4.255 of recording 
+interval 1. 
+
+
+E-4.2 Association access rights are as follows: 
+
+
+a) Public client — No access for all objects. 
+b) Public client — Read only for all objects. 
+c) Public client — Read only for all objects. 
+
+
+E-4.3 Scaler Profile 
+
+
+This profile is meant for capturing the scaler-unit of 
+each of the parameter listed in Table 28. This is 
+modelled as profile generic (IC = 7) and is assigned 
+the country specific OBIS code 1.0.94.91.4.255. The 
+capture objects for this profile shall include the scaler- 
+unit attributes of the parameters listed in Table 28. The 
+profile buffer shall have only one entry. This profile is 
+not required to be updated periodically. 
+
+
+E-5 BILLING PROFILE PARAMETERS 
+E-5.1 The contents of Table 29 are for billing purpose. 
+E-5.2 Association access rights are as follows: 
+
+
+a) Public client — No access for all objects. 
+b) Meter reader — Read only for all objects. 
+c) 
+E-5.3 Scaler Profile 
+
+
+Utility setting — Read only for all objects. 
+
+
+This profile is meant for capturing the scaler-unit of 
+each of the parameter listed in Table 29. This is 
+modelled as profile generic (IC = 7) and is assigned 
+the country specific OBIS code 1.0.94.91.6.255. The 
+capture objects for this profile shall include the scaler- 
+unit attributes of the parameters listed in Table 29 
+above. The profile buffer shall have only one entry. 
+This profile is not required to be updated periodically. 
+
+
+IS 15959 : 2011 
+
+
+Table 27 Instantaneous Parameters for Category C Meters 
+(Clauses E-2, E-3.2 and E-3.3) 
+
+
+Sl Parameter OBIS Code Interface 
+No. _ Te © — Class No. 
+A B iC D E F 
+
+d) (2) (3) (4) (5) (6) (7) (8) (9) 
+i) Real time clock, date and time 0 0 1 0 0 255 8 
+ii) Current, Ik 1 0 31 7 0 255 3 
+ii) Current, Iy 1 0 51 7 0 255 3 
+iv) Current, J, 1 0 71 7 0 255 3 
+v) Voltage, Van 1 0 32 7 0 255 3 
+vi) Voltage, Vyn 1 0 52 WA 0 255 3 
+vii) Voltage, Vey 1 0 72 T 0 255 3 
+viii) Voltage, Vey 1 0 32 7 0 255 3 
+ix) Voltage, Vey 1 0 52 7 0 255 3 
+x) Signed power factor, R-phase 1 0 33 7 0 255 3 
+xi) Signed power factor, Y-phase 1 0 93 T 0 255 3 
+xii) Signed power factor, B-phase 1 0 73 T 0 255 3 
+xiii) Three phase power facto, PF 1 0 13 7 0 255 3 
+xiv) Frequency 1 0 14 7 0 255 3 
+xv) Apparent power, kVA 1 0 9 7 0 255 3 
+xvi) Signed active power, kW (+ Forward; — Reverse) 1 0 1 7 0 255 3 
+xvii) Signed reactive power, kvar (+ Lag; — Lead) 1 0 37 7 0 255 3 
+xviii) Number of power — failures 0 0 96 7 0 293 1 
+xix) Cumulative power — failure duration 0 0 94 91 8 255 3 
+xx) Cumulative tamper count 0 0 94 91 0 255 1 
+xxi) Cumulative billing count 0 0 0 1 0 255 1 
+xxii) Cumulative programming count 0 0 96 2 0 255 1 
+xxiii) Billing date 0 0 0 1 2 255 3 
+
+xxiv) Cumulative energy, kWh 1 0 1 8 0 255 3/2 
+
+xxv) Cumulative energy, kvarh (Lag) 1 0 5 8 0 255 3/2 
+
+xxvi) Cumulative energy, kvarh (Lead) 1 0 8 8 0 255 3/2 
+
+xxvii) Cumulative energy, kVAh 1 0 9 8 0 295 3/2 
+
+
+NOTES 
+
+1 The items at SI No. (v), (vi) and (vii) are for 3 ®/4W system of measurement with NEUTRAL as reference point. 
+2 The items at SI No. (viii) and (ix) are for 3 @/3W system of measurement with Y-Phase as reference point. 
+
+3 Signed Power factor : (+) indicates lag and (—) indicates lead. 
+
+
+4 The parameters at SI No. (xviii) to (xxii) hold cumulative values at that instant from the date of manufacturing or installation of meter 
+as the case may be. 
+
+
+5 The above list is identified for the purpose of communication to HOST or HHU. 
+
+6 The utilities may choose, based on needs, additional parameters for display purpose only. 
+7 Item at SI No. (xxi) refers to the Billing Period Counter. 
+
+8 Item at SI No. (xxiii) — Data type to be same as for attribute 2 of IC = 8, Clock. 
+
+
+Table 28 Block Load Survey Parameters for Category C Meters 
+(Clauses E-2, E-4.1 and E-4.3) 
+
+
+Sl Parameter OBIS Code Interface 
+No. ———————— << ——————.  ClassNo./ 
+A B C D E F Attribute 
+
+(1) (2) (3) (4) (5) (6) (7) (8) (9) 
+i) Real time clock, date and time 0 0 1 0 0 255 8/2 
+ii) Current, J, 1 0 31 27 0 255 3/2 
+iii) Current, Jy 1 0 51 27 0 255 3/2 
+iv) Current, Ip 1 0 71 2T 0 255 3/2 
+v) Voltage, Van 1 0 32 27 0 255 3/2 
+vi) Voltage, Vyn 1 0 52 27 0 255 3/2 
+vii) Voltage, Vey 1 0 72 27 0 255 3/2 
+viii) Voltage, Vey 1 0 32 27 0 255 3/2 
+ix) Voltage, Vey 1 0 52 27 0 255 3/2 
+x) Block energy, kWh 1 0 1 29 0 255 3/2 
+xi) Block energy, kvarh (lag) 1 0 5 29 0 255 3/2 
+
+
+21 
+
+
+IS 15959 : 2011 
+
+
+Table 28 (Concluded) 
+Sl Parameter OBIS Code Interface 
+No. nn a O EO 
+A B C D E F Attribute 
+
+(1) (2) (3) (4) (5) (6) (7) (8) (9) 
+
+xii) Block energy, kvarh (lead) 1 0 8 29 0 255 3/2 
+xiii) Block energy, kVAh 1 0 9 29 0 255 3/2 
+
+NOTES 
+
+
+1 The parameters listed in this table are for load survey purpose and are logged as per the block period time. 
+
+
+2 The parameters at SI No. (ii) to (ix) are the average values during the block period time and stored at the end of that time block. 
+
+
+3 The parameters at SI No. (x) to (xiii) are the actual energy consumption during that time block. 
+4 Capture objects for 3 ®/4W are items at SI No. (i) to (vii) and (x) to (xiii). 
+5 Capture objects for 3 @/3W are items at SI No. (i) to (iv) and (viii) to (xiii). 
+
+
+6 Support for selective access shall be as defined in 11.3. 
+
+
+Table 29 Billing Profile Parameters for Category C Meters 
+
+
+(Clauses E-5.1 and E-5.3) 
+
+
+Sl Parameter OBIS Code Interface 
+No. ——————-————. Cass No/ 
+A B C D E F Attribute 
+
+(1) (2) (3) (4) (5) (6) (7) (8) (9) 
+
+i) Billing date 0 0 0 1 2 255 3/2 
+
+ii) System power factor for billing period 1 0 13 0 0 255 3/2 
+
+iii) Cumulative energy, kWh 1 0 1 8 0 255 3/2 
+
+iv) Cumulative energy, kWh for TZ1 1 0 1 8 1 255 3/2 
+
+v) Cumulative energy, kWh for TZ2 1 0 1 8 2 255 3/2 
+
+vi) Cumulative energy, kWh for TZ3 1 0 1 8 3 255 3/2 
+
+vii) Cumulative energy, kWh for TZ4 1 0 1 8 4 255 3/2 
+
+viii) Cumulative energy, kWh for TZ5 1 0 1 8 5 255 3/2 
+
+ix) Cumulative energy, kWh for TZ6 1 0 1 8 6 255 3/2 
+
+x) Cumulative energy, kWh for TZ7 1 0 1 8 7 255 3/2 
+
+xi) Cumulative energy, kWh for TZ8 1 0 1 8 8 255 3/2 
+
+xii) Cumulative energy, kvarh (Lag) 1 0 5 8 0 255 3/2 
+
+xiii) Cumulative energy, kvarh (Lead) 1 0 8 8 0 255 3/2 
+
+xiv) Cumulative energy, kVAh 1 0 9 8 0 255 3/2 
+
+xv) Cumulative energy, kVAh for TZ1 1 0 9 8 1 255 3/2 
+
+xvi) Cumulative energy, kVAh for TZ2 1 0 9 8 2 255 3/2 
+
+xvii) Cumulative energy, kVAh for TZ3 1 0 9 8 3 255 3/2 
+
+xviii) Cumulative energy, kVAh for TZ4 1 0 9 8 4 255 3/2 
+
+xix) Cumulative energy, kVAh for TZ5 1 0 9 8 5 255 3/2 
+
+xx) Cumulative energy, kVAh for TZ6 1 0 9 8 6 255 3/2 
+
+xxi) Cumulative energy, kVAh for TZ7 1 0 9 8 7 259 3/2 
+
+xxii) Cumulative energy, kVAh for TZ8 1 0 9 8 8 255 3/2 
+xxiii) MD, kw 1 0 1 6 0 255 4/2 5 
+xxiv) MD, kW for TZ1 1 0 1 6 1 255 4/2 5 
+xxv) MD, kW for TZ2 1 0 1 6 2 255 4/2 5 
+xxvi) MD, kW for TZ3 1 0 1 6 3 255 4/2 ,5 
+xxvii) MD, kW for TZ4 1 0 1 6 4 255 4/2 5 
+xxviii) MD, kW for TZ5 1 0 1 6 5 255 4/2 ,5 
+xxix) MD, kW for TZ6 1 0 1 6 6 255 4/2 5 
+xxx) MD, kW for TZ7 1 0 1 6 7 255 4/2 ,5 
+xxxi) MD, kW for TZ8 1 0 1 6 8 255 4/2 5 
+xxxii) MD, kVA 1 0 9 6 0 255 4/2 5 
+xxxiii) MD, kVA for TZ1 1 0 9 6 1 255 4/2 5 
+xxxiv) MD, kVA for TZ2 1 0 9 6 2 255 4/2 5 
+xxxv) MD, KVA for TZ3 1 0 9 6 3 255 4/2 5 
+xxxvi) MD, kVA for TZ4 1 0 9 6 4 255 4/2 5 
+xxxvii) MD, kVA for TZ5 1 0 9 6 5 255 4/2 5 
+xxxviii) MD, kVA for TZ6 | 0 9 6 6 255 4/2 ,5 
+xxxix) MD, kVA for TZ7 1 0 9 6 7 255 4/2 ,5 
+
+
+22 
+
+
+IS 15959 : 2011 
+
+
+Table 29 (Concluded) 
+SI Parameter OBIS Code Interface 
+No. Class No./ 
+A B Cc D E F Attribute 
+(D (2) (3) (4) (5) (6) (7) (8) (9) 
+xl) MD, kVA for TZ8 1 0 9 6 8 295 42,5 
+
+
+NOTES 
+
+
+1 The data are stored up to 6 billing cycles. The billing profile is modeled as Profile generic (IC = 7) object with OBIS Code 1.0.98.1.0.255. 
+The capture objects of this load profile are as per Table 29. The capture object values will be copied into buffer of this object either 
+automatically or asynchronously. The capture period is set to zero, billing action is controlled by billing dates as provided in 10 and 
+
+
+Table 31. 
+
+
+2 Support for selective access shall be as defined in 11.3. 
+
+
+3 The current cycle billing parameters shall be readable as the values of the latest billing period, on demand. This shall be in addition 
+to the last 6 billing period data which shall be available in the profile buffer as the last 6 entries in the buffer. 
+
+
+4 The captured attributes in case of Interface Class 4 (Extended register) used for MD values will be attributes 2 and 5 (Value and 
+
+
+Timestamp). 
+
+
+F-1 NAME PLATE DETAILS 
+
+
+The contents of Table 30 are common to all meters. 
+
+
+ANNEX F 
+(Clauses 6.1.1, B-5.1 and B-5.2) 
+
+
+GENERAL PURPOSE PARAMETERS 
+
+
+The data are meter specific information. 
+
+
+F-1.1 Association access rights for name plate details 
+
+
+are as follows: 
+
+
+a) Public client — No access for all objects 
+
+
+except meter serial number. 
+
+
+b) Meter reader — Read only for all objects. 
+
+
+c) Utility setting — Read only for all objects. 
+F-2 PROGRAMMABLE PARAMETERS 
+
+
+Association access rights for programmable parameters 
+as given in Table 31 are as follows: 
+
+
+a) Public client — No access for all objects 
+except real time clock. 
+
+
+b) Meter reader — Read only for all objects. 
+c) Utility setting — Read, write for all objects. 
+
+
+Table 30 Name Plate Details Parameters 
+(Clause F-1) 
+
+
+SI Parameter OBIS Code Interface 
+
+No. ——— << ————— Class 
+A B C D E F 
+(1) (2) (3) (4) (5) (6) (7) (8) (9) 
+i) Meter serial number 0 0 96 1 0 255 1 (Data) 
+
+ii) Manufacturer name 0 0 96 1 1 255 1 
+iii) | Firmware version for meter 1 0 0 2 0 255 1 
+
+iv) Meter type (3P-3W/3P-4W) 0 0 94 91 9 255 1 
+
+v) Internal CT ratio 1 0 0 4 2 255 1 
+
+vi) Internal VT ratio 1 0 0 4 3 255 1 
+vii) Meter year of manufacture 0 0 96 1 4 255 1 
+
+
+NOTE — For item SI No. (iv), a value of ‘0’ indicates 3P-3W; a value of ‘1’ indicates 3P-4W. 
+
+
+23 
+
+
+IS 15959 : 2011 
+
+
+Table 31 Programmable Parameters 
+(Clause F-2) 
+
+
+Sl Parameter OBIS Code Interface 
+No. a AN Class 
+A B C D E F 
+d) (2) (3) (4) (5) (6) (7) (8) (9) 
+i) Real time clock, date and time 0 0 1 0 0 255 8 (Clock) 
+ii) Demand integration period 1 0 0 8 0 255 1 (Data) 
+iii) Profile capture period 1 0 0 8 4 255 1 
+iv) Single-action schedule for billing dates 0 0 15 0 0 255 22 
+v) Activity calendar for time zones etc 0 0 13 0 0 255 20 
+
+
+NOTES 
+1 The parameters are programmable by the utility engineers with required access rights. 
+2 Unit for demand integration period and profile capture period is in ‘second’. 
+
+
+3 Programming of any of the parameters shall increment the ‘Cumulative programming count’ value. 
+
+
+ANNEX G 
+(Clauses 6.1.1 and B-1) 
+
+
+EVENT REFERENCE TABLE 
+
+
+G-1 EVENTS 
+
+
+Any exceptional/fraud/tamper condition is considered 
+as an Event and stored in an Event code object (OBIS 
+= 0.0.96.11.e.255 IC = 1, values of e range from 0 to 
+6). The value attribute (attr-2) of this object stores 
+identifier corresponding to most recent event occurred 
+in the meter. Unique identifier is assigned to occurrence 
+and restoration of all possible events (identified so far) 
+in the event reference tables (see Tables 32 to 38). Thus 
+event code object will tell only about the most recent 
+event and to get a picture of all events and associated 
+information (at the time of event) an event log object 
+is used. An event log object is modelled as Profile 
+generic (OBIS = 0.0.99.98.e.255 IC = 7, values of e 
+range from 0 to 6). The buffer attribute (attr-2) of this 
+
+
+profile object will store (asynchronously) a new entry 
+for every event (occurrence and restoration are 
+considered as separate events). The capture objects for 
+the event log object is define in Table 39. 
+
+
+G-1.1 Indian Event Reference Tables 
+
+
+The contents of Tables 32 to 38 are common to all 
+categories of meter. 
+
+
+G-1.2 Capture Parameters for Event as Applicable 
+(Event Log Profile) 
+
+
+Association access rights are as follows: 
+
+
+a) Public client — No access; 
+b) Meter reading — Read only; and 
+c) Utility settings — Read only. 
+
+
+Table 32 Indian Event Reference Table — Voltage Related 
+(Clauses B-6.4, B-6.5, G-1 and G-1.1) 
+
+
+SI No Event ID Descriptions 
+(1) (2) (3) 
+i) 1 R-Phase — VT link missing (Missing potential) — Occurrence 
+ii) 2 R-Phase — VT link missing (Missing potential) — Restoration 
+ili) 3 Y-Phase — VT link missing (Missing potential) — Occurrence 
+iv) 4 Y-Phase — VT link missing (Missing potential) — Restoration 
+v) 5 B-Phase — VT link missing (Missing potential) — Occurrence 
+vi) 6 B-Phase — VT link missing (Missing potential) — Restoration 
+vii) 7 Over voltage in any phase — Occurrence 
+viii) 8 Over voltage in any phase — Restoration 
+ix) 9 Low Voltage in any Phase — Occurrence 
+x) 10 Low voltage in any phase — Restoration 
+xi) 11 Voltage unbalance — Occurrence 
+
+
+24 
+
+
+IS 15959 : 2011 
+
+
+Table 32 (Concluded) 
+SI No. Event ID Descriptions 
+a) (2) (3) 
+xii) 12 Voltage unbalance — Restoration 
+
+
+NOTES 
+
+
+1 These are the event conditions generally recorded in consumer meters, utilities may select any the above event conditions based on 
+their practice. The need and applicability of these events for other type of meters shall be considered by utility. 
+
+
+2 Either occurrence or restoration is considered an event. 
+
+3 For each of the events a certain list of parameters will be captured. 
+
+4 The list capture parameters are given in Table 39. The utility shall select the required parameters from Table 39 as per their practice. 
+5 For each of the event captured ‘Cumulative tamper count’ value will be incremented. 
+
+6 Capture parameters mentioned in Table 39 are captured when event occurrence and restoration is logged. 
+
+7 The attributes of each of the IC (Interface class) is to be identified while finalizing the Specification. 
+
+8 For 3 @/AW the reference point is NEUTRAL. 
+
+9 For 3 @/3W the reference point is Y-Phase. 
+
+10 Support for selective access shall be as defined in 11.3. 
+
+
+Table 33 Indian Event Reference Table — Current Related 
+(Clauses B-6.4, B-6.5, G-1 and G-1.1) 
+
+
+SI No. Event ID Descriptions 
+d) (2) (3) 
+i) 51 Phase — R CT reverse — Occurrence 
+ii) 52 Phase — R CT reverse — Restoration 
+ili) 53 Phase — Y CT reverse — Occurrence 
+iv) 54 Phase — Y CT reverse — Restoration 
+v) 35 Phase — B CT reverse — Occurrence 
+vi) 56 Phase — B CT reverse — Restoration 
+vii) 57 Phase — R CT open — Occurrence 
+viii) 58 Phase — R CT open — Restoration 
+ix) 59 Phase — Y CT open — Occurrence 
+x) 60 Phase — Y CT open — Restoration 
+xi) 61 Phase — B CT open — Occurrence 
+xii) 62 Phase — B CT open — Restoration 
+xiii) 63 Current unbalance — Occurrence 
+xiv) 64 Current unbalance — Restoration 
+xv) 65 CT bypass — Occurrence 
+xvi) 66 CT bypass — Restoration 
+xvii) 67 Over current in any phase — Occurrence 
+xviii) 68 Over current in any phase — Restoration 
+NOTES 
+
+
+1 These are the event conditions generally recorded in consumer meters, utilities may select any the above event conditions based on 
+their practice. The need and applicability of these events for other type of meters shall be considered by utility. 
+
+
+2 Either occurrence or restoration is considered an event. 
+
+3 For each of the events a certain list of parameters will be captured. 
+
+4 The list capture parameters are given in Table 39. The utility shall select the required parameters from Table 39 as per their practice. 
+5 For each of the event captured ‘Cumulative tamper count’ value will be incremented. 
+
+6 Capture parameters mentioned in Table 39 are captured when event occurrence and restoration is logged. 
+
+7 The attributes of each of the IC (Interface class) is to be identified while finalizing the Companion Specification. 
+
+8 For 3 ®/4W the reference point is NEUTRAL. 
+
+9 For 3 @/3W the reference point is Y-Phase. 
+
+10 Support for selective access shall be as defined in 11.3. 
+
+
+25 
+
+
+IS 15959 : 2011 
+
+
+Table 34 Indian Event Reference 
+Table — Power Related 
+(Clauses B-6.4, B-6.5, G-1 and G-1.1) 
+
+
+SI No. Event ID Descriptions 
+(d) (2) (3) 
+i) 101 Power failure (3 phase) — Occurrence 
+ii) 102 Power failure (3 phase) — Restoration 
+NOTES 
+
+
+1 These are the event conditions generally recorded in consumer 
+meters, utilities may select any the above event conditions based 
+on their practice. The need and applicability of these events for 
+other type of meters shall be considered by utility. 
+
+
+2 Either occurrence or restoration is considered an event. 
+
+
+3 For events in Table 34, no parameters shall be captured along 
+
+
+with the event. 
+
+
+4 The attributes of each of the IC (Interface class) is to be 
+
+
+identified while finalizing the Companion Specification. 
+5 For 3 ®/4W the reference point is NEUTRAL. 
+6 For 3 @/3W the reference point is Y-Phase. 
+
+
+7 Support for selective access shall be as defined in 11.3. 
+
+
+Table 35 Indian Event Reference Table — 
+Transaction Related 
+(Clauses B-6.4, B-6.5, G-1 and G-1.1) 
+
+
+SI No. Event ID Descriptions 
+
+(1) (2) (3) 
+i) 151 Real time clock, date and time 
+
+ii) 152 Demand integration period 
+
+iii) 153 Profile capture period 
+
+iv) 154 Single-action schedule for billing dates 
+v) 155 Activity calendar for time zones, etc 
+NOTES 
+
+
+1 These are the event conditions generally recorded in consumer 
+meters, utilities may select any the above event conditions based 
+on their practice. The need and applicability of these events for 
+
+
+other type of meters shall be considered by utility. 
+
+
+2 Fither occurrence or restoration is considered an event. 
+
+
+3 For each of the events a certain list of parameters will be 
+
+
+captured. 
+
+
+4 The list capture parameters are given in Table 39. The utility 
+shall select the required parameters from Table 39 as per their 
+
+
+practice. 
+
+
+5 Capture parameters mentioned in Table 39 are captured when 
+
+
+event occurrence and restoration is logged. 
+
+
+6 The attributes of each of the IC (Interface class) is to be 
+
+
+identified while finalizing the Companion Specification. 
+7 For 3 ®/4W the reference point is NEUTRAL. 
+8 For 3 @/3W the reference point is Y-Phase. 
+
+
+9 Support for selective access shall be as defined in 11.3. 
+
+
+26 
+
+
+Table 36 Indian Event Reference Table — Others 
+
+
+(Clauses B-6.4, B-6.5, G-1 and G-1.1) 
+
+
+SI No. Event ID Descriptions 
+d) (2) (3) 
+i) 201 Influence of permanent magnet or ac/ 
+dc electromagnet — Occurrence 
+ii) 202 Influence of permanent magnet or ac/dc 
+electromagnet — Restoration 
+iii) 203 Neutral disturbance — HF and dc — 
+Occurrence 
+iv) 204 Neutral disturbance — HF and dc — 
+Restoration 
+v) 205 Very low PF — Occurrence 
+vi) 206 Very low PF — Restoration 
+NOTES 
+
+
+1 These are the event conditions generally recorded in consumer 
+meters, utilities may select any the above event conditions based 
+on their practice. The need and applicability of these events for 
+other type of meters shall be considered by utility. 
+
+2 Either occurrence or restoration is considered an event. 
+
+3 For each of the events a certain list of parameters will be captured. 
+4 The list capture parameters are given in Table 39. The utility 
+shall select the required parameters from Table 39 as per their 
+practice. 
+
+5 For each of the event captured ‘Cumulative tamper count’ 
+value will be incremented. 
+
+6 Capture parameters mentioned in Table 39 are captured when 
+event occurrence and restoration is logged. 
+
+7 The attributes of each of the IC (Interface class) is to be 
+identified while finalizing the Companion Specification. 
+
+8 For 3 @/AW the reference point is NEUTRAL. 
+
+9 For 3 ®/3W the reference point is Y-Phase. 
+
+10 Support for selective access shall be as defined in 11.3. 
+
+
+Table 37 Indian Event Reference 
+Table — Non-rollover Events 
+(Clauses B-6.4, B-6.5, G-1 and G-1.1) 
+
+
+SI No. Event ID Descriptions 
+d) (2) (3) 
+i) 251 Meter cover opening — Occurrence 
+NOTES 
+
+
+1 This event condition is generally recorded in consumer meters, 
+utilities may select the above event condition based on their 
+practice. The need and applicability of the event for other type 
+of meters shall be considered by utility. 
+
+2 Either occurrence or restoration is considered an event. 
+
+3 For the event a certain list of parameters will be captured. 
+
+4 The list capture parameters are given in Table 39. The utility 
+shall select the required parameters from Table 39 as per their 
+practice. 
+
+5 Capture parameters mentioned in Table 39 are captured when 
+event occurrence and restoration is logged. 
+
+6 The attributes of each of the IC (Interface class) is to be 
+identified while finalizing the Companion Specification. 
+
+7 For 3 ®/4W the reference point is NEUTRAL. 
+
+8 For 3 &/3W the reference point is Y-Phase. 
+
+9 Support for selective access shall be as defined in 11.3. 
+
+
+IS 15959 : 2011 
+
+
+Table 38 Indian Event Reference Table — Control Events 
+(Clauses B-6.4, B-6.5, G-1 and G-1.1) 
+
+
+SI No. Event ID Descriptions 
+d) (2) (3) 
+i) 301 Meter load disconnected 
+ii) 302 Meter load connected 
+NOTES 
+
+
+1 These are the event conditions generally recorded in consumer meters, utilities may select any the above event conditions based on 
+their practice. The need and applicability of these events for other type of meters shall be considered by utility. 
+
+
+2 Either occurrence or restoration is considered an event. 
+
+3 For events in Table 38 no parameters shall be captured along with the event. 
+
+4 The attributes of each of the IC (Interface class) is to be identified while finalizing the Companion Specification. 
+5 For 3 ®/4W the reference point is NEUTRAL. 
+
+6 For 3 @/3W the reference point is Y-Phase. 
+
+
+7 Support for selective access shall be as defined in 11.3. 
+
+
+Table 39 Capture Parameters for Events 
+(Clauses B-6.4, B-6.5 and G-1) 
+
+
+SI No. Parameter OBIS Code Interface 
+gen E << En Class 
+A B C D E F 
+d) (2) (3) (4) (5) (6) (7) (8) (9) 
+1) Date and time of event 0 0 1 0 0 255 8 (Clock) 
+ii) Event code 0 0 96 11 0 255 1 (Data) 
+iii) Current, J, 1 0 31 7 0 255 3 (Register) 
+iv) Current, ly 1 0 Şi 7 0 255 3 (Register) 
+v) Current, J, 1 0 71 7 0 255 3 (Register) 
+vi) Voltage, Van 
+(3 B/4W) 1 0 32 7 0 255 3 (Register) 
+vii) Voltage, Vyn 
+(3 B/4W) 1 0 52 7 0 255 3 (Register) 
+viii) Voltage, Vey 
+(3 P4AW) 1 0 72 7 0 255 3 (Register) 
+ix) Voltage, Vay 
+(3 ®/3W) 1 0 32 7 0 255 3 (Register) 
+x) Voltage, Vyg 
+(3 ®/3W) 1 0 52 7 0 255 3 (Register) 
+xi) Power factor, R-Phase 1 0 33 7 0 255 3 (Register) 
+xii) Power factor, Y-Phase 1 0 53 7 0 255 3 (Register) 
+xiii) Power factor, B-Phase 1 0 73 7 0 255 3 (Register) 
+xiv) Cumulative energy, kWh 1 0 1 8 0 255 3 (Register) 
+
+
+NOTES 
+
+1 These are the event conditions generally recorded in consumer meters, utilities may select any of the above event conditions based on 
+their practice. The need and applicability of these events for other type of meters shall be considered by utility. 
+
+2 Either Occurrence or Restoration is considered an event. 
+
+3 For each of the events a certain list of parameters will be captured. 
+
+4 The list of capture parameters are given. The utility shall select the required parameters from the table as per their practice. 
+
+5 Capture parameters mentioned in the table are to be captured when event occurrence and restoration is logged. 
+
+6 For 3 ®/4W the reference point is NEUTRAL. 
+
+7 For 3 ®/3W the reference point is Y-Phase. 
+
+8 Support for Selective access shall be as defined in 11.3. 
+
+
+G-2 SCALER PROFILE unit attributes of the parameters listed above. 
+
+
+This profile is meant for capturing the scaler-unit of Parameters listed above that do no have a scaler-unit 
+
+
+each of the parameter listed in Table 39. This is attribute shall not be included in the capture objects 
+modelled as profile generic (IC = 7) and is assigned of this profile. The profile buffer shall have only one 
+the country specific OBIS code 1.0.94.91.7.255. The entry. This profile is not required to be updated 
+capture objects for this profile shall include the scaler- periodically. 
+
+
+27 
+
+
+IS 15959 : 2011 
+
+
+ANNEX H 
+(Clause 2 ) 
+LIST OF REFERRED INDIAN/INTERNATIONAL STANDARDS 
+Indian/Interna- Title Indian/Interna- Title 
+tional Standard tional Standard 
+ISS 14697 : 1999 ac static transformer operated watt- IS/TEC 62056- Electricity metering: Part 61 Data 
+hour and var-hour meters, class 0.2 S, 61 : 2006 exchange for meter reading, tariff and 
+0.5 Sand 1.0 S — Specification load control Object identification 
+DLMS UA 1000 Blue book, COSEM identification system (OBIS) 
+-1 ed.9, 2009 system and interface classes IS/TEC 62056- Electricity metering : Data exchange 
+DLMS UA 1000 Green book, DLMS/COSEM 62 : 2006 for meter reading, tariff and load 
+-2 ed.7, 2007 architecture and protocols control: Part 62 Interface classes 
+DLMS UA 1002: White book, COSEM Glossary of o IEC/TR 62051: Electricity metering — Glossary of 
+ed.1, 2003 terms 1999 terms 
+DLMS UA 1001 Yellow book, companion testing ISJEC/TR Electricity metering : Data exchange 
+-1:2007 ed-3 process 62051-1: 2004 for meter reading, tariff and load control 
+IS/IEC 62056- Electricity metering : Data exchange — Glossary of terms: Part 1 Terms 
+21 : 2002 for meter reading, tariff and load related to data exchange with metering 
+control: Part 21 Direct local data equipment using DLMS/COSEM 
+exchange NIST Special Recommendation for block cipher 
+IS/IEC 62056- Electricity metering : Data exchange Publication 800 modes of operation: Galois/Counter 
+42 : 2002 for meter reading, tariff and load -38D, Nov 2007 mode (GCM) and GMAC 
+control: Part 42 Physical layer NIST Federal Advanced encryption standard 
+services and procedures for Information (AES) 
+connection-oriented asynchronous Processing 
+data exchange Standards 
+IS/IEC 62056- Electricity metering : Data exchange Publication 197 : 
+46 : 2007 for meter reading, tariff and load Nov 2001 
+control: Part 46 Data link layer using NIST Federal Standards for security categorization 
+HDLC protocol Information of federal information and 
+IS/IEC 62056- Electricity metering Data exchange Processing information systems 
+47 : 2006 for meter reading tariff and load Standards 
+control: Part 47 COSEM transport Publication 199 : 
+layer for IPv4 network 2004 
+IS/IEC 62056- Electricity metering : Data exchange IETF Request Advanced encryption standard (AES) 
+53 : 2006 for meter reading, tariff and load For Circulation key wrap algorithm (Informative ) 
+control: Part 53 COSEM application (RFC) - 3394 : 
+layer Sept, 2002 
+ANNEX J 
+(Clause 3.6) 
+
+
+HHU (MRI) CONSIDERATION 
+
+
+J-1 HHU (MRI) CONSIDERATION 
+
+
+Communication standards in the Indian metering 
+scenario require supporting considerations for the 
+utilization of those standards in HHUs (Hand held units 
+synonymous with MRI or CMRI ). This Annex provides 
+
+
+28 
+
+
+a suitable approach to the implementation of the IEC- 
+62056 standards and this Indian Companion 
+Specification in such devices. 
+
+
+J-1.1 The terms of this suggested implementation are 
+as below: 
+
+
+IS 15959 : 2011 
+
+
+a) HHUs may retrieve data from DLMS/COSEM server shall support one association with 
+Meters conforming to this standard using the properties, objects, and access rights adequate 
+communication ports. for transferring the stored data of the 
+
+b) HHUs shall exclusively use the Meter Reading corresponding meter to the BCS in an efficient 
+(MR) association and shall support all the manner. The server within the HHU is not 
+features and specifications listed in this required to support ad-hoc access or selective 
+
+ificati iati access to the data that differs from the requests 
+specification for the MR association. q 
+
+c) HHUs shall have the same data access rights which were earlier used to read the data from 
+that are available to the MR association, as the meter. 
+that available for remote meter reading. h) The BCS shall maintain a mapping table that 
+
+d) HHU when acting as a server shall support maps the individual meter identifications (the 
+the client addresses and security methods of Same IDs that are used to identify the MLT 
+the Meter Reading (MR) association. during TMOL meter reading) to Logical 
+
+e) HHUs shall provide a DLMS/COSEM server Device addresses. During upload of data from 
+interface to the BCS (Base Computer System ee X BS; WE Be E e 
+the Data collection sö oyak a Logical device to download the data of each 
+suitable communication medium (local serial i meli SA Ma in pone 
+port implementing the DLMS/COSEM CO 3- j) The mapping table described in Item I-1.6 
+layer stack is suggested). above shall require that the Logical device 
+
+fy HHUs shall internally máp the individual addresses allocated to each meter are at least 
+meter data to Logical a (one Lopical unique across all meters that are to be retrieved 
+Device for each meter). Inside each Logical ae a aaa ig ai kara paia e 
+Device the structure and naming of the data g g 
+
+i allocated meters. The BCS shall take care to 
+
+shall be the same as that retrieved from the 
+ni ensure that the re-use of addresses does not 
+
+: ; : create conflicts in Meter identification. 
+g) For each logical device the DLMS/COSEM 
+ANNEX K 
+(Clause 3.23 ) 
+CONFORMANCE TESTING 
+K-1 Meters claiming conformance to this specification as specified in this standard with all specified 
+will be required to services supported; 
+
+a) conform to the DLMS/COSEM base standards d) association object lists conform to this 
+(IEC 62056) as certified by the conformance document with access rights and OBIS codes 
+test tool (CTT). as specified here; and 
+
+b) conform to the specific requirements and e) event related DLMS objects are implemented 
+
+
+constraints of this standard as certified by 
+CPRI or any other laboratory having facilities 
+for the purpose. 
+
+
+K-2 This certification shall ensure: 
+
+
+a) 
+
+
+b) 
+
+
+c) 
+
+
+all mandatory parameters applicable to the 
+category of the meter under test are 
+implemented; 
+
+all data types where specified are conforming 
+to this document; 
+
+
+all application associations are implemented 
+
+
+29 
+
+
+with Event identifiers as specified in the Event 
+reference tables in this standard. 
+
+
+K-2.1 The test report from an accredited laboratory 
+and having membership with DLMS UA shall be 
+considered as a proof of conformance of protocol 
+implementation. 
+
+
+K-2.2 Systems once created in accordance with this 
+specification and contemporary standards, shall be 
+deemed acceptable, provided such systems are tested 
+and certified through standard evaluation process. 
+
+
+IS 15959 : 2011 
+
+
+ANNEX L 
+(Clause 11.3.4) 
+
+
+DESCRIPTIVE NOTES ON PROFILE GENERIC INTERFACE CLASS 
+
+
+L-1 Profile generic objects are available to capture 
+values of attributes from other objects periodically or 
+occasionally. They can be used: 
+
+
+a) for load profiles; 
+b) for historical data; and 
+c) for event logs, etc. 
+
+
+L-1.1 The list of attributes to capture are held by the 
+capture object attribute. The values captured are held 
+in the buffer attribute. 
+
+
+L-1.2 The buffer can be seen as a table, with the capture 
+objects as column headers and a new line of values 
+added with each capture. The data in the buffer can be 
+
+
+accessed in its entirety or selectively, using appropriate 
+selection criteria. 
+
+
+L-1.3 Profile generic objects provide attributes and 
+methods for controlling and managing how data are 
+captured and accessed as illustrated in Fig. 3. 
+
+
+L-2 SELECTIVE ACCESS 
+
+
+There are two types of selective access which allows 
+reading the buffer selectively. 
+
+
+L-2.1 Selective Access by Entry 
+
+
+Selective Access by Entry provides a set of 4 integers 
+to filter the contents of the “buffer” attribute in response 
+
+
+Logical Name 
+mm em me > |. 10.255 
+| 01-01-07 06:00:00 
+
+01-01-07 06:15:00 
+Buffer —— = = . 
+
+01-01-07 10:00:00 
+
+Data index 
+
+Capture D 
+Objecis = 
+Capture period = = = = —p 15 mnts 
+Sort method — = = = =) FIFO 
+Sort object == = = = =) Default 
+Entries in use ||... <$ 
+Profile entries = = = = —=b 1000 
+
+
+Fic. 3 ILLUSTRATION OF A PROFILE GENERIC OBJECT CONTAINING 16 CAPTURES OF 3 ATTRIBUTES 
+
+
+30 
+
+
+to get requests as illustrated in Fig. 4. The 4 integers 
+are as below: 
+
+
+a) From-Entry — The index of the first entry to 
+return from the buffer. 
+
+b) 7o-Eniry — The index of the last entry to 
+return from the buffer. 
+
+c) From-Value — The index of the first column 
+to return. 
+
+d) 7o-Value — The index of the last column to 
+
+
+return. 
+
+
+Thus the selective access parameters as above can be 
+used to select a subset of the rows from the buffer table. 
+
+
+Also the selective access parameters as above can be 
+used to select not only a subset of the rows from the 
+buffer table but also a subset of the columns from among 
+the selected rows. Refer to the illustration in Fig. 5. 
+However this mechanism does not permit retrieving 
+discontinuous ranges of columns from the buffer. 
+
+
+L-2.2 Selective Access by Range 
+
+
+Selective access by range permits a client to retrieve a 
+subset of the rows and columns in the Profile buffer 
+based on the value of one of the capture objects. 
+
+
+IS 15959 : 2011 
+
+
+Typically the capture object selected for this purpose 
+is the Clock’s date-time attribute which is usually one 
+of the capture objects in most profiles as illustrated in 
+Fig. 6. The selective access parameters in this case are 
+as below: 
+
+
+L-2.2.1 Restricting Object 
+
+
+This parameter identifies the capture object whose 
+value will be used to filter the buffer. The object is 
+defined by the OBIS Code and attribute index of the 
+selected object. 
+
+
+L-2.2.2 From-Value 
+
+
+The start-range value for the subset. All selected rows 
+in the buffer will have a value for the restricted object 
+that is higher than or equal to this limit. 
+
+
+L-2.2.3 To- Value 
+
+
+The stop-range value for the subset. All selected rows 
+in the buffer will have a value for the restricting object 
+that is lower than or equal to this limit. 
+
+
+L-2.2.4 Selected-Values 
+
+
+An array of column indices specifying the columns that 
+should be returned from the selected rows. 
+
+
+ENTRY_DESCRIPTOR { 
+00000002 
+a 00000004 
+
+
+NOTE — This illustration requests from 2nd row to the 4th row. 
+
+
+Fic. 4 ILLUSTRATION OF SELECTIVE ACCESS OF PROFILE BUFFER BY ENTRY 
+
+
+31 
+
+
+IS 15959 : 2011 
+
+
+entry descriptor { 
+00000002 
+
+
+00000004 
+
+
+9002 
+0003 
+: 
+
+
+NOTE — This illustration requests only the 2nd and 3rd columns of data from the 2nd row to the 4th row. 
+
+
+Fic. 5 ILLUSTRATION OF SELECTIVE ACCESS OF PROFILE BUFFER BY ENTRY 
+
+
+RANGE—DESCRIPTOR 
+
+
+(0008, 0000010000FF, 02, 0000} 
+1-1-7 06:00:00 
+
+1-1-7 08:00:00 
+
+00 } 
+
+
+All Pe om 
+
+
+are returned `S 
+
+
+YI 01-01-07 06:00:00 
+Y2 01-01-07 06:15:00 
+
+
+Eo o 
+
+
+YE 01-01-07 08:00:00 
+
+
+Fic. 6 ILLUSTRATION OF SELECTIVE ACCESS OF PROFILE BUFFER BY RANGE 
+
+
+32 
+
+
+Acronyms and 
+Abbreviations 
+
+
+IEC 
+
+NIST 
+IETF 
+DLMS 
+DLMS UA 
+COSEM 
+HHU 
+
+MRI 
+
+DCE 
+
+DC 
+
+PSTN 
+GSM 
+GPRS 
+802.2 LLC 
+IEEE 
+
+ASE 
+ZigBee 
+VZ 
+
+IP 
+
+PC 
+
+MR 
+
+US 
+
+TCP 
+
+UDP 
+RS232/RS485 
+TOU 
+
+ABT 
+
+CTT 
+
+TZ 
+
+
+IS 15959 : 2011 
+
+
+ANNEX M 
+(Foreword) 
+
+
+ACRONYMS AND ABBREVIATIONS 
+
+
+Description 
+
+
+International Electro-technical Commission 
+
+National Institute for Standards and Technology 
+
+Internet Engineering Task Force 
+
+Device Language Message Specification 
+
+Device Language Message Specification User Association 
+Companion Specification for Energy Metering 
+
+Hand Held Unit 
+
+Meter Reading Instrument 
+
+Data Communication Equipment 
+
+Data Concentrator 
+
+Public Switched Telephone Network 
+
+Global System for Mobile Communications 
+
+General Packet Radio Service 
+
+ISO/IEC 8802-2 defined Logical Link Control 
+
+Institute of Electrical and Electronics Engineers 
+
+Adaptive Server Enterprise for database security 
+
+Low power wireless connectivity based on IEEE standard 802.15.4 protocol 
+Vorwarts Zaehler (previous value counter) 
+
+Internet Protocol 
+
+Public Client 
+
+Meter Reader 
+
+Utility Settings 
+
+Transmission Control Protocol (for connection oriented service) 
+User Datagram Protocol ( for connectionless service) 
+
+
+Recommended industrial Standards for communication between driver and receiver equipment 
+
+
+Time of Use 
+Availability Based Tariff 
+Conformance Test Tool 
+Time Zone 
+
+
+33 
+
+
+IS 15959 : 2011 
+
+
+ANNEX N 
+(Foreword) 
+
+
+COMMITTEE COMPOSTION 
+
+
+Equipment for Electrical Energy Measurement, Tariff and Load Control Sectional Committee, ETD 13 
+
+
+Organization Representative(s) 
+In personal capacity (Triparna 28/10/1C, Nakuleshwar Bhattachrya, Suri SUBRATA Biswas (Chairman) 
+Kalighat, Kolkata) 
+Areva T&D India Ltd (ALSTOM), Kolkata Suri H. Ray 
+Bharat Heavy Electricals Ltd, Bangalore SHRI THARAK RAI 
+SHRI BALASUBRAMANIAN M. (Alternate) 
+Brihan Mumbai Electric Supply & Transport Undertaking, Mumbai SARI N. V. BHANDAR 
+SHRI S. M. SAKPAL (Alternate) 
+BSES Rajdhani Power Ltd, New Delhi SHRI BANSAL RAJESH 
+SHRI Gitay Raj (Alternate) 
+Bureau of Energy Efficiency, New Delhi Suri G. PANDIAN 
+CG Actaris Electricity Management Ltd, New Delhi SHRI ASHOK DASH 
+
+
+SHRI ASHISH TANDON (Alternate T) 
+SHRI NEELABHRA PAUL (Alternate I) 
+
+
+Central Board of Irrigation & Power, New Delhi Suri K. P. SINGH 
+SHRI S. K. Batra (Alternate) 
+
+
+Central Electricity Authority, New Delhi SHRIMATI ANJALI CHANDRA 
+SHRIMATI A. K. Rasput (Alternate) 
+
+
+Central Power Research Institute, Bangalore SHRI R. K. HEGDE 
+SHRI B. A. SAWALE (Alternate) 
+CESC Limited, Kolkata Suri UDAYAN GANGULI 
+SHRI SIDDHARTHA MUKHERJEE (Alternate) 
+Development Commissioner Micro, Small & Enterprises, Suri A. K. VERMA 
+New Delhi 
+ECE Industries Ltd, Hyderabad Suri K. K. SHARMA 
+Electrical Research & Development Association, Vadodara Suri U. C. TRIVEDI 
+
+
+Sarı H. K. Misura (Alternate) 
+
+
+Elster Metering Private Ltd, Mumbai SHRIMATI MANJUSHRI 
+Genus Overseas Electronics Ltd, Jaipur SHRI UMESH SONI 
+Genus Power Infrastructures Ltd, Jaipur SHRI ARVIND KAUL 
+HPL-Socomec Pvt Ltd, Gurgaon Suri C. P. Jain 
+
+SHRI SUNDEEP TANDON (Alternate) 
+IEEMA, New Delhi SHRI SUNIL SINGHVI 
+
+SHRIMATI Anita Gupta (Alternate) 
+Jaipur Vidyut Vitaran Nigam Ltd, Jaipur Suri ARJUN SINGH 
+Larsen & Toubro Ltd, Mysore Suri R. M. BHAKTA 
+
+SHRI AHUJA SANJAY (Alternate) 
+Landis & Gyr Ltd, Kolkata Suri PRADIP RANJAN DUTT 
+
+
+SHRI S. PAL (Alternate I) 
+SHRI ANAND SRIVASTAVA (Alternate II) 
+Suri R. DuBEy (Alternate MI) 
+
+
+Maharashtra State Transco Ltd, Mumbai Suri SANTOSH N. KATAKWAR 
+National Physical Laboratory, New Delhi Suri M. K. MITTAL 
+
+Suri Biswas (Alternate) 
+North Delhi Power Ltd, New Delhi Suri R. K. SINGH 
+
+SHRI DESHMUKH (Alternate) 
+NTPC, Noida SHRIMATI M. S. RADHA 
+
+
+SHRI HIMANSHU SHEKHAR (Alternate) 
+
+
+34 
+
+
+Organization 
+
+
+Power Grid Corporation of India Ltd, New Delhi 
+
+
+PRAYAS, Secundrabad 
+
+
+Rural Electification Corporation Ltd, New Delhi 
+
+
+Secure Meters Ltd, Gurgaon 
+
+
+The Tata Power Co Ltd, Mumbai 
+Voluntary Organisation in Interest of Consumer Education, 
+New Delhi 
+
+
+Yadav Measurements Pvt Ltd, Udaipur 
+
+
+BIS Directorate General 
+
+
+IS 15959 : 2011 
+
+
+Representative(s) 
+Suri V. MITTAL 
+Ms Punam (Alternate) 
+
+
+SHRI SREEKUMAR N. 
+SHRI GIRISH Sant (Alternate) 
+
+
+Suri DINESH KUMAR 
+SHRI P. S. HARIHARAN (Alternate) 
+
+
+SHRI KAUSHIK GHOSH 
+SHRI JHALORA SURENDRA (Alternate 1) 
+SHRI SINGHVI S. K. (SML) (Alternate UI) 
+
+
+Suri S. C. DHAPRE 
+SHRI S. G. Josu (Alternate) 
+
+
+Suri T. C. KAPOOR 
+Sarı H. Wapuwa (Alternate) 
+
+
+Suri B. M. Vyas 
+Suri N. K. Buati N.K (Alternate) 
+
+
+Suir R. K. TREHAN, Scientist ‘E’ and Head (ETD) 
+[Representing Director General (Ex-officio)] 
+
+
+Member Secretary 
+SHRIMATI MANJU Gupta 
+Scientist ‘E’ (ETD), BIS 
+
+
+Panel on Metering Protocols and Interoperability, ETD 13/P1 
+
+
+Central Power Research Institute, Bangalore 
+
+
+Brihan Mumbai Electric Supply & Transport Undertaking, 
+Mumbai 
+
+
+Central Electricity Authority, New Delhi 
+
+CESC Limited, Kolkata 
+
+Elster Metering Private Ltd, Mumbai 
+HPL-Socomec Pvt Ltd, Gurgaon 
+
+Larsen & Toubro Ltd, Mysore 
+
+Landis & Gyr. Ltd, Kolkata 
+
+IEEMA, New Delhi 
+
+Kalki Communication Technologies Ltd, Bangalore 
+North Delhi Power Ltd, New Delhi 
+
+Secure Meters Ltd, Gurgaon 
+
+
+In personal capacity (Triparna 28/10/1C, Nakuleshwar Bhattachrya, 
+Kalighat, Kolkata) 
+
+
+35 
+
+
+SHRI V. ARUNACHALAM (Convener) 
+
+
+Suri S. M. SAKPAL 
+
+
+SHRI ALOK GUPTA 
+
+SHRI UDAYAN GANGULI 
+Suri P. C. KARNIK 
+
+SHRI C. P. JAN 
+
+SHRI SANJAY AHUJA 
+
+SHRI RAMESHWAR DUBEY 
+Suri J. PANDE 
+
+SHRI Vinoo S. WARRIOR 
+Suri R. K. SINGH 
+
+SHRI JHALORA SURENDRA 
+
+
+SHRI SUBRATA BISWAS 
+
+
+(Continued from second cover) 
+
+
+India, may be referenced as IEC pre-standards. Contact details of these members can be found at -http:// 
+www.dlms.com/organization/listofmembers/index.html. 
+
+
+While writing this Specification it has been endeavoured not to contradict on principle TEC 62056 and the DLMS/ 
+COSEM updates on which it is based. However, in case of any divergence/disparity, not amounting to conflict of 
+interpretations that may be revealed later, provisions of this specification will prevail. 
+
+
+The acronyms and abbreviations used in this standard are given in Annex M (see also IS/IEC/TR 62051-1). 
+The composition of the Committee responsible for the formulation of this standard is given at Annex N. 
+
+
+For the purpose of deciding whether a particular requirement of this standard is complied with, the final value, 
+observed or calculated, expressing the result of a test or analysis, shall be rounded off in accordance with IS 2 : 1960 
+‘Rules for rounding off numerical values (revised) . The number of significant places retained in the rounded off 
+value should be the same as that of the specified value in this standard. 
+
+
+Bureau of Indian Standards 
+
+BIS is a statutory institution established under the Bureau of Indian Standards Act, 1986 to promote 
+harmonious development of the activities of standardization, marking and quality certification of goods 
+and attending to connected matters in the country. 
+
+Copyright 
+
+BIS has the copyright of all its publications. No part of these publications may be reproduced in any form 
+without the prior permission in writing of BIS. This does not preclude the free use, in the course of 
+implementing the standard, of necessary details, such as symbols and sizes, type or grade designations. 
+Enquiries relating to copyright be addressed to the Director (Publications), BIS. 
+
+Review of Indian Standards 
+
+Amendments are issued to standards as the need arises on the basis of comments. Standards are also reviewed 
+periodically; a standard along with amendments is reaffirmed when such review indicates that no changes are 
+needed; if the review indicates that changes are needed, it is taken up for revision. Users of Indian Standards 
+should ascertain that they are in possession of the latest amendments or edition by referring to the latest issue of 
+
+
+‘BIS Catalogue’ and ‘Standards : Monthly Additions’. 
+
+
+This Indian Standard has been developed from Doc No.: ETD 13 (6211). 
+
+
+Amendments Issued Since Publication 
+
+
+Amend No. Date of Issue Text Affected 
+
+
+BUREAU OF INDIAN STANDARDS 
+
+
+Headquarters: 
+Manak Bhavan, 9 Bahadur Shah Zafar Marg, New Delhi 110002 
+Telephones : 2323 0131, 2323 3375, 2323 9402 Website: www.bis.org.in 
+Regional Offices: Telephones 
+Central : Manak Bhavan, 9 Bahadur Shah Zafar Marg 2323 7617 
+NEW DELHI 110002 2323 3841 
+Eastern : 1/14 C.I.T. Scheme VII M, V. I. P. Road, Kankurgachi 2337 8499, 2337 8561 
+KOLKATA 700054 2337 8626, 2337 9120 
+Northern : SCO 335-336, Sector 34-A, CHANDIGARH 160022 60 3843 
+60 9285 
+Southern : C.I.T. Campus, IV Cross Road, CHENNAI 600113 2254 1216, 2254 1442 
+2254 2519, 2254 2315 
+Western : Manakalaya, E9 MIDC, Marol, Andheri (East) 2832 9295, 2832 7858 
+MUMBAI 400093 2832 7891, 2832 7892 
+
+
+Branches: AHMEDABAD. BANGALORE. BHOPAL. BHUBANESHWAR. COIMBATORE. DEHRADUN. 
+FARIDABAD. GHAZIABAD. GUWAHATI. HYDERABAD. JAIPUR. KANPUR. LUCKNOW. 
+NAGPUR. PARWANOO. PATNA. PUNE. RAJKOT. THIRUVANANTHAPURAM. 
+VISAKHAPATNAM. 
+
+
+Published by BIS, New Delhi. 
+
+
