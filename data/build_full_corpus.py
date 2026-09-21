@@ -48,6 +48,14 @@ SECTOR_PREFIX = {
     "ppe": "PPE",
     "geotechnical": "GEO",
     "water_quality": "WATER",
+    "textiles": "TEX",
+    "timber_furniture": "TIMB",
+    "machinery_equipment": "MACH",
+    "chemicals": "CHEM",
+    "food_agriculture": "FOOD",
+    "packaging": "PACK",
+    "rubber_leather": "RUB",
+    "measurement_testing": "TEST",
 }
 
 # Scope text shorter than this is not worth embedding.

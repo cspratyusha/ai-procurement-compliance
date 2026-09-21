@@ -31,7 +31,8 @@ def main():
     print("=" * 65)
 
     corpus = load_corpus(args.corpus, force_reload=True)
-    source = args.corpus or "data/mock_corpus.json (default)"
+    from data_loader import _configured_corpus_path
+    source = args.corpus or str(_configured_corpus_path())
     print(f"Loaded {len(corpus)} standards from {source}.\n")
 
     # 1. Build Dense FAISS Vector Index

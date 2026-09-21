@@ -6,6 +6,37 @@ from indexing.bm25_index import bm25_search
 
 # Configurable constants for Reciprocal Rank Fusion
 DEFAULT_RRF_K: int = 60
+
+# How many candidates each retriever contributes before fusion.
+#
+# This was 30, chosen when the whole corpus was 30 standards — every document
+# was a candidate, so recall was guaranteed. At a few thousand standards a
+# fixed pool of 30 is a recall ceiling: if the right standard is not in the
+# first 30 dense *or* the first 30 BM25 hits, no amount of re-ranking can
+# recover it.
+#
+# The pool now grows with the corpus and is capped, because the cross-encoder
+# re-ranks every candidate and its cost is linear in pool size.
+_MIN_CANDIDATE_POOL: int = 30
+_MAX_CANDIDATE_POOL: int = 120
+
+
+def default_candidate_pool() -> int:
+    """Candidate pool sized for the corpus actually loaded."""
+    try:
+        from data_loader import load_corpus
+
+        corpus_size = len(load_corpus())
+    except Exception:
+        return _MIN_CANDIDATE_POOL
+
+    # Roughly the square root of the corpus, which keeps the pool a shrinking
+    # *fraction* of the corpus while still growing in absolute terms.
+    scaled = int(corpus_size ** 0.5) * 3
+    return max(_MIN_CANDIDATE_POOL, min(_MAX_CANDIDATE_POOL, scaled))
+
+
+# Kept for callers that import it directly; prefer default_candidate_pool().
 DEFAULT_CANDIDATE_POOL: int = 30
 
 
@@ -51,7 +82,7 @@ def rrf_merge(
 def hybrid_search(
     query: str,
     top_k: int = 20,
-    candidate_pool: int = DEFAULT_CANDIDATE_POOL,
+    candidate_pool: Optional[int] = None,
     rrf_k: int = DEFAULT_RRF_K
 ) -> List[Tuple[str, float]]:
     """Executes hybrid retrieval combining dense semantic search and sparse lexical search.
@@ -72,6 +103,10 @@ def hybrid_search(
     """
     if not query or not query.strip():
         return []
+
+    # Sized from the corpus unless a caller pins it explicitly.
+    if candidate_pool is None:
+        candidate_pool = default_candidate_pool()
 
     dense_candidates = dense_search(query, top_k=candidate_pool)
     bm25_candidates = bm25_search(query, top_k=candidate_pool)

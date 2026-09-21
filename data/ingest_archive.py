@@ -29,6 +29,7 @@ import json
 import re
 import sys
 import time
+from concurrent.futures import ThreadPoolExecutor, as_completed
 import urllib.error
 import urllib.parse
 import urllib.request
@@ -40,29 +41,45 @@ OUTPUT = _REPO_ROOT / "data" / "archive" / "ingested_standards.json"
 CACHE_DIR = _REPO_ROOT / "data" / "archive" / "cache"
 
 SEARCH_URL = "https://archive.org/advancedsearch.php"
+SCRAPE_URL = "https://archive.org/services/search/v1/scrape"
 METADATA_URL = "https://archive.org/metadata/{identifier}"
 DOWNLOAD_URL = "https://archive.org/download/{identifier}/{filename}"
 
 USER_AGENT = "ai-compliance-sih/1.0 (standards retrieval research; contact via repo)"
 
-# Be a good citizen: archive.org is a donation-funded public service.
-REQUEST_DELAY = 0.6
+# archive.org is a donation-funded public service, so stay modest: a handful
+# of concurrent connections rather than a flood. Measured at 5 concurrent
+# metadata requests in 2.7 s, which the service handles comfortably.
+WORKERS = 8
+REQUEST_DELAY = 0.05
 
-# Sector classification. Order matters — the first pattern that matches wins,
-# so put specific categories before general ones.
+# Word boundaries matter here. Without them "tile" matches "textile",
+# "meter" matches "diameter", and "angle" matches "triangle" -- so a ceramic
+# tile standard lands in textiles and much of the collection lands in
+# whichever rule happens to come first.
 #
-# These map onto the sectors the existing corpus already uses, so curated
-# certification and relationship data keeps working against the new records.
+# `measurement_testing` is deliberately LAST. Thousands of standards are
+# titled "Methods of test for X", and the subject X is what a procurement
+# officer searches for, not the fact that it is a test method. Only standards
+# with no other identifiable subject fall through to it.
 SECTOR_RULES = [
-    ("electrical_cables", r"\bcable|\bconductor|\bwire\b|flexible cord|sheathed"),
-    ("electrical_installations", r"electrical installation|wiring|switchgear|switches for|socket|\bearthing|luminaire|lighting"),
-    ("cement_building_materials", r"\bcement|concrete|aggregate|\bbrick|mortar|masonry|plaster|\blime\b|pozzolana|fly ash|admixture"),
-    ("steel_pipes_fittings", r"steel tube|steel pipe|\btubular|pipe fitting|ductile iron pipe|\bflange"),
-    ("plastic_pipes", r"polyethylene pipe|\bPVC pipe|unplasticized|\bHDPE|\bUPVC|plastic pipe|water bar"),
-    ("structural_steel", r"structural steel|\brolled steel|reinforcement|deformed bar|\bjoist|\bangle|\bbeam\b|prestress|welding"),
-    ("ppe", r"safety helmet|protective|personal protective|safety footwear|respirator|\bglove|\bgoggle|ear muff|safety belt"),
-    ("geotechnical", r"\bsoil\b|geotechnical|foundation|bearing capacity|\bpile\b|earthwork|subgrade"),
-    ("water_quality", r"drinking water|water quality|wastewater|sewage|\beffluent|water supply|potable"),
+    ("ppe", r"\bsafety helmet|personal protective|safety footwear|\brespirator|\bgoggle|ear ?muff|safety belt|\bhelmet\b|face shield|safety harness|protective clothing|protective footwear"),
+    ("electrical_cables", r"\bcables?\b|\bconductors?\b|\bwires?\b|flexible cord|\bbusbar"),
+    ("electrical_installations", r"electrical installation|\bwiring\b|switchgear|\bswitch(es)?\b|\bsocket|\bearthing\b|luminaire|\blighting\b|\btransformer|circuit breaker|\bmotors?\b|\bgenerator\b|\bfuse\b|energy meter"),
+    ("plastic_pipes", r"polyethylene pipe|\bPVC\b|unplasticized|\bHDPE\b|\bUPVC\b|plastic pipe|water bar|polypropylene"),
+    ("steel_pipes_fittings", r"steel tubes?\b|steel pipes?\b|\btubular\b|pipe fitting|ductile iron pipe|\bflange|cast iron pipe|\bvalves?\b"),
+    ("structural_steel", r"structural steel|rolled steel|reinforcement|deformed bar|\bjoist|prestress|\bwelding\b|\bbolts?\b|\bnuts?\b|\brivet|\bfastener|\bsteel\b"),
+    ("cement_building_materials", r"\bcement\b|\bconcrete\b|\baggregates?\b|\bbricks?\b|\bmortar\b|masonry|\bplaster\b|pozzolana|fly ash|admixture|\btiles?\b|\bglass\b|\bpaint|\bgypsum\b|\bmarble\b"),
+    ("timber_furniture", r"\btimber\b|\bwood\b|\bwooden\b|plywood|\bfurniture\b|particle board|\bveneer\b|block board"),
+    ("textiles", r"\btextile|\bfabrics?\b|\byarn\b|\bcotton\b|\bjute\b|\bsilk\b|\bwool\b|\bcanvas\b|\bgarment|\bcloth\b"),
+    ("rubber_leather", r"\brubber\b|\bleather\b|\btyres?\b|\btires?\b|elastomer|\bhose\b|\bbelting\b"),
+    ("food_agriculture", r"\bfood\b|foodstuff|\bedible\b|agricultur|\bgrain\b|\bcereal|\bspice|\bmilk\b|\bsugar\b|\btea\b|\bcoffee\b|\bfruits?\b|\bvegetable"),
+    ("chemicals", r"\bchemical|\bacid\b|\balkali\b|\breagent\b|\bsolvent\b|fertili[sz]er|\bdyes?\b|\bsodium\b|\bsulphate\b|\bchloride\b"),
+    ("packaging", r"\bpackaging\b|\bcarton\b|\bcontainers?\b|\bdrums?\b|\bsacks?\b|\bbottles?\b|corrugated"),
+    ("water_quality", r"drinking water|water quality|wastewater|\bsewage\b|\beffluent\b|water supply|\bpotable\b|\bsanitary\b|\bplumbing\b"),
+    ("geotechnical", r"\bsoils?\b|geotechnical|\bfoundation|bearing capacity|\bpiles?\b|earthwork|\bsubgrade\b|embankment"),
+    ("machinery_equipment", r"\bmachine|\bpumps?\b|\bcompressor|\bbearings?\b|\bgears?\b|hydraulic|pneumatic|\bcrane\b|conveyor|\bengine\b|\btools?\b|\blathe\b"),
+    ("measurement_testing", r"method(s)? of test|\bsampling\b|calibrat|\bmeasuring\b|\bgauges?\b|\binstrument|test method|\bcaliper"),
 ]
 
 # Standards we do not want: management-system, vocabulary-only and
@@ -79,23 +96,40 @@ def http_get(url: str, timeout: int = 45) -> bytes:
         return response.read()
 
 
-def search(rows: int, page: int) -> List[dict]:
-    """One page of the gov.in.is.* collection."""
-    params = urllib.parse.urlencode(
-        {
+def scrape_all(batch: int = 1000):
+    """Yield every item in the collection, via the cursor-based scrape API.
+
+    `advancedsearch` cannot page past 10,000 results — it is Solr underneath,
+    and deep paging returns a different response shape that has no `response`
+    key at all. The first attempt at a full scan died at page 21 for exactly
+    that reason, having seen 9,336 of 22,022 standards.
+
+    The scrape service exists for full-collection export and pages by cursor,
+    so it has no such ceiling.
+    """
+    cursor = None
+    while True:
+        params = {
             "q": "identifier:gov.in.is.*",
-            "fl[]": "identifier",
-            "rows": rows,
-            "page": page,
-            "output": "json",
-            "sort[]": "identifier asc",
-        },
-        doseq=True,
-    )
-    # fl[] repeats, so build it manually to request several fields.
-    params = params.replace("fl%5B%5D=identifier", "fl%5B%5D=identifier&fl%5B%5D=title&fl%5B%5D=year")
-    payload = json.loads(http_get(f"{SEARCH_URL}?{params}").decode("utf-8"))
-    return payload["response"]["docs"]
+            "fields": "identifier,title,year",
+            "count": batch,
+        }
+        if cursor:
+            params["cursor"] = cursor
+
+        url = f"{SCRAPE_URL}?{urllib.parse.urlencode(params)}"
+        payload = json.loads(http_get(url, timeout=90).decode("utf-8"))
+
+        items = payload.get("items", [])
+        if not items:
+            return
+
+        yield items, payload.get("total")
+
+        cursor = payload.get("cursor")
+        if not cursor:
+            return
+        time.sleep(REQUEST_DELAY)
 
 
 def parse_identifier(identifier: str) -> Optional[Dict[str, str]]:
@@ -164,6 +198,25 @@ def extract_scope(text: str) -> Optional[str]:
     scope = " ".join(match.group(1).split())
     scope = re.sub(r"^\d+\.\d+\s*", "", scope)  # drop a leading clause number
 
+    # Stop at the next clause heading.
+    #
+    # The scope clause is followed by REFERENCES, TERMINOLOGY or similar, and
+    # the patterns above sometimes run past it -- about 10% of a sample
+    # carried "2 REFERENCES 2.1 The Indian Standard IS 4900..." into the
+    # scope. Citation text in the embedding is noise: it makes a standard
+    # about tea chests look partly like a standard about whatever it cites.
+    scope = re.split(
+        r"\s+\d+\s+(?:REFERENCES?|TERMINOLOGY|DEFINITIONS?|NORMATIVE|GENERAL|REQUIREMENTS?)\b",
+        scope,
+        maxsplit=1,
+        flags=re.IGNORECASE,
+    )[0]
+
+    # Footnote markers that OCR leaves inline, e.g. "*Specification for ..."
+    scope = re.split(r"\s+[*f†]\s*(?=[A-Z])", scope, maxsplit=1)[0]
+
+    scope = scope.strip()
+
     if len(scope) < 40:
         return None
     return scope[:1200]
@@ -230,19 +283,14 @@ def main() -> int:
 
     candidates: List[dict] = []
     seen_numbers = set()
-    page = 1
-    rows = 500
+    total = None
 
-    while len(candidates) < args.scan:
-        try:
-            docs = search(rows, page)
-        except Exception as exc:
-            print(f"  search page {page} failed: {exc}")
-            break
-        if not docs:
-            break
+    for items, reported_total in scrape_all():
+        if total is None:
+            total = reported_total
+            print(f"  collection holds {total} standards", flush=True)
 
-        for doc in docs:
+        for doc in items:
             parsed = parse_identifier(doc.get("identifier", ""))
             if not parsed:
                 continue
@@ -254,10 +302,10 @@ def main() -> int:
             seen_numbers.add(parsed["number"])
             candidates.append({**parsed, "identifier": doc["identifier"], "title": title})
 
-        print(f"  page {page}: {len(candidates)} candidates so far")
-        page += 1
-        time.sleep(REQUEST_DELAY)
-        if page > 40:
+        if len(candidates) % 5000 < 1000:
+            print(f"  scanned: {len(seen_numbers)} unique, {len(candidates)} candidates", flush=True)
+
+        if len(candidates) >= args.scan:
             break
 
     # Keep only those whose title already suggests one of our sectors; the
@@ -276,42 +324,83 @@ def main() -> int:
     ingested: List[dict] = []
     no_scope = 0
     no_text = 0
+    done = 0
 
-    for index, item in enumerate(targeted):
-        if len(ingested) >= args.limit:
-            break
-
+    def process(item: dict) -> Optional[dict]:
+        """Fetch and parse one standard. Returns None when unusable."""
         text = fetch_text(item["identifier"])
         if not text:
-            no_text += 1
-            continue
+            return {"_skip": "no_text"}
 
         cleaned = clean_ocr(text)
         scope = extract_scope(cleaned)
         if not scope:
-            no_scope += 1
-            continue
+            return {"_skip": "no_scope"}
 
         sector = classify(item["title"], scope)
         if not sector:
-            continue
+            return {"_skip": "no_sector"}
 
-        ingested.append(
-            {
-                "number": item["number"],
-                "title": item["title"],
-                "scope": scope,
-                "category": sector,
-                "version": item["year"],
-                "identifier": item["identifier"],
-                "source_url": f"https://archive.org/details/{item['identifier']}",
-            }
-        )
+        return {
+            "number": item["number"],
+            "title": item["title"],
+            "scope": scope,
+            "category": sector,
+            "version": item["year"],
+            "identifier": item["identifier"],
+            "source_url": f"https://archive.org/details/{item['identifier']}",
+        }
 
-        if len(ingested) % 25 == 0:
-            print(f"  {len(ingested)} ingested ({index + 1} examined)")
-        time.sleep(REQUEST_DELAY)
+    # Fetching dominates the runtime and is almost entirely network wait, so
+    # a small thread pool turns hours into minutes without straining the host.
+    pool = targeted[: args.limit * 3]  # over-fetch: many will lack a scope clause
+    with ThreadPoolExecutor(max_workers=WORKERS) as executor:
+        futures = {executor.submit(process, item): item for item in pool}
+        for future in as_completed(futures):
+            done += 1
+            try:
+                result = future.result()
+            except Exception:
+                no_text += 1
+                continue
 
+            if result is None or "_skip" in result:
+                reason = (result or {}).get("_skip")
+                if reason == "no_text":
+                    no_text += 1
+                elif reason == "no_scope":
+                    no_scope += 1
+                continue
+
+            ingested.append(result)
+            if len(ingested) % 100 == 0:
+                print(f"  {len(ingested)} ingested ({done} examined)", flush=True)
+                # Checkpoint: a run over thousands of documents must not lose
+                # everything to one interruption.
+                _write_output(ingested, partial=True)
+
+            if len(ingested) >= args.limit:
+                break
+
+    ingested.sort(key=lambda r: r["number"])
+
+    _write_output(ingested)
+
+    from collections import Counter
+
+    print()
+    print(f"ingested        : {len(ingested)}")
+    print(f"  no text file  : {no_text}")
+    print(f"  no scope found: {no_scope}")
+    for sector, count in sorted(Counter(s["category"] for s in ingested).items()):
+        print(f"  {sector:<28} {count:>4}")
+    print()
+    print(f"wrote {OUTPUT.relative_to(_REPO_ROOT)}")
+    return 0
+
+
+def _write_output(ingested: List[dict], partial: bool = False) -> None:
+    """Persist what has been ingested so far."""
     OUTPUT.parent.mkdir(parents=True, exist_ok=True)
     OUTPUT.write_text(
         json.dumps(
@@ -326,25 +415,16 @@ def main() -> int:
                         "recognition errors. It is the real scope clause, not written text."
                     ),
                     "count": len(ingested),
+                    "partial": partial,
                 },
                 "standards": ingested,
             },
             indent=2,
             ensure_ascii=False,
         )
-        + "\n",
+        + chr(10),
         encoding="utf-8",
     )
-
-    from collections import Counter
-
-    print(f"\ningested        : {len(ingested)}")
-    print(f"  no text file  : {no_text}")
-    print(f"  no scope found: {no_scope}")
-    for sector, count in sorted(Counter(s["category"] for s in ingested).items()):
-        print(f"  {sector:<28} {count:>4}")
-    print(f"\nwrote {OUTPUT.relative_to(_REPO_ROOT)}")
-    return 0
 
 
 if __name__ == "__main__":
