@@ -15,7 +15,7 @@ This document provides a comprehensive technical reference for the multi-stage r
 > 1, so it is mildly positive.
 >
 > Before reporting that one stage beats another, check the difference exceeds
-> twice the standard error.  is close enough.
+> twice the standard error. `sqrt((p1*(1-p1) + p2*(1-p2)) / n)` is close enough.
 >
 > ### ⚠️ Two things to know before quoting any number here
 >
