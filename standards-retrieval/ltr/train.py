@@ -40,6 +40,10 @@ def _models_dir() -> Path:
     the committed model that the mock corpus (and the test suite) depend on.
     """
     choice = os.environ.get("STANDARDS_CORPUS", "").strip().lower()
+    if choice == "full":
+        directory = _PROJECT_ROOT / "models" / "standards_corpus_full"
+        directory.mkdir(parents=True, exist_ok=True)
+        return directory
     if choice == "expanded":
         directory = _PROJECT_ROOT / "models" / "standards_corpus_expanded"
         directory.mkdir(parents=True, exist_ok=True)
@@ -83,7 +87,12 @@ def build_training_data(
     # model whose labels point at the wrong standards.
     if query_file_path is None or query_file_path == "combined":
         corpus_choice = os.environ.get("STANDARDS_CORPUS", "").strip().lower()
-        if corpus_choice == "expanded":
+        if corpus_choice == "full":
+            file_candidates = [
+                _PROJECT_ROOT.parent / "data" / "train_queries_full.json",
+                _PROJECT_ROOT.parent / "data" / "eval_set_full.json",
+            ]
+        elif corpus_choice == "expanded":
             file_candidates = [
                 _PROJECT_ROOT.parent / "data" / "train_queries_expanded.json",
                 _PROJECT_ROOT.parent / "data" / "eval_set_expanded.json",
@@ -98,6 +107,25 @@ def build_training_data(
                 _PROJECT_ROOT / "data" / "train_queries.json",
                 _PROJECT_ROOT / "data" / "eval_set.json",
             ]
+        # The second entry in every list above is the evaluation set.
+        #
+        # Including it in training inflates the held-out score into
+        # meaninglessness: on the 96-standard corpus it produced NDCG@5 =
+        # 1.0000 and P@1 = 100%, because the model had seen every query it
+        # was then scored on. Training on the query set alone gave 0.9382 /
+        # 87.5%, which is the number worth reporting.
+        #
+        # Set LTR_INCLUDE_EVAL_IN_TRAINING=1 to restore the old behaviour --
+        # useful when shipping a model and you want every labelled example,
+        # accepting that the reported score is then not a measurement.
+        include_eval = os.environ.get("LTR_INCLUDE_EVAL_IN_TRAINING", "").strip() in {"1", "true", "yes"}
+        if not include_eval and len(file_candidates) > 1:
+            file_candidates = file_candidates[:1]
+            print(
+                "[LTR Data] Evaluation set excluded from training "
+                "(set LTR_INCLUDE_EVAL_IN_TRAINING=1 to include it)."
+            )
+
         file_paths = [p for p in file_candidates if p.exists()]
         if not file_paths:
             raise FileNotFoundError(
@@ -791,7 +819,9 @@ def main(reuse_cv_run_id: Optional[str] = None, cv_reuse_reason: Optional[str] =
     # against the old eval set scores almost every query as a miss and makes a
     # healthy model look broken.
     _corpus_choice = os.environ.get("STANDARDS_CORPUS", "").strip().lower()
-    if _corpus_choice == "expanded":
+    if _corpus_choice == "full":
+        eval_path = str(_PROJECT_ROOT.parent / "data" / "eval_set_full.json")
+    elif _corpus_choice == "expanded":
         eval_path = str(_PROJECT_ROOT.parent / "data" / "eval_set_expanded.json")
     elif _corpus_choice in {"canonical", "consolidated"}:
         eval_path = str(_PROJECT_ROOT.parent / "data" / "eval_set_consolidated.json")

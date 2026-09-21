@@ -23,12 +23,14 @@ _REPO_ROOT = _PACKAGE_ROOT.parent
 #   STANDARDS_CORPUS=/some/path  -> that file
 _CANONICAL_CORPUS_PATH = _REPO_ROOT / "data" / "standards_corpus.json"
 _EXPANDED_CORPUS_PATH = _REPO_ROOT / "data" / "standards_corpus_expanded.json"
+_FULL_CORPUS_PATH = _REPO_ROOT / "data" / "standards_corpus_full.json"
 _MOCK_CORPUS_PATH = _PACKAGE_ROOT / "data" / "mock_corpus.json"
 
 _CORPUS_ALIASES = {
     "canonical": _CANONICAL_CORPUS_PATH,
     "consolidated": _CANONICAL_CORPUS_PATH,
     "expanded": _EXPANDED_CORPUS_PATH,
+    "full": _FULL_CORPUS_PATH,
     "mock": _MOCK_CORPUS_PATH,
     "": _MOCK_CORPUS_PATH,
 }
