@@ -2,6 +2,21 @@
 
 This document provides a comprehensive technical reference for the multi-stage retrieval, ranking, and evaluation pipeline implemented in `standards-retrieval` (Part 2, Stages A–C). It details model architectures, feature engineering, hyperparameters, training methodology, cross-validation, conservative promotion gates, benchmark evaluation metrics, and scoring contracts.
 
+> ### Current measurement: 4,969 standards, 236 held-out queries
+>
+> | Pipeline | P@1 | Recall@5 | NDCG@5 |
+> |---|---|---|---|
+> | Hybrid (dense + BM25) | 0.8771 | 0.9958 | 0.9450 |
+> | + cross-encoder | 0.8602 | 0.9915 | 0.9378 |
+>
+> The difference between the rows is -0.0169 against a standard error of
+> 0.0311, so neither pipeline measurably beats the other here.
+>
+> Every number below this banner was measured on corpora of 30 to 96
+> standards, several of them with an evaluation set that had been trained on.
+> They are kept for the record of how the pipeline was developed. **Quote the
+> table above.**
+>
 > ### ⚠️ Differences this small are usually noise
 >
 > With ~100 evaluation queries, the standard error on a P@1 difference is
