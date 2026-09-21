@@ -37,6 +37,16 @@ const SECTOR_LABEL = {
   structural_steel: 'Structural steel',
   plastic_pipes: 'Plastic pipes',
   ppe: 'Personal protective equipment',
+  geotechnical: 'Geotechnical & soils',
+  water_quality: 'Water & sanitation',
+  textiles: 'Textiles & apparel',
+  timber_furniture: 'Timber & furniture',
+  machinery_equipment: 'Machinery & equipment',
+  chemicals: 'Chemicals',
+  food_agriculture: 'Food & agriculture',
+  packaging: 'Packaging',
+  rubber_leather: 'Rubber & leather',
+  measurement_testing: 'Measurement & test methods',
 };
 
 const sectorLabel = (slug) => SECTOR_LABEL[slug] ?? (slug || '').replace(/_/g, ' ');

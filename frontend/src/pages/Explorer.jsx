@@ -12,11 +12,24 @@ const SECTOR_LABEL = {
   structural_steel: 'Structural steel',
   plastic_pipes: 'Plastic pipes',
   ppe: 'Personal protective equipment',
+  geotechnical: 'Geotechnical & soils',
+  water_quality: 'Water & sanitation',
+  textiles: 'Textiles & apparel',
+  timber_furniture: 'Timber & furniture',
+  machinery_equipment: 'Machinery & equipment',
+  chemicals: 'Chemicals',
+  food_agriculture: 'Food & agriculture',
+  packaging: 'Packaging',
+  rubber_leather: 'Rubber & leather',
+  measurement_testing: 'Measurement & test methods',
 };
 
 const sectorLabel = (slug) => SECTOR_LABEL[slug] ?? (slug || '').replace(/_/g, ' ');
 
 const ALL = 'All sectors';
+
+/** How many standards to render before asking the user to expand. */
+const PAGE_SIZE = 150;
 
 export default function Explorer() {
   const [standards, setStandards] = useState([]);
@@ -25,6 +38,10 @@ export default function Explorer() {
   const [query, setQuery] = useState('');
   const [sector, setSector] = useState(ALL);
   const [showSuperseded, setShowSuperseded] = useState(true);
+  // The corpus is now thousands of standards. Rendering every one of them
+  // costs ~1.7 s on first paint and re-runs on every keystroke, so the list
+  // is capped and extended on demand.
+  const [visibleCount, setVisibleCount] = useState(PAGE_SIZE);
 
   useEffect(() => {
     const controller = new AbortController();
@@ -47,6 +64,8 @@ export default function Explorer() {
     [standards],
   );
 
+  useEffect(() => { setVisibleCount(PAGE_SIZE); }, [query, sector, showSuperseded]);
+
   const results = useMemo(() => {
     const term = query.trim().toLowerCase();
     return standards.filter((s) => {
@@ -64,14 +83,16 @@ export default function Explorer() {
 
   // Group by sector so the shape of the corpus is visible at a glance --
   // which is the honest way to show that coverage is partial.
+  const shown = useMemo(() => results.slice(0, visibleCount), [results, visibleCount]);
+
   const grouped = useMemo(() => {
     const map = new Map();
-    for (const s of results) {
+    for (const s of shown) {
       if (!map.has(s.category)) map.set(s.category, []);
       map.get(s.category).push(s);
     }
     return [...map.entries()].sort(([a], [b]) => a.localeCompare(b));
-  }, [results]);
+  }, [shown]);
 
   const supersededCount = standards.filter((s) => s.status === 'superseded').length;
 
@@ -152,7 +173,8 @@ export default function Explorer() {
 
             <div className="row-between wrap" style={{ gap: 'var(--s3)' }}>
               <span className="xs faint">
-                {results.length} of {standards.length} standards
+                Showing {shown.length} of {results.length} matching
+                {results.length !== standards.length ? ` (${standards.length} in corpus)` : ' standards'}
                 {supersededCount > 0 && ` · ${supersededCount} superseded`}
               </span>
               <label className="check">
@@ -207,6 +229,22 @@ export default function Explorer() {
                 </div>
               </section>
             ))
+          )}
+
+          {results.length > shown.length && (
+            <div className="card stack stack-3" style={{ alignItems: 'center' }}>
+              <span className="xs muted">
+                {results.length - shown.length} more standard
+                {results.length - shown.length === 1 ? '' : 's'} match this search.
+              </span>
+              <button
+                type="button"
+                className="btn btn-secondary btn-sm"
+                onClick={() => setVisibleCount((n) => n + PAGE_SIZE)}
+              >
+                Show {Math.min(PAGE_SIZE, results.length - shown.length)} more
+              </button>
+            </div>
           )}
         </div>
       )}
