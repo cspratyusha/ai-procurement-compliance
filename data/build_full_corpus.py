@@ -77,6 +77,27 @@ def family(number: str) -> str:
     return normalize(number).split(":")[0].upper()
 
 
+def tidy_scope(scope: str) -> str:
+    """Trim a scope clause that ran past its own section.
+
+    The extractor truncates at the next clause heading, but records ingested
+    before that fix carry citation text — "...plywood teachests. 2 REFERENCES
+    2.1 The Indian Standard IS 4900...". Rather than re-fetch thousands of
+    documents, the same truncation is applied here at merge time, so the
+    corpus is clean regardless of when a record was parsed.
+    """
+    scope = re.split(
+        r"\s+\d+\s+(?:REFERENCES?|TERMINOLOGY|DEFINITIONS?|NORMATIVE|GENERAL|REQUIREMENTS?)\b",
+        scope,
+        maxsplit=1,
+        flags=re.IGNORECASE,
+    )[0]
+    scope = re.split(r"\s+[*f†]\s*(?=[A-Z])", scope, maxsplit=1)[0]
+    # A leading clause number or stray punctuation left by OCR.
+    scope = re.sub(r"^[.\s]*\d+(\.\d+)*\s*", "", scope)
+    return scope.strip()
+
+
 def usable_scope(scope: str) -> bool:
     """Reject scope text too short or too OCR-damaged to search on."""
     if len(scope) < MIN_SCOPE_CHARS:
@@ -140,6 +161,7 @@ def main() -> int:
         if key in seen:
             duplicate += 1
             continue
+        item = {**item, "scope": tidy_scope(item["scope"])}
         if not usable_scope(item["scope"]):
             rejected_scope += 1
             continue
