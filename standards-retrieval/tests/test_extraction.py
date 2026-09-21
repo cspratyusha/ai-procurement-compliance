@@ -48,13 +48,56 @@ class TestExtraction(unittest.TestCase):
         result = extraction.extract("sample_tender.pdf", read("sample_tender.pdf"))
         self.assertIn("cement", result.query.lower())
 
-    def test_scanned_pdf_is_rejected_with_a_usable_message(self):
-        """A scan has no text layer. Say so; do not search an empty string."""
+    def test_scanned_tender_is_read_by_ocr(self):
+        """A photocopied tender has no text layer; OCR is the only way in.
+
+        The fixture is the sample tender rendered to images, so it is a true
+        scan. Skipped rather than failed where Tesseract is absent, because
+        OCR is an optional server capability.
+        """
+        if not extraction.ocr_available():
+            self.skipTest("Tesseract is not installed on this machine")
+
+        result = extraction.extract("scanned_tender.pdf", read("scanned_tender.pdf"))
+        self.assertEqual(result.method, "pdf-ocr")
+        self.assertIn("SPECIFICATION", (result.matched_section or "").upper())
+
+        query = result.query.lower()
+        self.assertIn("cable", query)
+        self.assertIn("cement", query)
+        for noise in ("earnest money", "jurisdiction"):
+            self.assertNotIn(noise, query)
+
+        # The user must be told the text came from OCR, which makes mistakes.
+        self.assertTrue(any("optical character" in w.lower() for w in result.warnings))
+
+    def test_ocr_line_item_survives_a_mid_sentence_split(self):
+        """OCR inserts blank lines at arbitrary points, splitting paragraphs.
+
+        A scanned tender had "Item 3: Ordinary Portland Cement, 43 grade, for
+        the civil works associated with cable trenching" separated from
+        "compressive strength of 43 MPa". The cement half carried no technical
+        marker and was dropped, so the cement vanished from the search while
+        the orphan fragment survived. A numbered line item is now kept on that
+        basis alone.
+        """
+        split_text = chr(10).join([
+            "TECHNICAL SPECIFICATION",
+            "",
+            "Item 3: Ordinary Portland Cement, 43 grade, for the civil works",
+            "associated with foundation work. Minimum 28 day",
+            "",
+            "compressive strength of 43 MPa.",
+        ])
+        query, _ = extraction.build_query(split_text)
+        self.assertIn("cement", query.lower())
+
+    def test_unreadable_scan_is_rejected_with_a_usable_message(self):
+        """A blank or unreadable scan must not return an empty search."""
         with self.assertRaises(extraction.ExtractionError) as ctx:
             extraction.extract("scanned_no_text.pdf", read("scanned_no_text.pdf"))
         message = str(ctx.exception).lower()
-        self.assertIn("scan", message)
-        self.assertIn("ocr", message)
+        self.assertTrue("scan" in message or "ocr" in message or "character" in message)
 
     def test_unsupported_types_are_rejected(self):
         for name in ("notes.doc", "photo.jpg", "sheet.xlsx"):

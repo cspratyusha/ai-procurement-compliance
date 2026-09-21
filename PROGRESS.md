@@ -5,6 +5,113 @@ at the top.
 
 ---
 
+## Phase M — Corpus doubled, OCR, and a contaminated metric found (2026-09-21)
+
+**Goal:** the two biggest quality levers — more standards, and reading the
+scanned tenders that a text-layer extractor cannot touch.
+
+### Corpus: 45 to 96 standards, 7 to 9 sectors
+
+Fifty-one standards added from a public reference list of IS codes actually
+cited in Indian civil engineering practice. Two new sectors appear:
+**geotechnical** (the IS 2720 soil-test series, IS 1498 classification) and
+**water quality** (IS 10500 drinking water, IS 3025 sampling).
+
+Provenance is tracked per record, because the two populations are not equally
+trustworthy:
+
+| Provenance | Count | Meaning |
+|---|---|---|
+| `consolidated` | 45 | From the original three datasets; number, title and scope all unverified |
+| `number_and_title_referenced` | 51 | IS number and title from a real reference list; **scope written from the title**, not copied from the paywalled standard |
+
+Neither is authoritative, but the second is better: the number and title
+correspond to a standard that genuinely exists under that designation.
+
+### The metric was contaminated, and doubling the corpus exposed it
+
+Retraining on 96 standards produced **NDCG@5 = 1.0000, P@1 = 100%**. A perfect
+score on 24 queries is a red flag, not a result.
+
+`build_training_data` loads `train_queries` **and** `eval_set` as its training
+input. The eval queries were held out from the *split*, not from training. So
+the model had seen every query it was then scored on.
+
+Training on `train_queries` alone and evaluating on the 24 unseen queries:
+
+| | NDCG@5 | P@1 |
+|---|---|---|
+| Contaminated (as the trainer runs by default) | 1.0000 | 100% |
+| **Honest (eval set never trained on)** | **0.9382** | **87.5%** |
+
+### The corpus-size effect, finally visible
+
+Earlier phases could not demonstrate one because both corpora were small.
+At 96 standards it is clear:
+
+| Corpus | Hybrid | + Cross-encoder | + LTR |
+|---|---|---|---|
+| 45 | 0.9382 | 0.9609 | 0.9846 |
+| 96, **45-corpus model** | 0.9192 | 0.9609 | **0.6984** (R@5 0.75) |
+| 96, retrained | 0.9192 | 0.9609 | 0.9382 *(uncontaminated)* |
+
+Serving a model over a corpus it was not trained on is catastrophic — Recall@5
+falls to 0.75, meaning a quarter of queries no longer surface the right
+standard at all. Retraining recovers it. Both findings are recorded in
+`MODEL_AND_EVALUATION.md` above the existing numbers.
+
+### OCR for scanned tenders
+
+Tesseract 5.4 installed and wired as a fallback: a PDF with no extractable
+text layer is now rendered at 300 DPI and read, rather than refused.
+
+The test fixture is the real sample tender rendered to images — a true scan
+with **zero** text-layer characters, exactly like a photocopy. OCR reads it in
+**1.1 seconds**, finds the TECHNICAL SPECIFICATION heading, and recovers both
+product lines.
+
+Tesseract's Windows installer does not add itself to PATH, so the module looks
+in the standard install locations and honours `TESSERACT_CMD`. Where OCR is
+genuinely unavailable the error says so and the OCR test skips rather than
+fails — it is an optional server capability.
+
+The user is always told when text came from OCR, because OCR makes mistakes
+and the extracted text is shown for checking.
+
+### A bug OCR exposed in the extractor
+
+OCR inserts blank lines at arbitrary points, which splits a paragraph
+mid-sentence. The scanned tender came out with
+
+> "Item 3: Ordinary Portland Cement, 43 grade, for the civil works associated
+> with cable trenching and foundation of the distribution pillar. Minimum 28 day"
+
+separated from "compressive strength of 43 MPa". The cement half then carried
+no technical marker, so it was dropped — and the cement vanished from the
+search while the orphan fragment survived.
+
+This is the same class of bug as the Phase F wrapped-line failure, one layer
+further out. A numbered line item is now kept on that basis alone: an
+"Item 3:" line in a schedule of requirements is describing goods whatever
+words it uses.
+
+### Tested
+
+- **`pytest` — 94 passed** (was 92). Three new extraction tests: the scanned
+  tender read end to end by OCR, the mid-sentence split regression, and an
+  unreadable scan still rejected with a usable message.
+- All three document formats now recover both products: text-layer PDF, DOCX
+  and the OCR-read scan.
+
+### Still open
+
+- 51 of 96 standards have written rather than published scope text.
+- Certification, amendment and relationship data still covers only the
+  original 45.
+- Standards map is the last fixture screen.
+
+---
+
 ## Phase L — Demo script and fresh-clone verification (2026-09-21)
 
 **Goal:** the brief's Phase 10 — prove the project runs from a clean checkout,

@@ -39,7 +39,12 @@ def _models_dir() -> Path:
     — otherwise retraining against the canonical corpus silently overwrites
     the committed model that the mock corpus (and the test suite) depend on.
     """
-    if os.environ.get("STANDARDS_CORPUS", "").strip().lower() in {"canonical", "consolidated"}:
+    choice = os.environ.get("STANDARDS_CORPUS", "").strip().lower()
+    if choice == "expanded":
+        directory = _PROJECT_ROOT / "models" / "standards_corpus_expanded"
+        directory.mkdir(parents=True, exist_ok=True)
+        return directory
+    if choice in {"canonical", "consolidated"}:
         directory = _PROJECT_ROOT / "models" / "standards_corpus"
         directory.mkdir(parents=True, exist_ok=True)
         return directory
@@ -77,7 +82,13 @@ def build_training_data(
     # training the ranker on ids that no longer exist would silently produce a
     # model whose labels point at the wrong standards.
     if query_file_path is None or query_file_path == "combined":
-        if os.environ.get("STANDARDS_CORPUS", "").strip().lower() in {"canonical", "consolidated"}:
+        corpus_choice = os.environ.get("STANDARDS_CORPUS", "").strip().lower()
+        if corpus_choice == "expanded":
+            file_candidates = [
+                _PROJECT_ROOT.parent / "data" / "train_queries_expanded.json",
+                _PROJECT_ROOT.parent / "data" / "eval_set_expanded.json",
+            ]
+        elif corpus_choice in {"canonical", "consolidated"}:
             file_candidates = [
                 _PROJECT_ROOT.parent / "data" / "train_queries_consolidated.json",
                 _PROJECT_ROOT.parent / "data" / "eval_set_consolidated.json",
@@ -779,7 +790,10 @@ def main(reuse_cv_run_id: Optional[str] = None, cv_reuse_reason: Optional[str] =
     # differ between generations, so evaluating a canonical-corpus model
     # against the old eval set scores almost every query as a miss and makes a
     # healthy model look broken.
-    if os.environ.get("STANDARDS_CORPUS", "").strip().lower() in {"canonical", "consolidated"}:
+    _corpus_choice = os.environ.get("STANDARDS_CORPUS", "").strip().lower()
+    if _corpus_choice == "expanded":
+        eval_path = str(_PROJECT_ROOT.parent / "data" / "eval_set_expanded.json")
+    elif _corpus_choice in {"canonical", "consolidated"}:
         eval_path = str(_PROJECT_ROOT.parent / "data" / "eval_set_consolidated.json")
     else:
         eval_path = str(_PROJECT_ROOT / "data" / "eval_set.json")

@@ -14,8 +14,11 @@ Two things make a tender document different from ordinary text:
 """
 
 import io
+import os
 import re
+import shutil
 from dataclasses import dataclass, field
+from pathlib import Path
 from typing import List, Optional
 
 # Guard rails. Enforced here, server-side, not only in the browser.
@@ -23,6 +26,17 @@ MAX_FILE_BYTES = 10 * 1024 * 1024  # 10 MB
 MAX_QUERY_CHARS = 2000
 
 SUPPORTED_EXTENSIONS = {".pdf", ".docx", ".txt"}
+
+# OCR for scanned tenders. Many real tenders are photocopies or scans with no
+# text layer at all, so without this they simply cannot be searched.
+#
+# Rendering at 300 DPI is the usual floor for reliable OCR of body text; below
+# roughly 200 DPI accuracy falls off sharply on the small type tenders use.
+# Pages are capped because a long scanned tender at 300 DPI is slow and the
+# specification is almost always in the first several pages.
+OCR_DPI = 300
+OCR_MAX_PAGES = 10
+OCR_MIN_CHARS = 50  # below this, OCR is treated as having failed
 
 
 class ExtractionError(Exception):
@@ -76,6 +90,20 @@ _TECHNICAL_HINT = re.compile(
     re.IGNORECASE,
 )
 
+# A numbered or bulleted line item in a schedule of requirements is describing
+# goods by definition, whatever words it happens to use.
+#
+# This matters for OCR in particular: Tesseract inserts blank lines at
+# arbitrary points, which splits a paragraph mid-sentence. A scanned tender
+# had "Item 3: Ordinary Portland Cement, 43 grade, for the civil works
+# associated with cable trenching" separated from "compressive strength of
+# 43 MPa", leaving the cement half with no technical marker. It was dropped,
+# and the cement vanished from the search while the orphan fragment survived.
+_LINE_ITEM = re.compile(
+    r"^\s*(?:item\s*\d+\s*[:.\-]|\d+\s*[:.)]\s+[A-Z]|[-•*]\s+)",
+    re.IGNORECASE,
+)
+
 
 def _clean(text: str) -> str:
     """Normalise whitespace without destroying line structure."""
@@ -83,6 +111,82 @@ def _clean(text: str) -> str:
     text = re.sub(r"[ \t]+", " ", text)
     text = re.sub(r"\n{3,}", "\n\n", text)
     return text.strip()
+
+
+# Tesseract's Windows installer does not add itself to PATH, so a server
+# started from a plain shell cannot find it. Look in the usual places before
+# giving up, and let TESSERACT_CMD override for non-standard installs.
+_TESSERACT_CANDIDATES = [
+    os.environ.get("TESSERACT_CMD"),
+    r"C:\Program Files\Tesseract-OCR\tesseract.exe",
+    r"C:\Program Files (x86)\Tesseract-OCR\tesseract.exe",
+    "/usr/bin/tesseract",
+    "/usr/local/bin/tesseract",
+]
+
+
+def _configure_tesseract() -> None:
+    """Point pytesseract at a binary it can actually run."""
+    try:
+        import pytesseract
+    except ImportError:
+        return
+
+    if shutil.which("tesseract"):
+        return  # already on PATH
+
+    for candidate in _TESSERACT_CANDIDATES:
+        if candidate and Path(candidate).exists():
+            pytesseract.pytesseract.tesseract_cmd = candidate
+            return
+
+
+def ocr_available() -> bool:
+    """Whether a usable Tesseract binary and binding are present."""
+    try:
+        import pytesseract
+
+        _configure_tesseract()
+        pytesseract.get_tesseract_version()
+        return True
+    except Exception:
+        return False
+
+
+def _ocr_pdf(document, page_count: int) -> str:
+    """Render pages to images and read them with Tesseract.
+
+    Used only when a PDF has no extractable text layer. Raises
+    ExtractionError with a message intended for the user if OCR is
+    unavailable or produces nothing usable.
+    """
+    try:
+        import pymupdf
+        import pytesseract
+        from PIL import Image
+    except ImportError as exc:
+        raise ExtractionError(
+            "This PDF is a scan with no text layer, and OCR support is not "
+            "installed on the server. Please paste the specification text instead."
+        ) from exc
+
+    if not ocr_available():
+        raise ExtractionError(
+            "This PDF is a scan with no text layer. Reading it needs Tesseract OCR, "
+            "which is not installed on the server. Please paste the specification "
+            "text instead."
+        )
+
+    zoom = OCR_DPI / 72.0  # PDF user space is 72 dpi
+    matrix = pymupdf.Matrix(zoom, zoom)
+
+    pages = []
+    for index in range(min(page_count, OCR_MAX_PAGES)):
+        pixmap = document[index].get_pixmap(matrix=matrix)
+        image = Image.frombytes("RGB", (pixmap.width, pixmap.height), pixmap.samples)
+        pages.append(pytesseract.image_to_string(image))
+
+    return _clean(chr(10).join(pages))
 
 
 def extract_pdf(data: bytes) -> ExtractedDocument:
@@ -114,21 +218,42 @@ def extract_pdf(data: bytes) -> ExtractedDocument:
 
     text = _clean("\n".join(pages))
 
+    method = "pdf-text-layer"
+
     if len(text) < 50:
-        # A scanned tender has no text layer. OCR would be the answer; we do
-        # not have it, and saying so beats returning an empty search.
-        raise ExtractionError(
-            "No readable text found in this PDF. It is most likely a scan or photo "
-            "of a document, which needs optical character recognition (OCR) — not "
-            "yet supported. Please paste the specification text instead."
+        # No text layer: the PDF is a scan. Fall back to OCR rather than
+        # refusing, because many real tenders are photocopies.
+        document = fitz.open(stream=data, filetype="pdf")
+        try:
+            text = _ocr_pdf(document, page_count)
+        finally:
+            document.close()
+
+        if len(text) < OCR_MIN_CHARS:
+            raise ExtractionError(
+                "This PDF appears to be a scan, and optical character recognition "
+                "could not read enough text from it. The scan may be too low "
+                "resolution or skewed. Please paste the specification text instead."
+            )
+
+        method = "pdf-ocr"
+        warnings.append(
+            "This PDF had no text layer, so it was read using optical character "
+            "recognition. OCR makes mistakes on poor scans — check the extracted "
+            "text below before relying on the results."
         )
+        if page_count > OCR_MAX_PAGES:
+            warnings.append(
+                f"Only the first {OCR_MAX_PAGES} of {page_count} pages were read, "
+                "because scanning every page of a long document is slow."
+            )
 
     return ExtractedDocument(
         text=text,
         query="",
         page_count=page_count,
         char_count=len(text),
-        method="pdf-text-layer",
+        method=method,
         warnings=warnings,
     )
 
@@ -241,7 +366,9 @@ def build_query(text: str) -> tuple[str, Optional[str]]:
     kept = [
         u
         for u in units
-        if len(u) > 12 and not _BOILERPLATE.search(u) and _TECHNICAL_HINT.search(u)
+        if len(u) > 12
+        and not _BOILERPLATE.search(u)
+        and (_TECHNICAL_HINT.search(u) or _LINE_ITEM.match(u))
     ]
 
     if not kept:

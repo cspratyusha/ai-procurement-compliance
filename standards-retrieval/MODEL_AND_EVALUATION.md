@@ -2,6 +2,30 @@
 
 This document provides a comprehensive technical reference for the multi-stage retrieval, ranking, and evaluation pipeline implemented in `standards-retrieval` (Part 2, Stages A–C). It details model architectures, feature engineering, hyperparameters, training methodology, cross-validation, conservative promotion gates, benchmark evaluation metrics, and scoring contracts.
 
+> ### ⚠️ Two things to know before quoting any number here
+>
+> **1. The training set includes the evaluation queries.** `build_training_data`
+> loads `train_queries` *and* `eval_set` as its training input, so a model
+> trained the normal way has seen the queries it is then scored on. On the
+> 96-standard corpus that produces **NDCG@5 = 1.0000 and P@1 = 100%**, which is
+> memorisation, not accuracy.
+>
+> Training on `train_queries` alone and evaluating on the 24 queries the model
+> never saw gives the honest figure: **NDCG@5 = 0.9382, P@1 = 87.5%**. Quote
+> that one.
+>
+> **2. Corpus size moves these numbers a lot.** Measured on the same 24 queries:
+>
+> | Corpus | Hybrid | + Cross-encoder | + LTR (retrained) |
+> |---|---|---|---|
+> | 45 standards | 0.9382 | 0.9609 | 0.9846 |
+> | 96 standards | 0.9192 | 0.9609 | 0.9382 *(uncontaminated)* |
+>
+> Serving the 45-corpus model over 96 standards — the mismatch case — drops
+> NDCG@5 to 0.6984 and Recall@5 to 0.75. Retraining recovers most of it. The
+> corpus-size effect that earlier phases could not demonstrate is now visible:
+> more standards means more near-duplicates competing for the same query.
+>
 > ### ⚠️ Read this before quoting any number in this document
 >
 > **Every metric below is measured on a 30-standard development corpus
