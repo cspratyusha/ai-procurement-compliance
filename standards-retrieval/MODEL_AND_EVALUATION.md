@@ -2,6 +2,21 @@
 
 This document provides a comprehensive technical reference for the multi-stage retrieval, ranking, and evaluation pipeline implemented in `standards-retrieval` (Part 2, Stages A–C). It details model architectures, feature engineering, hyperparameters, training methodology, cross-validation, conservative promotion gates, benchmark evaluation metrics, and scoring contracts.
 
+> ### ⚠️ Differences this small are usually noise
+>
+> With ~100 evaluation queries, the standard error on a P@1 difference is
+> about ±0.04. A gap of 2 percentage points between two pipelines is **not**
+> evidence that one is better.
+>
+> Measured at 582 standards on 102 held-out queries: hybrid P@1 0.9216,
+> cross-encoder 0.9020 — a difference of +0.0196 against a standard error of
+> 0.0397. Reading that as "the cross-encoder now hurts" was wrong. Examining
+> the 60 queries where they disagree, the cross-encoder corrects 2 and breaks
+> 1, so it is mildly positive.
+>
+> Before reporting that one stage beats another, check the difference exceeds
+> twice the standard error.  is close enough.
+>
 > ### ⚠️ Two things to know before quoting any number here
 >
 > **1. The training set includes the evaluation queries.** `build_training_data`
