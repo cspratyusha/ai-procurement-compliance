@@ -5,6 +5,684 @@ at the top.
 
 ---
 
+## Verification — semantic search and the explanation layer (2026-09-21)
+
+Not a build phase: a check of whether the two AI components actually do what
+the README says, prompted by the question "is semantic search working?".
+
+### Semantic search: yes, and here is the proof
+
+The weak test is that queries return results; a keyword index does that too.
+The real test is a query sharing **no words** with the right answer, run
+against BM25 and the dense index separately:
+
+| Query | BM25 (keyword) | Dense (semantic) |
+|---|---|---|
+| "head protection for construction workers" | Corrosion protection of steel | **IS 2925 Industrial Safety Helmets** |
+| "potable supply testing for human consumption" | Sodium dichloroisocyanurate | **IS 10500 Drinking Water** |
+
+"Helmet" appears nowhere in the first query and "drinking water" nowhere in
+the second. BM25 latched onto "protection" and "sodium/testing"; the
+embeddings found the product. The hybrid fusion is what stops either signal
+dominating, and the cross-encoder scored +8.9 on a direct cable query.
+
+### Ollama: working, and confined
+
+`qwen2.5:7b-instruct` generates one sentence per candidate. A query costs
+~200 ms without explanations and ~10.8 s with them, which is why it is off by
+default.
+
+It earns its place by disagreeing with the retrieval: asked about head
+protection it wrote "does not fit the requirement as it is about safety
+footwear, not head protection" for a PPE footwear standard that ranked second.
+An explainer that rationalises every result would be worse than none.
+
+Three guarantees, each verified at runtime rather than read from the code:
+
+- **It cannot invent a standard.** Output numbers are checked against the
+  candidate list and unrecognised ones are discarded. Confirmed in
+  `explanation.py` and logged when it fires.
+- **It degrades to nothing.** Pointed at a dead port, `explain()` returned
+  `{}` and the search results were untouched.
+- **A no-match query gets no prose.** A `confidence: none` query returned 3
+  results and 0 explanations, so a nearest-text-match never acquires a fluent
+  justification for being wrong.
+
+### A correction to an earlier claim
+
+An earlier summary said "the ML component is not running" because
+`ltr_model_loaded: false`. That was imprecise and understated the system. The
+dense encoder, BM25 and the cross-encoder re-ranker are all running; only the
+final **learned** re-ranking layer is disabled, because its labels reference
+ids from the corpus it was trained on.
+
+Its absence is visible: "ordinary portland cement 43 grade" ranks IS 8112:2018
+above IS 269:2015. The `data_warning` fires and the UI shows that IS 8112 was
+withdrawn in 2016 and has no 2018 edition, so nobody is misled -- but the
+ordering is wrong, and retraining against the served corpus is the fix.
+
+---
+
+## Phase R — Certification made live, and the corpus filters relaxed (2026-09-21)
+
+**Goal:** the certification screen, and the user's target of a 15,000-standard
+corpus.
+
+### The notice was false, not merely stale
+
+The certification screen said its rules "are not sourced from the official BIS
+compulsory-certification lists". They were. `data/certification/certification_rules.json`
+records 17 standards read from the BIS Scheme I product list and cross-checked
+against Quality Control Order notifications, 13 of them carrying a confirmed
+ISI obligation with the governing order and gazette number recorded. Every
+other screen in the app had been serving that data through
+`certification.lookup()`; only this page was still on a two-entry hardcoded
+fixture.
+
+That is the **fourth** stale notice found in three phases (BOQ, map, builder,
+now certification). The pattern is consistent enough to name: a capability
+lands, the screen that would use it is not revisited, and its honesty label
+silently becomes the dishonest thing on the page. Worth re-reading every
+notice whenever a capability ships.
+
+### Why this screen gets the most caution
+
+The failure is asymmetric in a way the others are not. Claiming a mark is
+needed when it is not wastes a supplier's time. Claiming none is needed when
+one is puts goods into a tender that cannot lawfully be supplied.
+
+So `/certification-rules` lists **only researched standards**. The obvious
+alternative -- a row per corpus standard, marked "voluntary" where no rule
+exists -- would convert an absence of research into a positive clearance for
+thousands of standards at once. Three states stay distinct throughout:
+
+| State | Meaning |
+|---|---|
+| `ISI` / `CRS` / `Hallmark` | confirmed against a named QCO, which is quoted |
+| `none` | checked, and no scheme applies |
+| `not_verified` | never checked — **not** a clearance |
+
+A test asserts every mandatory rule names its QCO: a legal obligation with
+nothing to trace it to is indefensible in a dispute.
+
+### Corpus: relaxing two filters, not lowering the bar
+
+The 6,360-standard corpus was capped by two filters, and only one of them was
+doing useful work.
+
+The **title pre-filter** discarded candidates before their text was ever
+fetched: "Male stud tee bodies made from forgings" names no sector in its
+title, but its scope clause does. Those are now fetched and classified from
+the scope clause, with title-matched candidates still fetched first since they
+have the better hit rate.
+
+The **no-scope filter** dropped roughly a third of the collection. Those
+records have a real IS number and title from the archive but no extractable
+SCOPE clause. They are now kept with `provenance: number_and_title_only` --
+findable by number and title, with no scope text invented to fill the gap.
+
+Nine sector rules were added (electronics/telecom, metals and alloys, paints
+and coatings, petroleum and lubricants, refractories and ceramics, mechanical
+fittings, paper and printing, automotive, medical and laboratory). Each was
+written after sampling what the first pass actually left unclassified rather
+than from a taxonomy -- the discards were dominated by electronics and
+metallurgy, whole BIS divisions the corpus was silently excluding.
+
+### Two tests were asserting facts about a corpus, not about behaviour
+
+Serving the full corpus broke two e2e tests, and both were the test's fault.
+
+`an out-of-scope query refuses to recommend` searched "banana fruit crates".
+That was genuinely outside the 45-standard corpus and is emphatically not
+outside the full one: **IS 15532:2004 is "Plastics Crates for Fruits and
+Vegetables"**, and returning it is the engine being right. The test now uses a
+query no standards body would ever cover.
+
+`searching the catalogue narrows it` asserted the filtered count was strictly
+smaller. On a large corpus both counts hit the list's display cap. Worse, my
+first fix asserted every visible row contained the search term -- which failed
+on IS 10079, matched via "concrete" in its scope clause, exactly as the filter
+intends. It now checks that a nonsense term empties the list and a real one
+does not.
+
+### A near-miss worth recording
+
+The trial ingest run wrote to the real `ingested_standards.json` and replaced
+6,436 records with 300. The served corpus (`standards_corpus_full.json`) was
+untouched and the full run regenerates the intermediate anyway, so nothing was
+lost -- but a trial run should not write to the artifact it is trialling.
+
+Separately: the user noticed the app showing 45 standards. That was the
+backend still running with `STANDARDS_CORPUS=canonical`, which the e2e suite
+needs for IS 456:2000. Nothing was lost, but the corpus the server happens to
+be started with is now documented in `data_loader.py`, including that `full`
+serves with the LTR ranker disabled because its labels reference other ids.
+
+### Tested
+
+- **`pytest` — 175 passed** (was 160), 15 new in
+  `tests/test_certification_rules.py`. The load-bearing ones: only researched
+  standards are listed, every mandatory rule names its QCO, and `none` never
+  collapses into `not_verified`.
+- **Playwright — 44 passed** (was 40), 22 x desktop and mobile. Two new: every
+  mandatory claim cites its statutory order and carries it into the generated
+  clause, and the screen states what it did not research.
+- `/app/certification` moved from the fixture-label assertion to the live one.
+
+### Still open
+
+- Certification covers 17 standards. At 6,360 that is 0.3%, and the screen
+  says so rather than implying more.
+- The LTR ranker is not trained for the full corpus, so serving it falls back
+  to the heuristic blend. The admin screen reports this; retraining is the fix.
+- Two fixture screens remain: simulator and settings.
+
+---
+
+## Phase Q — Seven more screens wired, and a real tender auditor (2026-09-21)
+
+**Goal:** the remaining fixture screens the user could reach from the nav —
+admin, my projects, audit, upload tender/BOQ, spec builder, tender builder and
+the standards map.
+
+### Three of the notices were already false
+
+The most useful finding came before any code. Three screens carried a
+`DemoDataNotice` claiming a capability was missing that had since been built:
+
+| Screen | Claimed | Actually |
+|---|---|---|
+| Upload tender / BOQ | "document parsing is a planned phase" | `/extract` has done PDF/DOCX/OCR since Phase F |
+| Related standards map | "normative references not yet in the dataset" | 25 relationships served since Phase G |
+| Spec builder | "clause generation is not built yet" | `buildClause()` is real and already shipped |
+
+An honesty label that has gone stale is its own kind of dishonesty — it
+understates the system and, worse, trains the reader to ignore the labels that
+are still true. Worth re-reading them whenever a capability lands.
+
+The tender builder needed nothing: it was already live and had no notice.
+
+### The BOQ page needed a backend change, not a wiring change
+
+`/extract` reduces a whole document to one query. That is right for a tender
+describing one product and wrong for a bill of quantities: searching
+"cable ... cement ... steel" as a single string lets the first item's
+vocabulary dominate, and the cement loses. Verified before building anything —
+the flattened query returned five cable standards and no cement at all.
+
+So `POST /boq` splits the document and runs a full, independent retrieval per
+item. Splitting is structural (how the document numbers its items), never
+semantic, because guessing where a product description ends is exactly the
+kind of inference that fails quietly.
+
+The result on the same document: item 1 cable standards, item 2 **cement**
+standards, item 3 structural steel. Rendering the flattened version as
+"per-item matching" would have replaced a labelled fixture with an unlabelled
+inaccuracy.
+
+A smaller bug in the same code: "in 50 kg bags. Quantity 820 bags" first
+yielded "50 kg" — the packaging, not the order. Labelled quantities now win,
+and otherwise the last match does, since in a BOQ line the trailing figure is
+the ordered amount.
+
+### The auditor answers a narrower question than it looks like
+
+`POST /audit` finds every IS number a tender cites and checks each one:
+superseded (naming the replacement), amendments in force the citation omits,
+no edition year, or outside the corpus entirely.
+
+What it does **not** do is judge whether the tender cites the right standards
+for its goods — that needs someone to read the specification. Two consequences
+are load-bearing and both are tested:
+
+- **No findings is not a pass.** A document citing nothing produces no
+  findings while being the worst case of all, so `citations_found: 0` renders
+  as a warning rather than a green tick.
+- **An unverifiable citation is our gap, not the tender's defect.** A standard
+  outside the corpus is reported as `info`, never as an error against the
+  document.
+
+The citation regex is deliberately tolerant — `IS 694:2010`, `IS:8130-2013`,
+`IS 1554 (Part 1):1988`, bare `IS 456`. A missed citation goes unchecked;
+a false positive just resolves to "not in the corpus" and says so.
+
+### Admin and projects: two different kinds of "cannot"
+
+The admin screen showed a catalogue-sync console — "22,418 standards indexed",
+four data-source feeds, "the QCO / Gazette feed is 3 days stale". None of it
+existed. A stale-feed warning about a feed that was never built is a
+particularly bad fiction, because it implies the other three are fresh. It is
+now an engine-status console: which corpus, whether the learned ranker loaded,
+real coverage ratios, and a "Not built" card naming the four things the old
+version faked.
+
+My projects listed five tenders with owners and statuses. There is no project
+storage and no accounts — but the spec basket is real and persists. The screen
+is now "My work", showing that basket, and states plainly that it lives in one
+browser and is shared with nobody.
+
+### The spec builder's certification lookup was a two-entry table
+
+It used a hardcoded `CERTIFICATION` fixture, which could only express
+"mandatory or absent". The engine distinguishes a third state — `not_verified`
+— and treating an unresearched standard as having no obligation is exactly how
+an uncertifiable product reaches a live tender. It now fetches per item and
+surfaces the unverified ones explicitly.
+
+The fetch effect originally depended on the state it wrote, re-running on every
+resolution; an in-flight ref fixed that.
+
+### Mistakes
+
+**I deleted fixtures that were still in use** — again, and in the same way as
+Phase P. `BOQ_ITEMS` and friends were dead, but my check covered only the
+symbols the rewritten pages imported. The build broke on `Projects.jsx`. The
+lesson that did not stick the first time: check every symbol being deleted,
+not the ones you expect to be affected.
+
+**I nearly "fixed" a working chart.** Bars looked missing in a `fullPage`
+screenshot; the DOM showed 11 paths at correct geometry with solid fills. Full
+page capture drops SVG content — an element-scoped screenshot was fine. Same
+trap as Phase P, and worth remembering that a screenshot is evidence about the
+screenshot, not always about the page.
+
+**A test assumed the wrong corpus.** `test_undated_citation...` used IS 456,
+which is not in the pinned test corpus, so the finding came back `unknown`
+rather than `undated`. The code was right. The test now uses a standard the
+fixture corpus actually holds, and a second test covers the other branch.
+
+### Tested
+
+- **`pytest` — 160 passed** (was 136), 24 new in `tests/test_audit.py`
+  covering citation detection across spellings, each finding kind, BOQ
+  splitting, and the "no findings is not a pass" contract.
+- **Playwright — 40 passed** (was 32), 20 x desktop and mobile. Four new, all
+  round trips through a real uploaded document: an uncited tender must not
+  read as clean, a superseded citation must name its replacement, a BOQ's
+  second item must match its own domain, and a non-BOQ must not render as an
+  empty BOQ.
+- Seven routes moved from the fixture-label assertion to the live one.
+- Demo identity changed to Arun / demo@gmail.com at the user's request.
+
+### Still open
+
+- Three fixture screens remain: simulator, settings, certification. All three
+  need something that does not exist (a what-if engine, user accounts, the
+  full compulsory-certification lists) rather than wiring.
+- The auditor checks citations, not suitability. Judging whether a tender
+  cites the *right* standards for its goods is the harder half and is not
+  attempted.
+- The spec basket is per-browser. Shared projects need accounts — the same
+  blocker as the retired department figures.
+
+---
+
+## Phase P — Alerts and compliance made real (2026-09-21)
+
+**Goal:** the two remaining screens whose fixtures were most likely to be
+believed. The alerts page invented five notifications with times like "2 hours
+ago"; the compliance page invented six-month trends and a department table
+with rates to one decimal place.
+
+### The two screens were not the same problem
+
+Alerts turned out to be mostly buildable. The corpus already marks status per
+record and the amendment research already exists, so "this edition is
+superseded, cite that one instead" is a fact the data supports — 8 findings on
+the 45-standard corpus, 3 of them naming a replacement the corpus actually
+holds.
+
+Compliance was not. Its figures needed tender auditing and user accounts, the
+same two things missing when the dashboard's gap tiles were dropped in Phase
+N. Rather than relabel it, the screen was rebuilt around the question this
+project *can* answer — not "how compliant are our tenders" but "how much of
+this corpus do we actually know anything about", which is arguably the more
+useful question for a standards body.
+
+### What replaced the notification feed
+
+`alerts.py` derives findings rather than storing them. There is no alerts
+table and nothing is "sent":
+
+```
+superseded + active sibling in corpus  -> critical, replacement named
+superseded, no sibling held            -> warning, admits it cannot name one
+amendments in force                    -> warning, paste-ready citation
+```
+
+Severity means something specific: **critical is "the fix is known"**. A test
+asserts every critical finding carries a replacement, so the badge cannot
+drift into a general-purpose alarm.
+
+The same family rule the ranking pipeline uses resolves the replacement, so
+this screen and search cannot disagree about what supersedes what.
+
+### No timestamps, deliberately
+
+The old screen's relative times were its most convincing detail and its least
+true. The corpus does not record when a revision was published, so a finding
+cannot honestly carry a time — and a test now asserts no finding has a `time`,
+`timestamp`, `when`, `age` or `unread` field, because that was the exact
+fiction worth locking out.
+
+### A short list is not an all-clear
+
+Amendments are researched for 3 standards out of 45. A screen showing 8
+findings could easily read as "8 problems, everything else is fine", when the
+truth is that 42 standards have never been checked. Every response carries a
+coverage block, rendered beside the list rather than hidden in a tooltip, and
+an e2e test asserts the "never checked" figure is on screen.
+
+### The bell badge had to move too
+
+The sidebar showed a hardcoded "3 unread" from the same fixture. A badge that
+disagrees with the screen it links to is worse than no badge, so it now fetches
+the real critical count — and shows nothing at all when the engine is
+unreachable, rather than guessing in either direction.
+
+### Two mistakes worth recording
+
+**I deleted fixtures that were still in use.** After rewriting both screens I
+checked which exports were dead, removed seven of them, and broke the build:
+`Projects.jsx` still used `RECENT_QUERIES` and `AUDITED_TENDERS`. My check had
+only covered the symbols the two rewritten pages imported, not every symbol I
+was deleting. Restored both with a note explaining why they stay — they are
+fixtures for a screen that is still honestly labelled as one.
+
+**An absence test tripped over the page explaining the absence.** The new
+compliance test asserted "Compliance rate" appears nowhere on the screen. It
+failed — on the footer sentence *"Tender compliance rates ... are not shown
+because the tender auditor and user accounts that would produce them are not
+built"*. The page was right and the test was wrong. It now asserts the
+invented figures are gone (`Electrical Wing`, `95.8`) rather than the words
+used to explain their absence.
+
+Also worth noting: the bar charts looked empty in a `fullPage` screenshot and
+I nearly "fixed" a working chart. The DOM showed 11 bar paths at correct
+geometry with solid fills — the stitching in a full-page capture drops SVG
+chart content. An element-scoped screenshot showed them rendering fine.
+
+### Tested
+
+- **`pytest` — 136 passed** (was 118), 18 new in `tests/test_alerts.py`. The
+  load-bearing ones are about restraint: a replacement is only named where the
+  corpus holds it, no finding carries a timestamp, critical always names a
+  fix, and the sector counts partition the corpus.
+- **Playwright — 32 passed** (was 26), 16 x desktop and mobile. Three new:
+  every finding names a real IS number and every critical one names its
+  replacement, the hygiene screen states what it did not check, and corpus
+  health shows counts against their totals.
+- Both routes removed from the fixture-label assertion and added to the live
+  one, in both directions.
+
+### Still open
+
+- Eight fixture screens remain. The audit screen is the significant one and
+  needs the tender auditor built first.
+- Findings are corpus-wide, not per-user. "Standards *your* tenders cite"
+  needs the spec basket joined to them, which is a smaller step than accounts.
+- Nothing watches BIS. Every finding here is about data already in the corpus,
+  so a standard revised yesterday is invisible until the corpus is rebuilt.
+
+---
+
+## Phase O — 6,360 standards served, and a test suite that could not see them (2026-09-21)
+
+**Goal:** scale the corpus to something a procurement officer could plausibly
+use, keep queries fast enough to feel instant, and make the automated tests
+measure the system that actually ships.
+
+### Corpus: 96 to 6,360 standards, 9 to 17 sectors
+
+Scraped from the `gov.in.is` collection on archive.org, 22,022 Indian
+Standards published by Public.Resource.Org. Access was checked before
+automating: `standards.bis.gov.in/robots.txt` declares `Allow: /`, excluding
+only authentication and admin paths.
+
+| Provenance | Count | Meaning |
+|---|---|---|
+| `published_text_ocr` | 6,264 | IS number, title and the **published SCOPE clause read from the document itself**, via OCR of a scan |
+| `number_and_title_referenced` | 51 | Number and title from a public reference list; scope written from the title |
+| `consolidated` | 45 | Original pilot data, unverified throughout |
+
+Every record still carries `verified: false`. The numbers and titles are real
+and the scope text is the real published clause, but the source is a public
+archive, not BIS directly. That distinction is kept in the data rather than
+smoothed over.
+
+Sector counts, read from the live corpus rather than estimated: textiles 963,
+cement and building materials 693, structural steel 693, machinery 556,
+measurement and test methods 554, chemicals 515, food and agriculture 509,
+electrical cables 405, electrical installations 347, rubber and leather 259,
+steel pipes 223, timber 195, plastic pipes 146, packaging 133, geotechnical
+81, protective equipment 51, water and sanitation 37.
+
+### Latency: 1.9 s to 231 ms
+
+At 6,360 standards a query took about 1.9 seconds, which is past the point
+where a search box feels responsive. Profiling with the models already loaded
+(the first attempt timed a cold model load inside the measured block and
+reported a meaningless 8.5 s) showed the cost was entirely in re-ranking:
+dense search 240 ms, BM25 12 ms, and the cross-encoder scoring 20 candidates
+about 1.6 s.
+
+Capping the cross-encoder at the top 10 candidates brought a query to **231 ms
+median** with no measurable accuracy cost. The candidate pool that feeds it
+still scales with corpus size; only the expensive final stage is bounded.
+
+### The suite passed while testing the wrong thing
+
+Running the suite with `STANDARDS_CORPUS=full` — the same variable used to
+serve the app — produced **16 failures**. None was a product bug. Two
+different problems were hiding behind them.
+
+**Nothing pinned the corpus.** The tests read whatever `STANDARDS_CORPUS`
+happened to be set to, so the same command passed or failed depending on the
+shell it ran in. A suite whose meaning changes with an ambient variable is
+not a regression net. `tests/conftest.py` now unsets it at conftest import
+time — deliberately not in a fixture, because `test_api.py` does
+`from main import app` at module level and `main` resolves its corpus on
+import, so a fixture runs too late.
+
+**Unit tests borrowed production data as fixtures.** The supersession tests
+assert on pilot ids (`IS-ELEC-005`) that do not exist in the full corpus, yet
+the rule they test takes its corpus as an argument and is corpus-independent.
+They now build the four records they need, so they state their own
+preconditions and survive any future corpus change.
+
+After both fixes the suite passes identically with and without the variable
+set.
+
+### The accuracy claim was never tested
+
+Recall@5 of 0.9958 appeared in the README and in `MODEL_AND_EVALUATION.md` as
+a one-off measurement. Nothing would have caught it regressing.
+
+`tests/test_full_corpus_accuracy.py` now runs the 236 held-out queries against
+the served corpus and asserts floors below the measured values — floors to
+catch a regression, not to freeze a number that moves slightly on every
+corpus rebuild. It skips cleanly when the scraped corpus is absent, so a
+fresh clone is still green.
+
+Measured by that test across all 236 queries:
+
+| Metric | Value |
+|---|---|
+| Recall@5 | **0.9958** (one miss in 236) |
+| P@1 | 0.8559 |
+
+The single miss is a petroleum test-method query. P@1 reads 0.8559 here
+against the 0.8771 recorded earlier because the LTR model is not promoted and
+this path serves the cross-encoder ranking.
+
+Two further tests guard the behaviour the product is sold on, at full corpus
+size: an out-of-scope query must return `confidence: none`, and an in-scope
+query must still return `strong`. With 6,360 standards there is always some
+text that looks vaguely close, so the gate is the thing most likely to erode
+quietly.
+
+### Tested
+
+- **`pytest tests/` — 118 passed**, both with and without `STANDARDS_CORPUS`
+  set in the environment. Previously 97 passed by default and 16 failed under
+  the full corpus.
+- **Retrieval smoke-checked on the served corpus**: cable, cement, structural
+  steel and galvanized pipe queries all return the correct standard as the
+  top hit at 164-452 ms. "laptop computer for office use" returns
+  `confidence: none`.
+- **"safety helmet for construction workers"** now returns IS 2925:1984, the
+  industrial safety helmet standard. In an earlier phase this query returned
+  a cable standard.
+
+### Left open
+
+- **The learned ranker is still not promoted.** Trained without the
+  evaluation leak it scores below the cross-encoder baseline, and the
+  promotion gate rejects it. Serving falls back. This is the gate working, but
+  it means the LTR stage contributes nothing today.
+- **Curated data did not scale with the corpus.** Certification (17
+  standards), amendments (3) and relationships (16) were researched when the
+  corpus was 45 records. At 6,360 that is under 0.3%. Every unchecked record
+  reports `not_verified`, which is honest, but the certification feature is
+  effectively demonstration-scale.
+- **One eval query fails at scale**: a use-case narrative with no product
+  terms ("The PWD wants to build a new road and needs to run power lines
+  underneath it") no longer surfaces the XLPE cable standard. The engine
+  correctly reports `confidence: none` rather than guessing, and the same
+  standard is found immediately when the query names the product. Worth
+  revisiting if use-case phrasing matters to users.
+- **51 records have scope written from the title** rather than read from the
+  published document.
+
+---
+
+## Phase N — The dashboard made real (2026-09-21)
+
+**Goal:** remove the last "Illustrative screen" label from a screen that did
+not need one. The dashboard was the most visible fixture left — a headline
+"1,248 queries this month" that looked exactly like a live figure.
+
+### What was missing was not a chart; it was a log
+
+The feedback loop already existed: `POST /feedback` writes interaction
+records, `/logs` reads them, and the LTR retraining pipeline consumes them.
+Two things were absent. The engine never recorded that a search *happened* —
+only what an official did with the results afterwards — and nothing in the
+frontend ever called `/feedback`, so the 124 records in the log were entirely
+synthetic seed data.
+
+So the work was two append-only logs and one aggregation, not a redesign:
+
+```
+/retrieve  ->  data/query_logs.jsonl       (every search served)
+/feedback  ->  data/interaction_logs.jsonl (every decision recorded)
+               -> /stats -> the dashboard
+```
+
+`feedback/query_log.py` mirrors `feedback/logger.py` deliberately — same JSONL
+discipline, same corrupt-line tolerance — so both read the same way. Logging
+is wrapped so it can never raise into a request: a search must not fail
+because its own bookkeeping did, and there is a test asserting exactly that.
+
+### Three tiles were deleted rather than rebuilt
+
+"Gaps identified", "Outdated citations flagged" and the per-department
+compliance table have no data source: they need the tender auditor and user
+accounts, neither of which exists. Reproducing them behind a label would have
+kept the problem; they are gone, and the screen footer says why. Four tiles
+that *can* be counted took their place — searches served, match rate, no-match
+queries, median response time.
+
+The no-match count is the one worth keeping. It is the engine's own "this
+query is outside my coverage" verdict, aggregated — a direct measure of the
+gap between what officials ask for and what the corpus holds.
+
+### Distinctions the screen has to preserve
+
+Three states look similar and mean completely different things:
+
+| State | Shown as |
+|---|---|
+| Engine unreachable | An error. **Not** "no queries yet" |
+| Engine up, log empty | "No searches recorded yet", explicitly |
+| Rate not yet calculable | An em dash. **Not** 0% |
+
+The last one matters most. An acceptance rate of 0% asserts that decisions
+were recorded and none were accepts; `—` says no decisions exist. The old
+dashboard could not have expressed the difference because it had nothing to
+express it about.
+
+### Feedback capture needed no new UI
+
+Adding a standard to the spec basket is already an acceptance; dismissing one
+with a reason is already a rejection. Both now post to `/feedback`, so the
+acceptance rate is real and the ranker trains on live decisions instead of
+only synthetic ones. `AddButton` gained an `onAdd` callback that fires on add
+but not on remove — an add-then-remove is someone changing their mind, not two
+decisions.
+
+The call is fire-and-forget by construction: `sendFeedback` never throws and
+its result is ignored, because the basket change has already happened on
+screen and a failed log must not undo it.
+
+### The test suite was writing itself into the usage log
+
+Verifying the new endpoint, `/stats` reported **411 queries**. Every one was
+pytest: the suite calls `/retrieve` several hundred times, and each call now
+logged itself. The feature worked exactly as designed and produced a
+four-figure fiction on a dashboard nobody had used — the precise failure the
+phase existed to remove.
+
+Fixed with an autouse session fixture in `tests/conftest.py` that redirects
+the log to a temp file, alongside the corpus pin already there. The polluted
+records were deleted, and the clean run was re-verified: 117 tests, zero
+records written to the real log.
+
+### One sector, counted twice
+
+`/stats` reported `electrical_cables` and `Electrical Cables & Wires` as
+separate sectors. The two shipped corpora spell categories differently, so a
+log written across a corpus switch holds both. Counting them raw shows one
+sector twice and understates each, so the keys are normalised in the
+aggregation — where the sums happen — rather than patched over in the UI.
+
+### A stale server, again
+
+The backend would not start: port 8000 was held by a uvicorn process from
+earlier in the day, which answered `/health` happily and 404'd on `/stats`.
+Phase E hit the same trap and PROGRESS.md recorded it. The note worked —
+checking the port owner was the first move this time, not the last.
+
+Separately, the allied-cluster e2e test failed until the backend was restarted
+with `STANDARDS_CORPUS=canonical`. IS 456:2000 is not in the default corpus.
+The test was right; the way it was being run was not.
+
+### Tested
+
+- **`pytest` — 117 passed** (was 92), 18 of them new in `tests/test_stats.py`.
+  The load-bearing ones assert what is *not* counted: synthetic records
+  excluded from live figures, an unparseable timestamp not taking out the
+  aggregation, a median that a 45-second cold start cannot distort, and
+  logging that never raises.
+- **Playwright — 26 passed** (was 22), 13 x desktop and mobile. Two are new
+  and both are round trips a fixture screen could not pass: the query count
+  must *rise* after a search is actually served, and the retired figures must
+  not reappear.
+- Feedback capture verified through the browser: adding and dismissing moved
+  the acceptance rate from `—` to 50%.
+
+### Still open
+
+- Ten fixture screens remain. The next ones need backend work first, not
+  wiring: the audit screen needs the tender auditor, alerts need a revision
+  feed.
+- Feedback is anonymous. Per-officer or per-department figures need accounts,
+  which is also what the retired compliance table was waiting on.
+- `/stats` re-reads both logs on every request. Fine at this size; it will
+  need a windowed count long before the logs reach a million lines.
+
+---
+
 ## Phase M — Corpus doubled, OCR, and a contaminated metric found (2026-09-21)
 
 **Goal:** the two biggest quality levers — more standards, and reading the

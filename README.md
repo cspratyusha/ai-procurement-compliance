@@ -35,6 +35,73 @@ sensible results. Queries outside them (textiles, machinery, chemicals, food,
 and the overwhelming majority of the catalogue) have no correct answer
 available.
 
+## Usage figures
+
+The dashboard at `/app` reports counted usage, not a mock-up. Every figure is
+read from two append-only logs the engine writes itself:
+
+| File | Written when | Feeds |
+|---|---|---|
+| `data/query_logs.jsonl` | every search `/retrieve` serves | volume, match rate, response time, sector spread |
+| `data/interaction_logs.jsonl` | a standard is added to a spec or dismissed | acceptance rate, and the LTR retraining loop |
+
+Three rules keep the screen honest, and each is covered by a test:
+
+- **Synthetic records are never counted as usage.** 124 interaction records
+  were generated to bootstrap the ranker. They are real records of a real
+  pipeline run, but nobody used the system to produce them, so they are
+  excluded from every live figure and reported separately.
+- **A figure that cannot be computed is not shown.** An acceptance rate with
+  no decisions behind it renders as an em dash, never as 0% — those are
+  different statements. The fixture dashboard's "gaps identified" and
+  per-department compliance rates were removed outright rather than
+  reproduced, because the tender auditor and user accounts that would produce
+  them are not built.
+- **An unreachable engine is not an empty one.** A backend that is down shows
+  an error, not "no queries yet".
+
+A fresh clone starts with no query log and the dashboard says so, which is the
+correct answer for an engine nobody has searched.
+
+### Auditing a tender, and reading a BOQ
+
+Two screens take a document rather than a query:
+
+- **Audit** (`/app/audit`) reads a tender, finds every IS number it cites, and
+  checks each against the corpus — superseded editions (naming the
+  replacement), amendments in force the citation omits, citations with no
+  edition year, and standards the corpus cannot verify at all.
+- **Upload tender / BOQ** (`/app/boq`) splits a bill of quantities into its
+  line items and runs a **separate search for each**. This matters more than
+  it sounds: flattening a BOQ into one query lets the first item's vocabulary
+  dominate the ranking, so the cement silently loses to the cable.
+
+The audit's limit is the important part. It checks the citations a document
+**already makes** — not whether the tender cites the right standards for the
+goods it describes, which needs someone to read the specification. So a
+document with no findings has not passed, and a document citing nothing at all
+produces no findings while being the worst case. Both states say so.
+
+### Standards hygiene and corpus health
+
+Two more screens read from the engine rather than from fixtures:
+
+- **Standards hygiene** (`/app/alerts`) lists superseded editions and
+  standards with published amendments in force, computed from the corpus.
+  Where the corpus holds the active replacement it is named; where it does
+  not, the finding says so instead of guessing.
+- **Corpus health** (`/app/compliance`) counts how complete the corpus's own
+  metadata is — certification confirmed vs. unverified, amendments
+  researched — always as a ratio against the total, because 13 confirmed
+  records means nothing without the 45 it is out of.
+
+Neither is a notification feed. **Nothing monitors BIS for newly published
+revisions**, so no finding carries a timestamp: the corpus cannot say when a
+revision was published, and a relative time on a fact read from a static file
+would be an invention. A short list is not an all-clear either — amendments
+are researched for 3 standards out of 45, and the screen states the unchecked
+remainder rather than implying a clean bill of health.
+
 ## Plain-language explanations (optional)
 
 With a local [Ollama](https://ollama.com) server running and
@@ -144,7 +211,7 @@ override.
 |---|---|
 | [`standards-retrieval/`](standards-retrieval/) | **The backend.** Retrieval, ranking, LTR training, evaluation, feedback loop. Single source of truth |
 | [`data/`](data/) | Datasets and the consolidation script — see [`data/README.md`](data/README.md) |
-| [`frontend/`](frontend/) | React + Vite UI. Search, catalogue and detail screens run against the backend; the rest are labelled as illustrative |
+| [`frontend/`](frontend/) | React + Vite UI. Most screens run against the backend; the three that cannot be (simulator, settings, certification) are labelled as illustrative |
 | [`services/knowledge-reasoning/`](services/knowledge-reasoning/) | Graph expansion & compliance validation (fixture-backed; see its `INTEGRATION.md`) |
 | [`app/`](app/) | Postgres/Neo4j/Chroma ingestion layer — the upgrade path from flat files. Reuses `standards-retrieval/` rather than vendoring it |
 | [`api/`](api/) | Earlier standalone API prototype |
@@ -228,14 +295,28 @@ To point at a backend on a different host or port, copy `.env.example` to
 | `/app/query` — search and results | **Live.** `POST /retrieve` |
 | `/app/catalogue` — standards catalogue | **Live.** `GET /standards` |
 | `/app/standard/:code` — standard detail | **Live.** `GET /standards/{id}` |
+| `/app` — usage dashboard | **Live.** `GET /stats` |
+| `/app/alerts` — standards hygiene | **Live.** `GET /alerts` |
+| `/app/compliance` — corpus health | **Live.** `GET /corpus-health` |
+| `/app/admin` — engine status | **Live.** `/health`, `/stats`, `/corpus-health` |
+| `/app/audit` — tender citation audit | **Live.** `POST /audit` |
+| `/app/boq` — tender / BOQ upload | **Live.** `POST /boq` |
+| `/app/map` — related standards map | **Live.** `GET /standards/{id}/related` |
+| `/app/tender` — tender builder | **Live.** `POST /retrieve` |
+| `/app/builder` — spec builder | **Live.** Local spec basket + `GET /standards/{id}` |
+| `/app/projects` — my work | **Live.** Local spec basket + `GET /stats` |
 | Landing page | Static copy; the hero panel is an illustration |
-| The other 12 screens | Fixture data, each labelled "Illustrative screen — not live data" in the UI |
+| `/app/certification` — certification & compliance | **Live.** `GET /certification-rules` |
+| `/app/simulator`, `/app/settings` | Fixture data, each labelled "Illustrative screen — not live data" in the UI |
 
-The twelve fixture screens show an intended workflow rather than computed
-results, and say so on the page. Wiring them needs backend work that does not
-exist yet — certification requires the official compulsory-certification
-lists, the standards map requires relationship data, the dashboard requires
-persisted query history. Progress is tracked in [`PROGRESS.md`](PROGRESS.md).
+Two screens still show an intended workflow rather than computed results, and
+say so on the page: the simulator needs a what-if engine, and settings needs
+user accounts. Progress is tracked in [`PROGRESS.md`](PROGRESS.md).
+
+Two screens are live but **local**: the spec builder and my-work screens read
+the spec basket, which persists to browser storage rather than to a server.
+They say so on the page — there are no accounts, so nothing there is shared or
+synced.
 
 ### Tests
 
@@ -275,6 +356,14 @@ git checkout -- standards-retrieval/models/ltr_model.txt
 | Queries in 6 languages, translated locally | Live |
 | Tender document upload (PDF/DOCX/TXT) | Live |
 | Tender builder with live recommendations and clause generation | Live |
+| Usage dashboard counted from the engine's own logs | Live |
+| Standards-hygiene findings (superseded editions, amendments in force) | Live |
+| Corpus health: certification and amendment coverage | Live |
+| Tender citation audit (superseded, amendments, undated, uncovered) | Live |
+| Bill-of-quantities split with a search per line item | Live |
+| Related-standards map from the referred-standards annexes | Live |
+| Engine status console | Live |
+| Certification rules with their governing QCO and gazette notification | Live, 17 standards researched |
 | Plain-language explanations from a local LLM | Optional, off by default |
 
 Everything runs locally. There are no API keys and no cloud services.
@@ -282,10 +371,10 @@ Everything runs locally. There are no API keys and no cloud services.
 ## Testing
 
 ```bash
-# Backend — 92 tests
+# Backend — 175 tests
 PYTHONPATH=standards-retrieval .venv/Scripts/python -m pytest standards-retrieval/tests -q
 
-# End-to-end — 22 tests, needs both servers running
+# End-to-end — 44 tests, needs both servers running
 cd frontend && npm run test:e2e
 ```
 
@@ -293,7 +382,12 @@ The end-to-end suite runs against a live backend rather than mocks, because
 the failures worth catching are integration failures. Two of its tests exist
 specifically to stop the honesty guarantees regressing: an out-of-scope query
 must render zero recommendation cards, and screens showing sample data must
-carry the "Illustrative screen" label while live ones must not.
+carry the "Illustrative screen" label while live ones must not. Four more
+cover the screens rebuilt since: the dashboard's query count must rise after a
+search is actually served, every standards-hygiene finding must name a real IS
+number (and a critical one must name its replacement), the hygiene screen must
+state what it did not check, and the retired fixture figures must not
+reappear.
 
 **Fresh-clone verified.** The project was cloned to a clean directory and both
 suites run from it without any additional setup beyond the install steps
