@@ -1,0 +1,920 @@
+IS 13707 ( Part 1 ) : 1993 lSO/lEc 9066-w 989 ( Reaffirmed 2003 )
+
+Indian Standard
+RELIABLE TRANSFER IN TEXT COMMUNICATION FOR INFORMATION PROCESSING SYSTEMS
+PART 1 MODEL AND SERVICE DEFINITION
+
+UDC
+
+681-327-01
+
+@ BIS 1993
+
+BUREAU
+MANAK
+
+OF
+BHAVAN, 9
+
+INDIAN
+BAHADUR DELHI NEW
+
+STANDARDS
+SHAH 110002 ZAFAR MARG
+
+June 1993
+
+Price Gmp 7
+
+Computer
+
+Systems and Interconnection
+
+Sectional
+
+Committee,
+
+LTD 36
+
+NATIONAL
+
+FOREWORD
+
+This Indian Standard which is identical with ISO/IEC 9066-l : 1989 `Information processing systems - Text communication - Reliable transfer - Part 1 : Model and service definition', issued by the Interna?ional Organization for Standardization ( ISO ) was adopted by thz Bureau of Indian Standards on the recommendation of the Computer Systems and Interconnection Sectional Committee ( LTD 36 ) and approval of the Electronics and Telecommunication Division Council. In the adopted standard certain terminology and conventions are however not identical used in Indian Standards. Attention is particularly drawn to the following: Wherever the words `International read as `Indian Standard'. In this Indian Standard. the following respective place the following: International Standard Information processing IS0 7498 : 1984 systems - Open systems interconnection Basic reference model Information processing IS0 8649 : 1988 systems - Open systems interconnection Service definition for the association control service element processing Information IS0 8650 : 1988 systems - Open systems interconnection Protocol specification for the association control service element In format ion processing ISO 8822 : 1988 systems -Open systems interconnection Connection oriented presentation service definition ISO/IEC 9066-2 : 1989 Information processcommunication systems - Text Protocol r&able transfer - Part 2 : specification Standard' appear referring to this standard, Standards are referred to. to those
+
+they should be Read in their
+
+International
+
+Indian Standard IS 12373 ( Part 1 ) : 1987 Basic reference model of open systems interconnection for information processing systems : Part 1 ( ZdenticuZ ) IS 13615 : 1992 Service definition for the association control service element in open systems interconnection for information processing systems ( Identical ) IS 13706 : 1993 Protocol specification for the association control service element in open systems interconnection for information processing systems ( Identical ) Dot LTD 36 ( 1636 ) Connection oriented presentation service'definition in open systems interconnection for information processing systems ( Under formulation ) ( Identical ) IS 13707 ( Part 2 ) : 1993 Reliable transfer in text communication for information processing Protocol specification systems : Part 2 : ( ZdeMcal ) the use
+
+The technical committee responsible for the preparation of this standard has reviewed provisions of the following IS0 Standards and has decided that they are acceptable for in conjunction with this standard:
+
+ISO/TR 8509 : 1987 Information processing systems - Open systems interconnection Service conventions IS0 8824 : 1987 Information processing systems - Open systems interconnection - Specification of abstract syntax notation one ( ASN. 1 ) IS0 8825 : 1987 Information processing systems - Open systems interconnection cation of basic encoding rules for abstract syntax notation one ( ASN. 1 ) Only the English language text in the International this standard. Specifi-
+
+Standard has been retained while adopting it in
+
+IS 13707 (Part 1) : 1993 IS0 / IEC 9066-j : 1989
+
+Indian Standard
+
+RELIABLE TRANSFER IN TEXT COMMUNICi4TION FOR TNFORMATION PROCESSING SYSTEMS
+PART 1 MODEL AND SERVICE DEFlNlTlON
+
+1
+
+Scope
+
+This part of ISO/IEC 9066 defines the services provided by the Reliable Transfer Service Element (RTSE). The RTSE services are provided by the use of the RTSE protocol (ISO/IEC 9066-21 in conjunction with the Association Control Service Element (ACSE) services US0 86493 and the ACSE protocol (IS0 86501, and the presentation-service US0 88221. No requirement is made for conformance part of ISO/IEC 9066. to this
+
+processing Information IS0 8822: 1988, - Open Systems Interconnection systems Connection oriented presentation service definition.
+
+-
+
+IS0 8824: 1987, Information processing systems Open .Systems Interconnection - Specification of Abstract Syntax Notation One (ASN.1). IS0 8825: 1987, Information processing systems Open Systems interconnection - Specification of basic encoding rules for Abstract Syntax Notation One (ASN.1 J. ISOAEC 9066-2: 1989, Information processing systems - Text communication -Reliable Transfer - Part 2: Protocol specification.
+
+2
+
+Normative
+
+references
+
+The following standards contain provisions which, through reference in this text, constitute provisions of this part of ISO/IEC 9066. At the time of publication, the editions were valid. All Standards are subject to revision, and parties .to agreement based on this part of ISO/IEC 9066 are encouraged to investigate the possibility of applying the most recent editions of the standards listed below. Members of IS0 and IEC maintain Registers of currently valid International Standards. IS0 7498: 1984, lnformation Open Systems interconnection Model. processing - Basic systems Reference
+
+3
+3.1
+
+Definitions
+Reference model definitions
+
+This part of ISO/IEC 9066 is based on the concepts developed in IS0 7498 and makes use of the following terms defined in it: a) b) c) d) Application Layer;
+
+application-process; application-entity; application-service-element; application-protocol-data-unit; application-protocol-control-information; Presentation Layer;
+
+e) t-J fit) h) i) 9 k) 1) ml n)
+
+ISO/TR 8509: 1987, Information processing systems - Open Systems Interconnection -. Service conventions. IS0 8649: 1988, Information processing systems Open Systems Interconnection - Service definition for the Association Control Service Element. IS0 8650: 1988, Information processing systems - Open Systems Interconnection - Protocol specification for the Association Control Service Element.
+
+presentation-service; presentation-connection; session-service; session-connection; transfer syntax; two-way-alternate user-element. interaction; and
+
+1
+
+IS 13707 ( Part 1 ) : 1993 ISO / IEC-9066-l : 1969
+
+3.2
+
+Service
+
+conventions definitions
+
+This part of ISO/IEC 9066 makes use of the following terms defined in ISOA'R 8509:
+a)
+
+3.5.2 association-responding-applicationentity; association-responder: The applicationentity that responds to the initiation of an application-association by another AE. 3.5.3 sending-application-entity; sender: The application-entity that sends, or may send, (i.e. possesses the Turn) the APDl-J to the receiving application-entity. 3.5.4 receiving-application-entity; receiver: The application-entity that receives, or may receive, (i.e. does not possess the Turn) the APDU from the sending application-entity. 3.5.5 requestor: The part of an applicationentity that issues a request primitive, or receives a confirm primitive for a particular RTSE service. 3.5.6 acceptor: The part of an applicationentity that receives the indication pcimitive, or issues a response primitive .. .. for a particular RTSE service. /;. ;*3.5-.7 Reliable Transfer Service Element: "The application-service-element defined in this part of ISO/IEC 9066. 3.5.8 Reliable Transfer: An applicationindependent mechanism to provide for the transfer of application-protocol-data-units between open systems, and to recover from communication and end-system failure minimizing the amount of retransmission. 3.5.9 RTSE-user: The user of the Reliable Transfer Service Element. The user may be the user element, or another application service element, of the application entity. 3.5.10 RTSE-provider: The provider Reliable Transfer Service Element. of the
+
+service-provider; service-user; confirmed service; service; service; primitive;
+
+b) c) d) e) n t3) h) i) j) 3.3
+
+non-confirmed
+
+provider-initiated service-primitive; request (primitive); indication
+
+(primitive); and
+
+response (primitive); confirm (primitive). Presentation service
+
+definitions use of the
+
+This part of iSO/IEC 9066 makes following terms defined'in IS0 8822: a) b) cl d) e) 3.4 abstract syntax; abstract syntax name; default context; presentat.ioncontext; transfer syntax name. Association control definitions
+
+This part of ISO/IEC 9066 makes following terms defined in IS0 8649: a) b) cl d) 3.5 application-association; application Association X.410-1984 Reliable context;
+
+use of the
+
+association;
+
+Control Service Element; mode. definitions
+
+Transfer
+
+For the purpose of this part of ISO/IEC 9066 the following definitions apply:
+
+3.5.11 ACSE-provider: The provider Association Control Service Element.
+
+of the
+
+3.5.1 association-initiating-applicatlonentity; association-initiator: The applicationentity that initiates the application-association.
+
+3.5.12 monologue interaction: A mode of interaction where only one application-entity may be the sender.
+
+IS 13707 (Part 1) : 1993 IS0 / IEC 9066-l : 1969
+
+syntax-matching-services: Local services provided by the presentation-service provider enabling the transformation from the local representation of an application-protocoldata-unit value into a representation specified by a negotiated transfer syntax and vice versa. 3.5.14 X.410-1984 mode: A restricted mode of operation of the Reliable Transfer Service Element to allow interworking with applicationentities based on CCITT Recommendation X.410 1984.
+3.5.15 normal mode: A mode of operation of the Reliable Transfer Service Element providing full services.
+
+3.5.13
+
+RTSE
+
+Reliable Transfer Service Element
+
+5
+
+Conventions
+
+This part of ISO/IEC 9066 defines services for the RTSE following the descriptive conventions defined in ISOA'R 8509. In clause 9, the definition of each RTSE service includes a table that lists the parameters of its primitives. For a given primitive, the presence of each parameter is described by one of the following values. blank not applicable mandatory user option C T A conditional presence is an RTSE-provider presence subject to conditions IS0 8649. presence subject to conditions IS0 8822. option defined defined in in
+
+M
+
+4
+AE ACSE APDU ASE OS1
+
+Abbreviations
+application-entity Association Element Control Service
+
+P
+
+application-protocol-data-unit application-service-element Open Systems Interconnection Reliable Transfer
+
+In addition, the notation (=) indicates parameter value is semantically equal value to its left in the table.
+
+that a to the
+
+RT (or RTS)
+
+. .^,
+
+3
+
+IS 13707 (Part 1) : 1993 ISOj IEC 9066-l : 1969
+
+b
+
+Reliable Transfer Model
+
+In the OS1 environment, communication .between application-processes is represented in terms of communication between a pair of applicationentities (AEs) using the presentation-service. Communication between some applicationentities requires the Reliable Transfer of application-protocol-data-units (APDUsl. APDUs sent by one AE (the sender1 are received by the other AE (the receiver). Reliable Transfer ensures that each APDU is completely transferred between AEs exactly once, or that the sending AE is warned of an exception. Reliable Transfer recovers from communication and end-system failure and minimizes the amount of retransmission needed for recovery. The APDUs transferred are transparent. to the Reliable , Transfer. Reliable Transfer is carried out within the context of an. application-association. An applicat.ion-association defines the relationship between a pair of AEs, and is formed by the exchange of application-protocol-controlinformation through the use of presentationservices. The AE that initiates an applicationassociation is called the association-initiating AE, or the association-initiator, while the AE that the initiation of an responds to appi? ition-association by another AE is called the association-responding AE, or the associationresponder. Only the association-initiator may release an established application-association. The functionality of an AE is factored into one user-element and a set of application-serviceelements CASES). Each ASE may itself be factored
+
+into a set of (more primitive) ASEs. The interaction between AEs is described in terms of their use of ASEs. The specific combination of a user-element and the set of ASEs which comprise an AE are defined by the application context. Figure 1 illustrates an example of an application context involving the Reliable Transfer Service Element (RTSE). The ASEs available to the user-element require communication over an application-association. The control of that application-association (establishment, release, abort.1 and the Reliable Transfer of APDUs over the applicationassociation is performed by the Reliable Transfer Service Element (RTSE) defined in this. part of ISO/lEC 9066. The RTSE uses the Association Control Service Element (ACSE) defined in IS0 8649 for control of that application-association (establishment, release, abort). Note that the application context depicted in figure 1 is minimal for an application context involving RTSE. Another example, taken from message handling (ISO/IEC 10021-61, of an application context involving RTSE, could be that of a message transfer agent (MTAl, and would include the message transfer service element (MTSE) in addition to the ACSE and the RTSE. Note also that, in general, it is the responsibility of a International Standard defining a set of ASEs that make use of the RTSE (and the AC%), to define what use is made of the RTSE and any restrictions that may apply.
+
+'
+
+4
+
+application-entity user-element Application Protocol over application-association
+
+application-entity user-element
+
+Application Layer
+
+application-service-elements
+
+I
+
+application-service-elements
+
+F/
+
+F[
+
+Figure
+
+1 - Model of an application
+
+context
+
+involving
+
+Reliable
+
+Transfer
+
+IS 13707 ( Part 1) : 1993 `IS0 / tEC 9066-i : 1969
+
+7
+
+Overview of service
+
+partially received APDU prior to issuing the RTP-ABORT indication. The RT-U-ABORT service enables an`RTSE-user to abort the application-association. The Reliable Transfer is provided in two modes of operation: a) X.410-1984 mode: is provided solely to interworking allow with older implementations based on CCITT Recommendation X.410-1984. This mode implies some restriction in the use of RTSE services; normal mode: is provided use of RTSE services. to allow. full
+
+This part 1 of ISO/IEC 9066 defines the following services for Reliable Transfer: a) b) c) d) e) fl g) RT-OPEN RTCLOSE RT-TRANSFER RT-TURN-PLEASE RT-TURN-GIVE RT-P-ABORT RT-U-ABORT
+
+The RT-OPEN service enables an RTSE-user to request the establishment of an applicationassociation with another AE. The RT-CLOSE service enables the associationinitiating RTSE-user to request the release of an established application-association. It may do so only if it possesses the Turn. The RT-TRANSFER service enables an RTSEuser that possesses the Turn, to request the Reliable Transfer of an APDU over an application-association. It may do so only on an established application-association and when there is no outstanding RT-TRANSFER confirm primitive. The RT-TURN-PLEASE service enables an RTSE-user to request the Turn. It may do so only if it does not already possess the Turn. The Turn is requested by either RTSE-user to allow the RTSEuser to transfer APDUs. The Turn is requested by the association-initiating RTSE-user to allow it to release the application-association. The request conveys the priority of the action to be taken so that the other RTSE-user can decide when to acbually relinquish the Turn. The RT-TURN-GIVE service enables an RTSEuser to relinquish the Turn to its peer. It may do so only if it possesses the Turn. The RT-P-ABORT service provides an indication to the RTSE-user that the application-association cannot be maintained (e.g., because recovery not possible, etc.). If it is the sender, the RTSEprovider first issues a negative RT-TRANSFER confirm for the APDU not yet transferred. If it is the receiver, the RTSE-provider deletes the
+
+bl
+
+8
+
+Relationship with other ASEs and lower layer services
+Other application-service-elements
+
+8.1
+
+The RTSE is intended to be used with other ASEs in order to support specific information processing tasks that require the Reliable Transfer of application-protocol-data-units. Therefore, it is expected that the RTSE will be included in a number of application context specifications. The collection of the RTSE and other ASEs (in particular ACSE) included in an application context are required to use the facilities of the presentation-service in a coordinated manner among themselves. The RTSE requires the control of an applicationassociation by the ACSE. For application contexts that involve RTSE, the RTSE-provider is the user of the A-P-ABORT service; the A-P-ABORT service is not used directly by the user-element nor by any other ASE. In the event of the RTSEprovider receiving an A-P-ABORT indication from the ACSE-provider, the RTSE-provider will attempt to recover the presentation-connection by issuing an A-ASSOCIATE request. If the presentation-connection cannot be recovered, the RTSE-provider will issue an RT-P-ABORT indication to the RTSE-user. The A-ABORT service provided by the ACSE is used by the RTSE-provider. An RTSE-user protocol specification defines .the types of user-data parameter values of the RTSE services forming one or more abstract syntaxes
+
+6
+
+IS 13707 ( Part 1) : 1993 -: IS0 /IEC 9066-l : 1989
+
+and provides an unique abstract syntax name of type object identifier for each abstract syntax.. The User-data parameter values (if any) for the RT-OPEN and'RT-U-ABORT services shall share one single named abstract syntax with the RTSE APDUs defined in ISO/IEC 9066-2. The types for user-data parameter values (if any) of the RTOPEN request / confirm, RT-OPEN response / confirm positive, RT-OPEN response / confirm negative and RT-U-ABORT request / indication primitives shall be any single ASN.l type each. If no types for User-data parameter values are defined, the abstract syntax name rTSE-abstractsyntax defined in ISO/IEC 9066-2 identifies an abstract syntax formed by the RTSE APDUs. The types of user-data parameter values for the RT-CLOSE services (if any) and the RTJ TRANSFER service may form one or more named abstract syntaxes. Within a single-named abstract syntax the type shall be a single ASN.l type usually (but not necessarily) a choice type. These types may share a single abstract syntax with the RTSE APD.Us, if and only if they use tags distinct from context-specific tags with the numbers 1161, [171,[181 and I221 and distinct from. the ASN.l integer type and octetstring type. These conditions are ensured, if the RTSE-user protocol uses the RO-notation of ISO/IEC 9072- 1. In X.410-1984 mode there exists only a single abstract syntax, however this abstract syntax is not identified by an abstract syntax name but by the value of the Application-protocol parameter value of the RT-OPEN service. 8.2 ACSE Services
+
+6.3
+
+Presentation-service
+
+The RTSE services require access to the PACTIVITY-START, P-DATA, P-MINORSYNCHRONIZE, P-ACTIVITY-END, PACTIVITY-INTERRUPT, P-ACTIVITYDISCARD, P-U-EXCEPTION-REPORT, PACTIVITY-RESUME, P-P-EXCEPTIONREPORT, P-TOKEN-PLEASE and P-CONTROLGIVE services. This part of ISO/IEC 9066 recognizes that the ACSE services require access to the P-CONNECT, P-RELEASE, P-U-ABORT and P-P-ABORT services. The inclusion of the RTSE in an application context precludes the use of any of the above, or of any other, presentation-services by `any other ASE or the user-element. The RT protocol machine makes use of syntaxmatching-services in the local system environment for its operation. These services are used to transform the representation of APDUs transferred between ASEs which use the RTSE. The syntax-matching-services provide for the transformation from a local representation of an `APDU into a representation specified by a transfer syntax determined by the presentationservice and vice versa. The method used to access this transfer syntax information is a local matter outside the scope of this part of ISO/IEC 9066. The X.410-1984 mode of RTSE implies the X.4101984 mode of the presentation-service. A named abstract compatible transfer Presentation Layer) context. syntax associated with a syntax (negotiated by the constitutes a presentation
+
+The RTSE services require access to the AASSOCIATE, A-RELEASE, A-ABORT, and A-PABORT services. The inclusion of the RTSE in an application context precludes the use of any of the above ACSE services by an.y other ASE or the user-element. The X.410-1984 mode of RTSE implies the X.4101984 mode of ACSE.
+
+The object identifier value fioint-ire-ccitt awl(l) basicspecified in IS0 8825 may be used as a transfer syntax name. In this case the RTSE-user protocol specification need not name and specify a transfer syntax.
+encoding(l)}
+
+In X.410-1984 mode the default presentation context is constituted by the single abstract syntax identified by the Application-protocol parameter value of the RT-OPEN service associated with basic ASN. 1 encoding rules of IS0 8825.r
+
+IS 13707 ( Part.1 ) : 1993 lSQ/lEC909&1: 1999
+
+9
+
+Service definition
+
+S.i.1
+
+Parameters of RT-OPEN
+
+The RTSE servicesare listed in table 1.
+
+Table 2 lists the RT-OPEN service parameters. 91.1.1 Di8logue-mode
+
+TableI-RTREservices
+
+The type -
+
+ofuseofthe
+
+applkatiim-association:
+
+Service
+RT-OPEN RT-CLOSE RT-TRANSFER RT<TURN-PLEASE RT-TURN-GIVE `RT-P-ABORT RT-U-ABORT
+
+I
+
+monologue,or twuway-altemate
+
+Type
+conf??med
+confirmed confirmed
+Non-confirmed Non-confirmed Provider$itiated . Non-confirmed
+
+-
+
+interaction_ 9.1.1.2 InMaI-turn
+
+The RTSE-user that is to have the turn initially: 9.1.1.3 association-initiator, or association-responder. Application~protucol
+
+Identification of the named abstract syntax in use is assumed for all RTSE services, however this is a local matter and outside the scope of this part of ISO/IEC ,9066. 9.1 RT-OPEN Service
+
+Designates the application protocol that will govern communication over the applkationassociation. This parameter is only present in X.410-1984 mode. In normal mode the parameter .Application Context Name-is used 9.1.1.4 User-data the
+
+The RT-OPEN service is used by the associationinitiator to request the establishment of. an application-association for the ASE procedures identifie'd by the Application Context Name parameter (in normal model, or by t.he application-protocol parameter (in X.410-1984 mode). This service is a confirmed service. The related service structure consists of four service-primitives, as illustrated in figure 2.
+
+Use& data associated with -establishing application-association.
+
+RTSE-user
+
+RTSEprovider
+
+RTSE-user
+
+if the X.410-1984 mode is selected, and the result parameter of the RT-OPEN response primitive has the value "rejected (permanent)", this parameter in the.RT-OPEN response primitive is restricted the values:
+
+to
+
+-
+
+au~thentication-failure,and unacceptable-dialogue-mode. .: 1
+
+RT-OPENrequest *b RT-OPEN indication
+
+RT-OPEN RT-OPEN confirm t 4 response
+
+If the X.410-1984 mode is selected, and the result parameter of the RT-OPEN response primitive has the value "rejected (transient)", this parameter in the RT-OPEN response primitive is absent. In the normal mode the use of this parameter .is not restricted.
+
+Figure 2 - RT-OPEN
+
+service-primitives
+
+8
+
+IS 13707 (Part 1) : 1993
+
+IS0 / IEC 9066-l : 1989
+
+Table 2 - RT-OPEN parameters
+
+Parameter
+
+name
+
+Req M M U U A A A .A A A A A A A
+
+Ind M(=l MC=1 CC=) CC=) A A A A A A A A A A
+
+Resp
+
+Conf
+
+Dialogue-mode Initial-turn Application-protocol User-data Mode Application Context Name Calling AP Title Calling AP Invocation-identifier Calling AE Qualifier Calling AE Invocation-identifier Called AP Title Called AP Invocation-identifier Called AE Qualifier Called AE Invocation-identifier Responding AP Title Responding AP Invocation-identifier Responding AE Qualifier Responding AE Invocation-identifier Result Result Source Diagnostic Calling Presentation Address Called Presentation Address Responding Presentation Address Presentation Context Definiti%n List Presentation Context Definition Result List Default Presentation Context Name Default Presentation Context Result
+NOTES 1 2 3 4 Ifthis parameter has the value "X.410-1984 in X.410-1984 mode. mode.
+
+4) 21 3) 31 3) 31 31 31 31 3) 31 31 31 31 31
+
+u A
+
+ct=1 A
+
+A A A A A A P P P P P
+
+A A *A A A A A
+
+P P P
+
+31 31 31 31
+
+P P
+
+P P P P
+mode applies.
+
+P P
+
+mode" the X.410-1984 mode (see following
+
+Restricted Parameter Parameter
+
+use ofparameters absent
+
+clauses).
+
+in X.410-1984
+
+only present
+
+in K.410-1984
+
+8.1.1.5
+
+Mode
+
+9.1.1.6
+
+Other p,arameters with an "A" in Table 2 are
+
+This parameter specifies the mode in which the RTSE services will operate for this association. It takes one of the following symbolic values: normal mode; or X.410-1984 mode.
+
+Parameters marked defined in IS0 $649. Parameters marked defined in IS0 8822.
+
+with an "P" in Table
+
+2 are
+
+9
+
+IS 13707 (Part 1) : 1993 IS0 / IEC 9066-l : 1969
+
+9.2
+
+RT-CLOSE service
+
+9.3
+
+RT-TRANSFER
+
+service
+
+The RT-CLOSE service is used by the associationinitiator to request the release of an application-association. It may do so only if it possesses the Turn and there is no outstanding RT-TRANSFER confirm primitive. This service is a confirmed service. The release of the application-association is without loss of information in transit. This service can not be rejected by the association-responding RTSE-user. The related service structure consists of four service-primitives, as illustrated in figure 3.
+
+The RT-TRANSFER service enables an RTSEuser that possesses the Turn, to request the Reliable Transfer of an APDU over an application-association. It may do so only on an established application-association and when there is no outstanding RT-TRANSFER confirm primitive. This service is a confirmed service. The related service structure consists of three service-primitives, as illustrated in figure 4.
+
+RTSE-user
+
+RTSEprovider
+
+RTSE-user
+
+RTSE-user
+
+RTSEprovider
+
+RTSE-user
+
+RT-TRANSFER request * RT-TRANSFER indication
+
+RT-CLOSE request `_I) RT-CLOSE indication RT-TRANSFER confirm
+
+RT-CLOSE RT-CLOSE confirm 4 response Figure I
+
+- RT-TRASSFER
+
+service-primitives
+
+Figure 3
+
+- RT-CLOSE service-primitives
+
+9.2.1
+
+Parameters of RT-CLOSE
+
+The RT-TRAMFER confirm primitive signifies that the APDU has been secured by the receiving RTSE-provider (positive confirm), or fhat the requested transfer of `an APDU .could not .be completed within the specified transfer time (negative confirm).
+9.3.1
+
+Table 3 lists the RT-CLOSE service parameters. These parameters are only present in the normal mode and are defined in IS0 8649. In the X.4101984 mode the RT-CLOSE service has no parameters.
+
+RT-TRANSFER
+
+parameters
+
+Table 4 lists. the parameters.
+
+RT-TRANSFER
+
+service
+
+Table 3
+
+- RT-CLOSE parameters
+
+Parameter
+
+ntime
+
+Reg
+
+Ind
+
+Resp
+
+Conf
+
+Reason User-data
+
+A A
+
+A A
+
+A A
+
+A A
+
+10
+
+IS13707(Part1):1993 IS0 / IEC 9066-l : 1989
+
+Table 4 - RT-TRANSFER
+
+parameters
+
+conveys the priority of the action to be taken so that the other RTSE-user can decide when to actually reliqquish the Turn. This service is an non-confirmed service. The related service structure service-primitives, as illustrated
+RTSEprovider
+
+RTSE-user
+
+9.3.1.1
+
+APDU
+
+RT-TURNPLEASE request I Figure 5 - RT-TURN-PLEASE NW
+
+.This parameter contains the RTSE-user APDU value to be transferred. This parameter has to be supplied by the requestor of the RT-TRANSFER service and, in the case of a negative confirm, by the service-provider. 9.3.1.2 Transfer-time
+
+44
+
+service-primitives
+
+This parameter defines the time period within which the RTSE-provider shall successfully transfer the APDU to the other RTSE-user. This parameter has to be supplied by the requestor of the RT-TRANSFER service. 9.3.1.3 Result specifies the result of the transfer
+
+L
+RT-TURNPLEASE indication
+
+consists of two in figure 5.
+
+RTSE-user
+
+9.4.1
+
+,RT-TURN-PLEASE
+
+Parameters service
+
+Table 5 lists parameters.
+
+the RT-TURN-PLEASE
+
+This parameter as follows:
+
+Table 5 - RT-TURN-PLEASE
+
+parameters
+
+APDU-transferred: positive confirm; the APDU has been transferred to, and secured by the receiving RTSE-provider; APDU-not-transferred: negative confirm; the APDU could not be transferred within the specified transfer time. 9.4.1-r
+KOTE in certain.unusual circumstances a negative confirm may be reported even though the APDU has been transferred to, and secured by, the receiving RTSE-provider.
+
+Parameter Priority
+
+name
+
+I Req I I
+I
+
+Ind CC=)
+
+u
+
+1
+I
+
+Priority
+
+This paranieter provider. 9.4
+
+has to be supplied
+
+by the RTSE-
+
+RT-TURN-PLEASE
+
+service
+
+The RT-TURN-PLEASE service enables an RTSE-user to request the Turn. It may do so only if it does not already possess the Turn. The Turn is requested by either RTSE-user to allow the RTSEuser to transfer APDUs. The Turn is requested by the association-initiating RTSE-user to allow it to release the application-association. The request
+
+This parameter defines the priority of the action, governed by the Turn, that the requestor of the RT-TURK-PLEASE service wishes to carry out. A priority is assigned to each RTSE-user action. Priority zero is the highest priority and is reserved for the action of releasing an application-association. The actions of transferring various APDUs will be assigned other priorities. The range of valid priorities is a property of the application context in u4e. This parameter has to be supplied by the requestor of the RT-TURN-PLEASE service. If the Priority parameter assumed. is absent, priority zero is
+
+I.
+
+.. 11
+
+IS 13707 ( Part 1) : 1993 IS0 / IEC 9066-l : 1969
+
+9.5
+
+RT-TURN-GIVE
+
+service
+
+The RT-TURN-GIVE service enables an RTSE`user to relinquish the Turn to its peer. It may do so only if it possesses the Turn and there is no outstanding RT-TRANSFER confirm primitive. This service is an non-confirmed service. The related service structure service-primitives, as illustrated consists of two in figure 6.
+
+RTSE-user
+
+RTSEprovider
+
+RTSE-user
+
+RT-P-ABORT indication
+
+RT-P-ABORT indication
+
+Figure 7 RTSE-user RT-TURNRT-TURNGIVE indication RTSE-user
+
+- RT-P-ABORT
+
+service-primitives
+
+9.6.1
+
+RT-P-ABORT
+
+parameters
+
+The RT-P-ABORT 9.7
+
+service has no parameters. service
+
+RT-U-ABORT
+
+The RT-U-ABORT service enables an RTSE-user to abort the application-association. The abort may be requested by either RTSE-user. This service is an non-confirmed service.
+NOTE this service is not supported in X.410-1984 mode.
+
+Figure
+
+6 - RT-TURN-GIVE
+
+service-primitives
+
+The related service structure service-primitives, as illustrated
+
+consi.sts of two in figure 8.
+
+9.5.1
+
+RT-TURN-GIVE
+
+parameters
+
+RTSE-user
+
+RTSEprovider
+
+The RT-TURX-GIVE 9.6 RT-P-ABORT
+
+service has no parameters.
+RT-U-ABORT
+
+service
+
+request w
+
+The RT-P-ABORT service provides an indication the RTSE-users that to. both the application-association cannot be maintained (e.g., because recovery not possible, etc.). If it is the sender, the RTSE-provider first issues a negative RT-TRANSFER confirm primitive for the APDU not yet transferred. If it is the receiver, the RTSE-provider deletes any partially received APDUs prior to issuing the RT-P-ABORT indication. This service is a provider,initiated service. The related service structure service-primitives, as illustrated consists of. two in figure 7.
+
+Figure
+
+6
+
+- RT-U-ABORT
+
+service-primitives
+
+1..
+RTSE-user RT-U-ABORT indication
+
+Q-7.1
+
+RT-U-ABORT the
+
+parameters RT-U-ABORT service
+
+Table 6 lists parameters.
+
+Table 6
+
+- RT-C-ABORT
+
+parameters
+
+IParameter
+1User-data
+
+name
+
+1 Req 1
+
+Id
+
+1
+
+1 u 1 C<=)l
+
+12
+
+IS13707(Part1);1993 IS0 /IEC 9066-t : 1989
+
+9.7.1.1
+
+User-data
+
+10.2.3
+
+Disrupted services
+service does not disrupt any
+
+User data associated with aborting the application-association. This parameter has to be supplied by the requestor of the RT-U-ABORT service.
+
+The RT-CLOSE service. 10.2.4
+
+Disrupting
+
+services
+
+10
+
+Sequencing
+
+information
+the interaction among the
+
+The RT-CLOSE service is disrupted by the RT-PABORT service and the RT-U-ABORT service. 10.2.5 Collisions
+
+This clause defines RTSE services.
+
+10.1 RT-OPEN 10.1.1 Type of service
+service is a confirmed service.
+
+Because only the association-initiator uses this service, there is no collision of the RT-CLOSE service. 10.3 10.3.1 used on an RT-TRANSFER service
+
+The RT-OPEN 10.1.2
+
+Usage restrictions
+
+Type of service service is a confirmed
+
+The RT-OPEN service is not established application-association. 10.1.3 Disrupted services does not
+
+The RT-TRANSFER service. 10.3.2
+
+Usage restriction
+
+The RT-OPEN service. 10.1.4
+
+service
+
+disrupt
+
+any
+
+Disrupting
+
+services
+
+The RT-TRANSFER service is only used on an established application-association, and if the RTSE-user possesses the Turn, and if there is no outstanding RT-TRANSFER confirm primitive. 10.3.3 Disrupted services service does not disrupt any
+
+The RT-OPEN service is disrupted by the RT-PABORT service and the RT-U-ABORT service. 10.1.5 Collisions
+
+The RT-TRANSFER services. 10.3.4 Disrupting
+
+An RT-OPEN collision results when requestors in both AEs simultaneously issue an RT-OPEN request primitive for each other. In this case two independent application-associations are established. 10.2 10.2.1 RT-CLOSE Type of service service is a confirmed service.
+
+services
+
+The RT-TRANSFER service is disrupted by the RT-P-ABORT service and the RT-U-ABORT service, in the sense .that a negative RTTRANSFER, confirm primitive and no RTTRANSFER indication primitive may occur. 10.3.5 Collision services.
+
+The RT-CLOSE 10.2.2
+
+There is no collision of RT-TRANSFER 10.4 10.4.1 RT-TURN-PLEASE Type of service service service
+
+Usage restrictions
+
+The RT-CLOSE service is used only on an established application-association by the association-initiator. It is only used when the association-initiator possesses the Turn, and when there is no outstanding RT-TRANSFER confirm primitive.
+
+The RT-TURN-PLEASE confirmed service.
+
+is an
+
+non-
+
+i3
+
+IS 13707 ( Part 1) : 1993 IS0 / EC 9066-l : 1969
+
+10.4.2
+
+Usage restriction
+
+The RT-TURN-PLEASE service is only used on an established application-association, and if the RTSE-user does not already possess the Turn. 10.4.3 Disrupted services service does not disrupt
+
+The RT-P-ABORT service. 10.6.2
+
+service
+
+is a provider
+
+initiated
+
+Usage restriction
+
+Not applicable. The RT-TURN-PLEASE any services. 10.4.4 Disrupting 10.6.3 Disrupted services
+
+The RT-P-ABORT services. services 10.6.4
+
+service disrupts all other RTSE
+
+The RT-TURN-PLEASE service is disrupted by the RT-P-ABORT service and the RT-U-ABORT service. 10.4.5 Collision , of RT-TURN-PLEASE
+
+Disrupting
+
+services
+
+, by any
+
+The RT-P-ABORT other service. 10.6.5 Collision
+
+service is not disrupted
+
+There is no collision services. 10.5 10.5-l RT-TURN-GIVE
+
+service
+
+Type of service service is an non-confirmed
+
+If the RT-P-ABORT service causes an abort of an application-association, it is a local matter to inform the service-user about the outstanding negative RT-TRANSFER confirm primitive for an APDU not transferred. 10.7 10.7.1 RT-U-ABORT service
+
+The RT;TURN-GIVE service. 10.5.2
+
+Type of Service service is an non-confirmed
+
+Usage restriction
+
+The RT-TURN-GIVE service is only used on an established application-association, and if the RTSE-user possesses the Turn, and if there is no outstanding RT-TRANSFER confirm primitive. 10.5.3 Dimupted services service does not disrupt any
+
+The RT-U-ABORT service 10.7.2
+
+Usage restriction used on an
+
+The RT-U-ABORT service is only established application-association. 10.7.3 Disrupted services
+
+The RT-TURN-GIVE services. 10.54
+
+The RTlU-ABORT service disrupts all other RTSE services, except the RT-P-ABORT service. 10.7.4 Disrupting services is disrupted by the
+
+Disrupting services The RT-U-ABORT service RT-P-ABORT service. 10.7.5 services. Collision
+
+The RT-TURN-GIVE service is disrupted by the RT-P-ABORT. service and the RT-U-ABORT service. 10.5.5 Collision
+
+There is no collision of RT-TURN-GIVE 10.6 10.6.1 RT-P-ABORT service
+
+Type of servide
+
+If the RT-U-ABORT segvice cause an abort of an apptication-association, it is a local matter to inform the service-user about the outstanding negative RT-TRANSFER confirm primitive for an APDU not transferred.
+
+14
+Printed at Dee Kay Prints. New Delhi. India
+
+Standard Mark by the provisions of the Bureau of Indian made thereunder. The Standard Mark on products covered by an Indian Standard conveys the assurance that they have been produced to comply with the requirements of that standard under a well defined system of inspection, testing and quality control which is devised and supervised by BIS and operated by the producer. Standard marked products are also continuously cheked by Details of conditions under BIS for conformity to that standard as a further safeguard. which a licence for the use of the Standard Mark may be granted to manufacturers or producers may be obtained from the Bureau of Indian Standards.
+Standards Act, 1986 and the Rules and Regulations
+
+The use of the Standard
+
+Mark is governed
+
+Bureau of Indian Standards BIS is a statutory institution established under the Bureau of Indian Sran&r& Act, 2986 to promote harmonious development of the activities of standardization, marking and quality certification of goods and attenting to connected matters in the country. Copyright No part of these publications may be BIS has copyright of all its publications. in any form without the prior permission in writing of BIS. This does not preclgde in the course of implementing the standard, of necessary details, such as symbo& and sizes, type Enquiries relating to copyright be addressed to the Director or grade designations. ( Publications ), BIS. Revision of Indian Standards are issued to standards as the need arises on the basis of comments. Standards periodicalIy; a standard along with amendments is reaffirmed when such review indicates that no changes are needed; if the review indicates that changes are needed, it is taken up for revision. Users of Indian Standards should ascertain that they are in possession of the latest amendments or edition by referring to the latest issue of `BIS Handbook' and `Standards may be sent BIS giving the following Monthly Additions'. Comments on this Indian Standard reference:
+are also reviewed
+
+Amendments
+
+Dot : No.
+
+LTD 36 ( 1560 ) Aendments Issued Since Publication
+
+Amend No.
+
+Date of Issue
+
+Text Affected
+
+BUREAU OF INDIAN Headquarters: Manak Bhavan, Telephones
+
+STANDARDS
+
+9 Bahadur Shah Zafar Marg, New Delhi 11002 331 13 75 Telegrams : Manaksanstha ( Common to all Offices ) Telephone 9 Bahadur Shah Zafar Marg 11002 Maniktola 3310131 1 331 13 75 l-37 84 99, I 31 86 26, i-53 38 43, (,53 23 84 f235 02 16, 1235 15 19, f632 92 95, `~632 78 9 1, 37 85 61 37 86 62 53 16 40 235 04 42 235 23 15 632 78 51 632 78 92
+
+: 331 01 31,
+
+Regional Central
+
+Offices :
+: Manak Bhavan,
+
+NEW DELHI
+
+Eastern : l/14 C. I. T. Sch_eme VII M, V. I. P. Road, CALCUTTA 700054 Northern Southern Western Branches : SC0 445-446, Sector 35-C, CHANDIGARH
+
+160036
+
+: C. I. T. Campus, IV Cross Road, MADRAS 600113
+: Manakalaya,
+
+E9 MIDC, Marol, Andheri ( East ) BOMBAY 400093
+: AHMADABAD.
+
+BANGALORE. BHOPAL. BHUBANESHWAR. COIMBATORE FARIDABAD. GHAZIABAD. GUWAHATI. HYDERABAD. JAIPUR. KANPUR. LUCKNOW. PATNA. THIRUVANANTHAPURAM.
+Printed at Printwell Printers, Aligarh. India
+
+

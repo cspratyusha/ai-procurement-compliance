@@ -1,0 +1,73 @@
+AMENDMENT NO. 1 SEPTEMBER 2018 
+TO 
+IS 16464 (PART 4) : 2015/ISO/IEC 19784-4 : 2011 INFORMATION TECHNOLOGY — 
+BIOMETRIC APPLICATION PROGRAMMING INTERFACE 
+
+
+PART 4 BIOMETRIC SENSOR FUNCTION PROVIDER INTERFACE 
+
+
+This amendment is identical with corrigendum! (2013) to ISO/IEC 19784-4 : 2011 issued by International 
+Organization for Standardization (ISO) and International Electrotechnical Commission (IEC). 
+
+
+TECHNICAL CORRIGENDUM 1 
+
+
+RECTIFICATIF TECHNIQUE 1 
+
+
+Technical Corrigendum 1 to ISO/IEC 19784-4:2011 was prepared by Joint Technical Committee ISO/IEC 
+JTC 1, Information technology, Subcommittee SC 37, Biometrics. 
+
+
+1. Add in 6.2.1 after BioSFPI_BSFPLoad: 
+
+
+— BioSFPI_BSFPUnload (called to tell the BFP to free all internal resources before termination) 
+
+
+2. Insert after 8.2.1: 
+
+
+8.2.2 BioSFPI_BSFPUnload 
+
+
+BioAPI_ RETURN BioAPI BioSFPI_BSFPUnload 
+(const BioAPI_UUID *BSFPUuid, 
+BioSFPI EventHandler BioSFPINotifyCallback) ; 
+
+
+Amendment No. 1 to IS 16464 (Part 4) : 2015/ISO/IEC 19784-4 : 2011 
+
+
+Description 
+This function disables events and de-registers the BSP event-notification function. The BSFP shall perform 
+cleanup operations, reversing the initialisation performed in BioSFPI_BSFPLoad. 
+
+
+Parameters 
+BSFPUuid (input) — The UUID of the invoked BSFP. 
+
+
+BioSFPINotifyCallback (input) — A function pointer for the event handler that manages events of type 
+BioAPI_EVENT. 
+
+
+Return Value 
+
+
+A BioAPILRETURN value indicating success or specifying a particular error condition. The value 
+BioAPI_OK indicates success. All other values represent an error condition. 
+
+
+Errors 
+BioAPIERR INVALID UUID 
+
+
+(LITD 17) 
+
+
+Publication Unit, BIS, New Delhi, India 
+
+

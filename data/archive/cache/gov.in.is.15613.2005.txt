@@ -1,0 +1,1305 @@
+4S 15613:2005 IEC 61713 (2000)
+
+Indian Standard SOFTWARE DEPENDABILITY THROUGH SOFTWARE LIFE-CYCLE PROCESSES APPLICATION GUIDE THE --
+
+ICS 03.120.01:31.020.30
+
+.".
+
+(!3 BIS 2005
+
+BUREAU
+MANAK
+
+OF
+9 NEW
+
+INDIAN
+BAI+ADUR DELHI
+
+STANDARDS
+SHAH ZAFAR MARG 110002
+
+BHAVAN,
+
+October
+
+2005
+
+Price Group 11
+
+Reliability of Electronic and Electrical Components and Equipments Sectional Committee, LTD 03
+
+NATIONAL FOREWORD This Indian Standard which is identical with IEC 61713 ( 2000 ) `Software dependability through the software life-cycle processes -- Application guide' issued by the International Electrotechnical Commission ( IEC ) was adopted by the Bureau of Indian Standards on the recommendations of the Reliability of Electronic and Electrical Components and Equipments Sectional Committee and approval of the Electronics and Information Technology Division Council. The text of the IEC Standard has been approved as suitable for publication as an Indian Standard without deviations. Certain conventions are, however, not identical to those used in the Indian Standards. Attention is particularly drawn to the following: a) Wherever the words `International read as `Indian Standard'. Standard' appear referring to this standard, they should be
+
+b)
+
+Comma ( , ) has been used as a decimal marker while in Indian Standards, the current practice is 10 use a point ( . ) as the decimal marker.
+
+In this adopted standard, reference appears to certain International Standards for which Indian Standards also exist. The corresponding Indian Standards which are to be substituted in their places are given below along with their degree of equivalence for the editions indicated: International Standard Corresponding Indian Standard Degree of Equivalence Technically equivalent -. ,
+
+IEC 60050( 191 ) ( 1990) International Electrotechnical Vocabulary ( IEV ) � Chapter 191: Dependability and quality of service ISO 8402:1994 Quality management and quality assurance -- Vocabulary
+
+IS 1885 ( Part 39 ) :1999 Electrotechnical vocabulary: Part 39 Reliability of electronic and electrical items ( second revision) 1994 1S/1S0 8402 : management and assurance -- Vocabulary Quality quality
+
+Identical
+
+Only the English language text in the International Standard has been retained while adopting it in this Indian Standard, and as such the page numbers given here are not the same as in IEC Publication. The Technical Committee responsible for the preparation of this standard has reviewed the provisions of the following International Standards and has decided that they are acceptable for use in conjunction with this standard: International IEC 60300-2( Standard 1995) Title Dependability management -- Part 2: Dependability programme elements and tasks Dependability management -- Part 3: Application guide -- Section 6: Software aspects of dependability Formal design review Information technology -- Software life cycle processes
+
+IEC 60300-3-6(
+
+1997)
+
+IEC61160 lSO/iEC.12207
+
+/ndian Standard
+
+IS 15613:2005 IEC6171 3 (2000)
+
+SOFTWARE DEPENDABILITY THROUGH SOFTWARE LIFE-CYCLE PROCESSES APPLICATION GUIDE 1
+Scope
+This International activities that have cycle activities are intended to be used
+
+THE --
+
+Standard provides guidance on those aspects of software life-cycle a bearing on the achievement of dependable software, The software lifedefined in the context of software life-cycle processes. This guide is to support IEC 60300-3-6.
+
+The software life-cycle activities identified can be part of a dependability programme for a system or in relation to a product containing software. The activities identified will help achieve software that is reliable and maintainable and help ensure that appropriate maintenance support will be provided. The activities can be applicable throughout the entire software life cycle or be limited to a subset of the software life-cycle processes depending upon the users of the software. The relationship between the users of the software and the software life-cycle processes is shown in annex B. They are grouped according to the various individual software life-cycle processes that represent the overall software life-cycle as defined in lSO/l EC 12207. Emphasis is placed on the dependability software life-cycle processes. requirements and activities applicable in the primary
+
+This guide can be used by acquirers, suppliers, developers, operatori or maintainers of software. In addition to software and dependability specialists, this guide is intended for use by project managers, quality practitioners and other project participants who develop or use systems or products containing software.
+
+2
+
+Normative
+
+references
+
+The following normative documents contain provisions which,. through reference in this text, constitute provisions of this International Standard. For dated references, subsequent amendments to, or revisions of, any of these publications do not apply. However, parties to agreements based -on this International Standard are encouraged to investigate the possibility of applying the most recent editions of the normative documents indicated below, For undated references, the latest edition of the normative document referred to `applies. Members of IEC and ISO maintain registers of currently valid International Standards. IEC 60050(191), /nternationa/ and quality of service lEC 60300-2:1995, and tasks E/ectrotechnical Vocabulary (IEV) - Chapter 191: Dependability
+
+Dependability
+
+management
+
+- Part 2: Dependability
+
+programme
+
+elements
+
+IEC 60300-3-6:1997, Dependability Software aspects of dependability IEC 61160, lSO/lEC ISO 8402, Forma/ design review technology
+
+management
+
+-
+
+Part
+
+3: Application
+
+guide
+
+-
+
+Section
+
+6:
+
+12207,
+
+/formation
+
+- Software
+
+life cycle processes - Vocabulary
+
+Qua/ity
+
+management
+
+and quality assurance
+
+IS 15613:2005 EC 61713 (2000)
+
+3
+
+Definitions
+of IEC 60050(191),
+
+Forthepurpose of this International Standard, theterms and definitions lSO/iEC 12207 and ISO 8402 apply together with the following.
+
+3.1 dependability collective term used to describe the availability performance and its influencin-g factors: -reliability performance, maintainability performance and maintenance support performance. [IEV 191-02-03]
+NOTE Software dependability software maintenance support. will be described in terms of software reliability, software maintainability and
+
+3.2 dependability function term used to describe an individual aspect of the software dependability requirement specification, The dependability function can describe reliability, maintainability or maintenance support-related dependability requirements 3.3 maintenance -release product release which enhanced functionality
+
+is carried
+
+out for corrective
+
+maintenance
+
+rather
+
+than
+
+to
+
+provide
+
+3.4 software reliability probability that no fault in any software element of a system will be activated interval in the operation of the system under given conditions 3.5 software maintainab-ility ease with which a detected fault in a software element
+
+in a given time .. .
+
+of a system can be corrected
+
+3.6 software maintenance support ability of an organization, under given conditions, to provide upon demand the resources required to maintain a software element of a system, under a given maintenance policy
+NOTE The given conditions and maintained. [IEV 191-02-08, modified] are related to the software element itself and to the conditions under which it is used
+
+To assist understanding of this standard, the following definitions of terms used in lSO/lEC are repeated here.
+
+12207
+
+3.7 acquirer organization supplier
+NOTE
+
+that acquires
+
+or procures a system,
+
+software
+
+product or software
+
+service
+
+from a
+
+The acquirer
+
+could be one of the following:
+
+buyer, customer,
+
+owner, user, purchaser.
+
+3.0 acquisition process of obtaining a system, software
+
+product or software
+
+service
+
+IS 15613:2005 IEC 61713 (2000)
+
+3.9 agreement definition of terms and conditions
+
+under which a working relationship
+
+will be conducted
+
+3.10 audit conducted by an authorized person for the purpose of providing an independent assessment of software products and processes in order to assess compliance with requirements 3.11 baseline formally approved version of a configuration item, regardless of media, and fixed at a specific time during the configuration item's life cycle 3.12 configuration item entity within a -configuration identified at a given reference
+
+formally
+
+designated
+
+that satisfies point
+
+an end-use
+
+function
+
+and that can be uniquely
+
+3.13 contract binding agreement between two parties, especially enforceable by law, or a similar internal agreement wholly within an organization, for the supply of software service or for the supply, development, production, operation, or maintenance of a software product 3.14 developer organization that performs testing through acceptance) 3.15 evaluation systematic
+
+development activities (including requirements during the software life-cycle process
+
+analysis,
+
+design,
+
+determination
+
+of the extent to which an entity meets its specified
+
+criteria
+
+3.16 firmware combination of a hardware device and computer instructions or computer data that reside as read-only software on the hardware device. The software cannot be readily modified under program control 3.17 life-cycle model framework containing the processes, activities, and tasks involved in the development, operation, and maintenance of a software product, spanning the life of the system from the definition of its requirements to the termination of its use 3.18 maintainer organization 3.19 =monitorin-g examination third party
+
+that performs maintenance
+
+activities
+
+of the status of the activities
+
+of a supplier and of their results by the acquirer or a
+
+3
+
+IS 15613:2005 IEC 61713 (2000)
+
+3.20 non-deliverable item hardware or software product that is not required to be delivered be employed in the development of a software product 3.21 off-the-shelf product product that is already developed 3.22 operator organization
+
+under the contract
+
+but may
+
+and available,
+
+usable either "as is" or with modification
+
+that operates
+
+the system
+
+3.23 process set of timely ordered and interrelated
+NOTE
+
+activities,
+
+which transform
+
+inputs into outputs
+
+The term "activities" covers use of resources.
+
+3.24 qualification process of demonstrating
+
+whether an entity is capable of fulfilling specified
+
+requirements
+
+3.25 qualification requirement set of criteria or conditions that have to be met in order to qualify a software complying with its specifications and being ready for use in its target environment
+
+product
+
+as
+
+3.26 .. qualification testing testing, conducted by the developer and witnessed by the acquirer (as appropriate), to demonstrate that a software product meets its specifications and is ready for use in its target environment 3.27 quality assurance all the planned and systematic `activities implemented within the quality system, and demonstrated as needed, to provide adequate confidence that an entity will fulfil requirements for quality
+NOTE 1 There are both internal and external a) b) NOTE 2 internal quality management; assurance: purposes for quality assurance: an organization, situations, quality quality assurance assuiance provides provides confidence to within
+
+external quality assurance: customer or others.
+
+in contractual
+
+-confidence
+
+to the
+
+Some quality control and quality assurance Unless requirements confidence.
+
+actions are interrelated. may not provide
+
+NOTE 3 adequate
+
+for quality fully reflect the needs of the user, quality assurance
+
+3.28 release particular version of a configuration example, test release)
+
+item that is made available
+
+for a specific
+
+purpose
+
+(for
+
+4
+
+IS 15613:2005 IEC 61713 (2000)
+
+3.29 request for proposal tender document used by the acquirer as the means to announce its intention acquire a specified -system, software product or software service
+
+to potential
+
+bidders to
+
+3.30 retirement withdrawal of active support by the operation and maintenance organization, replacement by a new system, or installation of an upgraded system
+
+partial or total
+
+3.31 security protection ot information and data so that unauthorized persons or systems cannot modify them and authorized persons or systems are not denied access to them 3.32 software product set of computer programs, procedures, 3.33 software service performance of activities, development, maintenance 3.34
+
+read or
+
+and possibly associated
+
+documentation
+
+and data
+
+work, or duties and operation
+
+connected
+
+with a software
+
+product,
+
+such as its
+
+software unit
+separately 3.35 statement document performed compilable piece of code
+
+of work used by the acquirer under the contract
+
+as the means
+
+to describe
+
+and
+
+specify
+
+the tasks
+
+to be
+
+3.36 supplier organization that enters into a contract with the acquirer for the supply of a system, product or software service under the terms of the contract
+NOTE 1 The term "supplier" is synonymous The acquirer. may designate with contractor, producer, seller or vendor.
+
+software
+
+NOTE 2
+
+a part of its organization
+
+as supplier.
+
+3.37 system integrated composite that consists of one or more of the processes, hardware, facilities and people, that provides a capability to satisfy a stated need or objective 3.38 test coverage extent to which the test cases test the requirements 3.39 testability extent to which an objective requirement is met
+
+software,
+
+for the system or software product
+
+and feasible
+
+test
+
+can
+
+be designed
+
+to determine
+
+whether
+
+a
+
+5
+
+IS 15613:2005 IEC 61713 (2000)
+
+3.40 user individual or organization
+NOTE
+
+that uses the operational
+
+system to perform a specific function
+developer, or maintainer.
+
+The user may perform other roles, such as acquirer,
+
+3.41 validation confirmation requirements
+
+by examination and provision of objective for a specific intended use are fulfilled
+validation concerns the process under
+
+evidence
+of examining defined
+
+that
+
+the
+
+particular
+to determine It may be
+
+NOTE 1 In design and development, conformity with user needs. NOTE 2 Validation is normally necessary in earlier stages. NOTE 3 NOTE 4 "Validated"
+
+a product
+
+performed
+
+on the final
+
+product status.
+
+operating
+
+conditions.
+
+is used to designate
+
+the corresponding
+
+Multiple validations
+
+may be carried
+
+out if there are different
+
+intended
+
+uses.
+
+3.42 verification confirmation by examination have been fulfilled
+
+and -provision of objective
+
+evidence
+
+that specified
+
+requirements
+
+NOTE 1 In design and development, verification concerns the process to determine conformity with the stated requirements for that activity. NOTE 2 "Verified" is used to designate the corresponding status.
+
+of examining
+
+the result of a given activity
+
+3.43 version identified
+
+instance of an item
+to a version of a software product, resulting in a new version, requires Configuration
+
+NOTE Modification management action.
+
+4
+
+Software
+
+life-cycle
+
+processes
+
+A software life-cycle process is a set of planned activities or tasks necessary to achieve a stated objective of a software project. There are three groups of processes: primary, supporting and organizational, involving activities relating to a software product from its conception to its retirement. The five primary processes provide guidance to acquirers, and maintainers of systems or products containing software. suppliers, developers, operators
+
+The eight supporting life-cycle processes support another ,process and can be used with the The supporting processes are documentation, configuration five primary `processes. verification, validation, joint review, audit and problem management, quality assurance, resolution. The four organizational processes can be used by the major parties or primary processes depending upon the organizational or -project needs. The organizational processes are management, infrastructure, improvement and training. Details of the software [ife-cycle processes and their use are given in lSO/l EC 12207. The relationships of the software life-cycle processes with the dependability programme elements and tasks described in I EC 60300-2, as they relate to products containing s-oftware, is described in IEC 60300-2. Cross-references are made to specific subclauses of IEC 60300-2 in annex A.
+
+IS 15613:2005 IEC6171 3 (2000)
+
+5
+
+Dependability
+
+activities
+
+in the primary
+
+software
+
+processes
+and implement those activities should take the system or product activities necessary in to 5.5.
+
+In order .to achieve dependable software, it is necessary to identify activities and tasks that particularly influence dependability. These account of the intended use, application, operation and environment of -containing software. Consideration should be given, as appropriate, to each of the five-primary life-cycle processes, these are described in 5.1 5.1 Acquisition process
+
+The acquisition process is the term used to describe the activities and tasks of an acquirer involved in acquiring a system or product containing software. From the dependability viewpoint, the software product reliability performance and maintainability performance and the supplier maintenance support performance are the main aspects to be considered. The acquisition process main elements are the specification of dependability requirements, the assessment and selection of a supplier, the preparation of contractual documen-ts, supplier monitoring and acceptance and control. These elements are described in 5.1.1 to 5.4.5. 5.1.1 Specification of dependability requirements
+
+The requirements specification prepared by the acquirer should be expressed in those factors that influence dependability of the software product, i.e. the dependability requirements can be specified in terms of reliability, maintainability and maintenance support requirements. The following requirements should therefore be specified by the acquirer or jointly with the supplier: a) Software reliability requirements
+
+Requirements for continuous -system operation; these should be clearly specified in terms of elapsed time per given time interval, number of operations where no fault occurs before a failure occurs. The required system operational availability performance i.e. -the proportion of operational time when the system is available to perform its functions; this should be expressed in recognizable terms such as mean time to repair (MTTR) and mean time between failures (.MTBF); the conditions that constitute failure of the system should also be -defined. Any environmental system application. factors that impose special reliability, requirements for the intended conditions that "
+
+The recovery conditions of the system, i.e. any time to restore or functional should be met when restarting a system following a system failure.
+
+Defined till-safe requirements such as data that should not be lost or safe function states that need to be attained or downgraded operation in the event of a system failure. Any requirements for third-party evaluation, assessment identified. The impact of such requirements on the software be considered. or certification should be design requirements should
+
+-
+
+If there is a minimum level of service to be provided and the circumstances (length of time, frequency, etc.) under which reversion to that minimum would be acceptable, these should be identified and specified, Equal dependability requirements rarely exist for all aspects of a system; acquirers should be encouraged to identify exactly what requhements apply to which parts of a system.
+
+IS 15613:2005 IEC 61713 (2000)
+The acquirer should determine what additional costs, resources, etc., will arise either as a direct result of his requirements or as a result of any particular solution to it. b) Software maintainability requirements
+
+Any environmental factors that impose special maintainability requirements for the intended system application. In addition, the skill level and training level for maintainability should be stated. The maintainability requirements should be expressed in recognizable terms such as mean time to repair (MTTR). c) Software maintenance support requirements
+
+Any environmental factors that impose special maintenance support requirements for the intended system application. In addition, the skill level and training requirements for maintenance support should be stated. The maintenance support requirements should be expressed in recognizable terms such as mean time to repair (MTTR) or mean logistic delay time (MLDT). 5.1.2 Selection of supplier
+
+The ability of the supplier to develo~ or SUDDIV de~endable software and to Drovide an effective support service during the fifetime bf ~he product is a prime requirement. If the supplier has already acquired or developed software products then the existing products or support services associated with them could be usefully considered when selecting a supplier. If the supplier is being considered as a potential software developer, his development process activities should be assessed according to the guidelines given in 5.3 for developing dependable software products. The selection of supplier should also include the supplier understanding -of: (1) technical requirements - software requirements flow-down from system requirement, (2) contractual requirements - agreements, conditions, and terms which affect the software portion of the acquisition. Other supplier selection criteria should also include the past performances on (1) software development, (2) software project management (including software QA, configuration management CM, reliability testing, and maintenance, etc.), (3) software transition to (user) support, (4) software risk assessment and mitigation planning, and (5) software security. When assessing and selecting a supplier, consideration should `be given to the following aspects: a) Existing software product If data is available, the dependability of products previously provided by the supplier should be assessed if he is a software developer, i.e. the reliability performance, maintainability performance of the products and maintenance support performance of the supplier. The measurement baseline for these performance characteristics should be recognizable availability measures such as MTTR for measuring maintenance support performance or MTBF for measuring reliability performance. If data on the dependability of previously supplied products is not available, the acquirer could consider an indirect method of assessing product dependability by assessing the development processes used by the supplier to produce software products. This approach is discussed in 5.1 .2b). The dependability of the software product should be assessed whilst the product is in -its defined system environment. The dependability of the product under consideration should be' compared with those of competing products. The ability of the -supplier to provide mature software products often has a bearing on this aspect of the product. The comparison should be made using similar measures, if possible considered under similar conditions.
+
+8
+
+IS 15613:2005
+
+IEC 61713 (2000)
+If the supplier is a software developer, then his maintenance support organization structure and product support procedures should be assessed in accordance with the maintenance process dependability guidelines in 5.5. If the supplier is a software developer, then does he perform any kind of reliability growth testing for the purpose of enhancing product dependability through identification, analysis and correction of faults, and the verification of the effectiveness of the corrective action? Further information on methodologies for reliability growth testing such as the use of reliability growth models is given in 6.8.4 of IEC 60300-3-6. Any reliability growth programme implemented by the supplier should be reviewed to compare current achieved status with projected dependability targets. b) New software product he will use to measure should be assessed for
+
+If the supplier is a software developer, then the methods dependability as defined in the requirement specification consistency and completeness.
+
+If software is to be developed, the supplier's software development and implementation prcrcess should be reviewed in accordance with the development process dependability guidelines (see 5.3). These guidelines advise on `the approaches for assessing the developer's methods and procedures for analyzing, specifying, designing, coding, testing and installing dependable software. c) Software -process maturity If the software developer obtains certain software process maturity ratings, such as the Software Engineering Institute's capability maturity model (CMM), it should be made available for review and taken into consideration as part of the evaluation criteria. This Iype of model provides some measurements of an individual software developer qualification to perform the software work or to monitor the state of the software process used on an existing software effort. 5.1.3 Preparatkn of contracts
+
+Evaluation and selection of a supplier (see 5.2) will often involve negotiation on support and it is essential therefore that contractual documents should include supply conditions, comprehensive requirements for dependability, particularly where the contract includes the development of software. With some smaller supplier companies, the contractual documents might not be a formal contract but could be limited to a tender or an order document, In these cases, the term "contract" is extended to cover tender or order documents. The following aspects related to dependability should be specified in the contract after negotiation of mutually acceptable terms and where they can be explicitly defined: a) b) the conditions for acceptance, reliability maintenance support requirements; requirements, maintainability requirements and
+
+a statement of availability in terms of availability requirements. If the software is to be supplied as part of a system, then the dependability requirements, when operating in the system environment, should be stated. If there are particular dependability standards applicable, these should be specified; an acquirer should state the availability re-quirements. This will ensure the original availability requirements are stated. If the supplier cannot or will not achieve the stated requirements, then these will be re-negotiated with contract modification or specification r'evision to reflect the changes;
+
+c)
+
+IS 15613:2005 IEC 61713 (2000)
+d) the process for a supplier to make changes to a acquirer. The process for recording and controlling be a formal change process such as the software that will be used and a software change control supplier; product needs to be agreed with the changes to a software product should configuration management procedure board (SCCB) to be agreed with the
+
+e)
+
+specified dependability requirements, though rarely absolute, are needed in the contract. For instance, decreased dependability in one area of a Iotal system can cause increased costs in another, for example provision of a hot-standby terminal, more maintenance staff, increased spares holding, etc. There is often a trade-off point where the cost of providing the level of dependability asked for in a system can exceed the cost of compensating for its absence. A contract should allow trade-off to be proposed and costed, and should define the associated constraints (perhaps by specifying a minimum level of service to be provided by the part of the system being procured, or by stating that service personnel cannot be increased/decreased, etc.). Acquirers should be encouraged to specify as explicitly as possible the problem they need to have solved, and any constraints which apply to the solution. In principle, the acquirer should specify availability but the supplier might negotiate contract terms due to the inability to control reliability, maintainability and or maintenance support. If availability is expressed as a function of reliability, maintainability and maintenance support, Availability (A) = f (Reliability (R), Maintainability (M), Maintenance support (MS))
+
+For some critical system applications, it is important that availability (A) and maintainability (M) are carefully specified. Availability, for instance, is one of the most critical information needed for the military. In the medical community, availability of a medical device containing software is often criticai to .a patient's life; "f) the requirements and conditions for maintenance suPPort: if there are specific maintenance or availability requirements such as time to respond or frequency of maintenance on the system or product containing software, these should be specified. If there are particular regulations or standards these should be specified. Supptier monitoring
+
+5.1.4
+
+Monitoring of the supplier's review, audit, verification and validation activities (see clause 6) by the acquirer will contribute to the achievement of the dependability of the software being acquired through the verification and validation of the -specified dependability functions. The acquirer also should co-operate fully with the supplier by providing any necessary dependability-related information in a timely manner and resolving any pending issues. 5.1.5 Acceptance and completion
+
+The acquirer should ensure that the defined dependability aspects of the requirement specification are included in the preparation and conductance of the acceptance test. The acquirer will accept the deliverable software from the supplier when all the defined dependability acceptance conditions are satisfied.
+
+10
+
+IS 15613:2005 IEC 61713 (2000)
+
+5.2
+
+Supply
+
+process
+
+The supply process covers the activities of the supplier. From the dependability ~iewpoint, the following additional reliability (R), maintainability (M) and maintenance support (MS) aspects of the supply process activities should be considered. In addition, a reliability growth programme could be required if, for example, this was negotiated during supplier selection (see 5.1 .2) or contract negotiation. 5.2.1 Initiation
+
+The supplier should specifically review the dependability requirements of the acquirer and identify the reliability, maintainability and mainten-ante support requirements and whether these requirements can be met with a newer existing product. Depending on the results of the review the supplier should make a decision on the level of support required to meet the reliability, maintainability and maintenance support-requirements and the resulting costs before deciding whether to bid or accept the contract or propose appropriate alternative solutions. 5.2.2 Preparation of response of a response by the supplier:
+
+With regard to the preparation a)
+
+The supplier's proposal should meet the dependability requirements or standards specified by the acquirer. Where the proposal does not, proposed trade-offs should be identified along with differences between the trade-offs and the initial requirements (in terms of service level, for instance) in order that their value may be judged by the acquirer. If the supplier's proposal requires software development, it should specify growth programme or trial is to be implemented by the supplier. if a reliability
+
+b) c)
+
+The supplier's proposal should include a technical response, which should include a description of the understood reliability, maintainability and maintenance support problems, the proposed solution and whether it fully meets the dependability requirements. The supplier's proposal should include a management response description of the approach, project milestones and schedule. The supplier's proposal should include a financial response. which should include a
+
+d) e) f)
+
+The supplier's proposal should include a training response which should describe the types of training being offered and their relationship to providing and maintaining trained personnel for the acquisition, supply, development, operation and maintenance processes. Contract
+
+5.2.3
+
+The supplier should enter into a contract with the acquirer to supply the software product or service. The software product or service dependability requirements should be defined as described in 5.1.3. 5.2.4 Planning
+
+The supplier should develop and document plans based upon the planning requirements. Items and example of plans should be considered under the umbrella of -the project management plans. These ~roject management planning items are critical and have an effect on the system reliability, maintainability, and maintenance support.
+
+11
+
+IS 15613:2005 IEC 61713 (2000)
+
+Planning
+
+items
+
+to
+
+be considered
+
+under Project Management � project plan)
+
+Plans are. structure, responsibility and
+
+a) b) c) d) e) f)
+
+Project management planning authority � (project management Engineering environment management plan-SEMP, Work breakdown etc. - (WBS) Management structure
+
+organizational
+
+for development, operation or maintenance software development plan-SDP) including software products, services,
+
+- (system engineering software size,
+
+resources,
+
+of the quality characteristics including reliability analysis,
+
+of the software product - (software QA plan)
+
+Reliability program program plan) Failure mode FMECA
+
+growth test, software stress testing, etc - (reliability single-point failure and isolation fault software safety
+
+and criticality
+
+9) h) i) j)
+k)
+
+Management of the safety, security, plan, computer security plan) Subcontractor Verification management plan approach involves
+
+and other critical
+
+requirements
+
+(software
+
+and validation which
+
+and agent - (lV&V plan) potential technical, cost, and schedule risks (risk
+
+Risk management, management plan) Training of personnel Execution
+
+- (training plan)
+
+5.2.5
+
+and control consider the execution and control of the following dependability
+
+The supplier activities. a) b) c)
+
+should
+
+The supplier in 5.2.4;"
+
+should
+
+implement
+
+and execute
+
+the project
+
+management
+
+plans
+
+referred
+
+to
+
+If the supplier is developing a software product, in 5.3 shoutd be carried out.
+
+then the dependability
+
+activities
+
+defined
+
+if the supplier is using software contractors, he will act as an acquirer when acquiring the software from the contractors. It is important therefore that the supplier, with respect to his software contractors, should carry out the dependability -activities defined in 5.1. If the supplier is operating the software product activities defined in 5.4 should be carried out. If the supplier is maintaining the software in 5.5 should be carried out. or service, then the dependability
+
+d) e) f)
+
+product, then the dependability
+
+activities defrned
+
+If the supplier is supporting the software product, then the support services required to maintain the specified availability level, or which are the result of a specified requirement or solution to a requirement, should be identified. The supplier should advise the acquirer what additional costs will arise as a result of such support services being provided. The areas of control should include monitoring and controlling the progress of these dependability requirements, the progress of technical performance, their associate costs, and schedules and reporting of project status, An example will be to track the technical performance measurements (TPM) of reliability and maintainability profiles. This section should also include problem identification relating to the dependability function, recording, analysis and resolution.
+
+@
+
+12
+
+IS 15613:2005 IEC 61713 (2000)
+
+5.2.6
+
+Review
+
+and evaluation
+
+Review and evaluation of the reliability, maintainability and maintenance support aspects of the software product are important supporting life-cycle process activities. The supporting lifecycle processes involved are the documentation process, configuration management process, quality assurance process, verification process, validation process, joint review process, audit process and problem resolution process. The supplier organization is responsible for ensuring that the processes are in existence and functional. The review and evaluation activities can be internal or external depending upon whether they are in conjunction with the management of the supplier or acquirer respectively. The supporting life-cycle processes do, of course, support all aspects of the acquisition, supply, development, operation and maintenance processes and as a result provide a major indirect contribution to the level of reliability, maintainability and maintenance support achieved. The acquirer should therefore take an interest in all review and evaluation activities as well as those directly associated with reliability, maintainability and maintenance support. Review and evaluation a) activities to be considered are the following,
+
+The supplier should carry out the review and evaluation activities defined in the project plan and communicate the documented results to the acquirer if it is specified in the contract or is required by the acquirer, This should include both internal and external review and evaluation activities. If it is not specified that the review and evaluation results be communicated to the acquirer, they should always be documented and be available to the acquirer on demand. The review-activities should include specific reference to dependability requirements.
+
+b) c)
+
+Satisfaction of dependability requests or specific standards or regulations should be demonstrated to the acquirer. In most cases, for large systems, the -supplier will need -time to demonstrate that dependability requirements have been met. A reliability growth programme will provide a means of demonstrating or evaluating this over a period of time. Delivery and completion
+
+5.2.7
+
+The acquirer should ensure that all specified or contracted software-related activities have been completed or have achieved a mutually acceptable state before the software product or service is delivered. This could, for example, involve the completion of a reliability growth programme or the continuation of a programme to an agreed plan. Software related activities supplier are the following. a) to be considered at completion and delivery of the product by the
+
+The supplier should deliver the software product or service as specified in the contract and which has been the subject of the supply process dependability activities described in 5.2.1 to 5.2.6. The supplier should support the delivered activities defined in 5.5. Development process software product according to the dependability
+
+b)
+
+5.3
+
+The development process describes the activities of the developer, the organization that defines and develops the software product. If the acquirer requires the supplier to develop a software product, it is important that all the relevant activities of the development process (see lSO/~EC 12207) and the supporting life-cycle processes are carried out. In particular, the review and evaluation activities of the supporting life-cycle processes (see 5.2.6)
+
+13
+
+IS 15613:2005 IEC 61713 (2000) should be carried -out by the supplier, as these can have a direct influence on the dependability performance of the software product under development, The type of technology and software tools used by the supplier will have an influence on the dependability performance by helping the supplier to achieve a repeatable and controlled development process. The software design methodology should be a recognized industry standard (for example object-oriented design) which is appropriate to the software product under development. This will enhance the prospect of a well-structured design. The type of technology should be modern and suited to the design methodologies being used. An example of this would be networked workstations that allow efficient and effective group working. The software tools should be to recognized industry standards and supported by a recognized industry supplier of tools. Examples of this would be high-level Ian.guage compilers compatible with the design methodology or configuration management and database tools that will allow efficient management of software revisions. The use of modern and sophisticated methods for continuously identifying, recommended. technologies does carry an element of risk. Therefore, prioritizing, monitoring, managing and tracking risks is
+
+The software developer's activities should include the use of prototyping, modelling and simulation. These practices are sometimes necessary for defining, clarifying user requirements and validating implementation practicality of system and user interface concepts. Many aspects of the development process can infiuence the dependability software product; the following activities should be implemented. 5.3.1 Process -implementation performance of a
+
+The process implementation activity defines or selects a software life-cycle model appropriate to the scope, magnitude and complexity of the project. The activities and tasks of the development process are mapped onto the -selected life-cycle model and appropriate tools, methods, software languages and standards selected by the developer to enable the activities of the development process to be carried out. Selection of the appropriate life-cycle model is therefore important for the most effective implementation of the life-cycle processes and associated dependability activities described in the following clauses. The following activities. a) b) references will assist in the selection of appropriate process implementation
+
+Information on mapping of software life-cycle can be found by referring to IEC 60300-3-6.
+
+processes
+
+onto software
+
+life-cycle
+
+phases
+
+If the developer has a dependability programme (see IEC 60300-2), the development process for software products should be documented and referenced in the dependability programme, Further information can be obtained by referring to IEC 60300-3-6. System requirement analysis
+
+5.3.2
+
+The objective of the system requirements analysis should be to produce a precise and complete self--consistent specification of functions. The dependability requirements should be specifically included in this analysis.
+
+14
+
+IS 15613:2005
+
+IEC 61713 (2000)
+
+The
+
+following
+
+system
+
+requirement
+
+analysis
+
+activities
+
+should
+
+be
+
+considered.
+
+a)
+
+The overall dependability -requirement of th-e system to be developed should be analyzed in terms of reliability, m"aintainability and maintenance support and each dependability furmtion, related in any way to software, identified. The following dependability functions should be identified as appropriate: � � � � Functions related to the debction and associated hardware. Functions off-line. and management of faults in the software product
+
+related to the periodic testing of backup or supporting product to be maintained. support. of the software product.
+
+functions on-line and
+
+Functions that allow the software Functions related to maintenance Functions that specify availability
+
+Functions that specify the software Functions related to the preparation Functions related to dependability Functions related to qualification Functions related to the operation
+
+product testability. of documentation. regulations or standards.
+
+testing. of the software product.
+
+Functions related to the start-up and shutdown of the software product. Functions related to user support.
+
+b)
+
+Each identified dependability function should be specified in precise and consistent terms. The degree of precision with which each function can be specified will depend upon the type of software product and its application. A check should be made that the specification of dependability functions ensuring that each identified function has an associated specification. is complete by
+
+c) d)
+
+Every relevant regulation or dependability standard should be taken into account analysis of systems analysis requirements and dependability function specification. System architectural design
+
+in the
+
+5.3.3
+
+-When considering the overall system architecture the dependability performance requirements identified as dependability functions (see 5.3.2) are to be taken into account. Design criteria can have a bearing on the qualitative aspects of availability and maintainability performance but can also be complementary to any quantitative dependability requirements such as whether the product has to be such that no single fault can lead to a critical state of the product. Top-level architectural design of the system therefore should take account of known established or proven system designs which preferablyhave proven records for operation and maintenance and are appropriate for the identified dependability functions. If available, the results of reliability growth programmed might help identify the suitability of particular system architectural design should take into architectures. For existing products, the top-level account risks such as instability in the design following a vendor update or availability of the product for the projected life cycle of the system. 5.3.4 Software requirements analysis and The
+
+The objective 01 the software requirements analysis should be to produce a precise complete self-consistent specification of functions for each module or item of software. dependability requirements should be specifically included in this analysis.
+
+15
+
+IS 15613:2005 IEC 61713 (2000)
+
+The software requirements a)
+
+analysis should include the following.
+
+The dependability requirement of the software to be developed should be analyzed in terms of reliability, maintainability and maintenance support and each dependability function identified. Each identified dependability function should be specified in precise and consistent terms. The degree of `precision with which each function can be specified will depend upon the type of software product and its application. A check should be made that the specification of dependability functions ensuring that each identified function has an associated specification. is complete by
+
+b)
+
+c) d)
+
+Specifications for engineering design requirements should cover qualification reauirem"ents and relevant st~ndards~availa~ ility requirements and maintenance requirements. Software architectural design
+
+5.3.5
+
+the dependability performance requirements When considering the software architecture, identified as dependability functions (see 5.3.2) are to be taken into account by considering those aspects of design which impinge upon the defined dependability functions. As for system architectural design, the software architectural design should take account `of known or proven designs which are appropriate for the identified dependability functions. 5.3.6 Software detailed design
+
+The detailed design of the software should be based on the above described system and software architecture. The design method should facilitate the inclusion of the following features in the software designs: a) The developer should have well-documented and established software detailed design activities that facilitate the design of software that unambiguously reflects the requirements of the specified dependability functions. The design should facilitate the addressing testability, verification and validation. of such features as modularity, maintainability,
+
+b) c)
+
+The design input and output data at each stage of the software development process should be recorded, analyzed and documented for use in project review and to assist product design improvements. The procedures for design change implemented (see IEC 61 160). The design verification control and reviews should be specified and
+
+d) e) f)
+
+process should be documented
+
+and implemented.
+
+Established design methodologies and development tools should be used especially those that facilitate the expression of information flow between modules, data structures and dependencies specified in the identified dependability functions. User documentation should be developed and .updated as required in conjunction software. It should be consistent with the revision level of the software. Software coding and testing with the
+
+9)
+
+5.3.7
+
+A suitable set of integrated tools such as language compilers, configuration management t~ols and automated testing tools should be used during the development of the software. Selection of the set of tools should be based on proven products that are well supported by established software -manufacturers.
+
+16
+
+IS 15613:2005 -IEC 61713 (2000)
+The following coding and testing activities should be considered. a) b) The developer should have well-documented procedures which specify good programming and established software coding and -testing practice and documentation,
+
+The procedure for software product test and validation should be documented and should include a corrective action procedure. If there are specified dependability requirements, tests should be included that relate directly to these requirements. There should be a fully documented, coordinated procedure for reporting software defects and tracking their subsequent correction. It is important for software dependability that this procedure is well established and efficiently implemented in order to ensure that any defects that impact the availability of the required software functionality are corrected quickly and efficiently. The developer, to provide an analysis of fault types, can also use the data collected by the defect reporter/tracker, frequency of occurrence and fault patterns per configuration item or be used to demonstrate reliability growth. Software integration
+
+c)
+
+5.3.8
+
+Software integration should specifically test for correct implementation of all the identified dependability functions. `The test should demonstrate that associated components interact correctly to perform the specified dependability functions. The integration test results should be presented in an auditable form. The -procedure documented. 5.3.9 Software for software integration, system test and installation should be fully
+
+qualification
+
+testing
+
+If there are specific quantitative or qualitative dependability qualification targets defined in the requirement specification, these should have been included in the specified dependability functions and the associated integration tests. Because of the nature of dependability, it might be mutually agreed between supplier and acquirer that software qualification testing be carried out over a period of time when the system is in use (or in extended trials, whichever is most appropriate to the context). The results of these qualification tests should be audited for compliance with the specified qualification targets. Aspects of software qualification a) testing to be considered testing are the following. in accordance with any specific
+
+The developer should conduct qualification dependability qualification requirements. should evaluate test coverage
+
+b) The developer requirements. c)
+
+and conformance
+
+with any dependability
+
+There should be a full programme of technical reviews, internal audits and change control reviews for any specific qualification tests to ensure that the -qualification tests relate accurately to the specified dependability qualification requirements and that any proposed changes to the qualification tests do not compromise the accuracy of their relationship with the required dependability qualification targets.
+
+17
+
+IS 15613:2005 IEC 61713 (2000)
+
+5.3.10
+
+System
+
+integration
+
+The system is the term used to describe the final operating combination of the software with the product hardware.. System integration will involve the integration of the software with the -product hardware components. It is the dependability performance of the integrated system that is tested and checked against overall qualitative and quantitative dependability requirements. The system reliability and maintainability performance should therefore be tested and confirmed to meet the identified dependability functions. System integration a) b) The procedure should include the following activities. for system integration and test should be fully documented.
+
+The system integration test results should be subject to a full programme of technical reviews, internal and external audits for compliance with specified system quantitative and qualitative dependability requirements. System qualification testing
+
+5.3.11
+
+The objective of system qualification testing is to ensure that, after system integration, each system requirement is tested for compliance and that the system is ready for delivery. System qualification testing of dependability performance can be achieved by testing each identified The system dependability function dependability function requirement for compliance. requirements should be evaluated for compliance with respect to reliability and maintainability requirements through the identified dependability functions. Because of the nature of dependability, it might be mutually agreed between supplier and acquirer that system qualification testing be carried out over a period of time when the system is in "use (or in extended trials, whichever is most appropriate to the context). Another method for determining whether the overall system reliability complies with requirements is to assess the software reliability of the integrated system by means of a technique which models the development process and/or source code properties. A management framework and data collection procedure `is setup and the resulting data is combined with the model to produce an assessment of the overall system reliability. The qualification test results should be audited for compliance with dependability qualification requirements and a qualification report prepared. In some cases, the supplier and customer might reach a mutual agreement to initiate a reliability growth programme if qualification test results indicate that dependability performance improvements are required before the system is compliant with requirements and can be achieved through a cooperative programme of work. System qualification a) b) testing activities should include the following. testing in accordance with any with any overall
+
+The developer should conduct overall system qualification specific dependability qualification requirements. The developer should evaluate the system dependability requirements. Software installation test coverage and
+
+conformance
+
+5.3.12
+
+Software installation testing is closely coupled with system the checks carried out to check that the software product is under which software is installed and operated will have maintainability performance achieved. Installation testing under the installation conditions specified.
+
+qualification testing aqd is part of ready for delivery. The conditions a bearing on -the reliability and should therefore be carried out
+
+18
+
+IS 15613:2005 IEC 61713 (2000)
+
+Software a)
+
+installation
+
+activities
+
+should include the following.
+
+The developer should install the software product or system according to the installation documentation and verify that it is installed and operating as required. Because of the nature of dependability, it might be mutually agreed between supplier and acquirer that software installation testing be carried out over a period of time when the system is in use (or in extended trials, whichever is most appropriate to the context). Conformance with any specified verified and documented. Software acceptance installation related dependability requirements should be
+
+b)
+
+5.3.13
+
+support
+
+Software acceptance support is an important developer activity which allows the acquirer to carry out effective joint review and qualification testing of the software product. The commitment to support acceptance testing should be given by the developer especially if prolonged or difficult dependability requirements compliance testing is expected. The developer should provide appropriate initial and continuing support to the acquirer the specified dependability requirements have been demonstrated. 5.4 Operation process until
+
+The operation process defines the activities of the operator and the organization that operates the system or product in its live environment. This process refers to the system or product and not the software alone because the operation of the software product is an integral part of the system or product. The dependability performance of the software during its operation will depend on the software operation and maintenance procedures implemented within the system environment. The operation and maintenance procedures required to m-eet the identified dependability functions should be identified and actions taken to check that they are being carried out during the operation of the system, The operation process constituent activities are process implementation, operational testing, system operation and user suf.YPort. The software operation and maintenance procedures will be considered under these headings. 5.4.1 Process implementation
+
+To implement the operation process the operator should plan and define the tasks and activitie-s he will carry out to implement the constituent activities. When considering dependability performance, the plan should include the following. a) The operation procedures should be documented and available to the users. The manuals should be kept up to date via an active user document update service. where necessary, should b-e provided to the operators.
+
+b) Training for system operation, c) Customers' complaints documented reporting appropriate.
+
+during system operation and servicing should be retained via a procedure and analyzed for `prompt corrective action where
+
+d)
+
+Procedures should be defined which specify any routine actions (for example backing up or initializing data, start-up or shutdown actions) which are necessary in order to meet the identified dependability functions.
+
+IS 156fi3 :2005 IEC 61713 (2000)
+e) f) The scope of the software activities should be specified. Procedures should be defined which specify how the software should be tested in its operational environment and how the results of the testing are to be linked to maintenance actions or to any reliability growth programme that is being implemented.
+
+If a developer is specifying the operational testing, the results should be linked to assessing whether the software product is ready for operational use. 5.4.2 Operational testing
+
+Operational testing is carried out to check whether the system or software product has met the specified criteria for releasing it for operational use. When considering operational dependability, the required reliability and maintainability performance of the system or software product is considered. The reliability and maintenance requirements have been specified in terms of dependability functions (see 5.3.2). Operational testing should be carried out to check whether the specified system dependability function requirements have been met, Operational a) testing activities should include the following.
+
+Assessment of the system dependability will require the establishment of a framework for collection of data, selection of the appropriate software reliability assessment technique and comparing the assessed dependability with the specified system dependability function requirements. If there are requirements for conformance with specific dependability standards or regulations, these should be covered by the system dependability function requirements.
+NOTE Details on selection of the appropriate data collection method and reliability assessment technique, for example, selection of an appropriate product or reliability model to process the coltected data, are given in BS 5760: Part 8.
+
+b)
+
+Depending upon the system operational environment and usage it might -be necessary to collect data over an extended period of time before system software reliability can be assessed, Supplier and acquirer should mutually agree the required period of data collection, Where it is not possible to specify and test the system against quantitative dependability requirements, the acquirer and supplier might mutually agree to the delivery of the software -product following initial qualitative reliability assessment subject to the longer term implementation of a data collection and reliability growth programme to achieve dependability goals. The dependability performance of the system after delivery to the user can also be affected by errors or omissions in the operational procedures used by the operator. Records should be kept of any changes in operational procedure so that any -related changes in system reliability can be identified and operational procedures improved. S_ystem operation
+
+c)
+
+5.4.3
+
+The system operation activity is defined as the operation of the system in its intended environment according to the user documentation. Consideration should therefore be given to checking for compliance with those dependability function requirements which define the environment that "the system is to operate in and also that the user documentation accurately specifies how the system should be operated.
+
+20
+
+IS 15613:2005 IEC 61713 (2000) Recommended system operational activity checks are the following.
+a) The check for compliance with those dependability functions that specify the type and frequency of the maintenance support activities should therefore be carried out. Typical maintenance support activities, which can have an important impact on dependability or availability, are periodic backup of system data, systematic update of the software to the latest revision levels or regular maintenance of the product hardware.' The objective of these checks is to ensure that all defined maintenance functions are carried out in such a way that the software is operated with the latest error-corrected software revisions on the well maintained hardware with regular system backups so that the system can be restored with minimum disruption in the event of a system failure. Some ,maintenance activities such as backups should be `carried out when there is least risk to the system operation, for example when the system is off-line or when there is minimum operator or system activity.
+
+should be checked for accuracy, completeness and ease of use b) The user documentation by the operator, as incorrect, incomplete or difficult to use documentation can lead to operator error or system operational failure. If possible an audit of the identified operator functions against each section of the documentation should be conducted by the supplier and any errors and omissions noted. The results with a report of any corrective actions should be reported to the acquirer. c) It might not be possible to identify errors or omissions in the user documentation prior to delivery of the system to the user. Records should therefore be kept of any changes in operational procedure after delivery, so that any related changes in system reliability can be identified and operational procedures improved.
+
+5.4.4
+
+User support
+
+as those -supplier tasks which provide assistance and consultation to the user and the feedback of user "requests or problem reports to the maintenance process (see 5.5), The user support activity can have a significant effect on the availability and dependability performance of the software product by, for example, providing rapid and expert advice if the user requests support or providing an efficient process-4or feedback of user problem reports to the software development and update processes. The -user support activity should include the following tasks. a) The supplier should provide a well-organized and expert support responding quickly and -efficiently to requests for support from a should be able to respond over the phone to calls for support assistance if this service has been negotiated between user and service that is capable of user. The support service or provide timely on-site supplier.
+
+The user support activity is defined
+
+b)
+
+The supplier should be prepared to provide software support services outside normal working hours if there is a specific requirement for this or if analysis of the dependability functions results in a mutual agreement to provide this. The supplier should have a well-specified and proven procedure for receiving problem reports or enhancement requests from the user, generating solutions and implementing the resulting software update on the user's system.
+
+c)
+
+IS 15613:2005 IEC 61713 (2000)
+d) Where possible, the supplier should provide facilities to "the user that will enable him to improve dependability performance by accessing product functional information more efficiently for himself. User access via Internet or Fax back to a knowledge database that is maintained by the supplier is an example of this. The supplier should record all support incidents for analysis and feedback to the development and maintenance processes. Where there is a reliability growth programme, the results of support incident analysis should be included in that programme. The supplier should provide a full programme of user "training an system operation either according to specific request from the user -or according to the supplier's assessment of the requirements. The supplier should provide further follow-up user training on site if the identified dependability functions and performance requirements involve critical operator actions. Maintenance process
+
+e)
+
+f)
+
+5.5
+
+The maintenance process defines the activities and tasks of the software maintainer. The influencing factors of dependability have been defined as reliability, maintainability and maintenance support, and, hence, correct implementation of the maintenance process activities and tasks have a critical influence on the achievement of software dependability. The process activities are process implementation, problem and modification analysis, modification implementation, maintenance review/acceptance, migration and software retirement, Each of these activities will be considered from a dependability point of view in the following subclauses, and emphasis placed on the importance of implementing what are likely to be costly activities and checking `for compliance with all identified maintenance requirements. In view of their strong influence on software dependability, it is important that the costly nature of the maintenance process activities does not reduce the likelihood of them being carried out. 5.5.1 Process implementation
+
+The process implementation activity consists of the tasks that enable the maintainer to develop, document and execute procedures for carrying out the activities of the maintenance process described in 5.5.2 to 5.5.6, The supplier shoul~ ensure that there is a set of documented procedures in place for receiving, recording and tracking problem reports and modification requests from users and providing feedback to users. The supplier should ensure that the documented procedures are being implemented by both user and supplier as there is a direct connection between system availability and dependability and the efficient reporting and correction of software problems. When considering the dependability aspect of this activity, dependability functions covering these requirements should have been identified and checked for compliance as part of the operational testing (see 5.4.2). Included in the process implementation tasks is training of the system maintainers, where necessary, to ensure that they are able to implement the documented procedures competerNly.
+
+22
+
+IS 15613:2005 IEC 61713 (2000)
+5.5.2 Prob!em and modification analysis
+
+analy+s activity consists of the analysis of the problem report The problem and mortification or modification request for its impact on the system in relation to its size, its cost, the time for modification end the effect -on performance. When considering software dependability, the impact of the problem report or modification request on dependability performance should be considered by viewing the impact on each of the identified dependability functions. The supplier should check for compliance with the `original -dependability function requirements. If there is a conflict between the results of the analysis and achieving compliance with dependability function requirements, there should be agreement and approval before proceeding with the implementation of a modification.
+
+The maintainer should document each problem report or modification request, the results of the analysis and the implementation options developed from the analysis results. -If the developer has a reliability growth programme, the results of the analysis should be included in that programm.e. 5.5.3 Modification implementation
+
+The modification implementation activity consists of an analysis to determine which documentation and associated software items need to tie modified, followed by implementation of the identified modifications, test and evaluation of the modified software and documentation items. The development process and all its associated activities (see 5.3) should be used to produce the modified software items. The software dependability considerations are similar to those described for the development process (see 5.3) in that the dependability functions associated with the software items to be modified should be considered in a similar manner to th-at described for each activity of the development pr,ocess. The objective of the review should be to determine that the compliance with the original and any revised dependability function requirements has been achieved. The developer should therefore a) b) c) d) e) determine whether the requested enhancement or modification modification to the dependability function specifications; requires an associated made to requested established that any and that
+
+review the system and software design from the point of view of any modifications the dependability function specifications; review the dependability requirement enhancements or modifications; implement procedures and test any software and tools (see 5.3.7); specifications changes in using the the light of any
+
+coding
+
+developer's
+
+carry out software integration, qualification and installation testing to check modified dependability functions or qualification targets are correctly implemented any unmodified dependability functions have not been affected. Maintenance reviewlacceptance
+
+5.5.4
+
+The maintenance review/acceptance activity is carried out by the maintainer to determine the integrity of the modified system and to obtain approval for completion of the modification. When considering software dependability, the assessment of system integrity will be in terms of compliance with both modified and unmodified dependability function requirements during system integration, qualification and installation testing, A review of the integration, qualification and installation test results for dependability function compliance should
+
+23
+
+IS 15613:2005 IEC 61713 (2000) therefore be carried out following completion
+(see 5,5.3). modification maintainer. 5.5;5 of the modification implementation activity tasks If an acceptable level of compliance is achieved, approval certifying that the -has -been completed according to contract specification can be given to the
+
+Migration
+
+The migration
+
+activity defines the tasks that should be carried out if a svstem or software produc~(including da~a) is to be migrated from a previous to a new operational environment. the implications of
+
+When considering software dependability the maintainer should consider the migration activity tasks on the dependability functions. Examples a) of the migration task activities that should be considered
+
+are the following.
+
+If any software product or data is produced or modified during a system. or software product migration, its production and the consideration of the dependability functions should be as described for the activities and tasks defined for problem and modification analysis (5.5.2), modification implementation (5.5.3) and maintenance review/acceptance (5.5.4). The overall objective should be to check the integration, qualification and installation test results for dependability function compliance. A migration plan should be developed, documented and executed. When carrying out a migration requirements analysis, the dependability function requirements should be included in this analysis and dependability function requirements specifications produced. When planning the migration execution, this should be done in cooperation with the user if there are specific system availability requirements to be met during the migration. M is important that the user is given full information on when and why the migration is taking place and the level of support for the old environment after the migration to the new environment. The maintainer should ensure that the user is fully aware of any change in the level of support for the old environment so that the user can assess the potWtial implications on system availability if he does not migrate to the new environment and there is a change in the maintenance support function offered by the maintainer. Software retirement
+
+b)
+
+c)
+
+5.5.6
+
+The software retirement activity defines the tasks that should be carried out if a system or software product is to be removed from active support by the operation and maintenance organizations at the request of the software product owner. A major contributing factor of dependability is maintenance support. Hence, the operation and maintenance organizations should consider the implications of the removal of active support on the software dependability function requirements. A retirement plan for the removal -of active support by the -operation and maintenance organization should be developed and documented. The timescale for the removal of active support should be mutually agreed between user and maintainer such that the specified maintenance support functions are retained -until the software product is retired or the user has migrated to a replacement software product, whichever is appropriate. The user should include archiving of the retiring software product, -documentation and data in the retirement plan.
+
+24
+
+IS 15613:2005 IEC 61713 (2000)
+
+6
+
+Dependability
+
+act"wities in the supporting
+
+software
+
+processes
+
+The supporting life-cycle processes comprise eight processes. A supporting process supports another process as an integral part with a distinct purpose and contributes to the success and quality of the software project, A supporting process is employed and executed as needed, by another process. The supporting processes are discussed collectively because the main emphasis of this standard is the achievement of dependability through the primary life-cycle processes. The supporting processes contribute to dependability by contributing to the efficiency of the primary processes through their supporting functions. The supporting software life-cycle processes include documentation, configuration management, quality assurance, verification, validation, joint review, audit, and problem resolution. Each process serves a distinct purpose and contributes to the success and quality of the project, including its dependability. To help achieve dependable software, the following supporting' process activities should be implemented. a) The information produced by the life-cycle processes should be documented and maintained to the standards defined in the documentation process, Properly planned, designed, developed, produced, distributed and maintained documents, which will include dependability function specifications, are essential for efficient implementation of the primary processes. Configuration management should be implemented for control of baseline software configuration for each product release, This is a particularly important process for maintaining control of modifications and releases of software and so will contribute to the maintainability and maintenance support aspects of dependability. The joint review, audit and problem resolution processes activities should be -consistent with the quality assurance process activities of the software project and form an integral part of all the software life-cycle processes. These supporting processes will contribute to ctependabitity through the specified review and auditing of the dependability function activities. . The verification process determines whether the software has been produced according to the requirements and conditions defined in the software life-cycle processes and the validation process determines whether the software has been made according to the specified requirements and should be carried out as the software progresses through its life cycle via the primary -and supporting processes. A final verification and validation processes contribute to should form part of the product acceptance plan. These dependability through the verification and validation of dependability function specifications defined in the primary processes.
+
+b)
+
+c)
+
+d)
+
+7
+
+Dependability
+
+activities
+
+in the organizational
+
+software
+
+iite-cycie
+
+processes
+
+Organizational software life-cycle processes are used by an organization to establish and implement an underlying structure made up of associated life-cycle proces-ses and personnel. The organizational processes are discussed collectively because the main emphasis of this standard is the achievement of dependability through the primary life-cycle processes. The organizational processes contribute to dependability by establishing the necessary organization for the efficient implementation of the primary processes and their supporting processes.
+
+25
+
+IS 15613:2005 IEC 61713 (2000)
+
+The organizational life-cycle processes include `management, infrastructure, improvement and training processes. To help achieve dependable software, the following organizational process activities should be implemented. a) Management process
+
+The management process contains Ihe activities and tasks used to carry out product management, project management and task management of the primary and supporting processes. The management process activities cover the initiation, scope definition, planning, execution, control, review and closure of the project or process. The management process contributes to software dependability by establishing the organization and implementation of the primary process activities that specify, implement, review, evaluate and support the identified dependability functions. b) Infrastructure process
+
+The infrastructure process establishes and maintains the infrastructure needed for any of the other processes. The infrastructure includes hardware, software, tools, techniques, and standards for development, operation or maintenance of the software. The infrastructure process contributes to software dependability by establishing and maintaining the softwa~e tools and techniques that enable the software developer or supplier to achieve repeatable and controlled development and maintenance processes. c) Improvement process
+
+The improvement process is a process Ior establishing, assessing, measuring, controlling and improving a software life-cycle process. The process activities establish a suite of organizational processes required to implement the primary and supporting processes, set up an assessment mechanism to ensure their continuing effectiveness and implement improvements considered necessary as a result of the assessment, The improvement process can contribute to software dependability through feedback of the assessment results to a reliability growth programme. On a more general level, improvements in the effectiveness of the development and maintenance processes will indirectly contribute to a more -effective specification, implementation, review, evaluation and support of" the identified dependability functions. The improvement process or process qualification can be used to assess the effectiveness of processes throughout the life cycle. d) Training process The training process provides and maintains trained personnel for the acquisition, supply, development, operation and maintenance processes. Effective and efficient implementation of the above-mentioned process activities and tasks is dependent upon knowledgeable and skilled personnel and training material being available throughout the software product life cycle and for all of the life-cycle processes. The acquirer should therefore confirm that the supplier of the software has planned and implemented a training programme based on a review of project requirements of resources, personnel skills, types and levels of training, training documentation and implementation schedules. The training plan should therefore cover all the primary life-cycle process activities and tasks that contribute to the supply, operation and maintenance of the software product, and the -supply of trained personnel for the identified process activities should be coordinated with the project implementation in such a way "that they are available in time for each of the planned life-cycle activities. The training plan should be reviewed for compliance with these requirements.
+
+IS 15613:2005 IEC 61713 (2000)
+
+The
+
+reliability activities
+
+and
+
+maintainability development
+
+of the
+
+soft-ware
+
+will
+
+be
+
+enhancecf
+
+if the
+
+design,
+
+coding
+
+and
+
+processes are efficiently implemented by properly trained personnel. Efficient implementation by trained personnel of those activities and tasks described in 5.3, which are connected with the implementation of the design, code and tests of dependability functions will be an important contribution to achieving dependable software.
+testing of the
+
+Maintenance support will also be enhanced if the developer and supplier personnel have been trained in the necessary skills to implement the activities and tasks of the maintenance process. An efficiently run maintenance support activity will enhance the availability and dependability of the software product, Efficient implementation of the operation process activities by tr-ained personnel improve dependability performance by helping to minimize operational errors, will help
+
+27
+
+IS 15613:2005 [EC 61713 (2000)
+
+Annex A (informative) Association of software life-cycle processes with programme elements and tasks
+Dependability and tasks programme
+
+dependability
+
+Software life-cycle processes Primary life-cycle processes (lSO/lEC 5.1 5.2 5.3 Acquisition 12207)
+
+elements
+
+(IEC 60300-2) 6.2 6.5 6.2 6.3 6.4 6.6 6.7 6.8 Contract review and .Iiaiscrn Externally provided products requirements Contract review and liaison Dependability Engineering Analysis, p~ediction and design review Verification, validation and test support planning Life-cycle cost programme Operation and maintenance Improvements Experience feedback and modifications
+
+process
+
+Supply process Development process
+
+5.4 5.5
+
+Operation
+
+process process processes
+
+6.9 6.10 6.11
+
+Maintenance
+
+Supporting 6.1 6.2 6.3 6.4 6.5 6.6 6.7 6.8
+
+life-cycle
+
+Documentation Configuration Verification Validation
+
+process management process process
+
+6.11 6.1.4 6.7 6.7 6.6.8
+
+Experience
+
+feedback management and test and test
+
+Dependability Quality assurance process
+
+records 1)
+
+Configuration Verification, Verification,
+
+Quality systems 2, validation validation
+
+process
+
+Joint review process Audit process Problem -resolution process
+
+Formal design review review 2, programme review 2,
+
+Quality systems z) Management Dependability
+
+Organizational 7.1 7.2 7.3 7.4 Management Infrastructure Improvement Training
+
+life-cycle process process process
+
+processes Dependability Dependability Organizational Dependability policy 2, management 2, management implement 1) implement ~)
+
+Quality systems 2,
+
+process
+
+i J Project generic elements 2, Dependability management
+
+according elements
+
+to IEC 60300-1 /1S0 9000-4. according to IEC 60300-1 /1S0 9000-4.
+
+IS 15613:2005 IEC 61713 (2000)
+
+Annex B (informative) Interaction
+
+of users with primary
+Supplier Assesses statement work
+
+software
+Developer
+
+life-cycle
+Operetor
+
+processes
+Maintainer
+
+Acquirer Acquisition process I Performs acquisition activities
+
+of
+
+Negotiates and signs contract , Supplyprocese Signs contract with supplier Monitors supplier's activities I Development process I Witnesses qualification testing Reviews execution of development procedures Reviews performance operational system Provides maintenance support for acquirer Performs development activities Performs activities supply
+
+Ensures requirement specification meets operator needs
+
+( Operation prccess I
+
+of
+
+Defines operating procedures
+
+Performs operation activities
+
+I Maintenance process I
+
+Makes software maintainable (e.g. good code structure and documentation)
+
+Performs version control and updates training for operators
+
+Performs maintenance activities
+
+IS 15613:2005 IEC 61713 (2000)
+
+Bibliography
+
+IEC 60300-1 /1S0 9000-4:1993, management BS 5760: lSO/lEC Part 8:1998, 15026:1998, Guide
+
+Dependability
+
+management
+
+- Part
+
+1: Dependability
+
+programme
+
+to the assessment technology
+
+of re/iabi/ity - System
+
+of systems
+
+containing
+
+software
+
+/formation
+
+and software
+
+integrity
+
+Ie-vels
+
+ISO 9000-3:1997, Qua/ity management and qua/ity assurance standards - Part 3: Guidelines for the application of ISO 9001:1994 to the development, supply installation and maintenance of computer software 1S0/1 EC 9126:1991, /formation technology teristics and guidelines for their use � Software product .eva/uation - Qua/ity charac-
+
+%2
+
+Bureau
+
+of Indian
+
+Standards
+
+institution established under the Bureau of/ndian Startdards Act, 1986 to promote 61S is a statutory harmonious development of the activities of standardization, marking and quality certification of goods and attending to connected matters in the country. ,'
+
+Copyright 61S has the copyright of all its publications. No part of these form without the prior permission in writing of BIS. This does of implementing the standard, of necessary details, such designations. Enquiries relating to copyright be addressed Review of Indian Standards publications maybe reproduced in any not preclude the free use, in the course as symbols and sizes, type or grade to the Director (Publications), BIS.
+
+Amendments are issued to standards as the need arises on the basis of comments. Standards are also reviewed periodically; a standard along with amendments is reaffirmed when such review indicates that no changes are needed; if the review indicates that changes are needed, it is taken up for revision. Users .of Indian Standards should ascertain that they are in possession of the latest amendments or edition by referring to the latest issue of '61S Catalogue' and `Standards: Monthly Additions'. This Indian Standard has been developed from Doc : No. LTD 03 ( 2028 ). Amendments Amend No. Issued Since Publication Text Affected
+
+Date of Issue
+
+BUREAU
+Headquarters:
+
+OF INDIAN
+
+STANDARDS
+
+Manak Btravan, 9 Bahadur Shah Zafar Marg, New Delhi 110002 Telephones: 23230131, 23233375, 23239402 Website .'www. bis.org. in Regional Central Offices: : Manak 13havan, 9 Bahadur Shah Zafar Marg NEW DELHI 110002 : 1/14 C. 1. T. Scheme Vll M, V. 1. P. Road, Kankurgachi KOLKATA 700054 : SCO 335-336, Sector 34-A, CHANDIGARH IV Cross Road, CHENNAI 160022 600113 2254 { 2254 Telephones 23237617 { 23233841 23378499,23378561 { 23378626,23379120 2603843 { 2609285 1216,2254 2519,2254 1442 2315
+
+Eastern Northern Southern Western
+
+: C. 1. T. Campus,
+
+: Manakalaya, E9 MlDC, Marol, Andheri (East) MUMBAI 400093
+
+28329295,28327858 { 28327891.,28327892
+
+Branches:
+
+AHMEDABAD. BANGALORE. BHOPAL. BI+UBANESHWAFL COIMBATORE. FARIDABAD. GHAZIABAD. GUWAHATI. HYDERABAD. JAIPUR. KANPUR. LUCKNOW. NAGPUR. NALAGARH. PATNA. PUNE. RAJKOT. TI+IRUVANANTHAPURAM. VISAKHAPATNAM.
+Printed at New India Printing Press, Khurja, lnd!a
+
+

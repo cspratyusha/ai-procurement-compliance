@@ -1,0 +1,431 @@
+( Reaffirmed 2004 )
+
+Indian Standard GUIDE FOR PASCAL PROGRAM CODING
+
+ICS 35.060
+
+BUREAU
+MANAK
+
+OF
+
+INDIAN
+9 BAHADUR
+
+STANDARDS
+SHAH ZAFAR MARG
+
+BHAVAN.
+
+NEW DELHI
+
+I IO002 Price Group 7
+
+July 1997
+
+Programming Languages Sectional Commiltee. LTD 34
+
+FOREWORD This Indian Standard was adoptedby the Bureau of Indian Standards. afrer the draft finalized by the Programming Languages Sectional Committee had been approved by the Electronics and Tclecommunicatiol~ Divisio-. i'ouncil. The object of this standard is to guide programmers to produce good qualiry programs which are highly readable. easy to understand and maintain. The advantages in adopting a uniform agreed-on programming style throughout the organization are several. First. it ensures that code of a uniform qualiw is produced. it is ~nucli more readable. comprehensible and hence. easil) maintainable. It also enhances protability of the sourcecodc. Further. it helps make programs the property of the organization instead of the-property of a single programmer. Therefore. here we present several program coding guidelines for the programming language pascal.
+
+Indian Standard GUIDE FOR PASCAL PROGRAM CODING
+1 SCOPE This standard lays down guidelines for Pascal program coding. 2 REFERENCES The following Indian Standard is a necessary adjmlct to this standard: IS .Vo. IS 1885 (Part 52/Set 15) : 1986 7itle Electrotechnical l'ocabulary : Part 52 Data processing. Section 15 Programming language 3 TERMINOLOGY For the purpose of this standard, the ~crms and definitions given in IS 1885 (Part 52Kec 15) : I!#(, shall apply. 4 GENERAL 4.1 Computer programs are used by both machines and people, a fact that is too often o\rerlooked. S'cc the following two program segments: Program a: =O: Segment 1:
+b) c) d)
+
+4.2 The advantages in adopting a uniform agreed-on programming style throughout the organization are se\.eral. First. it ensures that code of a mliform qualit! is produced. it is much mare readable. comprehensible and hence. easily maintainable. It also enhances protability of the sourcecode. Further. it helps make programs the property of the organization instead of the propel-t!' of a single programmer. One arguments generally gi\cn against standards in programming is thnl programming style is a matter of personal opinion and prefcrencc and thus should not be reslrictcd. This argnmcnt simply says that CIVICSis better than order. 5 COMMENTS 5. I Prologue
+Comments
+
+5. I. 1 (;//it/(J/i/K!.s
+
+E\,ery program or e\q' compilation unit of the program (module) must have a preface of prologue comment at the beginning. It should contain the following inforn~ation:
+21)
+
+A brier description module does:
+Name of
+
+of what the program
+
+i : = 1: 97 : if t [i] = k then goto 98: if i > = ts,5 then got0 99: i : = i + 1: goto 97: 08 : a : = 1: 99: Program Segment 2:
+
+the programmer:
+
+Date u ritten: A rcfcrcnce to the \\,ritten technical and user documentation ~~ranrrals. if an!. that gi:c additional information about this l~rogr;~~n/mod~llc: and Modifications dale 01` all program log - purpose. author and modifications made of the
+
+found : = false: i : = 0: while ( i < table-size ) and ( not found ) do begin i = i + 1: if table [i] = ke) then found : = true: end: 4.1.1 From the computer`s view point these two fragments behave identically and, given the same input data, would produce the same results. Howe\rcr. for a person trying to understand the purpose of these code segments, they are hardly `identical'. the first example woiild certainly be considered more difflculr to read and understand. Although this example is a11 extreme case. it illustrates the importance. to people. of using pleasing, helpful and effecti\,e coding style.
+C)
+
+in the prograntimodulc should also hm~c a prologue comment giring the follo\\ing details:
+a)
+
+E\TIJ- procedlire and function
+
+A brief description function does.
+
+of what the procedure/
+
+b)
+
+The entry conditions - the initial state of the subprogram and what initial values arc passed to it, and The exit conditions rclurncd on completion What values are and whether the
+
+c)
+
+IS 14430 : 1997 stage of the program has changed in anq other way that is the side-effects caused on the global variables subprogram. accessed by the Closely related to the prolobme comments are comments explaining each individual item in either a CONST or VAR declaration. For every constant or variable declared. a briefcomment should be included there. stating \vhat it is meant for. A good way is to declare onI!, one identifier on one line and include the corresponding comments on the right side of the same line as gi\zn below:
+Const
+
+5.2 Declar;ttion
+
+Comments
+
+The prologue comments should be enclosed in a box of details ( --* ) or asterisks ( `*' ) in order to clearly highlights and distinguish them from the code. For example. at the fol~lowing two programs procedure prologue comments: Programme statistics (input, output): and
+
+This program iuputs test scores and procedure as output the mean. the mode, the lowest and the highest scores. the number of valid and invalid scores. and a histogram of all scores. author date >> >. ,. Procedure sort (var list) first element last element var success : array-type: : array-index-type: : array-index-type: : H. L. Agarwal : 13 May, 1986 Type
+
+HIGH LOW MAX
+
+= 999 (highest \,alid flight number) = 1 (lowest valid flight number) = 1 000 (the maximum length of flight tables) = Low High: = array( l... Mas)offlightrange-type: (number of seats available on this flight) : (list of all flight mmibers a going in or out today) (Switch indicating whether flight was found)
+
+flight-range-type list-type Var a\,ailable: integer:
+
+flights:
+
+list-type
+
+found: boolean:
+
+This procedure sorts a list of integers into descending order using a process called selection sort. - the array of integer to be sorted. List First element Last element Exit-conditions Success list : true if sort was successful: otherwise false the index of last element sorted. the index of first element sorted to be to be
+
+i : integer: j : integer:
+
+(loop index) (loop index) (flight No. to search)
+
+key : flight-range-type:
+
+To make the declaratio~n section even easier to use. it is good practice to alphabetise the names in CONST. TYPE and VAR declarations. 5.2.2 Explntrrrtions If the declaration section has been commented in the abo\,e fashion. the purpose of any variable can be determined easil!, refering to the VAR declaration (al\va!,s in a fixed and kno\vn position) and reading the comment about the \,ariable. Alphabctising the list can significantly reduce the time needed to locate a specific declaratiou and its comment. 5.3 PitrHg:l'itl)h Comments 5.3.1 Guidelines A very useful set of comments are those that help paragraphing the program that is identifying and 7
+
+if success is true. then the list is returned in sorted order.
+
+5.1.2 Explanations Prologue comments are of great help when one is trying to understand the purpose or fimction of any programnnit, especially when it has been written b!, some one else. Programs become much easier to maintain if all the information mentioned above is splcified with every program unit.
+
+IS 14430 : 1997
+introducing blocks of code that perform a single task.
+
+construct for I : = I to (11- m + 1) do would probably not be immediately clear. It would be much better to say: (position 11 - m + 1 is the last possible place a successfill match can start) fori:=lto(n-m+l)do .............. . .. . Explanatory comments should not be used to restate the obvious intent of the Pascal statements. for example. the following are worthless comments: mmi : = nuni + 1: (increment num) read (day, month, year): (input the date) We should also avoid unclear. technical. and jargonfilled comments. for example: (check the two link fields in the doubly linked list to set iT they arc pointing to the same node
+clc111c11t)
+
+Such comments should explain the purpose of the upcoming segment and mark the beginning and end of the individual segments, for example. see the following code: (data input section) n: =O: while not eoln do begin n: =n+ 1. read ( strink [n] ); end; read (ch); (guarantee that characterjust read is alphabetic) if ch in (`a'......... `z') then begin (count frequency of character in input text) count : = 0: for i : = 1 to n do if ch = string (i) then count : = count + 1 writeln (`input character = `. ch): writeln (`frequency count = *. count): end else writeln alphabetic:`):; (`ERROR
+: Character
+
+if head A = tail" then _. _. . Instead. how muc11 nicer it is to say: (delcrminc if we have come to the end of list) if headA = tail"
+thc11
+
+must be
+
+A test of such commenting is that a programmer should be able to read only the paragraph comment and understand what the program is doing. Notice that all paragraph comments should be preceded by a blank line so that they are easier to read. They should also be indented by the same amount as the code they refer to. 53.2 Explanations Presence of paragraph comments in the code makes it very simple for the reader of the program to understand its logic of functioning. Programs become highly readable and hence easily maintainable. 5.4 Explanatory
+5.4.1 Guidelines Comments
+
+Comments should always describe the purpose and not the operation of the statements. 5.4.2 Explanations Explanatory comments make it easy for the reader to understand the portions of code whose purpose is not obvious by simply reading them. Hence they make programs very readable and maintainable. 5.5 Matching-Pair
+5.5.1 C;nitle/,rrc~.v Comments
+
+These arc anoUlcr \cry useful class of comments that help identif!,ing matching pairs of reserved words especially the BEGIN's and END's of nested loops or large compound statements. It is very common to see a number or compound statements (Within loops or conditionals) end near one another. All such ends should bc followed by a brief comment pointing to their corresponding begin`s as in the following: end (of inner while loop) end (of else clause for negative parameters) .......... .
+
+Sometimes the purpose of some individual statements in the code may not be immediately obvious. For all such statements a comment can be very useful, for example, if we were searching for a match between a string of length within some text of length n ( m = n ), the last possible start position for such a match (assuming the array was indexed from 1) would be the subscript n - m + 1. However. to the first time reader the reason for the upper limit +~ this loop
+
+end: (of procedure read file)
+
+IS 14430 : lYY7 5.5.2 Explanations modifying comments while should no1 \vort> about it. modifying code. one
+
+Although the indentation will give us a clue. a comment attached to each END can also help us in identifying the matching BEGIN-END or CASE-END pairs. and hence help traching the programs control flow. 5.6 Directory 5.6.1 Guidelines Comments
+
+In case of very large programs, it is %vorthw%ile to provide an alphabetized directory or table of procedure and functions in the program in a comment form at the beginning of the program. It should include Ihe name of each procedure and ftmction and the location (line No.) where it is declared. Some compilers provide facilities to output cross reference tables for aI1 identifiers used in the program. If such facilities are available. then these director! comments may be omitted and the cross-reference table should be generated and included wilh the final program code listings. 5.6.2 Explanations
+
+Finally after all~the comments are written. our job is still not finished. As we perform the job of program maintenance. it is critical that we modify the comments to reflect the new intent of any modified code. Programmer rely heavily on comments to explain what is going on. Incorrect or outdated comments could thus be ruinous to a proper understanding of the program. for example. if we say: ( Here we compute the median score all nho completed the test ) but then later rc\\,rite the code to calculate the arithmetic mean. \ve could completely mislead someone who is trying to understand what the program does. Incorrect or misleading comments are much worse than no comments at all. 6 BLANK LINES
+
+6.1 Guidelines Finally after all the comments are written. our job is still not finished. As we perform the job of program mnintcnance. it is critical that WCmodie the comments to reflect the new intent of any modified code. Programmers rel!, heavily on comments to explain what is going on. Incorrect or outdated commenrs could thus bc ruinous to a proper understanding of the program. for example. if we say:. ( Here we compute the median completed the test ) score of all who
+
+In large programs with hundreds of procedures and functions, if directory comments are included then it becomes very easy for the reader to locate an!' particular procedure/function quickly. 5.7 Comments on Writing Comments
+
+Commenls should always be written along wirh the code. as it is being developed, not after. If con~n~enls are inserted later, what will probably result is a grossl) tmder commented program. with vety brief comments that are only marginally helpful. Also. if there is a significant time lapse between writing a program and commenting it. the comments may be inappropriate and less detailed than they would have been if \vc had written them immediately. One excuse normally offered for not writing comments initially along with the code is that, the program specifications are usually in a state of flux, and so the code is subject to frequent changes in the beginning: and if one has to modifjl comments everytime. he modifies the code, it leads to `unnecessary' wastage of time. Such excuses are rather lame. because in surprisingly short periods of time even the original programmers tend to forget many of fhc program details, and later when in the absence of any comments. they have to spend long durations of time tracing their program logic while modifjring or debugging their program, all the original time `saved' is used up many time over. So even of some more time to used up in
+
+but then later rc\vrite the code to calculate the arithmetic mean. we could completely mislead somconc who is trying to understand what the program dots. Incorrect or misleading commettts are much worse than no comments at all. 7 LAYOUT, INDENTATION FORMATTlNC 7.1 Guidelines Using blank lines is an often o\perlooked method of improving the program code appearance. Just as blank lines arc used in English to separate paragraphs. the!, can be used 10 separate the various program elements. A single blank lint should he left before every logical]! distinct group of statements within a subprogram or program. for example. set the following code segment: read (s. y. z): AND
+
+IS 14430 : 1997 read (theta); first second third
+: = sqr (x) + theta; : = sqr (y) + theta; : = sqr (z) + theta;
+
+governed by the operators precedence and order of use. programmers can quite often get through with few parenthesis. but this situation makes reading and correcting programs very difficult, The following esamples illustrate this: (Bad Way) k - a div 2 a/b + c/d + elf k>yorq a+b<c (Good Way) k - (a div 2) (a/b) + (c/d) + (e/f) (k > y) or q (a + b) < c
+
+writeln; writeln (first, second, third): About two or three blank lines should also be left before every subprogram declaration and before the beginning of the main program. One blank line should be left before CONST. TYPE, VAR declaration sections. A blank line should be left before every comments. to make it prominent. 7.1.1 Explanations Proper use of blank lines in the program code improves the code appearance and enhances its readability, 7.2 Blank Spaces 7.2.1 Guidelines Use of blank spaces is often optional at many places in the language syntes. Yet, blanks should be left in all places that would improve the readability of the code. One blank space should always be left before and after the arithmetic operators (+, -, : = etc) and logical operators (>. <, < =, > =, <>, =). A space should also be left wafterevery comma: and before and after separators like colon *:' equal. etc. A blank should also be left after (`*' or `(` and before `*`) or `}' comment delimiters. Blank spaces can be used to reflect operators precedence in expressions. Thus, one should use. for example, 1 + a*b (better way) and not 1 + a * b (misleading) 7.2.2 Explanations Just as blank lines, blank spaces also improve the code appearance and enhance its readability. 7.3 Parentheses 7.3.1
+Guidelines
+
+A basic rule is: whenever in doubt, use parentheses. not only to improve readability. but to prevent errors. However, commonsense should be used to avoid using so many parentheses that is confusing instead of clarifying, for example, ((((ah) + (c/d)) + ((e/f))) A single esprcssion of extreme complexity with man! adjacent parentheses should be broken into several separate statcmcnts for clarity. 7.3.2
+Explnrrntions
+
+When properly used. parentheses greatly improves the readability of expressions used in the program. They help removing the contusion in the reader`s mind which could otherwise arise regarding the various operator precedences. Programmers often under parentheses in logical expressions with the result that the program is incorrect. 7.4 One Statement per Line 7.4.1
+Ci~4iilelines
+
+Although Pascal allows several statements on one line. it is usually a bad practice to nse mnltiple statements on one line. it makes the program ver-! difficult to read. A better approach is to place onl! one statement on each line, for example. look at the following two places of code: (bad way) a : = 14.2: for i : = 1 to 10 do begin x (i) : = 0: k: = i * k: y (i) : = k: end: (good way) a: = 14.2: for i : = I lo 10 do begin k:= 1 *k: y (i) : = k: End:
+
+Since mathematical
+
+and logical
+
+operations
+
+are
+
+IS 14430 : 1997 7.4.2 Explanation Using only one statement per line makes the code lookvery neat and hence improves its readability significantly. Syntex error messages from the compiler usually indicates the line number so if only one statement is on one line, it also becomes easier to locate the syntex error. 7.5 Splitting 7.51 Expressions Var Sqeue : array [ stop-number-type] bus : bus-number-type: of q-length-type:
+
+Similarly. one should also try to columnarize the : = signs in a sequence of arithmetic assignment statements, for example, a sign cost : = : = : = b+c: base * count; pay * bonus;
+
+Guidelines
+
+7.6.2 Explai7aIiori.v Columnarization greatly improves the neatness and readability of the program. It makes the code look pleasing to the e!re. 7.7 Indentation 7.7.1 C;uitfelines Statements should be indented to indicate that the! belong together. Look at the following two segments of code: (with no indentation. not readable if i c 1 then factorial : = 1 else begin factorial : = 1: for j : = 2 to 1 do factorial : = factorial * j end: ( I\ itb proper idcntation. highly readable) if i < I tlicn factorial : = 1 clsc begin rectorial : = factorial * j: for j : = 2 to i do factorial : = factorial * j: end: Hcrc WCsuggcsl indentation control struclurcs. layouts for various Pascal at all) of Control Structures
+
+If an arithmetic expression statement does not fit on one line, and has to be split over two lines, it should be split after an operator, for example: (careless form) a:=b-c - (d + 2); (better form) a:=b-c(d + 2): Further the second line should always be indented to the right of the_assignment operator on the previous line. Similarly, if a procedure or function call cannot be accommoda,ted on one line, the parameter list should be applied after a comma -.' and the successive line should be indented to the right of opening parentheses `(' on the previous line. 7.5.2 Explanntions Splitting statements in the above fashion lcaves an operator or separator character dangling on the first line which nil1 immediately indicate to the reader that the statement is to be continued on the nest line. 7.6 Columnarization 7.6.1 Guidelines One should always try to line up all the .=* signs in CONST and TYPE declarations, and `,' signs in VAR declarations, for example: Const: STOP - MAX BUS -MAX Q-MAX Type: Stop - number-type bus - number-type q - length-tJ,pe = 0 , , STOP-MAX = 0 , . BUS-MAX = 0,) Q-MAX = 100; = = 25: 75:
+
+A general rule is that for every successive level of indentation. indent three spaces to the right. and indent all statements ;II the sane level by same amount.
+In the follo\\ing discussion. Sl. S2 . . . . . . . . SN are statcmcnts (possibly compound), b is a boolean cspression. is a scalar variable. and espr 1 and expr 2 arc scalar csprcssions.
+
+i) La!.out for compound bcgi n SI:
+
+statements:
+
+IS 14430 : 1997 s2;
+
+SN; end ii) Laytout for IF statement: if b then Sl: else S2; if Sl and S2 are compound following layout: if b then begin Sl; s2: statements use the
+
+SN: end: vi) Layout for CASE statement and ai`s are case lables) case c of al : Sl a2 : S2: : (C is case selector
+
+aN : SN: end: vii) Layout for WITH statement identifier) with \I dc begin Sl: (v is a record
+
+SN;
+end else begin Sl; s2;
+
+SN end: 7.7.2 Eup/fllrntir~l7
+
+iN: end: iii) Layout for WHILE STATEMENT: While b do Sl. if Sl is compound use while b do begin Sl: s2: Proper identation greati\ improves the readability of the program. It reflects the logical structure of the program and makes it look pleasing to~the eye. It is of great help when one is trying to trace the program`s control flow. 7.8 Indentation of Data Structures
+
+iN:
+end: iv) Layout for REPEAT repeat Sl: statement:
+
+Besides showing program structure, indentation should also be used to show data structures wherever possible: for example. see the following record declarations. Student : record
+
+iN:
+
+until b: v) Layout for FOR statement: for i : = esprl to espr2 do Sl: if Sl is compound then for i : = esprl to espr2 do begin Sl: s2: 7
+
+name : array [ 1..25] of char: address: record street : street type: city : city type: state : state type: end: age : integer: end:
+
+Just as in case of control structures. indentation in record declarations also reflects the structure and nesting of the data elements involved.
+
+Is 14430 : 1997 7.9 Indentation 7.9.1 Guidelines of Nested Subprograms
+
+entering a new program neatly is not difficult, revising a program while presenfing the layout can be~extremely tedious. 8 LDENTIFlER NAMES AND THEIR
+DECLARATION 8.1 Choosing SCOPE Names Meaningful
+
+Pascal allows declaration of procedures and functions within other procedures or functions. However, it is recommended that nesting of procedures and functions should be avoided as the programs do not necessarily become more readable if this is done. Still, if such nesting is used, subprograms should be appropriately intended to show their scope and structure. Subprograms should never be nested more than one level deep. The following example shows indentation procedures nested one level deep: procedure a: procedure b; begin of
+
+Identifier names should always be selected to best identify the symbolic quantity or thing they respresent. Look at the following two statements: m : = s / (n - b); average : = sum / (count - invalid) The former gives no clue to the purpose of the operations we are performing whereas the latter is quite clear c\:en when presented out of context. Since Pascal places no restrictions on identifier lengths. names as long as necessary should be used. However. it should be tried that all identifiers are unique within the first fifteen characters. Visually similar names and coilfusing characters ( for esample. A x 10 and A x 10 ) should be avoided. 8.1.2 Explanations Nothing contributes as much to a program's clarity and readability as does the selection of good nemonic names. Unwise choice of-variable or procedure names can render an othenvise clear program nearly incomprehensible. 8.2 Delimit
+Words in Indentifiers
+
+end; (of b) procedure c; begin
+
+end; (of c) begin (of a)
+
+end; ( of a) 7.9.2 Explanations Indentation of nested subprograms helps indicating their scope and hence enhances the program's readability. 7.10 Automatic Indentation
+
+Most programming environments provide certain programs that format Pascal program automatically. Programmers who write programs with good intelligible layouts do not need to use such formatting programs. Others may feel that counting blanks is something that the computer can do better than they can, and they would prefer to use formatting programs. People working together on a project, should initially decide whether or not to use a formatter, and then everyone should stick to the decision. However, there are atleast two good reasons for using a formatter, even if one is justifiably proud of this on layouts. First, automatically formatted programs would always be consistent in layout. Second. although
+8
+
+Although slaudard Pascal does not allow use of any 111ost i n indentifiers, characters special allow some delimiters like iiilpleliieiltatioils underscore (.). etc. to be used in identifiers. It is a good idea to use delimiters to separate all the words in an identifier. for example: recoil should be re-coil identry should be id-e_litry crafter should cr-after If the complier does not allow use of any delimitor character within identifiers then mixed case letters should be used to delimit words, for example. the first letter of each word should be in uppercase, for example: R&oil IdEntq CrAfier
+
+1s 14430 : 1997 8.2.1 Explanations 8.5 Use of Indentifiers Standard Prefixes or Suffi-xes to
+
+Separators make the names more -readable and less susceptible to other interpretations. 8.3 Preserve
+Identifier Meanings
+
+8.5.1 Grridelines When working with several files, it is often a good idea to use a standard prefix to the file name. its corresponding record name and to all the fields of that record. for example, in the example below. MST is used as a prefix for the Master file: mst-student-record
+: record
+
+8.3.1 Guidelines One variable should never be used for multiple purposes, for example, it should never be used to denote different things at different points of time in the program. Similarly. identifiers declared in outer-blocks. should not be redeclared in inner-blocks as local \ylriablcs/ constants. However. this rule does not apply to variables used as general purpose array indices. loop counters. for example, i. j, etc. In subprogram declarations. as far as possible. formal parameter should be given the same names as that of actual parameters used in calls. 8.3.2 Justipcation Many programmers use one variable to denote different things at different points of time in the program. The rationale given is memory efficiency. But there are several things wrong in this practice. First, since each identifier in the program should be given a descriptive name that suggests itspurpose, this is not possible if the same identifier is used for multiple purposes. Second. using an identifier for multiple is _ purposes . a dangerous practice. because it makes the program code very sensitive to later modifications. Redefinitions of identifiers in inner blocks confusion and hamper readability. 8.4 Project-Wide
+8.4.1 Guidelines Standard Ahhrcvi;lti&s
+cause
+
+: name-type: nist-name mst-address : address-type: mst-number : number-type;
+
+end: mst-student-file
+
+: file of mst-student-record:
+
+It is also helpful to use a suffix - `type' to all type identifiers. for example, = 1.. max-lines counter-type page-index-type= 1..max-on-page: = packed array (word-type) or word-type char; 8.5.2 Explanations If each file as a unique prefix, it helps locating the field in the program listing. When there are several records being used in a program. and especially nested ones. then it is often convenient to use with record 1. record 2, _..... . . do begin
+
+end:
+
+When working on a large project, each programming manager should find it advantageous to develop a list of standard abbreviations pertirientto the applications. And then everyone in the team should use only those abbreviations and not their own variations in their programs. In absence of standard abbreviations, different programmers would use different codes to mean the name things, for example, different people could use mstr, mast mst. etc, to abbreviate master leading to confusion. 8.4.2 Explanations Use of standard abbreviations ensures consistency among all programs over the project, and is vev helpful when programs written by one person areread by others in the team.
+9
+
+type of construct to aviod writing very long field qualifiers. In such situations the use of standard prefixes to field names is of great help in identieing fields with their corresponding records. It also removes confusion when identical field names are used in different records. for example; mst-date trn-date rcc-date (master date) (transaction date) (record date)
+
+Even though three date fields are used each one is easy to identifv because of the prefix. 8.6 Distinguish 8.6.1 Guidelines All constants declared in the program should always
+Variithles from Constants
+
+IS 14430 : 1997
+
+be written in upper case letters and all other identifiers like variables. types, procedure and function names. etc, should be written in lower case letters. 8.6.2 JusrijYcation Using different case letters for constants and variables is of great help while reading large programs with hundreds of variables and constants. The appearance of the identifier itself, in any expression. indicates whether it is a variable or constant. 8.7 Project-Wide
+8.7.1 Guidelines Standard Include Files
+
+Variables local to a subprogram should be declared locally ( for example. nested ) but the program does not necessarily becomes more readable if this is done.
+
+It is easier to locate a constant or type identifier
+
+if thcrc is one constant and type declarations section at fhe beginning orthe~program than if the!, are declared in e\`er!' subprogram. Declarations of local variables within the subprograms they are used in is of great help from program maintenance point of view. 9 CONTROL
+9.1 Multiple STRUCTURES SUBPROGRAMS
+Choice &xnching
+
+In case of large projects, all programmers should use a project wide standard set of constants, typesvariable declarations that are common to several programs in the project. The project leaders should identify these common sets of declarations and write them in separate source-files, which should then be directly included in all the programs requiring them. Most compilers provide such including of copying facilities, for example, VAX 11 Pascal compiler provides % INCLUDE facility to include other files in the source code. The names defined in these project-wide include-files becomes, in effect, reserved words for that project. Even if a programmer does not need them in some program, he or she should not use those names to declare other things, because later modifications to the program might require their use. 8.7.2 Explanation Use of project-wide standard INCLUDE files ensures consistency in declaration of identifiers common to several programs in the project. It also helps when the declaration for any such common identifier needs to be modified. Only the INCLUDE file would need to be modified iustead of modifying all individual programs using that identifier. Also, different versions of a project can 1laj.edifferent include environments. thus saving the trouble of modifying declarations in all programs.
+8.8 Scppe of Declarations 8.8.1 Guidelines
+
+AND
+
+CASE statement should be used for multiple choice branching instead of a series of IF-THEN statements. IF should be used for multiple choice constructs onl! ivhcn the conditions are not mutually exclusive. when their order of c\~aluation is important or when different \,arinbles ha\.c to be tested together. 9. I .2 E.~plnr~alions Although the IF statement could always be used instead of CASE. use of CASE greatly enhances the readabilit!.. 9.2 Avoiding
+Then-If Constructs
+
+9.2.1 Guidelirie.~
+
+A THEN-IF CONSTRUCT IS OF THE FORM: IF (;I `, b) thcti if (s then a : = else a : = else a : = > y)
+s
+
+b b:
+
+THEN-LF consln1c1s should always be rewritten in the more ob\,ious ELSE-IF form. as in the follo\ving
+scg111c111: If ( ;I < =
+
+b) else if ( s > y )
+II~CI~ a else a : = \:
+
+: =
+
+ix
+
+Constants should always have global scope. Types should also have global scope in most cases. Variables should be declared according to their usage.
+
+9.2.2 Explanations THEN-IF statements tend to obscure the conditions under which various actions are performed. ELSEIF constructs are easier to understand and follow.
+
+10
+
+IS 14430 : 1997 9.3 Avoiding 9.3.1
+Guidelines
+
+Repeat-Until
+
+Loops
+
+bc implemenred with interactive WHILE. FOR etc.
+
+control
+
+structure,
+
+The WHILE-DO loop should be used instead of REPEAT-UNTIL loop, except where the logic of the problem, explicitly requires doing the body of the loop atleast once regardless of the loop conditions. 9.3.2 Explnrrations REPEAT-UNTIL is discouraged because loops should be coded in their more natural form and they should test their looping conditions before proceeding to execute the loop body. 9.4 Avoiding 9.4.1 Goto's
+
+In most program units GOT0 should not be required. bur if required not more than one GOT0 should be used in the program unit. 9.4.2 E.x-plnnations with errors
+
+The use of GOTO's is highly correlated and had-to-read code.
+
+The GOT0 is also prohibited for the abstruct reason that algorithms should be expressed in structure of the underlying reasoning or thinking process. 9.5 Avoiding Depth Nestings
+
+Guidelines
+
+9.5. I Guidelinc~.v Nesting of programs constructs to depths greater than three or four levels should be avoided. Procedure calls should be used to avoid excessive nesting.
+t3plnnrrtioil.v: II Ihe
+
+The use of GOT0 statement ( and hence labels ) should be avoided. Pascal provides all types of structured control statements like IF-THEN-ELSE, WHILE-DO. FOR DO, CASE, etc. with the help of which all types of constructs can be easily implemented without using GOTO. However, use of~GOT0 may be considered in situations where it considerably impro\cs the organization and clarity of the program. it should be used when an error or abnormal termination of an entire program unit causes sudden break in the normal flow of logic. In such a case, the GOT0 would usually jump to the end of the entire program unit. For example. if execution is deeply nested inside a set of looping structures and a fatal error is encountered. it might be very inconvenient to csil from the loops one level at a time using boolean variables. It might be better to handle this multilevel exit with a single GOTO, as in the following fragment, which terminates whenever a negative element is encountered in a J-dimensional array called matrix' 1I for i : = 1 to DEPTH do for j :- = 1 to WIDTH do for k : = 1 to LENGTH do if matrix [ i, j, k 1 < o then goto 99 ( transfer to program end ) else sum = sum + matrix [ i. .i. k 1: 99 : end: ( of subprogram )
+
+nesting
+
+becomes
+
+too deep, as in
+
+While Bi do if B2 then while B3 do if BA then SI else S2 it becomes cstrcmelq difficult to determine the coditions under which statements like S2 above, will bc csecuted. The clarity of the code is obscured. Esccssivc nesting is also an indication of fuzzy thinking and poor design: 9.6 Subpro~ritm 9.6.1 Tlrc C;~r/t/e/inc~s prcfcrrcd Arguments
+
+conlmllniclltion
+
+method for inter-subprogram should ~always be passing of arguments or parameters as against the use of global \,ariablcs.Howcvcr. the program should be so decomposed into subprogram that both the parameters as well as global variables used in individual subprograms arc fcu,, in number. A good rule is to use five as an upper bound on the number of parameters to a subprogram. Global variables should be used only on a highI! selective and needed basis. Any side effects caused on them by the subprogram invocations should be clearly indicated and highlighted through appropriate conimen(s.
+
+Wherever GOT0 is used it is a good idea to add a comment there, since the label its&f does not reflect the location of transfer. ( Afterall, the~label 99: can be anywhere in the program unit ). GOT0 should never be used a lump backward. By definition, a backward jump is a loop and it can always iI
+
+IS 14430 : 1997
+95.2 Explanation 10.1 No Hard-Coding IO. 1.1 G~tidc~lincts
+
+Long and involved parameter lists result in cscessivel) complex subprograms that are diflicult to understand. and difficult to use. If too many global variables are used in procedures or functions, then future modifications in the programs become extremely difficult to make. 9.7 Restrictions
+9.7.1 Guidelines on Subprogram Size
+
+Constants should always be given symbolic names and declared in the CONST declaration section. Inside the program code they should be referred only those symbolic names and not be their actual values. for example. when defining array bounds or bvhile tra\.ersing an array using a FOR loop, the symbolic name of the last index value of the array should be used. for example: (bad programming) If index < 100 then ,..__....._. ,. (good programming) CONST SIZE = 101):
+
+It is very important that all programs should be so designed that most of the procedures or functions used are smaller than 30-40 lines of source-code and in no case should they exceed one page of computer printout. This, of course does not mean that one should artificially split on otherwise cohesive code into places, just to satisfy the above criteria. Top-down design, that is. development b!, step-wise refinement of the problem is very helpful in modularizing the programs. 9.7.2 Explanations Algorithms are easier to create and to miderstand if they are built with places small enough to be grasped as one concept. They also become easier to maintain if all subprogram units are small in size. 9.8 Project-Wide
+9.8.1 Guidelines Standard Libraries
+
+It (index < SIZE) then Similarly. nhen using axy codes. symbolic names of the codes should be used in the program and the actual codes should be declared in the CONST declarations. A good rule is that program should not contain an! literals other than 0 and 1 outside the CONST declaration section. Literal strings. however, may be used in write statements. 10. I .2 Expltrnalions that arc hard-coded (otherwise known as *magic numbers because they mysteriously appear with no csplanations) are hard to locate when
+Constants 11~ programs. Furthermore. instances of one' or `constant plus one' for example. arc c\m more e1ush.e to the reader or the niaintciiancc programnier. modifying
+
+General purpose procedures or functions that are called by more than one program in a project. should be placed in separate source files, compiled and maintained as library procedures or hmctions. There should not be too many libraries floating around. butthe object codes of all the general purpose subprograms should be pooled into one central library which should then be accessible to everyone in the team. 9.8.2 Explanations Use of project-wide standard libraries ensures consistency in the use of primitive general purpose procedures/functions over the project. Their use also reduces development time which would otherwise be spent by several persons developing them for use in their respective programs. 10 OTHER STANDARDS
+
+`constant minus
+
+Use of symbolic
+generality
+
+constants in10 the program. Non-portable
+
+also
+
+helps
+
+building
+
+10.2 Avoiding 10.2.1
+C;ui&lim.t
+
+Compiler
+
+Features
+
+Different compilers provide different estensions over and above the standard features supported by the language. Use of these extensions provided by the compiler should be restricted. If it is inevitable to
+use them. all the environiuent-specific-features dependent code should be locaiised and segregated from the other code.
+
+12
+
+1s 14430 : 1997 However, it- may be noted that. although use of underscore in identifier names, using facility to include other files in the source-code tile, etc. are non-standaid features provided by most compilers. their use is not discouraged, as the benefits accrued by their use far outweigh tl;e effort required in modifying the code while porting it to a new system. 10.2.2 Explanations Avoiding the use of non-standard features provided by the compiler minimizes the effort required when the software has to be ported to a new system/ environment. 10.3 Code Reviews
+11 CONCLUSION
+
+who certify that the program is reasonable in style and format. This small requirements by a programming manager would result in better designed programs at almost no cost. It would make the programmers much more conscious of style and clarity because of the knowledge that two people would be reviewing his or her programs. Also. there is a class of bugs known as blind spots which will never be found by the author of the program. If there is a procedure that every program is reviewed by someone other than its author, such bugs could bc detected early and save the embarassment to the author when these bugs surface later.
+
+In some disciplines like Engineering Drawing. a supervisor usually signs the drawings when he or she agrees that they look nice and conform to the company or professional standards. Unfortunately we do uot often have any such requirements in programming. Clarity and style are almost always ignored: everyone wants to know if the program works, and. if not. when it will. It should be worthwhile to have non-trivial programs bear signatures of two people other than its author,
+
+It should be clear to every programmer that a small extra effort ueeded in `the beginning to make programming readable is minimal in comparison to the cost ofrevising, locating errors in, or modifying an abstruse program. Programs have tendency io stay aromld longer than planned and grow in use for beyond the original plan. so it seems worthwhile to write a good program right in the begimling and save trouble later.
+
+13
+
+Bureau of Indian Standards BIS is a statutory institution established under the Bureau ofIndian StandardsAct, 1986 to promote harmonious development of the activities of standardization, marking and quality certification of goods and attending to connected matters in the country. Copyright BIS has the copyright of all its publications. No part ofthese publications maybe reproduced in any form without the prior permission in writing of BIS. This does not preclude the free use, in the course of implementing the standard, of necessary details, such as symbols and sizes, type or grade designations. Enquiries relating to copyright be addressed to the Director (Publications), BIS. Review of Indian Standards Amendments are issued to standards as the need arises on the basis of comments. Standards are also reviewed periodically; a standard along with amendments is reaffirmed when such review indicates that no changes are needed; if the review indicates that changes are needed, it is taken up for revision. Users of Indian Standards should ascertain that they are in possession of the latest amendments or edition by referring to the latest issue of `BIS Handbook' and `Standards : Monthly Additions'. This Indian Standard
+has been de\,cloped from Dot : No. LTD 31 ( 1527 )
+
+Amendments Issued Since Publication Amend No. Date of lssue Text Affected
+
+BUREAU
+Headquarters:
+
+OF
+
+INDIAN
+
+STANDARDS
+Telegrams: Manaksanstha ( Common to all offices ) Telephone I 32376 17 323 3841 337 84 99,337 85 61 337 86 26, 337 86 62 60 38 43 I 60 20 25 23502 16,2350442 235 15 19,235 23 15 832 92 95,832 78 58 8327891,8327892
+
+Manak Bhavan, 9 Bahadur Shah Zafar Marg, New Delhi 110002 Telephones : 323 01 31,323 94 02, 323 33 75 Regional Offices: Central : Manak Bhavan, 9 Bahadur Shah Zafar Marg NEW DELHI 110002 Eastern : l/14 C. I. T. Scheme VII M, V. I. P. Road, Maniktola CALCUTTA 700054 Northern : SC0 335-336, Sector 34-A, CHANDIGARH 160022 Southern : C. I. T. Campus, IV Cross Road, CHENNAI 600113 Western : Manakalaya, E9 MIDC, Marol, Andheri (East) MUMBAI 400093
+
+BHUBANESHWAR. Branches : AHMADABAD. BHOPAL. BANGALORE. COIMBATORE. FARIDABAD. GHAZIABAD. GUWAHATI. HYDERABAD. JAIPUR. KANPUR. LUCKNOW. NAGPUR. PATNA. PUNE. THIRUVANANTHAPURAM. Printing Press,
+
+Printed at New India
+
+Khurja, India
+
+

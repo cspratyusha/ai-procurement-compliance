@@ -1,0 +1,487 @@
+IS
+UDC 681'327'18
+
+: 11416-1986 2628-i 973
+
+IS0
+
+El
+1 I
+0
+
+Indian Standard
+
+( Reaffirmed 2003 )
+
+BASIC
+
+MODE
+
+CONTROL PROCEDURES COMPLEMENTS
+
+-
+
+a
+
+National
+
+Foreword
+
+5 ..
+0
+
+x
+
+This Indian Standard which is identical with IS0 2628-1973 `Basic mode control procedures - complements', issued by the International Organization for Standardization (ISO), was adopted by the Indian Standards Institution on the recommendation of the Computers, Business Machines and Calculators Sectional Committee and approved by the Electronics and Telecommunication Division Council. Wherever the words `International be read as `Indian Standard'. Reference Standard' appear referring to this standard, they
+
+should Cross
+
+International
+
+Standard
+
+Corresponding lndian Standard
+IS : 11414-1986 Basic mode control dures for data communication (Identical) procesystems
+
+IS0 1745-1975 Information processing -Basic mode control prdcedures for data communication systems IS0 2111-1985 Data communication-Basic mode control proceduresCode independent info.rmation transfer
+
+IS : 11415-1986 Basic mode controlprocedures for code independent information transfer (Identical)
+
+i
+
+Adopted
+
+15 January
+
+1986
+
+@
+
+March 1986,
+
+ISI
+
+Gr
+
+6
+
+INDlAN MANAK
+
+STANDARDS BHAVAN,9 NEW DELHI
+
+INSTITUTION ZAFAR MAR6 110002
+
+BAHADURSHAH
+
+IS : 11416-1986 IS0 2628-l 973
+
+0
+
+INTRODUCTION
+
+A data communication system may be considered as the set of the terminal installations and the interconnecting network that permits information to be exchanged. A data link comprises terminal installations connected to the same network, operating at the same speed, in the same code. Any "store and forward" delay or intermediate data processing separates data links. Any system is constituted of one or several data links. The information transfer in a data link is monitored by data link control `procedures where some characters, selected within a coded character set, are given particular meanings according to the transmission phase and are used for various purposes such as to delineate information, to reverse the direction of transmission, to ask questions, to answer, etc. This International Standard defines complements to the basic mode and its extensions : 1) Recovery procedures -- System guidelines are given for the use of timers, counters, etc.; 2) Abort and interrupt procedures -- Defines abort procedures which are always initiated by the master station, and interrupt procedures which are always initiated by the slave station; 3) Multiple station selection -- Gives means whereby a master station may select more than one slave station so that all the selected slave stations receive the same transmission at the same time.
+
+systems Standard. However, those International implementing the functions described in this International Standard and conforming to. ISO/R 1745 and IS0 2111, must follow these recommendations. 2 REFERENCES
+
+lSO/R 1745, Basic mode control procedures for data communication systems. (At present under revision.) IS0 2111, Data communication - Basic mode control procedures - Code independent information transfer. CCITT Recommendation V24, Function and electrical characteristics of circuits at the interface between data terminal equipment and data communication equipment.
+
+3 3.1
+
+RECOVERY General
+
+PROCEDURES
+
+These recovery procedures are system guidelines wt&h should be used by all stations, as applicable. However, it is recognized the detailed method of station that mechanization, absolute value of timers, etc., may vary with applications and communication facilities. In some cases, these recovery procedures can only detect the error condition and then notify the operator or the processor program, or both. In more sophisticated cases, automatic recovery is partially or completely possible. In other cases, only operators can perform the recovery procedures. Operator recovery procedures are not part of this International Standard. However, the operator may do such things as retry n more times, establish voice communication to the distant station in order to determine trouble, etc. For a good system, the functions of timers A, B, and C defined below, must be utilized. The value of the timer may vary over a wide range depending upon whether they are implemented via hardware, software, or human operator. It is recognized that in some systems additional timers may be required for such purposes as aiding synchronization procedures, added reliability, etc. 3.2 Timers and counters
+
+1 SCOPE AND FIELD OF APPLICATION This International Standard extends the digital basic mode control procedures as defined in ISOK? 1745 and IS0 2111, to allow the following features :
+
+1) Recovery procedures;
+2) 3) Abort and interrupt procedures; Multiple station selection.
+
+Those systems which conform to ISO/R 1745 do not necessarily have to include the functions described in this
+
+Timers are prirnarily used as aids in recovery procedures when recognition of specific control characters does not occur. The action taken following a time-out is specified in
+
+2
+
+IS : 11416-1986 IS0 26284 973
+general terms to provide system protection. The absolute values of the timers are dependent upon such things as manual use, non-manual data entry, speed of transmission, type of data source/sink, etc. Counting is primarily used as an aid in determining what recovery alternative is applicable in each error condition. The number of consecutive negative or invalid replies and the number of consecutive attempts to recover using one recovery procedure before an alternative is chosen depends upon the network configuration, quality of the channel, and application. 3.2.1
+Timer A (No-response timer)
+
+When time-out occurs : 1) remain in slave status and initiate search for character synchronization in synchronous systems; 2) prepare to receive another transmission;
+
+3) notify operator or processor program or both, and discard the incomplete block; 4) return to non-transparent mode, if applicable.
+
+NOTE - For maximum system efficiency, the duration of the no-response timer (Timer A) should be short and the receive timer (Timer B) should time-out before the no-response timer.
+
+Where implemented : control station, master station, or both. Purpose : protection response. against an invalid response or no
+
+3.2.3
+
+Timer C (No-activitv timer for switched lines)
+
+Where implemented : all stations. Purpose : facilitates disconnection procedures of the communication line if data transmission stops due to not recognizing DLE EOT, or due to remote station or communication facility problems. Start or restart :
+
+Start : after transmitting any ending character where a reply is expected; for example ENQ, ETE, ETX, DLE ETB, DLE ETX. Stop : upon receipt of a valid reply from the communication line; for example ACK, NAK, STX, EOT, DLE STX. When time-out occurs :
+
+1) upon receipt of indication of circuit connection; for example receipt of ON condition of circuit 107 (data set ready2)) or circuit 125 (calling indicator2)) and circuit 108.2 (data terminal readv2)).
+2) upon receipt or transmission of any character in asynchronous systems or the synchronizing sequence in synchronous systems. stop :
+
+1) -
+
+retransmit same information (up to n times)`), or
+
+- transmit different information; for example ENQ, different polling/selection sequence; 2) transmit used; 3) 4) 3.2.2 EOT, when station abort procedures are
+
+1) upon receipt or transmission of DLE EOT, or
+2) loss of circuit 107 (data set ready2))
+
+notify operator or processor program, or both; return to non-transparent mode, if applicable.
+Timer B (Receive timer)
+
+When time-out occurs : 1) 2) 3) 4) 3.2.4 disconnect communication circuit; notify operator or processor program, or both; return to control mode, if applicable; return to non-transparent mode, if applicable.
+Timer 0
+
+Where implemented : slave station. Purpose : protection against non-recognition of any block terminating character, for example ETB, ETX, ENQ, DLE ETB or DLE ETX received from the communication line. Start : 1) receipt of SOH, STX (if not preceded by SOH), DLE SOH, DLE STX or other opening characters or sequence as required. 2) this timer may be restarted to permit receipt of variable length blocks. Stop : upon receipt of a valid terminating character or sequence; for example ETB, ETX, ENQ, DLE ETB, DLE ETX.
+
+(No-activity timer for non-switched lines)
+
+Where implemented : control station Purpose : serves as a "no-activity" time-out for all stations in a system. Start or restart : upon receipt or transmission of any character in asynchronous systems or after the synchronizing sequence in synchronous systems. Stop : upon receipt or transmission of EOT
+
+11
+
+schemeis not
+21 CCITT
+
+Retransmission of a data block used. - V 24 designation.
+
+can result
+
+in duplication
+
+of a block
+
+at the receiving
+
+location
+
+if a block numbering
+
+or other Protective
+
+3
+
+IS : 11416-1986 IS0 2628-l 973
+When time-out occurs : 1) `notify operator or processor program, or both; 2) 3) 3.3 return to control mode, if applicable; return to non-transparent mode, if applicable. Recovery procedures R4 - In the case of : 1) repeated negative replies (NAK) or invalid or no responses to a selection supervisory sequence, the master station should notify the operator or processor program, or both; 2) repeated negative replies (NAK) or failure to receive a valid reply for an information block, the master station may transmit an EOT (if master station abort is used) and/or notify the operator or processor program, or both. 3.3.3 Recovery procedures
+by a slave station
+
+Some recovery procedures are outlined in the following with their linkage to the appropriate phase diagrams in 4.2 of ISO/R 1745 and to the timers A, B and C described in this International Standard. In all cases, after the appropriate time-out periods, it shall be the final responsibility of either the control station or the master station to take action. 3.3.1
+Recovery procedures by control station
+
+`
+
+Recovery procedures by a slave station are explained by the functions of timer B (see 3.2.2).
+
+Rl -Inthecaseof: 1) invalid or absence of termination supervisory sequence detected by time-out of either timer A or timer'c, the control station must transmit EOT or DLE EOT whichever is appropriate; 2) invalid or no response to a polling/selection sequence detected by time-out of timer A, the control station may transmit the same or a different polling/selection sequence following the transmission of an EOT and/or notify operator or processor program, or both. R2 - In the case of : repeated unsuccessful polling of one, several or all stations, the control station should notify operator or processor program, or both. 3.3.2
+R3 -
+
+4 4.1
+
+ABORT AND INTERRUPT General
+
+PROCEDURES
+
+Abort procedures are always initiated by the master station wishing either 1) to stop transmittinn a block of information before its normal end (ETB or ETX) but without returning to control mode or neutral; or 2) to stop transmitting at any time during the information transfer phase and then return to control mode or neutral. Interrupt procedures are always initiated by the slave desires to receiving station which stop either instantaneously or within a short period of time. 4.2 Abort procedures
+Block abort
+DESCRIPTION
+
+Recovery procedures In the case of :
+
+by master station 4.2.1
+
+1) invalid or no response to a selecting supervisory sequence detected by the time-out of timer A, the master station may a) terminate by transmitting EOT;
+
+4.2.1.1
+
+b) transmit same or another selecting supervisory sequence (up to n times); c)
+2)
+
+The master station decides to terminate a block in an unusual way so that the slave station rejects this block. There is no return to control mode or neutral and the master station resumes transmission to the same slave station. 4.2.1.2
+PROCEOURE
+
+notify operator or processor program, or both.
+
+invalid or no response to information message detected by time-out of timer A the master station may a) repeat the previous transmission (up to n times). This procedure can lead to duplication of blocks; b) transmit prefix ENQ (up to n times) which requests the slave station to repeat its previous response (ACK or NAK). This procedure can lead to loss of blocks unless used in conjunction with a response numbering scheme to ensure that blocks are neither added nor deleted.
+4
+
+When the master station decides to abort a block, it terminates it immediately with EN0 (DLE ENQ if applicable). The slave station replies with NAK which is the .. only valid acknowledgement in this case. The master station then resumes transmission beginning with STX (or SOH). If the reply from the slave station is invalid, or if there is no reply, the normal recovery procedures may apply (n retries, time-out). (See Figure 1.)
+NOTE - As
+
+examples, block
+
+abort
+
+may be used in the following
+
+cases : the master station determines that invalid data have been sent;
+
+IS : 11416-1986 IS0 262801973
+
+for example, errors are detected at the buffer storage level, or when reading data from their media, or bv the source (operator). with fixed length blocks when, due to transmission, programming or operator errors, the block being transmitted overflows normal length. when the master station determines that the block transmitted will not be accepted by the slave station. being
+
+Master station is notified that the transmission urgently required for another purpose.
+
+media
+
+are
+
+4.3 4.3.1
+
+interrupt procedures Block interrupt DESCRIPTION
+
+4.3.1.1
+
+4.2.2 4.2.2.1
+
+Station abort DESCRIPTION
+
+The slave station, at the end of a message or of an information block, is no longer in a position to receive and wishes the master station to cease transmission immediately. 4.3.1.2 PROCEDURE
+
+The master station is sending a message and decides, either while a block of information is being sent or between two blocks of information, to stop transmitting and return to control mode or neutral. 4.2.2.2 a) PROCEDURE While a block is being sent
+
+The slave station replies EOT instead of its normal reply. EOT indicates a negative acknowledgeraent of the fast received block and the conclusion of the current transmission. The communication link returns to control mode or neutral. (See Figure 4.)
+NOTE - The classes : 1 2 Control Control transmission avstems fall intoone of the following
+
+When the master station decides to abort a transmission, it immediately sends the transmission control character ENQ (DLE ENQ). The slave station detects this unusual termination with ENQ (instead of ETB or ETX) and then replies with NAK which is the only validreply in this case. After receiving NAK, the master station sends EOT and the communication link returns to control mode or neutral. When there is no answer or an invalid answer, the normal recovery procedures may apply (n retries, time-out). (See Figure 2.) b) Between two blocks of information
+
+station is also master station. station is also slave station. only
+
+3
+
+Control station is neither master nor slave but is monitoring the transmissions of the master station. 4 Control station, being neither data exchange within the system.
+
+master nor slave, is monitoring
+
+all
+
+The block interrupt procedure, as described in 4.3.1.2above. can only be used in classes 1, 2 and 4. As regards class 3, the control station is not aware of the EOT sent bv the slave station and there is no way to return to control mode or neutral other than through recovery-procedures (control station time-out, for instance). For this reason, the use of block interrupt procedure is not recommended for systems falling in class'3 above. Concerning systems falling in classes 1, 2 and 4, block interrupt is not recommended for frequent utilization; its use should be reserved for emergency situations.
+
+The master station terminates the block being transmitted in the usual way. The usual answer of the slave station is ACK. The master station then sends EOT and the communication link goes back to control mode or neutral. If the answer is NAK or if there is no answer or an invalid one, the master station may or may not decide to use the normal recovery procedures (n retries, time-out) before transmitting EOT with_ the resulting return to control mode or neutral. (See Figure 3.1
+NOTES 1 In switched line applications,
+
+4.3.2 4.3.2.1
+
+Station interrupt DESCRIPTION
+
+Station interrupt is the means whereby a slave station can request the master station to stop transmitting as soon as possible. 4.3.22 PROCEDURE
+
+DLE EOT
+
+may be used in place of
+
+EOT. 2
+Examples of use
+
+: when
+
+it is intended
+
+to disconnect cases
+
+the line.
+
+Station interrupt is accomplished by the slave transmitting the control sequence DLE < instead of the normal positive acknowledgement. This reply has a double meaning : 1) it includes the positive acknowledgement would have been normally sent; which
+
+Master station abort may be used in the following Master station detects its own malfunction, of the transmitting media.
+
+:
+
+-
+
+or a malfunction
+
+Mseter station detects a failure in the slave station or in the link (persisting NAK, or invalid reply, or absence of reply) or the master station detects that the slave station is no longer in a position to receive.
+
+2) it means a request from the slave station to have the current transmission terminated at the earliest possible time (by the master station sending EOT). However, the master station may not stop transmitting immediately
+
+IS : 11416-1686 IS0 2628-l673
+and may, for instance, continue to transmit so that its buffers are cleared and readily available for further transmissions. The point where the master station effectively stops is system dependent.
+NOTES 2 Recovery procedures. The possibility of a station interrupt sequence being wrbled bv line disturbances should be considered. In particular, if beckward supervision numbering should be established, this rrury lead either to use the same numbering scheme for the station interrupt sequence 0s for the supervisory sequence, or to impose other rules to pssewe the correct information blocks sequencing. For instance, it should not bs permitted to continuously send the station interrupt sequence.
+
+1 Example of use. The control station beingalso the slavestation may want to interrupt so as to be able to urgently poll or Aect
+another tributary station.
+
+I
+
+(text/heading) _
+
+N El-
+
+other recovery procedures
+
+n retries
+
+slave
+
+master
+
+FIGURE 1 - Block abort
+
+,
+
+\ If
+
+N A K I4
+l
+
+E 0 T
+
+or
+
+DE LO ET > other recovery procedures
+
+Ir
+
+h
+
+invalid
+
+no answer (time-out)
+
+L
+n retries master c rlavr
+
+.
+
+A
+
+J
+tmastar
+
+FIGURE 2 - Station abort bhik a blodc is beingmtl
+
+6
+
+IS : 11416-1986 IS0 2626-l 973
+DE LO ET-
+
+C
+
+or N A K
+
+F
+-
+
+K
+
+invalid no answer (time-out)
+
+n retries
+
+retransmission
+
+t
+
+.I*
+
+I
+FIGURE 3 - Mmtw #fation abort betwom two infomwtbn bbckd
+
+(text/heading)
+
+mastar
+
+-
+
+-
+
+ha
+
+-
+
+e
+
+control (or neutral)
+
+FIGURE 4 - Bkdr intwrupt
+
+mastar
+
+--dna-wp,
+
+mastar
+
+FIGURE 5 - Smtiion hwrupt
+
+7
+
+IS : 114164986 IS0 2628-l 973
+5 5.1 MULTIPLE General STATION SELECTION
+
+5.1.1 Multiple selection is a means whereby a master station may select more than one slave station so that all the selected slave stations receive the same transmission at the same time. 5.1.2 The procedures for multiple selection are not covered by the basic mode control procedures, hence they are considered to be an extension to them. 5.1.3 When a system is designed to work both with and without the multiple selection procedure, some means must be provided for the master station to notify the slave stations which procedure is to be entered. For example, by assigning two different addressesto each station having both facilites. 5.2 Selection sub-phase
+
+Three methods providing various degrees of protection are proposed for the selection sub-phase. They are listed in the order of decreasing degree of protection. 52.1 Master Sequential selection with individual replies from the selected stations. Sel. Address 1 E N Q\Address / 1 A C K Sel. Address 2 E N `lAddress 2 / A C K Sel. Address n E N `lAddress n A/' C K S T
+
+Data
+
+Slaves
+
+5.2.2 Group selection with reply from one designated station, for example, the most distant one, or strategically located, or any station indicated within the selection sequence. Master Group Select Address X E N Q\ Address X K S Data
+
+Designated slave 5.2.3 Group selection with fast select. Master
+
+Group Select Address
+
+S T X
+
+Data
+
+5.3
+
+Information transfer phase
+
+Three methods providing various degrees of protection are proposed for the information transfer phase. They are listed in the order of decreasing degree of protection. 5.3.1 Information _transfer with individual replies from the slave station
+
+After each transmission block, the master station sends a delivery verification supervisory sequence, consisting of a prefix identifying a single slave station, follomd by EN0 Only tributary stations having slave status should respond to delivery verification supervisory sequences.
+
+Master
+
+E T X
+
+B C 0C
+
+Address 1
+
+E N a\ (Address 1) A C
+
+Addressn /
+
+E N A a\ (Address n) C K
+
+/
+
+Slaves
+
+K
+
+8
+
+IS : 114164966 IS0 2626-l 972
+6.3.2 Information transfer with reply from one designated station, for example the most distant, or strategically located.
+
+Master
+
+E
+T X A Address Xl C K/
+
+Designated rlave X being the address of the designated station. 5.3.3 No reply
+
+Although the "no reply" case is not considered by the basic mode, it is recognized that it may conveniently be used for general announcement (for example conference) and the broadcasting of messagesof a "clear text" type. 5.4 Relations between selection procedures and information transfer procedures
+
+Although the adoption of one of the three selection procedures does not preclude the adoption of any one of the three procedures for information transfer, it is recognized that some pairings would not be realistic. Straightforward pairings could be, for example, 2.1 with 3.1,2.2 with 3.2, and 2.3 with 3.3.
+
+9
+
+Mntod ot SlmcoPrlntlng Res8. Dolhl. ln4b
+
+

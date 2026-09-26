@@ -1,0 +1,332 @@
+IS 15823 : 2009
+
+Indian Standard
+
+HYDROMETRY- COMPUTING STREAM FLOW USING AN UNSTEADY FLOW MODEL
+
+ICS 17.1 20.20
+
+� BIS 2009
+
+BUREAU OF INDIAN STANDARDS
+MAN AK BHAVAN , 9 BAHADUR SHAH Z AFAR MARG N EW DELHI 110002
+
+Jun e 2009
+
+Price Group 5
+
+Hydrometry Se.ctional Committee, WRD 1
+
+FOREWORD This Indian Standard was adopted by the Bureau of Indian Standards, after the draft finalized by the Hydrometry Sectional Committee had been approved by the Water Resources Div ision Council. Unstead y flow models are appropriate for computing stream flo w records at locations where: a) b) c) d) a single-valued stage-discharge relat ion does not exist, backwater affects the discharge under selected or all conditions, flows are affected by tides, or it is not possible to gauge the flow using velocity-a rea methods.
+
+Unsteady flow models are also appropriate for evaluating the effects of changes in a managed flow regime on downstream conditions prior to the implementation of any changes. In the formulation of this standard cons iderable ass istance has been derived from ISO/TR 11627 : 1998 ' Measurement of liquid flow in open channels - Computing stream flow using an unsteady flow model' . For the purpose of deciding whether a particular requirement of this standard is complied with , the final value , observed or calculated, expressing the result of a test or analysis shall be rounded off in accordance with IS 2 : 1960 ' Rules for rounding off numerical values (re vised)' . The number of sign ificant places retained in the rounded off value should be the same as that of the s peci fied value in this standard.
+
+IS 15823: 2009
+
+Indian Standard
+
+HYDROMETRY- COMPUTING STREAM FLOW USING AN UNSTEADY FLOW MODEL
+
+1 SCOPE
+This standard lays down a method for computing continuous records of stream flow in an open channel through the numerical solution of the onedimensional unstead y flow equation s. Such an approach is typically identified as an unsteady flow model and generally involves the use of computers for solution of the flow equations. The method described in this standard is applicable to steady and unsteady flows and to tidal flows in which there are no significant longitudinal and vertical density gradients. The method is considered equivalent to, or better than, the commonly used stage-fall-discharge technique [see 7.2 and Annex C of IS 15119 (Part I�) because the method uses information on the physical characteristics of the channel, including the cross-sectional geometry, channel rugosity and channel slope, and the method is based on a mathematical description of the phys ics of fluid flow. This standard also describes the theoretical basis and fundampntal assumptions of the technique, and prov ides a summary of selected numerical methods used to so lve the unsteady flow equations. The details on the application of an unsteady flow model. including data requirements. procedures for model calibration, testing , and application s, and identification of uncertainties associated with the method have also been included. This standard, however does not provide sufficient information for the development of a computer programme for solving the unsteady flow equations, but rather it is based on the assumption that an adequately documented computer programme is available .
+2 REFERENCES
+o
+0>
+
+IS No. 1191 :2003
+
+Title
+Hydrometric determinations Vocabulary and symbols (se cond revision) Velocity area methods for measurement of flow in open channels (first revision) Liquid flow measurement in open channels - Slope - Area method (first revision) Requirement s for rotating element current meters (cup type) for water flow measurement (first revis ion) Sounding rods - Functional requirements (first revision) Dilution methods of measurement of steady flow: Part I Constant rate injection method Measurement of liquid flow in open channel - Water level measuring devices Measurement of liquid flow in open channels: Establishment and operation of a gauging station Determination of the stagedischarge relation Measurement of liquid flow in open channels under tidal conditions
+
+1192: 1981
+
+2912: 1999 / ISO 1070 : 1992 3910 : 1992
+
+3912: 1993 9163 (Part 1): 1979
+
+151 18: 20021 IS04373: 1995 15119
+
+(Part I) : 20021 ISO 1100-1:1996 (Part 2): 20021 ISO 1100-2 : 1998
+15122: 20021 ISO 2425 : 1999
+
+3 DEFINITIONS
+For the purpose of this standard. the definition s given in IS 1191 and the following shall appl y.
+
+1
+
+..
+-.t
+
+Ci z iii iii
+
+The following standards contain provisions which through reference in this text. constitute provisions of this standard. At the time of publication. the editions indicated were valid . All standards are subject to revision and parties to agreements based on this standard are encouraged to investigate the possibility of applying the most recent editions of the standards indicated below:
+
+3.1 Boundary Condition - A boundary condition is a condition that a dependent variable of a differential equation must sat isfy along the boundary of the model domain. Boundary conditions for the dependent variables should be specified at the physical extrem ities of the modeled region for the duration of model application .
+
+IS 15823 : 2009 3 .2 Courant Condition - The usual condition for the numerical stability of the explicit formu lation ofa numerical scheme wh ich requires that the ratio of the propagation speed of a physical di sturbance to that of a numerical s ignal sh ould not e xceed unity. 3.3 Explicit Finite - Difference Numerical Scheme - Expli cit numerical sch eme s convert either the characteri st ic e q ua t io ns or the g ov e rn ing equations to a system o f Iinear a lgebra ic equat ions from which the unkn own s may be solved d irectly ( explicitly) without iterati ve computat ions. Dependent vari ables o n the ad va nced tim e lev el are dete rm ined one point at a time fro m kno wn va lues and conditions at the pre sent or prev iou s time levels . Exp licit schemes are only conditi on all y st able , me aning that errors ma y g ro w as the so luti o n progre sses. and the errors are a function of the time and di stance finite-d ifference step sizes . Explicit sc he mes are generall y st able when the courant cond itions is met , wh ich results in limitations on the di stan ce step and maximum time wh ich can be used. 3.4 Gradually - Varied, Unsteady Flow-Generally no n-unifor m tlow in which there are no abrupt cha nges in depth along the longitudinal axi s of the ch ann el. and in wh ich depth (and vel ocity and d isch ar ge ) ch ange with time. 3.5 Hydrograph - A rel ati on in g ra p h ic a l, equat ional , or tabular form between time and flow va ria bles suc h as di sch ar ge d e pth . ve loc ity. a nd stage. Stage and d isch ar ge hyd rogr aph s are typically used for open channe l flows. 3.6 Implicit Finite - Difference Numerical Scheme -Implic it numerical schemes con vert either th e c ha rac te r is t ic equati on s o r th e g overn in g equ ati on s to a sy s te m o n non- l ine ar a lg e b ra ic eq uatio ns from wh ich the unknow ns must be so lved ite rativ e ly. All of th e unknown s with in the model domain are determined si multan eou s ly. rathe r th an point-by-point as w ith exp lici t methods " Impli c it me th od s a re g enera ll y s ta bl e. and are m ore computationally efficient than expl ici t sche mes . but implic it schemes require more complex co mpute r a lgo rit hms than do ex p lic it sc hemes . 3. 7 Initial Conditions - A de scr ipti on o f t he dynamic condition s (typ icall y. disc harge and depth of fl ow for unstead y flow mod el s ) in th e mod e l domain at some speci fied tim e, usua llv the be ainn inc of the si mulatio n period . For all subseq uent times~ t he go vernin g e q u a tio ns and t he boundarv condi tions describe the state of the sys te m. � 3.8 Method of Characteristics - Th e method of characteristics is a mathemat ical approach for so lving bo und a ry -v a l ue problems by tr an sforming the origina l partial d ifferential equations repre senting the phys ical system into corresponding characteristic equ ation s . The char a cteri stic equations are ordinary differenti al equations and generally are more amenable to num erical so lution than are the original partial different ial eq uations. 3.9 Momentum Coefficient - Th e momentum coe ffic ient, also known as the Boussinesq coefficient, quantifies the deviation of the velocity at an y point in a c ross-sec tio n from uniform ve loci ty di stribut ion in the sa me cross-section . A value of unity indi cates that a uniform velocity distribut ion is present in the cross-section . Th e momentum coefficient ge nerally varies between ab out 1.0 I and 1.12 for fairl y straight, pri smatic channels; coefficients are typicall y smaller for large, deep channel s than for small channels. 4 UNITS OF MEASUREMENT The units of measurement used in this standard are SI units 5 PRINCIPLES OF UNSTEADY FLOW MODELS 5.1 Governing Equations The foundations for the fundamental de ri vation of the governing one-dimensional unsteady flow equations were laid by the 19th century hydraulicians Coriolis , Boussinesq , and Saint Venant. The" governing equations are the one-dimensional , crosssectionally averaged expressions for the following: a) Conser vation of mass (or equation of continuity)
+-+-=q
+
+d4.
+
+CQ
+
+a
+
+D:
+
+...(1)
+
+b) Con servat ion of linear momentum
+
+--:=+-;:13) C1 Cf A + gA-:. cr +gA (SI' - S, , ) = 'flt' ...(Y - ."
+where
+A
+
+co c(
+
+Q2 )
+
+,",:,:
+
+cr oss-sectional are a o f the c ha nne l. and varie s with .r. t. and r; time: di sch ar ge. and var ies with x and t: lon g it udin al component of the lat er a l intl ow ve loc ity, and varies with x and t: longitudinal po sition alon g the c ha nne l axi s; depth of flow, and varies with x and t; accelerat ion of gravity ; momentum coefficient, and varies with .r, z, and t: lateral in fl o w per unit length of
+
+Q
+II'
+
+x
+
+z g
+
+fJ
+q
+2
+
+IS 15823 : 2009 channel , and vari es with x and t: bed slope, and varies with .r: and friction slope, and varie s with x, ( and z. The momentum coefficient may be computed as : 2. An un ste ad y flo w model wh ich is based on Equations I and ::! should gene ra lly be applied to th o se co nd it ions in whi ch none o f th e maj or ass umptions are se ve re ly violated. The assumptions are as follow s: a)
+...(3)
+
+,
+
+p= J - ,V-A where
+/I
+
+U-
+
+dA
+
+Flow is ap pro ximate ly on e-dimen si onal. meanin g that the predom inant spatial variation in dynamic conditions (d ischarge, velocity and stage) is in the longitud inal d irect ion. Fluid den sity is homogeneous thr oughout the modeled reach. Vert ica l acce ler at io ns are negli g ibl e (the hydro stat ic pre s sure di str ibuti on is appl icable). Veloc ity is uniformly distr ibuted in a given cross- sect ion . Inclu sion of the momentum coefficient in Equation 2 allow s th is assumpti on to be violated somewhat, but there should be no flow separation. and streamline should not be highly curvi linea r. Neither agg radation nor degradation of the flow channe l occurs. Turbul enc e and energy di ssipation can be described by res istan ce laws formul ated for steady, uniform flow (required for Equation 4). There are no abrupt changes in channel shape or alignment. The vel ocity is zero at the channel boundary. There is no superelevat ion of the water level at any cross-sect ion. Surface tens ion and the den sity of air at the free surface are negligible.
+
+~
+
+V
+
+velocity ill some elemental area d.i , and mean ve loc ity in the sa me cross-section ha ving a total
+areaA.
+
+b) c)
+
+The friction slope, Sf accounts for the resistance due to external boundary stresses. The friction slope is generally written as:
+Sf
+
+d)
+
+= =----=-AR
+
+Q / Q / n:
+4/1 .
+
+-
+
+...(4)
+
+where
+
+e)
+= =
+
+R
+n
+
+hydraulic rad ius. and manning coefficient.
+t)
+
+Both Rand n can vary as a funct ion of x, z, and t. Equation 4 is based on the assumption that the manning equation for steady uniform flow provides a reasonable approximation for Sf in unsteady, nonuniform flow. Equat ion 2 can be modified to include a term accoun ting for the momentum imparted to the water by a temporall y and spatially varying wind. Equations 1 and 2 also can be written with the following : a) Depth and velocity, b) Stage and velocity, or c) Stage and discharge as the dependent variables. Equations J and 2 apply to the unsteady, spatiallyvaried , turbulent free- surface flow of an incompressible viscous fluid in an open channel of arbitrary cross-sect ion and alignment. The equations are solved simultaneously for the unknowns z (depth of flow ) and Q (d ischarge) as a func tion of time (I ) and longitu d ina l position (x) . 5.2 Assumptions Upon Which Governing Equations are Based Equations J and 2 are derived from first principles and may be obtained direct ly from the threedimensional equation of mass con tinuity and the Navier-Stokes equations which are general , threed imensional statements of the con servation of momentum fo r any flu id flow. A number of assumptions are required to deri ve Equations I and
+
+g)
+
+h)
+J )
+
+5.3 Simplified Models A numb er of techn iques have been used to simpl ify Equations I and 2 to provide approximate unstead y flow models . These simplified models generally provide results with less computational effort and fewer data than is required for solut ion of the full equat ions . Howe ver, the models have limi te d applic ab ility, and it is more appropriate to use a genera l unsteady flow model based on Equati ons I and 2 to obtain rel iabl e rec ords of discharge unde r a wide ran ge o f cond itions. A br ief summary of simplified models follows. 5.3.1 Emp irical Models Empirical mode ls are based on observations of past flood events. These models are limited to applications in which suffi cient obse rvati ons of inflows and outflows of a river section are available to cal ibrate essential empiri cal relat ions or routing coefficients. T he se mode ls are typic ally applied to slo wly fluctuating rivers with negligible lateral inflows and backwater effects.
+
+3
+
+IS 15823 : 2009
+
+5.3.2 Hydr ologi c Models
+Hydrologi c model s ar e ba sed on th e c ontinu it y equation written as :
+I- O = dS /Jt ...(5)
+
+where
+
+I
+
+o
+dS
+
+inflow to the mo de lle d ri ver sec tion. outflow from the sec tion. and c ha ng e in sto rage wi thi n th e sec t io n during the time interv al dt.
+
+function of depth o f llow . Moreover. kinem at ic waves tra ve l witho ut atte nuatio n of the pe ak flo w. but the sha pe o f the flood wave is modified as the wav e is tran slat ed downstream. The kinematic wa ve model all o ws o nly the do wn stream propa gati on of flo w di sturbances so th at backwater and ti dal e ffects ca nnot be mod el ed . Nu merous ana lyt ica l sol ut ions ex ist for applica tio ns o f the k inematic wave model to specific flo w geome tries, and th ese mod el s are most wi d ely used in t he rout ing of ov erl and flo w o f precip itati on run off.
+
+The storage is ge nera lly ass umed to be rel ated to the inll ow or o utflow by som e em piricall y-determined sto rage co nsta nt. Hyd rolog ic models are limited to appl ica tions . in whic h the stage -dis charge rel at ion is sing le- va lued. a nd are not a ppl ica ble to flow s ha ving back water effects. signifi cant lateral inflows, or looped stage-disch arge rel ati on s. Diffi c ulti es in so lving Eq uatio n 5 are often encounte red when flo ws are changi ng rap id ly wit h time.
+
+5.3.5 Diffusion Analogy Mod el
+The diffusio n ana logy mod el is o bta ine d by ass um ing th a i t he c han nel is pr ismatic . that the lo c a l a nd c onvective ac ce le ra ti on te r ms in th e mom ent um equatio n ar e negli gible . and that there is no lateral inflow , The co ntinuity and mom entum equations may the n be comb ined to form a si ng le par abolic parti aldi ffe ren tial equa tio n, wh ich is in the form o f the soca lled co nve ct ive- diffusion eq uation with th e sing le unk no wn of di sch ar ge. Th e loc a l and con vecti ve acc e lerat ion term s, the fir st two term s in Eq uat io n 2, are o ften sma ll in stee p stre ams . T he diffusi on ana logy mod el can be us ed to compute flows a ffected by backwat er cond ition s. Ho we ver, the diffusion model is lim ited to appl icat ion s in which flo ws change relative ly slowly, and in wh ich t he channel has a rat her un iform geo metry th rou ghout the modeled reach .
+
+5.3.3 l.inearized Models
+Linearized model s are de riv ed fro m Eq uations I and 2 by ign or ing or line ari zing nonlinear term s in the equatio ns . The line ar ized Eq ua tio ns can then be ana lytica lly integ rated with less com put at ion al effort t han is requi red fo r nu mer ic al integra tio n of Eq uations I and 2. The most co mmon simplify ing ass um ptio ns for the se model s are: a) A cc e le ra t io n term ( s e c ond term ) in the momentum Eq u a t io n (e q ua t io n 2) is negli g ible : Cross-sect ional are a A and channel bottom slope ('\' ) are constant; the fr iction slo pe (Sf) is linearized w ith respect to di scharge and depth . . There is no lateral infl ow; and Routed flo od w ave ha s a simple s ha pe desc ribed by a n an al ytical expression .
+
+5.4 Numerical Techniques for Solution of Governing Equations
+No known an a lyt ical solutions exist for Equations I and 2. Consequently, numerical techn iques are used to con vert Equations I and 2 into algebraic Equation s that m ay be solved for : and Q at finite. inc re menta l valu es of x and t. This solution depends on the prop er descript ion of the cross- se ct ion al area as a functio n o f x and t , a nd o n the a va il abilit y of acc urate bound ar y co ndi tio n da ta . A varie ty of nu me rica l tec hnique s have bee n p ro po sed an d used to s o lve th e unste ad y flow equat ion s. Alt hough fin ite e lement meth ods ma y be used to so lv e th e Equation s. finite-difference tech niqu es ge ne ra lly ar e mor e appropria te for the solut io n o f th e one- di me nsio na l partial -differential Equat io ns. de scr ib ing unsteady open-channe l flow. Th e three broad c atego rie s of num erical tec hni ques are as g ive n below: a) b) c) Method of characteri stics, Explicit finite-difference methods, and Implicit fin ite-difference methods.
+
+b)
+
+c) d)
+
+Th ese assumpt ions severe ly limi t the applicability oflinearized mod els.
+
+5.3.4 Kinematic Wavt' Mo del
+The kinematic wave model is derived by assuming that a ll terms in the mom entum equatio n are negligible relative to the friction s lo pe (Sf) an d the bed slo pe (So), and that there is no lateral inflow. so that
+
+... (6)
+As a consequence of Equation 6. the discharge for a kinematic flow is equal to the normal di scharge. This means that the momentum o f the unsteady flow is de scribed by an expression such as the Mann ing or Chezy equations. in whi ch flo w is a sin gle-valued
+
+Numerous variations of e ach of t hese genera l
+
+4
+
+IS 15823 : 2009
+
+categories of techniques exist. The methods are briefly reviewed to provide some perspective on advantages and disadvantages of each method.
+5.4.1 Method of Character istics
+
+of large ri vers. which makes the models somewhat computat ionally inefficien t. Explicit finite-difference schemes also require that the computational distance steps be equal throughout the model domain. which may be a disadvantage for some systems .
+5.4 .3 Implicit Finite-difference Methods
+
+The method of characteristics is a mathematical approach for solving boundary-value problems by transforming the ori gin al pa rti al d ifferenti al equations representin g the phy si cal sys tem into correspondin g ch ar acte ri stic equ at ion s. In th is context. the characteristic is the speed of a wave relative to a stationary ob server. Cha racte ristic equat ions are ordin ary different ial equat ions and generally are more amenable to numer ical so lution than the original part ial differenti al equatio ns. The characteri st ic equ at ions a re so lved usin g ei ther explicit or implicit finite-difference method s. The method of char acteri st ics can be used \\ ith a curvilinear grid or a rectangular grid in the x -t domain. The curvilinear grid generall y is not used for solution of the unsteady flow equ ation s in natural open channels. The nature of characteristics is such that the wave trains in the x-t domain usuall y are not orthogonal , so solut ions of the charact eristic equations typically do not coincide with a point on the rectangular grid repre senting the natural system. Consequently. an interpolat ion scheme is required to transfer results from the characteristic network to the rectangular grid repre senting the flow sys tem. The accurac y of the interpolation schem e plays a major role in determi ning the performance o f the method of characteristics in solving the governing equati ons.
+5.4.2 Explicit Fini te-differen ce Methods
+
+Implic it numeri cal scheme s convert either the character istic equati ons or the governing equations to a system on nonlinear algebrai c equati ons from which the unknowns must be so lved iterative ly. Con sequentl y. a system of 2 N algebraic equation s is generated for a model havin g N cross-sections along the x-axis. All of the unknown within the model domain arc determ ined simultaneo usly. rather than point-by-point as with expl icit methods .
+Weightin g factors are typically required in the applica tio n o f impli cit sc he mes. The se fact ors determine the time between adjacent time levels at which (a) the spati al deri vatives. and (b) functional quantities are evaluated: functional quantities are such features as cro ss-sectional area. top width. and hydraul ic radius . all of which are functions of the computed depth of flow. Some jud gement is required in se lecti ng the se we ight ing fact or s. and the weighting factors often are adju sted as part of the model cal ibration proces s. The accuracy of the numerical scheme generally decre ases as the factor appr oache s one. where the terms in the govern ing equati ons are expressed entirel y in terms of the future time step.
+
+Explicit numeric al sche mes co nve rt eith er the characteristic equati ons or the governing equat ions to a system oflinear algebraic equati ons from which the unknown s may be solved dire ctl y (explic itly) without iterative computations. Dependent variables on the advanced time level are determined one point at a time from known values and conditions at the present or previous time levels. Explicit schemes are only conditionally stable. meaning that errors may grow as the solution progresses. and the errors are a function of the time and distance finite -di fferen ce step sizes. Explicit schemes are generally stab le when the courant condit ion is mer . wh ich re sults in limitations on the distance step and maximum time which can be used. In order to meet numerical stability requirements, the computational time step must decrease as the hyd raulic depth increases. Consequently, computational time steps may be required to be on the order of a few minute s for unsteady flow modeis
+
+Fewer numerical stability problem s are encountered with implicit sche mes than with expl icit schemes. Numerical instabilities can occur when modelin g rap idly varying flows if the time step is large and if the spatial derivati ves are not suffic iently weighted toward the future time step . Non-Iinearities caused by irregular cross-sections having widths that vary rapidly along the channel or with depth also can cause numerical instab ilities in implicit models. 6 DATA REQUIREMENTS Data are requ ired to construct, calibrate. test. and appl y unsteady flow models . Referen ced Indian Standards for the measuremen t of velocity and discharge. for collect ion of water-le vel and discharge records should be followed . In general , data are required at model boundaries for the entire period for which flow is to be computed using the unsteady flow model. Short-term record s and discrete measurements are needed at locations within the model domain for the period which is used for model calibrat ion and testing.
+
+5
+
+IS 15823 : 2009 6.1 Selection of Model Boundaries Reliable , accurate, and appropri ate boundary condition data are required for succes sful computation o f stream flow usin g an unsteady flow model. Model boundaries must be sele cted prior to the installat ion of data-collection instrumentat ion. Boundaries should be in locations where there are a minimum offlow disturbances , such as sharp bends, rapid changes in cro ss-sectional geometry, and major inflows. The mod eled reach length also should be sufficiently long to permit accurate determ ination of the long itudinal water-surface s lope so that ad ver se effect s of measurement errors are minimized . Moreover, as subsequently discussed , discharge records should be used as the upstream boundary condition, if at all possible. For these reasons. it may be expedient to extend the model domain beyond the reach for which stream flow computations are actually needed in order to obtain the necessar y data for model boundary conditions. 6.2 Stage Data 6.4 Discharge Data Sta ge data are required at all external boundaries of the modeled system in order to specify boundary conditions (Stage typically is required even if discharge is used as the upstream boundary cond ition because stage is generally needed in the computation of discharge whether from a stagedischarge relation or in- situ velocity meters). Multiple channel system s require stage data at upstream and downstream external boundaries of each channel. Stage data are not required at internal j unc tions where channels join with in the model domain . Stage also should be measured in at least one , and preferably three, locations within the model domain to provide data for model cal ibration and testing.
+It is critically important that all stage measurements be referenced to a common datum . Errors in gauge datum translate into errors in water-surface, which greatly affects computed stream flow through the third term in Equation 2. Correct datums are particularly importa nt (and perhaps more difficult to obtain) for low-grad ient ch annels, where unsteady flow models are often applied . The use of discharge as the upstream boundary condition removes much of the uncertainty associated with potential errors in gauge datums.
+
+Synchronous mea surement of sta ge at a ll recorders also is required for application of unsteady flow models for computing stream flow . Asynchronous measurements, like datum errors, translate into errors in water-surface slope and . hence. errors in computed stream flow. Sta ge should be measured following proc edures outlined in IS 15119 ( Pa rt I ) usin g equ ipment described in IS 15118 . 6.3 Velocity Data Mea surements of ve loci ty in the st udy reach ar e required to (a) e valuate the as sumpt ion of onedimensional flow, and (b) compute the momentum coeffic ient (Equation 3). Stream velocities obtained dur ing d ischarge measurement s generall y are adequate for these purposes. Velocities should be measured followin g procedures outlined in IS 1192 or IS 1512 2 usin g equipment described in IS 391 0 and IS 3912.
+
+Discharge data are required for model calibration and may be needed as boundary data . Discharge data may be either (a) a conti nuous time series obtained from a stage-discharge rating or by us ing the in-situ velocity meters, such as ultrasonic velocity meters or (b ) di screte measurements . Time-series of discharge are generally required onl y at the upstream boundaries. Discrete measurements are made within the model domain for the purposes of model calibration and testing. Discharge may be measured using methods described in IS 1192 , IS 291 2, IS 9163 (Part I) , IS 151 I9(Part I), IS 15119 (Part2 )and IS 15122. 6.5 Lateral Inflows and Withdrawals Time- var ying records of major inflows into and withdrawals from the modeled reach must be included in the model to maintain mass balance. Inflows or losse s which are relative ly constant throughout the modeled reach such as gr ound-water inputs or losses, can be lumped into a few di screte points in the reach or can be included at each computational node. Inflows fro m major strea ms must be gauged. Inflows from minor st rea ms and loc al a reas alo ng the channel can be esti mate d using data from nearby gauged strea ms and drainage are a ratios. 6.6 Channel Cross-Section Data Cross-sectional data consists of a set of longitudinal. lateral and vert ical coord inates which describe the location and confi zuration of the cross-section. A '" is typically required at each measured cross-section
+
+Except in very large rivers (widths of several hundred meters or more). stage should be measured at 15 min intervals or less for reliable modeling of flow tran sients. If possible. the stage measurement interval should be a whole mult iple of the computational interval, and sho uld be no more than about five times the computational interval.
+
+6
+
+IS 15823 : 2009 computational node within the model. The exact spacing of the computational nodes, however, is not known until convergence testing has been completed and stability criteria have been evaluated . Numerical solutions of the governing equations generally use the average of the measured crosssections at the upstream and downstream ends of a reach to represent the cross-sectional geometry of the entire reach bound e d by the two me a sured sections . Co nsequentl y. me asured cr o ss- section s should be fa irl y re pr e s e nt at i ve o f co nd it io ns upstream and down stream of th e me asur emen t. The mea sured sec tio ns also sh ould be spaced su ffici ently clo se so that large change s in channel geo me try d o not occ ur between the sec t ions . The longitud inal distance between cro ss- sections can be determined from a map having a sca le of 1:24 000 or lar ger. Longitud inal distanc es sho uld be measured a lo ng the centerline of the channe l. Cross- secti on s should be mea sured in ac cordance with IS 1192 or by using a recording fath ometer. It is generall y not practical to run le vel s fr om an established benchm ark to e a ch cro s s - se ct ion . Consequently, cros s- se ct ion s can be measured during steady flow when water level s ar e not changing, and the stage at the measurement s ite can be interpolated from measured stage at up stream and downstream stage recorders. Cross-sections sha ll be referenced to the same datum as the stage records. 7 CALIBRATION AND UNSTEADY FLOW MODELS TESTING OF ha s a uniform , rectangular cross-section, and with the model configured for the study reach . Tests using the rectangular cr oss-section model could include the followin g: a)
+
+No inflow and no bed slope - no flow should be generated within the model domain . Steady inflo w conserved . mass sho uld be conserved . mass should be
+
+b) c) d)
+
+Uns teady inflow -
+
+Tri an gul ar- shaped inflow hydrograph in ch annel with no bed slope-peak flo w sho uld not be s ign ificantly attenuated.
+
+A fter the mode I for the study reach has been constructed usin g the measured cross-sectional data . test s which sho uld be performed include: a)
+
+No inflo w or water surf ace slope - no flow s h o u ld be generated in the model domain ; this test also determines if unintentional open ings in the boundaries are pre sent.
+ma ss should
+
+b) St ead): and unsteady fl ow be con served .
+c)
+
+Rapid ch ang e in inflow boundary conditions - no num erical instabilitie s
+sho uld be generated.
+
+d)
+
+Model ing is ba sed on ab st ra ction o f a ph ysi cal sy stem to a mathematical expression and repl ication of the s ys t e m usin g the se expres s ions and appropriate field data. The analyst should identify the important features of the tlow system and ensure that those features are retlected in the model which is selected for application to the study reach . Important general model attributes include (a) the ability to s imulate a wide range of flow cond itions ; (b) the ability to represent a ran ge of complex channel cond iti ons and geometric; (c) a stable, numericallyconvergent, efficient computational scheme. and (d) a syste m for processing model input data and o utput simulat ion re su lts . 7.1 Preliminary Tests In many ca se s. it is app ropriate t o co nd uc t preliminary tests using simp lifie d c hanne l g eo me try and boundary conditi o ns wi th th e uns teady no w model. Tests should be co nd ucte d if the mod el is poorly documented, or if the user is un fam iliar with the model. Tests should be conducted using a channel which
+
+Chan ge in boundary conditions fr om one ste ady f la il' to anoth er flow ~ the amount of time required for all flows within the model domain t o reach the new ste adystate cond ition is an ind icat ion of how lon g i n it ia l c onditions persist w ith in the model domain; model results generally a re not accepted until effects of the initial conditions are transported out of the model dom ain so that model is resp onding to boundary co nd it ions onl y.
+
+Other tests may be performed as needed. but these s im ple tests can be used to document general model performance and sho uld allow users to gai n a better und er standi ng o f model capabil ities and limitations pr io r to appl ication to the study reach . 7.2 Computational Grid and Time Step The computati on al gr id is used to represent the ph ysi cal sy stem in the unste ady flow mode l. Junct ions . in flows. and outflow s s ho u ld be repres ented by the computational grid. T he ch annel sys tem is subdivided int o a number of finit e s e g me n ts fo r solution of the numerical approximati on of the go verni ng equat ion s . The
+
+7
+
+IS 15823 : 2009
+solution points an: either at the ends or the III idpo int of each segment. The computational grid s ho uld be established such that computati on s o f s tage and discharge coincide with locati on s of data co llectio n. or at locat ions where computed data are required . Measured cross-sectional data should be a va ila ble at the ends of each computational segment or g rid cell. Some models allow non-uniform segment lengths. but others require that all segments have the same length . Segment lengths should be at least three times greater than the width of the channel. and are frequently five to ten times the channel width. Exact segment length is determined during convergence testing. The representation of overbank areas. or the flood plain, in the model should be done with caution . For relatively narrow flood plains in which the flow length of the flood plain is very nearly equal to the flow length of the channel , model assumption s of onedimensional flow are not violated. Broad !lood plains , which bound a sinuous channel, may have distinctly different now lengths than doe s the channel. Moreover. filling and draining of the floodplain may lag the rise and fall of water in the channel. In these cases, the one-dimensional flow model described in this standard is not appropriate for applicat ion . In some instances, off-channel storage re servoirs have been included in one-dimensional now models to account for storage and release of water from the flood plain. These formulation s account for the slow storage and release of flood plain waters . However, such a model design also converts a process which occurs throughout some finite reach of the channel into a single point process. The computational time step should be sufficiently small to accurately represent flow transients which occur in the modeled system. Generally, the computational time step is reduced to meet stability criteria rather than adjusting the spatial discretization interval. As with the computational grid, convergence testing helps define the maximum time step which can be used . Likewise, a model is temporally convergent, ifmodel results remain substantially unchanged as the computational time step is decreased. To determine the effects of spatial discretization and time step on model results, convergence testing should be conducted prior to model calibration .
+
+7.4 Boundary and Initial Conditions
+Two initial conditions (Q and z for the formulat ion of the unsteady flow equations used in this standard) are required at each computational node in the model domain. For the initial application of the model to a study reach , common initial conditions are a steady now, equal to the initial boundary-condition flow, and a water surface which slopes linearly from a measured upstream stage to a measured downstream stage. Output from a previous unsteady flow model application also may be used to determine initial conditions for a simulation which follows sequentially in time. The model may only be applied for periods which have measured boundary conditions. Boundary condit ions include a time series of measured stage at the downstream boundaries, measured stage or discharge at the upstream boundaries, and measured lateral inflows. As previously discussed, better results often are obtained when discharge is used as the upstream boundary condition.
+
+7.5 Calibration
+Model calibration is required to adapt a general unsteady flow model to the specific application for which stream flows are to be computed. Calibrations are accomplished by adjusting model parameters until model results agree with observations. Essentially all components of the model are subject to adjustment during model calibration. Components that are directly measurable and physically well defined, however, are typical ly less subject to adjustment than are those that might not be directly measured . Measures for quantifying the calibration are given in 7.6 . In it ially, the res istance coeffic ie nt, momentum coefficient. and weighting coefficients for the numerical scheme should be varied because these parameters cannot be measured. Boundary gage datum s may be adjusted slightly, if there is so me uncertainty about the accuracy of the datum . Cro sssect ional geometry also may be adjusted dur ing the calibration process. Adjustment of channel geometry is justified because the measured cross-sections are used to represent the average conditions within a computational segment rather than the actual conditions at the measured cross-section.
+
+7.3 Convergence Testing
+A finite-difference solution to a partial-differential equation is spatially convergent, if the numerical solution approaches the true solution of the differential equation as the finite-difference spatial discretization approaches zero. Spatial convergent can be tested by repeatedly applying the model with a fixed set of boundary conditions for successively sma ller computat ional discretizations . The model is spatially convergent if no further change in model results is observed as the spatial step is refined .
+
+8
+
+IS 15823 : 2009 It is entirely possible to achieve a well-cal ibrated model with empirical coefficients which bear little resemblance to those justified by the physics and setting of the study reach . In such a case , application of the model to another condition is not justified without another calibration. Because of the important assumptions of the governing equations is that the channel is stable, and most natural channels undergo continuous change, model calibrations should be repeated at least annually. The amount of data required for the subsequent model calibrations should not be as great as for the initial calibration, unless the user suspects dramatic changes in the stream geometry. 7.6 Validation Validation refers to comparison of model results to measured stage and discharge. Calibration data should not be used for validation. Graphical comparisons of measured and simulated information are often used , but may be misleading. Quantitative measures ofvalidation include measures of deviation and testing of the statistical significance of the deviation. Measures of deviation between model results and data include absolute and relative error, and root mean square deviations. Statistical tests of significance are necessary to determine whether deviations are meaningful or whether they are simply related to variability in data . However, statistically independent data are needed to test for significance. Consequently, data and model results must be sampled at intervals greater than the correlation time scale before applying certain statistical tests , such as the r-test, If possible, the model should be validated over the range of flow conditions for which the model is to be applied. The model may be applied to flows reasonably outside the range for which the model was tested, as long as conditions do not change appreciably. For example a model calibrated for flows less than bankfull should not be applied to simulate over bank flows . Greater emphasis should be placed in validating against discharge rather than stage, because the purpose of the model is to compute .stream flow. However, in most case, stage data are much easier and less expensive to obtain than are discharge data, and more stage data will be available for use in calibration, validation, and testing. 7.7 Sensitivity Testing Sensitivity testing consists of evaluating the sensitivity of model results to changes in selected model parameters. Parameters, or conditions, which 9 should be included in the sensitivity testing include the resistance coefficient, the weighting coefficients used in the numerical scheme, the momentum coefficient, boundary gage datums (particularly, if stage is used as the upstream boundary condition), and channel geometry. The usual procedure is to successively increment the parameters by small amounts, apply the model, and compare the results with results from the calibrated model. A model which is highly sensitive to small changes in one or more parameters may become unstable for conditions outside those used for model calibration, and greater care must be taken when applying such a model.
+
+8 UNCERTAINTIFS
+8.1 Governing Equations Equations I and 2 strictly apply to an infinitesimally small volume at an instant in time. For the development and application of unsteady flow models, the equations are assumed to apply to some finite volume which may have a length on the order of hundreds of meters , a width of tens of metres, and a depth of several metres ; the equations also are assumed to apply to some finite durat ion, which may be as much as I h . Uncertainties associated with the extrapolation of the differential equations to these finite volumes and times exist and are difficult to exactly quantify. However, the previously described convergence testing does provide an indication, along with the satisfaction of numerical stability criteria, that the appropriate time and distance discretization has been selected. Flow in open channels is three-dimensional in nature, but is approximated by the governing equations as having only variations in the longitudinal direction. In addition to assumption of one-dimensional flow, a number of other assumptions were used in the development of the unsteady flow equations. Some of these assumptions are restrictive and deviations from the assumption (such as no channel geometry change and no density gradients) will likely produce erroneous simulations. Other assumptions, such as negligible surface tension effects , will not be violated in open-channel flow. All deviations from model assumptions should be clearly documented, and model testing should be used to assist in quantifying the effects of the deviations on flow computations.
+
+8.2 Numerical Approximations to Governing Equations
+Equations I and 2 are simplified mathematical expressions for the complex three-dimensional turbulent flow field in an open channel. The expressions are further simplified by making numerical approximations of the partial differential equations. These approximations introduce further
+
+IS 1581J : 1009
+
+uncertainty into the problem. The uncertainty, which is difficult to quantify for any given application, can be evaluated through testing and documentation of the numerical scheme. Clear documentation of the numerical scheme, including equations, discretization, and results of tests of the scheme. should be available. Certain numerical schemes, including variations of the method of characteristics, explicit, and implicit schemes for one-dimensional unsteady flow modeling, have general testing and documentation that is widely available. However, many schemes, which have been devised for specific problems, may require extensive evaluation by model users. Documentation ofa numerical scheme should include a discussion of the relations among grid size, time step, and the stability and accuracy of the scheme. Numerical dispersion introduced by the scheme, which can result in the damping of a steep wave front, should be quantified. 8.3 Model Parameters A number of physical processes which are not explicitly expressed in the momentum equation (Equation 2) are combined into the channel rugosity coefficient (Manning n, in this case). The Manning n is an empirically derived coefficient which is an approximation of channel rugosity in a steady uniform flow.The parameter in Equation 2, however, is applied to unsteady flow, and, from the physical perspective, includes the effects of turbulent dissipation of energy by several processes.
+
+results and prototype measurements. Consequently, these model parameters also may include the effects of the following: a) b) c) Deviation ofthe modeled system from model assumptions, Effects of numerical approximations to the governing equations, and Errors in field measurements.
+
+The uncertainties associated with combining these processes into a few model parameters is difficult, if not impossible, to quantify. However, model parameters selected during the calibration and testing phase of model development should be within the range of previously published values. Otherwise the unrealistic model parameter values may be masking some serious errors within the model-errors which may result in poor simulations of streamflow for conditions which were not evaluated during model testing. 8.4 Data for Model Development, Testing and Application The collection of hydraulic field data is subject to a number . of uncertainties . Quantification of uncertainties associated with the measurement of stage, velocity, discharge and cross-sectional data is discussed in previously published standards. Uncertainties associated with estimation of lateral inflows and withdrawals should be minimized by accurately measuring as many of the inputs and losses as possible. The effects of uncertainties associated with errors in gage datums can be minimized by using discharge as an upstream boundary condition rather than stage.
+
+The Manning n value, as well as weighting factors used in certain numerical schemes cannot be measured, and these parameters are adjusted during model calibration to obtain agreement between model
+
+GMGIPft-114 BISlNDfQ-300 Cop'"
+
+10
+
+Bureau oflndian Standards BIS is a statutory institution established under the Bureau ofIndian Standards Act, ! 986 to promote harmoniou s development of the activities of standardization, marking and quality certification of goods and attending to connected matters in the country. Copyright BIS has the copyright ofall its publications. No part ofthese publications may be reproduced in any form without the prior permission in writing ofBIS. This does not preclude the free use, in course of implementing the standard , of necessary details , such as symbols and sizes, type or grade designations. Enquiries relating to copyright be addressed to the Director (Publications), BIS. Review oflodiao Standards Amendments are issued to standards as the need arises on the basis of comments. Standards are also reviewed periodically ; a standard along with amendments is reaffirmed when such review indicates that no changes are needed; if the review indicates that changes are needed, it is taken up for revision. Users of Indian Standards should ascertain that they are in possession of the latest amendments or edition by referring to the latest issue of 'BIS Catalogue ' and ' Standards: Monthly Add itions' . This Indian Standard has been developed from Doc No.: WRD 1 (360). Amendments Issued Since Publication Amendment No. Date of Issue Text Affected
+
+BUREAU OF INDIAN STANDARDS Headquarters: Manak Bhavan, 9 Bahadur Shah Zafar Marg, New Delhi 110002 Telephones: 2323 0131,23233375,23239402 Website: www.bis.org.in Regional Offices: Central Eastern : Manak Bhavan, 9 Bahadur Shah Zafar Marg NEW DELHI 110002 : 1/14, C.l.T. Scheme VII M, VI.P. Road, Kankurgachi KOLKATA 700054
+Telephones
+
+{ 23237617 23233841 {2337 8499,2337 8561 23378626,23379120 !2603843
+~2609285
+
+Northern : SC0335-336,Sector34-A,CHANDIGARH 160022 Southern : C.I.T. Campus, IV Cross Road, CHENNAI 600113 22542519,2254 2315 Western : Manakalaya, E9 MIDC, Marol,Andheri (East) MUMBAI400093
+
+{22541216,22541442 { 28329295,2832 7858 28327891,28327892
+
+lD (jj
+
+�
+
+~
+
+co
+
+N 0 0
+
+Z 52
+
+Branches: AHMEDABAD. BANGALORE. BHOPAL. BHUBANESHWAR. COIMBATORE. FARIDABAD. GHAZIABAD. GUWAHATI. HYDERABAD. JAIPUR . KANPUR. LUCKNOW. NAG PUR . PARWANOO. PATNA. PUNE. RAJ KOT. THIRUVANATHAPURAM. VISAKHAPATNAM.
+PRINTED BY THE GENERAl MANAGER, GOVT. OF INDIA PRESS. NASHIK-422oo6
+
+

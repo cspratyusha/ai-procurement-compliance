@@ -1,0 +1,2673 @@
+IS 13589 : 1993 IS0 8072 : 1986 ( Reaffirmed 2003 )
+
+Indian
+
+Standard
+
+TRANSPORT SERVICE DEFINITION IN OPEN SYSTEMS INTERCONNECTION FOR INFORMATION PROCESslNG SYS,TEMS
+
+UDC
+
+681'327.8'01
+
+@ BIS 1993
+
+BUREAU
+MANAK
+
+OF
+BHAVAN
+
+INDIAN
+9 NEW BAHADUR DELHI
+
+STANDARDS
+SHAH ZAFAR MARG 110002 Price Group .8
+
+Mmnber
+
+y993
+
+Computer
+
+Systems and Interconnection
+
+Sectional
+
+Committee,
+
+LTD 36
+
+NATIONAL
+
+FOREWORD
+
+This Indian Standard which is identical with IS0 8072 : 1986 `information processing systems Open systems interconnection - Transport service definition', issued by the International Organization for Standardization ( IS0 ) was adopted by the Bureau of Indian Standards on the recommendation of the Computer Systems and Interconnection Sectional Committee and approval of the Electronics and Telecommunication Division Council. In the adopted standard certain terminology and conventions are however used in Indian Standards. Attention is particularly drawn to the following: Wherever the words `International should be read as `Indian Standard'. ln this Indian Standard, the respective place the following:
+International Standard
+
+not identical to this to,
+
+to those they
+
+Standard'
+
+appear standards
+
+referring
+
+standard,
+
+following
+
+international
+
+are referred
+
+Read in their
+Degree of Correspondence
+
+Indian
+
+Standard
+
+IS0 7498 systems connection model
+
+Information processing systems interOpen reference - Basic
+
+IS 12373 ( Part 1 ? : 1987 Basic reference model of open systems interconnection for information processing systems : Part 1 Dot LTD 36 ( 1575 ) Connection oriented transport protoco I specification in open systems interconnection for information processing systems ( under preparation ) Dot LTD 36 ( 1558 ) Network service definition in data communications for information processing systems ( Under preparation )
+
+Identical
+
+IS0 8073 Information processing intersystems - Open systems connection - Connectipn oriented transport protocol specification
+IS0 8348 Information processing systems -- Data communications - Network service defintion
+
+Identical
+
+Identical
+
+The technical committee responsible fot the preparation of this standard has reviewed the provisions of the following IS0 Standard_ c and has decided that they are acceptable for use in conjunction with this standard: ISO/TR 8509 : 1987 Information Service conventions processing systems Open systems interconnection systems interconnection Basic
+
+I-SO 8327 Information processing systems - Open connection oriented session protocol specification The text of Addendum 1 ( 1986 ) and Technical havebeen incorporated in this standard. Only the English language its in this standard. text in the Corrigendum Standard
+
+No. `I (1991) has been
+
+to IS0 8072 : 1986 while adopting
+
+International
+
+retained
+
+IS 13589 IS0 8072':
+
+: 1993 1988
+
+Indian
+
+Standard
+
+TRANSPORT SERVICE DEFINITION IN OPEN SYSTEMS INTERCONNECTION FOR INFORMATION PROCESSING SYSTEMS
+
+0
+
+Introduction
+Standard to facilitate is one of a set of International the interconnection Standards Stan-
+
+1
+This
+
+Scope
+
+and field
+
+of application
+defines in an abstract way the
+
+This International dards produced systems. nection.
+
+International
+
+Standard
+
+of computer in the set
+
+It is related to other International The Reference
+
+externally visible service provided by the OSI Transport terms of a) b) the primitive actions and events of the service; the parameter data associated
+
+Layer in
+
+as defined by the Reference dization for interconnection tion, each of manageable
+
+Model for Open Systems Interconinto a series of layers of specificasize. Standard is to define the serbetween c) the relationship between, and the valid sequences of Model. The the actions and events. The service defined in this International is provided by all OSI Transport the Network sion Protocol. This tation International of entities is, Standard does not specify within individual imStandard is that which with with each primitive action and event;
+
+Model subdivides the area of standar-
+
+The purpose of this International vice provided theSession Transport national to the Session and Transport
+
+Layer at the boundary
+
+Layers of the Reference
+
+Service is provided by the Transport Standard also defines the Transport
+
+Protocol making Layer. This InterService characProtocols (in conjunction
+
+use of the services available from the Network teristics which the Session Protocol
+
+may exploit. The relation-
+
+Service) and which may be used by any OSI Ses-
+
+ship between the International Standards for Transport Service, Transport Protocol, Network Service, and Session Protocol is illustrated in figure 1.
+
+plementations Session Protocol - - - based on service provided- - - There
+
+or products, no
+
+nor does it constrain the implemena computer to this system. conformance International
+
+and interfaces
+
+therefore
+
+Standard.
+
+_______-_--_-----Transport _-_____providesse~ice_________
+Transport Protocol ~
+
+7. SewIce 1 2 References
+information processing systems Model. systems oriented Open Systems protocol Open Systems
+
+- - - - based on service applied - - - - - --__------_----Network ? Service
+
+IS0 74%.
+
+Interconnection IS0 8073,
+
+Basic Reference processing Connection
+
+Information -
+
+Figure
+
+1 -
+
+Wlationshio to other
+
+of this International 0% standards
+
+Standard
+
+Interconnection specification.
+
+transport
+
+It is recognized
+
+that with respect to Transport
+
+Quality of SerStandard, work of Quality
+
+IS0 8327,
+
+Information -
+
+processing
+
+systems
+
+-
+
+Open Systems
+
+vice, described in clause 10 of this International is still in progress to provide an integrated
+
+Interconnection specification. IS0 8348, munications ISOITR
+
+Basic connection
+
+oriented session protocol
+
+treatment
+
+1)
+Information Network processing systems Data
+corn-
+
+of Service across all layers of the OSI Basic Fiefere8,ce Model and to ensure that the individual treatments in each layer service satisfy overall Quality of Service objectives in a consistent manner. As a consequence an addendum may be added to this International Standard at a I'ater time which reflects further Quality of Service development and integration.
+
+service definition processing systems Open
+
+8509,
+
+Information -
+
+Systems lnterconhection
+
+Service conventions.11
+
+1) At prosent at the stage of draft.
+
+1
+
+IS 13589
+IS0 8072
+
+: 1993
+: 1986
+
+Section
+
+one
+
+:
+
+General
+
+3
+3.1
+
+Definitions
+Reference model definitions
+
+3.3.2 called TS user : A Transport Service user with whom a calling TS user wishes to establish a transport-connection.
+NOTE - Calling TS users and called TS users are defined with respect to a single connection. A Transport Service user can be both a calling and a called TS user simultaneously.
+
+This International Standard is based on the concepts developed in the Basic Reference Model for Open Systems Interconnection (OSI), IS0 7438, and makes use of the following terms defined therein :
+
+a)
+b) c) d) e) f) 9) h) i) j) k) II
+
+Expedited transport-service-data-uoit; Transport-Connection; Transport-Connection Endpoint; Transport Layer; Transport Service; Transport-Service-Access-Point; Transport-Service-Access-Point address; Transport-Service-Data-Unit; Network Layer; Network Service; Network-Connection; Interface flow control.
+
+3.3.3 sending TS user : A Transport Service user that acts as a source of data during the data transfer phase of a transport-connection. 3.3.4 receiving TS user : A Transport Service user'that acts as a sink o; data during the data transfer phase of a transportconnectronll
+NOTE - A Transport Service user can be both a sending and a receiving TS user simultaneously.
+
+4
+
+Abbreviations
+Transport Service Transport-Connection Transport-Service-Access-Point Transport-Service-Data-Unit Quality of Service
+
+TS : TC : TSA,P : TSbU : 00s
+
+:
+
+5
+definitions 5.1
+
+Conventions
+General conventions
+
+3.2
+
+Service convention
+
+This International Standard also makes use of the following terms defined in ISO/TR 85Og as they apply to the Transport Layer : a) b) c) d) e) service-user; service-provider; primitive; request: indication;
+
+This International Standard uses the descriptive conventions given in ISO/TR 8509.
+
+5.2
+
+Parameters
+
+The available parameters for each group of primitives are set out in tables 5, 6, 7 and 8. Each "X" in the tables indicates that the primitive labelling the column in which it falls shall carry the parameter labelling the row in which it falls, unless further qualified [see a) below]. Some entries are further qualified by items in brackets. These may be a) indications that the parameter is optional in some way (U) indicates that the inclusion of the parameter is a choice made by the user. b) specific constraints of a parameter ; ( = ) indicating that the value supplied in an indication or
+
+f 1 response; g) confirm.
+
+3.3
+
+Transport
+
+s6ivice
+
+Uefjnitions
+
+For the purpose of this International Standard, the following definitions also apply : 3.3.1 calling TS user : A Transport Service user that initiates a transport-connection establishment request.
+
+confirm primitive is always identical to that supplied in the previous request or response primitive issued at the peer service access point.
+
+IS 13589
+.~ `4 IS0
+
+: 1993 : 1988
+
+8072
+
+6
+
+Overview
+
+and general
+Service way provides in which
+
+characteristics
+transparent supporting transfer of data
+
+b)
+
+Associated
+
+with each TC at its time of establishment, to request, a certain negotiate, QOS and have agreed by by means of as specified
+
+the opportunity The Transport between the TS provider QOS parameters. c) TS users. It relieves these TS users from any concern communications
+
+about the detailed
+
+media are utilized to achieve this transfer. The Transport a) The Service provides for the following
+
+The means of transferring
+
+TSDUs
+
+on a TC. The transfer and the concontent im-
+
+of TSDUs
+
+which consist of an integral number of octets is in that the boundaries are preserved of TSDUs on the TSDU unchanged by the TS pro-
+
+:
+
+transparent,
+
+tents of TSDUs Quality of service selection Transport Layer communications bv communicating through representing
+
+:
+to optimize to provide the use of the QOS cost.
+
+vider and there are no constraints posed by the TS provider.
+
+is required TS
+
+available required QOS
+
+resources
+
+users at minimum
+
+is specified
+
+the selection characteristics
+
+of values for QOS such as through-
+
+d) The means by which the receiving TS user may control the rate at which the sending TS user may send octets of data. e) The means of transferring agreed to by both TS is subject to a different separate users. expedited Expedited TSDUs TSDUs
+
+parameters
+
+put, transit delay, residual error rate and failure probability. b) Independence of underlying communication by the Network Layer to Service. provide resources
+
+:
+in
+
+when transfer
+
+The Transport
+
+Service hides from TS users the difference
+
+flow control from normal
+
+the QOS provided media Service. by the
+
+This difference the Network
+
+data across the TSAP. f) The uncon4tional and therefore possibly destructive
+
+in QOS arises from the use of a variety of communications Network
+
+release of a TC.
+
+c) End-to-end significance : The Transport Service provides for the transfer of data between two TS users in end systems. d) Transparency of transferred information
+
+8
+
+Classes
+
+of Transport
+
+Service
+Service are defined.
+
+No distinct classes of Transport
+
+:
+transfer
+
+The Transport
+
+Service provides for the transparent
+
+9
+9.1
+
+Model
+Model
+
+of the Transport
+of ;;le Transport
+Standard in ISO/TR
+
+Service
+Service
+
+of octet-aligned TS user-data and/or control information. It does not restrict the content, format, or coding of the information, meaning. e) TS user addressing nor does it ever need to interpret its structure or
+
+This International service defined
+
+uses the abstract model for a layer 8509. The model defines the interInformation is passed between
+
+:
+scheme of the supporting can be used by TS
+
+actions between
+
+the TS users and the TS provider which take
+
+The Transport is mapped Network
+
+Service utilizes a system of addressing which Transport-addresses to TSAPs.
+
+place at the two TSAPs.
+
+a TS
+
+into the addressing
+
+user and the TS provider by service primitives,
+
+which may con-
+
+Service.
+
+vey parameters.
+The primitives are abstract representations and do of TSAP not interaca
+
+users to refer unambiguously
+
+7
+
+Features
+
+of the Transport
+Service offers
+
+Service
+features to a TS
+
+tions. They specification
+
+are solely descriptive fcr implementation.
+
+represent
+
+The Transport user a)
+
+the following
+
+9.2
+
+Model
+
+of a Transport
+of a TC is modelled
+
+Connection,
+in an abstract way by a pair There is one queue for each
+
+:
+The operation The means to establish a TC with another TSDUs. the same pair of TS users. TS user for of queues linking the two TSAPs. direction of information elled by a separate pair of queues.
+
+the purpose of exchanging exist between
+
+More than one TC may
+
+flow (see figure 2). Each TC is mod-
+
+/
+
+e?
+I Queue from B to A-
+
+Figure 2 -
+
+Abstract
+
+model of a Transport Connection
+
+3
+
+IS 13589 : 1993 IS0 8072 :1986
+
+The queue model is used to introduce The abili*/ mined by the behaviour removed TSAPs. The pair of queues is considered tial TC.
+
+the flow control feature. objects from at the two
+
+a)
+
+queues
+
+are empty
+
+before
+
+a connect
+
+object
+
+has been as
+
+of a TS user to add objects to a queue will be deterof the TS user removing Objects are entered and
+
+added and can be returned contents, described b) in h) below:
+
+to this state, with loss of their under the circumstances
+
+by the TS provider
+
+that queue and the state of the queue.
+
+from the queue as a result of interactions
+
+objects
+
+are added to the queue,
+
+subject to control
+
+by
+
+the TS provider; to be available for each potencl objects are normally removed from the queue, subject
+
+to control bv the receiving TS user; d) objects are normally removed in the same order that
+
+The objects which may be placed in a queue by a TS user (see clauses 12, 13 and 14) are
+
+they were added [but see g) and h) below]; all parameters cone) a queue has a limited capacity (initially greater of f); shall be such than or
+
+a)* connect objects (each representing
+tained in a T-CONNECT primitive); b) cl octets of normal data; indications of end-of-TSDU
+
+request or T-CONNECT
+
+response
+
+zero),
+
+but this capacity
+
+is not necessarily
+
+either
+
+fixed
+
+determinable, f)
+
+and shall meet the requirements of the queue capacity
+
+the management
+
+that normai (completion of a T-Data
+
+data and end-of-TSDU TSDU
+
+indications
+
+cannc . oe
+
+added to the queue when their addition would pres znt addition of an expedited expedited TSDUs (representing primitive); objects (each all parameters of a In addition the TS provider may manipulate pairs of adjacent objects in the queue to allow e) disconnect representing primitive). all parameters g) reordering TSDUs prevent the addition d) expedited T-EXPEDITED or disconnect object. object. Similarly would primitive); cannot be added if their addition
+
+of a disconnect
+
+.
+
+:
+object is of a tvpe defined object. objects Expedited of normal to take preceTSDUs take over
+
+contained
+
+in a T-DISCONNECT
+
+The order of any pair of objects may be reversed if, and only if, the following dence over the preceding over octets and disconnect
+
+NOTES 1 Normal and expedited TSDU being entered into the queue. transfer will result in different objects
+
+precedence indications,
+
+data and end-of-TSDU take precedence
+
+any other object (see table 1). h) deletion : Any object may be deleted by the TS provider if, and only if, the following one is a disconnect object. If a connect object associated with a T-CONNECT request primitive is deleted in this manner, connect object the disconnect associated with object is also deleted. a T-CONNECT If a response
+
+2 The description of flow control requires a less abstract description than that used for describing sequences of primitives in clauses 11 to 14. Each TSDU associated with a T-DATA primitive is here subdivided conceptually into a sequence of octets of data followed by an end-ofTSDU indication. The T-DATA request primitive occurs when the endof-TSDU indication is entered into the queue. The T-DATA indication primitive occurs when the end-of-TSDU indication is removed from the queue. This does not imply any particular subdivision in any real interface.
+
+primitive is deleted, Whether
+
+the disconnect
+
+object is not deleted.
+
+the TS provider performs actions of types g) and h) or
+
+The only objects which can be placed in a queue by the TS provider are disconnect objects (representing T-DISCONNECT primitives and their parameters). by entering a connect into the
+
+not, will depend on the behaviour of the TS users and on the agreed QOS. In general, if the objects are not removed from the queue due to flow control expressed the TS provider perform
+NOTES 1 The internal mechanisms which support the operation of a queue are not visible in the Transport Service. A queue is one particular way of expressing TSAPs. a) bJ the mutual interaction between primitives at different There may also be, for example constraints on the local abilitv to invoke primitives; defining particular sequencing constraints
+
+by the receiving TS user, period of time,
+
+shall, after some unspecified
+
+TS user A who initiates TC establishment
+object (representing queue object moved. than a disconnect representing a T-CONNECT from A to B, is not allowed the T-CONNECT
+
+all permitted
+
+actions of types g) and h).
+
+request primitive)
+
+to enter any other object confirm has been re-
+
+object into this queue until after the connect
+
+In the queue from TS user B to TS user A objects other object can be entered by TS user B only after a connect object corresponding to a The insertion of a disconnect object The release in clause 14
+
+than a disconnect
+
+TS user B has entered T-CONNECT response.
+
+represents the initiation of the release procedure. procedure may be initiated at the times permitted
+
+service procedures
+
+on some primitives. 2 A TC.endpoint identification mechanism should be provided locally if the TS user and the TS provider need to distinguish between several TCs at a TSAP. All primitives should then make use of this identification mechanism to identify the TC to which they apply. This implicit identification is not shown as a parameter of the TS primhives, and should not T-CONNECT be confused primitives. with the address parameter of the
+
+and in the manner described in 11.2. The release procedure
+
+may be destructive with respect to other objects in the two queues. A queue relates an ordered set of distinct objects in the following ways :
+
+4
+
+IS 13589 : 1993
+IS0 8072 :1988
+
+Table
+
+1 -
+
+Precedence
+
+table
+
+Octets of normal data
+
+End-of-TSDU indication
+_
+
+Expedited TSDU
+_
+
+Disconnect object
+
+queue object Y
+Connect object ---Octet of normal data _
+
+ves
+[see 9.2 g) and h)l
+
+no
+
+no
+
+ves
+[see 9.2 g)l
+
+ves
+[see 9.2 g) and h)l
+
+End-of-TSDU indication Expedited TSDU
+
+no
+
+no
+
+ves
+[see 9.2 g)l no
+
+ves
+[see 9.2 g) and h)l
+
+no
+
+no
+
+ves
+[see 9.2 g) and h)l
+
+Disconnect
+
+object
+
+-
+
+ves
+Isee 9.2 h)l
+
+: - : not applicable no : no precedence exists yes : precedence exists
+Key
+
+10
+
+Quality
+
+of Transport
+
+Service
+
+However
+
+the TC protection
+
+parameter
+
+remains unchanged
+
+by
+
+the TS provider. "Quality of service" 00s refers to certain The term characteristics of a TC as observed between the TC endpoints. QOS is described in terms of 00s parameters. The view of QOS at each end of an established TC is always the same. This section does not specify values for each parameter of initial TS parameters QOS provider particular values, or classes of The negotiated of the TC. QOS values then apply throughout the lifetime
+
+These parameters give TS users a method of specifying their needs, and give the TS provider a basis for protocol selection. The QOS is normally negotiated between the TS users and the TS provider on a per TC basis, using the T-CONNECT request, indication, lowered dication. mean that a) b) c) d) e) a delay becomes a throughput longer; lower; higher; response, and confirm TS primitives defined in clause 11. The QOS requested by the calling TS user may be the T-CONNECT inthis may the T-CONNECT parameters
+
+values, for the QOS parameters. installation.
+
+Possible choices and default The values for any or all When a
+
+will normally be specified at the time
+
+either by the TS provider following In applying this to some QOS
+
+may be fixed for a given TS provider, in which case on a per TC basis is not required. requirement or whether the TS user may also indicate whether a degraded
+
+request, or by the called TS user, following
+
+negotiation
+
+QOS value is specified, value is acceptable.
+
+the request is an absolute
+
+becomes
+
+The QOS parameters include parameters which express TS performance and parameters which express other TS characteristics. The QOS parameters A classification higher. in table 2. specified in this clause are defined below. QOS parameters is shown
+
+the error rate becomes the priority becomes the failure probability
+
+lower; becomes
+
+of the performance
+
+Table
+
+2 -
+
+Classification
+
+of performance Performance
+
+00s
+
+parameters
+
+Speed
+TC establishment
+
+criterion ____ Accuracy/reliability
+failure probability refusal)
+
+TC establishment (misconnexion/TC
+
+I
+
+delay Throughput
+
+Data transfer
+
+Residual error rate (corruption, duplication/loss) Resilience of the TC Transfer failure probability _
+
+Transit delay
+
+1 TC release
+
+TC release delav
+
+TC release failure orobabilitv
+
+5
+
+Is 13589
+IS0 8072
+
+: 1993 : 1986
+
+10.1
+
+TC establishment
+
+delay
+acceptable the delay be-
+
+The
+
+input
+
+or the output delayed in calculating
+
+of a sequence users.
+
+of TSDUs values.
+
+may be are
+
+excessively TC establishment tween a T-CONNECT NOTE delay is the maximum request and primitive. excluded T-CONNECT confirm corresponding
+
+by the TS "average
+
+Such
+
+occurrences
+
+throughput"
+
+For each direction throughput" and
+
+of transfer, "average
+
+and for each of the "maximum throughput" specifications, the among
+
+This delay includes TS user dependent components.
+
+throughput QOS for a particular TC will be negotiated the TS users and the TS provider (see 12.2.6.)
+
+10.2
+
+TC Establishment
+failure
+
+failure
+probability
+
+probability
+is the ratio of total attempts TC in a
+
+10.4
+Transit
+
+Transit
+
+delay
+a T-DATA request
+
+TC establishment establishment measurement A TC
+
+delay is the elapsed time between T-DATA indication. only on TSDUs
+
+failures to total TC establishment sample. failure is defined to
+
+and the corresponding are calculated
+
+Elapsed time values
+
+that are successfully transferred.
+
+establishment
+
+occur
+
+when
+
+a
+
+requested acceptable
+
+TC is not established TC establishment
+
+within the specified maximum
+
+Successful transfer of a TSDU is defined to occur when the TSDU is transferred from the sending TS user to the intended receiving TS user without error, in the proper sequence and prior to release of the TC by the receiving TS user. Transit transfer. TC. delay IS specified In general, independently for each direction value expected of
+
+delay as a result of misconnecwhich fail as a result of error, failure probability.
+
+tion, TC refusal, or excessive delay on the part of the TS provider. TC establishment TC refusal, or excessive excluded in calculating attempts delay on the part of a TS user are
+
+each transit delay specification will be based
+
+will define for a stated
+
+the TC establishment
+
+both the average value and the maximurn Each specification size. TSDU average TSDU The transit
+
+on a previously
+
+10.3
+
+Throughput
+is defined, for each direction of transfer, transferred in terms TSDUs.
+
+delay for an individual receiving occurences TS user
+
+may be greatly interface in calculating
+
+in-
+
+Throughput
+
+creased control.
+
+if the Such
+
+exercises
+
+flow both
+
+of a sequence
+
+of at least two successfully
+
+Given such a sequence of n TSDUs. equal to 2, the throughput a)
+
+where n is greater than or
+
+are excluded
+
+is defined to be the smaller of in the last
+
+average and maximum
+
+transit delay values.
+
+the number of TS user data octets contained divided by the time between and request in the sequence,
+
+10.5
+
+Residual
+
+Error Rate
+is the ratio of, total incorrect, lost and
+
+II - 1 TSDUs T-DATA b)
+
+the first and last Residual duplicate Error Rate TSDUs to total TSDUs transferred across the TS
+
+the number of TS user data octets contained divided by the time between in the sequence. in a transmitted indication transfer
+
+in the last
+
+n - 1 TSDUs T-DATA Successful receiving
+
+the first and last
+
+boundary during a measurement period. The relationship among these quantities is defined for a particular TS user pair, see figure 3.
+
+of the octets
+
+TSDU
+
+is and
+
+10.6
+
+Transfer
+
+failure
+
+probability
+is the ratio of total transfer failures observed during a performance
+
+defined to occur when the octets are delivered to the intended TS user without error, in the proper sequence Transfer failure probability to total transfer samples measurement. Throughput TSDUs is only meaningful size. for a sequence of complete A transfer sample is a discrete observation of TS provider performance in transferring TSDUs between a specified sending and receiving TS user. A transfer sample begins with input of a selected Throughput direction is specified separately for each direction of transfer specification of throughput throughput" for one and an consist of a "maximum on a TC. In each direction will TSDU at the sending TS user boundary, of TSDU and contransfer tinues until the outcome of a given number prior to release of the TC by the receiving TS user.
+
+and each specification
+
+is based on a previously stated
+
+average TSDU
+
+attempts has been determined. A transfer sample will normally correspond to the duration of an individual TC. A transfer failure is a transfer sample in which the observed performance Transfer is worse than a specified failures for three are identified supported minimum acceptable parameters level. with perand by comparing performance the measured
+
+"average throughput" value. value represents the maximum can continuously sending
+
+The "maximum throughput" rate at which the TS provider in the absence of applied by the in the calcula-
+
+accept and deliver TSDU's,
+
+TS user input delays or flow control
+
+receiving TS user. Thus, the sequence of TSDUs
+
+' y)ues
+
+tion above is defined to be presented continously at the maximum rate. The "average throughput" value represents the expected transfer rate on a TC including the effects of expected user-attributable input, TSDUs delays (for example non-continuous TSDU of at receiving TS user flow control). in the calculations includes components Thus, the sequence representing
+
+specified transfer failure thresholds. The three supported formance parameters are throughput, transit delay, residual error rate. In systems'where Transport
+
+Service QOS is reliably monitored can be estimated release during a initiated
+
+above is defined to be presented
+
+by the TS provider. transfer failure probability by the probabiky-of transfer sample. a TS provider
+
+the rate which user delays.
+
+"average"
+
+6
+
+IS 13589
+IS0 8072
+
+: 1993 : 1986
+
+TSDUs
+
+sent by
+
+TSDUs
+
+received by
+
+TC user X
+
+TC user Y
+
+Lost TSDUs (T,)
+
+Successfully transferred (7,) TSDU
+
+Incorrect TSDUs
+
+Extra TSDUs
+
+CT,)
+
+(TX)
+
+v
+Total TSDUs transferred
+
+(77
+
+T, + T, -t T,
+Residual Error Rate (RER) =
+
+T
+
+Figure
+
+3 -
+
+Components
+
+of residual
+
+error
+
+rate.
+
+10.7
+
+TC release
+
+delay
+acceptable delay between a
+
+originated
+
+information.
+
+TC protection
+
+is specified qualitatively options
+
+by selecting TC release delay is the maximum TS user initiated T-DISCONNECT request and the successful a) b) c)
+
+one of four TC protection features;
+
+:
+
+no protection protection protection
+
+release of-the TC at the peer TS user. TC release delay is normally specified independently for each TS user. TC release delay does not apply in cases where release is initiated by the TS provider.
+
+against passive monitoring; against modification, replay, addition or
+
+deletion; Issuance of a T-DISCONNECT the counting release is signalled to the request by either TS user starts TS user not initiating indication. the d) both b and c.
+
+of TC release delay for the other user. Successful request by a T-DISCONNECT
+
+T-DISCONNECT
+
+10.10
+
+TC priority
+of TC Priority is concerned with the relation-
+
+The specification 10.8
+
+TC release
+
+failure
+
+probability
+is the ratio of total TC release rein-
+
+ship between
+
+TCs. This parameter
+
+specifies the relative impor-
+
+tance of a TC with respect to TC release failure probability quests resulting is normally cluded in a measurement specified in release failure to total release requests independently for each TS user. b) A release failure is defined to occur, for a particular TS user, if that user does not receive a T-DISCONNECT indication within the specified maximum TC release delay of the TS user issuing the T-DISCONNECT request (given that the former TS user has request). not itself issued a T-DISCONNECT the order in which TCs are to be broken to recover resources,. if necessary. This parameter only has meaning in the context of some a) the order in which TCs are to have their 00s degraded,
+
+sample. TC release failure probability
+
+if necessary and
+
+management
+
+entity or structure
+
+able to judge
+
+relative impor-
+
+tance. The number
+
+of prioritv levels is limited.
+
+10.9
+
+TC protection
+is the extent to which a TS provider attempts monitoring or manipulation to
+
+10.11
+
+Resilience
+
+of the TC
+
+Probabilitv of a TS provider initiated TC release (i.e. issuance of TC prdtection prevent a T-DISCONNECT indication with no prior T-DISCONNECT 1 s). unauthorized of TS user request) during a specified time interval ffor example
+
+7
+
+IS 13589
+
+: i993
+
+IS0 8072 : 1986
+
+Section
+
+two
+
+:
+
+Definition
+
+of primitives
+
+11
+
+Sequence
+
+of Transport
+
+Service primitives
+on the sequences in which the
+
+of data, will affect the abi!ity of a TS user or TS provider to
+issue a TS primitive at any particular time. TS primitives which are
+
+This clause defines the constraints the TS primitives
+
+may occur. The constraints
+
+determine
+
+Clauses
+
+12 to
+
+14
+
+describe
+
+the
+
+order in which TS primitives pccur, but do not fully specify
+
+when they may occur. Other constraints, such as flow control
+
+associated with one of the three phases of a TC i.e. establishment, data transfer, or release. A complete listing of TS primitives appears in table 3.
+
+Table 3 Phase
+TC establishment Service TC establishment
+
+Transport Service primitives
+Primitives T-CONNECT request Parameters (Called address, calling address, expedited data option, quality of service, TS user-data) (Called address, calling address, expedited data option, quality of service, TS user-data) (Quality of service, responding address, expedited data option, TS user-data) (Quality of service, responding address, expedited data option, TS user-data) (TS user-data) fTS user-data) (TS user-data)
+
+T-CONNECT indication
+
+T-CONNECT response
+
+T-CONNECT confirm
+
+Data transfer
+
+Normal data transfer
+
+T-DATA T-DATA
+
+request indication
+
+Expedited data transfer*
+
+T-EXPEDITED-DATA request T-EXPEDITED-DATA indication
+
+(TS user-data) (TS user-data)
+
+TC Release
+
+TC release
+
+T-DISCONNECT T-DISCONNECT
+
+request indication
+
+(Disconnectreason, TS user-data)
+
+l
+
+User option
+
+: provided only upon TS user request.
+
+8
+
+IS 13589
+`, "r IS0 8072
+
+: 1993
+
+: 1986
+
+11.1 Relation endpoints
+
+of TS primitives
+
+at the two
+
+TC
+
+point are defined in clauses 12 to 14; all these relations are summarized in figure 4 (see ISO/TR 8509 for the definition of time sequence diagrams). However, a T-DISCONNECT request or indication TS primitive may terminate any of the other sequences before completion.
+
+A TS primitive issued at one TC endpoint will, in general, have consequences at the other TC endpoint. The relations of TS primitives of each type to TS primitives at the other TC end-
+
+T-CONii2H-l
+request
+T-CONNECT indication
+
+T-CO*-& request T-CONNECT indication
+
+I
+
+I
+T-DISCONNECT reauest T-DISCONNECT indication `1
+
+T-DISCONNECT indication&-w
+
+II
+
+Successful
+
+TC establishment
+
+Rejection of TC establishment request by its TS user
+
+Rejection
+
+of TC establishment
+
+request by TS provider
+
+T-EXPEDITED T-DISCONNECT request
+
+I
+
+I
+
+T-EXPEDITED 1 ( indication
+
+Normal data transfer
+
+Expedited
+
+data transfer
+
+TC release initiated by TS user
+
+(user option)
+
+T-DISCONNECT request
+
+T-DISCONNECT
+
+T-DISCONNECT request
+
+T-DISCONNECT indication
+
+I
+
+I
+
+T-DISCONNECT indication
+
+T-DISCONNECT
+
+TC release initiated by both TS users
+
+TC release initiated by TS provider
+
+TC release initiated by TC user and TS provider
+
+Figure 4 -
+
+Summary
+
+of transport service primitive time sequence diagrams
+
+9
+
+IS 13589 IS0
+
+: 1993
+
+8072 : 1988
+
+.~ `4
+
+11.2 Sequence endpoint
+
+of TS primitives
+
+at one TC
+
+b) a TC release procedure can be initiated at any point during the TC establishment or data transfer phase: c) procedures other than the TC release procedure+~~ be initiated within the establiihment phase; d) any action to be taken on the occurrence of a nonallowed sequence of TS primitives is a local matter; e) the use of a state transition diagram to describe the allowable sequences of TS primitives does not impose any requirement or constraint on the internal organization of any implementation of the Transport Service.
+
+All possible allowed sequences of TS primitives at a TC endpoint are defined in the following state transition diagram (see figure 5) and in an alternative tabular representation (see table 4). In figure 5 a) the idle state (1) reflects the absence of a TC. It is the initial and final state of any sequence and once it has been re-entered, the TC is released;
+
+T-DISCONNECT
+
+T-DISCONNECT
+
+T-DISCbNNECT
+
+request
+T-DISCONNECT
+
+indication
+
+T-CONNECT
+
+confirm
+
+\
+
+T-DATA T-EXPEDITED-DATA
+
+primitives
+
+Figure 5 - State transition diagram for possible allowed sequence of TS primitives at a TC endpoint 10
+
+IS 13589 :1993 Iso 8072 :1998
+
+Table 4 -
+
+Sequences
+
+of TS-primitives
+
+at one end of a TC
+
+May be followed by the TS primitive Y T-CONNECT request
+
+Key
+
+: + : possible Blank : not possible
+
+IS 13589 IS0 6072
+
+: 1993 : 1986
+`4
+
+12 Transport phase
+12.1 Function
+
+connection
+
+establishment
+
+NOTE - This parameter may be used in future definitions to return an address which is different to the called address parameter, for example a specific address returned as the actual result of calling 4 generic address.
+
+The TC establishment vider.
+
+TS primitives can be used to establish a
+
+12.2.5
+
+Expedited data
+
+data
+
+option parameter indicates whether the
+
+TC, provided the TS users exist and are known to the TS proThe expedited TSAPs are option expedited data option is to be available on the TC. If this service Simultaneous T-CONNECT requests at the two handled independently by the TS provider.
+NOTE -
+
+is declared not available, of the parameter "expedited
+
+it cannot be used on the TC. The value data service selected" or (see 12.4). The values of
+
+is either "expedited
+
+data service not selected"
+
+Simultaneous T-CONNECT requests normally result in a cor-
+
+the various primitives are related such that a) in the T-CONNECT request primitive, either of the
+
+responding number of TCs. defined values may occur; b) in the T-CONNECT indication primitive, the value is
+
+12.2
+
+Types
+
+of TS
+
+primitives
+
+and
+
+parameters
+
+Table 5 indicates the types of TS primitives and the parameters needed tor TC establishment.
+
+equal to the value ia the T-CONNECT c) in the T-CONNECT response
+
+request primitive; primitive, the value is
+
+12.2.1
+
+Addresses which take addresses as values (see 12.2.2 to These addresses are unique within addresses.
+
+either "expedited The parameters 12.2.4)
+
+data service not selected" indication
+
+or is equal to
+
+the value in the T-CONNECT d) in the T-CONNECT
+
+primitive; the value is equal
+
+all refer to' TSAPs.
+
+the scope of TSAP
+
+confirm primitive,
+
+to the value in the T-CONNECT 12.2.2 Called address 12.2.6 The called address parameter conveys the address of the TSAP Quality of Service to which the TC is to be established. Quality of Service
+
+response primitive.
+
+is a list of parameters the values in the
+
+(see clause 10). For TS primitives are
+
+each parameter, 12.2.3 The TSAP Calling calling address parameter conveys the address of the related so that
+
+various
+
+address
+
+from which the TC has been requested.
+
+in the T-CONNECT ai is allowed; b) in the T-CONNECT value
+
+request primitive,
+
+any defined value
+
+12.2.4
+
+Responding
+
+address conveys the address of the and is identical to
+
+indication or inferior except
+
+primitive,
+
+the
+
+00s in the in the
+
+parameter The responding TSAP address parameter T-CONNECT tion, which T-CONNECT to which the TC has been established
+
+is equal
+
+to the value
+
+request
+
+primitive,
+
+for the TC protec-
+
+shall have the same value as specified request primitive;
+
+the called address parameter.
+
+Table
+
+5 -
+
+TC establishment
+
+primitives
+
+and parameters TS primitive
+
+Parameter Called address Calling address Responding address Expedited data option Quality of Service TS user-data Key : X : mandatory parameter
+
+T-CONNECT request X X X
+
+T-CONNECT indication Xl=) Xl=)
+
+T-CONNECT response
+
+T-CONNECT confirm ,
+
+X Xl=) . X
+
+Xl=)
+
+Xl=)
+Xl = ) Xl = I
+
+X
+X(U)
+
+X
+Xl=)
+
+X
+X(U)
+
+( = ) : the value of this parameter is identical to the value of the corresponding parameter of the preceding TS primitive
+(IJ) : use of this parameter is a TS user option
+
+12
+
+IS 13589 IS0 8072
+
+: 1993 : 1986
+
+c) in the T-CONNECT response primitive, the 00s parameter value indicated is equal or inferior to the value in the T-CONNECT indication primitive; d) in the T-CONNECT confirm primitive, the 00s parameter value indicated is equal to the value in the T-CONNECT response primitive. 12.2.7 TS user-data allows the transfer of TS user-data modification by the TS provider. shall consist of an integral number 1 and 32 inclusive.
+
+cl if the calling TS user does request the use of the expedited TSDU transfer feature, the called TS user may agree to the use of expedited TSDU transfer on the TC, in which case the TS provider is required to provide it. The called TS user may refuse the use of expedited TSDU transfer in which case the service will not be used on that TC.
+
+13
+13.1
+
+Data transfer phase
+Normal data transfer service
+Function
+
+The TS user-data parameter between TS users, without The TS user-data parameter of octets in length between NOTES
+
+13.1.1
+
+1 The called TS user may use the information conveyed to determine whether or not the TC should be accepted. 2 The QOS associated with TS user-data on the T-CONNECT primitive may be lower than that for TS user-data in the T-DATA primitive once the TC is established.
+
+The TS provider provides for an exchange of TSDUs, in both directions simultaneously. The TS provider preserves the integrity, the sequence and boundaries of the TSDUs.
+NOTE - Designers of higher layer protocols should realize that the requested 00s applies to complete TSDUs, and that division of data into small TSDUs may have cost implications, because of the impact on cost optimization mechanisms operated by the TS provider.
+
+12.3
+
+Sequence
+
+of TS primitives
+13.1.2 Types of TS primitives and parameters
+
+The sequence of'TS primitives in a successful TC establishment is defined by the following time sequence diagram.
+T-CONNECT request
+
+Table 6 indicates the types of TS primitives and the parameters needed for data transfer.
+Table 6 Data transfer primitives and parameters
+
+7-k T-CONNECT indication
+
+I
+
+Primitive
+T-DATA reauest X
+
+I
+TDATA indication xt = 1
+
+I
+T-CONNECT response Key :
+
+Parameter
+TS user-data
+
+1
+
+I
+
+I I
+I
+
+I
+I
+
+I
+
+X : mandatory parameter
+
+( = ) : the value of that parameter is identical to the value of the corT-CONNECT confirm responding parameter of the preceding TS primitive
+
+The TC establishment procedure may fail eith r due to the inability of the TS provider to establish a TC or $ ue to the unwillingness of the called TS user to accept a T-CONNECT indication. These cases are described in 14.4 and 14.5. The TC establishment procedure may also fail due to either of the TS users releasing the TC before the T-CONNECT confirm has been delivered to the calling TS user.
+
+13.1.3
+
+TS user-data
+
+The TS user-data parameter is a TSDU. A TSDU shall consist of an integral number of octets greater than zero.
+13.1.4 Sequence of TS primitives
+
+12.4 Negotiation service
+
+of expedited
+
+data transfer
+
+The expedited TSDU transfer is only made available when specifically requested'and agreed to by both TS users when the TC is established. When available this service is always bidirectional. The procedure for negotiating the use of the expedited TSDU transfer is as follows : a) the calling TS user may request or not request the use of the expedited TSDU transfer feature; b) if the calling TS user does not request the use of the expedited TSDU transfer feature, the called TS user is not allowed to request its use;
+
+The operation of the TS provider in transferring TS user-data can be modelled as a queue of unknown size within the TS provider (see clause 9). The ability of a TS user to issue a T-DATA request depends on the state of the queue. The ability of the TS provider to issue a T-DATA indication depends on the receiving TS user. The sequence of TS primitives in a successful data transfer is defined in the following time sequence diagram.
+~-DATA request
+
+I
+
+I
+
+"tt-II
+13,
+
+T-DATA indication
+
+IS 13589
+IS0
+
+: 1993
+
+8072
+
+: 1986
+
+13.2
+
+Expedited
+
+data transfer
+
+service
+
+14
+14.1
+
+Transport
+Function
+
+connection
+
+release phase
+
+13.2.1
+
+Function data transfer service provides a further means of exchange The transfer on a TC in both TSDUs directions simulof expedited is subject to dif-
+
+The expedited information taneously. user-data
+
+The TC release TS primitives release may be performed a) by either TC; or both of
+
+are used to release a TC.
+
+The
+
+ferent QOS and separate flow control from that applying to TS of the data -transfer service. that an expedited TSDU submitted normal will not be TSDU or
+
+the
+
+TS
+
+users
+
+to
+
+release
+
+an
+
+established b)
+
+The TS provider guarantees delivered expedited after TSDU
+
+by the TS provider
+
+to release an established in this way;
+
+TC; all
+
+any subsequently on that TC.
+
+failures to maintain c)
+
+a TC are indicated
+
+by either or both the TS users to abandon TC establish-
+
+The relationship modelled described delivered data. reordering by the
+
+between operation 9.
+
+normal
+
+and expedited within expedited
+
+data flow queues data will
+
+is as be
+
+ment; d) by the TS provider, to indicate its inability to establish a
+
+of reordering
+
+in clause
+
+In particular
+
+when the receiving TS user is not accepting the amount of normal data bypassed cannot be predicted.
+
+normal by such
+
+requested
+
+TC.
+at any time regardless of the current TC
+
+However,
+
+TC release is permitted
+
+phase. A request for release cannot be rejected. The Transport 13.2.2 Types of TS primitives and parameters
+
+Service does not guarantee delivery of any TS user-data once the release phase is entered.
+
+Table 7 indicates the types of TS primitives and the parameters needed for expedited data transfer.
+
+14.2
+
+Types
+
+of TS primitives
+
+and parameters
+
+Table 7 -
+
+Expedited TS primitives and parameters
+Primitive
+
+Table 8 indicates the types of TS primitives and the parameters needed for TC release.
+
+ParameZer
+
+T-EXPEDITEDDATA request
+
+T-EXPEDITEDDATA indication
+
+Table
+
+8 -
+
+TC release
+
+primitives
+
+and parameters
+
+1 TS
+Key :
+
+user-data
+
+I
+parameter
+
+x
+
+I
+
+Xf = 1
+
+I
+Parameter Reason TS user-data Key :
+
+I
+T-DISCONNECT request
+
+Primitive T-DISCONNECT indication X XIU) xc=
+
+X : mandatory
+
+I= ) :
+
+the value of this parameter is identical to the value of the corresponding parameter of the preceding TS primitive
+
+I
+
+13.2.3 The TS
+
+TS user-data user-data TSDU parameter is an expedited TSDU. An
+
+X : mandatory
+
+(= ) :
+expedited between shall consist of an integral number of octets
+(U)
+
+the value of this parameter parameter
+
+is identical to the value of the carTS primitive
+
+responding
+
+of the preceding
+
+:
+
+use of this parameter
+
+is a TS user option
+
+1 and 16 inclusive. 14.2.1 Reason gives information indicating the cause of
+
+13.2.4
+
+Sequence
+
+of TS primitives in a successful expedited data
+
+The sequence transfer
+
+of TS.primitives
+
+The reason parameter the TC rdease. a)
+
+is defined
+
+in the following
+
+time sequence
+
+diagram.
+
+The reason may be one of the following
+
+:
+
+remote TS user invoked:
+Additional information may be given in the TS user-data
+
+NOTE
+
+parameter.
+
+b)
+T-EXPEDITEDDATA indication NOTE -
+
+TS provider invoked., This reason may be of transient or nature.
+are given
+
+permanent
+
+The following examples
+
+:
+
+,
+
+a)
+NOTE quested Use of the expedited data transfer service should be reby the calling TS user and agreed bl cl to by the called TS user
+
+lack of local or remote resources QOS below minimum level; misbehaviour of TS provider;
+
+of the TS provider;
+
+when the TC is established
+
+lsee 12.2.5).
+
+14
+
+IS 13589
+IS0
+8072
+
+: 1993
+: 1986
+
+d) e) f)
+
+called TS user unknown; called TS user unavailable; unknown reason.
+
+b)
+
+simultaneous
+
+invocation
+
+by both TS users
+
+T-DISCONNECT request
+
+T-DISCONNECT request
+
+14.2.2 The
+
+TS user-data
+parameter without allows the transfer of TS user-data
+
+TS user-data
+
+between initiates delivered,
+
+TS users, TC release or
+
+modification
+
+by the
+
+TS provider. indication is c) TS provider invocation
+
+The TS user-data
+
+may be lost in particular before TS users initiate
+
+if the TS provider a T-DISCONNECT
+
+the T-DISCONNECT the parameter
+
+if both
+
+simultaneously. TC release was parameter, octets between NOTES
+
+Therefore, originated
+
+is only present if the user-data number of
+
+by a TS user. The TS
+
+if present,
+
+shall consist of an integral
+
+1 and 64 inclusive.
+
+1
+2
+
+The TS provider
+
+may provide additional purooses.
+
+information
+
+(for example T-DISCONNECT indication by ~ T-DISCONNECT
+
+accounting)
+
+for management
+
+1indication
+
+The QOS associated with the TS user-data on the T-DISCONNECT any notice indication,
+
+primitives may be lower than the QOS for TS user-data transferred the T-DATA primitive. TS user-data may be lost without being given to the TS user receiving the T-DISCONN.ECT even when initiated by the remote TS user.
+
+d)
+
+simultaneous
+
+TS user and iS
+
+provider invocation
+
+14.3 Sequence of TS primitives established transport connection
+
+when
+
+releasing
+
+an
+
+T-DISCONNECT request
+
+The sequence of TS primitives depends on the origin or origins of the TC release action. a) invoked by one The sequence TS user, may be a T-DISCONNECT in14.4 TS users, with a T-DISCONNECT A the TS user may reject request. will a TC establishment that the attempt called TS by a user T-DISCONNECT c) invoked by the TS provider, with a T-DISCONNECT to each of the TS users; by one TS user and the TS prorequest from the initiating TS indication in these to the other. four cases are exT-CONNECT
+
+with
+
+request from that TS user leading to a T-DISCONNECT dication to the other; b) invoked by both
+
+Sequence of TS primitives in a TS user rejection of a TC establishment
+
+request from each of the TS users; in-
+
+In the T-DISCONNECT indicate The sequence diagram.
+
+indication
+
+reason
+
+parameter
+
+dication d)
+
+initiated the disconnection. in the following
+
+of events is defined
+
+time sequence
+
+invoked independently
+
+vider, with a T-DISCONNECT user and a T-DISCONNECT The sequence of TS primitives
+
+-----AT-CONNECT
+
+request
+
+pressed in the following a)
+
+time sequence
+
+diagrams
+
+:
+T-DISCONNECT T-DISCONNECT indication
+
+TS user invocation
+
+T-DISCONNECT request
+
+T-DISCONNECT
+
+15
+
+IS 13589
+IS0 8072
+
+: 1993 : 1988
+
+14.5 Sequence of TS primitives in a TS provider rejection of a TC establishment attempt
+If the TS provider is unable to establish a TC, it indicates this to the calling TS user by a T-DISCONNECT indication. The reason parameter indicates that the TS provider is the source of the T-DISCONNECT indication. The sequence of events is defined in the following time sequence diagram.
+
+T-DISCONNECT
+
+16
+
+IS 13589 : 1993 *. .\ IS0 8072 : 1988
+
+4ddendum 1 to International Standard IS0 8072-f= systems.
+
+was prepared by Technical Committee ISO/TC 97, lnformafion prOCeSSin&
+
+0
+
+Introduction
+
+This addendum defines the connectionless-mode Transport Service. The material contained in this addendum will be incorporated into the body of IS0 8072 when the next revision of IS0 8072 is produced. The addendum has a structure which is similar to that of IS0 8072 in order to facilitate cross reference between the two documents and the eventual incorporation of this addendum into IS0 8072. IS0 7498 describes the Basic Reference Model of Open Systems Interconnection. It is the intention of IS0 7498 that the Reference Model should establish a framework for coordinating the development of existing and future standards for the interconnection of open systems. The relationship' between and connectionless-mode IS0 74WAdd. 1. connection-mode transmission is transmission defined in
+
+manner. As a consequence, this addendum may be amended at a later time in order to reflect further Quality of Service development and integration.
+
+1
+
+Scope and field of application
+
+The scope and field of application of this addendum is the same as the scope and field of application described in clause 1 of IS0 8072.
+
+2
+
+References
+Open Systems
+
+IS0 7498, information processing systems interconnection - Basic Reference Model.
+
+IS0 74WAdd. 1, Information processing systems - Open Systems Interconnection - Basic Reference Model - Adderr dum 1: Connectionless-niode transmission. ISOITR 8509, Inforrnatioq ~processing systems Systems Interconnection - Service Conventions. 1) Open
+
+It is recognized that with respect to Transport Quality of Service, described in clause 10 of this addendum, work is still in progress to provide an integrated treatment of Quality of Service across all layers of the OSI Basic Reference Model and to ensure that the individual treatments in each layer service satisfy overall Quality of Service objectives in a consistent
+
+IS0 8602, lnforma?ion processing systems - Open Systems interconnection - Protocol for providing the connectionlessmode transport service. 1)
+
+1)
+
+At present at the stage of draft; publication anticipated in due course.
+
+I
+
+IS 13589 IS0 8072
+
+: 1993 : 1986
+
+Section
+3
+Definitions
+
+one
+
+:
+
+General
+TSAP to one destination TSAP in a single Transport Service access, without first establishing or later releasing a transport connection; and h) associated with each instance of connectionless-mode transmission, certain measures of quality which are agreed between the TS provider and the sending TS user when a connectionless-mode transmission is initiated.
+
+For the purpose of this addendum, the following terms apply : 3.1 transport connectionfess-mode transmission : The transmission of a transport-service-data-unit from a source transport-service-access-point to a destination transportservice-access-point outside the context of a transportconnection and without any requirement to maintain any logical relationship among multiple transport-service-dataunits.
+
+6
+
+Classes
+
+of. Transport
+
+Service
+
+3.2
+
+connectionless-mode Transport Service : A transport service providing connectionless-mode transmission.
+
+This addendum makes no change to clause 8 of ISO. 6672.
+
+3.3
+
+sending Transport Service user : A Transport Service user that acts as the source of data during a particular instance of transport connectionless-mode transmission. receiving Transport Service user : A Transport Service user that acts as a sink of data during a particular instance of transport connectionless-mode transmission.
+
+9
+9.1
+
+Model
+
+of the Transport
+
+Service
+
+General
+
+3.4
+
+4
+
+Abbreviations
+
+This International Standard uses the abstract model for a layer service defined in clause 4 of ISO/TR 8509. The model defines the interactions between the TS users and the TS provider which take place at the two TSAPs. Information is passed between the TS user and the TS provider by service primitives, which may convey parameters. There are two types of Transport Service: a) a connection-mode service, which is defined in section two of IS0 6672; and
+
+This addendum makes use of the abbreviations listed in clause 4 of IS0 6672.
+
+5 5.1
+
+Conventions General conventions
+
+b) a connectionless-mode service, described in section three of this addendum. The connectionless-mode service defines the features gl and h) given in clause 7.
+
+This addendum uses the descriptive conventions given in ISO/TR 8509.
+
+9.2 Model of transport transmission
+
+connectionless-mode
+
+5.2
+
+Parameters
+
+This addendum uses the parameter conventions described in 5.2 of IS0 6672.
+
+A defining characteristic of transport connectionless-mode transmission is the independent nature of each invocation of the connectionless-mode Transport Service. As a descriptive aid, the connectionless-mode Transport Service can be modelled in the abstract as a permanent association between the two TSAPs. Only one type of object, the unitdata object, can be passed to the service provider via a TSAP. In figure 2, TS user A represents the TS user which passes objects to the service provider. TS user 6 represents the TS user which accepts objects from the service provider. In general, the TS provider may perform any or all of the following actions : a) discard objects; duplicate objects; and
+
+6
+
+Overview
+
+and general
+
+characteristics
+
+The Transport Service described in this addendum is consistent with that described in clause 6 of IS0 6572.
+
+7
+
+Features of the Transport
+
+Service
+
+In addition to the features described in clause 7 of IS0 6672, the following service is described : gj a means by which TSDUs of restricted length are delimited and transparently transmitted from one source
+
+b)
+
+2
+
+IS 13589
+IS0 8072
+
+: 1993 : 1986
+
+Service
+
+Provider
+
+Figure
+
+2 -- Model
+
+for a connectionless-mode
+
+transmission
+
+ci
+
+change
+
+the order of objects (any order of independent into a different order of
+
+provided (in terms
+
+with knowledge of parameters)
+
+of the characteristics currently available of the service.
+
+of the service outside of any
+
+service requests may be changed service indications). However, teristics attributed with of the respect nature
+
+instance of the invocation some characbeyond those service
+
+to a given association, and type of service
+
+Thus, the TS user has not only knowledge which it may communicate, but knowledge of the characteristics
+
+of the parties with has explicit
+
+additionally
+
+to the basic connectionless-mode
+
+transport
+
+of the service it can expect to of the service.
+
+may be related to the TS user. The existence of the association does not depend on the
+
+be provided with each invocation
+
+behaviour performed
+
+on the TS users, but the set of actions which are by the TS provider on a particular association may of the characteristics of the association is of the OSI environment.
+
+10.2
+
+Determination
+
+of QOS
+identified
+
+parameters
+connectionless-
+
+do so. Awareness
+
+The CIOS parameters mode transmission
+
+for transport below.
+
+part of the TS users a priori knowledge
+
+are defined
+
+10.2.1
+
+Transit
+
+delay a T4JNITDATA indication. each re-
+
+10
+The.
+
+Quality
+term
+
+of Transport
+of a of Service"
+
+Service
+Transit delay is the elapsed time between T-UNITDATA for independently transmission. (QOS) refers to certain as QOS quest and the corresponding delay is specified connectionless-mode Transit transport
+
+"Quality of between aspects
+
+characteristics observed describes determined
+
+connectionless-mode a connectionless-mode
+
+transmission
+
+the transport-service-access-points.
+
+transmission Transit delay defines the maximum transmission TSDU
+NOTE transit -
+
+which are attributable
+
+solely to the TS provider; QOS should be of the service user behaviour (which
+
+value expected
+
+during the
+
+independently
+
+of the TSDU.
+
+Its specification
+
+will be based on a
+
+is beyond the control of the TS provider). Whether the view of the QOS during each instance of use of a
+
+size of 128 octets.
+Occurrences of loca! flow control are excluded in calculating
+
+connectionless-mode transmission is the same to each TS user associated with the service, depends on the nature of their association and the type of information concerning the nature of the service made available to the TS user(s) by the TS provider prior to the invocation of the service.
+
+delay values.
+
+10.2.2
+
+Protection
+attempts to prevent of TS user-originated one of four
+
+The extent to which the TS provider unauthorized monitoring or manipulation information options is specified qualitatively
+
+10.1
+
+Determination
+to IS0
+
+of QOS
+1, a basic characteristic of a
+
+by selecting
+
+:
+no protection protection features;
+
+According
+
+74SfVAdd.
+
+connectionless-mode service is that no negotiation of the quality of service for a transmission takes place at the time the service is accessed. Unlike a connection-mode service, no dynamic association is set up between the parties involved as occurs during a connection establishment; thus, characteristics of the service to be provided during the transfer are not negotiated. Some means are available by which the TS user is
+
+a) b)
+
+against passive monitoring; against modification, ieplay, addition, or
+
+c) protection deletion; and d)
+
+both b) and cl, above.
+
+3
+
+IS 13539 Is0 3072
+
+: 1093 : 1936 *. `4
+
+10.2.3
+
+Residual Error Probability
+
+provider before one of lower priority. The priority information is conveyed to the receiving TS user. This parameter specifies the relative importance connectionless-mode transmissions with respect to of
+
+Residual Error Probability describes the likelihood that a particular TSDU will be lost, duplicated, or corrupted. It is estimated as the ratio of lost, duplicated or corrupted TSDUs to total TSDUs transmitted between the TS users between which the association exists during the measurement period.
+
+a) the order in which TSDUs are to have their associated quality of service degraded, if necessary; and b) the order in which TSDUs are to be discarded to recover resources, if necessary. This parameter only has meaning in the context of some management entity or structure able to judge relative importante. The number of priori*/ levels is limited.
+
+10.2.4
+
+Priority
+
+This parameter allows the TS user to specify the relative priority of a TSDU in relation to any other TSDUs acted upon by the TS provider. A TSDU of higher priority is serviced by the TS
+
+Section two
+
+:
+
+Definition
+
+of connection-mode
+
+primitives
+
+This addendum makes no changes or additions to section two of IS0 8072.
+
+4
+
+IS 13589 : 1993 IS0 8072 : 1986
+`4
+
+Section
+15
+hitdata
+
+three : Definition
+
+of connectionless-mode
+15.2 Types of primitives
+
+primitives
+and parameters
+
+15.1 Function
+Transport connectionless-mode to another transmission service primitives TSDU
+
+Table 7 indicates the types of primitives and the parameters needed for the transport connectionless-mode transmission service.
+
+can be used to transmit from one TSAP TSDU is independent
+
+an independent, TSAP
+
+self-contained
+
+in a single TS access. The 15.2.1 Addresses referred to in table 7 are TSAP and connectionless-mode addressing 12.2.3 of IS0 5072. addresses. Transport scheme, The Seras dethe invocation of the service. to The addresses connection-mode vices both
+
+in the sense that it bears no relationship transmitted through service or the connection-mode in that all of the information
+
+to any other TSDU connection&s-mode It is self-contained deliver the TSDU
+
+required
+
+is presented to the TS provider, together with in a single service access; thus release of a TC is transmission may
+
+use the same TSAP
+
+the user data to be transmitted,
+
+scribed in 12.2.1 through
+
+no initial establishment or subsequent required. Transport connectionless-mode provider.
+
+only take place provided that the TS users are known to the TS
+
+15.2.2
+
+Quality of Service
+parameter is a list of sub-parameters. related to the quality of Service is found in
+
+The value of the 00s The TS provider transfers individual TSDUs its 00s. to the presented receiving TS user in the order within the range of deliver TSDUs they were The definition the
+
+The TS provider does not necessarily by the sending TS user. is not required to any aspect to maintain of the flow
+
+of the sub-parameters Transport
+
+in which
+
+connectionless-mode
+
+clause 10 of this addendum.
+
+The TS provider mation between relative
+
+any state inforof information 15.2.3
+
+TS-user-data
+allows the transmission of a TSDU between TS
+
+specific combinations
+
+of TSAPs. This parameter users. The TS user may transmit any integral number of octets greater than zero up to a limit of 53 488 octets.
+NOTE This value is an amount which is 1 K less than the maximum NSDU.
+
+NOTE - Peer-to-peer flow control between a sending and a receiving TS-user is not a feature of the connectionless-mode transport service. Flow control exerted terms of interface by the TS provider upon the sending TS user or by the receiving TS user upon the TS orovider can only be described in flow control.
+
+size allowed for a connectionless-mode
+
+Table 7 -
+
+Transport connectionless-mode
+Parameter
+
+transmission
+
+service primitives and parameters
+T-UNITDATA indication X(=1 X(=1 X X(=)
+
+T-UNITDATA request X X X X
+
+Source
+
+address address
+
+Destination
+
+Quality of Service TS-user-data ,ey : X : mandatory parameter
+
+I = 1: the value of that parameter TS primitive.
+
+is identical to the value of the corresponding
+
+parameter
+
+of the proceeding
+
+5
+
+IS 13589 :1993 IS0 8072 :1986 "i
+
+15.2.4
+
+Sequence
+
+of primitives
+
+15.2.5
+
+Sequence
+
+of TS primitives at one TSAP
+
+The sequence of primitives in a successful transport connectionless-mode transmission is defined in the following time sequence diagram :
+
+The possible overall allowed sequence of TS primitives at a TSAP are defined in the following state transition diagram :
+
+T-UNITDATA T-UNITDATA
+
+request
+
+request
+
+-T-UNITDATA indication T-UNITDATA indication
+
+:
+
+j_
+
+6
+
+Printedat Dee Kay Printers,New Delhi-110015, Idii
+
+1
+
+(
+
+1
+I
+
+Standard Mark
+
+The use of the Standard Mark is governed by the provisions of the Bureau of Indian Standards Act, 1986 and the Rules and Regulations made thereunder. The Standard Mark on products covered by an IndfanStandard conveys the assurance that they have been produced to comply with the requirements of that standard under a well defined system of inspection, testing and quality control which is devised and supervised by BIS and operated by the producer. fftandard marked products are also continuously checked by BIS for conformity to D,etails of conditions under which a licence for the use that standard as a further safeguard. of the Standard Mark may be granted to manufacturers or producers may be obtained from the Bureau of Indian Standards.
+
+Bureati of Indian Standards BIS is a statutory institution established under the Bureau of Indian Standards Act, 1986 to promote harmonious development of the activities of standardization, marking and quality certification of goods and attending to connected matters in the country. Copyright
+
+BIS has the copyright of all its publications. No part of these publications may be reproduced in any form without the prior permission in writing of BIS. This does not preclude the free use, in the course of implementing the standard, of necessary details, such as symbols and sizes, type or grade designations. Enquiries relating to copyright be addressed to the Director (Publication), BIS
+Revision of Indian Standards
+
+Amendments are issued to standards as the need arises on the basis of comments. Standards are also reviewed periodically; a standard along with amendments is reaffirmed when such review indicates that no changes are needed; if the review indicates that changes arc needed, it is taken up for revision. Users of Indian Standards should ascertain that they are in possession of the latest amendments or edition by referring to the latest issue of `BIS Handbook' and `Standards Monthly Additions'. Comments on this Indian Standard may be sent to BIS giving the following references Dot : No, LTD 36 ( 1559 )
+Amendments Issued Since Publication
+
+Amend No.
+
+Date of Issue
+
+Text Affected
+
+BUREAU
+
+OF INDIAN
+
+STANDARDS
+
+Headquarters: Manak Bhavan, 9 Bahadur Shah Zafar Marg, New Delhi 110002 Telephones : 3310131,331 13 75 Regional Offices : Central Eastern Northern Southern Western Branches
+: Manak Bhavan, 9 Bahadur Shah Zafar Marg
+
+Telegrams : Manaksanstha Common to all offices) Telephone 33101 31 331 13 75 378499, 378561 37 86 26, 37 86 62 53 38 43, 53 53 { 35 02 16, 235 $235 15 19, 235 16 40 23 84 04 42 23 15
+
+NEW DELHI 110002
+: l/14 C.I.T. Scheme VII M, V.I.P. Road, Maniktola
+
+CALCUTTA 700054
+: SC0 445-446, Sector 35-C, CHANDIGARH 160036 : C.I.T. Campus, IV Cross Road, MADRAS 600113 : Manakalaya, E9 MIDC, Marol, Andheri (East)
+
+BOMBAY 400093 GHAZIABAD. GUWAHATI. THIRUVANANTHAPURAM. HYDERABAD.
+
+632 92 95, 632 78 58 6327891, 6327892 1 JAIPUR. KANPUR. LUCKNOW. PATNA.
+
+: AHMADABAD. BANGALORE. BHOPAL. BHUBANESWAR. COIMBATORE. FARIDABAD.
+
+Printed at Bee Kay Printers, New Delhi-1 10015, India
+
+

@@ -1,0 +1,1675 @@
+IS 7900:2007 iSO 8601:2004
+
+( t7%'??7 pi%?w )
+
+Indian Standard
+
+DATA ELEMENTS AND INTERCHANGE FORMATS -- INFORMATION INTERCHANGE -- REPRESENTATION OF DATES AND TIMES
+(Third Revision )
+
+[es
+
+01.140.30
+
+@ BIS 2007
+
+BUREAU
+MANAK
+
+OF
+
+iNI)l
+
+AN
+
+STANDARDS
+ZAFAR MARG Price Group 11
+
+BHAVAN,
+
+9 BAHADUR SHAH NEW DELHI 110002
+
+October 2007
+
+Documentation
+
+and Information
+
+Sectional
+
+Committee,
+
+MSD 5
+
+NATIONAL
+
+FOREWORD 8601 : 2004 `Data elements and of dates and times' was adopted Documentation and Information Division Council.
+
+This Indian Standard (Third Revision) which is identical with ISO interchange formats -- Information interchange -- Representation by Bureau of Indian Standards on the recommendation of the Sectional Committee and approval of the Management and Systems
+
+This standard, originally published in 1976, was based on ISO 2014:1976, In the first revision of this standard in 1999, ISO 8601 : 1988 was adopted and Technical Corrigendum 1 to the above International Standard was also incorporated. In the second revision of this standard in 2001, ISO 8601 : 2000 was adopted, This third revision of IS 7900 has been necessitated because of the publication of ISO 8601:2004 which cancels and replaces ISO 8601:2000. The text of ISO Standard has been approved as suitable for publication as an Indian Standard without deviations. Certain conventions are, however, not identical to those used in Indian Standards. Attention is particularly drawn to the following: a)
+
+Wherever
+
+the words `International be read as `Indian Standard',
+
+Standard: appear referring to this standard, they should
+
+b)
+
+Comma (,) has been used as a decimal marker, while in Indian Standards, practice is to use a point (.) as the decimal marker.
+
+the current
+
+In this adopted standard, reference appears to certain International Standards for which Indian Standards also exist. The corresponding Indian Standards, which are to be substituted in their respective places, are listed below along with their degree of equivalence for the editions indicated: International Standard and units: and units: Corresponding Indian Standard and Degree of Equivalence Identical do
+
+ISO 31-0 : ~992 Quantities Part O General principles ISO 31-1 : 1992 Quantities Part 1 Space and time
+
+IS 1890 (Part O) : 1995 Quantities units: Part O General principles
+
+IS 1890 {Part 1) : 1995 Quantities and units: Part 1 Space and time (third revision) IS 10315: 7-Bit -- information 1997 Information technology coded character set for interchange (first revision)
+
+LSO/lEC 646 : 1991 Information technology -- ISO 7-Bit coded character set for information interchange
+
+do
+
+The technical committee responsible for the preparation of this standard has reviewed the provisions of following publications referred in this adopted standard and has decided that they are acceptable for use in conjunction with this standard: International Standard Title Ships and marine technology and concepts on navigation 1996/ -- Terms, abbreviations, graphical symbols and
+
+ISO 19018:2004 IEC 60050-111: Amd.1
+
+International Electrotechnical Vocabulary chemistry -- Time and related concepts International Electrotechnical Radiocommunications: transmitters, Standard-frequency International
+
+-- Chapter 111: Physics
+
+IEC 60050-713:1998 Rec. ITU-R TF.460-5 ITU-T S,1
+
+Vocabulary -- Part 713: receivers, networks and operation `
+
+and time signal emissions No. 2
+
+Telegraph Alphabet
+
+Annexes A and B of this Indian Standard standard,
+
+are for information
+
+only and do not form a part of the
+
+IS 7900:2007 !!308601 :2004
+
+Indian Standard DATA ELEMENTS AND INTERCHANGE FORMATS -- INFORMATION INTERCHANGE -- REPRESENTATION OF DATES AND TIMES (Third Revision )
+1
+
+Scope
+
+This International Standard is applicable whenever representation of dates in the Gregorian calendar, times in the 24-hour timekeeping system, time intervals and recurring time intervals or of the formats of these representations are included in information interchange. It includes -- -- -- -- -- -- -- . .
+calendar dates expressed in terms of calendar year, calendar month and calendar day of the month; ordinal dates expressed in terms of calendar year and calendar day of the year
+
+week dates expressed in terms of calendar year, calendar week number and calendar day of the week; local time based upon the 24-hour timekeeping system; Coordinated Universal Time of day; local time and the difference from Coordinated Universal Time; combination of date and time of day; time intervals; recurring time intervals.
+
+This International Standard does not cover dates and times where words are used in the representation and dates and times where characters are not used in the representation. This International Standard does not assign any particular meaning or interpretation to any data element that uses representations in accordance with this International Standard. Such meaning will be determined by the context of the application.
+
+2
+
+Terms and definitions
+
+For the purposes of this document, the following terms and definitions apply. 2.1 2.1.1
+
+Basic concepts
+
+time axis
+mathematical representation of the succession in time of instantaneous events along a unique axis [IEC 60050-1 11] 2.1.2 instant point on the time axis [IEC 60050-1 11]
+NOTE An instantaneousevent occursat a specificinstant.
+
+IS 7900:2007 1S08601 :2004
+2.1.3 time interval part of the time axis limited by two instants [IEC 60050-1 11]
+NOTE A time interval comprises all instants between the two limiting instants and, unless otherwise stated, the limitinginstantsthemselves.
+
+2.?.4 time scale system of ordered marks which can be attributed to instants on the time axis, one instant being chosen as the origin
+[IEC 60050-1 11] NOTE 1 A time scale may amongst others be chosen as: -- continuous,e.g. internationalatomic time (TAI) (see IEC 60050-713, item 713-05-1 8] -- continuouswith discontinuities,e.g. Coordinated Universal Time (UTC) due to leap seconds, standard time due `to summer time and winter time; -- successivesteps, e.g. usual calendars, where the time axis is split up into a successionof consecutivetime intervals and the same mark is attributedto all instantsof each time interval; --- discrete,e.g. in digital techniques. NOTE 2 For physical and technical applications,a time scale with quantitativemarks is preferred, based on a chosen initialinstanttogetherwith a unitof measurement. NOTE 3 Customary time scales use various units of measurement in combination,such as second, minute, hour, or varioustime intetvalsof the calendar such as calendar day, calendar monthand calendar year. NOTE 4 A time scale has a reference point which attributesone of the marks of the time scale to one of the instants, thus determiningthe attributionof marks to instantsfor the time scale.
+
+2.1.5 time point date time mark attributed to an irstant by means of a specified time scale
+[IEC 60050-1 11] NOTE 1 On a time scale consistingof successive steps, two distinctinstantsmaybe expressed by the same time point (see Note 1 of the term "timescale"). NOTE 2 For many time scales with quantitativemariis, the numericalvalue of the time point of an instant may also be consideredto be equal to the duration between the originof the time scale and the consideredinstant. NOTE 3 In IEC 60050-111 this definitioncorrespondswith the term "date".
+
+NOTE-4 The term "time"is otlen used in common language. However, it should only be used if the meaning is clearly visiblefrom the context,since the term "time"is also used with other meanings.
+
+2.f.6 duration non-negative quantity attributed to a time interval, the value of which is equal to the difference between the time points of the final instant and the initial instant of the time interval, when the time points are quantitative marks `[IEC 60050-1 11]
+
+IS 7900:2007 ISO 8601:2004
+NOTE 1 In the case of discontinuitiesin the time scale, such as a leap second or the change from winter time to summer time and back, the computation of the duration requires the subtractionor addition of the change of durationof the discontinuity. NOTE 2 Duration is one of the base quantities in the International System of Quantities (ISQ) on which the internationalSystem of Units (Sl) is based, The term "time"instead of "duration" is often used in this context. NOTE 3 For the term "duration",expressions such as "time"or "time interval"are often used. The term "time"is not recommended in this sense and the term "time interval"is deprecated in this sense to avoid confusionwith the concept "timeinterval". NOTE 4 The S1unit of durationis the second.
+
+2.1.7 nominal duration duration expressed amongst others in years, months, weeks or days
+NOTE The duration of a calendar year, a calendarmonth,a calendarweek or a calendar day dependson its position in the calendar. Therefore, the exact duration of a nominalduration can only be evaluated if the duration of the calendar years, calendar months, calendar weeks or calendar days used are known.
+
+2.1.8 date time point representing a calendar day on a time scale consisting of an origin and a succession of calendar days
+NOTE In IEC 60050-111 this definitioncorrespondswith the term "calendardate".
+
+2.1.9 calendar date date representing a particular calendar day by its calendar year, its calendar month and its ordinal number within its calendar month 2.1.10 ordinal date date representing a particular calendar day by its calendar year and its ordinal number within its calendar year 2.1.11 week date date representing a particular calendar day by the calendar year to which its calendar week belongs, the ordinal number of its calendar week within that calendar year and its ordinal number within its calendar week 2.1.12 Coordinated Universal Time UTC time scale which forms the basis of a coordinated radio dissemination of standard frequencies and time signals; it corresponds exactly in rate with international atomic time, but differs from it by an integral number of seconds [IEC 60050-713]
+NOTE 1 UTC is established by the InternationalBureau of Weights and Measures (BIPM, i.e. Bureau Internationaldes Poids et Mesures) and the InternationalEarth Rotation Service (IERS). UTC provides the basis of standard time, the use of which is legal in most countries. The 15th Conf&ence G6neral des Poids et Mesures (CGPM) (1975) judged in its Resolution5 that this usage can be stronglyrecommended. NOTE 2 UTC is adjusted to UT1 by the insertionor deletion of seconds, knownas "leap seconds"
+
+NOTE 3 Greenwich Mean Time (GMT) is internationallyreplaced by UTC. UTC is often (incorrectly)referredto as GMT. UTC is generally used by aviation and maritime navigation that also uses local apparent time and local mean time for celestial navigation(see ISO 19018).
+
+3
+
+IS 7900:2007 1S08601 :2004
+Additionalinformationcan be found as follows: NOTE 4 -- the URL for the ITU httD:/Avww.itu. int/itudoc/itu-r/rec/tf/index.html -- the URL for the InternationalBureau of Weights and Measures httD://www.birIm.fr -- the URL for the InternationalEarth RotationService httD://hDiers.obsDm. fr.
+
+2.1.13 UTC of day quantitative expression marking an instant within a calendar day in accordance with UTC 2.1.14 standard time time scale derived from coordinated universal time, UTC, by a time shift established in a given location by the
+competent authority
+
+[IEC 60050-1 11]
+NOTE This time shiftmay be varied in the coume of a year.
+
+2.1.15 standard time of day quantitative expression marking an instant within a calendar day by the duration elapsed after midnight in the local standard time [IEC 60050-1 11] NOTE
+Standard time of day is called "clocktime"inIEC60050-111.
+
+.-
+
+2.1.16 local time locally applicable time of day such as standard time of day, or a non-UTC based time of day 2.1.17
+recurring time interval
+
+.
+
+series of consecutive time intervals of the same duration or nominal duration
+If the durationof the time intervalsis measured in calendar entities, the duration of each time intervaldepends NOTE on the calendar dates of its start and its end.
+
+2.2
+2.2.1
+
+Time units, nominal durations and time intervals
+
+second
+base unit of measurement of time in the International System of Units (S1) as defined by the International Committee of Weights and Measures (CIPM, i.e. Comit4r International des Poids et Mesures) NOTE 1
+NOTE 2 See also ISO 31-1. It is the base unit for expressing duration,
+
+2.2.2
+leap second
+
+intentional time step of one second to adjust UTC to ensure appropriate agreement with UT1, a time scale based on the rotation of the Earth [Rec. ITU-R TF.460-5]
+An inserted second is celled positive leap second and an omitted second is called negative leap second. A NOTE and can be represented as [23:59602]. Negative poaitii leap second is inserted between [23:59:592] and [24:OO:OOZl teap seconds are achieved by the omission of [23:59:592]. Insertion or omission takes place as determined by IIERS, normallyon 30 June or 31 Oecember, but if necessary on 31 March or 30 September.
+
+4
+
+IS 7900:2007 ISO 8601:2004
+2.2.3 minute unit of time, equal to 60 seconds [1s0 31-1] 2.2.4 hour unit of time, equal to 60 minutes [1s0 31-1] 2.2.5
+day
+
+(unit of time) unit of time, equal to 24 hours
+[1s0 31-1] 2.2.6
+
+calendar day
+time interval
+SMing at midnight and
+
+ending at the next midnight, the latter being also the starting instant of
+
+thanextc%bdarday NOTE1
+
+"
+
+A@abndar day is often also referred to as day.
+
+N0TE2 w ~ti d a Catandarday is 24 hours;except if modiiid by: -- the insertionor detetionof bap seconds, by decisionof the InternationalEarth Rotation Sarvics (IERS), or -- the inse~or dabtion of other time intervals,as may be prescribedby local authoritiesto alter the time scale of local time. 2.2.7 day
+
+(duration) du~"on of.a calendar day NOTE The term "day' app@s also to the durationof any time intewal which starts at a certain time of day at a certain calendar day and erids at h saw W of day at the next calendar day.
+2.2.8 calendar week
+
+time intetval of seven calendar days starting with a Monday NOm 1
+NOTE 2 NOTE 3 A calendar week is often also referredto as weak. See 3.2.2 for the names of the calendar days and their day numbefs, A cs~ndar week maybe identifiedby i~ ordinalnumberwithin its calendar year.
+
+2.2.9 week duration of a calendar week
+
+,
+
+NOIE The term %aek" ap~ies also to the duratiin of any time interval which starts at a certain time of day at a Certah calendar day and ends at the same time of day at the same calendar day of the next calendar week.
+2.2.10 calendar week number ordinal number which identifies a ~lendar
+
+week within its calendar year according to the rule that the first calendar week of a year is that one which includes the first Thursday of that year and that the last oalendar week of a calendar year is the week immediately preceding the first calendar week of the next oalendar year
+
+5
+
+!S 7900:2007 !S08601 :2004
+2.2.11 calendar month time interval resulting from the division of a calendar year in 12 time intervals, each with a specific name and containing a specific number of ca!endar days
+NOTE 1 A calendar month is often referred to as month
+
+NOTE 2 See 3.2.1 for the names of the months of the calendar year in the Gregorian calendar, listed in their order of occurrence,for their number of days, and for the ordinaldates of the days in commonand leap years.
+
+2.?".42 rrmn'th duration of 28, 29, 30 or 31 calendar days depending on the start and/or the end of the corresponding time interval within the specific calendar month
+NOTE 1 The term "month"applies also to the duration of any time interval which starts at a certain time of day at a certain calendar day of the calendar month and ends at the same time of day at the same calendar day of the next calendar month, if it exists. In other cases the ending calendar day has to be agreed on. NOTE 2 In cetiain applicationsa month is consideredas a durationof 30 calendar days.
+
+2.2.13 calendar year
+cyclic time interval in a calendar which is required for one revolution of the Earth around the Sun and approximated to an integral number of calendar days NOTE 1 NOTE 2 calendar. A calendar year is often also referred to as year, Unless otherwisespecified the term designates in this InternationalStandard a calendar year in the Gregorian
+
+2.2.14 year
+duration of 365 or 366 calendar days depending on the start and/or the end of the corresponding time interval within the specific calendar year NOTE The term "year"applies also to the duration of any time interval which starts at a ceftain time of day at a certain calendar date of the calendar year and ends at the same time of day at the same calendar date of the next calendar year, if it exists. In other cases the ending calendardate has to be agreed on.
+
+2.2.15 Gregorian calendar calendar in general use, introduced in 1582 to define a calendar year that more closely approximated the
+tropical year than the Julian calendar filOTE 2.2.46 In this InternationalStandard the term Gregoriancalendar is used to refer to the time scale described in 3.2.1.
+
+common year
+calendar year in the Gregorian calendar that has 365 calendar days
+
+2.2.17 leap year
+calendar year in the Gregorian calendar that has 366 calendar days
+
+2.2.18 centennial year calendar year in the Gregorian calendar whose year number is divisible without remainder by hundred
+
+IS 7900:2007 1S08601 :2004
+2.3
+
+Representations and formats
+
+2.3.1 date and time representation expression indicating a time point, time interval or recurring time interval
+2.3.2
+
+date and time format representation expression describing the format of a group of date and time representations 2.3.3 basic format format of a date and time representation or date and time format representation comprising the minimum number of time elements necessaty for the accuracy required
+NOTE The basic format shouldbe avoided in plain text.
+
+2.3,4 extended format
+
+extension of the basic format that includes additional separators 2.3.5 complete representation representation that includes all the date and time components associated with the expression; limited, if applicable, for time elements of representations expressing a calendar year to four digits 2.3.6 decimal representation expansion of a representation by addition of a decimal fraction to the lowest order component of the expression 2.3.7 representation with reduced accuracy abbreviation of a representation by omission of lower order components 2.3.8 expanded representation expansion of a representation to allow identification of dates in calendar years outside the range [0000] till [9999]
+
+3 3.1
+
+Fundamental Basic rules
+
+principles
+
+This International Standard gives a set of rules for the representation of -- -- -- time points, time intervals, recurring time intervals.
+
+Both accurate and approximate representations can be identified by means of unique and unambiguous expressions specifying the relevant dates, times of day and durations. The degree of accuracy required and obtainable can be varied by including or deleting the appropriate time elements (such as seconds).
+
+IS 7900:2007 ISO 8601:2004
+In addition, this International Standard gives rules for the representation of expressions describing the format of the above representations. The decreasing order of time elements, left-to-right, is common to these representations. 3.2
+3.2.1
+
+Time scales
+The Gregorian calendar
+
+This International Standard uses the Gregorian calendar for the identification of calendar days. This calendar provides a time scale consisting of a, potentially infinite, series of contiguous calendar years. Consecutive
+
+calendar years are identified by sequentially assigned year numbers. The Gregorian calendar distinguishes common years of 365 consecutive calendar days and leap years of 366 consecutive calendar days. A leap year is a year whose year number is divisible by four an integral number of times. However, a centennial year is not a leap year unless its year number is divisible by four hundred an
+integral number of times.
+
+In the Gregorian calendar each calendar year is divided in 12 sequential calendar months, each consisting of a specific number of calendar days as indicated in Table 1.
+The Gregorian calendar has a reference point that assigns 20 May 1875 to the calendar "Convention du MtAre" was signed In Paris. day that the
+
+This International Standard allows the iderrtiticatiin ~f calendar years by their year number for years both before and after the introduction of the Gregorian calendar. For the determination of calendar years, the year number and the calendar day within the calendar year only the rules mentioned above are used. For the
+
+purposes of this International Standard the calendar based on these rules is referred to as the Gregorian calendar. The use of this calendar for dates preceding the introduction of the Gregorian calendar (also called the proleptic Gregorian calendar) should only be by agreement of the partners in information interchange.
+The introduction of the Gregorian calendar included the cancellation of the accumulated inaccuracies of the Julian calendar. However, no dates shall be inserted or deleted when determining dates in the proleptic Gregorian calendar. NOTE In the prolepticGregorian calendar, the calendar year [0000] is a leap year.
+
+The Gregorian calendar was introducedon 15 October 1562. In the calendar set by this standard the EXAMPLE calendar day precedng that calendar day is referred to as 14 October 1582. In the Julian calendar that calendar day is referredto as 4 OctoWr 1582.
+
+8
+
+IS 7900:2007 ISO 8601:2004
+Table 1 -- Calendar months Calendar month Calendar month Number of days in the month 31 (leap ~~ar 29) 31 30 31 30 31 31
+
+ordinal dates of the daya in
+common years 001-031 032-059 060-090 091-120 121-151 152-181 182-212 213-243
+
+Ordinal dates of the
+days in leap yeare 001-031 032-060 061-091 092-121 122-152 153-182 183-213 214-244
+
+number
+01 02 03 04 05 06 07 08 09
+
+name
+Januaw February March April May June July August
+
+September Octobar November
+December
+
+30 31 30
+31
+
+244-273 274-304 305-334
+335-365
+
+245-274 275-305 306-335
+336-366
+
+10 11
+12 3.2.2
+
+The week calendar
+
+This International Standard allows the use of the week calendar time scale for the identiicetion of calendar days. This time scale is based on an unbounded series of contiguous calendar weeks. The calendar week number identifies the calendar week within the calendar year. Each calendar week has seven calendar days as
+indicated in Table 2.
+
+The reference point of the time scale assigns Saturday to 1 January 2000.
+
+Table 2 -- Calendar days Ordinalday number in the week 1 2 3 4 5 6 7 NO= Calendar day name Monday Tuesday Wednesday Thursday Friday Saturday Sunday
+
+1
+
+A calendar year has 52 or 53 celandar weeks.
+
+NOW 2 The first calendar weak of a calendar year includesup to three days from the previous calendar yeac the last calendar week of a calendar year indudea up to three days from the following calendar year. Therafora, for certain calendardays the calendar data con~ms a differentcalendar year than the week data. For instance: � Sunday 1 January 1995 is identitledby the calendar date [1995-01-01] and week date [1994-W52-q Tuesday31 December 1996 is identifiedby the calendar date [1998-31-12] and weak date [1997-WO1-2]. -
+
+9
+
+IS 7900:2007 ISO 8601:2004
+NOTE 3 The rule for determining the first calendar week (see the definitionof calendar week number in Clause 2) is equivalentwith the rule "thefirstcalendar week is the calendar week which includes4 January".
+
+3.2.3
+
+Time scales within the calendar day
+
+This International Standard recommends the use of time scales applying the 24-hour time keeping system for the identification of time points within a calendar day. These time scales provide marks which, except in case of discontinuities, represent the duration elapsed after the start of the calendar day. In this International Standard these marks, which are collecWely referred to as time of day, are represented by the number of hours elapsed after midnight, the number of minutes elapsed after the last full hour, the number of seconds elapsed after the last full minute, with decimal parts of a second
+if necessary.
+
+3.3
+
+Reprssentationsand format representations
+
+This international Standard defines date and time representations to express time points, time intervals and recurring time intervals.
+EXAMPLE The date and time representation[2003-02-10] identiies 10 February 2003.
+
+To define the date and time representations permitted by this International Standard, use is made of date and time format representations in which specific characters are used to represent digits or other characters in date and time representations. A date and time format representation, together with its description, defines permitted date and time representations. The date and time format representation W-MM-DD], together with the associated description, EXAMPLE defines the complete,extended format, calendar date representationspermittedby this InternationalStandard.
+
+By mutual agreement the parties in information interchange may transfer the date and time format representations. Only the date and time format representations permitted by this International Standard shall be used. The date and time format representations use characters that potentially expand into more than one character in the date and time representation; this is indicated by underlining. If at the time of information interchange of the date and time format representation the number of characters to be used in the date and time representation is known, the variable expansion representation (i.e. underlining) shall not be used.
+EXAMPLE [hh:mm:ss,Q. Local time with three decimals for the fratilon of the seconds is represented by [hhmm:ss,sss], not by
+
+3.4
+3.4.1
+
+Characters used in the representations
+Introduction
+
+The representations specified in this International Standard make use of graphic characters as specified in 3.4. Note that, except for "hyphen", "minus" and "plus-minus", these characters are part of the lSO/lEC 646 repertoire. In an environment where use is made of a character repertoire based on lSO/lEC 646, "hyphen" and "minus" are both mapped onto "hyphen-minus". Representations with a "plus-minus" shall only be used in such environment if the interchange repertoire includes "plus-minus". In an environment where use is made of the ITU-T S.1 repertoire (e.g. telex) date and time format representations shall not be used. In date and time format representations underlining of characters is used. In environments that do not support the representation of underlined characters, the underline shall precede the character to be underlined.
+
+10
+
+IS 7900:2007 ISO 8601:2004
+NOTE 1 available. NOTE2 In date and time representations Lowercase charactera maybe used when upper case characters are not
+
+Entiing
+
+ofcharactem for Meinterchange ofdates andtimes isnotin thescop
+
+ofthislnternational Standad.
+
+Unless explicitly allowed by this International Standard the character "space" shall not be used in the representations. 3.4.2 Characters used in place of digits or signs
+
+In date and time format representations characters are used to represent characters in the date and time representations as follows:
+
+M represents a digit used in the time element "yeafl;
+[M] represents a digit used in the time element "month"; [D] represents a digit used in the time element "day"; [w] represents a digit used in the time element "weeK; [h] represents a digit used in the time element "hour"; [m] represents a digit used in the time element "minute"; [s] [n] [*I represents a digit used in the time element "second"; represents a digit from a positive integer or zero; represents a plus sign [+] if in combination with the following element a positive value or zero needs .. to be represented (in this case, unless explicitly stated otherwise, the plus sign shall not be omitted), or a minus sign [�] if in combination with the following element a negative value needs to be represented.
+
+In addition the following convention applies: U When any of the characters representing a digit is underlined, it represents zero or more digits in the corresponding date and time representation.
+
+Other characters irr the date and time format representations are copied in the date and time representations. 3.4.3
+Characters used as designators
+
+In representations-the following characters are used as designators: [P] is used as durafion designator, preceding the component which represents the duration;
+NOTE The use of the character P is based on the historicaluse of the term "period" for duration.
+
+[R] is used as recurring time interval designator m -- -- --
+
+is used as time designator to indicate: the start of the representation of local time to designate local time expressions as such, the start of the representation of the time of day in date and time of day expressions, the start of the representation of the number of hours, minutes or seconds in expressions of duretion;*
+
+11
+
+IS 7900:2007 1S08601 :2004
+~ isusedas week designator, preceding adataelement calendar week within the calendar year; which represents theordinal number ofa
+
+[Zl is used as UTC designator.
+In representations of duration (4.4.3.2), the following designators are used as part of the expression:
+
+M [M] ~
+NOTE 1
+
+[D] [H] [M] [S]
+
+In these expressions,[M] maybe used to indicate"month" or "minute",or both.
+
+in date and time format representationsthe interpretationof the characters m, [M] and [D] as characters used NOTE 2 in place of digitsor as designatorsdepends on their positionin the expression. NOTE 3 be applied. These designators are used for the designationof units of time and nominal durations in the representations
+
+defined in this InternationalStandard. For the designationof units of time and durations in other contexts ISO 31-1 should
+
+3.4.4
+
+Characters
+
+used as separatom
+
+In representations the following characters are used as separators:
+[-] (hyphen): to separate the time elements "year" and "month", "year" and "week", "year" and "day, "month" and "day", and `weeV and `day;
+
+[] (colon):
+[/l (solidus): NOTE
+
+to separate the time elements "hour" and "minute", and "minute" and "second";
+to separate components in the representation of time intervals and recurring time intervals.
+
+Representationsdefined in this InternationalStandard also make use of the decimal separator.
+
+3.5
+
+Expansion
+
+By mutual agreement of the partners in information interchange, it is permitted to expand the component identif@g the calendar year, which is otherwise limited to four digits. This enables reference to dates and times in calendar years outside the range supported by complete representations, i.e. before the start of the year [0000] or after the end of the year [9999]. 3.6
+
+Leading zeros
+
+If a time element in a defined representation has a defined length, then leading zeros shall be used as required. 3.7
+
+Mutuai agreement
+
+Some of the representations identified in this International Standard are only allowed by mutual agreement of the partners in information interchange. Such agreement should ensure that fields in which the representation may occur are not allowed to hold other representations that cannot be unambiguously distinguished from the agreed representation.
+
+12
+
+IS 7900:2007 ISO 8601:2004 4
+4.1 4.1.1
+
+Date and time representations
+Date General
+
+For ease of comparison, in all the following examples of representations of dates, the date of 12'April 1985 is used as an illustration, if applicable.
+4.1.2 4.1.2.1 Calendar date General
+
+In expressions of calendar dates --
+calendar year is, unless specified otherwise, represented by four digits. Calendar years are numbered in ascending order according to the Gregorian calendar by values in the range [0000] to [9999]. ValUf2S in the range [0000] through [1582] shall only be used by mutual agreement of the partners in information interchange. calendar month is represented by two digits. January is represented by [01], and subsequent mlendar months are numbered in ascending sequence. calendar day of the month is represented by two digits. The first calendar day of any calendar month is
+
+--
+
+--
+
+represented by [01] and subsequent calendar days of the same calendar month are numbered in ascending sequence. 4.1.2.2 Complete representations
+
+When the application identifies the need for a complete representation of a calendar date, it shall be one of the numeric expressions as follows, where m represents a calendar year, [MM] the ordinal number of a calendar month within the calendar year, and [DD] the ordinal number of a calendar day within the calendar month. Basic format: Extended format: 4.1.2.3 YYYYMMDD YYYY-MM-DD Example: Example: 19850412 1985-04-12
+
+Representations
+
+with reduced accuracy
+
+If in a given application it is sufficient to express a Calendar date with less accuracy than a complete representation as specified in 4.1.2.2, eithgr two, four or six digits may be omitted, the omission starting from the extreme right-hand side. The resulting representation will then indicate a month, a year or a century, as and [MM], but set out below. When only [DD] is omitted, a separator shall be inserted between ~YYj
+separators shall not be used in the other representations with reduced accuracy.
+
+a)
+
+A specific month Basic format: Extended format: A specific year Basic format: Extended format:
+
+YYYY-MM not applicable
+
+Example:
+
+1985-04
+
+b)
+
+YYYY not applicable
+
+Example:
+
+1985
+
+c)
+
+A specific century Basic format: W Extended formet: not applicable
+
+Example:
+
+19
+
+13
+
+IS 7900:2007 1S08601 :2004
+4.'1.2.4 Expanded representations
+
+If, by agreement, expanded representatpns are used, the formats shall be as specified below. The interchange parties shall agree the additional number of digits in the time element year. In the examples below it has been agreed to expand the time element year with two digits.
+
+a)
+
+A specific day Basic format.' Extended format: A specific month Basic format: Extended format: A specific year Basic format: Extended format:
+
+t_WYYYMMDD +fiYYY-MM-DD
+
+Example: Example:
+
++0019850412 +001985-04-12
+
+b)
+
+*.WYYY-MM not applicable
+
+Example:
+
++001985-04
+
+c)
+
+*yyyyy not applicable
+
+Example:
+
++001985
+
+d)
+
+A specific century *.WY Basic format: Extended format: not applicable
+
+Example:
+
++0019
+
+NOTE 4.1.3
+
+4.1.2.4 includesthe definitionof representationsthat are expanded and have reduced accuracy. Ordinal date
+
+4.1.3.1
+
+General
+
+In expressions of ordinal dates
+
+-- --
+
+calendar year is represented as in 4.1.2. calendar day of the year is represented by three decimal digits. The first calendar day of any calendar year is represented by [001] and subsequent calendar days are numbered in ascending sequence. Complete representations
+
+4.1.3.2
+
+When the application identifies the need for a complete representation of an ordinal date, it shall be one of the numeric expressions as follows, where ~YYYl represents a calendar year and [DDD] the ordinal number of a
+
+calendar day within the calendar year. Bask format: Extended format:
+4.1.3.3 Expanded
+
+YYYYDDD YYYY-DDD
+representations
+
+Example: Example:
+
+1985102 1985-102
+
+If, .by agreement, expanded representations are used the formats shall be as specified below. The interchange parties shall agree the additional number of digits in the time element year. In the examples below it has been agreed to expand the time element year with two digits. A specific day Bask format: Extended format:
+
+~_wYYYDDD
+
+*_~-DDD
+
+Example: Example:
+
++001985102 +001985-102
+
+14
+
+IS 7900:2007 ISO 8601:2004
+4.4.4 4.1.4.1 Week date General
+
+In expressions of week dates -- -- calendar year is represented as in 4.1.2. calendar week is represented by two decimal digits. The first calendar week of a year shall be identified as [01] and subsequent weeks shall be numbered in ascending sequence.
+calendar day of the week is represented by one decimal digit. Monday shall be identified as calendar day [1] of any calendar week, and subsequent calendar days of the same calendar week shall be numbered in ascending sequence to Sunday (calendar day [7]). Complete representations
+
+--
+
+4,1.4,2
+
+When the application identifies the need for a complete representation of a week date, it shall be one of the is the week designator, alphanumeric expressions as follows, where ~YYYl represents a calendar year, ~
+
+[WW]represents the ordinal number of a calendar week within the year, and [D] represents the ordinal number of a calendar day within the calendar week. Basic format.' Extended format: 4.f.4.3
+WYWWWD
+
+YYYY-WWW-D
+
+Example: Example:
+
+1985WI 55 1985-WI 5-5
+
+Representations
+
+with reduced accuracy
+
+If the degree of accuracy required permits, one digit maybe omitted from the representation in 4.1.4.2. A specific week Basic format: Extended format: 4.i.4.4
+Expanded
+
+YYwwww YWY-WWW
+representations
+
+Example: Example:
+
+1985WI 5 1985-WI 5
+
+If, by agreement, expanded representations are used the formats shall be as specified below. The interchange parties shall agree the additional number of digits in the time element year. In the examples below it has been agreed to expand the time element year with two digits.
+a)
+
+A specific day Basic format: Extended format: A specific week Basic format: Extended format:
+
+~~yyy~wwD *_WYYY-Www-D *yyyyywww k_WYYY-Www
+
+Example: Example:
+
++001 985WI 55 +001 985-WI 5-5
+
+b)
+
+Example: Example:
+
++001 985WI 5 +001 985-WI 5
+
+NOTE
+
+4.1.4.4 includesthe definitionof representationsthat are expanded and have reduced accuracy. Time of day
+
+4.2 4.2.1
+
+General
+
+This International Standard is based on the 24-hour timekeeping system that is now in common use. In expressions of time of day -- hour is represented by two digits from [00] to [24]. The representation of the hour by [24] is only allowed to indicate the end of a calendar day, see 4.2.3.
+
+15
+
+IS 7900:2007 1S08601 :2004
+-- minute isrepresented bytwodigits from [OO]to [59].
+
+--
+
+second is represented by two digits from [00] to [60]. The representation of the second by [60] is only allowed to indicate a positive leap second or an instant within that second.
+These expressionsapply to both UTC and non-UTC based time scales for time of day.
+
+NOTE
+
+4.2.2 4.2.2.1
+
+Local time General
+
+In the representations of local time as defined below no provisions have been made to prevent ambiguities in expressions that result from discontinuities in the time scale of local time (e.g. daylight saving time). When an
+application identifies the need to prevent these ambiguities, use can be made of the provision of 4.2.5.2.
+
+4.2.2.2
+
+Complete representations
+
+When the application identifies the need for an expression of local time then the complete representation shall be a single numeric expression comprising six digits in the basic format, where [hh] represents hours, [mm] minutes and [ss] seconds. Basic format:
+Extended format:
+
+hhmmss
+hh:mm :ss
+
+Example:
+Example:
+
+232050
+23:20:50
+
+4.2.2.3
+
+Representations
+
+with reduced accuracy
+
+If the degree of accuracy required permits, either two or four digits may be omitted from the representation in 4.2.2.2. a) A specific hour and minute Basic format: hhmm Extended format: hh:mm
+A specific hour
+
+Example: Example:
+
+2320 23:20
+
+b)
+
+Basic format: Extended format: 4.2.2.4
+
+hh not applicable with decimal fraction
+
+Example:
+
+23
+
+Representations
+
+If necessa~ for a particular application a decimal fraction of hour, minute or second may be included. If a decimal fraction is included, lower order time elements (if any) shall be omitied and the decimal fraction shall be divided from the integer part by the decimal sign specified in 1S0 31-O, i.e. the comma [,] or full stop [.]. Of these, the comma is the preferred sign. If the magnitude of the number is less than unity, the decimal sign shall be preceded by two zeros in accordance with 3.6. The interchange parties, dependent upon the application, shall agree the number of digits in the decimal fraction. The format shall be [hhmmss,s~, [hhmm,m@ or [hh,h~ as appropriate (hour minute second, hour minute, and hour, respectively), with as many digits as necessary following the decimal sign. A decimal fraction shall have at least one digit. In the examples below it has been agreed to give the smallest time element a decimal fraction with one digit. a) A specific hour, minute and second and a decimal fratilon of the second Basic format: hhmmss,s~ Example: 232050,5 Extended format: hh:mm:ss,sg Example: 23:20:50,5 A specific hour and minute and a decimal fraction of the minute Basic format: hhmm,m~ Example: 2320,8 Extended format: hh:mm,mm Example: 23;20,8
+
+b)
+
+16
+
+IS 7900:2007 ISO 8601:2004
+c)
+
+A specific hour and a decimal fraction of the hour Basic format: hh,h~ Example: Exterrded format: not applicable
+
+23,3
+
+NOTE 4.2.2.5
+
+4.2.2.4 includesthe definitionof representationsthat have both reduced accuracy and a decimal fraction. Representations with time designator designator ~ immediately in front of the
+
+In expressions of local time, applications may put the time representations defined in 4.2.2.2 through 4.2.2.4.
+
+If the local time is represented in a conteti that does not clearly identify a local time expression, the time designator ~ shall be used immediately in front of the representations defined in 4.2.2.2 through 4.2.2.4. 4.2.3 Midnight format for midnight, in accordance with 4.2.2, shall be
+
+The complete representations in basic and extended expressed in either of the two following ways: Basic format Extended format
+
+a) b)
+
+000000
+240000
+
+00:00:00
+24:00:00
+
+(the beginning of a calendar day) (the end of a calendar day)
+
+The representations
+
+may have reduced accuracy in accordance with 4.2.2.3 or may be designated as a time expression in accordance with 4.2.2.5. TO represent midnight the representations may be expanded with a decimal fraction containing only zeros in accordance with 4.2.2.4. NOTE 1 Midnightwill normallybe representedas [00:00] or [24:00]
+
+NOTE 2 The end of one calendar day [24:00] coincideswith [00:00] at the start of the next calendar day, e.g. [24:00] on 12 April 1985 is the same as [00:01)]on 13 Apfil 1985. If there is no associationwith a date or a time intervalboth a) and b) representthe same IC@ time in the 24.hour timekeepingsystem. NOTE 3 The choice of representation a) or b) will depend upon any association with a date, or a time interval. with Representationswhere [hh] has the value [24] are only preferredto representthe end of a time interval in accordance 4.4 or recurringtime intowal in accordancewith4.5. 4.2.4 UTC of day
+
+To express (JTC of day the representations specified in 4.2.2.2 through 4.2.2.4 shall be used, followed immediately, without space, by the lJTC designator [z]. The examples below are complete and reduced accuracy representations of the UTC of day 20 minutes and 30 seconds past 23 hours:
+
+Basic format:
+
+hhmmssZ
+hhmmZ hhZ
+
+Example:
+
+232030Z
+2320Z 23Z
+
+Extended format:
+
+hh:mm:ssZ hh:mmZ not applicable
+
+Example:
+
+23:20:30Z 23:20Z
+
+4.2.5 4.2.5.1
+
+Local time and Coordinated Difference
+
+Universal Time (UTC)
+
+between local time and UTC of day
+
+When it is required to indi~te the difference between local time and UTC of day, the representation of the difference can be expressed in hours and minutes, or hours only. It shall be expressed as positive (i.e. with the leading plus sign [+]) if the local time is ahead of or equal to UTC of day and as negative (i.e. with the
+
+17
+
+IS 7900:2007 ISO 8601:2004
+leading minus sign [-]) if it is behind UTC of day. The minutes time element of the difference omitted if the difference between the time scales is exactly an integral number of hours. may only be
+
+Basic format:
+
+~hhmm
+
+Example:
+
+fhh
+Extended format:
+~hh:mm
+
++01 00 +01
++01 :00
+in the representations
+
+Example:
+
+Expressions of the difference between local time and UTC of day are a component defined in 4.2.5.2; they shall not be used as self-standing expressions. 4.2.5.2 Local time and the difference from UTC
+
+When it is required to indicate local time and the difference between the time scale of local time and UTC, the representation of the difference shall be appended to the representation of the local time following immediately, without space, the lowest order (extreme right-hand) time element of the local time expression. or The difference between the time scale of local time and UTC shall be expressed in hours-and-minutes, hours-only independent of the accuracy of the local time expression associated with it. The complete representation of the time of 27 minutes and 46 seconds past 15 hours locally in Geneva (in winter one hour ahead of UTC), and in New York (in winter five hours behind UTC), together with the indication of the difference between tne time scale of local time and UTC, are used as examples.
+
+Basic format:
+
+hhmmss+hhmm hhmmss+hh
+
+Example:
+
+152746+01 00 152746-0500
+152746+01 152746-05
+
+Extended format:
+
+hh:mm:ss~hh:mrn hh:mm:ss~hh
+
+Example:
+
+15:27:46+01:00 15:27:46-05:00
+15:27:46+01 15:27:46-05 with reduced accuracy as defined in
+
+In these expressions the local time component may be represented 4.2.2.3 or with decimal fraction as defined in 4.2.2.4.
+
+4.3 4.3.1
+
+Date and time of day
+
+General
+
+When the application does not clearly identify the need for only a date expression (see 4.1) or only a time of day expression (see 4.2), then a time point can be identified through a date and time of day expression. 4.3.2 Complete representations shall be written in the following sequence.
+
+The time elements of a date and time of day expression
+
+a)
+
+For calendar dates: year - month - day of the month � time designator � hour � minute - second � zone designator For ordinal dates: year � day of the year - time designator
+
+b)
+
+� hour - minute - second - zone designator
+
+c)
+
+For week dates: year - week designator � week - day of the week � time designatordesignator
+
+hour - minute - second - zone
+
+18
+
+IS 7900:2007 1S08601 :2004
+The zone designator is empty if use is made of local time in accordance with 4.2.2.2 through 4.2.2.4, it is we UTC designator [Z] if use is made of UTC of day in accordance with 4.2.4 and it is the difference-component if use is made of local time and the difference from UTC in accordance with 4.2.5.2. The character r] shall be used as time designator to indicate the start of the representation of the time of day component in these expressions. The hyphen [-] and the colon [:] shall be used, in accordance with 4.4.4, as separators within the date and time of day expressions, respectively, when required. NOTE By mutual agreement of the partners in information interchange, the character [Tl may be omitted in applications where there is no risk of confusing a date and time of day representation with others defined in this
+International Standard.
+
+The following are examples of complete representations Basic format. YYYYMMDDThhmmss YYYYMMDDThhmmssZ YYYYMMDDThhmmssihhmm YYYYMMDDThhmmss*hh YYYY-MM-DDThh:mm:ss YYYY-MM-DDThh:mm: ssZ YYYY-MM-DDThh:mm: ss*hh:mm YYYY-MM-DDThh:mm: ss+hh using calendar
+
+of date and time of day representations: .Exarnp/e: 19850412TIOI 530 19850412TIO1530Z 1985041 2TI 01 530+0400 1985041 2TI 01 530+04 5:30 1985-04- 12TIO:15:30Z 1985-04-1 2TI O:15:30+04:00 1985-04-12TIO:15 :30+04 dates (4. 1.3.2) or week dates
+
+Exfended format:
+
+.Exarnple.' 1985-04-12TIO:I
+
+Where complete representations (4.1 .4.2) may be substituted.
+
+dates are shown,
+
+ordinal
+
+4.3.3
+
+Representations
+
+other than complete
+
+For reduced accuracy, decimal or expanded representations of date and time of day, any of the representations in 4.1.2 (calendar dates), 4.1.3 (ordinal dates) or 4.1.4 (week dates) followed immediately by the time designator ~ maybe combined with any of the representations in 4.2.2.2 through 4.2.2.4 (local time), 4.2.4 (UTC of day) or 4.2.5.2 (local time and the difference from UTC) provided that a) b) c) the rules specified in those sections are applied; the resulting expression the date component NOTE does not qualify as a complete representation with reduced accuracy; in accordance with 4.3.2;
+
+shall not be represented
+
+This excludes also the date representations in 4.1,2.4 and 4,1.4.4 that are expanded and reduced.
+
+d) the expression shall either be comDletelv in basic format, in which case the minimum number of separators "necessary for the required expression is used, or completely in extended format, in which case additional separators shall be used in accordance with 4.1 and 4.2. The following are representations: a) examples of reduced representations of combinations of date and time of day
+
+Calendar date and local time Basic formaf: YYYYMMDDThhmm Extended format: YYYY-MM-DDThh:mm Ordinal date and UTC of day Basic format: YYYYDDDThhmmZ Extended format: YYYY-DDDThh:mmZ
+
+Example: Example:
+
+I98504I2TIOI5 1985-04-1 2TIO:I 5
+
+b)
+
+Example: Example:
+
+1985102TIO15Z 1985-I 02TIO:15Z
+
+19
+
+IS 7900:2007 1S08601 :2004
+c) Week date and local Time and the difference from UTC Basic format: Examp/e: 1985W1 55T1 015+0400 YYYYWwwDThhmmAhhmm Example: 1985-WI 5-5TI O:15+04 Extended format: YYYY-Www-DThh:mm+hh
+
+4.4
+4.4.1
+
+Time interval
+Means of specifying time intervals in one of the following ways:
+
+A time interval shall be expressed a) b) c) d) by a start and an end;
+
+by a duration and context information; by a start and a duration;
+by a duration and an end.
+
+The time interval expressed by method b) is not fully determined by the information provided in the expression. It is assumed that, where needed, additional information to completely determine the time intarval is available from the context. It should however be noted that, although the expression contains only duration information it represents a (not fully determined) time interval; not a duration. 4.4.2
+
+NOTE
+
+Separators and designators
+according to the following rules: in each of 4.4.1 a), c) and d); of the expression of
+
+A time interval is expressed a) b)
+
+a solidus [/l shall be used to separate the two components for 4.4.1 b), c) and d) the designator duration; other designators
+
+[P] shall precede, without space, the remainder
+
+c)
+
+shall be used as shown in 4.4.4 and 4.4.5 below,
+
+NOTE
+
+In certain application areas a double hyphen is used as a separator instead of a solidus,
+
+4.4.3 4.4.3.1
+
+Duration General
+
+Duration can be expressed by a combination of components with accurate duration (hour, minute and second) and components with nominal duration (year, month, week and day). The term duration will be used to designate expressions containing components with accurate duration, with nominal duration, or both.
+NOTE 1 Applications requiring accurate duration using the time unit day can make use of the provisions of ISO 31-1 and recurring time intervals,
+
+NOTE 2 Duration is used as a component in representations of time intervals representation of duration as such is not facilitated by this International Standard.
+
+4.4.3.2
+
+Format with designators
+
+in expressions of time interval or recurring time interval, duration can be represented by a combination of components with designators. The number of years shall be followed by the designator [Y], the number of months by [M], the number of weeks by w], and the number of days by [D]. The part including time components shall be preceded by the designator ~; the number of hours shall be followed by [H], the number of minutes by [M] and the number of seconds by [S]. In these expressions the d#y domponent [nUD] is expressed as a multiple of the duration of a calendar day.
+
+20
+
+IS 7900:2007 IS08601 :2004
+In both basic and extended format the complete representation nDMn~S], or [Pn~YngMn~DTnDH In these representations information interchange. the maximum of the expression for duration shall be [Pn@Vl
+
+number of digits in a component
+
+needs to be agreed by the partners in
+
+For reduced accuracy or decimal representations a) If necessary for a particular application, duration with reduced accuracy,
+
+of this representation,
+
+the following
+
+rules apply to represent
+
+the lowest order components
+
+may be omitted
+
+b)
+
+If necessary for a particular application, the lowest order components may have a decimal fraction. The decimal fraction shall be divided from the integer part by the decimal sign specified in ISO 31-O, i.e. the comma [,] or full stop [.]. Of these, the comma is the preferred sign. The decimal fraction shall at least have one digit, the maximum number of digits in the decimal component needs to be agreed by the partners in information interchange, If the magnitude of the number is less than unity, the decimal sign shall be preceded by a zero (see ISO 31-O). If the number of years, months, days, hours, minutes or seconds in any of these expressions equals zero, the number and the corresponding designator may be absent; however, at least one number and its designator shall be present. The designator [T] shall be absent if all of the time components are absent,
+
+c)
+
+d)
+
+4.4.3.3
+
+Alternative
+
+format
+
+By mutual agreement of the partners in information interchange, duration may be expressed in conformity with the format used for time points, as specified in 4.1.2, 4.1.3, 4.2.2.5 and 4.3, where the formats of 4.3 are restricted for the date component to the formats in 4.1.2 and 4.1,3 and for the time of day component to the formats in 4.2,2.2 through 4.2.2,4. The values expressed must not exceed the "carry over points" of 12 months, 30 days, 24 hours, 60 minutes and 60 seconds. Since weeks have no defined carry over point (52 or 53), weeks should not be used in these applications. In these expressions a possible value of the year time element is [0000], of the calendar month and calendar day of the month time elements [00] and of the calendar day of the year time element [000]. The complete representation of the expression for duration in the alternative or or format is as follows:
+
+Basic format: PYYYYMMDDThhmmss Extended format." PYYYY-MM-DDThh: mm:ss
+4.4.4 4.4.4.1 Complete representations
+
+PYYYYDDDThhmmss PYYYY-DDDThh:mm:ss
+
+Representations
+
+of time intervals identified by start and end
+
+When the application identifies the need for a complete representation of a tilme interval, identified by its start and its end, it shall use an expression in accordance with 4.4.2 combining any two complete date and time of day representations as defined in 4.3.2, provided that the resulting expression is either consistently in basic format or consistently in extended format.
+
+Basic format: Exampie:
+,Exterrded format:
+
+YYYYMMDDThhmmss/YYYYMMDDThhmmss
+
+1985041 2T232050119850625TI 03000
+YYYY-MM-DDThh:mm: ss/YYYY-MM-DDThh: mm:ss 23 hours on
+
+Example:
+
+1985-04-12T23:20 :50M985-06-25TIO:30:O0
+
+The examples represent a time interval beginning at 20 minutes and 50 seconds past 12 April 1985 local time and ending at 30 minutes past 10 hours on 25 June 1985 local time.
+
+21
+
+IS 7900:2007 1S08601 :2004
+4.4.4.2 Representations of time intervals by duration and context information
+
+4.4.4.2.1
+
+Format with designators
+
+When an application identifies the need for a complete representation of a time interval through its duration and context information, with duration in the format with designators, it shall use an expression in accordance with 4.4.2 using a complete duration representation as defined in 4.4.3.2. Basic and extended format: Example 1: PnDYn~MnnDTngHnDMn@ Pn~W P2Y1OMI 5DTI 0H30M20S
+
+Example 2:
+
+P6W
+
+Example 1 represents a time interval with a duration of 2 years, 10 months, 15 days, 10 hours, 30 minutes and 20 seconds. Example 2 represents a time interval with a duration of six weeks. 4.4.4.2,2
+Alternative format
+
+If, by agreement, a complete representation of a time interval through its duration and context information, with duration in the alternative format, is used, the expression shall be in accordance with 4.4.2 and use a complete duration representation as defined in 4.4.3.3.
+
+Basic format: Extended format:
+
+PYYYYMMDDThhmmss
+
+PYYYY-MM-DDThh: mm:ss
+
+Example: Example:
+
+POO021015TI 03020 POO02-10-I 5TIO:30:20
+
+The examples represent a time interval with a duration of 2 years, 10 months, 15 days, 10 hours, 30 minutes and 20 seconds. 4.4.4.3
+Representations of time intewal identified by start and duration
+
+When the application identifies the need for a complete representation of a time interval identified by its start and its duration, it shall use an expression in accordance with 4.4.2, combining any complete date and time of day representation as defined in 4.3.2 with any complete representation of duration as defined in 4.4.3, provided that the resulting expression is either consistently in basic format or consistently in extended format. Basic format: YYYYMMDDThhmmss/PnuYnDMn~DTnDHn~Mn@ YYYYMMDDThhmmss/PYYYYMMDDThhmmss 1985041 2T232050F'IY2MI 5DT12H30MOS 1985041 2T232050/POOOl0215TI 23000 YYYY-MM-DDThh:mm: ss/PnDYnDMnDDTn~HngMnr& YYYY-MM-DDThh:mm: ss/PYYYY-MM-DDThh: mm:ss 1985-04-12T23:20 :50/PlY2Ml 5DT12H30MOS 1985-04-1 2T23:20:50/POOOl-02-l 5TI 2:30:00
+on
+
+Example:
+
+Extended format:
+
+Examp/e:
+
+The examples represent a time interval of 1 year, 2 months, 15 days, 12 hours and 30 minutes, beginning 12 April 1985 at 20 minutes and 50 seconds past 23 hours local time.
+
+4.4.4.4
+
+Representations
+
+of time interval identified by duration and end
+
+When the application identifies the need for a complete representation of a time intewal identified by its duration and its end, it shall use an expression in accordance with 4.4.2, combining any complete representation of the duration as defined in 4.4.3 with any complete representation of date and time of day as defined in 4.3.2, provided that the resulting expression is either consistently in basic format or consistently in efiended format. Basic format: Pn~Yn~MngDTnDHnBMnr@/YYYYMMDDThhmmss PYYYYMMDDThhmmss/YYYYMMDDThhmmss
+
+22
+
+IS 7900:2007 1S08601 :2004
+Example: PIY2M15DT12H30MOSII 9850412T232050 POOO10215T123000/l 9850412T232050
+PnDYn~Mn~DTnDHnDMn@YYYY-M M-DDThh:mm:ss PYYYY-MM-DDThh:mm:sslYYYY-MM-DDThh:mm:ss
+
+Extended format:
+
+Example:
+
+PIY2M15DT12H30MOSII 985-04-12T23:20:50 POOO1-02-15T12:30:O0/l985-04-12T23:20:50
+12hours and30minutes, ending on
+
+Theexamples represent atimeintervalofl year, 2months, 15daysand 12 April 1985 at 20 minutes and 50 seconds past 23 hours local time.
+
+4.4.4.5
+
+Other complete
+
+representations
+
+In 4.4.4.1 through 4.4.4.4 representations are shown using calendar date, local time and duration components. Other complete representations are found by making the following substitutions in each of 4.4.4.1 through
+4.4.4.4;
+
+--
+
+where representations using calendar dates in a time point component are shown, a complete representation of ordinal dates (4.1 .3) or of week dates (4.1.4) may be substituted for the calendar date;
+where representations using local time in a time point component
+
+--
+
+are shown, a complete
+
+representation
+
+of UTC (4.2.4) or local time and the difference from UTC (4.2.5.2) may be substituted for local time; -- where representations using the expression [PnDYn~Mn~DTn~Hn~Mn@] [Pn@Vl (4.4.3.2) maybe substituted.
+Representations other than complete
+
+are shown, the expression
+
+4.4.5
+
+A representation other than complete of a time interval shall be an expression in accordance with 4.4.1 and 4.4.2, where time points are represented in accordance with 4.1, 4.2 or 4.3 and where duration is represented in accordance with 4.4~3.2 or 4.4.3.3, provided that a) b) c) the rules specified in those sections are applied; the result is not a complete representation in accordance with 4.4.4; and the resulting expression is either consistently in basic format or consistently in extended format.
+interchange if the use of any of
+
+The use of a representation needs to be agreed by the partners in information its constituent parts needs to be agreed by these partners. In the representation of time intervals in accordance with 4.4.1 a),
+
+--
+
+higher order time elements may be omitted from the expression following the solidus (i.e. the representation for "end of time interval"); in such a case it shall be assumed that the corresponding time elements from the "start of time intervaV expression apply (e.g. if ~YMM] are omitted, the end of the time interval is in the same calendar year and calendar month as the start of the time interval); representations for time zones and UTC included with the component preceding the solidus shall be assumed to apply to the component following the solidus, unless a corresponding alternative is included.
+
+--
+
+4.5
+4.5.1
+
+Recurring time interval
+Means of specifying recurring time intervals
+
+A recurring time interval shall be expressed in one of the following ways.
+
+23
+
+1S 7900:2007 ISO 8601:2004
+a)
+By a number of recurrences (optional), a start and an end. This represents a recurring time interval of which the first time interval is identified by the last two components of the expression and the number of recurrences by the first component. If the number of recurrences is absent, the number of occurrences is unbounded. By a number of recurrences (optional), a duration and context. This represents a recurring time interval with the indicated duration for each time interval and with the indicated number of recurrences. If the number of recurrences is absent, the number of occurrences is unbounded.
+
+b)
+
+c)
+
+By a number of recurrences (optional), a start and a duration. This represents a recurring time interval of which the first time interval is identified by the last two components of the expression and the number of recurrences by the first component. If the number of recurrences is absent, the number of occurrences is unbounded. By a number of recurrences (optional), a duration and an end. This represents a recurring time interval of which the last time interval is identified by the last two components of the expression and the number of recurrences by the first component. If the number of recurrences is absent, the number of occurrences is unbounded.
+Sepamtom
+
+d)
+
+4.5.2
+
+and designators
+
+A recursive time interval is expressed according to the following rule.
+All representations start with the designator [R], followed, without spaces, by the number of recurrences, if present, followed, without spaces, by a solidus [fl, followed, without spaces, by the expression of a time interval as per 4.4.1. For the representations 4.5.1 a), 4.5.1 b), 4.5.1 C) and 4.5.1 d) the time intervals as per
+
+4.4.1 a), 4.4.1 b), 4.4.1 c) and 4.4.1 d) shall be used, respectively. 4.5.3 Complete representations
+
+When the application identifies the need for a complete representation of a recurring time interval, it shall use an expression in accordance with 4.5.2, combining any complete time interval representation as defined in 4.4.4 with the number of recurrences. Basic format:
+RrjYYYYMMDDThhmmss/YYYYMMDDThhmmss RrjPn~YngMn~DTngH n~Mn@3 R@NYYMMDDThhmmss /Pn~YnDMngDTnDHnHMn&3 R~PnUYn~MnuDTn~HnDMn@YYYYMMDDThhmmss
+
+Example:
+
+RI 2/19850412T232050/1 9850625TI 03000 R12/P2Y10Ml 5DTIOH3OM2OS R12/19850412T232050/Pl Y2Ml 5DT12H30MOS R12/PlY2M 15DTI 2H30MOS/1985041 2T232050 RD/YYYY-MM-DDThh: mm:ss/YYYY-MM-DDThh: mm:ss R~/YYYY-MM-DDThh: mm:ss/PnYnMnDTnHnMnS R@PngYnUMnDDTn~HngMn@YYYY-MM-DDThh :mm:ss R1211985-04-12T23:20:5011985-06-25TIO:30:O0 R12/1985-04-12T23:20:50/Pl Y2MI 5DTI 2H30MOS R12/PlY2M15DT12 H30MOS/l 985-04-12T23:20:50
+other than complete
+
+Extended format:
+
+Example:
+
+4.5.4
+
+Representations
+
+A representation other than complete of a recurring time interval shall be an expression in accordance with 4.5.1 and 4.5.2, where the time interval is represented in accordance with 4.4.5.
+
+24
+
+IS 7900:2007 1S08601 :2004
+
+5
+
+Date and time format representations
+
+For the description of the date and time representations in Clause 4, use has been made of date and time format representations in which characters are used either to represent themselves or to represent other characters (typically digits) in the date and time representations. When an application identifies the need for the use of date and time format representations and by agreement of the communicating partners, the date and time format representations may be interchanged. A specific date and time format representation may only be interchanged -- . if the interchange of data and time format representations in general has been agreed, and if applicable, if the interchange of date and time representations derived from the date and time format representation has been agreed.
+
+EXAMPLE The date and time format representation [hh:mm:ss,sss] may only be interchanged if (1) the interchange of date and time format representations has been agreed and (2) the interchange of local time with a decimal fraction in
+the time element second with three decimal digits has been agreed.
+
+Underlining of characters in a date and time format representation, to represent zero or more of the underlined characters in the derived date and time representation (in accordance with 3.4.2), is only permitted if, at the time of interchange of the date and time format representation, the number of characters in the derived date and time representation is not known. The date and time format representations permitted by this International Standard are specified in Clause 4.
+
+25
+
+IS 7900:2007 1S08601 :2004
+
+Annex A
+(informative)
+
+Relationship
+
+to ISO 2014, ISO 2015, ISO 2711, ISO 3307 and ISO 4031
+
+In preparing the first edition of ISO 2014 an examination was carried out of the potential uses of all-numeric dates. The advantages of the descending order year-month-day were found to outweigh those for the ascending order day-month-year, already established at that time in many parts of the world.
+The advantages of the descending order were found to include the following: that use different systems of ascending
+
+--
+
+avoidance of the confusion order;
+
+between existing national conventions
+
+--
+
+the ease with which the whole date may be treated as a single numeral for the purposes of filing and
+
+classification; . -- arithmetic calculation, particularly in computer uses; the possibility of continuing the order by adding digits for hour-minute-second.
+
+For times, use of the 24-hour timekeeping system is now so common (particularly in view of the wide availability and use of digital watches) that separators to aid human interpretation are no longer necessary but are included as options.
+
+The natural addition of the lower order time digits to the higher order date digits (see above) established the basic concept used in the preparation of this International Standard: that a point in time could be uniquely represented in all-numeric form by a string of digits commencing with year and ending with hour, minute or second, depending on the accuracy desired. From that concept representations of all other date and time values were logically derived; thus, ISO 2014, ISO 3307 and ISO 4031 have been superseded. Numbering of days and weeks in the year based on the Gregorian calendar is important in many commercial applications. Methods of numbering the weeks of the year vary from country to country, and, therefore, for international trade and for industrial planning within international companies it is essential to use uniform numbering of weeks. ISO 2015 and ISO 2711 were prepared to meet these requirements. The uniform numbering of weeks necessitates a unique designation of the day on which a week begins. For commercial purposes, i.e. accounting, planning and similar purposes for which a week number might be used, Monday has been found the most appropriate as the first day of the week. Identification of a particular date by means of ordinal dates (ISO 2711) and by means of the week numbering system (ISO 2015) were alternative methods that the basic concept of this International Standard could also encompass; thus, ISO 2015 and ISO 2711 have now been superseded.
+
+26
+
+IS 7900:2007 1S08601 :2004
+
+Annex
+(informative)
+
+B
+
+Examples
+
+of representations
+
+B.1 Date and time representations
+B.1.4 Date
+
+Calendar date -- 12 April 1985
+
+Basic format 19850412
+Ordinal date -- 12 April 1985
+
+Extended format 1985-04-12
+
+Explanation Complete
+
+Basic format 1985102
+
+Extended format 1985-102
+
+Explanation Complete
+
+Week date -- Friday 12 April 1985
+
+Basic format 1985W155
+
+Extended format 1985-WI5-5
+
+Explanation Complete
+
+Calendar week -- 15th week of 1985
+
+Basic format 1985W15
+Calendar month -- April 1985
+
+Extended format 1985-W15
+
+Explanation Reducedaccuracy
+
+Basic format 1985-04
+Calendar year -- 1985
+
+Extended format not applicable
+
+Explanation Reducedaccuracy
+
+Basic format 1985
+Calendar date --
+
+Extended format not applicable
+
+Explanation Rbducedaccuracy
+
+Basic format
+
+Extended format
+
+Explanation
+Expanded;sixdgits to representthe year. Expanded;fourdigiteto repreeentthe year. The twelfthof Aprilin the secondyear before
+
+=--E='+:::,
+
+27
+
+IS 7900:2007 1S08601 :2004
+B.1.2 Time of day
+
+Local time -- 27 minutes and 46 seconds Dast 15 hours
+
+Basic format
+152746
+
+Extended format
+15:27:46 115:28 not applicable
+
+Explanation
+Comtiete I Reduced to hour and minute Reduced to hour I I
+
+! 1528 15
+
+Local time with decimal fractions -- 27 minutes and 35 and a half second past 15 hours
+
+Basic format
+152735.5
+
+Extended format
+15:27 :35.5
+
+Explanation
+ComDlete. with decimal fraction
+
+Midnight -- The beginning of a day Basic format 000000 Extended format 00:00:00 Explanation Complete
+Hour and minute only I
+
+0000
+Midnight -- The end of a day
+
+I0000
+
+Basic format 240000 2400
+
+Extended format 24:00:00 24:00
+
+Explanation Complete Hourand minuteonly
+
+UTC of day -- 20 minutes and 30 seconds past 23 hours
+
+Basic format 2320302 23202 23Z
+
+Extended format 2320302 23:202 not aor)licable
+
+Explanation Complete Reducedto hourand minute Reducedto hour
+
+Local time and the difference from UTC -- 27 minutes 46 seconds past 15 hours locally in Geneva (one hour ahead of UTC) Basic format 152746tOl 00
+15274&-01
+
+Extended format 15:27:46+01:00
+5:27:46+01
+
+Explanation Complete
+Time differenceexpressedin hoursonly
+
+I
+
+27 minutes 46 seconds past 15 hours locally in New York (five hours behind UTC)
+Basic format 152746-0500 152746-05 Extended format 1!327:46-05:00 15:27:46-05 Explanation Complete Time differenceexpressedin hoursonly
+
+28
+
+IS 7900:2007 1S08601 :2004 B.1.3 Date andtime of day
+Combinations of calendar date and local time
+
+I Basic format
+19850412TIOI53O Combinations
+
+lExtendedformat
+1985-04-12T1 0:15:30
+
+\Explanation
+Complete
+
+I
+
+I
+1
+I
+
+of ordinal date and UTC of day I Extended format 1985-102T23:5O:3OZ
+
+Basic format 1985102T235030Z Combinations
+
+I Exdanation
+Complete
+
+of week date and local time
+
+Basic format
+1985W155T235030
+
+] Extended format
+1985-WI 5-5T23:50:30
+
+I Explanation
+Complete
+
+I
+1
+
+B.I.4
+
+Time
+
+interval
+
+Defined by stat and end
+
+A time interval starting at 20 minutes and 50 seconds past 23 hours on 12 April 1985 and ending at 30 minutes past 10 hours on 25 June 1985 Basic format 1985041 2T232050119850625TI 03000 Extended format 1985-04-1 2T23:20:5011985-06-25T1 0:30:00
+
+A time interval starting at 12 April 1985 and ending on 25 June 1985 :Basic format 1985041 2/0625
+Defined by duration and context
+
+Extended format 1985-04-12/06-25
+
+A time interval of 2 years, 10 months, 15 days, 10 hours, 20 minutes and 30 seconds
+Basic format P2YI OMI 5DTI 0H20M30S POO021015T1 02030 Extended format not applicable POOO2-10-I 5T10:20:30
+
+I
+
+A time interval of 1 year and 6 months
+Basic format P1Y6M POOO1-06 Extended format not applicable I not applicable
+
+I
+
+A time interval of seventy-two hours
+Basic format PT72H Extended format not amlicsble
+
+29
+
+IS 7900:2007 ISO 8601:2004
+Defined by start and duration
+
+A time interval of 1 year, 2 months,
+23 hours
+
+15 days and 12 hours, beginning
+
+on 12 April 1985 at 20 minutes
+
+past
+
+Basic format 19850412T232000/PlY2Ml 5DT12H
+Defined by duration and end
+
+Extended format 1985-04-12T23:20:OO/PlY2Ml 5DTI2H
+
+A time interval of 1 year, 2 months,
+23 hours
+
+15 days and 12 hours,
+
+ending
+
+on 12 April 1985 at 20 minutes
+
+past
+
+Basic format P1Y2M1 5DT12H/19850412T232000
+
+Extended format PIY2M15DT12H/1985-04-l 2T23:20:O0
+
+B.1.5 Recurring
+
+time interval
+duration and context
+of 2 years, 10 months, 15
+
+Defined by recurrences,
+Fifteen recurrences
+
+of a time interval
+
+days, 10 hours, 20 minutes and 30 seconds 1
+
+Basic format
+RI5/P2YlOM15DT1 0H20M30S
+
+Extended format
+not applicable
+
+I
+1
+
+An unbounded number of recurrences of a time interval of 2 years, 15 days, 10 hours, 20 minutes and 30 seconds Basic format
+RfPOO020015T102O3O
+
+Extended format
+WPOO02-00-15TIO:2O:3O
+
+I
+
+Two recurrences of a time interval of 1 year and 6 months Basic format FUYPIY6M R2/Poool-06
+Eight recurrences
+
+Extended format not applicable
+not applicable I
+
+of a time interval of 72 hours
+
+Basic format R81P172H
+Defined by recurrences,
+
+Extended format not applicable
+duration and end
+
+An unbounded number of occurrences of a time interval of 1 year, 2 months, 15 days and 12 hours of which the last occurrence ends at 12 April 1985 at 20 minutes and 50 seconds past 23 hours
+Basic format R/PlY2Ml 5DT12H119850412T232050 Extended format FUP1Y2M15DT12HH985-04-12 T23:20:50
+
+30
+
+IS 7900:2007 ISO 8601:2004 B.2 Date and time format representations B.2.I Date
+Basic format YYWMMDD +YYYYYYDDD Extended format YYYY-MM-DD +YYYYYY-DDD Explanation completecalendardate expanded ordhal date withtwo digitsadded week date withaccuracy reduced to week
+I
+
+YYYYwww
+
+WYY-www
+
+B.2.2 Time of day
+Basic format hhmmss hhmm,mZ hhmnr*hhmm Extended format hh:mm:ss hh:mm,mZ hh:mmihh:mm Explanation complete local time i reduced accuracyUTC of day with one digit decimalfractionfor minutes ) local time and the difference from UTC reduced accuracy
+
+B.2.3 Date and time of day
+Basic format YYWDDDThhmm Extended format
+YYYY-DDDThh-mm
+
+Explanation
+complete ordinal date -- reduced accuracy time of day
+
+YYWMMDDhhmm,m
+
+YYYY-MM-DDhh:mm,m
+
+completecalendardate -- reduced accuracytime of day withone digitdecimal fractionfor minute-- no time designator completeweek date -- reducedaccuracy UTC of day withtwo digitdecimal fractionfor the hour
+
+YYYYWwwDThh,hhZ
+
+YYYY-Www-DThh,hhZ
+
+B.2.4 Thne intewal
+Time interval by start and end -- complete calendar date -- reduced accuracy UTC of day with one digit decimal fradion Basic format YYYYMMDDThhmm,mZNYYfMMDDThhmm,m I Extended format YYYY-MM-DDThh:mm,mZ/YYYY-MM-DDThh:mm,m I I
+
+Time interval by duration and context -- duration with only day component of three digits Basic format PnnnD Extended format
+
+Time interval by duration and context -- duration with only hour component with one or more digits in the integral part and one or more digits in the decimal part
+Basic format Extended format
+
+31
+
+IS 7900:2007 1S08601 :2004 6.2.5 Recurring time interval
+Time interval by number of recurrences, start and end -- recurrence specified through zero or more d~its -- start and end by week date with reduced accuracy Basic format R@WYYWwwNYYYWWW Extended format R_@YYYY-Www/YYYY-WWW
+
+Time interval by number of recurrences, "begin and duration -- recurrence spacified through zero or more digits -- start by complete ordinal date -- duration by a number of days, where the number has at least one digit Basic format
+R@YYYYDDD/PnDD Eztended format R_@YYYY-DDDllJnDD
+
+32
+
+IS 7900:2007 ISO 8601:2004
+
+Bibliography
+
+[4]
+[2] [3] [4]
+
+ISO 31-0, Quantities and units -- Pad O: General principles ISO 31-1, Quantities and units -- Part 1: Space and time lSO/lEC 646, /formation technology -- /S0 7-bit coded character set for information interchange
+
+ISO 19018, Ships and marine technology -- Terms, abbreviations, graphical symbols and concepts on navigation
+IEC 60050-111: 1996/Amd. 1:--1 ), /nternationa/ E/ecfrotechnica/ and chemistry -- Time and related concepts
+
+[5]
+
+Vocabu/aw -- Chapter 711: Physics
+
+[6]
+
+IEC 60050-713:1998, International Electmtechnical transmitters, receivers, networks and operation Rec. ITU-R TF.460-5, Standart-fmquency
+
+Vocabulary -
+
+Part 713: Radiocommunications:
+
+[7] [8]
+
+and time-signal emissions
+
+ITU-T S.1, International Telegraph Alphabet No. 2
+
+1) To be published.
+
+33
+
+"NVNIVdVHY'VSIA "lW#LlndVHINVNVAflMIHl `1OXIWM "3Nfld "VNIVd "MfldWN `MONYCN71 "tifldNVY `HfldlVr `CIV8VN3CIAH `llVHVMf79 "7VdOH9 "3~07V9NVEl "ClVElVCllklV4 "3tiOlVW4103 lWMHS3NV8flH9
+
+"OONVMMVd `ClVflVlZVH3
+
+"CIV9VCIW4HV:saq~uW
+
+S60 00b lV9WnlAl (Ise=J) !Jeqpuv
+`loJe~ `~alw 62 `e~eleqeuefi : UJalSaM
+
+2681 2S82 ` L68L 2S82 828L ZC8Z `S626 ZC8Z }
+
+`3826 092 :P8C 092 }
+
+220 09b HW~laNVH3
+
+`V-t% JWW
+
+`9$X%'W OX
+
+: UWWN
+
+u! '6Jo"siq"/v@&w :81.I.SqaM
+
+ZOt76 EZCZ `SLS2 CZCZ `1'210 S2S2 :sauo@lal
+
+zoo o L L wa
+
+M~N `6Jw
+
+Jwz
+
+ws
+
+Jwww
+
+6 `Uewa
+
+w-wv
+
+:s.IaaJenbpEaH
+
+sawaNvls
+
+twarw 40 nwww
+
+uo!leo!lqnd
+
+aau!s
+
+panssl
+
+s]uawpuauiy
+
+"Sla `(sUo!leO!lqnd) JoFmJ!a w 01passaJppe aq lq6!JAdo3 016u!lelaJ sa!J!nbuq suo!~eu6!sap apeJ6 JO adAl `SaZ!S pue sloqwk se Lpns `sl!e~ap AJessaoau JO `pJepuels aql 6u!y-w-ualdw! JOasJnoo u! `asn aeJ4 aw apn13aJdIOUsaop s!ql. "slg JO 6U!I!JM U! uo!ss!~Jad Jo!Jd W Woql!M ~Jo~ Aue u! pacmpoJdaJaq Aew suo!leo!lqnd asaw 40 ved ON suo!~eo!lqnd s1! Ile JOw6!JAdoa aw seq S19 .
+@yhdo~
+
+AJ}unoo aql u! sJallew palaauuoo o] 6u!pua~~e pue SPO0640uo!le2!4!va3 Al!lenb pue 6ulyJeuJ`uo!lez!pJepueF 40 sa!l!A!13eaql 40 VKUJJdOIWWp sno!uouIJeq
+alowo~d
+03986
+
+I, `W
+
+SPWWEW
+
+LWW
+
+JO maw
+
+w
+
+Jaw
+
+pawlqewa
+
+uo!wmu!
+
+~Jomew
+
+es!
+
+S1$3
+
+sp.wpuels
+
+ue!pul
+
+JO nea.ma
+
+

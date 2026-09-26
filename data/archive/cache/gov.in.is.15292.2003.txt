@@ -1,0 +1,1452 @@
+IS 15292:2003 ISO 15187:2000
+
+Indian Standard
+MANIPULATING INDUSTRIAL ROBOTS--GRAPHICAL USER INTERFACES FOR PROGRAMMING AND OPERATION OF ROBOTS (GUI-R)
+
+ICS
+
+25.040.30
+
+@ BIS 2003
+
+BUREAU
+MANAK
+
+OF
+BHAVAN,
+
+INDIAN
+
+STANDARDS
+ZAFAR MARG
+
+9 BAHADUR SHAH NEW DELHI 110002
+
+/'d~~Ch 2003
+
+Price Group
+
+9
+
+Industrial and Production
+
+Automation
+
+Systems Sectional Committee,
+
+BP 18
+
+NATIONAL
+
+FOREWORD
+
+This Indian Standard which is identical with 1S0 15187:2000 `Manipulating industrial robots--Graphical user interfaces for programming and operation of robots (GUI - R)' issued by the International Organization for Standardization (ISO) was adopted by the Bureau of Indian Standards on the recommendation of the Industrial and Production Automation Systems Sectional Committee and approval of the Basic and Production Engineering Division Council. The text of the ISO Standard has been approved as suitable for publication as Indian Standard without deviations. Certain conventions are, however, not identical to those used in Indian Standards, Attention is particularly a) drawn to the following: Wherever the words `International be read as `Indian Standard'. Standard' appear referring to this standard, they should
+
+b)
+
+Comma (,) has been used as a decimal marker while in Indian Standards, the current practice is to use a point (.) as the decimal marker. referred in this
+
+Where there are not corresponding Indian Standards for the International Standards Indian Standard reference to the relevant International Standards maybe made.
+
+For the purpose of deciding whether a particular requirement of this standard is complied with, the final value, observed or calculated, expressing the result of a test or analysis, shall be rounded off in accordance with IS 2:1960 `Rules for rounding off numerical values (revise@'. The number of significant places retained in the rounded off value should be the same as that of the specified value in this standard.
+
+IS ISO
+
+15292:2003 15187:2000
+
+Introduction
+ISO 15187 is part of a series of International Standards dealing with manipulating industrial robots. Other co-ordinate systems, performance International Standards cover such topics as safety, general characteristics, criteria and related test methods, terminology, and mechanical interrelated and are also related to other International Standards. Annex A provides examples The purpose programming robots are of possible platform interfaces. It is noted that these standards are
+
+with GUI for open architecture. the use of graphical user interfaces for robot requirements for programming and operation of
+
+of this International Standard is to standardize and operation (called GUI-R). Important customer
+
+simplification standardized
+
+and robot operation.
+
+Programming and operation of industrial robots require a set of tools, e.g. editor, compiler, debugger, which help the user to specify a number of more or less complex functions to be performed by the robot control. There are many different functions for the robot control units in use world wide, and the GUI-R standard should simplify the programming with the help of graphics. In a first step GUI-R will give a style guide for the definition and use of graphical elements for the programming procedure of robots. Therefore the GUI-R standard is nothing but the interface for the user to pick up elements for programming and operation by an easy manner. The function represented by these elements is defined in general, e.g. as a straight line robot move. The explicit, complete and detailed syntax and semantic meaning is not the purpose of GUI-R, e.g. all move parameters, the exact meaning of "straight line" by the linear interpolation including the behaviour of smoothing, and others. This is defined by the underlying robot system control and programming features: GUI-R is not a robot language expressed by graphical elements and icons. The user is obliged to read the robot system manuals and to learn about the special robot programming and control functions. GUI-R is a help to find the programming elements and to work with a graphic layout in the same manner for different robot systems. The program structure might be displayed on the screen by a program flow chart. This International Standard only specifies the detailed specifications hierarchization, see Figure 1. The contents of the low-level hierarchy consideration will be taken so that implementation will be easier. of GUI-R level and the concept of will not be specified intentionally, and
+
+Of course, a standard should be complete and precisely defined to cover the subject to be standardized. But there IS a variety of robot programming languages and controls with different concepts, functions, syntax, and semantics. Because it is not possible to include all (partly contradictory) concepts and functions of existing (and future) robot languages for a representation by graphical elements, GUI-R covers only the main elements and functions for programming and operation. It doesn't specify all elements of one function level, e.g. icons for all possible statements of a robot language, and it doesn't specify all parameters or elements of a function or statement, e.g. the parameters of a move statement. This means GUI-R is concentrated on the main functions (defined horizontally) and on the main syntactical elements or parameters (defined vertically), see Figure 2.
+
+k
+
+IS 15292:2003 ISO 15187:2000
+
+1
+
+~
+
+/'
+2 ----'-----AL+----""--:
+
+\
++--------+ -----
+
+~
+---.. ----.
+
+/
+
+------. --i----L-. ---\--------i>_k ______________ \\ \\ \\
+
+I
+
+\
+
+3
+
+/' /'
+
+Key 1 2 3 4 5 High Abstract Level Low GUI Level Function Level
+
+7
+6 7C 8 9 10 Language Level (Implementation) Visual Language Flow Chart Others (interpreter, etc.)
+
+6
+
+Figure 1 -- Image of hierarchies
+
+ii
+
+IS ISO
+
+15292:2003 15187:2000
+
+I
+Program flow
+
+Programming I
+
+h
+Linear move T i
+Move parameters
+
+"0"
+Horizontal extension
+
+Vertical Extension
+
+2=and vertical extensions
+
+Figure 2 -- Horizontal
+
+The GUI-R standard cannot cover all elements of a specific robot programming language, and it should be possible to use GUI-R also in the future for new functions. Therefore the definition of GUI-R allows the addition of new elements and rules as well as user or robot system vendor specific elements. The user or vendor can specify new elements on high functional level (horizontal extension), like for new statements or new functions, or new parameters can be added (vertical extension), e.g. for move control. Especially, it is not intended that GUI-R represents a complete functional or language definition. Whenever it is possible, GUI-R contains reference (and perhaps a short explanation in addition, it depends on the background) to a standard or de-facto standard used for its definition base. The objective of the development of GUI-R is the use on robotic applications and not for general use in other fields like graphics. A decision was made to develop rules which are realistic and can find practical applications in industrial production. This resulted in sometimes developing vigorous GUI-R standard specifications and in other occasions provide references to other standards. The first case was used only if it was strongly needed. GUI-R specifies how to position icons, how to structure the different areas on the screen for user programming and operation input and gives rules for the design of icons. But this could not be a "precise" definition: For example, it is not specified that the area for language statement icons is from screen co-ordinates (22,34) to (345,57) or that only biue is used for icon background. However, the scope of this International Standard has been defined in a pragmatic manner, e.g. the rules for a movement icon. There is a recommendation for GUI-R elements or screen layout, to help the user apply the standard, but not to restrict him too much. GUI-R was designed in such a manner that it is possible to convert the graphical elements into a robot language representation and vice versa.
+
+IS 15292:2003 ISO 15187:2000
+
+Indian Standard
+
+MANIPULATING INDUSTRIAL ROBOTS--GRAPHICAL USER INTERFACES FOR PROGRAMMING AND OPERATION OF ROBOTS (GUI-R)
+
+1
+
+Scope
+
+This International Standard specifies the structure and the elements of a graphical user interface for programming and and operation of robots (GUI-R). Figure 3 shows the relation to the robot system, to the programming simulation system, and to the program editor. It is important that a graphic programming system can be used both off-line, working in a separate programming station, and on-line, working in direct connection with a robot system. The same kind of graphical user interface for off-line systems might then be used in combination with any existing robot and any existing textual language. The produced code might be stored on disk or other media for downloading to a robot system, or downloaded directly, e.g. via a serial link, An on-line system might be connected to a robot system via a high speed serial link or might be fully integrated into the robot control system. The content of this International Standard is focussed on GUI-R for programming. representation are thus beyond the scope of this International Standard. GUI-R for operation will be covered in a future edition of this International Standard. The robot program itself, and its
+
+~---------- --------------
+
+I
+
+GUI-R for operation
+
+1 ,
+
+Operation
+
+unit
+
+Robot control system
+
+L------------------------J
+
+E
+Figure 3 -- Model of the context and environment for the robot programming and operation
+
+iS 15292:2003 ISO 15187:2000
+
+2
+
+Normative
+
+reference
+
+The following normative document contains provisions which, through reference in this text, constitute provisions of this International Standard. For dated references, subsequent amendments to, or revisions of, any of these publications do not apply. However, parties to agreements based on this International Standard are encouraged to investigate the possibility of applying the most recent edition of the normative document indicated below. For undated references, the latest edition of the normative document referred to applies. Members of ISO and IEC maintain registers of currently valid International Standards.
+I EC 60416,
+
+Genera/ principles
+
+for the formulation
+
+of graphical
+
+symbok.
+
+3
+
+Terms
+
+and definitions
+of this International Standard, the following terms and definitions apply.
+
+For the purposes
+
+3.1 dialogue box secondary window that gathers additional
+3.2
+
+information
+
+from a user
+
+icon pictorial
+
+representation
+
+of an object
+
+3.3 icon family icon family consists
+
+of a set of icons which have a common
+
+basic icon combined
+
+with additional
+
+elements
+
+3.4 menu list of textual and/or graphical
+NOTE Different
+
+choices from which the user can choose
+(3.7) and pull-down (3.8) menus
+
+kinds of menus exist, such as pop-up
+
+See Figure
+
+10.
+
+3.5 menu bar horizontal bar at the top of a window that contains 3.6 object entity or component
+
+menus
+
+identifiable
+
+by a user that can be distinguished
+
+by its properties,
+
+operations,
+
+and relationships
+
+3.7 pop-up menu menu that is displayed the selection 3.8 pull-down menu menu that is displayed
+
+at the location of a selected
+
+object, containing
+
+commands
+
+that are contextually
+
+relevant
+
+to
+
+from a menu bar
+
+3.9 status bar area, typically placed at the bottom of a window, that allows the display being viewed in the window and the progress of work See Figure 7.
+
+of the current
+
+status of the information
+
+2
+
+IS
+
+15292:2003
+
+1s0 15187:2000
+3.10 tool bar frame or special area that contains
+NOTE Specialized toolbars
+
+a set of other controls
+called ribbons,
+
+in the form of icons
+tool boxes, or palettes.
+
+are sometimes
+
+See Figure 9. 3.11 tool bar (or status bar) button
+
+command button used in a tool bar (or status bar)
+3.12 window
+standard object in the form of a separately and serves to display information
+
+controllable
+
+area of the screen
+
+that typically
+
+has a rectangular
+
+border
+
+3.13 picture box rectangular box that includes See Figure 5. 3.14 label string usually attached See Figure 6. 3.15 command button button for commandinput See Figure 8.
+
+a picture inside
+
+to a graphical
+
+element
+
+for the explanation
+
+that contains
+
+textual and/or graphical
+
+elements
+
+for operation
+
+3.16 radio button button to select one item from the group that consists of two or more optional See Figure 11. 3.17 check box button to select optional
+NOTE Usually
+
+items
+
+items
+expression for the selection.
+
+a check mark (~) or cross mark (x) is used for graphical
+
+See Figure 12. 3.18 list box
+list of choices NOTE shown See for the selection of one of them of a file by its file names, for example, and is associated with the scroll bar as
+
+It is usually in Figure 15. 13.
+
+used for the selection
+
+Figure
+
+3
+
+IS 15292:2003 ISO 15187:2000
+
+3.19 combo box combination of other selection
+NOTE
+
+elements
+
+such as a list box
+
+The selection itern can be input directly or be selected from a list box.
+
+See Figure 14. 3.20 scroll bar indication and the control mouse)
+NOTE
+
+of the relative
+
+position
+
+in the whole data, usually
+
+operated
+
+by a pointing
+
+device
+
+(e.g.
+
+Scroll bars are used for horizontal
+
+and/or vertical positioning.
+
+See Figure 3.21 slide element
+
+15.
+
+to set the value in a consecutive
+
+range
+
+See Figure 16. 3.22 data field
+area for inputting (e.g. 17. its value of the data directly or increasingldecreasing
+
+the data usually by the pointing device
+
+operation
+
+mouse)
+
+See Figure
+
+4
+
+Design considerations
+
+Devices that are used for robot programming can be general purpose computers, like a work station, PC etc., or more often, a highly specialized teach pendant, customized for the functionality of a special robot and working online. The current trend is to complement the on-line alternative of robot teaching with a PC-based tool, having more and more of the programming work aone off-line on general purpose programming systems. Such programming systems might also be used for cm-line programming and control, if the workshop requirements of robustness are fulfilled.
+
+A general programming system includes hardware (HW), e.g. PC system, an operating system with graphical user interface, e.g. window-based operating systems, general applications, like text editors, calculation sheets etc., and specific tools for robot programming. Each such application usually complies with the rules and conventions set up by the operating system (OS). This means that a number of common and usual functions, like opening/saving data, editing data, marking data, etc., are similar in different applications making the user familiar with them, also when he works in different applications. The guide describing these rules is commonly referred to as a style guide. Each general application normally also incorporates a number of unique specific functions. Such functions might be the way to program expressions with mathematical functions in a calculation sheet or the way to pick and program robot instructions and their arguments in a robot programming system. It is highly recommended that the GUI for such more customized general applications, e.g. GUI-R, complies with the operating system style guide.
+
+4
+
+IS
+ISO
+
+15292:2003
+15187:2000
+
+The
+
+different
+
+levels
+
+can
+
+be illustrated
+
+as in Figure 4.
+
+Key 1 2 GUI-R
+
+3 4
+
+General applications (e.g. programming tools) Operating system Hardware Figure 4 -- Levels of the robot programming system
+
+The standardization work to be undertaken in the working group lSO/TC 184LSC 2/WG 4 deals with the GUI level only, while the OS/style guide should be taken as it is. Since several OS/style guides are known and used today, the standardization work regarding a robotic specific user interface must be possible to apply in any such OS/style guide. This means that the robot specific standard and standardized objects must be independent of any such existing style guide. However, some common features and services must be a prerequisite for the used OS, such as window technique, i.e. it must be possible to present data and other information with specific attributes such as scroll bars, etc.; menu technique, i.e. it must be possible menus or with tool bars, etc.; icon technique, i.e. it must be possible "opened" to show its content; pointer technique, to present a list of available in several separate
+"windows"
+
+commands
+
+in "pull down" or "pop up"
+
+to represent
+
+complex
+
+objects with a graphic
+
+symbol,
+
+which might be
+
+i.e. it must be possible to select items, commands
+
+and objects with a "pointer"
+
+tool.
+
+5
+5.1
+
+GUI-R elements
+Programming concept and general GUI-R elements
+
+Style guides provide a framework of behaviour specifications to guide application or system developers in the design and implementation of new products with consistent user interfaces. The goal is to reach a common "look and feel" for different applications in the same environment. The look and feel includes the types of objects users see on the screen, and the basic conventions for how users work with those objects.
+
+5
+
+IS 15292:2003 ISO 15187:2000
+
+In the following
+
+some examples
+
+are given on objects, which should be comprised program presented in a window showing
+
+by this style guide: the basic program structure with
+
+--
+
+programming window: graphical elements;
+
+a robot
+
+instruction parameter: instructions parameters might be programmed when selecting and opening an instruction object;
+
+by help of dialogue
+
+boxes, showing
+
+up
+
+robot model and work obiect: views including a model of the robot, the work object and other equipment. view might give an animated simulation of ro-bot movements. There are many GUI-R elements available allowing flexible, application-oriented design and implementation interfaces. The following subclauses give examples for GUI elements and how to use them in GUI-R. 5.2 General graphical elements elements are composed of the elements listed in 5.2.1 to 5.2.5.
+
+Such
+
+of user
+
+Generai
+5.2.1
+
+graphical
+
+Basic elements Picture box (see 3.13 and Figure 5)
+
+---- Label (see 3.14 and Figure 6)
+
+Figure 5 -- Example
+
+I
+
+I
+of picture box
+
+Label
+
+I
+of label
+
+Figure 6 -- Example
+
+5.2.2
+
+Elements
+
+representing
+
+current
+
+state and progress
+
+of work
+
+Status bar (see 3.9 and Figure 7)
+
+Test.doc
+
+PI
+
+1/2
+of status bar
+
+V: 65
+
+?Ao
+
+Figure 7 -- Example
+
+6
+
+IS ISO
+
+15292:2003 15187:2000
+
+5.2.3
+
+Command Command
+
+input
+
+button (see 3.15 and Figure 8)
+
+--
+
+Tool bar (see 3.10 and Figure 9) Menu (see 3.4 and Figure 10)
+
+m
+Figure 8 -- Example of command button Figure 9 -- Example of tool bar
+
+Open File Open Directory Save Buffer Save Buffer as ... Kill Buffer Exit
+Figure 10 -- Example 5.2.4 -- -- -- -- Selection elements of a menu
+
+Radio button (see 3.16 and Figure 11) Check box (see 3.17 and Figure 12) List box (see 3.18 and Figure 13) Combo box (see 3.19 and Figure 14)
+
+7
+
+IS ISO
+
+15292:2003 15187:2000
+
+I@
+
+Frill
+Option 2 Option 3
+
+I c1
+~
+
+,IDl u la
+/ ~ F
+
+Optionl Option2 Option 3
+of check boxes
+
+Figure 11 -- Example
+
+of radio buttons
+
+Figure 12 -- Example
+
+cloud earth fire moon sun star
+
+.ico .ico .ico .ico .ico .ico
+
+[v
+Figure 13 -- Example of list box
+
+Default
+Figure 14 -- Example
+
+Ilvl
+of combo box
+
+5.2.5 -- -- --
+
+Input
+
+of values
+
+Scroll bar (see 3.20 and Figure 15) Slide (see 3.21 and Figure 16) Data field (see 3.22 and Figure 17)
+
+al
+
+ID
+
+0000000000
+
+v
+of slide
+
+Figure 15 -- Example of scfoll bar
+
+Figure 16 -- Example
+
+Figure 17 -- Example
+
+of data field
+
+8
+
+IS 15292:2003 ISO 15187:2000
+
+5.3
+
+Dialogue boxes for robots
+should be strongly based on available graphical environments and according style Robot specific issues are mainly related to suitable selection of basic elements and
+
+GUI-R for robot programming guides for application design. icon design.
+
+On the following pages some examples of how to use GUI elements are presented; see Figures 18, 19 and 20.
+
+in a proper way for robot programming
+
+tasks
+
+1+
+LJ
+
+Motion Type
+
+IEIIEII
+Figure 18 -- Selection of motion types using radio buttons
+
+IS 15292:2003 ISO 15187:2000
+
+~mj
+
+r7
+
+Motion settings
+
+Velocity
+
+1~1 1~1
+
+Acceleration
+q
+
+00
+
+Figure 19 -- Input of motion parameters
+
+using data fields
+
+Programming
+
+of Welding Parameter
+
+Parameter No. Electrode Feed Rate [m/min] Voltage ~] Torch travelhng Velocity [cm/min]
+
+I l~llql l~llal l~llql
+
+Pool 8.0
+
+Ilvl IDIIHI
+
+30.0 lbll~l
+60.0 lpll~l
+
+m
+
+Ilzz!l
+
+Figure 20 -- Use of combo box and data fields for technology
+
+programming
+
+10
+
+IS ISO
+
+15292:2003 15187:2000
+
+5.4
+
+Screen
+
+layout areas:
+
+The screen might be divided into the following title bar;
+
+-- -- -- --
+
+command tool bar;
+
+bar;
+
+programming status bar.
+
+window (subwindows,
+
+parameters,
+
+dialogue
+
+boxes, etc.);
+
+A recommended
+
+initial layout of these principal
+
+areas is presented
+
+in Figure 21.
+
+Title Bar Command Bar Programming Window: - Subwindows - Dialog Boxes - Parameters -.. .
+
+Tool Bar
+
+Status Bar
+
+Figure 21 -- Main elements The implementation can be based on different operating
+
+and screen layout environments.
+
+systems and graphical
+
+6
+6.1
+
+Functionality
+Functionality
+
+and icons
+concept for robots might be divided into a number of different areas of use, each with its own
+
+A graphical user interface requirements: �. programming; system operation;
+
+11
+
+IS 15292:2003 ISO 15187:2000
+
+production
+
+monitoring; and configuring;
+
+-- -- -- --
+
+installing simulation;
+
+service and support; training.
+
+For each of these, separate standardization work might be necessary. The aim of this work item is the first area, programming. Table 1 shows a possible grouping of different programming elements. Table 1 -- Areas of use "Programming" Program Control Motion Input / Output Application Others
+
+- Program
+q q q q q
+
+flow
+
+-- Motion commands . Activating deactivating of mechanical . Motion type q * PTP .0 linear . . circular . Moving the robot conditionally units /
+
+-- output
+q
+
+-- Spot welding -- Arc welding . Arcon c Arcoff
+
+-- Data management . Declaration q 9 Data types
+q q q
+
+If For While Repeat
+
+Digital output * Set I reset q * Inverting
+q q
+
+S procedures s Functions
+
+. pulsing output . Set / reset
+
+Switch . Return . stop - Wait
+q
+
+q
+
+Analog
+q
+
+Instructions
+
+-- Assembly/ disassembly -- Mathematics . Arithmetic -- Handling -- Glueing boolean
+q
+
+-- Input . Digital input
+q
+
+and
+
+operations
+
+Digital
+
+input time
+
+q
+
+Start I stop
+
+Analog
+
+input
+
+Mathematical
+
+. Specified - Multitasking
+q q q
+
+-- Motion settings
+q
+
+-- Operator / -- communication Computer communication q Read I write
+q
+
+functions q . Trigonometric
+q
+
+Acceleration
+
+-- Painting -- Finishing
+q q q
+
+* Exponential
+
+Parallel
+
+tasks between
+
+deceleration
+q q q q
+
+so Co-ordinate transformation
+q
+
+Synchronization Messages
+
+Robot configuration Maximum Payload Programmed Soft servo Tune servo speed
+
+Grinding Polishing Brushing
+
+Expressions
+
+in
+
+tasks - Interrupts . Interrupt routine
+q
+
+logical instructions -- User defined instructions
+
+Link request / link
+
+displacement service / disable �- Motion related sensor functions
+q q q
+
+answer -- Sensor functions q Definition and use of sensors q Binary sensors
+q q
+
+Enable
+
+-- System
+q
+
+and Time data / time timer
+
+interrupt - Error Handling
+q
+
+. Reading Handling
+
+Definition
+
+and use
+
+Analog
+
+sensors
+
+Recover
+
+from
+
+of sensors
+q q
+
+Identif.ying
+
+errors
+
+Search movements Tracking
+
+-- Other related motion
+
+,
+
+12
+
+IS ISO
+
+15292:2003 15187:2000
+
+6.2 6.2.1 6.2.1.1
+
+Icons Construction General rules for icons design considerations for icons in IEC 60416.
+
+The designer
+
+of the icon shall respect the rules specified for icons are as follows.
+
+General design considerations
+
+-- --
+
+Begin by defining the purpose of the icons and its use. Brainstorm about possible ideas, considering real world metaphors. package (to get immediate feedback on their
+
+Draw your ideas using an icon-editor appearance).
+
+utility or pixel drawing
+
+-- -- . --
+
+Begin design in black and white; consider colour as an enhancing Test your images on different Design images assuming Avoid using anti-aliasing Consider the potential backgrounds.
+
+property.
+
+a light source from the upper left (consistency on the outside edge of an icon.
+
+with other interface elements).
+
+cultural impact of a graphic.
+
+6.2.1.2
+
+Rules for icon design icons are as follows. their relationship to each other and to the user's tasks. icon combined with
+
+Rules for designing
+
+Design icons as a set, considering
+
+--
+
+Related icons should form icon families. An icon family consists of a common basic additional elements. The additional elements distinguish the members of the icon family. Do several sketches or designs and test them for usability. in all standard sizes (32x 32, 48x 48 pixel). icon.
+
+-- --
+
+Supply icons for your application Icons for documents
+
+and data files should be distinct from the application's
+
+. --
+
+Use a common
+
+style across all icons. by using effective metaphors. Use real-world objects to represent abstract ideas.
+
+Support user recognition
+
+Design your icons to be simple and distinct.
+
+--
+
+Design the small icons to be as similar as possible to their larger counterparts. Icons used in different frame of icons. hierarchical levels may be visibly distinguished, e.g. by their colour, size, design of
+
+6.2.2
+
+GUI-R icons to keep the
+
+Implementers should adopt the following icons for their own robot system. They are requested construction rules in 6.2.1, and the results should be similar to the design of the icons shown below.
+
+13
+
+IS 15292:2003 ISO 15187:2000
+
+Table 2 -- Representation No. Icon
+
+of icons for area of use "Programming" Meanina Program control Remarks
+
+1
+
+1.1
+
+Program flow
+
+Wait
+
+I
+
+bfultitasking
+
+I
+
+I
+
+1.4
+
+nterrupts
+
+I
+
+IS 15292:2003 ISO 15187:2000
+
+Table 2 -- (continued) No. 1.5 Icon Meaning Remarks
+
+Error handling
+
+I As
+q
+
+2
+
+Motion
+
+as an alternative:
+free choice of a manufacturer's specific robot icon
+
+-r
+
+2.1
+
+LJ
+2.2
+
+rl rl m
+
+Motion commands
+
+Motion settings
+
+LJ
+2.3
+
+rl m LJ
+
+Motion related sensor functions
+
+15
+
+IS ISO
+
+15292:2003 15187:2000
+
+Table 2 -- (continued)
+
+.
+10.
+
+--
+
+Icon
+I
+
+Meaning ther related motion
+
+Remarks
+
+!.4
+
+3
+
+Iput / output
+
+3.1
+
+)Utput
+
+3.2
+
+nput
+
+3.3
+
+3perator communication
+
+--
+
+IS ISO
+
+15292:2003 15187:2000
+
+Table 2 -- (continued) No. 3.4 Icon Computer Meaning communication Remarks
+
+~:::
+
+r-l
+
+B
+
+`Q
+
+3.5 #
+
+Sensor functions
+
+~~ \
+
+%
+
+4
+
+Application
+
+P 4.1 Spot welding
+
+E 2
+
+4.2
+
+Arc welding
+
+1=
+
+17
+
+IS ISO
+
+15292:2003 15187:2000
+
+Table 2 � 10. 1.3 Icon
+
+(continued) Meaning Remarks
+
+Assembly
+
+/l c1
+
+-l
+
+r
+Handling Gluing
+
+%.4
+
+A c1
+
+4.5
+
+.?&? 4.6 .' /" ,. ./", --, ,=. , `\ .,, \\ X w-----Painting
+
+4.7
+
+Finishing
+
+@
+
+G
+
+IS ISO
+
+15292:2003 15187:2000
+
+Table 2 -- (continued) No. 5 Icon Meaning Remarks
+
+Others
+
+-am
+
+5.1
+
+Data management
+
+)(=A
+5.2 Mathematics
+
+000 000 nun -n
+
+mom
+User defined InstructIons or manufacturer specific code =
+
+5.3
+
+5.4
+
+'* + 4 A ,0
+n
+
+= = ~ =
+
+System and time
+
+q
+
+s
+
+m
+
+s
+
+e
+
+*m*
+
+19
+
+IS 15292:2003 ISO 15187:2000
+
+Annex A (informative) Platforms of GUI-R
+
+This
+
+GUI-R
+
+can be implemented
+
+on any window-based
+
+computers
+
+depending
+
+on the strategy
+
+of each
+
+company.
+
+Provided
+
+are shown as examples in that PC compatible machines are used for GUI-R, possible configurations Figure A.1. This figure is created with some considerations to open architecture of robot controllers for the future. Different requirements to GUI-R for different configurations shoulc' be considered.
+
+20
+
+IS
+ISO
+
+15292:2003
+15187:2000
+
+2
+1
+
+3
+
+Pc
+
+t
+
+4
+
+a)
+
+A board PC is included
+
+in a robot controller.
+
+,Iql n~ L����J����J ,---- ----.
+
+~
+
+5
+b) A PC is connected with a robot controller by a serial/parallel line/bus.
+
+8
+c) A panel PC is connected with a robot controller by a serial/parailel line/bus.
+
+If-----nl
+
+10
+d) A robot controller board is included in a PC.
+
+Key 1 2 3 4 5 6 CRT/LCD + keyboardltouch Video/key signal Embedded PC Robot controller Normal PC Adapter panel 7 8 9 10 11 12 Robot controller PaneI PC (special Robot controller Normal PC PC board Motor amplifier PC with panel display)
+
+Figure A.1 -- Possible
+
+platform with GUI for open architecture
+
+1$ 15292:2003 ISO 15187:2000
+
+Bibliography
+
+[1]
+[2] [3]
+
+ISO 2972:1979,
+ISO 5232:1998,
+
+Numerical
+
+control of machines
+
+-- Symbols.
+
+Graphical symbols
+
+for textile machinery. -- Software product evaluation -- Quality characteristics and
+
+lSO/lEC 9126:1991, /nformafion guidelines for their use.
+IEC 60417-1:1998,
+
+technology
+
+[4]
+
+Graphical symbols
+
+for use on equipment -- Part 1: Overview
+
+and application.
+
+[5] [6]
+
+IEC 60417-2:1998, IEC 61131-3:1993,
+
+Graphical symbols for use on equipment Programmable controllers
+
+-- Part 2: Symbol originals. Ianguages.i J
+
+-- Part 3: Programming
+
+1)
+
+Identical to IEC 656 (Central Office) 85.
+
+22
+
+Bureau
+
+of Indian
+
+Standards
+
+61S is a statutory harmonious
+
+institution
+
+established
+
+under the Bureau in the country.
+
+of /ndian
+
+Standards
+
+Act,
+
+1986 to promote certification of
+
+development
+
+of the activities matters
+
+of standardization,
+
+marking
+
+and quality
+
+goods and attending
+Copyright
+
+to connected
+
+61S has the copyright of implementing designations.
+Review
+
+of all its publications.
+
+No part of these publications details, such as symbols to the Director
+
+may be reproduced and sizes, type
+
+in any
+
+form without the prior permission the standard, Enquiries
+
+in writing of 61S. This does not preclude the free use, in the course of necessary or grade be addressed (Publication), BIS.
+
+relating to copyright
+
+of Indian
+
+Standards
+
+Amendments no changes
+
+are issued to standards as the need arises on the basis of comments. a standard along with amendments if the review indicates should ascertain is reaffirmed are needed; that changes are needed,
+
+Standards
+
+are also
+
+reviewed periodically;
+
+when such review indicates that it is taken up for revision. or of the latest amendments Monthly Additions'.
+
+Users of Indian Standards
+
+that they are in possession and `Standards:
+
+edition by referring to the latest issue of '61S Catalogue' This Indian Standard has been developed
+
+from Dot: No. BP 18 (0304).
+
+Amendments
+Amend No.
+
+Issued Since Publication
+Text Affected
+
+Date of Issue
+
+BUREAU OF INDIAN STANDARDS Headquarters:
+Manak Bhavan, 9 Bahadur Shah Zafar Marg, Telephones: Regional 23230131,23233375,2323 9402
+4
+
+New Delhi 110002
+
+Telegrams: (Common
+
+Manaksanstha to all offices) Telephone
+
+Offices:
+
+Central Eastern Northern Southern Western
+
+: Manak Bhavan, 9 Bahadur Shah Zafar Marg NEW DELHI 110002 : 1/1 4 C.I.T. Scheme Vll M, V.I.P. Road, Kankurgachi KOLKATA 700054 : SCO 335-336, Sector 34-A, CHANDIGARH : C.I.T. Campus, 160022
+
+23237617 { 23233841 23378499,23378561 { 23378626,23379120 603843 { 609285 22541216,22541442 { 22542519,22542315 28329295,28327858 { 28327891,28327892 COIMBATORE. FARIDABAD.
+
+IV Cross Road, CHENNAI 600113
+
+: Manakalaya, E9 MlDC, Marol, Andheri (East) MUMBAI 400093 : AHMEDABAD. GHAZIABAD. NALAGARH. BANGALORE. BHOPAL. BHUBANESHWAR.
+
+Branches
+
+GUWAHATI. HYDERABAD. JAIPUR. KANPUR. LUCKNOW. NAGPUR. PATNA. PUNE. RAJKOT. THIRUVANANTHAPURAM. VISAKHAPATNAM.
+Printed at Simco Printing Press, Delhi
+
+

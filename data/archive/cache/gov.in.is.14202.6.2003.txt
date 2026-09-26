@@ -1,0 +1,1345 @@
+IS 14202 (Part 6): 2003 ISO/lEC 7816-6:1996 Wlm m
+
+Fiw6 *CT @'l~d *
+m6'~@aih&WWi
+
+Indian Standard IDENTIFICATION CARDS -- INTEGRATED CIRCUIT(S) CARDS WITH CONTACTS
+PART 6 INTERINDUSTRY DATA ELEMENTS
+
+ICS 35.240
+
+@ BIS 2003
+
+BUREAU
+
+OF
+9 NEW
+
+INDIAN
+BAHADUR DELHI
+
+STANDARDS
+SHAH ZAFAR MARG 110002 Price Group 9
+
+MANAK BHAVAN,
+
+November
+
+2003
+
+Computer
+
+Hardware
+
+Sectional
+
+Committee,
+
+LTD 37
+
+NATIONAL
+
+FOREWORD
+
+This Indian Standard (Part 6) which is identical with lSO/l EC 7816-6 : 1996 `Identification cards -- Integrated circuit(s) cards with contacts -- Part 6: Interindustry data elements' issued by the International Organization for Standardization (1S0) and International Etectrotechnical Commission (lEC) jointly was adopted by the Bureau of Indian Standards on"the recommendations of the Computer Hardware Sectional Committee and approval of the Electronics and Telecommunication Division Council. The text of International Standard has been proposed to be approved as suitable for publication as an Indian Standard without deviations. Certain terminology and conventions are, however, not identical to those used in Indian Standards. Attention is particular drawn to the following: Wherever the words `International as `Indian Standard'. CROSS REFERENCES In this adopted standard, reference appears to certain International Standards for which Indian Standards also exist. The corresponding Indian Standards which are to be substituted in their place are listed below. along with their degree of equivalence for the editions indicated: International Standard Corresponding trrdian Standard Degree of Equivalence Identical Standard' appear, referring to this standard, they should be read
+
+lSO/lEC 646 : 1991 Information technology -- ISO 7-bit coded character set for information interchange lSO/lEC 7816-5:1994 Identification cards -- Integrated circuit(s) cards with contacts -- Part 5: Numbering system and registration procedure for application identifiers
+
+Is 10315 character interchange
+
+: 1997 7-bit coded information set for ( first revision)
+
+IS 14202 (Part 5) :2003 ldentification cards -- Integrated circuit(s) cards with contacts : Part 5 Numbering system and registration procedure for application identifiers
+
+do"
+
+The concerned Technical Committee responsible for the preparation of this standard has reviewed the provisions of the following International Publications and has decided that they are acceptable for use in conjunction with this standard: ISO 639:1988 ISO 3166:1993 ISO 4217:1995 ISO 4909:1987 lSO/lEC 7501-1:1993 Code for the representation Codes for the representation Codes for the representation Bank cards -- Magnetic of names of languages of names of countries of currencies and funds for track 3 -- Part 1 :
+
+stripe data content readable
+
+Identification cards -- Machine Machine readable passport Identification cards -- Financial
+
+travel documents
+
+lSO/lEC lSO/lEC
+
+7813:1995 7816-4:1995
+
+transaction
+
+cards
+
+Information technology -- Identification cards -- Integrated circuit(s) cards with contacts -- Part 4: Irtterindustry commands for interchange Financial message transaction specifications card originated messages -- Interchange
+
+ISO 8583:1993
+
+( Continued
+
+on third cover)
+
+IS
+
+14202
+
+lSO/lEC
+
+(Part 6) :2003 7816-6:1996
+
+Indian Standard IDENTIFICATION CARDS -- INTEGRATED CIRCUIT(S) CARDS WITH CONTACTS
+PART 6 INTERINDUSTRY DATA ELEMENTS
+
+1
+
+Scope
+
+This part of lSO/lEC 7816 specifies directly or by reference the Data Elements (DE), including composite DEs, used in interindustry interchange, based on integrated circuit cards (ICCS). It identifies the following characteristics of each DE: -- -- -- -- Identifier Name Description and ISO reference Format and coding (if not available in other ISO standards or partsoflSO/lEC7816).
+
+ISO 4217: 1995, Codes for the representation currencies and funds.
+
+of
+
+ISO 4909: 1987, Bank cards - Magnetic stripe data content for track 3. lSO/lEC 7501-1: 1993, Identification cards - Machine readable travel documents - Part 1: Machine readable passport. lSO/lEC 7813: 1995, Identification cards - Financial transaction cards. lSO/lEC 7816-4: 1995, Information technology /identification cards - Integrated circuit(s) cards with commands for contacts - Pafl 4: lnterindust~ interchange. lSO/lEC 7816-5:1994, Identification cards - Integrated circuit(s) cards with contacts - Part 5: Numbering system and registration procedure for application identifiers. ISO 8583: 1993, Financial transaction card originated messages - Interchange message specifications. tSO/lEC 8825-1:1995, /formation tec/rno/ogy - ASN. 1 encoding rules: Specification of Basic Encoding Rules (BER), Canonical Encoding Rules (CER) and Distinguished Encoding Rules (DER). 1S0/1EC 8859-1: 1987, Information processing - 8-bit single-byte coded graphic character sets - Part 1: Latin alphabet No. 1. Financial transaction cards ISO 99!%?-2:-'), Messages between the Integrated Circuit Card and the Card Accepting Device - Part 2: Functions, messages (commands and responses), data elements and structures. lSO/lEC 10918-1:1994, Information technology- Digital compression and coding of continuous-tone still images: Requirements and guidelines. 1S0/1EC 11544:1993, /nfonnation technology - Coded representation of picture and audb information Progressive hi-level image compression.
+
+The layout of each DE is described as seen at the interface between the interface device (1FD) and the ICC. This part of ISO(IEC 7816 defines the means of retrieval of the DEs in the card (historical bytes, reset, command(s) to perform and commands defined in this international standard). This part of lSO/lEC 7816 provides the definition of DEs without consideration of any restrictions on the usage of the DEs. It is intended that new interindustry data objects be incorporated into this standard; see clause 7 for the procedure to be followed.
+
+2 Normative references
+The following standards contain provisions which, through reference in this text, constitute provisions of this part of lSO/lEC 7816. At the time of publication, the editions indicated were valid. All standards are subject to revision, and parties to agreements based on this part of lSO/lEC 7816 are encouraged to investigate the possibility of applying the most recent editions of the standards indicated below. Members of the IEC and ISO maintain registers of currently valid International Standards. ISO 639: 1988, Code for the representation of names of languages. lSO/lEC 646:1991, /formation technology - ISO 7-bit coded character set for information interchange. ISO 3166: 1993, Codes for the names of countn"es. representation of
+
+3
+
+Definitions, notations
+
+abbreviations
+
+and
+
+3.1 Definitions
+1)To be published. For the purposes of this part of lSO/lEC 7816, the following definitions apply. 1
+
+IS
+
+14202
+
+(Part 6) :2003 7816-6:1996
+
+lSO/lEC
+
+3.1.1 composite data element: a data element made up of a concatenation of zero, one or more data element(s). 3.1.2 data element: as defined in lSO/lEC ~816-4. 3.1.3 data object: as defined in lSO/lEC 7816-4. 3.1.4 element DEs. fist: items of information concerning
+
+Any number following the notations denotes number of digits or characters. For example: a3 means 3 alphabetic characters n...3 means up to 3 binary coded decimal digits n2...4 means 2, 3 or 4 binary coded decimal digits
+
+the
+
+4 Identification
+4.1 Principles
+
+of Data Elements
+
+3.1.5 haaderlist: a concatenation of tag/length pairs without delimiters. 3.1.6 interindustry data element use in interindustty interchange. data element for The following principles apply DEs: to the identification of
+
+3.1.7 interindustry data object: data object for use in interindustty interchange. 3.1.8 taglist a concatenation without delimiters. of tag/tength pairs
+
+4.1.1 For the purposes of this part of lSO/lEC 7816 a data element is generally presented in the value field of a data object. 4.1.2 For the purposes of this part of lSO/lEC 7816 a data object is a concatenation of the following string of bytes: -- -- . a mandatory tag field, referred to as a tag; a mandatory length field indicating a length L; a conditional value field of L bytes (when L is not equal to `00').
+
+3.1.9 template: value field of a constructed data object, defined to give a logical grouping of data objects. 3.2 Abbreviations
+
+For the purposes of this part of lSO/lEC 7816, the following abbreviations apply.
+
+ASN.1 ATR DE DF DO EF FCI
+
+Abstract syntax notation one Answer-to-reset Data element Dedicated file Data object Elementary file File control information Integrated circuit card Intenndustry data element Interindustty data object Longitudinal redundancy check Personal identification number
+
+4.1.3 For purposes of retrieval and referencing in interchange: -- -- a DE shall be associated with the tag of a DO; the DE maybe encapsulated in this DO.
+
+4.1.4 The context according to which a DO is identified depends: -- -- either on the nesting of the DO.in a template oc on the application currently selected.
+
+Icc
+IDE IDO LRC PIN 3.3
+
+4.1.5 When no application is selected all DOS shall be interpreted according to lSO/lEC 7816. 4.1.6 A DE may be referenced directly by its associated tag. It may be associated with another DE which indicates the context to which it belongs. 4.1.7 A DE may be referenced indirectly by one or more command to perform DOS. 4.1.8 The DOS are described as seen at the interface between the ICC and the interface device. 4.1.9 Within lSO/lEC 7816a tag denotes a type of DE.
+
+Notations
+
+a n s an ans ... 2
+
+alphabetic character numeric, format coded in binary coded decimal
+
+4.1.10 There may be multiple occurrences of the same IDO in a card.
+
+special character alphanumeric character alphanumeric and special characters between 2 numbers values. denotes a range of
+
+IS
+
+14202
+
+(Part
+
+6) :2003
+
+lSO/iEC
+
+7816-6:1996
+
+The coding of the second byte, when present, is: 4.2 Data object structure b8
+t)7
+
+= to bl =
+
+O binary value of the tag number in the range 31..127 of the length
+
+The following DO structures are supported: -- primitive DO
+
+mmxl
+where T = Tag, L = Length, V = Value
+
+4.2.2
+
+Structure
+
+AH lengths are expressed in bytes. The length consists of one or more bytes. The coding of these bytes shall be consistent with the basic encodhg rules of ASN.1 and shall be as defined in table 2. v.( Table 2- Coding of the length value
+
+--
+
+constructed DO ITILITIILIIvII...IT"II.I
+
+T= L
+T1...n L1...n
+
+tag of constructed DO =
+= =
+
+Range
+v.
+
+length of the string (template) TI to tagof a DO1,,,n length of VI..." value of a DO1..." of the tag
+
+#of bytes 1 2 3
+
+1st byte binary value '81` '82'
+
+2nd byte none binary value binary ms byte
+
+3rd byte none none value Is byte
+
+0..127 0..255 0..65,535
+
+Vi,,,"
+
+=
+
+4.2.1
+
+Structure
+
+The tag consists of one or two bytes. The coding of these bytes shall -be consistent with the basic encoding rules of ASN.1. Table 1 defines the first byte.
+I
+
+ms = most significant; Is= least significant
+I
+
+Table 1- Structure of the first byte of the tag
+b8 b7 I be I b5 001 -1---,-. b4 b3 b2 bl I Meaning I Not defined in this part of lSO/lEC 7816 Defined in this part of lSO/lEC 7616. Application class, unambiguous identific&ion Defined in this part of lSO/lEC 7616 and only to be usad within a template see note below Not defined In thk parl of lSO/lEC 7816. Resewed for private use Primitive DO Constructed DO Tag number mntained in the next byte - range 31..127 Tag number - range
+
+4.2.3
+
+Format of the value
+
+The format of the value depends on the type of the DE. When the length of the DE is not expressed as a number of bytes, the mapping onto a byte string should be defined in the context of the respective DE (see clause 8). If not specified otherwise, the appropriate number of least significant bits of the last byte shall be set to 1. 4.3 Indirect DE referencing
+
+01
+
+-
+
+-----
+
+10
+
+-
+
+-----
+
+11
+
+-
+
+-----
+
+The following IDOS are used: -- -- -- -- -- the wrapper, tag '63, constructed as described in 5.6; the DO taglist, tag `5C', the value of which is a (concatenation of) tag(s) without delimiter the DO headeriist, tag `5D, the value of which is a concatenation of tagilengths without delimite~ the element list, tag `5F41', only to be used within the wrapper, tag `63'; the Command to Perform, tag `52', used as defined in lSO/l EC 7816-4; the path, tag '51', used as defined in lSO/lEC 7816-4. 3
+
+.
+. .
+
+.
+. .
+
+0 1 .
+
+--------11111
+
+-.
+
+.
+
+Xx
+
+xxx
+
+0..30
+] Not all equal to 1
+
+NOTE -- Context dependent class tags (b8b7=l O) are used out of templates for the file control information and secure messaging, see ISOAEC 7816-4.
+
+--
+
+IS 14202
+lSO/lEC
+
+(Part 6) :2003 7816-6:1996
+
+4.4
+
+Tag allocation schemes
+
+some ASN.1-BER ISO/lEC 7816-6 allocates application class tags (context independent) as indicated in table 1. The default tag allocation scheme for 100s in an ICC is defined in this part of "lSO/lEC 7816 (see table 8). 4.4.1 Compatible tag allocation schemes
+
+Besides '79' and `7E' the tags in table 3, defined in lSO/lEC 7816, shall not be reallocated by a coexistent tag allocation scheme:
+
+Table 3- Ta s reserved for lSO/IEC
+
+These tag allocation schemes use IDOS as defined in lSO/lEC 7816, and further DOS which -- either shall use context-dependent class tags (starting with 8 ;9, A, B) within templates defined in this part of lSO/IEC 7816 (templates `65', `66', `67', `6E'); or shall be nested within templates with tags in the range '70 to `77'. Within these templates the meaning of application class tags is not defined in lSO/lEC 7816 except for the tags defined in table 4.
+
+denotes file control parameters (FCP) template, as ~ 64 6F 70 denotes file management data (FMD) template, as defined in lSO/lEC 7816-4 I denotes FCI template, as defined in lSO/lEC 7816-4 I reserved for secure messaging template of lSO/lEC !
+
+--
+
+4.4,3
+
+Independent
+
+tag allocation
+
+schemes
+
+In order to identify a compatible tag allocation scheme and the authority responsible for the scheme, a Tag Allocation Authority DO with a tag of '78' (defined in 4.4.4) may be used. If the tag allocation authority is only valid for data within a DF, then the FCI of the DF may contain the Tag Allocation Authority DO. If the tag allocation authority is valid for the entire card then the DO may be present in the rnitial data string of the ATR file (as defined in lSO/lEC 7816-4). An IDO listed in 4.4.4 may be included in the templates '70' to '77' indicating the authority responsible for the allocation of tags usad in that template. NOTE -- the use of these schemes is either implicit (use of context dependent tags) or explicit (presence of the IDO with tag `78').
+I
+
+For these tag allocation schemes DOS may use tags with another interpretation than lSO/lEC 7816, but which do not comply with 4.4.2. Such tag allocation schemes do not allow interindustry interchange and are not in compliance with lSO/lEC 7816-6. A consistent use of the IDOS discretionary data, tag '53' and discretionary DOS, tag `73', allows the use of proprietary objects whilst remaining compliant to lSO/lEC 7816-6. 4.4.4 Tag allocation authority
+
+Within templates '78' or '79 the IDOS shown in table 4 indicate which authority is responsible for tag allocation:
+
+Teble 4- Tags for allocation of~uthorities
+I
+
+Tag 4.4.2 Coexistent tag allocation schemes 06 41 42 4F For these tag allocation schemes, DOS may use tags with another interpretation than lSO/lEC 7816. In order to identify a coexistent tag allocation scheme, a Tag Allocation Authority DO with a tag of '79' (defined in 4.4.4) identifying the authority responsible for the scheme shall be used. If `the tag allocation authority is only valid for data within a DF then the FCI of the DF shall contain the Tag Allocation Authority DO. If the tag allocation authority is valid for the entire card then the DO shall be present in the initial data string of the ATR file (as defined in lSO/lEC 7816-4). Ail iDOs shaii be nested within tempiates, tag `7E'. in such a scheme tags '79 and `7E' shall not be given another interpretation.
+
+IDO object identifier, as defined in lSO/lEC 8825, see example of coding in Annex B defined in lSO/iEC 7816-4 and used to indicate at least a country defined in lSO/iEC 7816-4 and used to indicate an issuer indicates an Application Identifier defined in iSO/lEC 7816-5. (AID), as
+
+4
+
+IS 14202 (Part 6) :2003 lSO/lEC 7816-6:1996
+
+5 Retrievai of data
+This clause defines standard retrieval procedures of DEs. 5.1 Principles be
+
+5.6
+
+Indirect retrieval of DEs
+
+For indirect referencing the wrapper DO is used. The wrapper DO has the tag '63', is constructed and shall consist of two parts: the first part contains either -- -- the IDO taglist, tag `5C', denoting that the DEs to be retrieved are presented as DOScw the IDO headerlist, tag `5D, denoting that the DEs to be retrieved are presented as a string of values, in the same order as in the taglist;
+
+Before selecting an application, IDOS should retrieved directly or indirectly from : -- -- -- -- the historical bytes; the initial data string; the ATR file; the Directory file (DIR file)
+
+in the above order, when present. These IDOS shall be interpreted according to clause 4. Once an application is selected, retrieved directly or indirectly from: -- -- the FC1of the DF; other specific Elementary Files (EFs) within the current DF. IDOS should be
+
+-- the IDO element list, tag `5F41', denoting that the elements to be retrieved are not presented as DOS, but under application control. The structure of the element list as well as the information returned are outside the scope of lSO/iEC 7816. the second part contains -- -- a path to an EF, tag '51'; and/or one (or more) `command to perform' DOS, tag `52', as defined in lSO/lEC 7816-5.
+
+In this case these IDOS may also be retrieved by use of GET DATA command(s). 5.2 Retrieval of DOS after ATR
+
+The following diagram is an example of a wrapper containing a taglist and one `command to perform': I 63 I L I 5C I LITagl, Tag2, Tag3...l 52 I L i
+CTP 1 I
+
+If indicated in the Historical Bytes, DOS may be retrieved after reset and possible Protocol Type Selection (PTS) by the use of the initial access data, according to lSO/lEC 7816-4. All these DOS shall have tags complying with 4.4. 5.3 Retrieval of data in files
+
+Only one indirect reference shall be given in a wrapper. There may be more than one wrapper. A DO referenced according to lSO/lEC 7816 in the tag list, or a DE referenced another way in the DE list, shall be either -- -- contained in a file denoted by its path, see 5.3 for the retrieval or be (part of) the response to the last `command to perform' indicated in the wrapper. The commands shall be executed in the order presented.
+
+DOS may be retrieved in resewed files (DIR file and ATR file). This maybe indicated in the historical bytes. Selection and reading of these files is defined in lSO/lEC 7816-4. The content of the DIR file is defined in lSO/lEC 7816-5. Information on the content of the ATR file is given in lSO/lEC 7816-4. All these DOS shall have tags defined by lSO/lEC 7816. DEs may be retrieved in other files denoted by their path in a wrapper DE (see 5.6). Selection and reading of an EF known by its path is defined in lSO/lEC 78164. 5.4 Retrieval of data in FCI
+
+6 Coding of specific DEs
+6.1 IDO 56 Name (of an individual)
+
+A composite DE of variable length up to 39 characters, made up of: -- -- -- 5.5 Retrieval command of data Surname (family name); Given name(s) (forename(s)); Name suffix (e.g. Jr, number...); Filler(s) Data may be present in the FCI according to lSO/lEC 7816-4.
+
+using the GET
+
+DATA
+
+--
+
+DOS may be retrieved by use of the GET DATA command as defined in lSO/lEC 7816-4.
+
+as defined and used in lSO/lEC 7501-1. They shall be coded according to lSO/lEC 8859-1.
+
+5
+
+IS
+
+14202
+
+(Part 6) :2003 7816-6:1996
+
+ISO}IEC
+
+National languages with non-Latin characters shall be transliterated or transcribed into the Latin alphabet using the appropriate ISO standard. In cases where: -- names cannot be shown in full;
+
+Tabla 5- Nibble decoding Nibble Character oto9 ( ) Meaning Decimal digits Opening bracket Closing bracket Requirement for connecting to the line before continuing introduction of an international telephone number of a If first, introduction number to be used without prefix; if not first, requirement for a deiay (2 seconds) before continuing Reserved for padding Text
+
+`o'to `9
+`A' `B
+
+or a special alphabet is needed; -- or the transliteration sufficient or transcription is not
+
+`c' `D
+`E'
+
+c
++
+
+the IDO "qualified name" should be used.
+
+6.2 IDO 6B Qualified name
+A constructed DO of variable length, made up of: -- one or several object identifiers, tag `06', referring to the standards defining the presentation of the qualified name; a name tag '80' (primitive) or `AO' (constructed), the value and coding of which is defined by the aforementioned standards; other related optional information, nationality, place of birth). (e.g. sex, `F 6.3.3
+
+--
+
+--
+
+6.3 IDO 6A Log-in template
+A log-in template is a constructed object of variable length. The value shall consist of one or more primitive objects such as qualifiers, numbers, text and times, as specified hereafter. 6.3.1 Qualifier
+
+The tag shall be '82. The vaiue of the variable length shall consist of one or more bytes where each byte codes one character. The bit b8 sets the difference between data characters (b6 set to O) and control characters (b8 set to 1). The string of bytes consists of one or more strings of data characters (7-bit character, see lSO/lEC 646) separated by strings of control characters. The foliowing control characters are defined: -- '80' A message has to be received before sending the next character; `CO'A modulation has to be present before sending the next character; `8X X characters have to be receivd in echo before waiting for a message. Time for end of message detection
+
+The tag shall be `80'. The value (1 to 9 bytes) shall consist of a mandatory first byte coding a rank followed by, at most, 8 optional bytes coding a mnemonic. This shall qualify the subsequent objects in a template, until the next qualifier, if any. The rank is an integer valued from O to 255. If two or more qualifiers have the same rank within the same context, then only the set of objects qualified by the most recent one is valid. The mnemonic is a string of 7-bit characters (b8 set to O, `see lSO/lEC 646) to be displayed at the manmachine interface.
+
+-- --
+
+6.3.4
+
+The tag shall be `83'. The value shall consist of a single byte coding a time according to table 6. That time shaii be used for detecting an end of message. The default value shall be 2 seconds. 6.3.5 Time for start of message detection
+
+6.3.2 Number
+The tag shall be "81'. The value of the variable length shall consist of an even number of nibbles where each nibble codes one character for representing a telephone. number, according to table 5.
+
+The tag shall be '84. The value shali consist of a single byte coding a time according to tabie 6. That time shall be used for detecting an absence of response. The default value shali be 60 seconds.
+
+6
+
+IS
+
+14202
+
+(Part 6) :2003 7816-6:1996
+
+lSO/lEC
+
+I
+==)
+
+Table 6- Time decoding b81b71b61b51 b41b31b2 Ibl 1 ~ Unit of =x= Number of units = RFU = Time
+
+6.5.2
+
+IDO 5F40 Cardholder
+
+portrait image
+
+The format of the cardholder portrait image shall be as defined in lSO/lEC 10918-1, unless otherwise specified andlor requested by an authority. 6.5.3 IDO 5F43 Cardholder signature image handwritten
+
+b8-b7
+
+Reserved for future use (RFU) (00 when not used)
+
+b6-b5
+
+Value of the unit of time 00=1OOms 01 = 1 second 10 = 10 seconds 11 = 100 seconds
+
+The format of the cardholder handwritten signature image shall be as defined in lSO/l EC 11544, unless otherwise specified and/or requested by an authority.
+NOTE -- It is recommended that the use of this IDO should be associated with appropriate security measures.
+
+6.6
+
+IDO 6D Application
+
+image template
+
+b4-bl
+
+Number of units
+
+Moreover log-in data may be present with proprietary structures not specified by this International Standard. The tag `5E' is reserved for nesting such proprietary log-in data. 6.4 IDO 5F2F Coding of the PIN usage policy
+
+This IDO contains at least an application image, tag 5F44. It may also contain an authority indicator (see 4.4.4) identifyhg the body responsible for the data format of the application image. When no authority is present the format shall be as defined in lSO/lEC 10918-1. 6.7 Magnetic stripe data
+
+The PIN usage policy DE consists of 2 bytes which indicate the tests to be performed by the terminal in order to determine whether a PIN is applicable to the current transaction, and, therefore, whether the terminal should prompt for the PIN to be entered. Bit 8 of the first byte, if set to 1, specifies that a PIN applies to this application and the terminal should prompt for the PIN. The meaning of the other 15 bits is application dependent. If all bits are set to O, then the terminal should not prompt for the PIN. If bit 8 of the first byte is on or if any of the tests performed indicate that a PIN applies, but the PIN cannot be presented, the action to be taken is application dependent. 6.5 IDO 6C Cardholder images
+
+Tags `5F21', `5F22' and `5F23' are defined to be the card track 1, track 2 and track 3 DOS respectively. These tags shall be used when the data content of these DOS are identical to the data content of the corresponding tracks on the magnetic stripe of the card. Tags `56', '57' and '58' are defined to be the application track 1, track 2 and track 3 DOS. These "tags shall be used when the data format is as defined in lSO/lEC 7813 and ISO 4909 but the content may differ from that contained on the magnetic stripe of the card. 6.8 IDO 7F20 Display control
+
+This constructed IDO contains at least one IDO as defined in this clause. .An authority indicator (see 4.4.4) may precede such an IDO identifying the authority responsible for the data format of the IDO. 6.5.1 IDO 5F2E Cardholder biometric data
+
+One or more IDOS may be contained in this template. The value of any IDO contained in this template, either directly or indirectly through constructed DOS, is not intended to be displayed and should only be used, when relevant, for processing of transmission 6.9 Interchange profile
+
+This IDO contains biometric data relating to the cardholder. Biometric data is designed to provide a means of verifying the claimed identity of the person presenting the card. Examples of biometric data are finger prints, palm prints, voice prints, dynamic signatures etc.
+
+The specification of IDOS associated with the interchange profile of an ICC (eg available security functions and authentication methods) may be further detailed in future partsoflSO/lEC7816. The tags shown in table 7 are reserved for this purpose:
+
+7
+
+IS
+
+14202
+
+(Part 6) :2003
+
+lSO/lEC
+
+7816-6:1996
+
+Table 7- tags reserved for interchange profile IDO TAG I
+
+I
+
+.5F3B 5F3C
+
+I Dynamic external authentication I Dynamic mutual authentication
+
+I
+
+7 Maintenance
+
+of the IDOS
+
+It is the intention that all IDOS should be listed in clause 8 of this part of tSO/lEC 7818. To allow the introduction, deletion or amendment of any IDOS the following procedures shall be adopted: 7.1 IDOS from other parts of lSO/lEC 7816
+
+If new IDOS are introduced by new parts of lSO/lEC 7816 then these IDOS will be approved by the normal balloting process. Following publication of the new part of the standard the IDOS will be incorporated into lSO/lEC 7816-6 without further ballot.
+
+7.2 IDOS from other standards
+For these IDOS an amendment or addendum to lSO/tEC 7816-6 will be required and this will be subject Following to the normal `ISO voting procedures. successful ballot the IDOS will be incorporated into lSO/lEC 7816-6.
+
+8
+
+IS 14202 (Part 6):2003 lSO/lEC 7816-6:1996
+
+8 Lktofinterindustry
+8.1
+
+data objects
+order
+
+Data objects inalphabetic
+
+Table 8 gives the list of interindustry DOS (in alphabetic order), with description, ISO reference and length and format where appropriate. Table 8- IDOS in alphabetic order I \ Tag 1 Name of Data Element
+Address Application effective date Application expiration date Application identifier Application image Appliition image template Application label Card capabilities Card effective date Card expiration date Card issuer's data Card sequence number. Card services data Cardholder biometric data Cardholder certificate Cardholder handwritten signature image Cardholder image template Cardholder name Cardholder nationality Cardholder portrait image Cardholder public key cardholder secret key Coexistent Tag Allocation Authority Command to perform Compatible Tag Allocation Authority Country Authority Country code Currency code Currerwy exponent Date of birth Discretionary data
+
+Description
+
+& ISO Reference
+
+Length I Format
+variable n+ YYMMDD n6 WMMDD variable vanable variable
+
+7
+7
+
+5F42 5F25 5F24 4F 5F44 6D 50 47 5F26 59 45 5F34 43 5F2E 7F21 5F43 6C 5F20 5F2C 5F40 5F49 5F48 79 52 78 41 5F28 5F2A 5F36 5F2B 53
+
+Address of an individual Date from which the application can be used, under the responsibility of the Application Provkfer Date after which an application expires A DE which identifies an application in a card (see lSO/lEC 7816-5) Image data for an icon or logo associated with an application (see lSO/lEC 1091 8-1) Template containing at least an aDolication image (see lSO/lEC 10918., 1) A DE for use at the man machine interface (see lSO/lEC 7816-5) As defined in lSO/lEC 7816-4 Date, from wNch the card can be used, under the responsibilityof the Card' Issuer Date after which the card exnires .
+
+4 ----1
+65 6E 61/6E 6D 6E 61/6E 66 66
+
+May be found within tern late
+
+I
+
+vartable variable n6 I WMMDD n4 WMfd As defined inlSO/lEC 7816-4 variable A number distinguishingbetween sepa~te cards with fheeame Primary n2 Account Number As defined inlSO/lEC 7816-4 1 byte Biometric data relating to the cardholder variable A constructed DO containing the public key of the cardholder, further information, signature of certification authort~ An image of the cardholder's signature (see lSO/lEC 11544) Cardholder related images stored within the ICC To indicate the name of the cardholder (see lSO/lEC 781 3) To indicate the nationality of the cardholder. SeeISO3166 for coding Encoded imaae data. used for the cardholder portrait image A DE containing the cardholders public key for digital signature functionality using asymetnc mechanisms A DE containing the cardholder's secret key for digital signature functionality using asymetrfc mechanisms Used to identity a coexistent tag allocation scheme and meaufhortty responsible for the scheme Command APDU (see lSO/lEC 7816-4) tag allocation scheme and the authority Used to identify a compatible responsible for the scheme see 4.4.4 Code for the representation of Name of Country (see ISO 3166) Code for the representation of currencies and funds (see ISO 4217). Length will be 2 bytes if numeric format; 3@6es if alphabetic format Codes a number by Wlch an amount of the currency indated in the card shall be multiplied (see ISO 4217) Date of birlh of related indvidual Provides a standard way to denote a DE not defined in lSO/lEC 7816. Its use wfthin mefile control information and the application template is defined in parts 4 and 5oflSO/iEC7816. Clause 5 of this pafi iSO/lEC 7816 covers all mecaseswherethis iDOcanbe retrteved variable
+
+-=n
+66 66
+
++
+1
+
+65 65
+
+-i
+variable variable n 2..26 n3 nl variable wfable
+
+--7x--l
+
+==4
+65 65 6C
+
+vartabie
+variable variable variable n3 a30rn3 nl n8 WWMMDD variable
+
+RI
+66
+
+a
+---i
+61
+
+6E 6E
+65
+
+H
+all templates defined in Annex A
+
+9
+
+IS 14202 (Part 6) :2003 lSO/lEC 7816-6:1996
+
+Table 8
+
+(continued)
+
+May be Tag
+Name of Data Element Description & ISO Rafarence Length I Format
+
+I
+73 Diswetionarv DOS Provides a standard wav to denote a concatenation of DOS not defined I variable in lSO/lEC 7816. 11s us~ wi~in the file control information and the application template is defined in parts 4 and 5 of lSO/lEC 7816. Clause 5 of this part lSO/lEC 7816 covers all the cases where lhis IDO can be rebieved Template used to wnirol data displayed at the terminal variable variable A DE containing a message to be displayed A composite DO used for identifyingthe algorithm end the kev 10be to be defined used in the EXTERNAL AUTHENTICATE comm A composite DO used for idendfyingthe algorithm and the key to be to be dsifinad usad in the INTERNAL AUTHENTICATE command A composite DO used for idendfyingthe algorithm end the key to be 10 be defined used in the mutual authentication process (sea ISO 9798-2, 9798-3) veri&le A sequence of elements and related information,wilhout identifiers(sea 4.3) See 4.4.2 variable See 4.4.2 variable Sea 4.4.2 Vssiabla A concatenation of tagflength pairs wilhout delimiter variable As defined inlSO/lEC 7816-4 Wiable To be used in associationwith a countrycode to indate whether nl international interchange is permitted on a card (see ISO 4W9) A DE describing capabilities available in the ICC to perform an to be defined interchange transaction see4.4.4 variable To indicale, in order of preference, up to 4 languages for the cardholder a2..a8 (S6?S ISO 639) Proprie@ryinformation intendad for connectinglhe interface device to a variable remote host, a remote server or an applicationwithin these devices Data intended for connectinglhe interface device to a remote hosi, a variable remote server or an appkation withkrthese devices (see 6.3) A DE specifying the reference of a message variable Name of an individual(sss 6.1 ) variable As defined in lSO/lEC 8825-1 (see Annex B for coding) variable As defined in lSO/lEC 7816-4 Vtiabfa To specify whether PIN entry is required and under what circumstances 2 bytes (SSS6.4) Pmpridary variable A series of digits used to identifya customer account or relationship n..l9 (see lSO/lEC 7813 for structure and ISO 8583 for coding) A DE containing the certificationauthority'spublic key for digital variable signature functionalityused to verify certificate Neme and related informationof an individual e.g. sex, date of birth etc Variabfa (SSS6.2) Sea 4.4.2 An identificationof geographic /service availakdiiy (see lSOilEC 7813 for structure and ISO 8583 for coding) Gender of-an individual (sea ISO 5218) This constructed DO contains al least a DO denoting a responsible authorily (sea 4.4.4) and a DO by which this authority indicates the requirements of an ~ser, possibly related to a disability A DE containing a digital sgnatura value whbfr maybe used either alone or in conjunctionwith the DEs tag `5F38' and tag `5F39' A public key certificate DE 10 be used either alone or in conjunctionwith the DE tag `5F39, to enable a publickey value to be derived Data auxiliaryto the public key catiificate, tag `5F36', used to derive the notan%d publickey
+
+found wtthln I template
+all templates defined in Annex A 66 66 67 67 67
+
+7F20
+
+iF45 5F3B 5F3A 5F3C 5F41 SF 52 64 5D 44 5F27 5F29 42 5F2D 5E 6A 5F47 5B 06 51 5F2F 46 5A 5F4A 6B 7D 5F30 5F35 68
+
+Dmplay control Display message Dynamic exiarnal authentication Dynamic internal authentication Dynamic mutual authentication Element list FCI Iemplate FCP !emplate FMD template Haaderfist Initial access dala Interchange Control Interchange profile Issuer Authority language preferences Log-in data (Propriet@ Log-in template Message reference Name Object Identifier Path fdCy I PIN U~@ Pm-issuing data Primary Account Number (PAN) PubIii key of certification authority Qualified name Secure messaging lemplate Sefvica code sex Special user requirements
+
+66 66 67
+
+65 6E 6E 66 65 61 6E 66 6E 65 65
+
+==3=
+10 be defined
+67
+
+5F37
+
+5F38
+
+5F39
+
+48 10
+
+Static inlemal authentication (onastep) Static internal authentication - first associated data Slatic internal authentication - second data I 1 associated I I Status information
+
+I
+As defined in lSO/lEC 7816-4 ] 1..3 bytes
+
+I
+
+IS 14202 (Part 6):2003 ISO/IEC 7816-6:1996
+Table 8 . (concluded) ,. _..------Tag Name of Deta Element
+Taglist Timer
+
+Description & ISO Reference
+
+Length I Format
+variable 2 byies, binary coded. 2ncf byte is least significant ans..76
+
+May be found within template
+66
+
+5C 5F46
+
+A concatenation of tags without delimiters A DE specifying the maximal time, in tenths of a second, for a process to be performed or executed
+
+56
+
+Track 1 (application)
+
+5F21
+
+Track 1 (card)
+
+57
+
+Track 2 (application)
+
+5F22
+
+Track 2 (card)
+
+58
+
+Track 3 (eppllcat}on)
+
+5F23
+
+Track 3 (card)
+
+5F32 5F33
+
+Transection counter Transaction date
+
+Information encoded as defined in lSO/lEC 7613, including field separators but excluding starl and end sentinels and LRC characters se defined therein (see lSO/lEC 7813 for structure and ISO 8583 for coding) The information encoded on Track 1 of the magnetic strfpa as deffned in lSO/lEC 7813, including field separators but excluding start and end sentinels end LRC characters as defined therein. Ths date content is the same es the magnetic stripe, including discretionary data (sss k30/lEC 7613 for structure and ISO 8583 for coding) Information encoded es defined in lSO/lEC 7613, including field separators but exciuding stari and end sentinels end LRC characters se defined therein (see lSO/lEC 7813 for structure sod ISO 8583 for coding) The information encoded on Track 2 of the magnetic strtpe as deffned in iSO/lEC 7813, inciuciingfieid separators but excludlng start and end sentinels and LRC characters as defined therein. The date content is the same as the magnetic stripe, inciudingdiscretionary data (sss lSO/lEC 7813 for structure and ISO 6583 for coding) Information encoded as defined in iSO 4809, including field separators but exciuding start and end sentinels and LRC-characters as defined therein (see iSO 4909 for structure and ISO 8583 for coding) The information encoded on Track 3 of the magnetic stripe as defined in ISO 4909, including field separators but excluding sterl and end sentineis and LRC characters as defined therein. The date content is the same as the magnetic stripe, including discretionary data (see ISO 4909 for structure and iSO 8583 for coding) A counter incremented under the control of the application in the card after each trensaotion Used to cscognise the date and time of the lest transacticm. Length is 4 for YDDD 10 for fuii field Ussd for indirect referencing end retrieval (see 4.3)
+
+6E
+
+ens..76
+
+66
+
+n..37
+
+6E
+
+n..37
+
+66
+
+n..l O4
+
+6E
+
+n..l04
+
+66
+
+Binary Variable n40rn10 YDDD(HHMM Ss) verfabie
+
+6E 6E
+
+63
+
+Wrapper
+
+11
+
+IS
+
+14202
+
+(Part 6) :2003 7816-6:1996
+
+lSO/lEC
+
+8.2 Data objects in numeric order
+
+Table 9 gives the tags and names of DOS in numeric order.
+
+Table 9- 16)0s in numerical order I Tag
+16 41 42 43 44 45
+
+1
+
+i
+
+Name of Data Element
+Object Identifier Country Authority Issuer Authority Card services data initial access data Card issuer's data
+
+I
+
+Tag
+
+I
+
+Name of Data Element
+xrde ion counter e
+
+5F36 5F37 5F36 5F39
+
+Currency exponent Static internal authentication (one-step) Static internal authentication - first I associated daa ] Static internal authentication - second
+
+51 52 53 56 57 58 59 5A
+
+Path Command to perform Discretionary data Track 1 (application) Track 2 (appIication) [ Track 3 (spplicalion) Card expiration date I Prim sry Account Number (PAN)
+
+I 5FA2 arw 5F45 5FA6
+
+I Cutdrese
+I
+
+I
+,a=g
+
+I
+
+appwsmor ,, ,,, Display me.==g= Timer
+,3.. .",-.
+
+I
+i
+
+3C
+
+1
+
+L"~-,,
+
+,
+
+"-
+
+5F20 jF21
+
+cardholder , II I Track 1 (card) ) !,, " - J) iedirq ex~ralim &e
+
+E
+63 64 68 6A 6B 6C 6D 6F I 7F21
+
+Public ke of certification authorit
+
+5F26 5F27 5F28 5F29 5F2A 5F2B
+
+I effective date Card effective date Interchange e Control Countrv code Interchange profile Currency code Dale of birth
+Ca*.-4h-JAar mdinnalilu
+
+Wrapper FMD template Special user requirements Log-in template Qualified name Csrdholdar image template Application image tamplata FCI template
+
+3
+
+I Cardholder certifiite
+
+J
+
+12
+
+IS 14202 (Part 6):2003 lSO/lEC 7816-6:1996
+
+Annex A (normative) Interindustry templates
+The following optional templates should be used when there is a need to group IDOS within templates. Compatible and coexistent tag allocation schemes may use further templates (see 4.4). The order of the temptates and the order of the IDOS within the templates is not significant.
+Table A.1 - Application I Length / Format
+varieble vsrfable variable variable vartable variable
+
+TAG
+4F 50 52 53 73 51
+
+Template - Tag '61' Data Element
+I
+
+I A@ kation Identifier (AID) Application label Command to perform Dlscretionarv data Discretions DOs Path
+
+TAG
+5F42 5F2E 7F21 6C 5F20 5F2C 5F40 5F49 5F4S 5F2B
+
+Table A.2 - Cardholder Length / Format
+variable variable vsrtable vartable .vartsble n3 Valiable variable vatisble n6
+
+Ralated Data - Tag '65' Data Element
+
+Address Cardholder biometrfcdata Cardholder certifkate Cardholder imaqes cardholder name Cardholder natkmelity cardholder poflrait image cardholder public key Cardholder secret key Date of birth
+
+5B 5F4A 6B 5F35 66
+
+variable variable vartable al Wtable
+
+Name Public kev of certification authorftv Qualified name sex Special user requirements
+
+TAG
+47 5F26 59
+
+Table A.3 - Card Data - TaG'66' Data Element Length I Format
+vartable n6 YYMMDD Card capabilities Card effactiie date Card eW"ratkn
+
+date I
+
+Y!{M
+45 5F34 5F26 53 73 7F20 5F45 44 5F27 5F47 46 5F46 5F21 5F22 5F23 variable n2 n3 variable varfable varlabte vatiahla
+
+Cardissuer% data
+Card sequence number Country @e Discretionary data DiacretionaN ~S Display control IMnlav massarm Initial access data Interchange oontrol Massage reference Prs4sauing data Timer Track 1 (card) Track 2 (card) Track 3 (card)
+
+vartable
+nl vartable varfable 2 bytes, binary coded ans..76 n..37 n..l04
+
+13
+
+IS
+
+14202
+
+(Part 6) :2003 7816-6:1996
+
+lSO/lEC
+
+Table A.4 - Authentication I TAG 53
+73 5F3B 5F3A 5F3C
+
+Data - Tag '67'
+
+I Length / Format
+variable Vedable to be defined to be defrned to be defined
+
+I Data Element
+Discretionary data Discretionary DOs Dynamic efiernal authentication Dynemic internal authentication Dynamic mutual authentication
+
+I
+
+5F28 5F37
+5F38 5F39
+
+to bedefined 10be defied
+to be defined to be defined
+
+Interchange Profile
+Static internal authentiition (one-step) Static internal authentication - first associated data Static internal authentication - second associated data
+
+I
+
+I YDDD(HHMMSS)
+
+14
+
+IS 14202 (Part 6):2003 ISO/lEC 7816-6:1996
+
+Annex B (informative) Examples of coding
+The purpose of this annex is to provide examples of various codings, within various tag allocation schemes. various DOS are numbered, thus DO1, D02, D03...
+The
+
+The
+
+bytes are coded in hexadecimal, space as separator. Parentheses enclose DOS within templates for clarity, and are not significant. Undefined bytes are represented by XX.
+
+B.1
+
+Object identifier denoting an ISO standard
+
+followed
+
+This coding is defined in lSO/lEC 8825-1. The tag is '06. The first byte of the' value is '28, (4o decimal). This byte is by me or several series of bytes, identified by the fact that b8=0 in the last byte of a series, 1 in other bytes. Bits b7 to bl of the bytes of a series code a binary number. The finst number is the number of the standard, the second, if present, is the part in a-multi-part standard. For standard ISO 9992-2, the first series is obtained thus :
+
+-- -- -- --
+
+9992 is `2708 the binay value is 001001-1100001000 the binary value is also 1001110 0001000
+
+After insertion of the appropriate value bit b8 in each byte, the binary coding of the first series is therefore 1100111000001000, equal to `CE08'
+
+The second series is `02', because the part number is smaller than 128, The DO is therefore 060428CE0802.
+
+B.2
+
+Default tag allocation scheme
+
+DO1 =59029502 D02=5F2403 970331
+
+DO1 indicates a card expiry date of February 1995. D02 indicates an application expity date of-March 31st 1997.
+
+B.3
+
+Compatible
+
+tag allocation
+
+scheme defined in ISO 9992-2
+
+DO1 =7806 D02=5F2403 D03=7004
+
+(060428CE0802) 970331 (80 02 XX XX) XX XX XX) (81 02 XX XX) This IDO
+
+D04=67OA(5F2903
+
+DO1 indicates a compatible tag allocation scheme, defined by ISO 9992-2, denoted by its object identifier. must appear in the initial data string, the ATR file or the FCI of a DF. D02 indicates an application expiry date of March 31st 1997. D03 contains a DO, tag '80, defined in ISO 9992-2 ; the meaning of tag '70 is also defined in ISO 9992-2.
+
+D04 contains the IDO interchange profile, tag `5F29 and a DO, tag '81', defined in ISO 9992-2 ; the meaning of tag '67' is defined in iSO/lEC 7816-6.
+
+15
+
+IS
+
+14202
+
+(Part 6) :2003 7816-6:1996
+
+iSO/lEC
+
+B.4
+
+Other example of a compatible tag allocation scheme defined in ISO 9992-2
+970331 28CE0802)(80 XX XX XX) 04 XX XX XX XX)
+
+D02=5F2403 D03=70OC(0604 D04=6706
+
+(5F2903
+
+D02 indicates an application expiry date of March 31st 1997. D03 contains a DO, tag '06' which specifies that the subsequent DO, tag '80, is defined in ISO 9992-2. of tag '70' is also defined m ISO 9992-2. The meaning
+
+D04 contains the IDO interchange profile, tag `5F29. Note that it cannot contain DOS, defined in ISO 9992-2, because of the choice not to transmit the IDO with tag `78'.
+
+B.5
+
+Coexistent tag allocation scheme defined in an ISO standard
+(060328 XX XX) 9703 31)
+
+DO1 =7905
+
+D02=7E06(5F2403 D03=7006
+
+XX XX XX XX XX XX
+
+DO1 indicates a coexistent tag allocation scheme, defined in an ISO standard, denoted by an object identifier of value starting with `28'. DO1 is mandatory in this case. This IDO must appear either in the initial data string, the ATR file or the FCI of a DF. D02 indicates an application expiry date of March 31st 1997. Note that the IDO application expiration date, tag `5F24 is nested. D03 can only be interpreted according to the standard indicated in the object identifier.
+
+16
+
+IS 14202 (Part 6):2003 lSO/lEC 7816-6:1996
+
+TECHNICAL
+
+CORRIGENDUM
+
+1
+
+Page 2 Subclause 3.1.8
+The definition for tag{ist should read:
+
+"a concatenation of tags }~ithout delimiters. " Page 4
+Subclause 4.4.1 The sixth paragraph should read:
+
+"if the tag allocation authori~ is valid for the entire card then the DO may be present in the initial data string or the ATRfile (as defined in ISO/lEC 7816-4 )."
+
+Subclause 4.4.2 The I'ourth paragraph should read:
+
+`-[f the tag allocation authority is valid for the entire card then the DO shall be present in the initial data string or the ATRfile (as defined in ISO/lEC 7816 -4)." Page 6
+Subclauses 6.3.2 and 6.3.3 Remove the words `(of the variable length" from the first lines.
+
+17
+
+IS
+
+14202
+
+(Part 6) :2003
+
+lSO/lEC
+
+7816-6:1996
+
+AMENDMENT 1: IC manufacturer registration
+
+Page 4, subclause
+
+4.4
+
+In last line, change "table 8" to "table 10" Page 8, after subclause 6.9 6.10:
+
+Add the following text as new subclause
+
+6.10 IC manufacturer
+6.10.1 Scope
+
+registration
+
+This subclause -- -- --
+
+specifies:
+
+the numbering system, the rules for assignment, and the assigned values
+
+to identify manufacturers of integrated circuits used in contact and/or contactless integrated circuits cards. 6.10.-2 Numbering system
+
+The structure and coding of the IC manufacturer identifier is one byte binary with a reserved value for future extension ('FF' reserved for future extension) This byte shall be used according to Table 8:
+
+Table 8 -- Coding of IC manufacturer identifiers data element Hexadecimal Value
+'00'
+
+Use
+RFU
+
+'01 ` - `7E'
+
+I
+I
+
+See assignment and registration procedure in 6.10.3 and currently registered identifiers in 6.10.4, Table 9 RFU RFU Proprietary Resewed for future extension
+
+`7F' '80' '81 ` - `FE
+`FFI
+
+I
+
+18
+
+IS 14202 (Part 6) :2003 lSO/lEC 7816-6:1996
+
+6.10.3
+
+Assignment
+
+of IC manufacturer
+
+identifiers and registered by the lSO/lEC JTC l/SC 17
+
+The IC manufacturer identifiers (range '01' - `7 E') are assigned Secretariat 1) according to the following rules: -- -- --
+
+the assignment is made upon request by an IC manufacturer or any interested party a single number will be assigned to each manufacturer (next available number); a copy of the register shall be made available upon request to the lSO/lEC JTC l/SC 17 secretariat. Register of IC manufacturer identifiers
+
+6.10.4
+
+The data object IC manufacturer identifier has the tag `5F4B. The assigned values for the related data element are shown in Table 9. Table 9 -- Registered
+Ic manufacturer -identifier
+
+IC manufacturers
+
+Company
+
+Address
+
+'01 `
+
+Motorola
+
+Address:
+
+Country
+
+MOS Memory& Microprocessor Division Colvilles Rd Kelvin Industrial Estate East Kllbride Glasgow G75 OTG United Kingdom
+
+Telephone: +44 1355565731 Fax: +44 13552564582
+'02'
+
+S T Microelectronics
+
+Address:
+
+Country Telephone: Fax
+'03'
+
+IC Card Division 7, Ave Gallieni BP 93 94253 GENTILLY Cdx France +33 147407575 +33 147407910
+
+Hitachi, Ltd
+
+Address:
+
+Semiconductor & Integrated Circuits Group 20-1, Jousuihon-cho 5 chome Kodaira-shi Tokyo 187-8588 Country Japan +81 423207301 +81 423278693 (ext 3313)
+
+Telephone: Fax
+
+1, Mrs F. Bennett, APACS, Mercury House, Triton Court, 14 Finsbu~ Square, London EC2 1LQ, UK - emaik fjb@apacs.org.uk 19
+
+IS 14202 (Part 6):2003 lSO/lEC 7816-6:1996
+
+Table 9 -- Registered
+Ic manufacturer identifier '04'
+
+IC manufacturers
+
+(continue@
+
+Company
+
+Address
+
+`hilips semiconductors
+
+Address:
+
+Country
+
+Productgroup Identification -Stresemannallee 101 D- 22529 Hamburg Germany
+
+Telephone: +49 4056132995 Fax: +49 4056133554
+'05'
+
+nfineon Technologies \G
+
+Address: Security & Chip Card ICS P.O. 60X 800949 D 81609 Munchen Country Germany Telephone: +49 89234-24145 Fax: +49 89234-28925
+
+'06
+
+lylinc
+
+Address:
+
+Sunnivale, CA
+
+Country
+'07'
+
+USA Smart Card Division BP 5 06271 Villeneuve Loubet Cdx France
+
+rexas Instrument
+
+Address:
+
+Country
+
+Telephone: +33 493222220 Fax: :+334 93222637
+'08'
+
+%jitsu Limited
+
+Address:
+
+Country
+
+1-1, Kamikodanaka 4-Chome nakahara-ku Kawasaki 211-8588 Japan
+
+Telephone: +81 447543767 Fax: +81 447543343
+'09'
+
+Matsushita Electronic: Corporation
+
+Address:
+
+Country Telephone: Fax
+`OA
+
+1-1 Saiwai-cho Takasuki Osaka 569-1193 Japan +81 726827530 +81 726827093 1-10 Nisshin-cho Fuchu-shi Tokyo 183 Japan
+
+NEC
+
+Address:
+
+Country
+
+Telephone: :+81 423331498 Fax: +81 423331856
+20
+
+IS 14202 (Part 6) :2003 lSO/lEC 7816-6:1996
+
+Table 9 -- Registered --
+
+IC manufacturers
+
+(corrtiweu) Address
+
+Ic
+
+Company
+
+mmanufacturer identifier `OB' Oki Electric Industry Co. Ltd Address: LSI Division 550-1 Higashiasakawa-cho Hachioji-shi Tokyo 193-8550 Japan :+81 426631111 +81 426656536 1-1, Shibaura 1-Chome Minato-Ku Tokyo 105-8001 Japan
+
+Country Telephone: Fax:
+`Oc'
+
+Toshiba Corp.
+
+Address:
+
+Country
+
+Telephone: :+81 334578412 Fax: +81 354449218 `OD' `OE' Mitsubishi Electric Corp. Samsung Electronics Co. Ltd Address: Smart Card LSI Division San 24 Nongseo-Ri Kiheung-Eup Yongin-City Kyungki-Do Country: Korea
+
+Telephone: :+82 3312093437 Fax: :+82 3312096533 1`OF' Hyundai Electronics Industries Co. Ltd Address: San 136-1 Ami-ri, Bubal-eub Ichon-si Kyungki-do Korea 467-701
+
+Country 1
+
+Telephone: +82 336302016 Fax: +82 336302022
+'10'
+
+LG-Semiconductors Co. Ltd
+
+Address:
+
+Country
+
+106138 Bdg. Sinlim-Dong Gwanak-Ku Seoul Korea 151-742
+
+Telephone: +82 28835009 Fax: +82 28820470 '11' to `7E'
+I For future assignment
+
+.
+
+I
+
+NOTE -- This data element maybe present in the data object,tag '46' (pre-issuingdata), on a proprietarybaais.
+
+21
+
+IS
+
+14202
+
+(Part 6) :2003 7816-6:1996
+
+lSO/lEC
+
+Page 9, subclause
+
+8.1
+
+Change "Table 8" to "Table 10" Page 9, Table 8 Change number of Table 8 to Table 10. Add new line to the table, after 50 Headerlist: 5F4B IC manufacturer identifier To identify manufacturers of integrated circuits 1 byte -
+
+I
+
+I
+
+Page 12, subclause
+
+8.2
+
+Change "Table 9" to "Table 11" Page 12, Table 9 Change number of Table 9 to Table 11. Add new line to the table, after 5F4A Public key of certification authority 5F4B IC manufacturer identifier
+
+I
+
+22
+
+( Continued
+lSO/lEC
+
+frmn second cover)
+
+8825-1
+
+:1995
+
+Information technology -- ASN.1 encoding rules : Specification of Basic Encoding Rules ( BER ), Canonical Encoding Rules ( CER ) and Distinguished Encoding Rules ( DER )
+Information processing -- 8-bit single-byte
+
+lSO/lEC
+
+8859-1:1987
+
+coded graphic character sets
+
+-- Part 1: Latin alphabet No. 1
+ISO 9992-2:1998 Financial transaction cards -- Messages between the Integrated Circuit Card and the Card Accepting Device -- Part 2: Functions, messages
+
+( commands and responses), lSO/lEC 10918--1:1994
+
+data elements and structures coding of
+
+Information technology -- Digital compression and continuous-tone still images : Requirements and guidelines
+
+lSO/lEC
+
+11544:1993
+
+Information technology -- Coded representation of picture and audio information -- Progressive hi-level image compression
+
+Technical Corrigendum at the end.
+
+1 and Amendment No. 1 to the above International Publication have been printed
+
+Bureau
+
+of Indian
+
+Standards
+
+BIS is a statutory institution established under the Bureau harmonious development of the activities of standardization, attending to connected matters in the country.
+Copyright
+
+oflndian Standards Act, 1986 to promot~marking and quality certification of goods and
+
+BIS has the copyright of all its publications. No part of these publications maybe reproduced in any form without the prior permission in writing of BIS. This does not preclude the free use, in the course of implementing the standard, of necessary details, such as symbols and sizes, type or grade designations. Enquiries relating to copyright be addressed to the Director (Publications), BIS.
+Review of Indian Standards
+
+Amendments are issued to standards as the need arises on the basis of comments. Standards are also reviewed periodically; a standard along with amendments is reaffirmed when such review indicates that no changes are needed; if the review indicates that changes are needed, it is taken up for revision. Users of Indian Standards should ascertain that they are in possession of the latest amendments or edition by referring to the latest issue of `BIS Catalogue' and `Standards : Monthly Additions'. This lndian Standard.has been developed fromDoc : No. LTD 37 ( 1935 ).
+Amendments Amend No.
+
+Issued Since Publication of Issue Text Affected
+
+Date
+
+BUREAU OF INDIAN STANDARDS
+Headquarters: Manak Bhavan, 9 Bahadur Shah Zafar Marg, New Delhi 110002 Telephones: 23230131,2323"3375,2323 9402 Regional Offices: Central: ManakBhavan,913ahadur NEW DELHI 110002 Shah Zafar Marg Telegrams: Manaksanstha ( Common to all offices) Telephone 23237617 { 23233841 23378499,23378561 { 23378626,23379120 603843 { 609285 22541216,22541442 { 22542519,22542315 28329295,28327858 { 28327891,28327892
+
+Eastern: 1/14 C. I. T. Scheme VII M, V. 1.P. Road, Kankurgachi ICOLKATA700054 Northern: SCO 335-336, Sector 34-A, CHANDIGARH 160022 Southern: C. I. T. Campus, IV Cross Road, CHENNAI 600113 Western : Manakalaya, E9 MIDC, Marol, Andheri (East) MUMBAI 400093
+
+Branches : AHMEDABAD. BANGALORE. BHOPAL. BHUBANESHWAR. COIMBATORE. FARIDABAD. GHAZIABAD. GUWAHATI. HYDERABAD. JAIPUR. KANPUR. LUCKNOW. NAGPUR. NALAGARH. PATNA. PUNE. RAJKOT. THIRUVANANTI-LAP URAM. VISAKHAPATNAM.
+Printed at New India Printing Press, Khurja, India
+
+

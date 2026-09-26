@@ -1,0 +1,4834 @@
+IS 13611 : 1993 IS0 8473 : 1988
+
+( Reaffirmed 2003 )
+
+Indian
+
+Standard
+
+PROTOCOL FOR PROVIDING THE CONNECTlO*NLESS-MODE NETWORK SERVICE IN DATA COMMUNICATIONS FOR INFORMATION PROCESSING SYSTEMS
+
+UDC
+
+681'327'8'01
+
+BUREAU
+MANAK
+
+OF
+BHAVAN,
+
+INDIAN
+9 NEW BAHADUR DELHI
+
+STANDARDS
+SHAH 110002 ZAFAR MARG . Price Group 14
+
+June 1993
+
+Computer
+
+Systems
+
+and Interconnection
+
+Sectional
+
+Committee,
+
+LTD 36
+
+NATIONAL
+
+FOREWORD
+
+This Indian Standard which is identical with IS0 8473 : 1988 `Information processing systems Data communications - Protocol for providing the connectionless-mode network service', issued by the International Organization for Standardization ( IS0 ) was adopted by the Bureau of Indian Standards on the recommendation of the Computer Systems and Interconnection Sectional Committee ( LTD 36 ) and approval of the Electronics and Telecommunication Division Counci I. In the adopted used in Indian standard certain terminology and conventions are however not identical Standards. Attention is particularly drawn to the following: Standard' appear referring Standards to this standard, are referred to. to those
+
+Wherever the words `International be read as `Indian Standard'. In this `Indian Standard; the respective place the following: International Standard following
+
+they should Read in their
+
+International
+
+Corresponding Indian Standard IS 12373 : 1987 Basic reference model of open systems interconnection for information processing systems ( Identical ) Amendment No. 2 to IS 12373 : 1987 ( Identical ) Dot Ltd 36 ( 1558 ) Network service definition in data communications for systems ( Under information processing preparation ) ( Identical > do do
+
+IS0 7498 Information processing systems Open systems interconnection - Basic reference model IS0 7498/Add. 1 Addendum 1 : Connectionless-mode transmission IS0 8348 Information processing systems Data communications - Network service definition . IS0 lS0 8348/Add. tionless-mode 1 Addendum transmission 1 : Connec2 : Network
+
+8348/Add. 2 Addendum layer addressing
+
+The technical committee responsible for the preparation of this standard has reviewed the provisions of the following !SO Standards and has decided that they are acceptable for use in conjunction with this standard: ISO/I EC 8208 ISO/TR 8509 : 1987 IS0 8648 IS0 9074 Information processing systems - Data communications -X.25 Packet level protocol for data terminal equipment Information processing systems - Open systems interconnections Service conventions Information processing systems -- Cpen systems interconnections Internal organization of the Network layer Information processing systems - Open systems interconnection ESTELLE ( Formal Description Technique based on an Extended State Transition Model ) Information processing systems - Data communications - Local Area Networks Information processing systems - Data communications service definition for open systems interconnection text in the International Standard has been retained Data link adopting
+
+IS0 8802 IS0 8886 Only the English language i't in this standard.
+
+while
+
+IS t36tt:t993 ISO8473:1968
+
+Indian
+
+Standard
+
+PROTOCOL FOR PROVIDING THE CONNECTIONLESS-MODE NETWORK SERVICE IN DATA COMMUNICATIONS FOR INFORMATION PROCESSING SYSTEMS
+
+0
+
+Introduction
+
+IS0 8473 is one of a set of International Standards produced to facilitate the interconnection of opensystems. The set of standards covers t,he services and protocols required to achieve such interconnection.
+
+This International Standard is positioned with respect to other related standards by the layers defined in IS0 7498. In particular, it is a protocol of the Network Layer. This International Standard may be used between Network entities in End systems or in Network Layer relay systems (or both). It provides the connectionless-mode Network Service as defined in IS0 8348/Add. 1. The interrelationship in figure 1. of these standards is illustrated
+
+The underlying connect.ionless-mode service assumed bv the protocol may be obtained either directly, from a connectionless-mode real subnetwork, or indirectly, through the operation of an appropriate Subnetwork Dependent Convergence function (SNDCF) or protocol (SNDCP) over a connection-mode real subnetwork, as described This International Standard specifies in IS0 8648. the way in which this underlying connectionless-mode subnetwork service is obtained from real subnetworks that conform to ISO8802-2 or ISO8208. The underlying connectionless-mode subnetwork service may be obtained from real subnetworks that do not conform to either ISO 8802-2 or IS0 8208, but the way in which this is done is not specified by this International Standard. NOTE
+of this subnetwork of
+
+-
+
+The SNCCF defined
+in configurations the X.25 way using
+
+for the that thr include
+
+optrajion include operation subcetother a
+
+protocol
+
+PLP can ix generalized
+to cover that
+
+in a straightforward
+
+IS08473
+that the
+
+in configuratiocs use connection-oriented
+
+OS1 Network Reference Reference
+
+Service t
+
+works than
+
+protocols
+
+X.25
+
+PLP. Standard specifies of en-
+
+to aims to assumptions service
+
+This International
+
+Underlying Figure,1 - Interrelationship
+
+of stLrldards
+
+transmission a 1 procedures for the connect,ionless data and control information from one Network tity to a peer Network entity;
+
+1
+
+Scope and field of application
+
+b) the encoding of the protocol data units (PDUS) used for the transmission of data and control information, comprising a variable-length protocol header format; cl procedures for the correct interpretation control information; and of protocol
+
+This Inbational Standard specifies a protocol which ii used to provide the. connectionless-mode NetworkSirvice as described in ISO8348,/Add.l. The protocol reh upon the provision of an underlying connectionIem-mode service by real subnetworks and/or data links. 1
+
+requirements for implementations dl the functional claiming conformance to this Intern'otional Standard.
+
+IS13611:1993
+
+IS0 8473 : 1966
+
+The procedures a 1 the
+
+are defined
+
+in terms
+
+of Network entities data units; entity and a
+
+IS0 8348, Information processing communications - Network service
+
+systems definition.
+
+Data
+
+interactions among peer through the exchange of protocol interactions between
+
+b) the
+
+a Network
+
+IS0 8348lAdd.1, Information processing systems Data communications - Network service definition Addendu.m 1: Connectionless-mode transmission. IS0 8348jAdd.2, Information processing systems Data communictztions - Network service definition Addendum 2: Network la.yer addressing. ISO/TR 8509, Open Systems Inform&ion Interconnection processing - Service systems conventions.
+
+-
+
+Network Service user through work Service primitives; and
+
+the exchange
+
+of Net-
+
+-
+
+C) the interactions
+underlying of service
+
+between
+
+a network-entity through the
+
+and
+
+an
+
+service provider primitives.
+
+exchange
+
+-
+
+IS0 8G48, Informa.tion Systems Interconnection
+
+processing - Internal
+
+systems Open orga.niza.tion of the
+
+2
+
+References
+processing system~s Open - Basic reference model.
+
+Network
+
+layer. Data.
+
+IS0 7498, Information systems intercotinection
+
+IS0 8802, Inform&on processing systems com.munications - Local Area Networks. IS0 8886, Information processing com.munacation - Da.ta. link service Sysfems Interconnection'. systems definition
+
+processing systems IS0 7498/Add. 1, Information Open systems interconnection - Basic reference model. Addendum. 1: Connectionless-mode transmission. I.50 8208, Inform&ion processing systems Data
+
+Data for Open
+
+communication8 - X.25 Packet Level Protocol for Data `Terminal Equipment.
+
+IS0 9074, Information processing systems -- Open systems interconnection - ESTELLE (Forma.1 Description Terh.niqu.e based on an Extended Sta.te Tro.nsitiou Model).'
+
+1 At present, due course.
+
+at the stage of draft;
+
+publication
+
+anticipated
+
+in
+
+2
+
+IS 13611 : 1993 IS0 8473 : 1988
+
+Section 3 3.1 Definitions
+Reference Model definitions
+makes use of the following
+
+one:
+
+General
+3.5 Local Area Network
+makes
+
+definitions
+use of the follo\c-ing
+
+`l'his International Standard terms defined in ISO8802: local area network logical link control media access control
+
+`I`his Intprnational Standard terms definrd in IS0 7498:
+
+.I end-s,vstrm ;:, network-entity 1 Network layer (1) N&work protocol
+,`
+
+3.6
+data unit
+
+X.25
+
+definitions
+makes use of the following
+
+k relav N&work-service K) `1) iVetwc,rk-service-access-point
+
+e) Network f 1 Net,wox i)
+
+protocol
+
+This International Standard terms d&ned in IS0 8208: data data circuit-terminating terminal equipment circuit
+
+equipment
+
+j)
+k)
+
+Network-service-access-point-address routeing service data unit primitive
+
+logical channel permanent virtual virtual circuit
+
+`1 service
+111)service
+
+3.7 3.2 Service conventions definitions
+use of the following
+
+Additional
+
+definitions
+Standard, the fol-
+
+This International Standard makes terms defined in ISO/TR 8509:
+
+For the purposes lowing definitions
+
+of this International apply:
+
+L)
+3.3
+
+1 service service
+
+provider user
+
+A protocol data unit whose 3.7.1 derived PDU: fields are identical to those of an init,ial PDU, except. that it carries only a segment of the user data from an N-UNITDATA request.
+
+Network tions
+
+Layer
+
+architecture
+
+defiui-
+
+3.7.2 initial PDU: the whole of the user quest.
+
+A protocol data unit. carrying data from an N-UNITDATA rc-
+
+This InternatConal Standard terms defined in ISO8648:
+
+makes
+
+use of the following
+
+3.7.3
+
+local
+
+matter:
+
+A decision
+
+made
+
+by a system that is Stan-
+
+) ;:, relay system Cl subnetwork d) subnetwork e) subnet.work
+intermediate
+
+system
+
+concerning its behaviour in the Network Layer not prescribed or constrained by this International dard. protocol function
+
+f)
+3.4
+
+subnetwork
+
+independent convergence independent convergence access protocol
+
+Network tions
+International defined
+
+Layer
+
+addressing
+
+defini-
+
+3.7.4 network-entity title: An ident.ifier for a network-entity which has the same abstract syntax as an NSAP address, and which can be used to unatnbiguously identify a network-entity in an end or intermediate system.
+
+This terms
+
+Standard
+
+makes
+
+use of the following
+
+in IS0
+
+8348/Add.2:
+
+3.7.6 reassembly: The act of regenerating tial PDU from two or more derived PDUs.
+
+an ini-
+
+a) Network b) Network c) subnetwork
+
+addressing domain protocol address information point of attachment
+
+A distinct unit of data consisting of 3.7.6 segment: part or all of the user data provided in the N-UNITDATA request and delivered in the N-UNITDATA indication.
+
+3
+
+IS13611:1993 Iso8473:1988
+
+3.7.7 segmentation: The act of generating two or more derived PDUs from an initial or derived PDU. The derived PDUs together carry the entire user data of the initial or derived PDU from which they were generated.
+
+NPAI NSAP PVC SN SNDCF SNDCP SNICP
+
+Network
+
+protocol
+
+address
+
+information
+
+Network service access point permanent virtual circuit subnetwork subnetwork tion subnetwork co1 subnetwork toco1 subnetwork subnetwork subnetwork unnumbered dependent dependent independent convergence convergence convergence funcprotopro-
+
+4
+
+Abbreviations
+Data Units
+Net,work protocol service data data unit data unit unit
+
+4.1 NSDU PDU SDU SNSDU
+
+SNAcP SNPA SNCR UI
+
+access protocol point of at,tachment connection information reference
+
+,
+
+service data unit subnetwork service
+
+4.2
+DT ER PDU
+
+Protocol
+PDU data error
+
+Data
+protocol report
+
+Units
+data protocol unit data unit
+
+5 5.1
+
+Overview
+
+of the protocol
+of the Net-
+
+Internal organization work Layer
+
+4.3
+
+Protocol
+
+Data
+
+Unit
+
+Fields
+
+cs
+DA DAL DUID E/R LI CT MS NLPID SA SAL SL so SP TL TP VI'P
+
+checksum destination destination data unit
+
+address address identifier
+
+length
+
+The architectural organization of the Network Laver is described in a separate International Standard, 19.38648. IS08648 identifies and categorizes the wav in which functions can be performed within the Network Layer by Network Layer prot,ocols, thus providing a uniform framework for describing how protocols operating either individually or cooperativelv in the Network Laver can be used to provide the OS1 Network-Service. This protocol is designed to be used in the context of the internet,working protocol approach to the provision of the connectionless-mode IS0 8848. This protocol is intended Network-Service for use in the defined Subnetin
+
+error report flag length indicator lifetime more segments network layer source source segment. segment address address length offset permitted flag flag protocol length identifier
+
+segmentation total length tvpe version/protocol
+
+work Independent Convergence prot,ocol (SNICP) role. A protocol which fulfills the, SNICP role operates to construct the OS1 Network-Service over a defined set of underlying services, performing functions which are necessarv to support the uniform appearance of the OS1 connectionless-mode Network-Service over a homogeneous or heterogeneous set of interconnected subThis protocol is defined to accommodate networks. variabilitv protocols where and/or Subnetwork Subnetwork Dependent Access Convergence do not protocols
+
+identifier
+
+Extension
+
+4.4
+DA
+
+Parameters
+destination quality source address of service address
+
+QoS
+SA
+
+4.5
+CLNP
+
+Miscellaneous
+connectionless-mode the protocol defined Standard) data circuit-terminating data logical media terminal access equipment control link control network in this protocol (i.e. International
+
+provide all of the functions necessary to support the connectionless-mode Network-Service over all or part of the path from one NSAP to another. As described in ISO8648, a protocol at the Network Layer'may fulfill different roles in different configurntions. Although this protocol is designed particularly to be suitable for a SNICP role in the context of t.he internetworking protocol the connectionless-mode be used to fulfill other in the context of other connection. approach to the Network-Service, roles and approaches provision of it mav also
+
+DCE DTE LLC MAC NS
+
+equipment
+
+'
+
+may therefore be used to subnetwork inter-
+
+network-service
+
+4
+
+IS 13611 : 1993 tso 8473 : 1988
+
+The operation of this protocol is specified with respect to an underlying service which is made available ihrough the operation of other Network Layer protocols or through provision of the Data Link Service. The underlging service assumed by this protocol is described in 5.5.
+
+title depends on the context in which the name is interpreted. The values of the Source Routeing and Recording of Route parameters defined in 7.5.4 and 7.5.5 respectively are network-entity titles. The values of the Sou.rce Address and Destination Address parameters in the Error Report titles. PDU defined in 7.9 are also network-entit.y
+
+5.2
+Two ploit
+
+Subsets
+
+of the
+
+protocol
+
+subsets of the full protocol are defined which exthe known subnetwork characteristics of particular and are therefore not subnetwork inde-
+
+The encoding used by this prot,ocol to convey network-entity titles is the preferred binary encoding specified in IS0 8348lAdd.2. The network-entity title, encoded as a string of binary octets according to IS0 8348lAdd.2, is conveyed in its entirety scribed in 7.5.4, 7.5.5 and 7.9.1.2. in the fields de-
+
+configurations pendent.
+
+The Ina.ctive Network Layer protocol subset is a nullfunction subset which can be used when it is known that, the source and destination end-systems are connected by cl single subnetwork, and when none of the functions performed by the full protocol is required to provide the connectionless-mode Network-Service between any pair of end-systems. The Non-segmenting protocol plification of the header when subset permits simit is known that the
+
+5.4
+
+Service
+
+provided
+
+by the
+
+protocol
+NetThe in t..a-
+
+This protocol wprk Service Network-Service ble 1. NOTE
+imum
+
+provides the connectionless-mode described in IS0 8348/Add.l. primitive provided is summarized
+
+size
+
+source and destination end-systems are connected bv subnetworks whose individual service data unit sizes are greater than or equal t.o a known bbund which is large enough so that segmentation is not required. This subset. is selected by setting the Segmentation Permitted flag to zero (see 6.7).
+
+ISO8348/Add.l states that of a connectionless-mode
+(NSDU) is 64512 octets.
+
+the maxNetwork-
+
+service-data-unit
+
+5.5
+
+Underlying protocol
+that
+
+service
+
+assumed
+
+by
+
+the
+
+It, is intended
+
+IS0 8473 be capable
+
+of operating
+
+over
+
+5.3
+
+Addresses
+
+and
+
+titles
+describe the addresses and ti-
+
+The following subclauses tles used by this protocol.
+
+5.3.1
+
+Addresses
+
+connectionless-mode services derived from a wide variety of real subnetworks and data links. Therefore, in order to simplify the specification of the protocol, its operation is defined (in clause 6) with respect to an ab"underlying service" rather than any particular stract real subnetwork service. This underlying service consists of a single SN-UNITDATA primitive which conveys the source and destination bubnetwork addresses, a subnetwork Quality and a minimum number of octets point of att.achment of Service parameter, of user data. the ma-
+
+The Source Address and Destination Address parameters referred to in 7.3 of this International Standard are OS1 Network Service Access Point (NSAP) Addresses. The syntax and semantics of an OS1 Network-ServiceAccess-Point-Address are described IS0 8348lAdd.2. The encoding used by this protocol to convey NSAP Addresses is the preferred binary encoding specified in IS0 8348/Add.Z. The NSAP address, encoded as a string of binary octets according to IS0 8348/Add.Z, is conveyed in its entirety_ in the address fields described in 7.3.
+
+The SN-UNITDATA primitive is used to describe abstract interface which exists between the protocol chine work
+
+and an underlying re<4 subnet,work or a SubnetDependent Convergence function which operates link to provide in table 2. in the
+
+over a real subnetwork or real data required underlying service. The primitive provided
+
+is summarized service
+
+Provision clause 8.
+
+of the
+
+underlying
+
+is described
+
+5.3.2
+
+Network-entity
+
+titles for a network-
+
+A network-entity
+
+tit.le is an identifier
+
+5.6
+
+entity in an end-system or intermediate system. Network-entity titles are allocated from the same name space as NSAP addresses, and the determination of whether a name is an NSAP address or a network-entity
+
+Service assumed vironment
+
+from
+
+the
+
+local
+.
+
+en-
+
+timer service shall be provided to allow the protocol entity to schedule events.
+A
+
+5
+
+IS 13611 : 1993 IS0 6473 : 1966
+
+Table
+
+1 - Connectionless-mode Primitive N-UNITDATA .Request .Indication
+
+Network-Service Parameters NS-Source-Address, NS-Destination-Address, NS-Qlralit!,-of-Service, NS-Usrrdnta
+
+primitive
+
+Table 2 - Underlying
+
+Service
+
+primitive
+
+pi
+
+There
+
+are
+
+three
+
+primitives
+
+associated
+
+with
+
+the
+
+S-
+
+TIMER service: a) the S-TIMER Request; b) the S-TIMER Response; c) the S-TIMER.Cancel.
+The primitives provided
+
+reqaested by the corresponding itive has elapsed. The S-TIMER local environment, Cancel primitive
+
+S-TIMER Request
+is an indication timer(s)
+
+prim-
+
+to the be
+
+thar. the specified
+
+should
+
+and
+
+canceled. If the S-Subscript parameter is not specified, then all timers with the specified name are canceled; otherwise, the timer of the given name and subscript in table 3. is cancelled. If no time& correspond to the parameters specified, the local environment takes no action. The parameters of the 5- ,`IMER service 3. primitives are specified in table
+
+are summarized
+
+Table
+
+3 - Timer
+
+primitive Parameters S-Time, S-Name, S-Subscript
+
+Primitive S-TIMER .Request
+
+.Response
+
+S-Name, S-Subscript
+
+The S-Time parameter indicates the time duration of the specified timer. An identifiying label is nssociated with a timer by means of the S-Name parameter. The S-Subscript parameter specifies a value to distinguish timers with the same name. The name and subscript takel, together constitnte a nniqrlr reference to the timer. Timers function used in association under that with a specific protocol are defined protocol Standard function. does not
+
+The S-TIMER Request primitive indicates to the local environment that it should initiate a timer of the specified name and subscript and maintain it for the duration specified by the time parameter. The S-TIMER local environment Response primitive is initiated to indicate that the amount by the of time
+
+NOTE
+
+This International
+in this Standard
+
+define specific tions described tory. Timer requested
+
+values for the timers. values should be chosen
+
+Any derivaso that the
+
+are not mandagiven
+
+Quality of Service can be provided, of the underlying
+
+the known characteristics
+
+service.
+
+6
+
+IS 13611
+
+IS0
+
+6473
+
+: 1993 : 1966
+
+Section 6
+This
+
+two:
+
+Specification
+
+of the protocol
+
+Protocol
+clause describes
+
+functions
+the functions performed as part of
+
+total length of the PDU in octets is determined by the originat.or and placed in the Segment Length field of the PDU header. This field is not changed for the lifetime of the PDU.
+No Data
+
+the protocol. Not all of the functions must be performed by every implementation. Subclause 6.19 specifies which funcwhen tions may be omitted, and the correct behaviour requested functions are not implemented.
+
+Unit
+
+Identification
+
+is provided.
+
+6.2 This
+
+PDU
+function
+
+Decomposition
+is responsible from
+
+function
+the data Protocol Dur-
+
+for removing the protocol pertinent
+
+Control
+6.1 This
+
+Information
+
+unit.
+
+PDU
+function
+
+Composition
+is responsible
+
+function
+
+ing this process, information of the N-UNITDATA.lndication
+
+to the generation is determined as follows.
+
+protocol encoding Information destination
+information
+
+data unit of PDUs
+
+according
+given
+
+for the construction of a to the rules governing the in clause 7. Protocol Control
+
+The NS-Source-Address and NS-Destination-Address parameters of the N-UNITDATA.lndication are recovered from the NPAI in the Source Address and Destination header. The Data Part of until all segments of the original service data unit have been received; collectivelv, these form the NS-Userdata parameter of the NUNITDATA.Indication. Information relating to the Qualitv of Service provided during the transmission of the PDU is determined from the Quality of Service and other information contained in the Options Part of t.hc PDU
+PDU t,he received PDU is retained Address
+
+requited for delivering t,he data unit to it,s is determined from current state and local and from the parameters associated with
+Request.
+
+fields
+
+of the
+
+the N-UNITDATA
+
+Network Protocol Address Information (NPAI) for the Source -Address and Destimtion Address fields of the PDU header is derived from the NS-Source-Address and
+NS-Destination-Address tion-Address gether with and current parameters. The NS-DestinatoNS-Quality-of-Service parameters,
+
+header. Service
+
+This
+
+information
+
+constitutes
+
+the
+
+NS-Quality-of-
+
+to determine
+
+which
+
+state and local information, are used optional functions are to be selected.
+
+parameter
+
+of the N-UNITDATA.Indication.
+
+llser data passed from the Network-Service Userdata) form the Data Part of the protocol
+
+User data
+
+(NSunit.
+
+6.3
+
+Header
+
+Format
+
+Analysis
+
+function
+
+During the composition of the protocol data unit, a DQ~Q linit Identifier is assigned to distinguish this request tn transmit NS-Userdata to a particular destination NS User from other such requests. The originator of the PDU shall choose the Data Unit Identifier so that it remains unique (for this Source and Destination address pair) for the maximum lifetime of the Initial PDU in the network; this rule applies for any PDUs derived from the Initial PDU as a result of the application of the Segmentation function (see 6.7). Derived PDUs are considered to correspond to the same Initial PDU, and hence the same N-UNITDATA.Request, if they have the same Source Address, Destination Address, and Data Unit Identifier. The functions The Data Unit Ident&fier of the is also available (see 6.10). in octets is determined for ancillary s&H as error t.ot,al length r.eporting
+PDU
+
+This function determines whether the full protocol described in this Standard is employed, or one of the defined proper subsets thereof. If the protocol data unit has a Network Layer Protocol Identifier indicating that this is a standard version of the protocol, this function determines
+destination,
+
+whether
+
+a received
+
+PDU
+
+has reached
+
+it,s
+
+using the Destination header. If the Destination Address ident,ifies an NSAP served by this
+PDU has reached
+
+Address in the PDU provided in the PDU net,work-entity, then if not, it shall be
+
+the
+
+its destination; unit
+
+forwarded. If the protocol data has a Net.work Layer Proto-
+
+col Identifier indicating that t.he Inactive Network Layer protocol subset is in use, then no further analysis of the PDU header is required. The network-entity in this case determines that either tachment address encoded information in the supporting the Subnetwork Point of Atas network protocol address subnet.work protocol cnrby this
+
+by t.he originator *and placed in the Total Length field of the PDU header. This field is not changed in any Derived IThen ployed, Identifier
+PDU
+
+for the lifetime non-segmenting the Total
+
+of the protocol protocol
+
+data
+
+unit. is emUnit
+PDU
+
+responds directly to an NSAP address serviced network-entity or that an error has occurr. 1.
+
+t,he neither
+
+subset
+
+Length The
+
+field nor the Data rules governing the
+
+0.4
+
+PDU
+
+Lifetime
+
+Control
+
+function
+
+field is present.
+
+composition `During the
+
+function are modified in this case as follows. cornposition of the protocol data unit, the
+
+This function is used to enforce the maximbm PDU lifctime. It is closely associated with the Header Fdrmat
+
+7
+
+IS 13611 Iso 6473
+
+: 1993 : 1966
+
+Analysis function. This function determines whether a received may be forwarded or whether its assigned lifetime has expired, in which case it shall be discarded.
+PDU
+
+The operation of the PDU Lifetime Control function depends upon the L+etine field in the PDU header. This field contains, at any time, the remaining lifetime of the PDU (represented in units of 500 ms). The lifetime of the Initial PDU is determined by the originating network-entity and placed in the Lifetime field of the PDU. When the Segmentation function is applied to a PDU, the value of the Lifetime field of the Initial PDU is copied into all of the Derived PDUs. The Lifetime of the PDU is decremented by every network-entity yhich processes the PDU. When a network-entity processes a.PDU, it decrements the PDU Lifetime by at least one. The value of the PDU Lifetime field shall be decremented by more than one if the sum of a) the transit delay in the underlying which the PDU was received; and
+b) t.he delay within the system processing
+
+by the sending NS User. Whether this QoS is to be provided directly by the CLNP, through the selection of the N-Quality-of-Service parameter and other optional parameters: or through the QoS facilities offered bp each of the underlying services is determined prior to invocation of the Forward PDU function. Route selection by intermedia.te systems may subsequently be influenced bv the values of the N-Quality-of-Service parameter (if present), and other optional parameters (if present).
+
+6.6
+
+Forward PDU
+
+fuuction
+
+service
+
+from
+
+This function issues an SN-UNITDATA.Request primitive (see 5.5), supplying the subnetwork or SNDCF identified by the Route PDU function with the protocol data unit as user data to be transmitted, the addrtss information required by that subnetwork or SNDCF to identify the "next" systeni within the subnetwork-specific addressing domain (this may be an intermediate system or the destination end-system), and Quality of Service constraints (if any) to be considered in the processing of the user data. LVhen the PDU to be forwarded is longer than the maximum service data unit size provided by the underlying service, the Segmentation funciion is applied (see F.7).
+
+the PDU.
+
+exceeds or is estimated to exceed 500 ms. In this case, the Lifetime field should be decremented by one for each additional 500 ms of delay. The determination of delay need not be precise, but where a precise value cannot be ascertained, the value used shall be an overestimate, not an underestimate. If the Lifetime field reaches a value of zero before the PDU is delivered to the destination, the PDU shall be discarded. The Error Reporting function shall be invoked as described in 8.10. This may result in the generation of an Error Report PDU.
+It is a local matter whether or not the destination network-entity performs the Lifetime Control function.
+
+6.7
+
+Segmentation
+
+functiou
+
+Segmentation is performed when the size of the protocol data unit is greater than the maximum service data unit size supported by the underlying service to be used to transmit the PDU.
+Segmentation PDUs consists of composing two or more new
+
+6.5
+
+Route
+
+PDU
+
+fun&ion
+
+This function determines the network-entity to which a prot,ocol data unit should be forwarded and the underlying service that must be used to reach that networkentity, using the Destination Address and the Total Length fields of the PCU. Where segmentation' is required, the Route PDU function further determines over which underlying service Derived PDUs/segments shall be sent. in order to reach that network-entity. The results of the Route PDU function are passed to the Forward PDU function (along with the PDU itself) for further processing. Selection of the underlying service that shall be used to reach the "next" system in the route is initially influenced by the NS-Quality-of-Service parameter of the NUNITDATA.Rcquest, which specifies the QoS requested
+
+PDUsj from the received PDU. The received PDU may be the Initial PDU, or it may be a Derived PDU. All of the header information from the PDU to be segmented, with the exception of the segment length and checksum fields of the fixed part, and the segment offset of the segmentation part, is duplicated in each Derived PDU, including all of the address part, the data unit identifier/and total leligth of the segmentatiou part, and the options part (if present). NOTE - The rules for forwarding and segmentation guarantee that the header length is the same for all segments (Derived PDUs) of the Initial PDU, and is the same as the header length of the Initial PDU. The size of a PDU header mill not chnnge due to the operation of any protocol function. The user data encapsulated within the received PDU are divided such that the Derived PDUs satisfy the size requirements of the SN-Userdata parameter field of the SN-UNITDATA.Request primitive used to access the underlying service. Each derived PDU, except for the last,
+
+(Derived
+
+6
+
+IS 13611 : 1993 IS0 8473 : 1988
+
+shall contain a number of tiple of 8. Thus, the value any PDU is either zero or mentation shall not result PDU containing less than
+
+octets that is a non-zero mulof the segment offset field ,in a non-sero multiple of 8. Sgin the generation of a Derived eight octets of user data. as being from the same
+
+Derived PDUs are identified Initial PDU by means of
+
+a) the Source Address field; b) the Destination Address field; and c) the Data Unit Identifier field. The following fields of the PDU header are used in conjunction with the Segmentation function:
+Segment Ofset - identifies the octet at which the segment begins with respect to the start of the Initial PDU; Segment Length - specifies the number of octets in the Derived PDU, including both header and data; Afore Segments Flag - is set to one if this Derived PDU does not contain the final octet of the Initial PDU as its final octet of user data; and Total Length - specifies the entire length of the Initial PDU, including both header and data.
+
+While the exact relationship between reassembly lifetime and PDU lifetime is a local matter, the Reassembly function shall preserve the intent of the PDU lifetime. Consequently, the reassembly function shall discard PQUs whose lifetime would otherwise have expired had they not been under the control of the reassembly function; that is, the reassembly lifetime for a given PDU shall be less than the PDU lifetime in all derived PDUs being held at the reassembly point. NOTES
+
+1) Methods 2)
+
+of bouuding reassembly discussed in Annex B.
+
+lifetime arc
+
+The Segmentation and Reassembly functions arc intended to be used in such a way that the fewest possible segments arc generated at each segmentation point and `reassembly takes place at the final destination of a PDU. However, other schemes which a) interact with the routcing algorithm to favoqr paths on which fewer segments arc generated; b) generate more segments than absolutely required in order to avoid additional scgmcntation at some subsequent point; or c) allow partial intermediate or full reassembly at some point along the route
+
+Derived PDUs may be further segmented without constraining the routing of the individual Derived PDUs. flag is set to one to indicate that segmentation is permitted. If the Initial PDU is not to be segmented at any point during its lifetime in the network, the flag is set to zero by the source networkentity. The setting of the Segmentation Permitted flag may not be changed by any other network-entity for the lifetime of the Initial PDU and any Derived PDUs.
+
+The Segmentation
+
+Permitted
+
+arc not precluded. The information ncccssary to enable the use of one of these alternative strategies may be made available through the operation of s Network Layer Management function or by other means. 3) The originator of the Initial PDU determines the value of the Segmentotioti Permitted flag in the Initial PDU and all Derived PDUs (if any). Partial or full reassembly in an intcrmcdiaic system (Note 2 (cj above] may not change this value in the Initial PDU or any PDU derived from it, and may not therefore add or remove the segmentation part of the header.
+
+6.8
+
+Reassembly
+
+function
+
+The Reassembly function reconstructs the Initial PDU from the Derived PDUs generated by the operation of the Segmentation function on the Initial PDU (and, recursively, on subsequent Derived PDUs). A bound on the time during which segments (Derived PDUs) of an Initial PDU will be held at a reassembly point before being discarded is provided, so that reassembly resources may be released when it is no longer expected that any outstanding segments of the Initial PDU will arrive at the reassembly point. Upon reception of a Derived PDU, a reassembly timer is initiated with a value which indicates the amount of time which shall elapse before any outstanding segments of the Initial PDU shall be assumed to be lost. When this timer expires, all segments (Derived PDUs) of the Initial PDU held at the reassembly point are discarded, the resources allocated for those segments are freed and, if selected, an Error Report is generated (see 6.10).
+
+6.9
+This
+
+Discard
+
+PDU
+
+function
+
+function performs all of thr actions necessarv to free the resources reserved by the network-entity when any of the following situations is encountered (It should be noted that the list is not exhaustive):
+
+violation of protocol procedure has occurred. PDU is received whose checksum is inconsistent with its contents. it C)A PDU is received, but due to local congestion, . cannot be processed. 4 A PDU is received whose header cannot be analyzed.
+
+a) A b) A
+
+9
+
+IS 13611 :1993 IS0 6473: 1966
+
+e) A
+
+f)
+
+4
+
+h) i)
+
+PDU is received which cannot be segmented and cannot be forwarded because its length exceeds the maximum service data unit size supported by any underlying service available for transmission of the PDU to the next network-entity on the chosen route. A PDU is received whose destination address is unreachable or unknown. Incorrect or invalid source routeing was specified. This may include a syntax error in the source routeing field, an unknown or unreachable networkentity title in the source routeing field, or a path which is not acceptable for other reasons. A PDU is received whose PDU lifetime has expired or whose lifetime expires during reassembly. A PDU is received which contains an unsupported option.
+
+An Error Report PDU shall not be generated to report the discard of a Data PDU unless that PDU has the Error Report flag set to allow Error Reports. If a Data PDU is discarded, and the has been set to allow Error Reports, PDU shall be generated if the reason of the reasons for discard enumerated the conditions described in 6.10.4. NOTE
+reason,
+
+Error Report flag an Error Report for discard is one in 6.9, subject to
+
+an
+
+If a Data PDU with the E/R
+Reports option). is discarded
+
+flag set
+
+to allow Error plementation
+
+for any other (as an im-
+
+ER PDU may be generated
+
+6.103
+
+Processing
+
+of Error
+
+Reports
+
+6.10
+6.10.1
+
+Error Reporting
+Overview
+
+function
+
+This function attempts to return an Error Report PDU to the source network-entity when a protocol data unit is discarded in accordance with 6.9. The Error
+specifies location the error Discarded the Report type
+
+PDU identifies
+of error detected,
+
+the discarded
+and identifies header
+
+PDU,
+the of the
+
+in the header
+was detected.
+
+of the discarded
+At least the entire
+
+PDU at which
+
+An Error Report PDU is composed from information contained in the header of the discarded Data PDU to which the Error Report refers. The contents of the Source Address field of the discarded Data PDU are used as the Destination Address of the Error Report PQU. This value, which in the context of the Data PDU was used as an NSAP Address, is used in the context of the Error Report PDU as the network-entity title of the network-entity that originated the Data PDU. The network-entity title of the originator of the Error Report PDU is conveyed in the Source Address field of the header of the Error Report PDU. The value of the Lifetime field is determined in accordance u;ith 6.4. Optional parameters are selected in accordance with 6.10.4. Segmentation of Error Report PDUs is not permitted; hence, no Segmentation Part is present. The total length of the ER PDU in octets is placed in the Segment Length field of the ER PDU header. -This field is not. changed during the lifetime of the ER PDU. If the originator of the ER PDU determines that the size of the ER PDU excqds the maximum service data unit size of the underlying service, the ER PDU shall be truncated to the maximum service data unit size (see 8.3) and forwarded with no other change. Error Report PDUs are routed and forwarded by intermediate system networkentities in the same way as Data PDUk NOTE
+service stated
+
+PDU and, at the discretion of the originator of the Error Report PDU, none, all, or part of the Data Part is placed in the Data Part of the Error Report PDU. The originator of a Data PDU controls the generation of Error Report PDUs. An Error Report flag in the original PDU is set by the source network-entity to indicate that an Error Report PDU is to be returned if the Initial PDU or any PDUs derived from it are discarded; if the flag is not set, Error Reports are not generated. NOTES
+
+1 The
+
+suppression
+
+of Error
+
+Report Care
+
+PDUs is
+
+controlled ercised pressing
+
+by the originating
+
+network-entity should be exto supis
+
+-
+
+The requirement by the a service data
+
+that
+
+the underlying of
+
+and not by the NS User. by the originator for every
+
+assumed
+
+CLNP shall be capable
+that Data. at least
+
+with regard
+
+supporting
+
+unit size of 512 octets the entire
+
+ER PDUs so that error reporting
+PDU generated.
+Report of a of an Error delivery
+
+in 8.3 guarantees
+
+not suppressed
+
+2)
+
+Non-receipt imply source correct
+
+PDU does not PDU issued by a
+
+PDU can be conveyed in the Data Part of any ER PDU. When an ER PDU is decomposed upon reaching its destination, information that may be used to interpret and act upon the Error Report is obtained as follows. The network-entity title recovered from the NPAI iti the Source Address field of the ER PDU header is used to, identify the network-entity which generated, the Error' Report. The reason for generating the Error Report
+
+header of the discarded
+
+network-entity.
+
+8.10.2
+
+Requirements to report
+
+An Error Report PDU shall not be generated the discard of an Error Report PDU.
+
+10
+
+IS 13611 : 1993
+IS0 8473 : 1966
+
+is extracted from the Options Part of the PDU header. The entire header of the discarded Data PDU (and part or all of the original user data) is extracted from the Data Part of the ER PDU to assist in ascertaining the nature of the error.
+6.11 6.10.4
+
+local matter, or they may be based the corresponding values in the original PDU.
+
+upon Data
+
+PDU
+
+Header
+
+Error Detection
+
+Relationship Error Reports
+
+of Data
+
+PDU
+
+Options
+
+to
+
+The generation of an Error Report is affected by options that are present in the corresponding Data PIN. The presence of options in the original Data PDU that are not supported by the system which has discarded that PDU may-cause the suppression of an Error Report even if the original Data PDU indicated that an Error Report should be generated in the event of a discard. The processing of an Error Report is also affected by options which are present in the corresponding Data PDU. In particular, `options selected for the original Data PDU affect which options are included in the corresponding Error Report PDU. The selection of options -for an Error Report PDU is governed by the following requirements: If the Priority Option or ~the QoS Maintenance Option is selected in the original Data PDU, and the system generating the Error Report PDU supports the option, then the Error Report PDU shall specify the same option, using the value that was specified in the original Data PDU. If the Security Option is selected in the Data PDU, and the system generating the Error Report supports this option, then the Error Report PDU shall specify the option using the value that was specified in t,he original Data PDU. If the system does not support the Security-Option, an Error Report shall not be generated for a Data PDU that selected the Security Option. If the Complete Source Route Option is selected in the original Data PDU, and the system generating the Error Report PDU supports this option, then the Error Report shall specify the Complete Source Route option. The Source Route parameter value is obtained by extracting from the original Data PDU that portion of the complete source route that has already been traversed; and reversing the order of network-entity titles which comprise the list. If t,he system does not support the Complete Source Rout.e Option, an Error Report shall not be generated for a Data PDU that selects the Complete Source Route option. d) The Padding, Partial Source Routeing, and Record Route Options, if supported, may be specified in the Error Report PDU. NOTE
+rameters
+
+The PDU Header Error Detection function protects against failure of intermediate or end-system networkentities due to the processing of erroneous information in the PDU header. The function is realized by a checksum computed on the entire PDU header. The checksum is verified at each point at which the PDU header is processed. If the checksum calculation fails, the PDU shall be discarded. If PDU header fields are modified (for example, due to operation of the lifetime function), then the checksum is modified so that the checksum remains valid. The use of the Header Error Detection function is optional and is selected by the originating network-entity. If the function is not used, the checksum field of the PDU header is set t,o zero. If ihe function is selected by the originating network-. entity, the value of the checksum field causes the following formulae to be satisfied:
+
+mod 255) z 0
+i=l
+
+L
+
+G(L
+i=l
+
+- i + l)ai
+
+(mod
+
+255) = 0
+
+where L is the number of octets in the PDU ~header, and ai is the value of the octet at position i. The first octet in the PDU header is considered to occupy position iz 1. When the function is in use, neither sum field may be set to zero. NOTES 1) To ensure that inadvcrtcut
+Nodificatiou of a header while a PDU is betag processed by au intermediate system (for example, due to a memory fault) may still be detected by the PDU Header Erro; function, au intermediate system network-entity shall not recompute the checksum for the entire header, even if fields are modified. descriptions of algorithms which may be used to calculate the correct value of the checksum field when the `PDU is created, and to update the value of the checksum field when the header is modified.
+
+octet of the check-
+
+2) Annex C contains
+
+-
+
+The values of the optional pain (d) above may -be derived as a
+
+11
+
+IS 13611 : 1993 Iso 8473 : 1988
+
+6.12
+
+Padding
+
+function
+
+The padding funct.ion is provided to allow space to be reserved in the PDU header which is not used to support any other function. Octet alignment shall be maintained. NOTE is to cauqe canvenient entity, such of the use of this function the Data Part of a PDU to begin on a boundary for the originating networkas a computer word boundary.
+
+Associated with the list of network-entity titles is an indicator which identifies the next entry in the list to be used; this indicator is advanced by the receiver of the PDU when the next title in the list matches its own. The indicator is updated as the PDU is forwarded so as to identify the appropriate entry at each stage of relaying. Two forms of the Source Routeing function are provided. The first form, referred to as Complete Source Routeing, requires that the specified path shall be taken; that is, only those systems identified in the list may be visited by the PDU while en rorle to the destination and each system shall be visited in the order specified. If the specified p?th cannot be taken, the PDU shall be discarded. Clause 6.10 describes the circumstances in which an attempt shall be made to inform the PDU's originator of the discard using the Error Reporting function. The second form is referred to as Partial Source Routeing. As with complete source routeing, each system identified in the list shall be visited in the order specified while en route to the destination. However, with this form of source routeing the PDU may take any p&h necessary to arrive at the next intermediate system in the list, which may include visiting intermediate systems that are not identified in the list. The PDU will not be discarded (for source routeing related reasons) unless one of the systems specified cannot be reached by any available route.
+
+An example
+
+6.13
+
+Security
+
+The provision of protection services (e.g. data origin authentication, data confidentiality, and data integrity of a single connectionless-mode NSDU) iq performed by the Security function. function is related to the Protection from Unauthorized Access Quality of Service parameter described in IS0 8348/Add.l. The function is realized through selection of the security parameter in the options part of the PDU header. This International Standard does not specify the way in which protection services are to be provided; it provides only for the encoding of secufity information in the PDU header. To facilitate interoperation between endsystems and Network relay systems by avoiding different interpretations of the same encoding, a means to distinguish user-defined security encodings from standardized security encodings is described in 7.5.3.
+As an implementation consideration, data origin authen,tication may be provided through the use of a cryptographically generated or enciphered checksum (unique from the PDU Header Error Detection mechanism); data confidentiality and data integrity may be provided via route control mechanisms.
+
+The Security
+
+6.15
+
+Record
+
+Route
+
+function
+
+NOTE
+
+-
+
+The Record Route function records the path(s) taken by a PDU as it traverses a series of intermediate systems. A recorded route consists of a list of network-entity titles held in a parameter within the options part of the PDU header. The length of this parameter is determined by the originating network-entity, and does not change during the lifetime of the PDU. The list is constructed as the PDU is forwarded along a path towards its destination. Only the titles of ictermediate system network-entities are included in the recorded route. The network-entit,p title of the originator of the PDU is not recorded in the list. When an intermediate system network-entity processes a PDU containing the Record Rout.e paramet.er, the system adds its own network-entity title at the end of the list of recorded network-entity titles. An indicator is maintained to identify the next available octet to be used for recording of route. This indicator is updated as entries are added to the list as follows. The length of the entry to be added to the list is added to the value of the next available octet indicator, and this sum is compared with the length of the Recoid Route parameter. If the addition of the entry to the list would exceed the size of the parameter, the next available octet indicator
+
+6.14
+
+Source
+
+Routeing
+
+function
+
+The Source Routeing function allows the originator to specify the path a generated PDU shall take. Source routeing may be selected only by the originator of a PDU. Source Routeing is accomplished using a list of network-entity titles held in a parameter within the options part of the PDU header. The length of this parameter is determined by the originating network-entity, and does not change during the lifetime of a PDU. The Source Route parameter includes information used by the originating end-system when determining the initial route of the PDU. Only the titles of intermediate system network-entities are included in the list; the network-entity title of the destination of-the PDU is not included in the list.
+
+13
+
+IS 13611 : 1993 IS0 6473 : 1966
+
+is set to indicate
+
+that route recording has been terminated. The network-entity title is not added to the list. The PDU may still be forwarded to its final destination, without further addition of network-entity titles. If the addition of the entry would not exceed the size of the Record Route parameter, the next available octet indicator is updated with the new value, and the network-entity title is added to the end of the list. Two forms of the Record Route function are provided. The first form is referred to as Complete Route Recording. It requires that the list of network-entity titles be a complete and accurate record of all intermediate systems visited by a PDU (including Derived PDUs), except when a shortage of space in the record route option field causes termination of recording of route, as described above. When Complete Route Recording is selected, PDU reassembly at intermediate systems is performed only when the Derived PDUs fhat are reassembled all took the same route; otherwise, the PDU is discarded, and if selected, an Error Report is generated (see 6.10). The second form is referred to as Partial Route Recording. It also requires a record of intermediate systems visited by a PDU. When Partial Route Recording is selected, PDU reassembly at intermediate systems is always permitted. When reassembly is performed at an intermediate system, t~he route recorded in any of the Derived PDUs may be placed in the PDU resulting from the reassembly.
+
+6.17
+
+Priority
+
+function
+
+The Priority function allows a PDU with a numericall> higher priority value to be processed preferentially with respect to other PDUs with numerically lower priority values. The function is realized through selection of a parameter in the options part of the PDU header. The lowest priority value is zero. The Priority function provides a means whereby the resources of end and intermediate system network-entities, such as outgoing transmission queues and buffers, can be used preferentially to process higher-priority PDUs ahead of loaerpriority PDUs. The specific action taken by an individual network-entity to support the Priority function is a local matter.
+
+6.18
+
+Congestion
+
+Notification
+
+functiou
+
+`To allow NS Users to take appropriate action when congestion is experienced within the NS provider, int.ermediate systems may inform the destination networ-kentity of congestion through the use of a flag in t,he QoS Maintenance parameter in the options part of tfie PDU header. The value of this flag is initially set to zero (0) by the originator of the PDU and may be set to one (1) by any intermediate system which processes the PDU to indicate that it is experiencing congestion. The criteria for determining when this action is to be taken are a local matter. NOTE Congestion typically
+policy
+
+corresponds
+
+to con-
+
+NOTE
+and/or
+
+-
+
+The Record Route function is intended
+of subnetwork problems a return path that could be used
+
+unavailability queues. gestion
+
+of buffer space
+
+to maintain for indicating
+
+output Ir
+
+to be used in the diagnosis to provide route as a source
+
+An appropriate
+
+may be based upon the depth of the output for &PDU (according routeing output to its dcstinoWhen exceeds queue, a an queue of that or other information).
+
+in a-subsequent
+
+PDU.
+
+queue selected tion address the depth certain intermediate
+
+of a particular system
+
+proportion
+
+of the depth will start system
+
+to discard
+
+PDUs.
+
+6.16
+
+Quality function
+
+of
+
+Service
+
+Maintenance
+
+The
+
+intermediate continue
+
+will set the Congestion is
+
+Experienced and may alleviated.
+
+flag in the next PDU to be forwarded to do so until the condition
+
+The Qua1it.y of Service Maintenance function provides information to network-entities in intermediate systems which may be used to make routeing decisions where such decisions affect the overall QoS provided to NS users. This information is conveyed to intermediate system network-entities in a parameter in the options part of the PDU header. In those instances
+maintained, attempt to deliver where the QoS requested system the PDV at a QoS different cannot be
+
+6.19
+
+Classification
+
+of functions
+to support
+6.18. all of t.he are
+
+Implementations
+
+are not required
+
+functions described in (5.1 through divided into three categories:
+
+Functions
+
+intermediate
+
+network-entities
+
+shall
+
+from the QoS requested. Intermediate system network-entities do not necessarily provide a notification of failure to meet the requested Quality bf Service.
+
+Type Type
+
+1: These functions shall be supported. 2: These functions may or may not be supported. If an implementation does not support a Type 2 function and the function is selected in a PDU, then that PDU shall be discarded and an Error Report
+
+13
+
+IS 1361-l : 1993 iso 8473 : 1988
+
+PDU shall be-generated and forwarded to the originating network-entity, providing that the Error Report flag is set and the conditions of 6.10.4 are satis&d. Type 3: These functions may or may not be supported. If an implementation does not support a Type 3 function and the function is selected in a PDU, then the function is not performed and the PDU is processed exactly as though the function had not been selected. The protocol data unit shall not be discarded for this reason. Table 4 shows how the functions three categories. are divided into these
+
+t
+Part Fixed Part Described in
+
+I I I
+
+Clause 7.2
+Clause 7.3
+
+1
+I
+
+Address Segmentation Options Data
+Figure
+
+Part Part Part
+
+Clause
+
+7.4
+
+I
+
+1
+I
+Structure
+
+Clause 7.5
+Clause 7.6
+
+I
+
+2 - PDU
+
+7.2
+
+Fixed Part
+General
+
+7
+
+Structure PDUs
+
+and
+
+Encoding
+
+of
+
+7.2.1
+
+The fixed part ~has the format illustrated
+
+in jigure 3.
+
+7.1
+
+Structure
+Network i Lifetime SPIMSIE/RI Type Segment Length Checksum L
+Figure 3 - PDU Header - Fixed
+
+All Protocol Data Units shall contain an integral number of octets. The octets in a PDU are numbered starting from one (1) and increasing in the order in which they are submitted to the underlying service. The bits in an octet are numbered from one (1) to eight (8), where bit one (1) is the low-order (least sigdificant) bit. When consecutive octets are used to represent a binary number, the lower-numbered octet has the most significant value. Any implementation supporting this protocol is required to state in its specification the way in which octets are transferred, using the terms "most significant bit." and "least significant bit". The PDUs of this protocol are defined using the terms "most significant bit" and "least significant bit". NOTE When the encoding of a PDU.is rcpre-
+
+Layer Protocol
+
+Identifier
+
+Octet 1 2 3 4 5 %7 V'
+
+Part
+
+7.2.2
+
+Network
+
+Layer Protocol
+
+Identifier
+
+sented using a diagram in this Clause, representation is used: a) octets octet are shown with
+
+the following
+
+The value of this field is set to binary 1000 0001 to identify this Network Layer protocol as IS0 8473. The value. of this field is set to binary 0000 0000 to identify the Inactive Network Layer protocol subset.
+
+the lowest
+
+numbered octets br-
+
+to the left, higher-numbered to the right;
+
+ing further b)
+
+7.2.3
+
+Length
+
+Indicator
+
+within an octet, (8)
+
+bits are shown with bit eight
+
+to the left and bit one (1) to the right.
+
+PDUs shall contain, a) b) c) d) c) the the the t.he the
+
+in the following c
+
+order:
+
+The length is indicated by a binary number, wi-ith a maximum value of 254 (1111 1110). The length indicated is the length in octets of the header, as described in 7.1. The value 255 (1111 1111) is reserved for possible future extensions. NOTE - The rulesfor forwarding and segmentotion guarantee that the head& length is the same for all segments (Derived PDUs) of the Initial PDU, and is the same as the header length of the Initial PDU. The sire of a PDU header will not change due to the operation of any protocol function.
+
+fixed part; address part; segmentation part, if present; Options part, if present; and Data part, if.present. is illustrated in figure 2.
+
+The structure
+
+IS13611:1993 IS0 8473 : 1988
+
+Table
+
+4 - Categorisation
+
+of Protocol
+
+functions Inactive Subset
+1 1 1 N/A N/A N/A N/A N/A N/A N/A
+
+Full Function PDU PDU Composition Decomposition Protocol 1 1 1 1
+1 1 1 1 1 1 1
+
+Non Segmenting Subset 1 1 1 1
+1 1 N/A N/A 1 1 1
+
+Header Format Analysis PDU Lifetime Control Route PDU Forward PDU Segment PDU Reassemble PDU Discard PDU Error Reporting Header Er;or Detection Security Complete Source Routeing
+
+2 2 2 3 3 `3 3 3 3
+
+2 2 2 3 3 3 3 3 3
+
+N/A
+N/A
+
+Complete Route Recording Partial Source Routeing Partial Route Recording Priority QoS Maintenance Congestion Notification Padding NOTES
+1) While the Error Reporting
+
+N/A N/A N/A N/A N/A N/A N/A N/A
+Detection funcby in the
+
+and Header
+
+Error
+
+tions shall be provided, the originating 2) The rationale
+
+they are invoked of type
+
+only when selected 3 functions them Type arc is that
+
+network-entity. for the inclusion intermediate it is to support cases cannot cause it is more important systems where or deliver they the functions. to forward
+
+the case of some functions
+
+PDUs between
+system should nature; than they
+
+to an end3 functions when they
+
+be used in those
+
+of an advisory
+
+a PDU to be discarded
+
+are not supported.
+
+15
+
+IS 13611 : 1993 IS0 8473 : 1988
+
+7.2.4
+
+Version/Protocol
+
+Identifier Extension
+
+Table 5 - PDU Type Codes PDU Type Bits DT PDU ER PDU 5 1 0 Type Code 4 3 2 1 1 0 1 0 0 0 0
+
+The value of this field is binary 0000 0001, which identifies the standard Version 1 of IS0 84'73. PDU Lifetime as a binary number of the PDU, in units
+
+i
+
+7.2.6
+
+The PDU Lifetime field is encoded representing the remaining lifetime of 500 milliseconds. Flags Segmentation
+
+7.2.8
+
+PDU Segment Length
+
+7.2.6 7.2.6.1
+
+Permitted flag indicates whether segvalue is determined by the cannot be changed by any lifetime of the Initial PDU
+
+The Segmentation Permitted mentation is permitted. Its originator of the PDU and other network-entity for the and any Derived PDUs.
+
+The Segment Length field specifies the entire length, in octets, of the PDU, including both header and data (if present). When the full protocol is employed and a VDU is not segmented, the value of this field is identical to the value of the Total Length field located in, the Segmentation Part of the header. When the non-segmenting protocol subset is employed, no segmentation part is present in the header. In this case, the Segment Length field specifies the entire length of the Initial PDU, including both header and data (if pre5ent). The Segment Length time of the PDU. field is not changed for the life-
+
+A value of one (1) indicates that segmentation is permitted. A .value of zero (0) indicates that segmentation is not permitted. When the value of zero is selected, the segmentation part of the PDU header is not present, and the value of the Segment Length field gives the total length of the PDU (see 7.2.8 and 7.4.3).
+
+7.2.9
+
+PDU Checksum
+
+7.2.6.2
+
+More
+
+Segments
+
+The More Segments flag indicates whether or not the data part of this PDU contains (as its last octet) the last octet of the User Data in the NSDU. When the More Segments flag is set to one (l), segmentation has occurred and the last octet of the NSDU is not contained in this PDU. The More Segments flag cannot be set to one (1) if the SegmentationPermitted flag is not seb to one (1). When the More Segments.flag is set to zero (0), the last octet. of the Data Part of the PDU is the last octet of the NSDU.
+
+The checksum is computed on the entire PDU header. For the Data PDU, this includes the segmentation and options parts (if present). For the Error Report PDU, this includes the reason for discard field as well. A checksum value of zero is reserved to indicate that the checksum is to be ignored. The operation of the PDU Header Error Detection function (see 6.11) ensures that the value zero does not, represent a valid checksum. A non-zero value indicates that the checksum shall be processed.
+
+7.3 7.3.1
+
+Address
+General
+
+Part
+
+7.2.6.3
+
+Error
+
+Report The Address part immediately follows the fixed part of the PDU header. The address part is illustrated in figure 4. 7.3.1.1 Destination and Source Addresses
+
+When the Error Report flag is.set to one, the rules in 6.10 are used to determine whether to generate an Error Report PDU if it is necessary to discard this Data PDU. When the Error Report flag is set to zero, discard of the Data PDU will not cause the generation of an Error Report PDU. Type Code Code field identifies the type of the protocol Allowed values are given in table 5.
+
+7.2.7
+
+The Destination and Source addresses used by this protocol are Network-Service Access Point addresses as de, fined in IS0 8348lAdd.2. The Destination and Source Addresses are of variable length. The Destination and Source Address fields are encoded <a5Network Protocol Address Information using
+
+The Type data unit.
+
+18
+
+IS 13611 : 1993 IS0 6473 : 1966
+
+Destination 1 Source (
+
+Address
+
+Length Address
+
+Indicator .
+
+octet 10 1 ii :
+
+Ttination Address
+
+Length
+
+Indicator \ n _ I
+
+Figure 6 - PDU Header - Segmentation
+
+Part
+
+Source Address
+
+Figure 4 - PDU Header - Address Part
+
+may be correctly reassembled. siee is two octets.
+
+The Data Unit Identifier
+
+7.4.2 t.he Preferred 6346lAdd.2. Binary Encoding defined in 8.3.1 of IS0
+
+Segment
+
+Offset
+
+The Destination Address Length indicator field spec. ifies the length of the Destination Address in octets. The Destination Address field follows the Destination Address Length Indicator field. The Source Address Length Indicator field specifies the 1engt.h of the Source Address in octets. The Source Address Length Indicator field follows the Destination Address field. The Source Address field follows the Source Address Length Indicator field. Each address figure 5: parameter is encoded as illustrated in
+
+For each Derived PDU, the Segment Offset field sprrifies the relative position of the segment contained in the Data Part of the Derived PDU with respect to the start of the Data Part of the Initial PDU. The offset is measured in units. of octets. The offset of the first segment (and hence, the Initial PDU) is zero; an unsegmented (Initial) PDU has a segment offset value of zero (0). The value of this field shall be a multiple of eight (6). PDU Total Length specifies the entire length of the including both the header and changed for the lifetime of the ' its Derived PDUs).
+
+7.4.3
+
+Oct,et
+n
+
+Address
+
+parameter,
+
+Length
+
+Indicator
+
+e.g., `m'
+
+The Total Length field Initial PDU in octets, data. This field is not Initial PDU (and hence,
+
+Octets n.+ 1 to
+n+m
+
+Address
+
+Parameter
+
+Value
+
+7.5
+7.6.1
+
+Options
+General part
+
+Part
+
+Figure 6 -
+
+Address Parameters
+
+The options figure 7.
+
+of the PDU header
+
+is illustrated
+
+in
+
+7.4
+
+Segmentation
+
+Part
+II Options
+
+Octet
+n+6
+
+If the Segmentation Permitted Flag in the Fixed Part of the PDU Header (see 7.2.6.1) is set to one, the segmentation part of the header, illustrated in figure 6, shall be present. If. the Segmentation.Permitted flag is set to zero, the segmentation part is not present (the non-segmenting protocol subset is in use). Data Unit Identifler
+
+`p
+Figure 7 - PDU Header - Options Part
+
+7.4.1
+
+Thi Data Unit Identifieridentifies.anInitial PDU (and hence, its Derived PDUs) so that a segmented data unit
+
+If the options part is present, it may contain one or more parameters. The number of phrameters that may be contained in the options part is constrained by the length of the options part, which is determined by the following formula:
+
+17
+
+IS 13611 : 1993 iso 8473 : 1966
+
+Options - (length + length
+
+part
+
+length
+
+= PDU
+
+Header
+
+Length part
+
+Parameter Parameter Parameter
+
+Code:
+
+1100 1100
+
+of fixed part + length of segmentation part) of the individual in the
+
+of address
+
+Length: variable Value: any value is allowed
+
+and by the length Parameters
+
+optional part
+
+par<ameters. may appear 7.5.3 This Security parameter allows a unique and unambiguous data unit se(see
+
+defined
+
+options
+
+in any order. Duplication of options is not permitted. Receipt of a Protocol Data Unit with a duplicated option should Error encoding part of the be treated the treatment Reporting as a protocol of protocol function. contained is illustrated within the op8: error. errors The rules governing in 6.10, The tions are described
+
+curitv level 6.13). Parameter Parameter Parameter octet
+
+to be assigned
+
+to a protocol
+
+of parameters
+
+PDU
+
+header
+
+in figure
+
+Code: 1100 0101 Length: variable Value: specify Security The high order Format of Securitv two bits of the first, Code, Field: where: the Security Type
+
+Octets n, ?L+ 1
+
+I 1 Parameter
+
+Parameter Length
+
+Code (e.g. Value m)
+
+Format 00 01 10 11 rest
+
+Code Reserved Source Address Destination Specific Specific
+
+I
+
+n+2 to
+
+n+m+l
+
+I
+
+Parameter
+
+Address
+
+L
+of Option Parameters The
+
+Globally Unique octet is reserved and shall be
+
+Figure
+
+8 - Encoding
+
+of the first
+
+zero. The remainder specifies the securitv The Parameter Code field is encoded in binary and provides for a maximum of 255 different parameters. No paramet,er code uses bits 8 and 7 with the value 00, so the actual maximum number A parameter code of 255 (binary for possible future extensions.' The parameter length octets, of the Parameter cated by a positive binary of parameters is lower. 1111 1111) is reserved lowing subclauses.
+
+of the Parameter level as described
+
+I:alue field in the fol-
+
+7.5.3.1 The cates
+
+Source
+
+Address Code
+
+Specific value of binary is unique "01" and indivalue unam-
+
+Security that. the
+
+Format remaining a security
+
+field indicates the length, in bvulne field. The length is indinumber, m, with a theoretical
+
+octets
+
+of the
+
+parameter
+
+field specifv
+
+level which
+
+maximum value of 254. The practical maximum value of m is lower. For example, in the case of a single parameter contained within the options part, two octets are required for the parameter code and the parameter length indicators. Thus, the value of m is limited to: m = 252 - ( length of address Accordingly, mum value The parameter part + length of fixed part + length part) the maxi-
+
+biguous in the context of the securitv classification systern employed by the authority responsible for assigning the source
+
+NSAP
+
+Address.
+
+7.5.3.2 The cates
+
+Destination Format a security
+
+Address Code value
+
+Specific of binarv is unique "10" indivalue unnmand
+
+Security that
+
+of segmentation parameter
+
+the remaining
+
+octets
+
+of the
+
+parameter
+
+field specify for each successive of m decreases. value field identified
+
+level which
+
+biguous in the context of the securit,v classification svstern employed by the authority responsible for assigning the destination
+
+parameter-
+
+contains
+
+the
+
+value
+
+of the
+
+NSAP Address.
+
+in the parameter
+are permitted
+
+code field.
+in the options 7.5.3.3 The Globally Format remaining Unique Code Security value of binary "11" indivalue
+
+The following part.
+
+parameters
+
+Security that the
+
+7.5.2
+
+Padding is used to lengthen size (see 6.12). the
+
+cates
+
+octets
+
+of the
+
+parameter
+
+The padding paranleter header to a convenient
+
+PDU
+
+field specify a globally unique and unzimbiguous securitv level. This security classification system is not specified in this Standard.
+
+18
+
+IS 13611 : 1993 ISO 0473 : 1988
+
+7.6.4
+
+Source
+
+Routeing parameter specifies, the route to be taken to Destination Network either comfrom Source Address (see
+
+The source routeing pletely or partially, Network
+6.14).
+
+Address
+
+The third octet begins the network-entity title list. The list consists of variable length network-entity title entries. The first octet of-each entry gives the length of the network-entity title comprising the remainder of the entry. Network-entity title entries are always added to the end of the list.
+
+Parameter Parameter Parameter
+
+Code: Length': Value:
+
+1100 1000 variable 2 octets of control
+
+NOTE
+ranxter
+
+-
+
+The
+
+length during
+
+of the
+
+Record
+
+Route
+
+pn-
+
+is detcrnlincd the operation
+
+by the originator the lifetime of the Record
+
+of the PDU of the PDU; function
+
+information title
+
+folen-
+
+and is not changed hence, does not affect
+
+lowed by a concatenation tries ordered from source
+
+of network-entity to destination.
+
+Route
+
+the length
+
+of the header.
+
+The first octet of the parameter and has the following significance: 0000 0000 0000 0001 partial complete <all other source source values
+
+value is the type code,
+
+7.5.6
+
+Quality
+
+of Service
+
+Maintenance
+
+routeing routeing reserved>
+
+The Quality information the originating
+
+of Service blaintenance parameter conveys about the quality of service requested by Network-Service in intermediate user. systems may (but
+
+The second octet indicatds the octet offset of the next network-entity title entry to be processed in the list. It is relat.ive to the start of the parameter, such that a value of three (3) indicates that the next network-entity t.it,le entry begins immediately after this control octet. Successive values octets are indicated by correspondingly larger of this indicator.
+
+Network-entities
+
+are not required to) make use of this information as an aid in selecting a route when more than one route satisfying other routeing criteria is available and the available routes are known to differ with respect to Quality of Service Parameter (see 6.16). Code: Length: 1100 0011 variable
+
+The third octet begins the network-entity title The list consists of variable length network-entity ent.ries. The first the netgork-entity of the entry.
+
+list. title
+
+Parameter Parameter octet
+
+octet of each entry gives the length of title which comprises the remainder
+
+Value: The high .order two bits of the first specify the QoS Format Code, where: QoS Format Code 00 01 10
+11
+
+Type
+
+of QoS Field
+
+7.5.6
+
+Recording
+
+of Route parameter by the 1100 1011 variable 2 octets from source of control information title folenof network-entity to destination. value is the type code, 7.6.0.1 of Route of Route reserved> not currently and relative a value to indicate therefore to the of three that 7.5.6.2 The that title, that titles identifies the interme-
+
+The recording diat,e systems
+
+of route traversed C-ode: Length: Value:
+
+Reserved Source Address Specific Destination Address Specific
+Globally Unique
+
+PDU (see 6.15).
+The Globally any other first octet Clauses. rest
+
+Parameter Pnrameter Parameter lowed tries
+
+of the first
+
+octet
+
+is reserved as described
+
+for use by the in i.5.6.3. If
+
+Unique
+
+QoS Format,
+
+by a concatenation ordered
+
+QoS format code is selected, bits G-l of the shall be zero. The remainder of the Parameter the QoS as described in the following
+
+Value field specifies
+
+The first octet of the parameter and has the following significance: 0000 0000 0000 0001 Partial Recording
+
+Source
+
+Address
+
+Spedific
+
+in progress Complete Recording in progress <all other identifies list. values
+
+The QoS Format Code value of binary "01" indicates that the remaining octets of the parameter value field specify a QoS which is unique and unambiguous in the context Address. of the QoS Maint,enance system employed by the authority responsible for assigning the source
+
+The second used also start. the end
+
+octet of the that
+
+the first octet It is encoded such
+
+NSAP
+
+for a recorded of the parameter A value
+
+network-entity value, of,all ones
+
+Destination
+
+Address
+
+Specific
+
+(3) indicates recorded. rout,e recording
+
+no network-entity has been terminated.
+
+have yet been ,QoS Format Code value of binary "10" indicates the remaining octets of the parameter value field
+
+is used
+
+19
+
+IS 13611 : 1993 IS0 8473 : 1988 . specify a QoS which is unique and unambiguous in the context of the QoS Maintenance system employed by the aut,horit.y responsible for assigning the destination NSAP Address. 7.5.7 Priority
+
+The value of the Priority parameter indicates the relative priority of the protocol data unit. Intermediate systems that support this option shall make use of this infbrmation in routeing and in ordering PDUs for transmission see 6.17). Parameter Parameter Parameter Code: 1100 1101 Length: 1 octet Value: 0000 0006 - Normal (Default) through 0000 1110 - Highest <all other values reserved>
+
+7.5.6.3
+
+Globally
+
+Unique
+
+QoS
+
+The QoS Format Code value of binary "11" indicates that the remainder of the parameter value field specifies a globally unique QoS Maintenance field. When the globally unique QoS Maintenance function is employed, the parameter value field shall have a total length of one octet, which is assigned the following values: Bits 8 and 7 G 5 4 `3 2 1 Usage I QoS Format Code of binary "11" Reserved sequencing vs. transit delay congestion experienced transit delay vs. cost residual error probability vs. transit delay residual error probability vs. cost
+
+The values 0000 0001 through 0000 1110 are used for higher priority protocol data units. If an mediate system does not support this option, all shall be treated as if the field had the value 0000
+
+t,o be interPDUs 0000.
+
+7.6
+
+Data Part
+
+Bit 5 i! set to one to indicate that, where possible, routeing decisions should favour sending all PDUs to the specified destination NSAP address over a single path (in order to maintain sequence) over minimizing transit delay. A value of zero (0) indicates that, where possible, routeing decisions should favour low transit delay over sequence preservation. Bit 4 is set to zero by the network-entity which originat,es the protocol data unit. It is set to one by an intermediate system to indicate that this PDU has visited a congested intermediate system, and- appropriate action should be taken by the destination network-entity. Once the congestion experienced bit is set by an intermediate system, it may not be reset by any intermediate system traversed by the PDU further along the path towards the destination. Bit. 3 is set to routeing decisions low cost. A value should favour low one to indicate that, where possible, should favour low transit delay over of 0 indicates that routeing decisions cost over low transit delay.
+
+The Data Part of the PDU consists of an ordered multiple of octets, which is identical to the same ordered multiple of octets specified for the NS-Userdata parameter of the N-UNITDATA Request and Indication primitives. The Data Part is `illustrated in figure 9:
+
+Octet
+
+I
+Data
+
+P-f 2
+
+1
+
+Figure
+
+9 - PDU
+
+Header
+
+- Data
+
+Part
+
+7.7 7.7.1
+
+Data (DT)
+Structure
+
+PDU
+
+The DT PDU has the format 7.7.1.1 1) 2) 3) 4) 5) 6) 7) 8) Fixed Part
+
+illustrated
+
+in figure IO.
+
+Bit 2 set to one to indicate that, where possible, routeing,decisions should favour low residual error probability over low transit delay. A value of zero indicates that routeing decisions should favour low transit delay over low residual error probability. Bit. 1 is set t,o one to indicate that, where possible, routeing decisions should favour low residual error probability over low cost. A value of 0 indicates that routeing decisions should favour low cost over low residual error probability.
+
+Network Layer Protocol identifier Length Indicator Version/Protocol Id Extension Lifetime . SP, MS, E/R Type Code Segment Length Checksum
+
+See See See See See See See See
+
+7.2.2 7.2.3 7.2.4 7.2.5 7.2.6 7.2.7 7.2.8 7.2.9
+
+20
+
+IS 13611: 1983 lSO-8473: 1988
+
+7.7.1.3 See 7.3.
+
+Addresses
+
+7.7.1.3 See 7.4.
+
+Segmentation
+
+7.7.1.4 See 7.5.
+
+Options
+
+7.7.1.5 Layer Protocol Identifier Length Indicator Version/Protocol Id Extension Lifetime Tvoe SP 1 MS I E/R I begment Lengii; Checksum Destination Address Length Indicator
+I I I
+
+Data
+
+Network
+
+I
+
+Octet 1 2 3 4 5 617 699 10
+
+See 7.6.
+
+7.8
+
+Inactive
+
+Network
+
+Layer Protocol
+
+Octet. Network Layer Protocol Identifier
+
+I
+Destination Source Address Address Length Indicator
+
+11 m-l
+
+m
+m+l n-l
+
+Figure 11 - Inactive Network
+
+Layer Protocol
+
+n,n+ 1 n +&n-t3 n,+4,n+5 n+6 Options
+
+7.8.1
+
+Network
+
+Layer
+
+Protocol Identifier Identifier field
+
+The valueof the Network Layer Protocol is binary cero (0000 0000).
+
+7.8.2
+
+Data Part
+
+Figure 10 - DT PDU
+
+The Data Part may contain any number of octets up to one less than the maximum number that can be placed in the SN-Userdata parameter of the underlying SN-UNITDATA primit,ive. Therefore, the Inactive Nctwork Layer protocol can be used only when the length of the NS-Userdata parameter in the N-UNITDATA primitive is co&trained to be less than or equal to the value of the length of the SN-Userdata parameter minus one (see 7.6).
+
+7.9
+7.0.1
+
+Error Report
+Structure of the Error
+
+PDU
+
+(ER)
+
+The format figure 12.
+
+Report
+
+PDU is illustrated
+
+in
+
+21
+
+ls'13611: 1993 IS0 a473: 1988
+
+7.9.1.1
+
+Fixed
+
+Part
+
+The fixed part of the Error Report Protocol Data IJni~t is composed in the same way as a new (Initial) Data PDU. Table 6 provides references to previons clauses describing t,he encoding of the fields comprising the fixed part,.
+
+Table
+
+6 - Error
+
+Report
+
+PDU:
+
+Fixed
+
+Part
+
+Fields
+
+Layer Protocol Identifier Lenpth Indicator Version/Protocol Id Extension Lifetime SP= 0 1 MS= 0 1 Reserved 1 Type Seement Length Checksum Destination Address Length Indicator 1 Source . . Destmatlon Address Address Length Indicator
+
+Network
+
+Octet 1 2 i 3 4 5 697 879 10 11 :( nm 1
+
+Field Net.work Layer Protocol Identifier Length Indicator Version/Protocol Id Extension Lifetime SP, MS, E/R (Always set to zero) Type Code Segment Length Checksum
+
+See Clause 7.2.2 7.2.3 7.2.4 7.2.5 6.10 7.2.7 7.2.8 7.2.9
+
+7.9.1.2
+
+Addresses
+
+The Destination Address specifies the network-ent,ity title of the originator of the discarded PDU. The Source Address specifies the title of the intermediate-systeril or end-system network-entity initiating the Error Report
+PDU (see 7.3).
+
+7.9.1.3 See 7.5. 7.9.1.4
+
+Options
+
+Reason
+
+for Discard is valid only for the Error Report
+PDU.
+
+This parameter Parameter Parameter Parameter Figure
+12 - Error
+
+Code: 1100 0001 Length: two octets Value: type of error encoded
+
+in binary.
+
+Report
+
+PDU
+
+The parameter
+
+valnes are listed in table 7.
+
+The first octet of the parameter valte contains an error tvpe code. If the error in the discarded Data PDU can be localized to a particular field, the number of the first octet of that field is stored in the second octet of the reason for discard parameter field., If.the error cannot be localized to a particular field, or if the error is a checksum error, then the value zero is stored in ahe second octet of the reason for discard parameter field.
+7.9.1.5
+
+Error
+
+Report
+
+Data
+
+Part
+
+This field -contains the entire header of the discarded Data PDU, and may contain none, some, or all of the Data Part of the discarded PDU.
+
+22
+
+IS 13611 : 1993 Iso 8473 : 1988
+
+Table Parameter Value 0000 0000 0001 0010 0011 0100 0101 0110 0111 1000 1001 0000 0001 0000 0001 0010 0011 1010 1011 0000 0001 0000 0001 0010 0011 0100 1100 0000
+
+7 - Reason Class of Error
+
+for Discard
+
+Parameter Meaning
+
+Values
+
+Reason Protocol General
+
+not specified Procedure Error
+
+Incorrect Checksum PDU Discarded due to Congestion Header Syntax Error (cannot be parsed) Segmentation Incomplete Duplicate needed Option Address Address Source Unreachable Unknown Routeing Error Field Field Routeing Unit Routeing but not permitted
+
+PDU Received
+
+Address
+
+Destination Destination Unspecified
+
+Source Routeing Lifetime
+
+Syntax
+
+Error
+
+in Source
+
+Unknown Address in Source Path not Acceptable Lifetime Lifetime Expired Expired while during Data
+
+in Transit
+
+Reassembly
+
+PDU
+Discarded
+
+Unsupported Unsupported Unsupported Unsupported Unsupported
+
+Option not Specified Protocol Version Security Option Source Interference Routeing Option Option Recording of Route
+
+Reassembly
+
+Reassembly
+
+8
+
+Provision Service
+
+of
+
+the
+
+Underlying
+
+8.1
+The
+
+Subnetwork
+source and
+
+Points
+
+of Attachment
+
+SN-UNITDATA
+
+destination address parameters in the primitive specify the points of attach-
+
+ment to a public or private subnetwork( Subnet,work Point of Attachment addresses (SNPAs) are defined by each individual subnetwork authoritv. The syntax and Subnetwork performed mode ently vice ently work ping service provide assumed provides Dependent into the Dependent to provide Convergence functions may be an underlying connectionlessinherserinhera Subneta mapAssociated with eadh connectionless-mode transmission, certain measures of Quality of Service are requested when the SN-UNITDATA primitive action is initiated. These requested measures (or parameter values and options) are based on a. priori available from the subnetwork. ture prior mode The and type of service to an invocation service. Quality of Seryice parameters service identified or mappable as defined for t,he cironto in IS0 knowledge of the service Knowledge of the nais tvpicallv obtained connectionlesssemantics Standard. of SNPAs are not defined in this International
+
+when a real subnetwork does not the underlying connectionless-mode by the protocol. If a subnetwoh service, function provides a connection-mode Convergence required underlying
+
+8.2
+
+Subnetwork
+
+Quality
+
+of Service
+
+connectionless-mode
+
+service. Subnetwork may also be required sumed In some explicit from the cases, protocol this (i.e.,
+
+Dependent Convergence functions in those cases where functions asservice require are not the involving performed. of an exexplicit may operation
+
+underlying
+
+a protocol
+
+available
+
+changes of protocol control information between peer network-entities) in the Subnetwork Dependent Convergence protocol where
+
+of the underlving
+
+(SNDCP) role.
+the functionality simply Information consists
+
+However, required of .a set between (without
+
+there of rules peer
+
+may also the for manetwork-
+
+be cases nipujating of Proiocol entities).
+
+to fulfilj
+
+underlying cumstances those Service. 8348/Add.l
+
+connectionless-mode be directly in the The following
+
+may in some
+
+SNDCP role
+
+derivablefrom parameters
+
+the underlying Control
+
+service
+
+the exchange
+
+identified
+
+connectionless-mode
+
+Netaork-
+
+may be employed:
+
+23
+
+IS 13611 : 1993 IS0 6473 : 1966
+
+a) Transit delcty; b) protection against
+C) cost
+determinants;
+
+1)
+unauthorieed and access;
+
+d)
+
+residual
+
+error probability.
+
+If Transit delay is to be measured, an SNDCP designed to bound the transit time of SNSDUa that cross the subnetwork should be used prior to the processing of any data requests to determine the actual delay. Transit delay within a giveu subnetwork may vary. Where Transit delay is measured, it may be necessary to periodically repeat the measurement process in order to maintain sccurate measures in any rout&g information maintained by the network-entity.
+
+NOTE For those real aubnetwmlta which do uot inherently provide Quality of Service aa a parameter, it is a local matter as to how the acmantics of the service requested might be preserved. In particular, there may be instances in which the Quality of Service requested cannot be maintained. In such circumstances, an attempt shall be made to deliver the protocol data unit at what-ever Quality of Service is available.
+
+2)
+
+In general, .either the SNDCF or the subnetwork itself map perform functions associated with specific QoS requests. These functions may be optionally selected by the CLNP. The relevant subnetwork QoS parameters are classified as follows: for which the SNDCF or the subnetwork itself performs functions expressly designed to provide information for the Route PDU function of the CLNP; b) those QoS parameters for .which the SNDCF or the subnetwork itself performs functions expressly designed to provide-the desired QoS; and c) those QoS parameters for which the SNDCF or the subnetwork itself may be called upon to perform either of the functions (a) or (b) above. The determination of values for these QoS parameters is provided in the following sub-clauses.
+a) those QoS parameters
+
+If no better meaauTca are nvailnblc, Transit delay may be estintated by seudiug an SNSDU (via some uniquely identified protocol data unit which prompts a response) oud by measuring the elapsed time betwcen the SN-UNITOATA requests aud the corrcsponding SN-UNITDATA indications. This reault,s in an overestimate of dcloy such that the CLNP may be expected to operate correctly. If Transit delay is estimoted, it is preferred that estimates be high rather than low in OTder that unccrtaiutics in transit delay do not prevent the CLNP from diacardiug protocol data units whose intended lifetime has expired.
+
+which make use of IS0 8208 3) Subnetworks have the capability to dynamically determine whether the Transit delay available nt connection establishment will antiafy the requested Transit delay. The SNDCF niay nac the Transit delay Selcctiou/Iudirntion oud the End-to-End Trauait delay Negotiation Facilities of the X.25 PLP to provide this dynamic capability. Transit delay negotintion by the SNDCF or the SNAcP machine is transparent to the CLNP machine. which make use 4) In the case of subnetworks of IS0 8208, the Transit delay value provided to the CLNP shall take into consideration any processing or queueing delay incurred as a result of an attempt by the SNDCF to establish a virtual circuit.
+
+8.2.1
+
+Transit
+
+delay
+
+Transit de1a.y is the elapsed time between an SN-UNITDATA Request and the corresponding SNUNITDATA Indication. Elapsed time values are calculated on SNSDUs that are successfully transmitted. Successful transmission of an SNSDU is defined to occur when an SNSDU transmitted by the sending SNDCF is delivered to the intended destination SNDCF. Transit delay is based on an SNSDU size of 512 octets, and is specified in units of 500 ms.
+
+8.2.2
+
+Protection
+
+from
+
+Unauthorized
+
+Access
+
+Transit, delay i, determined by the SNDCF prior to the processing of any user data by the subnetwork. The mechanism whereby transit delay information is passed to the Route PDU function of the CLNP is a local matter. Transit delay may be either measured or estimated. The SNDCFs described herein do not provide any means for measuring or estimating Transit delay beyond any such means provided by the underlying subnetwork. -NOTES
+
+No recommendation is made relating to how to provide protection against passive monitoring, modification, replay, addition, or deletion of SN-Userdata.
+
+8.2.3
+
+Residual
+
+Error
+
+Probability
+
+Residual Error Probability is estimated as the ratio of lost, duplicated, or incorrectly delivered SNSDUs to total SNSDUs transmitted by the SNDCF during a-measurement period. The mechanism whereby Residua1.k ror Probability is passed to the Route PDU functic>a,of the CLNP is a local matter.
+
+24
+
+Is 13611 IS0 6473
+
+: 1993
+: 1988
+
+Residual Error Probability is known by the SNOCF prior t.o the processing of any user data by the subnetwork either as a result of the SNOCF having maintained a history of measures of Residual as a result of information obtained the underlying service. Error from ,Probability the provider or of
+
+a particular
+
+PDU
+
+are
+
+known
+
+to be large then the
+
+enough
+
+that
+
+segmentation is not required, prot,ocol subset may be used. Data tification processed
+NOTE
+
+Non-segmenting
+
+received
+
+from a subnetwork with protocol idenfor IS0 8473 (fi rs t octet = 1000 0001) shall be according to IS0 8473.
+Data with other protoco! identificapro-
+
+NOTE For subnetworks which provide a connection-mode service, Residual Error Probability is determined on an individual connection basis
+
+tion should tocols
+
+be ignored,
+
+since it may have been sent supporting additional 8473.
+
+by an implementation intended
+
+for use with IS0
+
+8.2.4 The
+
+Cost attempt
+
+Determinants to satisfy the constraints imgosed by the
+
+8.4
+
+Dependent Subnetwork gence furlctions
+General general modei for providing the
+
+Conver-
+
+NS User ptiramcter voked basis
+The matter. NOTE the
+
+via the Cosl is performed assessed
+
+Determinants Quality of Service by the Route PDU function inpertinent, information relaton a per packet
+this
+
+8.4.1 The
+
+by the CFNP. is passed
+mechanism
+
+Where
+
+model
+
+underlying
+
+ser-
+
+ing to tariff(s)
+
+or per conliection of the CLNP.
+is a local
+
+to the Route
+by which
+
+PDU function
+is accomplished
+
+vice assumed by the protocol in conjunction with a real subnetwork that uses a connectionless subnetwork nccess protocol is as follows. The gcner~ation of an SNUNITDATA Request by the CLNP results in the generation DATA of a corresponding by the subnetwork-specific Dependent UNITrequest
+
+cost
+
+The is likely
+
+Route
+
+PDU If:
+
+function
+
+invoked
+
+by the
+
+CLNP tlrcre in the basis;
+
+to be required
+
+to perform cost
+
+following
+
+assessments. processing is a tariff
+
+gence
+
+a)
+
+is to be no incrcmemtal of the assessed
+
+incurred
+
+UNITDATA SNDCF CLNP.
+
+function. The indication data
+to generate
+
+Converreceipt of a subnetwork-specific associated with delivery of a
+
+Subnetwork
+
+SNSDU
+
+submitted,
+
+connectionless
+
+and there there
+
+on a per packet cost incurred, available and to the
+
+unit to its destination causes the an SN-UNITDATA Indication to the for providing
+CLNP
+
+b)
+
+is to be no additional is currently basis etc.); destination, circuit acceptable
+
+The vice
+
+general
+
+model by the
+
+the
+
+underlying with
+
+sera real
+
+no connection specified (e.g.
+
+assumed
+
+in conjunction
+
+and a tariff setup, or
+
+is assessed time of
+
+on a per connection for virtual the virtual circuit,
+
+by the subnetwork holding
+
+subnetwork that uses a connection-mode subnetwork The generation of an access protocol is as follows. SN-UNITDATA Request by the CLNP causes a conlogical link, or the equivanection (logical channel, lent)
+the
+
+c)
+then
+
+if a maximum cost is likely that
+
+cost has been specof the NSDU shall route. return and that a result to deliver may be of
+
+to be made
+SN-UNITDATA
+
+available Reqllest
+
+for the cannot
+
+transmission be made The
+
+of SNavailable, receipt Indi-
+
+ified for the processing the Route PDU function
+
+Userdata. of
+
+If a connection
+
+to be exceeded, attempt function
+
+subnetwork-specific
+the SNDCF CLNP. to the
+
+PDUs to generate
+
+is discarded. containing
+an
+
+SN-Userdata
+
+indicating the NSDU route invoked subsequent
+
+the CLNP~should alternate be found, to deliver under a local
+
+causes
+
+SN-UNITDATA
+
+via soqe
+
+If an alternate
+
+cat.ion
+
+cannot
+
+to notify NSDUs)
+
+the NS User
+
+of the inability constraint.
+
+the NS Provider
+
+this NSDU (and possibly the stated
+
+Where a real subnetwork a connectionless-mode or
+
+is designed to a connection-mode
+
+use
+
+either subnet-
+
+work access protocol, the provision of the underlying service assumed bv the CLNP is achieved bv using the counectionless-mode alternative.
+
+8.3
+
+Subnetwork`
+
+User Data
+8.4.2 Subnetwork functions works IS0 8802-2 describes Control (LLC). Cl ass
+connectionless-mode connectinnless-inode stations which
+
+The SN-Userdata is an ordered multiple of octets, and is transferred transparently between the specified subnetwork points of attachment. The quired nctpts. If the all of the minimum service data unit sizes supported by of underlying to support service assdmed by the CLNP is rea service data unit size of at least 512
+
+Dependent used with IS0
+
+Convergence 8802-2 Subnet-
+
+two
+I
+
+classes
+an Class onlv.
+
+of
+
+Logical
+
+Link
+Ilot II Fr,r of
+
+provides
+
+unacknnwlrdgeri 2 provides services. tw-r) clnsv~
+
+service and
+
+connprt,ion-mode to either of these
+
+subnetworks
+
+involved
+
+in the
+
+transmission
+
+conform
+
+25
+
+IS13611:1993 Iso84?3:1988
+
+service, the Unacknowledged vice is used to provide the by IS0 8473. The scribed Unacknowledged in IS0 8802-2 with
+
+connectionless-mode underlying service
+
+Serassumed
+
+are the X.121 work. If the X.25
+
+DTE
+
+addresses does
+
+used
+
+by the
+
+X.25
+
+subnet-
+
+subnetwork
+
+not provide
+
+calling
+
+DTE
+
+connectionless-mode is precisely that the exception
+
+Service reqnired
+
+de-
+
+by the
+
+information, a null SN-Source-Address plied in the SN-UNITDATA Indication. include its own DTE address
+
+parameter is supThe SNDCF shall
+
+CLNP. This service, marized in table 8. Subnetwork
+
+of QoS, is sum-
+
+in the "calling
+
+DTE"
+
+field of
+
+Dependent
+
+Convergence
+
+functions
+
+per-
+
+form a mapping of the Unacknowledged connectionlessmode Service provided by a LLC Class 1 or Class 2 subnetwork onto the underlying service assumed by the
+
+the X.25 Call Request packet, in the case that the subnetwork does not include this parameter but permits its inclusion by ~DTEs. NOTE
+PLP The (e.g.
+
+-
+
+Some
+
+subnetworks schemes schemes
+
+which other other E.163
+
+use the X.25 than than X.121. X.121
+
+employ CCITT
+
+addressing
+
+CLNP. The mapping is as follows. The generation of an SN-UNITDATA Request by the CLNP results in a DLUNITDATA Request (as described in ISO8802-2) being
+generated function. by the Subnetwork Dependent Convergence A corresponding
+
+use of addressing
+
+Rcconllllelldations
+
+and E.164)
+
+is not precluded.
+
+prompts the SNDCF cation to the CLNP. Convergence protocol between network-entities vice.
+
+DL-UNITDATA Indication to generate an SN-UNITOATA IndiNo explicit Subnetwork Dependent
+control information is exchanged to provide this mapping of ser-
+
+The
+
+SN-Userdata
+
+parameter
+
+carries
+
+user
+
+dat.a
+
+up
+
+t.o
+
+a maximum
+
+size specified
+
+by the slrbnetwork
+
+authority.
+
+The underlying service assumed by IS0 8473 requires that a subnetwork be capable of supporting a minimum service data unit size of 512 octets. NOTE
+an X.25
+
+The addresses'used in t,he SN-UNITDATA request and indication primitives are the seven-octet LAN station addresses described in ISO8802, consisting of the sixoctet Rledium Access Control (MAC) -address plus the one-octet LLC Service Access Point .address. NOTE In order to provide the underlying vice assumed by ISO8473, a the underlying
+vice data shall br able to suppoit by IS0 a minimum While 8802-2, (U\) no unit -size of -512 octets. is imposed for a MAC is that in the
+
+-
+
+The M-bit
+
+may be used in cases directly support
+
+where a min-
+
+subnetwork
+
+cannot
+
+imum packet size of 512 octets as well as in situations where a service data unit sizr grentrr than the minimum is required; subset e.g. where the non: segmenting protocol is used.
+
+serser-
+
+8.4.3.1
+
+Call
+
+Setup
+
+Considerations
+
+service
+
+SDU size
+of conconThe on the to
+
+restriction requirement veying taining additional SNDCF convey
+
+the minimal PDUs field.
+
+it be capable
+
+The nlechanisrn and timing for opening a virtual circuit prior to the transmission of SN-Userdata are a local matof a virtual circuit mav be initiated ter. The opening by: a ) the arrival of an SNSDU X.25 subnetwork at the tual circuit is available; to be transmitted over an time when no suitable vir-
+
+Unnumbered 128 octets constraint
+
+Information is therefore
+
+information that
+
+imposed
+
+in such
+at least
+
+circumstances 512 octets
+
+it be able
+
+of user data
+
+in UI PDUs.
+
+waiting for an existing b) the local queue of requests virtual circuit reaching a threshold size at which an 8A.3 Subnetwork gence functions networks The connection-mode service offered by subnetworks Dependent used with Conve,rIS0 8208 Subadditional virtual circuit shall be made available possible) to maintain the requested QoS; or the explicit intervention of system management. c) (if
+
+which use t,he X.25 Packet Level IS08208 is manipulated by the dent Convergence function so that
+
+Protocol defined in Subnetwork Depena virtual circuit is folby
+
+When it has been determined that a (new) virtual circuit must be made available, the calling SNDCF performs all functions associated with establishing a virtual tions pleted, changed. containing
+packets,
+
+made available for the transmission of SN-Userdata lowing the generation of a.n SN-UNITDATA Request the
+
+circuit. associated
+
+The
+
+called with `time
+
+SNDCF
+
+performs a call, but
+
+those
+
+operauo
+
+accepting
+
+generates
+
+CLNP.
+
+In general
+
+(see 8.4.3.4),
+
+no explicit control
+
+Subnetinformaduring this map-
+
+SN-UNITDATA
+at, which
+
+indication
+
+until the call setup is comX.25 Data packet(s) mav he ex-
+
+work bpendent tion is egchanged ping of service.
+
+Convergence between
+
+protocol
+
+peer network-entities in order to provide
+
+In general, the receipt of X.25 Data packets SN-Userdata causes the SNDCF to generate
+
+the data phase of operation
+The
+
+an SN-UNITDATA
+if received,
+
+indication
+
+to the CLNP.
+procedures are .followed.
+
+X.25
+
+Reset
+
+have no effect on the operation for the correct
+
+of
+
+SN-Destination-Address parameters in the SN-UNITDATA
+
+and SN-Source-Address request and indication
+
+the SNDCF. The necessary operation of the X.25 PLP
+
+26
+
+IS 13611:1993 ISO6473:1966
+
+Table
+
+8 - ISO8802-2
+
+LLC
+
+Service
+
+primitives
+
+~
+
+8.4.3.2 The cuit
+
+Call Clearing for
+
+Considerations when the a virtual cir-
+
+mechanisms
+
+determining following
+
+when additional virtual circuits should be opened (for example, when there is an excessively long queue of data units waiting for the initial logical channel). Implementations may choose to clear a virtual circuit
+
+is to be cleared
+
+transmission
+
+of SN-
+
+Userdata by the SNDCF are local circumstances which would cause virtual circuit are:
+
+matters. Examples of the SNDCF to clear a
+
+after it has been idle for some period of time. If a time-r is selected for this purpose, it is used in the following manner. When a virtual circuit is made available for the transmission of SNSDUs, a timer is initiated with a value representing the maximum period of time this virtual circuit may remain idle. Each time a dat,a unit is transmitted by the underlying service, the timer is reset to this initial value. If no data units are queued for processing is cleared. The selection and this timer expires, the virtual circuit
+
+of a timeout period following the a ) the expiration transmission of one or more PDUs (see clause 8.4.3.4); b) the need to use a specific interface to open an alternate virtual circuit from the local Network-entity to a different remote Network-entity; Cl the explicit intervention of system management; clear of a virtual circuit d) a provider-initiated or
+
+of timeout
+
+values
+
+is a local
+
+matter.
+
+\lihen it has been determined that a virtual circuit shall be cleared, the SNDCF performs all functions associated with clearing a call. All packets other than a Clear Confirm or Clear Indication are ignored. The same actions apply to receipt of a Clear Indication. In these circumsta?ces, the SNDCF will retain user data submit,ted via SN-UNITDATA requests while attempting to establish a new circuit; however, the SNDCF shall discard the user data if the transit delay indicated to the CLNP is 1ikel.y to be exceeded. NOTE
+circuits correct The the from use
+
+NOTES
+
+1) Additional
+when data
+114.
+
+virtual waiting timeout additional may the period initial may virtual to be (possibly periods and are
+
+circuits
+
+may long for than
+
+be logical
+
+opened queue of chanare timeout (The period queue of of to close some to
+
+there units The such for
+
+is &II excessively for the initial periods virtual virtual also may circuits zero). selected
+
+det.ermining the circuit.
+
+when period timeout time.) data
+
+circuits
+
+be cleared
+
+be shorter
+
+be a fixed ihoose if the
+
+Implementations units
+
+all additional
+
+be
+
+It is not
+dynamically
+
+a requirement opened
+
+that
+
+virtual for the
+
+transmitted
+
+reaches
+
+or closed
+
+threshold
+
+operation
+
+of the
+
+of permanent initialization
+
+SNDCF herein,described. virtual circuits (PVCs) or
+circuits is not in a open precluded. state
+
+2)
+
+Timeout economic ria. by a given a virtual for opening period
+
+on the charge
+
+basis imposed
+
+of
+
+implementation-specific is no duration authority and if there tlwn
+
+critefor leaving is a charge the timeout cirto over of timr.
+
+maintenance system
+
+of virtual
+
+If there circuit may remains time recent
+
+subnetwork open, virtual open
+
+8.4.3.3 The first
+
+Protocol octet
+
+Discrimination data field of the Call Re-
+
+circuits, for a long may trafEc or other also load
+
+be selected
+
+so that vary
+
+the virtual period (averaged according
+
+of the call user
+
+cuit the the
+
+quest packet shall the virtual circuit ing se&ice in 7.2.2. assumed
+
+be set to the value that indicates that is to be used to provide the underlyby IS0 8473. The value is defined 8.4.3.5
+
+Timeout
+
+periods of day, past),
+
+factors.
+
+Resolution
+
+of Virtual
+
+Circuit attempt
+
+Collisions to establish
+
+8.4.3.4 Timeout
+
+Timeout periods may
+
+Periods Two be used to determine when a virSNDCFs may simultaneouslv virtual circuits to each other. It is desirable to be able to detect this and eliminate one virtual circuit while retaining the other, so as to avoid unnecessary call charges.
+
+t ual circuit tual circuit
+
+should be cleared (for example, has been idle for a long period
+
+when a virof time) or
+
+27
+
+IS 13611 IS0 6473
+
+: 1993
+: 1988
+
+If the calling collision
+
+subnetwork
+
+supplies
+
+the
+
+DTE address
+call is received
+
+of the A a from
+
+6.4.3.6
+
+Use
+
+of Multiple
+
+Virtual
+
+Circuits
+
+DIE,
+
+it is possible when
+
+to detect
+
+such a collision. for a previously
+
+occurs
+
+an incoming
+
+DTE, while confirmation is still awaited initiated call to the same DTE.
+If the calling work, collisions
+
+In some circumstances, it may be desirable t.o use several X.25 virtual circuits between two network-entities, for example, to increase throughput or resilience. In this case, each virtual circuit is separately visible to the
+
+DTE address
+
+is not supplied
+
+by the net-
+
+are not detected. is established is based for determining when a collision on a comparison which does viroc-
+
+A convention tual cur. circuit The
+
+CLNP and provides a distinct service. Each is supported by a distinct pair of independent SNDCFs. Nevertheless, it is nerrssary to distinguish between these independent,
+virtual collisions. Where multiple virtual circuits distinguished during connection conveyance of a two-octet are required, establishment they by are the refcircuits in order to avoid incorrect detection of
+
+is to be preserved convention
+
+of the
+
+called and calling x.25 DTE addreuzes. The virtual circuit initiated by the SNDCF having the higher DTE address is the one which is retained.
+
+subnetwork
+
+connection
+
+Upon receipt of an X.25 Cali Bequest pdcket while confirmation of a previously issued Call Request packet to the rame DTE address is outstanding, an SNDCF shall perform the call collision resoldtion procedure ddscribed in the following steps:
+
+erence (SNCR) in the user data field of the X.25 Call Request packet. If no user data are present in the X.25 Call Indication packet'(other than the protocol discriminatpr encoded in octet I), the receiving SNDCF shall proceed as though the SNCR had been explicitly conveyed with the value zero. plicitly convey a subnetwork When it is necessary to exconnection reference, the Packet values shall indicated. of the be
+
+a) the
+pared
+
+DTE address
+Gth that
+
+of the local SNDCF shall be comof t.he remote SNDCF. If the ad-
+
+user data field of the X.25 Call Request s.et as illustrated in table 9. Octets Octets 1 through 4 and 5 convey 3 are set to the the reference
+
+dresses are of differeit length, the shorter is padded to the length of the longer by the addition of zero digits at the most significant (left) end of the ad-
+
+for the subnetwork
+
+b)
+
+dress. the. comparison
+
+connection. Octet 4 conveys the low order oct,et SNCR; octet 5 conveys the high order octet.
+
+shall
+
+be performed,
+
+starting
+
+from
+
+the least significant (right) digit and progressing to the most (left). C) as soon as a digit having the same position in each address stopped. has a different value, the comparison is
+
+The collision resolution procedure described in 8.4.3.5 shall be followed only when the two virtual circuits convey (explicitly or implicitly) the same SNCR. The values of the SNCR may be chosen arbitrarily by the communicating SNDCFs. Where a known number of virtual circuits is required but there is no prior agreement on the SNDCP values to be used, the values from zero up to one less than the number of virtual circuits required shall be used. NOTE The procedures described above been specified in order to satisfy the following
+teria:
+
+d) e)
+
+the address having the digit with the lower value (where 0 is the lowest. and 9 is the highest) is regarded as being the lower address. if the local SNDCF h&s the lower address, the SNDCF shall clear the virtual circuit which is initiated and accept the virtual circuit initiated by the remote SNDCF. if the local SNDCF has the higher address, the
+
+have
+cri-
+
+f)
+
+SNDCF shall
+the tance remote
+
+clear
+
+the
+
+virtual which
+
+circuit
+
+initiated
+
+by
+
+a) b)
+
+unwanted rapidly it must circuits where throughput
+
+duplicate detected and
+
+virtual cleared; to have a pair for of example,
+
+circuits
+
+should
+
+be
+
+SNDCF and
+circuit
+
+continue
+
+to await it initiated.
+
+accepbe possible between required, multiple for and only none) a single protocol should virtual reasons of network-entities
+
+of the virtual
+
+If a request, to establish a new virtual circuit is received once a virtual circuit is fully,&tablished, the new an d that previously virtual circuit shall be accepted existing shall be cleared.
+
+or redundancy; common circuit information case
+
+cl
+
+for the virtual control
+
+in which
+
+is required,
+
+minimal
+
+(perferably
+
+be required.
+
+NOTE
+ensure of the do not the
+
+rapid virtual receive
+
+This procedure
+recovery circuit from in cases
+
+is required providerwhere of this
+
+in order initated both
+
+to
+
+8.4.3.7 As part
+
+Priority of its operation to manage virtual circuits, respect as-a the to QoS
+
+clear
+
+SNDCFs
+at exactly
+
+notification
+
+action
+
+same
+
+time.
+
+SNDCF may perform a priority function with SKUNITDATA requests that specify priority
+
+28
+
+IS13611:1993 iso6473:1966
+
+Table 9 - Subnetwork Connection Reference Encoding Protocol Discrimination
+OCTET 1
+0000 0000 Or 0000
+
+Length Indication
+OCTET 2
+
+SNCR Version
+OCTET 3
+
+SNCR Value
+.OCTETS 4 AND
+.5
+
+0100
+
+0000 0010
+
+{see below}
+
+1000 0001 see 7.2.2
+
+parameter. Specifically, the SNDCF may open a new virtual circuit to handle the higher-priority traffic, or close an existing virtual circuit in order to free a logical channel or local system resources to enable it to process higher-priority traffic for which no resources would otherwise be available.
+
+All other services
+
+and facilities
+
+are optional.
+
+NOTE - The mandatory protocol elements do not preclude the operation of the SNDCF over a subnetwork which uses the 1980version of X.25.
+
+9
+8.4.3.8 IS0 8208 Protocol Elements The followitrg protocol elements of IS0 8208 are necessary for the provision of the underlying service assumed by IS0 8473:
+
+Conformance
+
+1 data it)
+
+call service; transfer (without delivery confirmation interrupt transfer procedures); cl flow control procedures; 4 flow control and reset packets; e) call setup and.clearing packets; f 1 DTE & DCE data packets; 8) restart procedures; fi) restart packets; i) DCE timeouts; d DTE time limits; and k) coding of X.25 network generated packets. The following necessary: protocol elements are desirable
+
+virtual
+
+For conformance to this International Standard, the ability to originate, manipulate, and receive PDUs in accordance with the full protocol (as opposed to the Non-segmenting or Inactive Network Layer Protocol subsets) is required. Additionally, conformance to this International Standard requires provision of the protocol functions described in clause 6. Provision of the optional functions described in 6.19 and enumerated in table 10 shall meet the requirements described therein. Exceptions to this requirement are described in 9.1 below. Additionally, conformance to this Internat.ional Standard requires adherence to the structure and encoding of PDUs of clause 7. If and only if the above requirements are met is there conformance to this International Standard.
+
+bit and
+
+but not 9.1
+
+Provision mance
+
+of functions
+
+for
+
+confor-
+
+1) flow control parameter negotiation; m) transit delay selection and indication; n) throughput class negotiation.
+
+and
+
+Table 10 below categorizes the functions respect to the type of system providing
+
+in clause 8 with the function.
+
+29
+
+IS 13611 : 1993 ISO 8473 : 1968
+
+Table
+
+10 - Provision
+
+Function PDU Composition PDU Decomposition Header Format Analysis PDU Lifetime Control Route PDU Forward PDU Segment PDU Reassemble PDU Discard PDU Error Reporting Header Error Detection Security Complete Source Routcing Complete Route Recording Partial Source Routeing Partial Route Recording Priority QoS Maintenance Congestion Notification Pa,dding M: Mandatory I: Implementa.tion -: Not applicable NOTES function; option,
+
+r
+
+of functions
+
+for Conformance
+1 Type
+
+Send M M
+
+Systc Forward (Note 1) M M M (No: I M M M (Note (Note (Note (Note (Note (Note (Note (Note (Note 2)
+
+Receive (Note 1) M M I (Note M M M 1)
+
+_ M M _ M M
+
+_
+
+4) 4) 4) 5) 5) 5) 5) 5) 3)
+
+(No:
+
+4)
+
+(Note
+
+3)
+
+this function as described
+
+shall be implemented in the tex
+
+1) 2)
+
+The support of the PDU Composition and Forward necessary for the generation of Error Report PDUs.
+
+PDU functions
+
+is
+
+The Segment PDU function is in general mandatory for an intermediate system. However, a system which is to be connected only to subnetworks all offering the same maximum SDU size (such as identical Local Area Networks) will not need to perform this function and therefore does not need to implement it. If this function is not implemented, specification of the implementation. this shall be stated as part of the A of
+
+of the padding function requires no processing. 3) The correct treatment conforming implementation shall support the function, to the extent ignoring this parameter wherever it may appear.
+
+If an implementation does 4) This function may or may not be supported. not support this function, and the fun&on is selected in a PDU, t.hen the PDU shall be discarded, and an ER PDU shall be generated and forwarded to the originating network-entity if the Error Report flag is set and the conditions of 6.10.4 are satisfied. 5) This function may or may not support this function, function is not performed the function had not been this reason. not be supported, If an implementation does and the function is selected in a PDU, then the and the PDU is processed exactly as though selected. The PDU shall not be discarded for
+
+30
+
+IS 13611 : 1993 IS0 6473 : 1966
+
+Annex A Formal Description
+(This annex is not an integral part of the standard.)
+Reassembling
+
+A.1
+
+Introduction
+
+z
+
+The operation of the IS0 8473 protocol (CLNP) is modeled as a finite state automaton governed by a state variable with three values. The behaviour of the automaton is defined with respect to individual independent Protocol Data Units. A transition of the automaton is prompted by the occurrence of an atomic event at one of three interfaces: Layer, defined by the a ) an interface to the Transport service primit,ives of IS0 8348/Add.l; service assumed by b) an interface to the underlying the protocol; defined by the SN-UNITDATA primitive of 5.5 of this International Standard; timer c) an interface to an implementation-dependent function, defined by the TIMER primitives described in 5.6 of this International Standard. 1.n addition, a transition of the automaton may be prompted by the occurrence of a condition of the automaton. Atotnic events are defined in clanse A.3. The occurrence of an atomic event is not in itself sufficient to cause a t.ransition to take place; other "enabling" conditions tttay also have to be met before a particular transition can take place. Enabling conditions are boolean expressions that depend on the values of parameters associated with the corresponding atomic event (that is, the parameters of some primitive) and on the values of locally maintained variables. hlore than one enabling condition - and therefore, more than one possible transition - may be associated with a single atomic event. In every such case, the enabling conditions are mutually exclusive, so that for any given combination of atomic event and parameter values. only one state transition can take place. Associated with each transition is an action or "outActions consist .of changes to the values of local variables and the sequential performance of zero or more functions. The operation of the finite state automaton is completely specified in clause A.4 by defining the action associat,ed with every possible transition.
+put".
+
+The automaton is in the Reassembling state for the period in which it is assembling PDU segments into a complete PDU. Closed The final state of the automaton is the Closed When the autotnaton enters the Closed state. state it ceases to exist.
+
+A.3
+
+Atomic
+
+Events
+
+An atomic event is the transfer of a unit of information across an interface. The description of an atotnic event. specifies a primitive (such as the N-UNITDATA.Requcst described in IS0 8348/Add.l) and the service boundarv at which it is invoked (such as the Network Service boundary). The direction of information flow across the boundary is implied by the definition of each of the primitives.
+AS.1 N.UNITDATA_request and indication
+
+The tion ary. are
+
+N.UNITDATA_request and N.UNITDATAindicaatomic events occur at the Network Service boundThe primitives which describe these atotnic events defined by IS0 8348/Add.l:
+
+N.UNI.TDATA_request(NS-Source-Address, NS-Dest.ination-Address, NS-Quality-of-Service, NS-Userdata) N. UNITDATAindication( NS-Source-Address, NS-Destination-Address, NS-Quality-of-Service, NS-Userdata)
+
+The parameters of the N.UNITDATA_request N.UNITDATAindication are collectively referred Network Service Data Units.
+
+and to as
+
+A.3.2
+
+SN.UNITDATA_request
+
+and
+
+indication
+
+A.2
+
+Values
+state
+
+of the State Variable
+variable has three values:
+
+The protocol
+Initial
+
+The SN.UNITDATA_request and SN.UNITDATAindi cation atomic events occur at the abstract interface as sutned to exist between the CLNP machine and a sup porting underlying service. The primitives which de scribe these atomic events are defined in 5.5: SN.UNITDATA_request(SN-Source-Address, SN-Destination-Address, SN-Quality-of-Service,
+
+The automaton is created in the Initial state. No transition may carry the automaton into the Initial state.
+
+31
+
+IS 13611 : 1993 IS0 8473 : 1988
+
+SN-Userdata). SN.UNITDATAindication(SN-Source-Address, SN-Destination-Address, W-Quality-of-Service, SN-Userdata)
+
+will be able to handle behaviour corresponding simultaneous finite state machines.
+
+to many
+
+For t.he purpose of this specification, it is assumed that reassembly is performed by the destination endsystem. bYhen the CLNP machine receives an N-UNITDATA Request, from the Transport Layer, the parameters associated with that request are used to construct a protocol data unit as described in clause 6. The NS-SourceAddress and NS-Destination-Address parameters of the N-UNITDATA Request are used to derive the NPAI to be conveyed as the source and destination NSAP address parameters for the PDU. The NS-Userdata parameter specifies the user data to be transmitted. The remaining fields of the PDU header are derived from local and state information and the NS-Quality-of-Service parameter. The NS-Quality-of-Service parameter specifies the QoS requested by the sending NS User. Whether this QoS is to be provided directly by the CLNP itself or through the QoS facilities offered by each underlying service to be traversed is determined prior to the initial SNUNITDATA Request by the Route PDU Function of the CLNP machine. Which (if any) optional parameters are to be used to assist in the processing of this PDU as well as whether segmentation of the PDU is required is also determined at this time. Once the appropriate subnetwork has been selected, an SN-UN tTDATA Request is issued by the Forward PDU function of the CLNP machine. When the destination SNDCF (identified by the SNPA contained in the SN-Destination-Address parameter of the SN-UNITDATA Request) receives the SNSDU, it notifies the CLNP mnchine it serves of the delivery of the SfjSDU via a corresponding SN-UNITDATA Indication. The PDU header is analyzed, and if the NSAP address encoded in the destination address field of the PDU corresponds to one (if any) of the NSAP addresses supported by the CLNP machine, the PDU is decomposed, and an N-UNITDATA Indication is issued to the NS User attached to this NSAP. If it is determined that the PDU has not reached its destination, the Route and Forward PDU functions are preformed. This process continues until the destination is reached or the PDU lifetime expires, in which case the PDU is discarded.
+
+The parameters of the SN.UNITDATA_Request and SN.UNITDATA_Indication are collectively referred to as Subnetwork Service Data Units. The value of the SN-Userdata parameter sent an Initial or a Derived PDU. A.33 S.TIMER Atomic Events may repre-
+
+The S.TIhlER atomic events occur at the interface between the Protocol described herein and its local environment. They are defined in 5.6: S.TIhIER_request(Time, S.TIMER_cancel(Name, S.TIhlER_response(Name, Name, Subscript) Subscript) Subscript)
+
+A.4
+
+Operation of the Finite State Automaton
+
+This Annex formally specifies an abstract machine which provides a single instance of the connectionlessmode Network Service by use of the CLNP. It should be emphasized that this formal specification does not in any way constrain the internal operation or design of any aciual implementation. For example, it is not rtquired that the program segments contained in the state transitions will actually appear as part of an actual implementation. This formal specificdion is useful in that it attempts to eliminate any degree of ambiguity or vagueness which may occur in the specification of a protocol standard. This formal specification single finite state machine behavionr corresponding to request. It is expected that describes the behaviour of a which provides the protocol a single independent service any actual implementation
+
+32
+
+IS 13611 : 1993 IS0 8473 : 1988
+
+A.4.1 conat
+
+Type
+
+and Constant
+
+Definitions
+
+ZERO = 0; max_user-data TERMINATED
+
+= 64512; = 255;
+
+type
+
+timer-data-type
+
+= ...; = (ISO_8473_protocolid);
+
+network_layer_protocol_id_type version-id-type = (versionl); pdu-tp_type = (DT, ER); NSAP:addr_tppe = , ..; NPAl_addr_type SN_addr_type rr_titles-type = ...; = . . .; = . . .;
+
+'
+(' NSAP addresses, as passed across the NetIrork Service boundary `) (' addresses carried in PDUs `1 (' add&es in the underlying service used by this protocol `) (' holds the address list in a recording of route parameter `) (' QOS parameter passed across the Network Service boundary `) (' the QOS parameter, if any, passed to the undcrlying service used by this protocol `) conceptually to a (' User data. This is equivalent variable length binary string `) (' memory resources used in scuding aud receiving of user data. This provides capabilities required for segmentation and reassembly :; (' stores the options part of the PDU header (' local identifier for a particular underlying service used by this protocol. In general therr may be multiple underlying subnetwork (or data link) services')
+
+qnalitp_of_service_type SN_QOS_type data-type buffer-type = . . .;
+
+= ...;
+
+= .,. . ; = . . .;
+
+options-type = ..; subnet-id-type = ...;
+
+nsdu_type
+
+= record
+
+da : NSAP_addr_type; sa : NSAP_addr_type; qos : quality_of-service_type; data : data-type;
+
+end; route_result_type = record subnet_id : subnet_id_type; sn_da : SN_addr_type; sn_sa : SN_addr_type; segment-size: integer; end: error-type = (NO-ERROR, TOO_MUCH_USER_DATA, PROTOCOL-PROCEDURE-ERROR, INCORRECT_CHECKSUM, CONGESTION, HEADER-SYNTAX-ERROR, SEG_NEEDED-AND-NOT-PERMITTED, INCOMPLETE_PDU, DUPLICATE-OPTION, DESTINATION-UNREACHABLE, DESTINATION-UNKNOWN, UNSPECIFIED SRC_ROUTEING_ERROR, SYNTAX_ERROR_IN_SRC_routting_FIELD, UNKNOWN_ADDRESS_IN_SRC_ROUTEING,
+
+33
+
+IS13611:1993 iso 8473:1988
+
+SRC_ROUTEING_PATH_NOT_ACCEPTABLE, LIFETIME_EXPIRED_IN_TRANSIT, LIFETIME_EXPIRED_IN_REASSEMBLY, UNSPECIFIED_UNSUPPORTED_OPTION, UNSUPPORTED_PROTOCOL_VERSION, UNSUPP6RTED._SECURITY_OPTION, UNSUPPORTED_SRC_ROUTEING_OPTION, UNSUPPORTED_RECORD_ROUTE_OPTION, REASSEMBLY-INTERFERENCE); rr_details_tppe = record rr_len : integer; rr_tppecode : rr_typecode-type; rr-offset rr_titles end;
+
+: integer; : rr-titles-type;
+= (PARTIAL,RECORDING, COMPLETE_RECORDI~G);
+
+rr_tvpecode_type
+
+pdu-tvpe = record ulp-id : network_layer_protocol_id_type; hli : integer; vp_id : version-id-type; lifetime
+
+: integer;
+
+sp : boolean; ms : boolean; er_flag : boolean; pdu_tp : pdu-tp_type; seg-len : integer; checksum : integer; da_len : integer; da : NPAI_addr_type; sa_len : integer; sa : NPAI_addr_type; du-id : optional integer; so : optional integer;
+
+(' ('
+
+present only if sp=TRUE present only if sp=TEiUE
+
+(' present only if sp=TRUE
+
+: optional integer; options : options-type; d&a : data-type;
+end:
+
+tot-len
+
+A.4.2 channel
+
+Channel
+
+Definitions (User, Provider);
+
+Network-access-point
+
+by User: UNITDATA_request(NS_Destination_address : NSAP_addr_type; NS_Source_address : NSAP_addr_type; NS_Quality_of_Service : quality-of-service-type; NS_Useidata
+
+: data-type);
+
+by Provider: UNITDATAindication(NS_Destination_address NS_Source_address
+
+: NSAP_addr_type; : NSAP_addr_type; NS_Quality_of_Service : quality_of_service_type; NS_Userdata : data-type);
+
+channel
+
+Subnetwork-access-point
+
+(User,
+
+Provider);
+
+34
+
+IS 13611 : 1993 IS0 6473 : 1966
+
+by User: UNITDATA_reqnest(SN_Destination_address SN_Source_ahdress
+
+: SN_addr_type; : SN_addr_type; SN_Quality_of_Service : SN_QOS_type; SN-Userdata : pdu_type);
+
+by Provider: UNITDATAindication(SN_Destination_address : SN_addr_type; SN_Source_address : SN_addr_type; SN_Quality_of_Service : SN_QOS_type; SN_Userdata
+
+: pdu_type);
+
+channel
+
+Systetn_access_point
+
+(User,
+
+Provider);
+
+by User: TIhIER_request(Time : integer; Timer-id : timer-name-type; Subscript : integer); TlhIER_cancel(Timer_id : timer-name-type); Subscript : integer); by Provider: TIhIER_response(Timer_id : timer-name-type; Subscript : integer);
+
+A.4.3
+
+Formal
+
+Machine
+
+Definition
+
+module Connectionless_Network-Protocol_Machine (N: Net,work_access_point (Provider) common queue ; SN: array[subnetid_type] of Snbnetwork_access_point (User) common queue S : System_access_Point (User) individual queue );
+
+;
+
+body var
+
+IP for CONNECTIONLESS_NETWORK_PROTOCOL_MA(=HINE;
+
+nsdu : nsdu_type; PDU : pdu_type; rev_buf : buffer-type; state
+
+: (INITIAL,
+
+REASSEMBLING,
+
+CLOSED);
+
+function
+
+get_lifetime(da : NSAP_addr_type; `qos : quality-ofservice-type):
+
+lifetime-type;
+upon the destination address and requested quality of `)
+
+primitive; ( ' This function returns the lifetime value to be used for a PDU, bawd
+service.
+
+function
+
+get_seg_permitted(da
+
+: NSAP_addr_type; qos : quality-of-service-type;
+dl : integer): boolean;
+
+.
+
+primitive; (' This function returns the boolean value to be used in the segmentation permitted field of a PDU. This value may depend `) upon the destination address, requested quality of service, and the length of the user data.
+
+35
+
+IS 13611 : 1993 IS0 6473 : 1966
+
+function
+
+size(data
+
+: data-type)
+the length,
+
+: integer;
+in octets, of the specified data.
+
+primitive; (" This function
+
+returns
+
+`)
+
+function
+
+size-buf (buf : buffer-type) returns the length,
+
+: integer;
+of the da.ta contained in thr sprcified buffer.
+
+primitive; (' This function
+
+in octets,
+
+`)
+
+function
+
+get-er_flag
+
+(nsdu : nsdu_type)
+
+: boolean;
+NSDU. If `)
+
+primitive; (' This function returns a boolean value to be used as the error report flag in a PDU which transmits the specified the PDU must be discarded at some future time, an error report can be returned only if this value is set to TRUE.
+
+function primitive;
+
+get_NPAI_len returns
+
+(addr : NSAP_addr_type) the length
+
+: integer;
+Address Informntion corresponding to a specified NSAP address.`)
+
+(' This function
+
+of the Network.Protocol
+
+function
+
+get_NPAI
+
+(addr : NSAP_addr_type) as encoded
+
+: NPAI_addr_type;
+in the protocol header, or Network Protocol Address Information, corresponding `)
+
+primitive; ( ' This function to the specified
+
+returns the address NSAP address.
+
+function primitive;
+
+get_options(da : NSAP_addr_type; qos:quality_of_service_type): the options
+
+options-type; destination address a.nd quality of service. `)
+
+(' This function returns
+
+field for a PDU, based on the specified
+
+function
+
+get_header_len(da_len
+
+: integer;
+
+sa_len : integer; integer; primitive; (' This function returns the header length, in octets. The header length depends upon the lengths of the source and destination addresses, whether the segmentation part is of the header is present and the length of the options part. `) sp : boolean; options : options-type):
+
+function primitive;
+
+get-data-unit-id
+
+(da : NPAI_addr_type
+
+) : integer; `I
+
+( ' This function returns a data unit identifier which is unique for the specified destination address.
+
+function
+
+make-buffer (data : data-type) : buffer-type; primitive; (' This function places the specified data in a newly created buffer is returned as the function value.
+
+buffer.
+
+The way in which
+
+buffers
+
+arc managed
+
+is a local
+
+matter. `1
+
+The newly created
+
+function
+
+chcck_parameters(hli : integer; sp : boolean;
+
+36
+
+IS13611:1993 ISO9473:1999
+
+da : NPAI_addr_type; options : options-type; datalen : integer): error-type,;
+determines whether the parameters associated with the rout&g and forwarding of tllc PDU arc valid. If so, a the route and the segment size; otherwise, this result of NOERROR is returned and the Route function is called to determine I function returns an error. J
+
+primitive; (' This function
+
+function primitive;
+
+get-checksum
+
+(pdu : pdu_type)
+
+: integer;
+field of the PDU. If the checksum facility is not. *)
+
+( ' This function returns the 16-bit integer value to be placed in the checksum selected, this function returns the value zero.
+
+function
+
+route(hli
+
+: integer;
+
+sp : boolean;
+
+da : .NPAI_addr_type; options : aptions-type; datalen : integer): route-result-type;
+the route to' be followed by a PDU segnient as well as the segment size. Dctcrminat.ion of route and segment s&may be mutually dependent, and is made on the basis of the header length, the segmentation permitted flag, t,he destination address, certain parameters (such as source routeing) contained in the options part of the PDU header, and the length of data. "Route" returns a data structure specifying the subnrtwork on which the segment should be transmitted, the source nud destination SNPAs to be used on the subnetwork, aud the segment size. "Route" may only be called if the fuuct.iou check-parameters has a.lrcady determined that the parameters passed are valid. `)
+
+primitive; (' This function determines
+
+function extract (butbuffer-type; octets:integer): data-type; primitive; ( ' This function returns the specified amount of data from the specified
+
+buffer. The number of octets returned is constraintd by the requirement that no segment of less than eight octets may be generated by a sending network-entity. The uumbcr ot octets returned is 1) the amount specified, 2) the amount of data which remains in the buffer; or 3) an integral number of octets greater than eight but not exceeding (1) or (2) a b ove. The data returned are removed from the buffer, and the actual number of octets extracted from the buffer is returned in the parameter octets. ,')
+
+function
+
+get_sn_qos(subnet_id': subnetlid-type; options : options-type): SN_QOS_type;
+the values (if `1
+
+primitive; ( ' This function
+
+returns the QoS provided by the specified subnetwork. This information is used to determine any) for the QoS Maintenance, Security, and Priority parameters in the options part of the PDU.
+
+function get_local_NPAI_addr_len : integer; primitive; ( ' This function returns the length of the local address as used in the protocol
+
+header.
+
+`1
+
+function get_local_NPAI_addr : NPAI_address_type; primitive; (" This function returns the local address as used in the protocol
+
+header.
+
+`1
+
+function
+
+get_NSAP_addr(addr
+
+: NPAI_addr_type;
+
+37
+
+IS 13611 : 1993 IS0 8473 : 1988
+
+len : integer): primitive; (' This function `1 returns the NSAP address
+
+NSAP_addr_type; corresponding to the Network Protocol Address Information of the specified length.
+
+function NPAI_addr_local (addr :' NPAi_addr_type) : boolean; primitive; (' This function returns the boolean value TRUE only if the specified addiess.
+
+Network
+
+Protocol
+
+Address
+
+Information
+
+specifies
+
+a local `)
+
+function primitive;
+
+NSAP_addrlocal returns
+
+(addr : NSAP_addr_type) value TRUE
+
+: boolean;
+NSAP address specifies a local address. `)
+
+('
+
+This function
+
+the boolean
+
+only if the specified
+
+function get_qos (dptions: options-type): quality_of_service_type primitive; (' This function determines, to the extent possible, the quality of service that was obtained for s particular the quality of service and other information contained in the options part. of the PDU header.
+
+PDU, based
+
+upon `1
+
+function
+
+data-unit-complete returns
+
+`(huf : buffer-type) value specifying
+
+: boolean;
+whether all Derived PDUs of the PDU held in.the specified buffer have been `)
+
+primitive; ( ' This function received.
+
+a boolean
+
+function estimated-elapsed-time : integer; primitive; ( ' This function returns an estimate of the time elapsed, in 500 ma increments, since the PDU was transmitted by the previous peer network-entity. The estimate includes both time spent in transit and any time spent ill buffers within the local system. The estimate need not be precise, but overestimates are preferable to underestimates, as underestimating the time elapsed may defeat the intent of the lifetime function. `1
+
+procedure primitive;
+
+empty-buffer
+
+(buf : buffer-type);
+
+( ' This procedure empties the specified buffer.
+
+`1
+
+procedure
+
+allocate_reassembly_resources(pdu_totlen options
+
+: integer; : option-type);
+
+primitive; ( ' This procedure nllocates resonrces required for reassembly of a PDU of the specified tota. length. Whether this procedure is called once (upon reception of the first Derived PDU or the Initial PDU), or each time a Derived PDU is received is a local matter. If a PDU must be discarded to allocate resources and the PDU to be discarded has the ER flag set, then an error report is generated. The decision to discard a PDU and the choice of PDU to discard may take into account the values of the priority parameter in the PDU options field.
+
+procedure primitive;
+
+free-reassembly-resources; releases the resources that had been previously allocated by allocate_reaasembly_resources.
+
+(' This proced,ure
+
+`1
+
+38
+
+IS 13611 : 1993 IS0 6473 : 1966
+
+procedure
+
+merge_seg( buf : buffer-type; : integer; Eta
+
+: data-type);
+data into the specified buffer based on the specified segment offset of the data. ")
+
+primitive; ( ' This procedure
+
+merges
+
+the specified
+
+function
+
+send_er_on-congestion
+
+(pdu : pdu_type)
+
+: boolean;
+
+primitive; ( ' This function returns the boolean value TRUE due to congestion. If the value TRUE is returned, an error report can be sent.
+
+if an error report should be sent when the indicated data unit is discarded then the crflog field of the discarded data unit must still be checked before `)
+
+function
+
+get_er_lifetime returns
+
+(da : NPAIaddr-type) the lifetime
+
+: integer;
+address and specified quality `) -
+
+primitive; (." This function of service.
+
+value to be used for an ER PDU, based upon the destination
+
+function
+
+get_er_datafield(error : error-type; pdu : pdu_type):
+
+data-type; must include the header of `)
+
+primitive; ( ' This function returns the data field for an Error Report PDU. The data field of an error report the discarded PDU, and may optionally contain additional user data.
+
+function
+
+get_er_options(error
+
+: error-type;
+options-type;
+
+da : NPAI_addr_type; optionszoptions-type):
+
+primitive; ( ' This function returns the options field of an error report, based on the reason for discarding the POU; the destination address; and the options field of the disca.rdcd PDU. The relationship of Data PIN options to ER PDUs is described in 6.10.4. The options field always contains the reason for discard parameter, obtained from the value of the parameter error. If an option selected in the original PDU cannot be provided by the system processing the Error Report, an error is returned in t.hc parameter error; no ER PDU is generated. otherwise, the value NO-ERROR is returned in the parameter error, and ER PDU processing continues. Selection of options other than those selected in the PDU which cause the generation of an ER PDU a local matter. `)
+
+`function
+
+get_rr_details
+
+(options:options_type; error : error-type):
+
+rr_details-type;
+
+primitive; (" This function scorches is set to zero. Otherwise, parameter value field.
+
+through the options for a Recording of Route parameter. If none is found, the rr_lrn field of the result rrlcn `is set to the parameter length and the rcmaindcr of thc'rcsult field is set to contents of the `)
+
+procedure
+
+post-error-report posts
+
+(er_pdu : pdu_type); error report (ER) type PDU to the local entity that handles error reports.
+
+primitive; (* This procedure
+
+the specified
+
+`1
+
+procedure primitive;
+
+insert-address
+
+(rdetails
+
+: rr_details-type;
+
+fieldlen : integer);
+
+IS 13611: 1993 IS0 &I?3 : 1988
+
+( ' This procedure works on the recording of route parameter given in r&tails. It first moves all the network-entity titles `up' in the list, leaving a space at the beginning the length of which is equal to the value of fieldlen. It then inserts into this space a new network-entity title field, consisting of one octet containing the length of the local network-entity title followed by the title itself. `)
+
+procedure
+
+set_rr_details
+
+(options rdetails
+
+: options-type; : rr_details-type);
+
+primitive; (' This procedure updates the value of the recording of route parameter in the options field.
+
+`1
+
+procedure var
+
+record-route
+
+(options
+
+: options-type);
+
+rdetails : rr_details-type; title_fieldlen : integer; begin rdetails := get_rr_details (options); if rdetails.rr_len > 0 `and rdetailsrr-offset <> TERMINATED begin title-fieldlen := 1 + (get_local_NPAI_addr_len); if ((rdetailsrr_offset+addr_fieldlen). - rdetails.rr_len) > 1 then rdetails.rr_offset := TERMINATED; else begin rdetails.rr_offset := rdetails.rr_offset+title_fieldlen; insert-address (rdetails,title_fieldlen);
+end;
+
+then
+
+set_rr_details(options,rdetails); end; end;
+
+procedure var er_pdu
+
+send_error_report(error : error-type; pdu : pdu-type); : pdutype;
+
+begin if ( pdu .er_flag) then begin er_pdu.nlp_id := ISO_8473_protocol_id; er_pduvpid := versionl; er_pdulifetime := get_er_lifetime(pdu.sa); er_pdu.sp := FALSE; er_pdu;ms := FALSE; er_pdu.er_flag := FALSE; er_pdu.pdu.tp := ER; er_pdu.da_len := pdu.sa_len; er_pdu.da := pdu.sa; er_pdu.sa_len := get_local_NPAI_addr_len: er_pdu.sa := get_local_NPAI_addr; er_pduoptions := get_er_options(error, er_pdu.da, pdu.options); if (error = NO-ERROR) then begin
+
+IS 13611 : 1993 IS0 8473 : 1986
+
+er_pdu.hli
+
+:= get-header-lea
+
+(er_pdu.da_len, er_pdu.sa_len, er_pdu.sp,
+
+er_pdu.data
+
+er_pdu.options); := get_er_data_field(error, pcluj; then
+
+if (NPAI_addrlocal(er.pdu.da)) post_error_report(er.pdu) else end; end; end: send_pdu(er_pdu);
+
+procedure var rte_result
+
+send_pdu
+
+(pdu : pdu_type);
+
+: rouee-result-type;
+
+error-code : error-type; send_buf : buffer-type; octets-to-extract : integer; more_seg : boolean; sn_qos : SN_QOS_type; begin send-but := make_buffer(pdu.data); more_seg := pdu.ms; repeat begin error-code := check_parameters(pdu.hli, pdu.sp, pdu.da, pdu.options, if (error-code begin rte_result = NO-ERROR) := route(pclu.hli, pdu.sp, pdu.da, pdu.options, size(pdu.data)); octets-to-extract := rte_result.segment_size - pdu.hli; pdu.data := extract(send_buf, octets-to-extract); pdu.seg_len := pdu.hli + size(pdu.data); if (size_buf(send_buf) = ZERO) then pdu.ms := more_seg; else pdu.ms := TRUE; pdu.checksum := get_checksum(pdu); sn_qos := get_sn_qos(rte_result.subnet_id, OUTPUT siae(pdu.data)); then
+
+pdu.options);
+
+SN[rte_result.subnet_id].UNITDATA_request
+
+(rte_result.sn_da, rte_result.sn_sa, sn_qos, pdu); if (pdu.sp) end else then pdu.so := pdu.so + octets_to_extract;
+
+41
+
+IS13611:1993 1=8473:1988
+
+if (error-code
+
+= CONGESTION)
+
+thenthen pdu); pdu); or (error-code <> NO-ERROR);
+
+if (send_er_on_congestion(pdu)) else send_error_report(error_code, end; until end; (size_buf(data_buf)
+
+send_error_report(CONGESTION,
+
+= ZERO)
+
+initialize begin to INITIAL; end;
+
+(' Begin transitions trans from INITIAL to CLOSED when begin nsdu.da nsdu.sa nsduqos nsdudata := NSDestinationAddress; := NS_Source_Address; := NS_Qualitv_of_Service; := NS_Uskrdata; N.UNITDATA_request not NSAP_addr_local(NS_Destination_Address) provided
+
+(' transition
+
+#l
+
+pdu.nlpid := IS0_8173_protocol_id; pdu.vp_id := versionl; pdulifetime := get_lifetime(nsdu.da, pdusp := get_seg_permitted(nsdu.da,
+
+nsdu.qos);
+
+nsduqos, size(nsdu.data)); pdums := FALSE; := get_er_flag(nsdu); := DT; := get_NPAI_len(nsdu.da); pdu.er_flag pdupdutp pdu.da_len
+
+pdu.da := get_NPAI(nsdu.da); pdu.sa_len := get_NPAI_len(nsdu.sa); pdusa := get_NPAI(nsdu.sa); pdu.options := get_options(nsdu.da, pdudata := nsdudata; pdu.hli := get_header_len(pdu.da_len, pdu.sa_len, pdusp, pdu.options); if (pdn.sp) theR := get-data-unitid(pdu.da); + size(pdu.data); then pdu) begin pdu.du_id nsdu.qos);
+
+pduso := ZERO; pdu.tot_len := pdu.hli end; if (size(pdu.data) else send_pdu(pdu);
+
+> max_user-data)
+
+send_error_report(TOO_MUCH_USER_DATA,
+
+42
+
+IS136ll:lQQ3 ISO8473:1988
+
+end;
+
+(+
+
+transition
+
+#2
+
+`)
+
+from INITIAL to CLOSED when N.UNITDATA_request provided NSAP_addr_local(NS_Destination-Address) begin nsdu.da := NS_Destination_Address; nsdu.sa.:= NS_Source_Address; nsdu.qos := NS_Quality_of_Service; nsdu.data := NS_Userdata; OUTPUT N.UNITDATAindication (nsdu.da, nsdu.sa, nsdu.qos, nsdu.data); end;
+
+('
+
+transition
+
+#3
+
+from
+
+INITIAL
+
+to CLOSED and
+
+when SN[subnet_id].UNITDATAindication provided (NPAI_addr_local(SN_Userdata.da) SN_Userdata.so = ZERO not SN_Userdata.ms) begin pdu := SN_Userdata; if (pdu.pdu_tp = DT) OUTPUT and
+
+then pdu.da_len), pdu.sa_len), getiNSAP_addr(pdu.sa, get_qos(pdu.options), pdu.data);
+
+N.UNITDATAindication(get_NSAP_addr(pdu.da,
+
+else post_error_report(pdu); end;
+
+("
+
+iransition
+
+#4
+
+from when
+
+INITIAL
+
+to REASSEMBLING
+
+SN[subnet_id].UNITDATAindication
+
+provided NPAI_addr_local(SN_Userdata.da) and ((SN_Userdata.so > ZERO) or (SN_Userdatams)) begin pdu := SN_Userdata; allocate_reassembly_resources(pdu.tot_len, empty_buffer(rcv_buf); merge_seg(rcv_buf, pdu.so, pdu.data); OUTPUT S.TIMER_request (pdu.lifetime, lifetime-timer, ZERO); end; pdu.options);
+
+43
+
+IS 13611 : 1993 Is0 8473 : 1988
+
+(* from INITIAL to CLOSED when SN[subnct_id].UNITDATAindication provided not NPAI_addrlo.cal(SN_Userdata.da) begin pdu := SN_Userdata; if (pdulifetime begin pdu.lifetime > estimated-elapsed-time) := pdu.lifetime then
+
+transition #5
+
+- estimated-elapsed-time;
+
+record_route(pdu.options); send_pdu(pdu); end else send_error_report(LIFETIME_EXPIRED_IN_TRANSIT, end; pdu);
+
+(`
+from REASSEMBLING to REASSEMBLING and when SN[subnet_id).UNITDATAindication provided (SN_Userdata.du_id = pdu.duid
+
+transition #6
+
+SN_Userdata.da_len = pdu.dalen and SN_Userdata.da = pdu.da and SN_Userdata.sa_len = pdu.salen and SN_Userdata.sa begin merge-seg (rev_buf, SN_Userdata.so, SN_Userdata.data); end; = pdu.sa )
+
+(* from REASSEMBLING to CLOSED (rev_buf) no delay provided data-unit-complete = DT then N.UNITDATAindication(get_NSAP_addr(pdu.da, get_NSAP_addr(pdu.sa,
+
+transition #7
+
+begin if pdu.pdu_tp OUTPUT
+
+pdu.da_leu), pdu.salen),
+
+get_qos(pdu.options), extract (rev_buf, sise_buf(rcv_buf))); else post_error_report(pdu); OUTPUT S.TIMER_cancel(liietime_timer, free-reassembly-resources; end; ZERO);
+
+("' trsnsitiou #6 from when REASSEMBLING S.TIMER_response pdu); to CLOSED
+
+begin send_error_report(LIFETIME_EXPIRED_IN_REASSEMBL~~, end;
+
+44
+
+IS13611:1993 ~so6473:1966
+
+A.5
+
+State Transition
+
+Diagram
+
+I
+
+I
+INITIAL
+
+\
+
+'
+
+f
+
+1 I ,
+REASSEMBLING J
+
+\
+
+/
+
+\
+
+/ b
+
+j
+
+CLOSED
+J
+
+(
+
+\
+
+.
+
+45
+
+IS 13611 : 1993 IS0 8473 : 1988
+
+Supporting
+B.l Data Unit Lifetime
+
+Annex B Technical
+
+Material
+
+(This annex is not an integral
+
+part of the standard.) be present) in addition to those performed by each transport entity instance. Such functions are extremely complex and impose a non-trivial overhead in Transport Layer operation. Conversely, the state machine associat.ed with the provision of a connectionless-mode service does not require knowledge of previous connection state information to operate correctly. As no additional mechanisms beyond those necessary to correctly bound NPDU lifetime are required to ensure that old NSDUs (and hence old TPDUs) are delivered to the Transport Layer, it is preferable to have the Network Layer discard NPDUs whose lifetime has expired, and have the Transport Layer deal wit,h lost TPDUs (solution 2).
+
+There are two primary purposes for providing a PDU lifetime capability in the protocol defined by IS0 8473. One purpose is to ensure against unlimited,looping of protocol data units; while the routeing algorithm should ensure that it will be very rare for data to loop, the PDU lifetime field provides additional assurance that loops Gll be limited in extent. The other purpose of the lifetime capability is to provide a means by which the origiriating network-entity can limit the maximum NSDU lifetime. IS0 Transport Protocol Class 4 (IS0 8073) assumes that there is a particular maximum NSDU lifetime in order to protect against certain error states in the transport connection establishment and termination phases; viz., if a TPDU does not arrive within maximum NSDU lifetime, then there is no chance that it will ever arrive. It is necessary to make this assumption, even if the Network Layer does not guarantee any particular upper bound on NSDU lifetime; however, it is simpler for Transport Protocol Class 4 to deal with lost TPDUs than to deal with late TPDUs and for this reason, it is preferable to discard late TPDUs than to deliver them. It should be noted that NSDU lifetime is not directly associated with lhe retransmission of lost TPDUs; rather, it is most useful for distinguishing old (duplicate) TPDUs from new TPDUs. Maximum NSDU lifetime must be provided to a transport protocol entity in units of time in order to be useful in determining Transport timer values (.a transport entity cannot count "hops"). In the absence of any guaranteed upper bound, it is common to estimate a value kr maximum NSDU lifetime. This value is often based upon observation of past performance, and may vary with source and destination. There are two possible ways to deal with the requirement for a limit on the maximum NSDU lifetime: 1) provide a mechanism in the Transport Layer to recognize and discard old TPDUs; or 2) specify lifetime in uniti of time. The second method requires intermediate systems t,o decrement the lifetime field by a value which is an upper bound on the time elapsed since the PDU visited the previous intermediate system. The Transport Layer relies on the Network Layer discard NSDUs (and hence TPDUs) whose lifetime has expired. A major disadvantage to employing'solution 1 is that t.ransport entities (instances) are created when required and released when their purpose is fulfilled; hence, they are by nat.ure temporary. In order to determine whether a particular TPDU is olii, functions which recognise and discard old TPDUs must be designed (and must always
+
+,
+
+B.l.l
+
+Determining
+
+a value
+
+for NPDU
+
+lifetime
+
+It is not necessary for each intermediat.e syst,em to subtract a precise measure of the time that elapsed since an NPDU (containing theTPDU or a segment thereof) visited the previous intermediate system. M'here a precise measure is not available, it is sufficient to subtract an overestimate of the actual time taken. In most cases, an intermediate-system may simply subtract a constant value which depends upon the typical near-maximum delays that are encountered in a specific underlving service. A more accurat.e measure may be required for those subnetworks which have both a relatively large maximum delay, and a relatively large variation in delay. As an example, assume that a particular local area network has short average delays, with overall delays generally in the 1 to 5ms range and with occasional delays up to 20ms. In this case, altliough the relative range in delays might be large (a factor of twenty), it would still not be necessary to measure the actual delay for NPDUs. A constant value of 20ms (or more) can be subtracted for all NPDUs. Similarly, if a single hop satellite link had delays ranging from 0,5s to 0,Gs then the higher value could always be used. If a third subnetwork had normal delays ranging from 0,l to Is, but occasionally delivered a n NPDU after a delay of 159, then an intermediate system attached to this subnetwork might be find it necessary to determine how l&g it has actually taken the NPDU to be delivered. Even in this last example, it is more useful to have the intermediate systems determine when the delays are extreme and discard very old NPDUs, and allow the Transport protocol to detect the-lost TPDU. In addition to the time delay within each subnetwork, it is important to consider the time delay within inter-
+
+46
+
+IS 13611 : 1993 IS0 6473 : 1966
+
+mediate systems. It should be relatively simple for those gateways which expect to hold on to some data units for significant periods of time to decrement the lifetime appropriately.
+
+B .2
+
+Reassembly
+
+Lifetime
+
+cant rol
+
+extra buffers are tied up holding data w-hich has already been retransmitted by the Transport Prot,ocol. (Note that an assumption has been made that. such timers are integral to the Transport Protocol, which in some sense, dictates that retransmission functions must exist in the Transport Protocol employed).
+
+In order to ensure a bound on the lifetime of NSDUs, and to effectively manage reassembly buffers in the Network Layer, the Reassembly function described in clause 6 must control the lifetime of segments representing partially assembled PDUs. This clause discusses methods of bounding reassembly lifetime and suggests some implementation guidelines for the reassembly function. When segments of a PDU arrive at a destination network-entity, they are buffered until an entire PDU is received, assembled, and passed to the PDU Decomposition function. The protocol does not guarantee the delivery of PDUs; hence, it is possible for some segments of a PDU to be lost or delayed such that the entire PDU cannot be assembled in a reasonable length of time. In the case of lpss of a PDU "segment", for example, this could be forever. There are a number of possible schemes to prevent this: Per-PDU reassembly timers, Extension of the PDU Lifetime control and Coupling of the Transport Retransmission Each clauses. of these methods is discussed
+
+B.2.2
+
+Method
+
+(b)
+
+This method is feasible if the PDU lifetime control function operates based on real or virtual time rather than hop count. In this scheme, the lifetime field of each PDU segment of a Data Unit continues to be decremented by the reassembly function of the destination networkentity as if the PDU were still in transit. (in a sense, it still is). When the lifetime of any segment of a partially reassembled PDU expires, all segments of that PDU are discarded. This scheme is attractive since the delivery behavior of the IS0 8473 Protocol would be identical for segmented and unsegmented PDUs.
+
+B.2.3
+
+Method
+
+(c)
+
+function, timers.
+
+in the following
+
+B.2.1
+
+Method
+
+(a)
+
+This method assigns a "reassembly lifetime" to each PDU received and identified by its Data Unit Identifier. This is a local, real time which is assigned by the reassembly function and decremented while some,but not all segments of the PDU are being buffered by the destination network-entity. If the timer expires, all segments of the PDU are discarded, thus freeing the reassembly buffers and preventing a "very old" PDU from being confused with a newer one bearing the same Data Unit Identifier. For this scheme to function properly, the timers must, be assigned in such a fashion as to prevent the phenomenon of Reassembly Interference (discussed below). In particular, the following guidelines should be followed:
+
+This method couples the reassembly lifetime directly to the Transport Protocol's retransmission timers, and requires that Transport Layer management make known to Network Layer Management (and hence, the Reassembly `function) the values of its retransmission timers for each source from which it expects to be receiving traffic. When a PDU segment is received from a source, the retransmission time minus the anticipated transit time becomes the reassembly lifetime of that PDU. If this timer expires before the entire PDU has been reassembled, all segments of the PDU are discarded. This scheme is attractive since it has a low probability of holding PDU segments that have already been retransmitted by the svurce Transport-entity; it has, however, the disadvantage of depending on reliable operation of the Transport Protocol to work effectively. If the retransmission timers are not set correctly: it is possible that all PDUs would be discarded too soon, and the Transport Protocol would make no progress.
+
+j
+
+B.3
+
+The Power of the Header tection function
+General
+
+Error De-
+
+B&l
+
+a) The b)
+
+Reassembly Lifetime must be much less than the maximum PDU lifetime of the network (to prevent the confusion of old and new data units). The lifetime should be less than the Transport protocol's retransmission timers minus the average transit time of the network. If this is not done,
+
+The form of the checksum used for PDU header error detection is such that it is easily calculated in software or firmware using.only two additions pereoctet of header, yet it has an error detection power approaching (but not quite equaling) that of techniques which involve calculations that are much more time- or space-consuming
+
+47
+
+IS 13911 : 1993 ISO 8473 : 1988
+
+(such as cyclic polynomial checks). This clause discusses the power of this error detection'function. The checksum consists of two octets, either of which can assume any value except zero. That is, 255 distinct values for each octet are possible. The calculation of the two octets is such that the value of either is independent of the value of the other, so the checksum has a total of 255 x 255 = 65025 val ues. If one considers all ways in which the PDU header might be corrupted as equally likely, then there is only one chance in 65025 that the checksum will have the correct value for any particular corruption. This corresponds to 0,0015% of all possible errors. The remainder of this clause considers particular classes of errors that are likely to be encountered. The hope is that the error detection function will be found to be more powerful, or at least no less powerful, against these classes as compared to errors in general.
+
+This annex does not consider the case where the checksum itself is erroneously set to be all eero; this case is discussed in B.3.4.
+
+B.S.3
+
+Bit Insertion/Deletion
+
+Errors
+
+B.S.2
+
+Bit
+
+Alteration
+
+Errors
+
+Although errors involving the insertion or delet,ion of bits are in general neither more nor less likely t.o go undetected than are all other kinds of general errors, at least one class of such errors is of special concern. If octets, all equal to either sero or 255, are inserted at a point such that the simple sum C,, in the running calculation (described in B.3.4) happens to equal zero, then the error will go undetected. This is of concern primarily because there are two points in the calculation for which this value for the sum is not a rare occurrence, but is expected; namely, at the beginning ?nd the end. That is, if the header is preceded or followed by inserted octets all equal to zero or 255 then no error is detected. Both cases are examined separately. Insertion of erroneous octets at. the beginning of the header completely misaligns the header fields, causing them to be misinterpreted. In particular, the first. inserted octet is interpreted as the network layer. protocol identifier, probably eliminating any knowledge that the data unit is related to the IS0 8473 Protocol, and thereby eliminating any attempt to perform the checksum calculation or invoking a different form of checksum calculation. Insertion of erroneous octets at the end of the header, in the absence of other errors, is impossible because the length field unequivocally defines where the header ends. Insertion or deletion of octets at thi end of thr header requires an alteration in the value of the octet defining the header length. Such an alteration implies that the value of the calculated sum at the end of the header would not be expected to have the dangerous value of zero and consequently that the error is just as likely to be detected as is any error in general. Insertion of an erroneous octet in the middle of the header is primarily of concern if the inserted octet has either the value zero or 255, and if the variable C:, happens to have the value zero at this point. In most cases, t.his error will completely destroy the parsing of the header. which will canse the data unit to be discarded. In addition, in the absence of any other error, the last octet of the header will be thought to be data. This in turn will cause the header to end in the wrong place. In the case where the header otherwise can parse correctly, the last field will be found to be missing. Even in t.he case where the last field is the padding option, and therefore not necessary, the length field for the'padding function will be inconsistent with the header length field, and therefore the error can be detected.
+
+First considered are classes of errors in which bits are altered, but no bits are inserted nor deleted. A burst error of length b is a corruption of the header in which all of the altered bits (no more than b in number) are within a single span of consecutively transmitted bits that is b bits long. Checksums are usually expected to do well against burst errors of a length not exceeding the number of bits in the header error detection parameter (16 for the PDU header). The PDU header error detection parameter in fact fails to detect only 0,000019% of all such errors, each distinct burst error of length 16 or less being considered to be equally likely. In particular, it cannot detect an 8-bit burst in which tin octet of zero is altered to an octet of 255 (all bits = 1) or vice versa. Similarly, it fails to detect the swapping of two adjacent octets only if one is sero and the other is 255. The PDU header error detection, as should be expected, detects all errors involving on!y a single altered bit. Undetected errors involving only two altered bits should occur only if the two bits are .widely separated (and even then only rarely). The PDU header error detection detects all double bit errors for which the spacing between the two altered bits is less than 2040 bits = 255 octets. Since this separation exceeds the maximum header length, all double bit errors are detected. The power t.o detect double bit. errors is an advantage of the the-ksum algorithm used for the protocol, versus a simple mbdulo 65536 summation of the header split into 16 bit. fields. This simple summation would not catch all such double bit errors. In fact, double bit errors with a spacing as little as 16 bits apart could go undetected.
+
+48
+
+IS13611:1993 Iso6473:1966
+
+B.3.4
+
+Checksum
+
+Non-calculation
+
+Errors
+
+Use of the header error detection function is optional. The choice of not using it is indicated by a checksum parameter value of zero. This creates the possibility that the two octets of the checksum parameter (neither of which is generated as being zero) could both be altered to zero. This would in effect be an error not detected by the checksum, since the check would not be made. One of three possibilities exists: a ) A burst error of length sixteen (16) which sets the entire checksum to zero. Such an error could not be detected; however, it requires a particular positioning of the burst within the header. (A calculation of its effect on overall detectability of burst errors depends upon the length of the header). Since both octets b) All single bit errors are detected. of the checksum field must be non-zero when the checksum is being used, no single bit error can set the checksum to zero. c) Where each of the two octets of the checksum parameter has, a value that is a power of two, such that only one bit in each equals one (I), then a ze-
+
+roing of the checksum parameter could result in an undetected double bit error. Furthermore, the two altered bits have a separation of less than sixteen (16), and could be consecutive. This is clearly a decline from the complete detectability previously described.
+
+Where a particular adminijtration is highly concerned about the possibility of accidental zeroing of the checksum among data units within its network addressing domain, then the administration may impose the restriction that all data units whose source or destination lie within its network addressing domain must make use of the header error detection function. Any data units which do not could be discarded, nor would they be allowed outside the network addressing domain. This protects against errors that occur within the network addressing domain, and would protect all data units whose source or destination lies within the network addressing domain, even where the data path between all such pairs crosses other network addressing domains (erd rors outside the protected network addressing domain notwithstanding).
+
+49
+
+IS 13611 : 1993 IS0 8473 : 1988
+
+Algorithms
+C.l
+i' is the 0;
+
+for PDU Header
+(This annex
+
+AnneX C
+
+Error
+
+Detection
+
+function
+the checksum is incor-
+
+is not an integral
+
+part of the standard.) contains the value zero then rect; otherwise initialiee
+
+Symbols
+number (i.e.
+
+used in algorithms
+used in the algorithm; position) of an octet within the
+
+C,,, Cl. are variables
+
+Cl +-
+
+c,, *
+
+0 sequentially
+
+header (the position of the first octet is i = 1); is the value of octet i of the PDU header; checksum (i.e. position) of the first octet parameter (n = 8); of the PDU header in octets; of octet one of the checksum of octet two of the checksum of the
+
+n is the number L is the length
+S is the value 1" is the value
+
+B: Process each octet of the PDU header from i = 1 to L by
+
+c,, +
+
+Go + 0;
+
+parameter; parameter. C: If, when C1 = 0 has failed. (mod
+
+Cl +- Cl + Cl,
+all the octets otherwise have been processed, C,, =
+
+6.2 Addition
+
+Arithmetic
+is performed
+
+conventions
+in one of the two following modes:
+
+255) then
+
+the checksum the checksum
+
+calculaAion calculation
+
+has succeeded;
+
+a) modulo
+
+255 arithmetic;
+
+C.5
+
+b) eight-bit one's complement arithmetic in which, if any of the variables has the value minus cero (i.e. 255) it shall be regarded as though it had the value plus zero (i.e. 0).
+
+Algorithm Parameter
+algorithm
+
+to adjust the Checksum when an octet is altered
+the checksuti when an
+
+This
+
+adjusts
+
+octet(such as the lifetime value in octet k is changed
+
+field) is altered. Suppose the by Z = newvalue - oldvalue.
+
+C.3
+
+Algorithm for Generating sum Parameters
+the complete parameter
+
+Check-
+
+If S and I- denote the checksum values held in octets n and nt 1, respeciively, then adjust S and I-.as follows: If S = 0 and 1' = 0 then S = 0 or T' = 0 then else: do nothing, else if
+
+Construct
+
+PDU header
+
+with
+
+the value of
+
+the checksum
+
+field set to zero;
+
+the checksum
+
+is incorrect,
+
+A: Cl, - Cl + 0 B: Process each octet of the PDU header from i = 1 to L by c,, c1 + c: Calculate: S +- (L - S)C,, - Cl I- + (L - 7)(-C,,) + Cl (mod (mod CQ + 0; Cl + c,,
+
+sequentially
+
+S 6
+
+(k - it - l)Z + S
+
+(mod (mod
+
+255) 255) 1- -
+
+l- t- (n - k)Z + I' If X = 0, then S + 255.
+
+255; if I- = 0, then
+
+255) 255)
+
+For this protocol, n = 8. If the octet being altered is the lifetime field, k = 4. For the case where &he lifetime is decreased by one unit (z = -l), the assignment statements for the new values algorithm S + of S and 1- in the immediatelv to: (mod (mod 255) 255) preceeding simplify S + 5
+
+D: If ax = 0, then ..Y + 255; E: If 1" = 0, then Y + 255; F: place the values of .Y and spectively.
+
+Y in octets
+
+8 and
+
+9 re-
+
+I- + 1- - 4
+
+C.4
+
+Algorithm for Checking Parameters
+
+Checksum
+
+A: If octets
+
+8 and 9 qf the PDU header both contain 0 (ali bits off), then the checksum calculation has succeeded; else if either but not both of these octets
+
+NOTET 0 d erive this result, assume that xhen octet k ha.s the value Z added to it then X and Ihave values Z, and Z, added to them. For the checksum parameters to satisfy the conditions of 6.11 both before and after the values are added, the` following is required: Z + Z, + Z, = 0 (mod 255)
+
+50
+
+IS 13611 : 1993 IS0 6473 : 1966
+
+and (C-k+l)Z+(L-n+l)Z..+(L-n)Zy Solving these equations z, simultaneously = 0 (mod 255)
+
+yields
+
+= (k - n - 1)Z
+
+and z, = (n - k)Z
+
+51
+
+Printed at Dee Kay Printers, New Delhi, India
+
+Standard Mark by the provisions of the Bureau of Indian made thereunder. The Standard Mark on products covered by an Indian Standard conveys the assurance that they have been produced to comply with the requirements of that standard under a well defined system of inspection, testing and quality control which is devised and supervised by BIS and operated by the producer. Standard marked products are also continuously cheked by Details of conditions under BIS for conformity to that standard as a further safeguard. which a licence for the use of the Standard Mark may be granted to manufacturers or producers may be obtained from the Bureau of Indian Standards.
+Standards Act, 1986 and the Rules and Regulations
+
+The use of the Standard
+
+Mark is governed
+
+Burean of Indian Standards BIS is a statutory institution established under the Bureau of ZndiunSrundards Act, 2986 to promote harmonious development of the activities of standardization, marking and quality certification of goods and attenting to connected matters in the country. Copyright No part of these publications may be reproduced BIS has copyright of all its publications. in any form without the prior permission in writing of BIS. This does not preclude the free use, in the course of implementing the standard, of necessary details, such as symbols and sizes, type or grade designations. Enquiries relating to copyright be addressed to the Director ( Publications ), BIS. Revision of Indiau Standards Amendments are issued to standards as the need arises on the basis of comments. Standards are also reviewed periodically; a standard along with amendments is reaffirmed when such review indicates that no changes are needed; if the review indicates that changes are needed, it is taken Users of Indian Standards should ascertain that they are in possession of the up for revision. latest amendments or edition by referring to the latest issue of `81s Handbook' and Standards Monthly Additions'. Comments on this Indian Standard may be sent BIS giving the following reference: Dot : No. LTD 36 ( 1550 ) Aendments Issued Since Publication Amend No. Date of Issue Text Affected
+
+BUREAU OF INDIAN Headquarters: Manak Bhavan, Telephones
+
+STANDARDS
+
+9 Bahadur Shah Zafar Marg, New Delhi 11002 331 13 75 Telegrams : Manaksanstha ( Common to all Offices ) Telephone 9 Bahadur Shah Zafar Marg 11002 331 01 31 ( 331 13 75 l-37 84 99, 37 85 61 I 31 86 26, 37 86 62 l-53 38 43, `~53 23 84 53 16 40
+
+: 331 01 31,
+
+Regional Central
+
+Offices :
+: Manak Bhavan,
+
+NEW DELHI
+
+Eastern : l/14 C. I. T. Scheme VII M, V. 1. P. Road, Maniktola CALCUTTA 700054 Northern Southern : SC0 445-446, Sector 35-C, CHANDIGARH 160036
+
+: C. I. T. Campus, IV Cross Road, MADRAS 600113 E9 MlDC, Marol, Andheri ( East )
+
+,f235 02 16, 235 04 42 1235 15 19, 235 23 15 r632 92 95, (,632 78 91, 632 78 51 632 78 92
+
+Western : Manakalaya, Branches
+
+BOMBAY 400093
+: AHMADABAD.
+
+BANGALORE. BHOPAL. BHUBANESHWAR. COIMBATORE FARIDABAD. GHAZIABAD. GUWAHATI. HYDERABAD. JAIPUR. KANPUR. LUCKNOW. PATNA. THlRUVANANTHAPURA~l. .
+Pt~ntc~ al P:lnrwcll Printers, Aligsrh, India
+
+

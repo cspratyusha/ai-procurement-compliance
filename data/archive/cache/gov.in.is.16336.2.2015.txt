@@ -1,0 +1,2039 @@
+mede urne IS 16336 (Part 2) : 2015 
+Indian Standard (Reaffirmed 2018) 
+
+
+feretur yam eB dat X oer 
+cn saer-wart dq WIHISI Gee 
+arse (fuu) 
+
+
+art 2 user x «np feud ues wa eme seu usd qs: 
+wem HAITI Sq FA feed 
+
+
+Common Information Model (CIM) 
+for Information Exchange in the 
+Context of Electrical Utilities 
+
+
+Part 2 CIM Extensions for ABT Based Regulated Markets and 
+Load Shedding and Restoration Mechanism 
+
+
+ICS 33.200 
+
+
+© BIS 2015 
+
+
+RMA AA em 
+BUREAU OF INDIAN STANDARDS 
+AM WH, 9 TUE wer Art, we feeei-110002 
+\e MANAK BHAVAN, 9 BAHADUR SHAH ZAFAR MARG 
+
+
+NEW DELHI-110002 
+www.bis.org.in www.standardsbis.in 
+
+
+December 2015 Price Group 7 
+
+
+Power System Control and Associated Communications Sectional Committee, LITD 10 
+
+
+FOREWORD 
+
+
+This Indian Standard was adopted by the Bureau of Indian Standards, after the draft finalized by the Power 
+System Control and Associated Communications Sectional Committee had been approved by the Electronics 
+and Information Technology Division Council. 
+
+
+Utilities are having a wide deployment of various software systems for real-time monitoring and optimized 
+operations, also for achieving various business functions. There is a large number of information exchange 
+scenario's and use cases that exists within inter utility environment as well as in intra utility environment. There 
+are multiple software systems and components involved in these information exchange scenarios, and they are 
+procured from different vendors at different point in time. Often these information exchanges demands very 
+complex integration projects with high cost of execution, which either results in a case to case custom integration 
+using ad-hoc methods or a no integration scenario creating information silos. With a case to case custom integration 
+the number of integration adapters which are needed will increase drastically especially when additional integration 
+requirement increases. Intention of this standard is to bring in a Common Information Model and a set of interface 
+specification thus by enabling the vendors for providing standardized interfaces in various applications and 
+application components which requires an exchange of real-time and non-real-time information. 
+
+
+International Standards published by IEC, namely IEC 61970, IEC 61968 and IEC 62325 for intra application 
+and inter application integration of systems is considered as the base standard for adopting a Common Information 
+Model and Common Interface Specifications. Common Information Model provides a standard semantic model 
+for a model based information exchanges in the context of Electrical utilities. Common Interface Specifications 
+provides a standard set of services which defines how information is exchanged using the context of the standard 
+model. 
+
+
+The scope of this series of standards limits to the following: 
+
+
+a) Identifying various information exchange use cases which are very specific to the country. 
+
+b) Provide a guideline for implementation of systems based on international practices with respect to the 
+identified use cases. 
+
+c) Providing a number of standard model exchange profiles for specific information exchange scenario’s 
+which demands model exchange between two utilities or utility and system operator or utility and market 
+operator. 
+
+d) Provide extensions to the models specified in adopted IEC Standards to cater country specific requirements 
+which are not covered in the associated International Standards. 
+
+
+This standard (c) of above para and Para (a) and (b) are covered in (Part 1) and aspect given in (d) is covered in 
+IS 16336 (Part 3). 
+
+
+IS 16336 (Part 2) : 2015 
+
+
+Indian Standard 
+
+
+COMMON INFORMATION MODEL (CIM) FOR 
+INFORMATION EXCHANGE IN THE CONTEXT OF 
+ELECTRICAL UTILITIES 
+
+
+PART 2 CIM EXTENSIONS FOR ABT BASED REGULATED MARKETS AND LOAD 
+SHEDDING AND RESTORATION MECHANISM 
+
+
+1 SCOPE 
+
+
+This standard covers, the following extensions to the 
+CIM model as referred in IS 16336 (Part 1) to cater to 
+the specific requirements which are not covered in the 
+associated international standards. 
+
+
+Providing a number of standard model exchange 
+profiles for specific information exchange scenario's 
+which demands model exchange between two utilities 
+or utility and system operator or utility and market 
+operator. 
+
+
+The country specific requirements include, the 
+modelling of availability based tariff (ABT) 
+mechanism which is used in scheduling and settlements 
+of power in Indian markets. 
+
+
+2 INTRODUCTION 
+
+
+2.1 The broad objective of CIM model extensions is 
+to cover the entire business process of the system 
+operators in India at all levels (national, regional, state, 
+and distribution companies). However this section 
+presents CIM model extensions for the Availability 
+Based Tariff (ABT)/ Deviation Settlement Mechanism 
+(DSM) (Note: ABT and DSM are used in this standard 
+alternatively). The proposed extensions can be further 
+enriched by expanding the scope to cover other 
+operations in a phased manner. ABT comprises ofthree 
+components: 
+
+
+a) capacity charge, towards reimbursement of 
+the fixed cost of the plant, linked to the plant’s 
+declared capacity to supply MWs; 
+
+b) energy charge, to reimburse the fuel cost for 
+scheduled generation; and 
+
+c) Unscheduled Interchange — a payment for 
+deviations from schedule, at a rate dependent 
+on system frequency. 
+
+
+The last component would be negative (indicating a 
+payment by the generator for the deviation) in case 
+the power plant is delivering less power than scheduled 
+and positive in case the power plant is delivering more 
+power than scheduled when frequency is low. For a 
+distribution company, unscheduled interchange 
+
+
+charges will be corresponding to its drawal versus 
+schedule. If the unscheduled interchange of the 
+generator or beneficiary is above notified volume 
+limits, then additional unscheduled interchange charges 
+will be levied on them. In addition to this, penalty (in 
+geometric progression) will be levied for mis- 
+declaration by generators. 
+
+
+2.2 In short, the effects of ABT on the participants of 
+power system are provided below. 
+
+
+a) Load Dispatch Centre 
+
+1) Energy scheduling, 
+
+2) Energy accounting, and 
+
+3) Balancing and settlement. 
+
+b) Generating Stations 
+
+1) Penalty for mis-declaration in geometric 
+progression of 2 days fixed charges. 
+
+2) Realization of capacity charges in prorata 
+basis with respect to achieved availability 
+being lesser than the notified target 
+availability. 
+
+3) Negative UI charges at notified UI rate 
+corresponding to frequency when 
+dispatch is less than the schedule. 
+
+4) Positive UI charges at notified UI rate 
+corresponding to frequency when 
+dispatch is more than the schedule. 
+
+5) Additional UI charges when deviation is 
+more than volume limits. 
+
+6) Gaming constraints at 105 percent in a 
+block and 101 percent in a day and UI 
+rate capping. 
+
+c) Distribution Companies 
+
+1) Negative unscheduled Interchange for 
+actual drawal more than drawal schedule. 
+
+2) Positive unscheduled Interchange for 
+actual drawal less than drawal schedule. 
+
+3) Additional UI charges when deviation is 
+more than volume limits. 
+
+4) Gaming Constraint for under drawl at 
+3 percent in a block and 12 percent in 
+a day. 
+
+
+IS 16336 (Part 2) : 2015 
+
+
+2.3 While implementing ABT, the perspective changes 
+with respect to where it is implemented. Modeling of 
+Availability Based Tariff mechanism at system 
+operator or RTO periphery includes energy scheduling, 
+energy accounting, balancing and settlement. 
+Generating stations, distribution companies, and HT 
+industries shall comply with ABT mechanism. Load 
+Dispatch Centre shall schedule, monitor, control and 
+energy account the ABT mechanism. Energy 
+scheduling shall be based on merit order dispatch, 
+power purchase agreements and entitlements. Energy 
+Accounting and balancing and settlement is done based 
+on entitlements, gaming constraints, power purchase 
+agreements, contract demand and open access 
+agreements. The key factors that need to be considered 
+while modeling ABT are the extent of applicability of 
+ABT on different type of utilities based on the nature 
+ofthe product chosen. When energy product is chosen, 
+all the three components of ABT namely capacity 
+charges, energy charges and Unscheduled Interchange 
+charges are applicable. When open access product or 
+power exchange product is chosen only unscheduled 
+interchange charges are applicable. Modeling of 
+Availability Based Tariff mechanism at generation 
+periphery includes capability declaration, merit order 
+dispatch, capacity charges realization, achieving PLF 
+target, and positive UI charges maximization. 
+Modelling of Availability Based Tariff mechanism at 
+distribution periphery includes requirement declaration 
+based on load forecast, entitlement, and positive UI 
+charges maximization. 
+
+
+3 ENERGY SCHEDULING 
+MECHANISM AND CIM 
+
+
+IN ABT 
+
+
+The above factors had been considered in modeling 
+ABT in CIM and the model is presented from the 
+perspective of SLDC. 
+
+
+3.1 Information Exchange while Scheduling 
+
+
+Load Dispatch Centre exchanges various types of 
+scheduling information with stake holders. The 
+message types are depicted in Fig 1. 
+
+
+To understand the message types, basically the 
+activities involved in scheduling process needs to be 
+understood. In ABT, generating stations declare their 
+day a-head capability. Central sector generating 
+stations declare their capability through RLDC. State 
+sector generating stations declare their capability 
+directly to SLDC. SLDC computes and sends 
+entitlement of DISCOMs. The entitlement percent is 
+defined as per power purchase agreements. DISCOMs 
+send drawl requisition up to their entitlement to SLDC. 
+The drawl requisition by DISCOM to SLDC consists 
+of three components, namely PPA component, Open 
+access component and Market component. Based on 
+the load forecast, entitlement and the merit order (merit 
+based on rate of energy) of generating companies, 
+drawl requirement is computed. Based on requirement 
+from DISCOMs and availability from generating 
+stations, SLDC notifies surplus capability. On receipt 
+of surplus availability, if the earlier requested drawl is 
+less than the load forecast, additional requirement is 
+calculated and updated to SLDC. Based on generation 
+capabilities and drawl requisitions, SLDC prepares 
+generation schedule and drawl schedule. The 
+succeeding chapters present the method and the 
+extension classes required to adopt CIM for 
+representing ABT. 
+
+
+3.2 Energy Scheduling Sub-processes 
+3.2.1 Capability Computation by Generating Stations 
+
+
+Day ahead capability is calculated based on unit 
+constraints, equipment constraints, fuel constraints, and 
+
+
+sd Energy Scheduling for LOC 7 
+
+
+Q Q 
+
+
+RLDC CGS 
+pm Stakeholders) (from Stakeholders) 
+
+
+Q 
+
+
+SGS 
+(from Stakeholders) 
+
+
+! Receive Capacity 
+
+
+LT informations : 
+: Receive Capacity 
+
+
+informations 
+| Receive Capacity 
+
+
+D 
+
+
+CPP DISCOMs 
+(from Stakeholders) (from Stakeholde 
+
+
+IPP 
+(from Stakeholders) 
+
+
++— informations 
+
+
+A 
+
+
+Receive Capacity 
+
+
+Informations + 
+
+
+Receive 
+
+
+Entitlement in MW 
+
+
+Drawal 
+Request 
+
+
+Send Schedule 
+J Send Schedule 
+
+
+"a 
+
+
+_Send Schedule M 
+Send Schedule 
+
+
+Send Sc 
+
+
+hedule 
+
+
+RE 
+
+
+Fic. 1 INFORMATION ExcHANGE WHILE SCHEDULING 
+
+
+2 
+
+
+maintenance constraints. These constraints reduce the 
+availability of the generating plant. The model of 
+capability declaration information is depicted in Fig. 2. 
+
+
+3.2.2 Capability Declaration by Generating Stations 
+
+
+Capability is declared by generating stations at the 
+interface point. The declared capability is sent to the 
+SLDC as information. The model of capability 
+declaration information is depicted in Fig. 3. 
+
+
+3.2.3 Entitlement of Distribution Companies 
+
+
+Based on the allocation percentage, load dispatch 
+centre computes the entitlement of each DISCOM at 
+its interface point with the transmission system after 
+subtracting the transmission losses. The present CIM 
+version does not have class for representing the 
+entitlement percentage. Hence Common Information 
+Model is extended to have a class named 
+*EnergyScheduling: Allocation” with 
+attributes: AllocationFromUtility, AllocationToUtility, 
+AllocationType, ApplicableFromDateTime, 
+ApplicableTodateTime, EntitlementPercentage, and 
+
+
+class Financial CapabilityComputation 
+
+
+Core:: 
+
+
+*OperatedBy GenerationProvider 
+
+
+*GeneratingUnits 
+
+
+*GeneratingUnit 
+
+
+Regularinterval Schedule | o. 4 
+
+
+Production:: 
+GenUnitOpSchedule 
+
+
+IdentifiedObject. 
+
+
+PowerSystemResource 
+
+
+IS 16336 (Part 2) : 2015 
+
+
+EntitlementPriority. The representation of entitlement 
+shall be through association with class 
+“EnergyScheduling:EnergyTransaction” and its 
+generalized class “Common:Document” attribute 
+“Subject”. 
+
+
+3.2.4 Requirement Declaration by Distribution 
+Companies 
+
+
+Distribution companies send requirement to load 
+dispatch centre based on their entitlement and load 
+forecasting. Corresponding CIM representation given 
+in Fig. 4. 
+
+
+3.2.5 Energy Scheduling by Load Dispatch Centre 
+
+
+The Generating Stations declare their capacity at their 
+interface point with the transmission system. The 
+Distribution companies submit their requirement at the 
+interface point with the transmission system. Based 
+on the entitlement percentage, transmission loss profile 
+and merit order stack, load dispatch centre prepares 
+the dispatch schedule and drawal schedule. In Fig. 5, 
+the classes involved in modelling the ABT energy 
+
+
+Outage: :OutageSchedule 
+
+
+IdentifiedObject 
+
+
+*PowerSystemResource 
+
+
+1 *Outage Schedule 9..1 
+
+
+Core:: 
+Basiclnterval Schedule 
+
+
+U A 
+Core::IrregularintervalSchedule 
++ 
+
+
+*Interval Schedule] 1 
+
+
+*TimePoints 
+
+
+IdentifiedObject|. . 
+
+
+Production:: 
+FossilFuel 
+
+
+*FossilFuel| 1 
+
+
+Production::FuelType 
+(root) 
+
+
+*ThermalGeneratingUnit 
+
+
+*FuelAllocation Schedules [0..* 
+
+
+Core:: 
+IrregularTimePoint 
+(root) 
+
+
+identifiedObject 
+
+
+Core::Curve 
+
+
++FuelAllocation Schedules Production:: 4 
++] FuelAllocation Schedule 
+<enumeration» ae 
+
+
+Fic. 2 CAPABILITY COMPUTATION BY GENERATING STATIONS 
+
+
+IS 16336 (Part 2) : 2015 
+
+
+class Financial CapabilityDeclaration 
+
+
+ErpOrganisation Agreement 
+G ti P id *EnergyProducts À 
+RISISUODE TON eet 1 *GenerationProvider . EnergyScheduling:: 
+EAs] 
+
+
+Regularinterval Schedule 
+
+
+Production: : 
+GenUnitOpSchedule 
+
+
+*GenUnitOpSchedule | 0..1 
+
+
+1 
+
+
+EnergyProduct 
+
+
++OperatedBy_GenerationProvider *GeneratingUnit 
+
+
+1 
+
+
+Q 
+*GeneratingUnits Equipment 
+POREN ES, Production: : 
+*Sul ontrolArea + neratin nits 
+Conte] z GeneratingUnit 
+1 
+EnergyScheduling:: 
+SubControlArea +SideB_SubControlArea — *SideB TieLines 
+
+
+*SubControlAreas 
+
+
+1 EnergyScheduling:: 
+*SideA SubControlArea TieLine 
+(root) 
+
+
+*HostControlArea | ! *SideA HostControlArea *SideA TieLines 
+
+
+identifiedObject p 
+- 
+EnergyScheduling:: |*Sid*8-HostControlArea 
+HostControlArea |: *SideB Tielines — 0.- 
+
+
+Fic. 3 CAPABILITY DECLARATION BY GENERATING STATIONS 
+
+
+class Financial DISCOM 
+
+
+ErpOrganisation| c, tomerConsumer 7 . 
+CustomerConsumer [>> 7] EnergyScheduling:: *SideB_SubContro\éres | EnergyScheduling:: 
+| SEES sTieLines a. i SubControlArea 
+
+
++SideA_SubControlArea 
+
+
+identifiedO! t 
+lentifiedObjec! FowerSystemResource 
+
+
+oes +EnergyArea +ControlArea ControlArea:: 
+nergyArea ControlArea 
+ee e 
+
+A 
+
+
+identifiedObject 
+LoadModel::LoadArea i LoadModel:: | «subLoadArea x LoadModel:: 
+1 *SubLoadAreas [ps 
+
+
+SeasonDayTypeSchedule 
+
+
+A 
+LoadModel:: +ConformLoad Schedules +ConformLoadGroup LoadModel:: 
+ConformLoadSchedule[ ; . TO ConformLoadGroup 
+
+
+Fic. 4 REQUIREMENT BY DISCOM 
+
+
+4 
+
+
+scheduling mechanism in CIM are depicted. The 
+classes depict a logical representation; the intricacies 
+of the associations involved are not shown in this 
+figure. They are represented in Fig. 2, Fig. 3 and Fig. 4. 
+During suspension of ABT period, Load Dispatch 
+Centre notifies it. CIM doesn't have class to represent 
+this. Hence CIM has to be extended with a class 
+“EnergyScheduling:NonABTPeriod”. 
+
+
+3.2.6 Summary 
+
+
+For modelling Energy Scheduling component of ABT 
+mechanism in CIM, following extensions classes are 
+required. 
+
+
+a) EnergyScheduling:Allocation 
+b) EnergyScheduling:MeritOrderList 
+c) EnergyScheduling:NonABTPeriod 
+
+
+The details of above classes are explained in Tables 1, 
+2, and 3. 
+
+
+IS 16336 (Part 2) : 2015 
+
+
+Table 1 Description of Extension Class 1: 
+EnergyScheduling: Allocation 
+
+
+(Clause 3.2.6) 
+
+
+Use: To represent entitlement/ allocation as per 
+power purchase agreement 
+
+
+SINo. Attribute Description Type 
+d) (2) (3) (4) 
+i) Attribute 1 allocationFromUtility String 
+ii) Attribute 2 allocationToUtility String 
+iii) Attribute 3 allocationType String 
+iv) Attribute 4 applicableFromBlock int 
+v) Attribute 5 applicableToBlock int 
+vi) Attribute 6 entitlementPercent Percent 
+vii) Association 1 Common:Document Generalization 
+
+
+viii) Association 2 Common:DateTimelInterval Association 
+
+
+class Financial EnergySchedulingByLDC / 
+
+
+ErpOrganisation 
+ControlAreaOperator eContets HasA 
+
+
+*ControlAres Operators | 0..* 
+
+
+*TieLines | 1 *SideB TieLines |o + 
+
+
+EnergyScheduling::TieLine 
+(root) 
+
+
+*SideA TieLines 
+
+
+0.* 
+
+
+*SideA TieLines 
+
+
+*SideB TieLines 
+
+
+*TieLines 0..° 
+
+
++GeneratingUnits]0..* 
+Equipment 
+Production::GeneratingUnit 
+
+
+1 
+*CustomerConsumer |0..1 
+
+
+ErpOrganisation 
+CustomerConsumer 
+
+
+*GenUnitOpSchedule |[0O..1 
+
+
+SeasonDayTypeSchedule 
+
+
+LoadModel:: Production:: 
+
+
+ConformLoadSchedule 
+
+
++SideB_HostControlArea 
+
+
+*SideA HostControlArea 
+
+
++SideA_SubControlAres 
+
+
++Generatingunit () *GeneratingUnits | 1..* 
+
+
+*OperstedBy GenerationProvider | 1 
+RegularintervalSchedule 
+
+
+GenUnitOpSchedule 
+
+
+IdentifiedObject 
+*ControlledBy E 
+EnergyScheduling::HostControlArea 
+1 
+
+
+1 
+
+
+*HostControlArea | 1 
+
+
+*SubControlAreas 
+
+
+0.* 
+ControlArea 
+EnergyScheduling::SubControlArea 
+
+
+*SideB SubControlArea 
+1 
+
+*SubContiolArea 
+
+0.1 
+
+
+*Import, SubControlArea 1 
+*Export SubControlArea 
++Export_EnergyTransactions 
+*Import, EnergyTransactions 0..* 
+
+
+Document 
+
+
+EnergyScheduling:: 
+EnergyTransaction 
+l— — —————Q'[ 
+
+
++ 1 
+*EnergyTransaction 
+
+
+*LossProfiles [O..* 
+
+
+ErpOrganisation Profile 
+GenerationProvider EnergyScheduling:: 
+
+
+LossProfile 
+
+
+Fic. 5 ENERGY SCHEDULING By LDC 
+
+
+IS 16336 (Part 2) : 2015 
+
+
+Table 2 Description of Extension Class 2: Energy Table 3 Description of Extension Class 3: 
+Scheduling: Merit Order List EnergyScheduling: NonABTPeriod 
+(Clause 3.2.6) (Clause 3.2.6) 
+Use: To represent merit order list of generating Use: To represent non ABT period or 
+stations based on their rate of energy charge using suspension of UI 
+which load dispatch centres prepare schedules 
+————————————MÓ——————— SI Attribute Description Type 
+SI Attribute Description Type No. 
+No. (1) (2) (3) (4) 
+1 2 3 4 
+Wo G EMEN; NN i) Attribute 1 fromBlockNumber int 
+i) Attribute 1 meritOrder int ii) Attribute 2 fromDateTime AbsoluteDateTime 
+ii) Attribute 3 utilityID String iii) Attribute 3 noticeIssueDate AbsoluteDateTime 
+iii) Association 1 Common:DateTimeInterval Association iv) Attribute 4 noticeNumber int 
+v) Attribute 5 reason String 
+4 ENERGY ACCOUNTING AND CHARGES IN vi) SANUDUDG" “stele Number, zint 
+ABT MECHANISM AND CIM vii) Attribute 7 toDateTime AbsoluteDateTime 
+
+
+viii) Association 1 Common:Document Generalization 
+4.1 Information Exchange in Energy Accounting 
+
+
+and Charges Process Account and Charges and deviation account. 
+
+
+Representation of this information in CIM is presented 
+SLDC exchanges energy accounting and charges here. 
+
+
+information with stake holders as depicted in Fig. 6. 
+
+
+; . 4.2 ABT Meter Data and CIM 
+Load Dispatch Centre exchanges/publishes 
+
+
+information in two broad heads — State Energy The ABT meter data collection is the primary activity 
+
+
+QO O 
+
+
+Participants Substation 
+having 
+interface 
+point ABT 
+meters 
+
+
+sd Business Workflows 
+
+
+Implemented Schedules 
+Notified Average Frequency 
+Actual interchange 
+
+
+Unscheduled interchange 
+
+
+Energy account 
+
+
+Charges - capacity, energy, deviation (UI) 
+Non ABT period/ Ul suspension period 
+Transmission loss percent 
+UI rate, deviation volume limits, 
+gaming constraints (from regulators) 
+E 
+
+
+Meter asset changes, CT PT or multiplication factor changes 
+
+
+Fic. 6 INFORMATION EXCHANGE FOR ENERGY ACCOUNT AND CHARGES 
+
+
+for preparing an energy account. To prepare Energy 
+account under ABT mechanism, the basic requirement 
+is 15 min block wise (ABT) Load survey data. ABT 
+meter data is acquired both offline and online mode. 
+The present classes in CIM under packages “MEAS” 
+and “METERING” are used for modeling ABT meter 
+data. In ABT meter data acquisition, the multiplication 
+factor is applied at control center rather than at 
+substation. The quality of data is validated and CIM 
+class used for the purpose is “Metering:Quality”. 
+Hence, for ABT meter data modelling in CIM, the 
+existing classes are sufficient and extensions are not 
+required. ABT meter data representation in CIM is 
+presented in Fig. 7. 
+
+
+4.3 Energy Account 
+
+
+The energy account is prepared based on Capability 
+Declaration, Schedule Interchange, Actual Interchange, and 
+Entitlement. For modelling the energy account in CIM, 
+the extended classes are “EnergyScheduling:Allocation” 
+and “EnergyScheduling:NonABTPeriod”. 
+
+
+Applying tariff rates on the energy account will result 
+in charges. The Availability Based Tariff structure and 
+charges are modelled in CIM as provided in following 
+section. 
+
+
+IS 16336 (Part 2) : 2015 
+
+
+4.4 ABT Charges and Balancing and Settlement 
+
+
+ABT mechanism has four part charge mechanism. 
+They are capacity charges and its realization, energy 
+charges, unscheduled interchange charges and reactive 
+energy charges. Modeling ABT charges, and balancing 
+and settlement in CIM is not possible with the available 
+CIM classes due to the unique requirements of 
+Availability Based Tariff Mechanism. Hence CIM 
+requires extension. The extensions are placed as a sub 
+package in “FINANCIAL” package referred in Fig. 9. 
+It is the logical choice since the balancing and 
+settlement of energy account and charges are among 
+the business entities represented in "FINANCIAL" 
+package. 
+
+
+CIM does not address the requirements of ABT tariff 
+structure. It needs extension for modelling ABT energy 
+accounting and balancing and settlement mechanism. 
+The ABT sub package is presented in Fig. 10. The 
+required extension classes are presented in following 
+sections. 
+
+
+4.5 Description of Extension Classes for Modelling 
+ABT Structure 
+
+
+The details of extension classes required for modeling 
+ABT structure are provided from Table 4 to Table 8. 
+
+
+class Financial InterfacePointABTMeterData / 
+
+
+ControlArea 
+
+
+Energy Scheduling: : 
+SubControlArea 
+
+
+Meas: : *AnalogValues 
+AnalogValue 
+ha 
+
+
+IdentifiedObject 
+
+
+Meas:: 
+MeasurementValue 
+
+
+EndDeviceAsset 
+
+
+*MeterAsset *MeterReadings 
+
+
+Metering:: 
+MeterAsset 
+
+
+IdentifiedObject 
+
+
+*MemberOf +PartOf Reservation:: 
+ServicePoint 
+
+
+*Analog| Meas:: Analog 
+
+
+IdentifiedObject 
+*Declared ServicePoint 
+
+
+Reservation:: 
+TiePoint 
+
+
+*Declare TiePoint 
+
+
+*For TiePoint *By TiePoint | 1 
+
+
+*For Measurements |1.* «By Measurements | 4. * 
+identifiedObject 
+
+
+Meas::Measurement 
+
+
+identifiedObject 
+
+
+Metering:: 
+MeterReading 
+
+
++MeterReading 
+
+
+Fic. 7 ABT METER DATA REPRESENTATION IN CIM 
+
+
+IS 16336 (Part 2) : 2015 
+
+
+class Financial ABTEnergyAccount 
+
+
+identifiedObject 
+
+
+Reservation:: 
+ServicePoint 
+
+
+MemberOf 
+*SubControlAreas 
+*Declared ServicePoint 
+
+
+*Export EnergyTransactions 
+
+
+*Declare TiePoint *HostControlArea 
+IdentifiedObject identifiedObject 
+
+
+Reservation:: TiePoint Energy Scheduling: : EnergyScheduling:: 
+
+
+BERE EE] HostControlArea Energy Transaction 
+
+
+*By TiePoint *For TiePoint 
+
+
+*HostControlArea 
+
+
+* | *By Measurements 41..*| *For Measurements 0..* | *InadvertentAccounts 
+IdentifiedObject Curve 
+
+
+Meas::Measurement Energy Scheduling:: 
+
+
+pereo] eee 
+
+
+Fic. 8 ENERGY ACCOUNT 
+
+
+^ Load 
+
+
+IEC 61970 from IEC TC57 WG13 
+
+
+Market Operations 
+
+
+Fic. 9 ABT As A SuB-PACKAGE TO FINANCIAL PACKAGE IN CIM 
+
+
+class Financial ABTStructure 
+
+
+«Compound» 
+Common:: 
+Date Timelnterval 
+
+
+tariffitemAbt: Extn TariffltemAbt 
+tariffitemAbtValue: float 
+
+type: boolean = true 
+
+utilityID: String 
+
+
+additionalUiCharge1: Money 
+additionalUiCharge2: Money 
+additionalUiCharge3: Money 
+additionalUiCharge4: Money 
+baseUiCharge: Money 
+capacityChargeRealized: Money 
+energyChargeRealized: Money 
+misDeclarationPenalty: Money 
+payeeUtilityID: String 
+reactiveEnergyCharge: Money 
+receivingUtilityID: String 
+transmissionCharge: Money 
+
+
+IS 16336 (Part 2) : 2015 
+
+
+Organisation 
+
+
+InfERP Support: : 
+ErpOrganisation 
+
+
+addUiRate1: PerCent 
+addUiRate2: PerCent 
+addUiRate3: PerCent 
+addUiRate4: PerCent 
+baseUiRate: Money 
+belowFreq: float 
+capRate: Money 
+notBelowFreq: float 
+
+
+«enumeration» 
+Extn_TariffitemAbt 
+
+
+«enum» 
+plantAvailabilityFactor 
+plantLoadFactor 
+annualFixedCharge 
+energyChargeRate 
+auxiliaryConsumption 
+transmission Tariff 
+reactiveEnergyChargeRate 
+
+
+Fic. 10 ABT SuB-PACKAGE IN CIM 
+
+
+Table 4 Description of Extension Class 4: 
+Financial: AvailabilityBasedTariff 
+
+
+(Clause 4.5) 
+Use: To define Availability Based Tariff Structure 
+
+
+SI Attribute Description Type 
+No. 
+(1) Q) (3) (4) 
+
+
+i) Association 1 InfERP:ErpOrganization Generalization 
+ii) Association 2. Common:DateTimelInterval Association 
+
+
+Table 5 Description of Extension Class 5: 
+Financial: Extn AbtTariff 
+
+
+(Clause 4.5) 
+
+
+Use: To define energy charge tariff notified by 
+competent authority 
+
+
+SI Attribute Description Type 
+
+No. 
+
+(1) (2) (3) (4) 
+
+i) Attribute 1 UtilityID String 
+
+ii) Attribute 2 type int 
+
+iii) Attribute 3 tariffltemAbt Extn Tariffltem 
+Abt 
+
+iv) Attribute 4 tariffltemAbtValue float 
+
+v) Association 1 Financial:AvailabilityBas Generalization 
+
+edTariff 
+
+
+Table 6 Description of Extension enumeration 
+Class 6: Financial: Extn_TariffltemAbt 
+
+
+(Clause 4.5) 
+Use: To various tariff rates notified by competent 
+authority 
+SI Attribute Description Type 
+No. 
+(D B (3) (4) 
+
+
+i) enum! _ plantAvailabilityFac PerCent 
+tor 
+
+ii) enum2 PlantLoadFactor PerCent 
+
+ii) enum3 AnnualFixedCharge Money 
+
+iv) enum4 EnergyChargeRate MonetaryAmountPerActi 
+
+veEnergy Unit 
+
+v) enum5  AuxiliaryConsumpti Generalization 
+on 
+
+vi) enum6  TransmissionTariff MonetaryAmountPerMW 
+
+vii enum7 reactiveEnergyChar MonetaryAmountPerReac 
+geRate tiveEnergyUnit 
+
+
+5 LOAD SHEDDING AND RESTORATION 
+
+
+5.1 Load shedding is the term used to describe the 
+deliberate switching off of electrical supply to parts of 
+the electricity network, and hence to the customers in 
+those areas. Load shedding can be required when there 
+is an imbalance between electricity demand 
+(customer's usage) and electricity supply (the ability 
+of the electricity network to generate and transport the 
+
+
+IS 16336 (Part 2) : 2015 
+
+
+Table 7 Description of Extension Class 7: 
+Financial: Extn UiRate 
+
+
+(Clause 4.5) 
+
+
+Use: To define unscheduled interchange rate 
+notified by competent authority 
+
+
+SI Attribute Description Type 
+No. 
+
+d) (2) (3) (4) 
+i) Attribute 1 notBelowFreq float 
+
+ii) Attribute2 belowFreq float 
+iii) Attribute 3 baseUiRate Money 
+iv) Attribute4 capRate Money 
+v) Attribute 5 — addUiRatel PerCent 
+vi) Attribute 6 — addUiRate2 PerCent 
+vii) Attribute 7 — addUiRate3 PerCent 
+viii) Attribute 8 — addUiRate4 PerCent 
+
+
+ix) Association 1 Financial:AvailabilityBasedTariff Generalization 
+
+
+Table 8 Description of Extension Class 8: 
+Financial: Extn_AbtCharge 
+
+
+(Clause 4.5) 
+
+
+Use: To define reactive energy rate notified by 
+competent authority 
+
+
+SI Attribute Description Type 
+No. 
+
+d) (2) (3) (4) 
+
+i) Attribute 1 additionalUiChargel Money 
+ii) Attribute 2 additionalUiCharge Money 
+iii) Attribute 3 additionalUiCharge Money 
+iv) Attribute 5 baseUiCharge Money 
+
+v) Attribute 6 capacityChargeRealized Money 
+vi) Attribute 7 energyChargeRealized Money 
+vii) Attribute 8 misDeclarationPenalty Money 
+viii) Attribute 9 payeeUtilityID String 
+
+ix) Attribute 10 reactiveEnergyCharge Money 
+
+x) Attribute 11 receivingUtilityID String 
+
+xi) Attribute 12 transmissionCharge Money 
+xii) Attribute 4 additionalUiCharge Money 
+xii) Association 1 Financial:AvailabilityBased Generalization 
+
+
+Tariff 
+
+
+required amount of electricity to meet this demand). 
+When there is a shortfall in the electricity supply, there 
+can be a need to reduce demand very quickly to an 
+acceptable level, or risk the entire electricity network 
+becoming unstable and shutting down completely. This 
+is known as a cascade event, and can end in a total or 
+widespread network shutdown affecting very large 
+areas of a country. Some examples include the 
+blackouts in northeast America and Canada in 2003 
+and across Italy in the same year. 
+
+
+Load shed application is based on load forecast and 
+energy drawl schedule received from a load dispatch 
+centre. The requirements of load shed and restoration 
+application as specified by Restructured Accelerated 
+Power Distribution Reform Programme (R-APDRP) 
+
+
+10 
+
+
+for India is provided in this section. The load shed 
+application shall automate and optimize the process 
+of selecting the best combination of switches to be 
+opened and controlling in order to shed the desired 
+amount of load under a DISCOM area. 
+
+
+Given a total amount of load to be shed, the load shed 
+application shall recommend different possible 
+combinations of switches to be opened, in order to meet 
+the requirement. The dispatcher is presented with 
+various combinations of switching operations, which 
+shall result in a total amount of load shed, which closely 
+resembles the specified total. The dispatcher can then 
+choose any of the recommended actions and execute 
+them. The recommendation is based on basic rules for 
+load shedding and restoration. In case of failure of 
+supervisory control for few breakers, the total desired 
+load shed/restore will not be met. Under such 
+conditions, the application shall inform the dispatcher 
+the balance amount of load to be shed/restore. The load- 
+shed application shall run again to complete the desired 
+load shed/restore process. The result of any Load Shed 
+operation shall be archived in Information storage and 
+retrieval system. 
+
+
+5.2 Basic Rules for Load Shedding and Restoration 
+
+
+The load shall be shed or restored on the basis of 
+following basic rules: 
+
+
+a) By load priority — The Load Shed 
+Application (LSA) Software shall have a 
+priority mechanism that shall allow the user 
+to assign higher priorities for VIP or any other 
+important load. The load assigned with the 
+higher priorities shall be advised to be shed 
+later and restore earlier than load with 
+relatively lower priorities. Each load priority 
+shall be user definable over the scale of at 
+least 1-10. 
+
+
+b) 
+
+
+c) 
+
+
+By 24 h load shed /restore history — The loads 
+of equal priorities shall be advised for 
+restoration in such a way that loads shed first 
+shall be advised to be restored first. The 
+application shall ensure that tripping 
+operations is done in a cyclic manner to avoid 
+the same consumers being affected 
+repeatedly, however, priority loads shall be 
+affected least. 
+
+
+By number of consumers affected — The 
+consumer with equal priority and similar past 
+load shed history shall be considered by the 
+application in such a way that minimum 
+number of consumers are affected during the 
+proposed load shed. The data for number of 
+consumers connected to a feeder/device shall 
+be taken from computerized billing system. 
+
+
+5.3 Modes of Operation 
+
+
+The load-shed application shall operate in four modes. 
+Each mode of operation can be enabled or disabled by 
+operator independently. The load can be shed and 
+restore in possible combination that is manually shed 
+and auto restore, or vice-versa, or both operations in 
+the same modes. Different types of load shedding are 
+as follows: 
+
+
+a) 
+
+
+b) 
+
+
+c) 
+
+
+Manual Load Shed — In this mode, operator 
+specifies a load to be shed in a project area. 
+The software shall determine and propose all 
+the possible combinations of switches to be 
+operated for the requested load shed 
+considering the basic rules for load shed and 
+restoration. In case more than one options are 
+possible, then the application shall identify 
+all such options with the priority of consumers 
+along with the number of consumers are likely 
+to be affected for the particular load shed 
+option. The dispatcher shall select and execute 
+one of these options for affecting the load 
+shed. 
+
+Manual Load Restoration — In this mode 
+operator specifies the desired load to be 
+restored. The software shall determine the 
+switches to be operated for the requested load 
+restore considering the basic rules for load 
+shed and restoration. In case more than one 
+option is possible, then the application shall 
+identify all such options with the priority of 
+consumers along with the number of 
+consumers are likely to be restored for the 
+particular load restore option if chosen by 
+dispatcher. The dispatcher shall select and 
+execute one of these options for effecting the 
+load restoration. The Load Shed Application 
+shall maintain a load restore timer, which shall 
+automatically start after tripping of Circuit 
+Breaker due to manual load shedding. An 
+alarm shall be generated to remind the 
+operator to restore the loads when this timer 
+expires. For manual mode of operation the 
+dispatcher shall enter the value of load restore 
+timer. 
+
+
+Auto Load Shed — This shall have two modes 
+namely frequency based load shed and time 
+of day based load shed as described below. 
+
+
+1) Frequency based load shed — The 
+function shall execute the tripping of 
+breakers based on the system frequency 
+automatically considering the basic rules 
+for load shed and restoration. The 
+software shall automatically execute the 
+switching operations as soon as system 
+
+
+d) 
+
+
+IS 16336 (Part 2) : 2015 
+
+
+frequency reaches at LSS str frequency 
+threshold and it shall continue to do so 
+unless system frequency crosses the 
+LSS stp frequency limit. The frequency 
+limits shall be dispatcher assignable up 
+to single decimal points. Once frequency 
+crosses below LSS stp limit, then load 
+shed can only be started and again 
+restoration can be started when frequency 
+attains above the LSS str. In the 
+proposed software configuration, Limit 
+LSS str shall be lower than LSS stp. A 
+suitable protection to ensure that shall be 
+in the range has to be provided in the user 
+interface such as discard, forbidden, etc, 
+if a user accidentally enters LSS str 
+higher or equal to LSS stp or LSS are 
+entered higher than LSR. 
+
+2) Time of day based load shed — The 
+function shall operate to shed load at the 
+predefined time of the day and load to be 
+shed. The software shall automatically 
+execute the switching operations 
+considering the basic rules for load shed 
+and restoration. 
+
+Auto Load Restoration — This shall have two 
+
+modes namely frequency based load 
+
+restoration and time of day based load 
+restoration as described below: 
+
+1) Frequency based restoration — The 
+function shall execute the closing of 
+breakers based on the system frequency 
+automatically considering the basic rules 
+for load shed and restoration. The 
+software shall automatically execute the 
+switching operations as soon as system 
+frequency attains LSR str, and it shall 
+continue to do so as long as system 
+frequency is crosses above the mark 
+LSR stp. The frequency limits shall be 
+dispatcher assignable up to single 
+decimal points. Once frequency crosses 
+below LSR stp limit, then load shed can 
+only be started again when frequency 
+attains LSR_ str. Limit LSR str shall be 
+lower than LSR stp and suitable 
+protection to ensure that shall be provided 
+in user interface such as discard, 
+forbidden etc if user accidentally enters 
+LSR stp higher or equal to LSR stp or 
+LSR limits lower than LSS. The sequence 
+of frequency limits shall be permitted as 
+LSR str>LSR_stp>LSS_stp>LSS._ str. 
+Adequate protection as mentioned above 
+shall be given if user tries to violate the 
+same. 
+
+
+IS 16336 (Part 2) : 2015 
+
+
+2) Time of day based restoration — The 
+function shall operate to restore load at 
+the predefined time of the day and load 
+to be restored. The software shall 
+automatically execute the switching 
+operations considering the basic rules for 
+load shed and restoration. 
+
+e) Alarms/Events — All load shed and restore 
+operations executed shall be logged in the 
+system as events. In case the supervisory 
+control fails during the operation in 
+predefined time, an alarm shall be generated 
+with the possible reason for the failure. 
+
+
+class LoadShedRestoartion Extension 
+
+
+IdentifiedObject Ki PowerSystemResource [KI 
+D G [i 
+- 
+
+
+Core: 
+Equipment 
+
+
+A A 
+
+
+E 
+
+
+A 
+
+
+InfAssets:: 
+ElectricalAsset 
+
+
+x. 
+
+
+Common 
+
+
+0." 
+*ActivityRec ords 
+
+
+A 
+
+
+InfAssets:: 
+ailureEven 
+EE 
+
+
+A 
+(cona phit p 
+
+
+0..1 A 
+ent 
+
+
+«informative» 
+
+
+ActivityRecord Core:: 
+ConductingEquipment Ea 
+
+
+* Switch 
+Wires::Switch[" 
+
+
+5.5 CIM Model for Load Shedding and Restoration 
+Mechanism 
+
+
+Based on the above information CIM model has been 
+prepared and presented in Fig. 10. This model utilizes 
+IEC 61968 and IEC 61970. The classes required 
+representing switch; breakers, their failure event and 
+status are available in present CIM. The classes 
+required to represent Distribution Transformer is 
+present in package “WiresExt” of IEC 61968. 
+Representation of group of consumers connected to 
+distribution transformer can be represented using the 
+class *EnergyConsumer". The link between these two 
+classes is shown in Fig. 10. To enable rotation based 
+
+
+WiresExt:: Legend: 
+DistributionTransformer| |** . New Extension 
+TC [esses 
+
+
+*Transformer 1 
+
+
+<] 
+
+
+*Windings 1..* 
+
+
+Wire sExt:: 
+DistributionTransformerWinding 
+
+
+Wires:: 
+SwitchSchedule 
+
+
+*SwitchSchedules 
+
+
+A 
+
+
+Wires:: 
+ProtectedSwitch 
+
+
+A A 
+
+
+Wires::EnergyConsumer 
+a ee 
+
+
++EnergyConsumer+EnergyConsumer 
+
+
+Wires:: 
+Breaker 
+
+
+InfLoadControl:: 
+
+
+*Load ShedPriority [1 
+
+
+LoadShedPriority 
+- PriorityGroup: int 
+InfLoadControl::LoadShedRotation 
+
+
+lastRotationStart: AbsoluteDate Time 
+lastRotationStop: AbsoluteDateTime 
+nextRotationStart: AbsoluteDateTime 
+nextRotationStop: AbsoluteDateTime 
+
+
+Wires:: 
+LoadBreakSwitch 
+
+
+*Switches 0." 
+
+
+Regularinterval Schedule 
+
+
+LoadModel:: 
+SeasonDayTypeSchedule 
+[—O-P-»] 
+A' 
+
+
+Wires:: 
+RegulationSchedule 
+
+
+«informative» 
+0..* +LoadMgmtFunctions 
+
+
+DeviceFunction 
+
+
+InfLoadControl:: 
+LoadMgmtFunction 
+
+
+InfLoadControl:: 
+LoadLimitFunction 
+
+
+InfLoadControl:: 
+LoadShedFunction 
+
+
+«enumeration» 
+OperationalLimits:: 
+OperationalLimitDirectionKind 
+
+
+Lad 
+OperationalLimits :: 
+LoadShedRestorationFrequencyLimit 
+
+
+- loadRestorationValue: Frequency 
+- loadShedValue: Frequency 
+
+
+OperationalLimits:: 
+OperationalLimitType 
+
+
+Fic. 11 LoAp SHEDDING AND RESTORATION IN CIM 
+
+
+12 
+
+
+load shedding principle, a new class 
+*LoadShedRotation" has been extended. From present 
+CIM class “Customer”, priority principle can be 
+applied using its attribute “Customer:vip”. This 
+representation is insufficient to comply with priority 
+principle in which customers are grouped and priority 
+given in scale of 1 to 10. Hence, in this paper, an 
+extension class *LoadShedding-Priority" is presented. 
+It has association with the class *EnergyConsumer" 
+and hence “DistributionTransformer” which can be 
+load shed through switches. The energy consumer class 
+is eventually linked to the metering package through 
+“EnergyConsumer — ServiceDeliveryPoint - 
+MeterReading -MeterAsset", there by facilitating 
+identification of consumers. The present representation 
+of operational limits does not specify limits for load 
+shed and restore frequency ranges. A new class 
+“LoadShedRestorationFrequencyLimit” associated 
+with existing class “OperationalLimits” is extended. 
+
+
+Figure 10 depicts the representation of classes (existing 
+and extended) and their associations using which load 
+shedding and restoration application can be 
+implemented in India. 
+
+
+5.6 Description of Extension Classes for 
+Representing Load Shed and Restoration in CIM 
+Description of Extension Class: LoadShedPriority 
+
+
+Energy Consumers are grouped into priority groups in 
+scale of 1 to 10. During load shedding, higher priority 
+group shall be shed last. During load restoration, higher 
+priority group shall be restored first. The description 
+of the extension class is given in Table 9. 
+
+
+Table 9 Description of Extension Class 9: 
+LoadShedPriority 
+
+
+(Clause 5.6) 
+
+
+Use: To configure priority level of consumer 
+
+
+SI No. Attribute Description Type 
+(1) Q) (3) (4) 
+i) Attribute 1 PriorityGroup int 
+ii) Association 1 EnergyConsumer Association 
+5.7 Description of Extension Class: 
+
+
+LoadShedRotation 
+
+
+This class is used for storing history of rotational load 
+shedding. It can be also be used to represent the 
+
+
+13 
+
+
+IS 16336 (Part 2) : 2015 
+
+
+rotational plan corresponding to Energy consumer. 
+Along with time of day, this class can be used to initiate 
+load shedding or restoration as the situation warrants. 
+The description of this extension class is provided in 
+Table 10. 
+
+
+Table 10 Description of Extension Class 10: 
+LoadShedRotation 
+
+
+(Clause 5.7) 
+
+
+Use: To configure history of rotation and also plan 
+for rotational load shedding 
+
+
+SI Attribute Description Type 
+No. 
+(1) (2) (3) (4) 
+i) Attribute 1 lastRotationStart AbsoluteDate-Time 
+ii) Attribute 2 lastRotationStop AbsoluteDate-Time 
+iii) Attribute 3 nextRotationStart AbsoluteDate-Time 
+iv) Attribute 4 nextRotationStop AbsoluteDate-Time 
+v) Association 1 EnergyConsumer Association 
+5.8 Description of Extension Class: 
+
+
+LoadShedRestorationFrequencyLimit 
+
+
+This class is used for representing limits on frequency. 
+It inherits from class OperationalLimits: 
+OperationalLimit which has association with following 
+classes: 
+
+
+a) OperationalLimit:OperationalLimitSet 
+b) OperationalLimit:OperationalLimitType 
+c) OperatoinalLimit.limitKind 
+
+High or low limit depends on the 
+
+
+OperatoinalLimit.limitKind. The description of this 
+extension class is given in Table 11. 
+
+
+Table 11 Description of Extension Class 11: 
+LoadShedRestorationFrequencyLimit 
+
+
+(Clause 5.8) 
+
+
+Use: To configure load shed and restoration 
+frequency limits 
+
+
+SI Attribute Description Type 
+No. 
+
+(1) Q) (3) (4) 
+
+i) Attribute 1 loadShedFreq AbsoluteDate-Time 
+ii) Attribute 2 loadRestorationFreq AbsoluteDate-Time 
+iii) Association 1 LoadShedFunction Association 
+
+iv) Association2 OperationalLimit Generalization 
+
+
+Bureau of Indian Standards 
+
+BIS is a statutory institution established under the Bureau of Indian Standards Act, 1986 to promote 
+harmonious development of the activities of standardization, marking and quality certification of goods 
+and attending to connected matters in the country. 
+
+Copyright 
+
+BIS has the copyright of all its publications. No part of these publications may be reproduced in any form 
+without the prior permission in writing of BIS. This does not preclude the free use, in the course of 
+implementing the standard, of necessary details, such as symbols and sizes, type or grade designations. 
+Enquiries relating to copyright be addressed to the Director (Publications), BIS. 
+
+Review of Indian Standards 
+
+Amendments are issued to standards as the need arises on the basis of comments. Standards are also reviewed 
+periodically; a standard along with amendments is reaffirmed when such review indicates that no changes are 
+needed; if the review indicates that changes are needed, it is taken up for revision. Users of Indian Standards 
+should ascertain that they are in possession of the latest amendments or edition by referring to the latest issue of 
+
+
+‘BIS Catalogue’ and ‘Standards : Monthly Additions’. 
+
+
+This Indian Standard has been developed from Doc No.: LITD 10 (3297). 
+
+
+Amendments Issued Since Publication 
+
+
+Amend No. Date of Issue Text Affected 
+
+
+BUREAU OF INDIAN STANDARDS 
+
+
+Headquarters: 
+Manak Bhavan, 9 Bahadur Shah Zafar Marg, New Delhi 110002 
+Telephones : 2323 0131, 2323 3375, 2323 9402 Website: www.bis.org.in 
+Regional Offices: Telephones 
+Central |: Manak Bhavan, 9 Bahadur Shah Zafar Marg 2323 7617 
+NEW DELHI 110002 2323 3841 
+Eastern : 1/14 C.I.T. Scheme VII M, V. I. P. Road, Kankurgachi 2337 8499, 2337 8561 
+KOLKATA 700054 2337 8626, 2337 9120 
+Northern : SCO 335-336, Sector 34-A, CHANDIGARH 160022 260 3843 
+260 9285 
+Southern : C.LT. Campus, IV Cross Road, CHENNAI 600113 2254 1216, 2254 1442 
+2254 2519, 2254 2315 
+Western : Manakalaya, E9 MIDC, Marol, Andheri (East) 2832 9295, 2832 7858 
+MUMBAI 400093 2832 7891, 2832 7892 
+
+
+Branches: AHMEDABAD. BENGALURU. BHOPAL. BHUBANESHWAR. COIMBATORE. DEHRADUN. 
+FARIDABAD. GHAZIABAD. GUWAHATI. HYDERABAD. JAIPUR. KOCHI. LUCKNOW. 
+NAGPUR. PARWANOO. PATNA. PUNE. RAJKOT. VISAKHAPATNAM. 
+
+
+Published by BIS, New Delhi 
+
+

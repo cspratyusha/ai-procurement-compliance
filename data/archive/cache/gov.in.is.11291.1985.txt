@@ -1,0 +1,379 @@
+( Reaffirmed 2004 )
+
+IS:11291-1985
+
+Indian Standard
+CODE OF PRACTICE FOR TESTING OF COMPUTER BASED SYSTEMS
+Computer, Business Machines and Calculators LTDC 24 Sectional Commirtee,
+
+Chairman Da N. SESHAGIRI Members SHRI R. P. AHUJA SERI C. K. BAPIRAJTJ SHRI S. K. BHATIA SHRI P. V. C. CHELLAPATTI DR VIJ~LY P. BHATKAR Department
+
+Repescnting
+of Electronics, New Delhi
+
+DR S. N S. RAJASEKRAN ( Ahmate ) DR C. R. CH~KRAVARTHY Ministry of Defence ( R & D ) Indian Airlines, New Delhi SHRI K. N. DHEER Reserve Bank of India, Bombay SRRIS.P. GOTEOSKAR SHRI DEEPAK GUPTA Tata Electric Companies, Bombay &RI R. M. NAIR ( Altcrnatc) NCSDGT, Tata Institute for Fundamental Research, DR MITHAI JOSEPH Bombay DR S. RAMANI ( Alternate ) DR A. LAHIRI Department of Science & Technology, New Delhi Life Insurance Corporation of India. Bombay SERI N. LAE~HMANAN Hindustan Compu&rs Ltd, New Delhi SERI ARJUN MALHOTRA SHRI ARJUN MEHTA ( Alternate ) Steel Authority of India, New Delhi DRS.C. MEFITA Bharat Electronics Ltd, Bangalore SHRI S. L. N. MURTHY SHRI K. S. PERINANAYAQADI( Alternate ) International Computers Indian Manufacturers Ltd, SHRI S. K. PANDEY Pune SHRI H. DAS ( Altemats ) Development Commissioner ( Small Scale SHRI V. K. R. PRABHU Industries ), New Delhi SHRI M. RAMAKRISHNAX ( Alternate ) Delhi Cloth & General Mills Co Ltd, New Delhi SERI G. RAGHURKIMAR SRRI A. N. PAWAR ( Altematc ) PSI Data Systems Pvt Ltd, Bangalore Da V. K. RAVINDRAN SHRI V. L. DEHSHPANDE ( Aftemate )
+
+Computer Maintenance Corporation Ltd, New Delhi State Bank of India, Bombay Bharat Heavy Electricals Ltd. New Delhi Rao ( Aitcmate ) Kerala State Electronics Development Corporation Ltd, Trivandrum
+
+( Continued on pge 2 ) @ Copyright 1985
+INDIAN STANDARDS INSTITUTION This publication is protected under the Indian Coppright Act ( XIV of 1957 ) and reproduction ia whole or in part by any means except with written permission of the publisher ahall be deemed to be an infringement of copyright under the said Act.
+
+1s : 11291.1985
+( Continued from page 1 ) Members Representing PROF R. SADANANDA Computer Society of India, Bombay SHRI ASHIS SEN Indian Statistical Institute, Calcutta SHRIUMESHP.SHAH ORG Systems, Vadodara SHRI P. K. SRIDHARAN (Alternate) SHRI M. SHANKRALINGAW Directorate General of Supplies & Disposals ( Inspection Wing ), New Delhi SHRI K. L. GARG ( Allernafc ) SJXFLI C. G. SUBRAXANYAN Electronics Trade 8s Technology Development Corporation Ltd, New Delhi SHRI ISHWAR DUTT ( Alternate ) SHRI T. N. SWAMY Electronics Corporation of India Ltd, Hyderabad SHRI V. R. UNNIRA~AN Telecommunication Research Centre, New Delhi SHRI K.M. VISWANATHAN Hindustan Teleprinters Ltd, Madras SHRI S. DEVRAJAN ( Alternate Snn~ N. SRINIVASAN? Director ( Electromcs ) ) Director General, IS1 ( Elc-o&o Member )
+
+Secretary SERI A. S. RAWAT Assistant Director ( Electronics ), IS1
+
+Information
+
+Systems and Procedures Subcommittee,
+
+LTDC
+
+24 : 3
+
+SRBI C. K. BAPIRAJU State Bank of Computer Centre, Bombay Bharat Heavy Electricals Ltd, New Delhi SHZI S. K. BHATIA SHRI H. P. SAXENA ( Alternate ) Reserve Bank of India, Bombay SHRI S. P. GOTHOSKAR Central Statistical Organization, New Delhi SHRI M. M. N. KAPUR Indian Institute of Technology, Kanpur DR R. SHANKAR Sxn~ R. TEIAGARAJAN Department of Science and Technology, New Delhi DR N. VIJAYADITYA National Information Centre, New Delhi
+
+2
+
+16:11291-1985
+
+Indian Standard
+CODE OF PRACTICE FOR TESTING OF COMPUTER BASED SYSTEMS
+
+0.
+
+FOREWORD
+
+0.1This Indian Standard was adopted by the Indian Standards Institution on 29 April 198.5, after the draft finalized by the Computer Business Machines and Calculators Sectional Committee had been approved by the Electronics and Telecommunication Division Council.
+0.2 Computer-based systems are often complex, it is, therefore, necessary to test them before, during and sometimes after implementation to ensure that they satisfy the user's requirements. The greater the complexity of a system, the more likely it is that there will be inherent faults in its Similarly, the more important a system is to design and construction. the user, the more important it is to discover and eliminate such faults. Thus, the tests applied to a complex and important system may need to comprehensive, time consuming and expensive. be extremely rigorous, Yet even the most comprehensive tests cannot prove beyond all doubt that a system is and will remain secure and free from error. 0.3 User-organizations are, therefore, faced with deciding upon the degree of confidence in the systems for which they are able and willing The extent to which they will obtain value for money from to pay. this task will depend upon their willingness to adopt a logical and systematic approach to testing. Similarly, the extent to which they apply the total content of this code of practice will depend upon whether the system is complex and vital or relatively simple and of less importance. 0.4 Only the simplest of systems can be tested effectively by a `one-off' system test. In systems of greater complexity, confidence can only be established by testing at all stages of development. This testing begins by proving the hardware and software components at their most elementary level and then integrating then into larger logical testable This process continues until the next level of integration produces units. the system itself, at which point system testing can begin. This technique provides a pyramid of proof and greatly enhances the possibility of early detection both of errors and of design misconceptions. 3
+
+IS :11291- 1985 0.5 This
+code of practice is complementary to IS : 11290-1985* and is It is relevant to the same wide range of systems and environments. concerned with the testing of applications software during and after its develpment. Methods of proving hardware are well known and it is not the intention of this code of practice to provide advice on hardware and operating system software as such. However, it is necessary to test the `nix' of applications software, operating systems software, hardware, data and people to ensure that the required results are achieved and, in this context, hardware and operating systems software are dealt with in this document. 0.6 The use of this code will enable a new or modified computer system to be tested to demonstrate with an acceptable degree of confidence that It: a) does what it is supposed c) is physically d) is reliable, e) is maintainable f) continues and modifiable, to do what and it was designed development to do. of checklists for in service to do, not supposed secure, to do, b) does not do what it is clearly and operationally
+
+0.7 This code provides guidance on the documents under the following headings: a) Test b) Test c) Test d) Test f) 0.8 strategy, procedures, criteria, plan, and
+
+e) Test specification, Test summary, checklists g) System These monitoring. will enable an organization:
+
+a) to identify a general test strategy appropriate to its applications, facilities and modes of c)peration and that allows variations for particular classes of project because computer-based systems are not all equal in, for example, their: 1) timing 2) priorities, deadlines,
+of computer based systems.
+
+*Code of practice for documentation
+
+4
+
+IS:11291-1985 3) security
+5) on-going b) to prescribe development status, and computer-based system or reliability a specific project; requirements. test plan fc;r each
+
+4) value to the organization,
+
+c) to prescribe a specific test plan for each set enhancements to an existing computer-based 0.9 This document is based on BS 5887 : 1980 testing of computer-based systems, issued by British ( BSI ).
+
+of modifications system.
+
+Code of practice for Standards Institution
+
+1. SCOPE
+is designed to assist organizations to develop and document general test strategies, test plans and procedures that will give confidence that the design and implementation of their computerbased systems will be of adequate quality for the purpose the systems are to fuifil. 2. DEFINITIONS
+
+1.1 This code of practice
+
+2.1 For
+
+the purposes of this standard ( Part 52 )* series shall apply.
+
+the definitions
+
+given in IS : 1885
+
+3. TEST
+
+STRATEGY
+
+of an effective general test strategy is fundamental Ideally, this strategy to successful testing of computer-based systems. should be defined at organization or installation level, reviewed whenever considered necessary and published for the guidance of all concerned with testing computer-based systems. Where no such strategy has been defined in this way it will be necessary to construct one for each project; the importance of the project or the complexity of the project or both will determine the amount of detail necessary. 3.2 In its most comprehensive information on the following: form the test strategy that should include and
+
+3.1 The construction
+
+a) testing aids and monitoring their method of use; *Electrotechnical vocabulary:
+
+techniques
+
+are available
+
+Part 52 Data processing.
+
+5
+
+IS:11291-
+
+1985
+that are available for constructing designers, and maintaining test
+
+b) methods data;
+
+c) communication links between and testers regarding testing; d) the methods e) turn-round f) g) priority of submitting times; for computer arrangements; arrangements;
+
+programmers, tests;
+
+operators
+
+batch
+
+and on-line operations;
+
+those responsible testing
+
+h) special testing k) library control;
+
+j) test team organization; m) document filing; and
+
+n) test methods currently available together with notes concerning the purposes for which each is most appropriate and at which level, how effectively and at what cost. 3.3 The range of possible test methods includes:
+
+a) design reviews; b) simulations; c) building prototypes; d) desk checking; e) code reading; f) bench marks; running; and for example through the levels of: g) parallel
+
+h) level by level testing, 1) module; 2) program; 3) integration; 4) system; 5) system interface; 6) system 4. TEST
+
+acceptance.
+
+PROCEDURES
+
+4.1 Introduction - The execution of a test plan requires the application of orderly and disciplined test procedures designed to implement the test strategy effectively. 6
+
+IS:11291-
+
+1985
+
+Each organization should produce an installation test ( and re-test ) procedure for each test method approved as part of the test strategy. Lists of possible actions for pre-test, test, and for post-test are given in 4.2. Typically, a test procedure should include each action that is relevant to the particular test. 4.2
+
+Tests
+
+4.2.1 Pm-test
+
+4
+
+Nominate an independent approver for the system acceptance test It may be desirable to have independent testers for all levels of testing, but this does not absolve the creators of the system from their responsibilities to test; test plan; test specification; to test the software
+
+b) Provide 4 Provide 4 Check
+Ensure
+
+that the test specification is adequate to the required level of confidence; time and place that the required of test; test facilities
+
+Arrange
+
+are available; user, technical software specialists, and
+
+Involve all parties affected, for example operators, quality assurers;
+
+h) j)
+
+Ensure that input data suitable for the test; Ensure that the required
+
+and
+
+dummy
+
+are defined
+
+that data is prepared
+
+to test specification; are fully predetermined; and
+
+k) Ensure
+
+test results
+
+m) Ensure that all software reauired for the test is established tested to an appropriate level *of confidence; and n) Ensure that, whenever relevant, the on-going documentation is available for use in the test. 4.2.2 Test system
+
+support
+
+4 Conduct test according to test specification, b) Prepare records required by test specification, 4 Take actions required by test specification, 4 Record all deviations from test specification 4 Record time and date of test.
+4.2.3 Post-test and meanings a) Trace origins messages; b) Correct faults; 7
+
+or test plan,
+
+and
+
+of unexpected
+
+effects,
+
+faults
+
+or
+
+IS:11291-1985
+c) Correct d) Repeat e) Complete documentation; tests required by test specification; ( reports, and summary ). test documentation actions,
+
+4.3 It is important that the hardware configuration should not be changed during the period of the tests and also that the versions of the software used to operate the system can always be traced back to a The test procedures applied should be recorded in successful test. sufficient detail for it to be possible to retrace the route through the test whenever necessary. The procechrres should ensure that whenever changes are made to the system, all necessary iterations are performed to ensure the integrity of the test plan as a whole. In particular, it is important to prevent changes made for technical reasons from causing the system no longer to carry out the functions for which it was designed. 5.1 TEST
+
+CRITERIA
+
+5.1 At the start of a project, the user will define his needs in his own , terminology. As the project passes through the successive stages of
+development, these needs will become progressively more refined. They will also become translated into the terminology associated with the design, programming and operation of computer-based systems. During these stages the effect of the system on its environment should also be examined and this may indicate the need to impose new conditions or restrictions, for example the new system rnay demand a higher degree of computer room security than has hitherto been necessary. 5.1.1 As the refining process proceeds, the terminology becomes definitive and specific, and test criteria will begin to emerge. These criteria should explore every aspect of the design and operation of the system. They should define the quality levels and standards of performance to be achieved by the system, its functions, data and programs. 5.1.2 These standards may vary at different levels; for example, if a system is required to perform calculations the final results of which are to be accurate to a tolerance of jO.01, supporting calculations may need to be restricted to a tolerance of f0.000 1. 5.2 The possibIe range of design criteria and therefore of test criteria will be circumscribed by the nature of the organization; its activities and its environment. Each kind of organization will value differently the various aspects of performance of its systems, for example the need to meet specific standards of: a) design testability; b) accuracy; c) deadline; 8
+
+IS : 112919 1985
+
+4 priority structure; 4 response time; f> back-up; d recovery; h) reconfiguration; j> security; 4 privacy; 4 reliability; 4 robustness;
+P) modularity; 9) portability; r) maintainability; s) modifiability; t) enhanceability; u) interfaces; and v) documentation; within agreed constraints of:
+
+1) development 2) development
+5) operating 6) capacity.
+
+time; costs;
+
+3) running costs; costs; 4) maintenance efficiency; and
+
+6. TEST PLAN 6.1 The test plan should be a list of all the tests
+system and should a) the sequence be arranged to show: necessary to prove a
+
+in which tests are to be conducted; each test is to be conducted; between tests; and relationship include: necessary to satisfy the user before and the system goes of all tests in the plan.
+
+b) the level at which d) the hierarchical The test plan should i) all the tests into service; ii) the adequacy
+
+c) the interdependencies
+
+of documentation; 9
+
+IS : 11291-
+
+1985 monitoring, diagnostic and other on-going
+
+iii) all the necessary support plans.
+
+The extent of these tests and the frequency with which they are applied should be appropriate to the importance of the system and the cost of performing the on-going support. In order to achieve these aims, test plans will usually be required to provide for `negative testing', as well as for `positive testing' particularly at the lower levels of test. Negative testing is required to prove that a system will reject false data or instructions and will not perform functions it is supposed to prevent. 6.2 A test plan should normally be constructed in an hierarchical manner from the top down, although it may be implemented from the bottom up that is from the smallest testable components of the system to be tested to the interfaces between this and other systems. The design criteria for a system of little importance, for example where the cost of failure is low, should not generate a plan that will test the system to any great depth or extent. On the other hand, if the system design is complex or if the system is of vital importance, the It is preparation of a comprehensive test plan becomes essential. essential that the test plan identifies the sequential and logical relationships of tests that may need, for example: a) to be conducted at more than one level; b) to prove different standards of performance; c) to prove the integrity of interfaces with other systems; and d) to prove the security of a data base against intrusion. 7. CONTENTS OF TEST SPECIFICATION
+
+7.1 From the test criteria it is possible to specify individual tests to apply It is important to select and at which level each test should be applied. and apply tests that will truly verify what they are intended to estabIish. The test methods should themselves be tested initially, and confidence in Clearly, some tests them should be reaffirmed at appropriate intervals. will need to be applied at only one level while others, such as the calculation example cited in 5.1, will need to be applied, perhaps with different limits, at more than one level. 7.1.1 Typically, following: the contents of a test specification should specify the
+
+a) What is to be tested, for example, a test, an interface, a system, a function, a program, a component of a program, elements of data, documents. 10
+
+IS : 11291 1985
+l
+
+b)
+
+What the test needs to establish, that is, that what is to be tested does what it is supposed to do and maintains its integrity against attempts to make it do what it is not supposed to do. Whether the test is to stand alone. What related tests are to procede, to be made concurrently or to follow the test. with
+
+The conditions in which the test is to take place, that is normal or abnormal, and, if abnormal, the degree of abnormality. When the test is to take place, for example in what month, week, day, shift, hour; in a normal test period, in real scheduled time. The data and the files to be used; the `before anda fter' conditions of the files; all of the possible system input and output media; and the formats, values, limits and tolerances to be allowed.
+
+h) 3 k)
+
+The test method to be used, with an explanation provide the required level of confidence.
+
+of how it will
+
+The version numbers of the test aids or diagnostics that are to be used in the test. What configuation(s) are to be used and where, for example own equipment or other; on-site or elsewhere. All hardware, software versions and people should be listed together with the environmental conditions in which the test is to be conducted. The operating ( console ) messages expected. What analyses of results are to be made, and by whom.
+
+4 4
+
+P) What traces of the test route and what records of the test are to be kept, and for what period of time. q) Whether it is necessary to repeat a test: i) if it fails; ii) in different specified conditions; and how many repetitions are considered necessary, together with the actions to be taken if these repetitions fail to produce the required results.
+
+r ) Significance of the test for the system as a whole.
+7.2 Whatever levels of testing may be deemed necessary during system development, equal consideration should be given to monitoring the system in service. Where the importance of the system requires that ongoing monitoring procedures are applied, the design of these procedures should also be tested to ensure that they monitor the system effectively. 11
+
+IS : 11291 - 1985 Associated with the specification of individual tests and monitoring procedures are the methods by which these may be conducted. The capacity of an organization to conduct a particular test and the freedom of choice where there are alternative methods are usually limited. Limitations may be imposed by the available hardware, software or personnel. Reference to the test criteria and the test strategy should enable an organization to determine quickly whether it possesses the means and techniques to test a new system to the user's design criteria. If it cannot conduct these tests, it may then consider what action to take; for example: lease a> or purchase whatever skills that are necessary; hardware, software, techniques or
+
+b)
+
+reconfigure alternative
+
+to provide the necessary ); and
+
+facility ( if this is a practical in the tests.
+
+c) accept and put on record the imperfections 8. CONTENTS OF TEST SUMMARY
+
+8.1 In addition to the certificate of acceptance, a test summary should be prepared for inclusion in the handover report. The test summary should be a formal summarized statement; prepared from the results of carrying out the test plan, and recording those aspects in which the has failed to satisfy the design criteria system, although acceptable, completely. Typically, the test summary should emphasize:
+
+4 b)
+
+deficiencies that the user agrees to accept and about which no further action is to be taken; deficiencies that the user agrees to tolerate as temporary sions, but which are to be corrected; conces-
+
+courses of action that are required to be c> time by which they are to be completed.
+
+taken and the period of from the
+
+8.2 The test summary should also provide a guide, derived design criteria and the deficiencies mentioned in 8.1 to: degree of necessary; monitoring of potential of the system maintenance in service problems; that and
+
+will be
+
+b) 4
+
+identification
+
+precautions to be observed enhancements to the system. 12
+
+in considering
+
+future extensions or
+
+IS : 11291.1985 9. SYSTEM MONITORING
+that are particularly important to the user and have one or This monitormore critical qualities should be monitored while in use. ing should include confirmation that the system continues to achieve, for example, its: a) deadlines; b) prescribed c) priority e) protection f) response standards of accuracy; status; of privacy; time; and . continued effectiveness of
+
+9.1 Systems
+
+d) level of security;
+
+g) level of reliability. 9.2 It may also be necessary to monitor the essential system support facilities such as: a) back-up; b) recovery; c) reconfiguration; d) operating 9.3 The degree and the relative importance and frequency of monitoring of the system. should be determined by software.
+
+Any reports produced from such monitoring should contain all the information available for corrective action to be taken and should be sent to person with the authority to take such action. 9.4 The methods of monitoring may include the following, be carried out periodically or randomly or both: a) applications b) recording etc; c) dependency of of repeatable data volumes, checks tests, built-in timings, or manual; times, paging rates, response which may
+
+or interface
+
+checks
+
+or both; and
+
+d) confirmation of the state of the environment in which the system operates ( a change state could upset the planned system/environment balance and diminish or destroy the value of the system as originally designed ).
+
+13
+
+INTERNATIONAL
+Base units
+QUANTITY
+
+SYSTEM
+
+OF UNITS
+
+( SX UNITS )
+
+UNIT
+
+SyMBOL m kg s
+
+Length Mass Time Electric current Thermodynamic temperature Luminous intensity Amount of substance
+
+metro
+kilogram second ampere kelvin candela mole
+
+A K cd mol
+
+S8lpplemental-y UaitD
+QTJArPlTTY Plane angle Solid angle Derived Units
+UNIT newton joule SYMBOL N DEFINITION UNIT
+SYMBOL
+
+radian steradiao
+
+rad sr
+
+QUANTITY Farce
+
+1 1
+
+N = 1 kg.m/s' J= 1 N.m
+
+Energy Power FlLlX F'htx density Frequency Electric conductance Electromotive Pressure, stress force
+
+watt weber tala hertz siemens volt Pascal
+
+J w
+Wb T HZ s V Pa
+
+1 W=
+1 1 1 1
+
+1 J/s
+
+1 Wb = 1 V.s T = 1 Wh/m* S = 1 A/V V 1 W/A Pa = 1 N/m* 1 Hz = 1 c/s (s-1)
+
+

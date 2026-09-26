@@ -1,0 +1,655 @@
+IS 15994 (Part 2) : 2012 ISO 23081-2 : 2009
+
+Hkkjrh; ekud
+
+lwpuk ,oa �ys[ku -- fjdkMZ �ca�ku �f�;k,� -- fjdkMZ osQ fy, esVkMkVk
+Hkkx 2 vo�kkj.kk ,oa dk;kZUo;u laca�kh eq�s
+
+Indian Standard INFORMATION AND DOCUMENTATION -- RECORDS MANAGEMENT PROCESSES -- METADATA FOR RECORDS
+PART 2 CONCEPTUAL AND IMPLEMENTATION ISSUES
+
+ICS 01.140.20
+
+� BIS 2012
+
+BUREAU OF INDIAN STANDARDS
+MANAK BHAVAN, 9 BAHADUR SHAH ZAFAR MARG NEW DELHI 110002 September 2012 Price Group 11
+
+IS 15994 (Part 2) : 2012 ISO 23081-2 : 2009
+Documentation and Information Sectional Committee, MSD 5
+
+NATIONAL FOREWORD This Indian Standard (Part 2) which is identical with ISO 23081-2 : 2009 `Information and documentation -- Managing metadata for records -- Part 2: Conceptual and implementation issues' issued by the International Organization for Standardization (ISO) was adopted by the Bureau of Indian Standards on the recommendation of the Documentation and Information Sectional Committee and approval of the Management and Systems Division Council. This standard is published in two parts. Other part in this series is: Part 1 Principles The text of ISO Standard has been approved as suitable for publication as an Indian Standard without deviations. Certain conventions are, however, not identical to those used in Indian Standards. Attention is particularly drawn to the following: Wherever the words `International Standard' appear referring to this standard, they should be read as `Indian Standard'. In this adopted standard, reference appear to the following International Standard for which Indian Standard also exists. The corresponding Indian Standard which is to be substituted in its place is listed below along with its degree of equivalence for the edition indicated: International Standard ISO 23081-1 : 2006 Information and documentation -- Records management processes -- Metadata for records -- Part 1: Principles Corresponding Indian Standard IS 15994 (Part 1) : 2012 Information and documentation -- Records management processes -- Metadata for records: Part 1 Principles Degree of Equivalence Identical
+
+The technical committee has reviewed the provisions of the following International Standards referred in this adopted standard and has decided that they are acceptable for use in conjunction with this standard: International Standard ISO/IEC 11179-1 ISO 15489-1 : 2001 Title Information technology -- Metadata registries (MDR) -- Part 1: Framework Information and documentation -- Records management -- Part 1: General
+
+i
+
+IS 15994 (Part 2) : 2012 ISO 23081-2 : 2009
+
+Introduction
+The ISO 23081 series describes metadata for records. This part of ISO 23081 focuses on the framework for defining metadata elements for managing records and provides a generic statement of metadata elements, whether these are physical, analogue or digital, consistent with the principles of ISO 23081-1. It provides an extended rationale for metadata for managing records in organizations, conceptual models for metadata and a high-level element set of generic metadata types suitable for any records environment encompassing, for example, current document or records management implementations or archival implementations. It defines the generic metadata types both for records entities as well as other entities that need to be managed in order to document and understand the context of records. This part of ISO 23081 also identifies, for key entities, a minimum number of fixed aggregation layers that are required for interoperability purposes. The models and generic metadata types outlined in this part of ISO 23081 are primarily focused on the "records" entity. However, they are also relevant to the other entities. This part of ISO 23081 does not prescribe a specific set of metadata elements. Rather, it identifies generic types of metadata that are required to fulfil the requirements for managing records. This approach provides organizations with the flexibility to select specific metadata to meet their business requirements for managing their records for as long as they are required. It provides diagrams for determining the metadata elements that may be defined in a particular implementation and the metadata that could apply to each aggregation of the entities defined. It acknowledges that these entities can exist at different layers of aggregation. It defines generic metadata types that are expected to apply at all layers of aggregation, while alerting implementers to specific metadata elements that may only apply at particular layers of aggregation. Implementing metadata for managing records in organizational and system settings involves a number of choices, which are determined by the circumstances of the organization, the systems in place and the requirements for managing records. Building upon the principles of ISO 23081-1, this part of ISO 23081 provides further explanation on the underlying concepts of metadata schemas for managing records, offers practical guidance for developing and constructing those schemas from an organizational point of view and finally goes into issues relating to the implementation and management of metadata over time. This part of ISO 23081 is intended for  records professionals (or persons assigned within an organization for managing records in any environment) responsible for defining metadata for managing records at any layer of aggregation in either a business system or dedicated records application software, systems/business analysts responsible for identifying metadata to manage records in business systems, records professionals or systems analysts addressing system interoperability requirements involving records, and vendors, as suppliers of software applications that support and enable the creation, capture and management of metadata over time.
+
+  
+
+ii
+
+IS 15994 (Part 2) : 2012 ISO 23081-2 : 2009
+
+Indian Standard INFORMATION AND DOCUMENTATION -- RECORDS MANAGEMENT PROCESSES -- METADATA FOR RECORDS
+PART 2 CONCEPTUAL AND IMPLEMENTATION ISSUES
+
+1
+
+Scope
+
+This part of ISO 23081 establishes a framework for defining metadata elements consistent with the principles and implementation considerations outlined in ISO 23081-1. The purpose of this framework is to a) b) c) enable standardized description of records and critical contextual entities for records, provide common understanding of fixed points of aggregation to enable interoperability of records and information relevant to records between organizational systems, and enable reuse and standardization of metadata for managing records over time, space and across applications.
+
+It further identifies some of the critical decision points that need to be addressed and documented to enable implementation of metadata for managing records. It aims to    identify the issues that need to be addressed in implementing metadata for managing records, identify and explain the various options for addressing the issues, and identify various paths for making decisions and choosing options in implementing metadata for managing records.
+
+2
+
+Normative references
+
+The following referenced documents are indispensable for the application of this document. For dated references, only the edition cited applies. For undated references, the latest edition of the referenced document (including any amendments) applies. ISO/IEC 11179-1, Information technology -- Metadata registries (MDR) -- Part 1: Framework ISO 15489-1:2001, Information and documentation -- Records management -- Part 1: General ISO 23081-1:2006, Information and documentation -- Records management processes -- Metadata for records -- Part 1: Principles
+
+3
+
+Terms and definitions
+
+For the purposes of this document, the terms and definitions given in ISO 15489-1, ISO 23081-1, ISO/IEC 11179-1 and the following apply.
+
+1
+
+IS 15994 (Part 2) : 2012 ISO 23081-2 : 2009
+3.1 archival system organized collection of hardware, software, policies, procedures and people, which maintains, stores, manages and makes available records over time 3.2 attribute characteristic of an object or entity [ISO 11179-1:2004, definition 3.1.1] 3.3 business system organized collection of hardware, software, supplies, policies, procedures and people, which stores, processes and provides access to an organization's business information 3.4 class description of a set of objects that share the same attributes, operations, methods, relationships, and semantics [ISO/IEC 19501:2005, Glossary] 3.5 conceptual data model data model that represents an abstract view of the real world
+NOTE A conceptual model represents the human understanding of a system.
+
+[ISO 11179-1:2004, definition 3.2.5] 3.6 entity any concrete or abstract thing that exists, did exist, or may exist, including associations among these things
+EXAMPLE NOTE A person, object, event, idea or process. An entity exists whether data about it are available or not.
+
+[ISO 11179-1:2004, definition 3.2.10; ISO/IEC 2382-17:1999, definition 17.02.05]. 3.7 metadata for managing records structured or semi-structured information, which enables the creation, management, and use of records through time and within and across domains
+NOTE See ISO 23081-1:2006, Clause 4.
+
+3.8 records application software specific application used to maintain, manage and provide access to an organization's record resources
+
+2
+
+IS 15994 (Part 2) : 2012 ISO 23081-2 : 2009
+
+4
+4.1
+
+Purpose and benefits of metadata
+Purposes of metadata for managing records
+General
+
+4.1.1
+
+Organizations need information systems that capture and manage appropriate contextual information to aid the use, understanding, management of, and access to, records over time. This information is critical for asserting authenticity, reliability, integrity, usability and evidential qualities of records. Collectively, this information is known as metadata for managing records. Metadata for managing records can be used for a variety of purposes within an organization to support, identify, authenticate, describe, locate and manage their resources in a systematic and consistent way to meet business, accountability and societal requirements of organizations. Records application software and business systems with records functionality manage records by capturing and managing metadata about those records and the context of their creation and use. Records, particularly in the form of electronic transactions, can exist outside of formal records application software, often being created in business systems serving specific purposes (for example, licensing systems). Records are used and understood by people who possess, or have access to, sufficient knowledge about the processes being undertaken, the people involved in the transaction, the records generated and their immediate context. Such records are not always robust, for reasons including the following. a) Contextual linkages can be unwritten and dependent upon individual and group memory. Such reliance on unwritten contextual understanding is not dependable; some people have access to more knowledge than others, over time the usability of records will be compromised by staff movement and diminishing corporate memory. The records often lack explicit information needed to identify the components of a transaction outside the specific business context and are therefore difficult to exchange with other related business systems for interoperability purposes. The management processes necessary to assure the sustainability of the records for as long as they are required are not usually a feature of such systems. Amount of metadata
+
+b)
+
+c)
+
+4.1.2
+
+There are practical limits to the amount of contextual information that can be made explicit and captured into a given system in the form of metadata. Context is infinite, while a single information system has finite boundaries. Further contextual information will always exist outside the boundaries of any one system. A single records application software system only needs to capture as much metadata as is considered useful for that system and its users to interpret and manage the records for as long as they are required within the system and to enable migration of those records required outside the system. Good metadata regimes are dynamic and can add additional metadata for managing records as and when necessary over time. Much metadata for managing records can be obtained from other information systems. For them to be useful in a system for managing records they need to be structured and organized in a standardized way. Standardized metadata are an essential prerequisite for information system interoperability within and between organizations.
+
+4.2
+4.2.1
+
+Business benefits for metadata for managing records
+General
+
+Metadata for managing records not only describe the attributes of records in a way that enables their management and use/reuse, they also document the relationships between records and the agents that make and use them and the events or circumstances in which the records are made and used. Metadata support the searching of information assets and the maintenance of their authenticity.
+
+3
+
+IS 15994 (Part 2) : 2012 ISO 23081-2 : 2009
+4.2.2 Capturing and managing records in business systems
+
+Organizations need to create records of their transactions and maintain those records for as long as they are needed. This can be done only if organizations' business systems capture records metadata in accordance with organizational requirements for managing records. How well a system manages records is largely dependent on the metadata functionality of the system. The relationships between business systems and specific records application software systems are subject to implementation decisions, as outlined in Clause 11. 4.2.3 Interoperability
+
+Interoperability refers to the ability of two or more automated systems to exchange information and to recognize, process and use that information successfully. Interoperable systems need to be able to function simultaneously at technical, semantic and syntactical levels. Standardized metadata are an essential prerequisite for information system interoperability. Standardized metadata for managing records assist in enabling interoperability as follows: a) b) c) d) e) f) between business systems within an organization (for example, between systems that support one business process and those that support other business processes across the organization); between business systems that create records, and records application software that manage them as records; between business systems during system migration; between multiple organizations involved in the conduct of business processes (for example, chain management or electronic commerce transactions); between organizations for a variety of other business purposes (for example in undertaking shared transactions or transfer of records to a third party); across time between business systems that create records and archival systems that preserve them.
+
+In supporting interoperability, metadata for managing records enable resource discovery of records in business systems as well as in records application software. 4.2.4 Risk management
+
+Metadata schemas can be tailored to suit organizational requirements for risk aversion. Organizations will specify elements that shall be present for records to be reliable, authentic and to have integrity. Other elements will be optional, for inclusion at the discretion of sub-units of organizations or for particular business systems within organizations. When considering metadata implementation strategies, organizations should identify the risks that exist, consider the degree of risk entailed, and ensure that the implementation strategy a) b) c) provides access to critical business systems over time, satisfies legal requirements for authenticity and reliability, and is sustainable from a resource perspective over time. Metadata for records as an organizational information asset
+
+4.2.5
+
+Structured metadata for managing records, in combination with good system search functionality, support access and retrieval of records across organizations. This maximizes the ability of people to find relevant records quickly and easily when they need to. In addition, structured records metadata enable information in
+
+4
+
+IS 15994 (Part 2) : 2012 ISO 23081-2 : 2009
+records to be retrieved within their business context, thus enhancing understanding and trust in the reliability of information retrieved for reuse. A relatively small initial investment in good metadata can enhance quality and reduce costs for retrieval of information to the organization. 4.2.6 Preventing unauthorized access to records
+
+Metadata for managing records can be used to reduce the risk of unauthorized use of records. Metadata are needed to specify if access to records is restricted. Only those with appropriate clearance should have access to records. Any instances of access should be documented as metadata. Access control metadata are vital to secure legal and business interests of the organization. They ensure the appropriate management of confidentiality, and privacy of personal information, and other use and security restrictions identified in an organization's records. 4.2.7 Sustainability of business systems through administrative change
+
+With the change of an organization's structure, function or work process, a shift in the responsibilities for business activities takes place. Implementation of standardized and structured records metadata assists in identifying appropriate records to be moved across systems and organizational boundaries. Such standardized metadata also assist in extracting records from one system and importing them into other systems, by preserving contextual linkage independently of any particular business system. 4.2.8 Long-term retention of digital records
+
+Digital records depend upon metadata for their existence, management and future use. The characteristics of records (ISO 15489-1:2001, 7.2) in all formats are defined in records metadata. Ensuring the preservation of the records, including their metadata, in electronic form requires conformance to stable, structured and well defined metadata standards to ensure their sustainability across software upgrades or changes. Preservation of digital records as long as they are needed can involve a number of strategies (see Clause 11), but all strategies are dependent upon the existence of standardized metadata for managing records. 4.2.9 Incorporation of metadata into archival systems
+
+Much of the information that is needed to document and describe records and their context in archival systems can be sourced from the metadata in records application software. This interconnection should be as seamless as possible. Capturing metadata for managing records according to a standardized schema makes this process easier to implement.
+
+5
+5.1
+
+Policy and responsibilities
+Policy decisions
+
+As indicated in ISO 23081-1:2006, Clause 6, metadata strategies should be treated as an integral part of, or explicitly related to, an organization's broader records and information management strategy. In this respect, clear metadata-related policy should be created, either as a separate stand-alone policy area linked to the existing records policy framework or as an integral yet distinct part of the existing organizational records policies. In either case, organizations should: a) b) c) d) e) identify and assign roles and responsibilities, including responsibilities for quality assurance of metadata; identify requirements for metadata reliability, accessibility, retrieval, maintenance, and security; select applicable metadata standards or schema; identify and establish rules for applying metadata encoding schemes (controlled vocabularies, syntax schemes); determine technical standards to be used in implementation;
+
+5
+
+IS 15994 (Part 2) : 2012 ISO 23081-2 : 2009
+f) g) h) i) identify how the metadata policy for managing records relates to other metadata policies or schemas that are in use in the organization; identify evaluation criteria and methodology for determining compliance with, and effectiveness of, the policy; develop monitoring and evaluation strategies to accompany the policy; determine how the policy will be kept up-to-date in line with business activities.
+
+Any policy should allow for different levels of implementation. It should identify the level to be achieved and how it is to be achieved. A policy also should identify those areas that are most critical and require special attention with respect to metadata deployment strategies, such as sustainability, accessibility, vital records identification, preservation and risk analysis.
+
+5.2
+
+Responsibilities for implementing metadata for managing records
+
+In line with the established framework of roles and responsibilities for records (see ISO 15489-1:2001, 6.3), responsibility for developing, implementing and maintaining metadata frameworks for managing records should be clearly assigned to records professionals in association with other organizational staff such as information technology or legal professionals, as appropriate. This responsibility includes: a) b) c) d) e) f) g) h) i) j) k) l) analysing the needs of the organization for metadata for managing records based upon business requirements; monitoring and analysing developments within the organization relating to metadata, particularly requirements for managing records; ensuring that metadata schemas for managing records are developed in accordance with best practice and applicable industry standards; developing the metadata framework for managing records, including the metadata schema, and related organizational standards and the rules for using them; identifying or developing appropriate metadata encoding schemes, element refinements and qualifiers, for example classification schemes; keeping the metadata schema up-to-date and in line with business needs; managing the metadata schema as a record in its own right; maintaining the overall quality of both machine-generated and human-generated metadata, most particularly its accuracy, integrity, authenticity, usability and reliability; co-ordinating implementation issues between records and information technology staff; co-ordinating with business system owners to ensure integration of metadata for managing records into business systems as appropriate; co-ordinating with archival authorities/processes to ensure interoperability between records application software and archival environments for those records that have archival value; setting up a training programme and subsequent training of agents on the use and application of the metadata schema;
+
+m) communicating about the metadata schema within the organization.
+
+6
+
+IS 15994 (Part 2) : 2012 ISO 23081-2 : 2009
+
+6
+6.1
+
+Metadata conceptual model
+Entities
+
+Systems designed to manage records require metadata to support processes for managing records or archives. One of the main uses of metadata is to represent entities from the business environment in the business system. Entities support the records perspective for understanding the business environment but they are not in themselves always tangible objects. Figure 1 specifies the conceptual entity model and supports any number of entities, but of particular importance are the following: a) b) c) d) the records themselves, whether an individual document or aggregations of records (known as record entities); the people or organizing structures in the business environment (known as agent entities); the business transacted (known as business entities); the rules governing the transaction and documentation of business (known as mandate entities).
+
+NOTE
+
+See ISO 23081-1:2006, 9.1.
+
+Figure 1 -- Conceptual entity model: Main entities and their relationships
+
+6.2
+
+Relationships between entities
+
+A key requirement of metadata for managing records is to capture evidence of relationships between entities and persistently link it to record objects so that the resultant records can function as evidence of the business and social activities in which they are created and used. Metadata for managing records shall also be capable of capturing layers of aggregation in entities and the relationships among those layers. Relationships are treated as a class of entity in the following entity framework model (Figure 2) due to their importance from a records perspective.
+
+7
+
+IS 15994 (Part 2) : 2012 ISO 23081-2 : 2009
+
+Figure 2 -- Entity model as unified modeling language (UML)[6] class diagram showing generalization/specialization relationships between entities The diagram in Figure 2 represents the generalization/specialization associations between classes of recordkeeping entities and their sub-classes. For example, this diagram shows Series as a type of Record entity, Business rules as a type of Mandate entity and Records management business as a type of Business entity. The generalization/specialization associations allow for common structure and behaviour of classes to be identified. The sub-classes include layers of aggregation for recordkeeping entities. The diagram does not illustrate the aggregation relationships between the sub-classes (these are detailed in Clause 7) nor relationships between the general classes (as illustrated in Figure 1). By default generalization/specialization sets are considered to be incomplete, so the diagram in Figure 2 implies that the sets of sub-classes are extensible. Including relationship as a separate class of entity allows for greater flexibility in the implementation of this part of ISO 23081. Metadata schemas derived from this framework can choose to implement relationships as a) b) c) a separate class, a relation attribute of record, agent, business, and mandate classes, or other attributes of record, agent, business, and mandate classes.
+
+Where relationship is defined as a separate class of entity, each of the entities participating in the relationship will contain a relation element which points to a relationship entity. This relationship entity describes the relationship type and the members of the relationship. It also contains any contextual information about the relationship, for example the history of the relationship. In the description of the relationship entity, the identity and nature of the relationship needs to be captured, along with the roles that each entity making up the relationship plays. Event metadata relating to the relationship capture the dates of these associations. Where relationships are captured as attributes of other entities, they can be handled by a generic composite element which allows for the type, dates and roles of the relationship to be captured in the instances.
+
+8
+
+IS 15994 (Part 2) : 2012 ISO 23081-2 : 2009
+Modelling relationships in this way makes the properties of the relationship distinguishable from the properties of the entities. This provides a pathway to interoperability as the different ways metadata schemas handle relationships can be mapped to this more generic model.
+
+6.3
+
+Flattening the entity model
+
+It is not expected that all implementations of this part of ISO 23081 will directly implement all the classes of entities described. Such decisions will depend on the ability to ensure persistent links between the various classes of entity descriptions. Uncertainties about persistence may lead to "records-centric" implementations, where metadata about other classes of entities are brought explicitly within the boundaries of the record class itself. Such implementations "flatten" the entity model and include the information about the missing classes of entities within other entities. For example, an implementation that did not contain agent, mandate, or business classes can include the necessary information in the implementation of the record class. See Figure 3.
+
+Figure 3 -- Expression as multiple classes of entities or as a single, "flattened", records-centric entity class
+
+7
+7.1
+
+Concepts relating to metadata implementation
+Aggregation
+General
+
+7.1.1
+
+Each of the entities classes identified in ISO 23081-1 (i.e. record, agent, mandate, business, records management business) exist at different layers of aggregation. For example, within the entity "agent", an individual, a work unit, a department/division/branch or the organization as a whole can be described. Within the entity class "record", an item, a folder, a file, a series, etc. can be described. Each of these layers is referred to as an aggregation. See Figure 4. Each implementation can define them differently.
+
+9
+
+IS 15994 (Part 2) : 2012 ISO 23081-2 : 2009
+
+Figure 4 -- Layers of aggregation It is important to determine precisely which layers of aggregation are being defined because of the following. a) b) Metadata about each layer of aggregation within an entity can be different. While some elements can be common elements to all layers, some can be specific to particular layers of aggregation. Systems exporting or importing records need to have the layer of aggregation clearly identified to assign appropriate meaning and functionality to the object in the inheriting system.
+
+Defining the entities and layers of aggregation in this way, provides significant advantages in allowing the metadata schema to be implemented and managed over time. 7.1.2 7.1.2.1 Entity class aggregation scheme Scheme of entity classes represented in business systems or records application software
+
+This scheme codifies containment relationships within the same class of entity as specified in Tables 1 to 4. Each implementation includes its own unique mix of entities, based on the processes it needs to support. The purpose of defining a scheme is to facilitate    sharing of information about the business environment between systems, reuse of entities and metadata from one business system to another, and migration of entities and metadata from one records application software system to another.
+
+The interoperability of metadata for managing records is dependent on business systems (including records application software) using the same entity class types and metadata elements and on the meaning (semantics) embodied in the way specific data values have been used in particular software systems. Note that there are some important issues in the representation of the business environment from a records perspective. These are the following. a) Entities can be part of other entities in a physical or logical sense as a result of aggregation or hierarchy or classification, for example a document in a file, a file in a box, a transaction in a process, a person in an agency. Each organization should have rules about which entities can be part of other entities.
+
+10
+
+IS 15994 (Part 2) : 2012 ISO 23081-2 : 2009
+b) The same business environment can be represented differently in different records applications software or business systems depending on the unique requirements of the organization.
+
+This scheme represents only fixed layers of aggregations. Individual implementations can utilize other aggregations as necessary. However, where information concerning metadata for managing records is exchanged between systems it is necessary to have fixed layers of aggregation that should be represented in the same way in systems that are exchanging metadata. 7.1.2.2 Limitation
+
+This scheme indicates those layers of aggregation that are commonly implemented and should be regarded as fixed layers of aggregation for interoperability purposes. Different jurisdictions can use different terms to refer to the layers of aggregation, however they should ensure a mapping of their terms to the fixed layers. The layers of aggregation of each entity do not necessarily correspond uniquely. For example, layer 1 of Table 1 can correspond with layer 1 of Table 2 (business), but also with layer 2 of Table 3 (agent). Similarly, different implementation environments can call the aggregation by their own preferred name, hence the inclusion of an "indicative" name only. This is acceptable practice as long as each implementation environment is able to clearly map their named aggregation to the specific nominated layers of aggregation established in this part of ISO 23081. Table 1 -- Entity class: Records
+Layer Indicative name for aggregation Item Aspects of business environment represented The smallest discrete unit of records managed as an entity. Items can contain components such as an email with attachments; however, the components of the item are managed as a single entity within the system. Examples An email containing a referral for a specific patient to a new medical practitioner, or a budget proposal for a new project.
+
+1
+
+2
+
+Transaction sequence
+
+Records resulting from executing a workflow sequence undertaken by a specific medical practitioner to provide services to a A sequence of items, physically or virtually linked, which particular patient on one visit, or shows one coherent transaction leading to a specific records resulting from executing outcome. a workflow sequence undertaken by a local government agency to authorize the opening of a new food delivery service. A sequence of items, physically or virtually linked, which evidences an organizational/business activity. Individual items on the file have relationships with each other, for The cumulated records relating example a letter and a reply, and a reply to that, etc., to a particular patient in a which are preserved by being kept on file in the right medical practice. order and are part of the evidence in the records. A file can be physical or electronic. An aggregation of records created and maintained by an agency or person that are in the same numerical, The medical practice's patient alphabetical, chronological, or other identifiable files, or the employees' files sequence, or result from the same accumulation or filing within an insurance firm. process and are of similar function, format or informational content. The whole body of records of an organization or individual. All the records of the medical practice, or all the records of a regional office of an insurance firm.
+
+3
+
+File
+
+4
+
+Series
+
+5
+
+Archive
+
+6
+
+Archives
+
+Records of multiple medical All of the records within a specified society, jurisdiction, practices or records of multiple business or social sector brought into an encompassing non-governmental organizations framework to form collective memory. contributing to infrastructure building in developing countries.
+
+11
+
+IS 15994 (Part 2) : 2012 ISO 23081-2 : 2009
+Table 2 -- Entity class: Business (including records business)
+Layer Indicative name of aggregation Aspect of business environment represented Examples An instance of a physician examining a specific patient, or an instance of purchasing specific supplies.
+
+1
+
+Transaction
+
+The smallest unit of business activity.
+
+2
+
+Activity/process
+
+The major tasks performed by an organization to The medical practice's accomplish each of its functions. An activity/process examination procedures, or a should be based on a cohesive grouping of purchasing procedure. transactions producing a singular outcome. Functions represent the major responsibilities that are A medical practice's patient managed by an organization to fulfil its goals. Functions services, or research are high-layer aggregates of the organization's management. activities.
+
+3
+
+Function
+
+4
+
+A societal right or responsibility that exists outside the boundaries of an organization. An ambient Ambient function function provides the broader societal context in Ensuring health and welfare. which an organization's business functions are performed.
+
+Table 3 -- Entity class: Agents
+Layer Indicative name of aggregation Person/ instrument Aspect of business environment represented Examples
+
+1
+
+The specific medical practitioner Individual actors or instruments who carry out the or the electrocardiogram (ECG) business transactions. machine producing the specific chart. The oncology group within a A formal or informal collection of people or positions medical practice or a digital aligned for management purposes to achieve a rights specialist group within a business outcome. law firm. Organizations mandated to carry out the function. A medical laboratory or a bank. or a regional Groups of agencies associated with ambient (broader) A hospital functions in the sense of high-level societal purposes. government.
+
+2 3 4
+
+Work group Agency Institution
+
+Table 4 -- Entity class: Mandates
+Layer Indicative name of aggregation Aspect of business environment represented A set of discrete procedural instructions, outlining assumptions and dependencies that determine the method, sequence and outcome of particular business actions and implemented to meet specific business (including managing records) requirements. Examples Patients will sign a medical information disclosure form on their first visit, or current address is to be provided when registering for services.
+
+1
+
+Business rules
+
+2
+
+Policies
+
+Patient medical information will A formal set of generic instructions governing the be disclosed only to other manner in which, and standards to which, business physicians and only to provide actions are to be performed. for the care of the patient. Legislation relating to personal An external command or authorization, governing the privacy and the sharing of conduct of business activity and directing policy. patient medical information.
+
+3
+NOTE
+
+Legislation/ regulations
+
+Aggregates of mandates do not possess the same hierarchical layering as those presented in other entity classes.
+
+12
+
+IS 15994 (Part 2) : 2012 ISO 23081-2 : 2009
+
+7.2
+
+Inheritance
+
+Metadata can be inherited from a higher aggregate to a lower one. For example, metadata about a folder can be inherited by all the items placed within the folder. This is a technique which serves to ensure consistency of metadata attribution, and that properties defined at the higher layer do not need to be repeated for each of the subordinate layers. This concept is illustrated in Figure 5.
+
+Key Rp retention period (5 years)
+
+Figure 5 -- Inheritance Inheritance plays an important role in managing records. It allows specific functionality to be defined across predefined groups of records. For example, applying a single security/access level to many folders and the items within those folders. Inheritance can be implemented in a number of ways, including the following. a) b) c) Providing a logical, bi-directional, link between the layers of aggregations. This is common in records application software. Copying the metadata from the higher aggregate to each instance of the subordinate layer within it. This approach tends to support self-documenting and stand-alone objects. Physically "wrapping" or "encapsulating" the contained aggregates with explicit metadata about the instance of aggregation to which it belongs.
+
+As with all strategies employing linking, when applying the inheritance approach it may be more difficult to sustain the relevant controls of functionality governing the lower level of an aggregation over time than when metadata, which fully document all properties, are applied at each layer of aggregation. This issue becomes a particular concern when records move beyond the boundaries of the creating system.
+
+13
+
+IS 15994 (Part 2) : 2012 ISO 23081-2 : 2009
+
+7.3
+
+Reuse of metadata values
+
+Metadata for managing records are defined specifically to meet the requirements of identifying, managing and using records for as long as they are required. However, some of the metadata elements defined for managing records can be used for other purposes. Reuse of metadata is a desirable outcome, which will enhance business efficiency and sustainability of record resources. In particular, those metadata elements supporting retrieval can be reused by other organizational systems focusing on retrieval to ensure that records are always viewed in context. For example, metadata elements such as title, function or subject can be utilized by business systems other than the records application software. However, caution is required in ensuring that the semantics of the records metadata elements do actually coincide with those for metadata elements of other schema. For example, "date" in information resource discovery is much less complex than the requirements for "date" in records processes, where there are multiple different types of dates to support different records processes.
+
+7.4
+
+Interdependence of metadata elements
+
+Some elements contain sets of linked metadata. For integrity and authenticity reasons, such linked sets need to be maintained as a sequence rather than treated as independent elements. This creates an interdependence between the elements. For example, elements describing a records process event need to be maintained as a sequence defining which object, which actor, which action, the results of the action and the date/time of the action. Such dependencies need to be clearly established in defining metadata semantics and schemas for managing records. Respecting this characteristic of metadata for managing records is critical in establishing equivalence or mapping semantics (meaning) between metadata elements for managing records and those from other communities. If the metadata elements that are treated as a sequence for records purposes are mapped independently, without respecting their need to be considered with other elements in the sequence, the integrity and authenticity of the sequence they document can be severely compromised. For example, in a metadata sequence involving records disposition, if the date element is disassociated from its metadata sequence, the date could be inadvertently associated with some other process, such as the date the record was created or classified.
+
+7.5
+
+Extensibility and modularity
+
+Metadata strategies should allow for the addition of elements beyond the defined schema to be added in implementation environments, where this is appropriate. For example, records describing geographic location may appropriately include an additional element to fix location as required by geographical information systems specifications, where this element will be unnecessary in other implementations. As long as the core elements that ensure requirements for managing records are adequately addressed and maintain their semantic consistency, additional metadata elements can be added to suit the business purposes. In other words, metadata elements for managing records should not be replaced by elements from other schemas, but can be supplemented by them. This concept is referred to as "extensibility" and allows metadata strategies for managing records to encompass additional requirements from metadata specifications defined for other industry- or discipline-specific purposes. To enhance the possibility of incorporating such extensibility while maintaining critical integrity for managing records, defining metadata in modules reflecting particular functionality is desirable. For example, metadata for managing records can be modularized to identify those elements pertaining to registration or identity, to description of the entity, to processes undertaken on the entity, to relationships between entities or to events scheduled to take place. Modularization makes it easier to determine where to fit additional elements without compromising functionality for managing records.
+
+14
+
+IS 15994 (Part 2) : 2012 ISO 23081-2 : 2009
+
+8
+8.1
+
+Metadata model for managing records
+Metadata model
+
+The metadata entities described in Clause 6 can be incorporated into this metadata model. The metadata defined in this subclause are essential for records entities and can apply to all entities in the model. The initial values for Identity, Description, Use and Relation are typically attributed at the point of capture of a record. They may be added to subsequently, however, when records are used in new contexts which need to be captured as well. Event plan element values may be triggered and/or updated by the values attributed at point of capture or added subsequently as part of managing the records. All events and changes or additions to metadata (and records) are regarded as records process metadata. In order to assist in understanding the structure of the metadata in this part of ISO 23081, the metadata are organized into six broad groupings. Each grouping is further divided into many metadata elements. In Figures 6 to 15, solid arrows indicate the type of metadata associated with the specific object (class and instance) being documented and the dotted arrow indicates that the entity relates to another entity. Figure 6 illustrates the six broad groupings of metadata.
+
+Figure 6 -- Generic metadata model for managing records The six broad groupings of metadata are the following. a) b) Identity. The identity metadata group identifies the entity. Examples of the metadata elements that appear in this category are entity type, aggregation and registration identifier. Description. The description metadata group contains elements required to determine that this is the entity that is required for use. Examples of metadata elements that appear in this category include: title, abstract and external identifiers. Use. The use metadata group contains information that facilitates long-term use of the entity. Examples of metadata elements that appear in this category include: technical environment, access, rights and language. Event plan. The event plan metadata group contains information used to manage the entity. The metadata in this group consist of a linked sequence of metadata and independent metadata elements. Examples of metadata elements that appear in this category relevant to the records entity include: type, description, date/time and relation (linked), event trigger and relation. Event history. The event history metadata group documents past records events and other management events on both the entity and its metadata. For each event it specifies the type of event, what happened, when it took place, why it occurred, and who carried it out. The metadata in this element are a sequence
+
+c)
+
+d)
+
+e)
+
+15
+
+IS 15994 (Part 2) : 2012 ISO 23081-2 : 2009
+documenting a specific event. Examples of metadata elements that appear in this category include: date/time, type, description and relation (linked). f) Relation. The relation metadata group points to a relationship entity or describes the relationships between this entity and other entities.
+
+8.2
+
+Dynamic metadata model
+
+As outlined in ISO 23081-1:2006, Clause 4, metadata for managing records are not static but continually accruing as processes for managing records are undertaken. The dynamic records metadata model represents this continual accretion of metadata for managing records. A second view of this model that emphasizes the time-based aspects is shown in Figure 7. The identity, description, use, and relation groups of metadata show the current state of the entity. The event plan group of metadata contains the future plans for managing this entity (which can change the state of the entity). The event history group of metadata contains the history of the entity over time (and can include the previous state of the entity). The event plan itself can change over time and these changes will be documented in the event history.
+
+Figure 7 -- Dynamic records metadata
+
+8.3
+
+Metadata as a record
+
+The metadata about an entity class are, themselves, a record and can therefore be described by metadata as illustrated in Figure 8.
+
+16
+
+IS 15994 (Part 2) : 2012 ISO 23081-2 : 2009
+
+Figure 8 -- Metadata as a record In this example, the metadata in Entity 1 describe the Record. The event history group of metadata within the record entity describes all actions undertaken on the record, the event plan attribute describes the future management plans for the record, the use attribute defines conditions, permissions and restrictions on the access and use of the record, and so on. Entity 2 contains metadata about the metadata contained in Entity 1. So the event history attribute in Entity 2 describes the event history of Entity 1's metadata, the event plan describes the future management plans for the metadata, and so on. Clearly Entity 2 is also an entity and can be represented by a third entity. In theory, this recursion is endless and each needs to be documented. In practice a real system will terminate this recursion at the point where the information about the metadata record is not needed for business purposes or to contextualize the object or metadata record being described. Like the other entities, a particular implementation could combine Entity 1 and Entity 2 and whatever number of recursions desired into a single entity.
+
+9
+9.1
+
+Generic metadata elements
+Identity metadata
+
+The identity group of metadata distinguishes the entity from all other entities in the domain. For records, these key metadata are assigned at registration and the act of registration will be recorded in the event history metadata. For all entity classes, the purpose of these metadata is to provide a way of uniquely identifying the specific instance being referred to in the metadata, which then also provides a way of referencing that entity in relationships. The identity group of metadata is illustrated in Figure 9.
+
+17
+
+IS 15994 (Part 2) : 2012 ISO 23081-2 : 2009
+
+Figure 9 -- Identity metadata The identity group of metadata contains the following elements. a) b) Entity type. This identifies the type of the entity class (e.g. record, agent). Aggregation. This identifies the equivalence of the metadata to the standard layers of aggregation defined in the encoding scheme "Entity class aggregation scheme" (see 7.1.2), specifically for the purposes of mapping to the equivalent entity in other systems. Registration identifier. This uniquely identifies the entity within the specific records domain. The process of attributing an identifier should create an entry in the event history metadata detailing the agent responsible, and the date and time.
+
+c)
+
+9.2
+
+Description metadata
+
+The description group of metadata describes the entity, enabling precise interrogation of whether this is the entity sought. The elements in this category have two functions. They allow the entities to be found by searching, and they allow the context of the entity to be understood. While this part of ISO 23081 contains a simple set of descriptive metadata elements, specific application domains need to define their own descriptive metadata elements. This is illustrated in Figure 10.
+
+Figure 10 -- Description metadata
+
+18
+
+IS 15994 (Part 2) : 2012 ISO 23081-2 : 2009
+The description attribute contains the following elements. a) b) Title. This contains the name of the entity (for example "Joe Bloggs" for a person, "Environmental Protection Act, No. 34 of 2001" for a piece of legislation, "Democracy services" for a work unit, etc.). Classification. Information about the classification of the entity in accordance with an authorized source, e.g. a business or functional classification scheme, a subject classification scheme, a list of indexable headings, or a thesaurus. Abstract. An unstructured textual description of the entity. Place. Information about location, site or space associated with the entity, such as where the entity is located or stored, or can be contacted. Place can be physical or virtual. Jurisdiction. The jurisdictional domain of the entity. External identifiers. Any unique identifiers, either current or historical, assigned in a system external to the domain for managing records (e.g. ISBN number, social security number).
+
+c) d) e) f)
+
+9.3
+
+Use metadata
+
+The use group of metadata contains elements that assist long-term access to the entity or rights attributed to the entity. This covers a range of information, extending from information about rights to use the entity through to information about technical details required to display the entity. Considerable differences in specificity of these metadata can be presumed depending on the nature of the resource. At the lowest layer of record aggregation, the requirements are to identify very precise technical hardware, software and formatting dependencies. This is illustrated in Figure 11.
+
+Figure 11 -- Use metadata
+
+19
+
+IS 15994 (Part 2) : 2012 ISO 23081-2 : 2009
+The use attribute contains the following elements. a) Technical environment. This element contains information about the technical environment necessary to render and display the entity. At the lowest layer of record aggregation, this includes format information, decryption requirements, and any supporting technology required. Rights. For records, these metadata will detail information about use of record, including use rights [e.g. licensing arrangements, copyright, intellectual property (IP)], restrictions (e.g. on copying or publishing), permissions (e.g. user permissions and authorized views) and conditions (e.g. copying or downloading conditions, citation requirements, payment details). For agents, these metadata will include user permissions assigned, etc. Access. Information about accessibility of, or rights associated with, an entity, e.g. access rights [e.g. freedom of information (FOI), public access], restrictions (e.g. security classification, privacy, confidentiality, caveats like "commercial-in-confidence", closed access period); for records entities this can further include elements specifying exemptions from public access (provisions of archival law or FOI), permissions (e.g. special access provisions), and conditions (e.g. redaction). Audience. For records entities, the intended audience of the entity. Language. The name of the language or script of the entity. Integrity. Information that shows that the entity, and this metadata element, has retained its integrity since it was created (e.g. checksums used to check that a record has not been tampered with). For record entities, this can also include Documentary form. Information about the recognized form the record takes, which governs its internal structure and relates to its transactional purpose or to the function, activity or transaction it documents.
+
+b)
+
+c)
+
+d) e) f) g)
+
+9.4
+
+Event plan metadata
+
+The event plan group of metadata contains metadata that allow the entities and their associated metadata to be managed. The event plan metadata consists of management actions that are planned to occur in the future. Typical planned management actions for records entities include      appraisal (planned actions to determine whether to keep this entity), disposal (planned actions to implement appraisal decisions relevant to this entity), preservation (planned actions to ensure long-term access to the entity), access control (planned actions to change who can access and use this entity), and rights (planned actions to change statements of rights to use this entity).
+
+For agent entities, plans may include security clearance reviews. For business entities this can include periodic organizational reviews which confirm or change the scope of the business actions undertaken. When a planned action occurs, an event is created in the event history metadata. The entries are then removed from the event plan metadata. Event history records the action of what happened, when it took place, why it occurred and who carried it out. The documentation of what happened includes enough information to determine the previous state. This is illustrated in Figure 12.
+
+20
+
+IS 15994 (Part 2) : 2012 ISO 23081-2 : 2009
+
+Figure 12 -- Event plan metadata The event plan group metadata contains elements sufficient to document an action plan, the triggers, and metadata values necessary to calculate when the actions are due. It comprises a set of action items. The event history metadata are a set of linked metadata, each component of which shall be present to document adequately the event, and independent metadata elements. For records entities, each action item shall contain the following elements. a) b) Event date/time. The date and (optionally) the time the action item is intended to occur. Event type. The type of action to perform. Actions may occur to support many aspects of entity management, registration, review, monitoring, removal, update. For managing records, more specific action types could further include authentication, appraisal, disposal, preservation and access. Event description. Information required by the agent to carry out the planned action. This will include the priority of the action. Event relation. Where separate relationship entities are not used in the implementation, this group of elements should be used to incorporate the following: 1) 2) e) Mandate. Information about the mandate or instrument that provides the legal or administrative basis for the action. This will normally be a relation to an entity describing the mandate. Agent. Information about the agents who are expected to be involved in carrying out the action. This will normally be a relation to entities that describe the agents.
+
+c) d)
+
+Event trigger. The event which allows calculation of when the specified action is due for implementation (for example, after audit, after resignation, etc.).
+
+9.5
+
+Event history metadata
+
+The event history group of metadata documents the trail of past records, events or other actions on both the entity and its metadata. For each event, it specifies the type of event, what happened, when it took place, why it occurred, and who carried it out. This is illustrated in Figure 13. The elements in this group have the basic function of showing that the entity and the metadata retain their authenticity over time. This is done by documenting the creation of the entity and the metadata and all significant events that subsequently happened to the entity or the metadata. Whether an event is significant or not depends on the business and the system.
+
+21
+
+IS 15994 (Part 2) : 2012 ISO 23081-2 : 2009
+Many of the events in the event history metadata are generated as a result of carrying out the actions proposed in the event plan metadata. When these actions occur, one or more events can be created in the event history metadata. For example, carrying out an appraisal action may generate the allocation of a retention period (such as, 10 years after last action) and an instruction on transfer (such as, transfer to archives 2 years after last action). However, events can be generated by actions that are not planned management actions, which also need to be specified in the event history. Examples of such unplanned events include:    the resignation of a member of staff (an agent); a change to the description of the entity; the addition of a new relation, or the removal of an existing relation.
+
+When instances of either type of event occur, an event is created in the event history metadata.
+
+Figure 13 -- Event history metadata The event history metadata are a set of linked metadata, each component of which shall be present to adequately document the event. Each event contains the following elements. a) b) c) d) e) Event identifier. Unique identifier for the event/the event transaction number. Event date/time. Specifies the date (and, optionally, time) associated with the event. Event type. The type of event (for example, for records entities, this means registration, classification, review). Event description. A description of the event. Event relation. Where separate relationship entities are not used in the implementation, this group of elements should be used to incorporate the following. 1) 2) Mandate. Information about the mandate or instrument that provides the legal or administrative basis for the action taken. This will normally be a relation to an entity describing the mandate. Agent. Information about the person responsible for undertaking or authorizing the event. This will normally be a relation to entities that describe the agents.
+
+22
+
+IS 15994 (Part 2) : 2012 ISO 23081-2 : 2009
+
+9.6
+
+Relation metadata
+
+Relation contains metadata that associate two or more entities. Where relationship is implemented as a separate entity, the purpose of this element is simply to point to the entity description of the specific relationship. Thus, the relation attribute does not contain information about the relation such as its type or duration, but only the pointer to the relationship entity, which contains the details of the relationship. Information about the relation itself is held within a relationship entity. An example of a relation between an agent entity and a series entity is illustrated in Figure 14.
+
+Figure 14 -- Relationship between an agent entity and a series entity Although this shows a binary relationship, relations can connect any number of entities. For records entities, typical relations may include "controlled by", "contained in", "used by", "created for", etc. For business entities, typical relations may include "controlled by", "transferred to", etc. For agent entities, typical relations may include "controlled by", "contained in", etc. Where relationship is not implemented as a separate entity, this group of metadata expresses the specific relationships, usually in sequences of simple binary statements (e.g. entity x controls entity y; entity x controls entity z). For implementations not using relationship as a separate entity, the metadata model also includes specific relationships in other groups of metadata as illustrated in Figure 15. Both the event plan and event history groups include agent and mandate elements, which are normally relationships with agent and mandate entities.
+
+Figure 15 -- Relation metadata
+
+Presuming the implementation of relationship as a separate entity, the relationship attribute contains the following single element. Relation. The identity of the relationship entity that documents the relationship.
+
+23
+
+IS 15994 (Part 2) : 2012 ISO 23081-2 : 2009
+In implementations which do not have relationships as a separate entity, the relationship metadata should be considered as linked metadata to be managed as a group. Relationships should be reciprocal, so the inverse relationship should occur in the related entity. The minimum metadata to define a relationship will be the following. a) b) c) Identifier of the related entity. A link to the identity of the related entity, for the purposes of precisely identifying the related objects. Relationship type. Expresses the nature of the relationship and the role of the specific linked entities in the relationship in an unambiguous way. For example, contains, controls, precedes. Relationship date. The commencement and, if relevant, the end date of the relationship instance.
+
+10 Developing a metadata schema for managing records
+10.1 Metadata schema
+A metadata schema is a logical plan showing the relationships between metadata elements. Metadata schemas normally incorporate a set of rules, including rules relating to semantics and syntax, that enable the management of metadata (see ISO 23081-1:2006, 3.3). Metadata schemas are powerful tools that support interoperability and help ensure long-term sustainability of records. Organizations and jurisdictions that use metadata for the management of records will need to invest the resources necessary to develop and document formal metadata schemas.
+
+10.2 Metadata registries
+All tailored metadata schemas for managing records should be incorporated within relevant organizational or jurisdictional metadata registries. The purposes and uses of metadata registries are different, depending on their type. At least three purposes for metadata registries are relevant for metadata for managing records. These are the following. a) Metadata schema registries. Such registries are cross-organizational and cross-jurisdictional. They provide a high level statement of the purposes of a particular metadata schema enabling users to determine the relevant schema for individual use. Metadata element schema registries. Such registries provide an authoritative statement of the semantics of metadata elements within a specific metadata schema, usually available publicly for the purpose of establishing organizational schemas for a particular community of practice. The purpose of such registries is to inform the preparation of cross-walks or mappings between metadata elements defined by different communities. Organizational specific metadata element schema registries. Such registries are intended for use within organizations to enable the mapping of specific metadata schemas to particular business systems. The purpose of such registries is to serve internal operational needs for interoperability within the organization and also to achieve interoperability over time.
+
+b)
+
+c)
+
+10.3 Designing metadata schemas for managing records
+10.3.1 Selecting elements to form a schema The generic areas of metadata for managing records are described in Clause 9. However, within the generic definitions, each organization has the capacity to refine elements and/or define how specific elements will be used to meet their own specific business requirements. Organizational metadata schemas should: a) b) specify the entities to be implemented (see also Clause 6); specify the layers of aggregation included (see also 7.1);
+
+24
+
+IS 15994 (Part 2) : 2012 ISO 23081-2 : 2009
+c) d) e) f) g) h) identify the entities/aggregations (which elements from what source will uniquely identify records, e.g. unique system identifiers, database primary keys); describe the entity/aggregation (which metadata elements are required to determine appropriate representation of records content and structure, including technical dependencies); establish relationships between related entities/aggregations; establish predefined events which shall be undertaken on records and establish the triggers to enable those events to take place; administer or resolve functionality, for example terms and conditions of access, use, disposal, etc.; document the history of records events, for example use or migration activity, etc.
+
+In practice, some of the metadata elements can serve more than one purpose. 10.3.2 Structuring elements and establishing relationships A set of metadata elements becomes a schema when a logical structure is applied to it. This involves establishing the semantics, or specific meaning, of elements. Semantic relationships should also be defined, i.e. identifying any group of elements that shall be regarded as a consistent sequence to ensure that the meaning of the elements is clearly established. For example, documenting a records event requires defining the sequence of elements that define which object, which actor, which action, the results of the action and the date/time of the action. 10.3.3 Encoding schemes Metadata elements can source their values from encoding schemes. Encoding schemes are authoritative sources, including pre-defined lists, classifications, controlled vocabularies or taxonomies. Using encoding schemes that are formally documented aids in ensuring the quality and consistency of metadata values. Encoding schemes are commonly of two types:   vocabulary encoding schemes that define values with which to populate specific elements; syntax encoding schemes that define structure or syntax of the expression of the values.
+
+An example of the latter is ISO 8601[2]. In defining a metadata scheme, it should be specified if particular elements require the use of encoding schemes. If this is the case, the encoding scheme, its citation protocols and any related rules on citation (syntax) should be clearly identified. Examples of metadata elements for managing records that commonly include encoding schemes are "classification" or "subject". For interoperability purposes, encoding schemes need to be defined with the same rigour as element metadata schemas. The relationships between terms in encoding schemes need to be machine interpretable. 10.3.4 Rules for syntax, obligation levels, default values and repeatability The precise rules for the use of elements shall be defined in the metadata schema documentation. Some of the specific areas requiring careful documentation are the following. a) The formation of the syntax, the form of the expression of elements, shall be defined where relevant. For example, it is common to specify that a date shall conform to a particular syntax such as yyyy/mm/dd. Any such syntactical rules for elements shall be defined in the schema definition. In some cases, default values can be specified for elements. For example, the name of the organization can be set as a default to precede the particular instance of "creator". Any defaults established for metadata elements should be established formally in the schema definition.
+
+b)
+
+25
+
+IS 15994 (Part 2) : 2012 ISO 23081-2 : 2009
+c) Rules about the level of obligation for using each element shall be defined, that is, whether it is optional or mandatory within a metadata sequence for each object being defined to contain a value. In some cases, elements are optional, only to be used if specifically relevant to an object. For example, date of transfer will only be applicable if the object has been transferred, and thus can be either optional or conditional on the occurrence of the specific event. Rules about occurrence. Some elements can be repeated as necessary and others will only have one permitted instance and not be repeated. For example, a specific rendition of a record will only have one format. However there can be multiple metadata records defining different formats of a record. Cases where the use of an element is dependent on the existence of another element. For example, element y is dependent on element x. To have a value for element y, it is necessary for a value for element x to be created.
+
+d)
+
+e)
+
+10.3.5 Reusing existing metadata schemas for the purposes of managing records While interoperability is a desired outcome in managing metadata for managing records, particular care should be taken if adopting metadata rules from other communities into the records environment. Some generic rules need modification to meet specific purposes of managing records. In particular, ensure the following. a) The semantics of metadata inherited from other schemas are appropriate to purposes of managing records. For example, nearly every metadata schema will include a requirement for the element "date". However, within the records environment, many different types of date are maintained, such as date of receipt, creation, registration, action, use. The specific requirement for using dates cannot meet the semantics from other metadata schemes. Careful analysis and alignment of the semantics from other metadata schemas are necessary to ensure functionality for managing records is not compromised. Where metadata for managing records are defined as a sequence of related elements, as in the case of documentation of a records event, care shall be taken to always manage them as a sequence, and not to consider them as element refinements or qualifiers as may be the case in other metadata schemas. Other domain or discipline schemas can identify or contain "administrative metadata" which usually consist of information about the schemas as a record (e.g. their versions, changes, authors) for management purposes associated with the specific schema. This is something quite different from specific functionality for managing records as defined in schemes for managing records. "Administrative metadata" usually deal with records of the authority, changes and status of a particular metadata schema. In other words, they are often a specification for managing records associated with the particular schema. Schemas for managing records also need to comply with documentation requirements of authoritative data about their development and change. But such metadata are metadata about one particular record (the schema) and not to be confused with the generic metadata that schemas for managing records define. The rules defined by other schemas will need to be carefully checked for compliance when inheriting such metadata or defining equivalence to metadata elements for managing records. The rules for syntax, obligation, source, repeatability, etc., will need to be considered. Any domain-specific rules will need to be carefully reviewed.
+
+b)
+
+c)
+
+d)
+
+10.4 Metadata schema presentation
+10.4.1 Documenting a metadata schema for managing records Metadata schemas for managing records define the way records are structured and presented. As such, the schemas themselves become critical control tools in need of careful documentation and management. In particular, they include the following. a) b) All metadata schemas for managing records should follow a pre-defined format. Metadata schemas for managing records should be cited as the authoritative source of semantic definitions when metadata for managing records are extracted.
+
+26
+
+IS 15994 (Part 2) : 2012 ISO 23081-2 : 2009
+c) d) Metadata schemas for managing records should be kept up-to-date, with careful control and reference to version numbers where semantics or syntax requirements are changed. Metadata schema documentation for managing records should accurately document the limitations of the metadata schema, the nature of compromises made and the impacts of such compromises on functionality.
+
+Metadata schemas should be registered in the appropriate metadata registries (see 10.2). 10.4.2 Machine readable presentations The requirements to maintain a clear and authoritative human-readable record of the metadata schema are quite distinct from requirements to establish and maintain machine-interpretable formats. Machine-interpretable representations of schemas for managing records are required to automate extraction and exchange of records across systems. However, in practice, such representations are complex. XML is one such machine-interpretable representation of metadata that is currently being utilized in records environments. However, translation into such machine-interpretable language requires significant quality assurance to ensure precision and appropriate logic is created and maintained. In particular, the following should be carefully considered. a) b) c) d) Validation: that any schemas represented in machine interpretable form actually contain internal and external validation and that they return the expected results. Aggregation: that the schemas can manage the layers of aggregation and relationships defined within metadata. Modularity: that any translation of elements for managing records into machine-interpretable modules retains the functionality required for records purposes. Dependencies: that any machine-interpretable rendition can identify and manage dependencies between elements (for example, managing relationships between objects, or the inheritance of data values from other aggregations).
+
+11 Implementing metadata for managing records
+11.1 General
+Records as conceptual entities only exist when an object is considered in association with, or relationship to, its context. The contextual aspects of a record are documented in the metadata for managing records, which should always be considered as a part of the record, regardless of whether they are physically stored together with the record object or separately.
+
+11.2 Storage and management
+11.2.1 Centralized versus decentralized storage and management When deploying metadata strategies for managing records, a decision needs to be taken on the systems architecture issue of whether the records (including metadata) created in a business system will be physically transferred to a repository controlled by the records application software or whether the records will be left stored in the business system that created them. That is, will the records system be a centralized system or a decentralized distributed system? As with all other considerations of centralized/decentralized options, there is no one right answer. Technically either option is feasible. In the centralized option, the record is physically removed from the business system, its metadata copied and both are deposited into a specified storage repository for ongoing storage. The processes for managing records are then applied across the contents of the repository, while the business system retains its copy of
+
+27
+
+IS 15994 (Part 2) : 2012 ISO 23081-2 : 2009
+the metadata needed to conduct ongoing business. In theory, this repository does not have to be the records application software. It could be an organizational data repository. The second architectural model is to leave the records (including their metadata) as captured in the business system identified clearly as records and identified as "declared" or "exposed" to the records application software controls. The storage of the records thus stays within the business system, while the functionality for the processes for managing records is with the specifically designated records application software. In this option, the metadata shall be copied into the records application software, which will need constant communication with the business system to achieve appropriate synchronicity. An option midway between these two approaches is likely to be used in many cases. In this model, business systems are identified as being responsible for the point of capture of metadata for managing records, and a designated records application software will be responsible for the accumulation and management of records process metadata. 11.2.2 Metadata repository Most records application software uses proprietary repositories for the storage of the electronic records objects. This is a matter of concern, as the repositories are rarely designed with specific requirements for long-term storage clearly articulated. While standards for digital repositories specifically for records are in their infancy, standards such as OAIS (open archival information system) model [3] and the InterPares Preservation model [8] will serve as a reference point.
+
+11.3 Metadata capture
+Metadata attribution should be as automatic as is possible to achieve. Manual attribution of metadata should as far as possible be done using pre-defined selection lists (not open fields which can be populated at will). Typically, this is a portion of point of capture metadata, while all process metadata should be sourced automatically. Point of capture metadata "define the record at its point of capture, fixing the record into its business context and establishing management control over it. During the existence of records or their aggregations, new layers of metadata will be added..." as cited from ISO 23081-1:2006. A proportion of these metadata can be attributed by a user, but as much as possible should be gathered automatically as suggested in ISO/TR 15489-2.[4]
+NOTE It is suggested in ISO/TR 15489-2:2001 that the metadata be gathered as follows:
+
+"Electronic records systems can be designed to register records through automatic processes, transparent to the user of the business system from which it is captured and without the intervention of a practitioner. Even where registration is not totally automated, elements of the registration process (specifically some of the metadata required for registration) can be automatically derived from the computing and business environment from which the record originates."
+
+Sources of data for automatic attribution of point of capture metadata include: a) b) c) d) e) f) system clocks for date/time; network log-on or authentication systems for details of individuals and their work units (e.g. "trusted log-ins"); human resource management systems for details of individuals and their work units; workflow systems for work process details, business flows, movement or authorizations; email systems for receipt/dispatch and transmission details; mapping metadata from the "file properties" of the creating application, or parts of the operating system.
+
+Manually attributed metadata require greater validation to support semantic and syntactical consistency and quality. Techniques such as fixed validation rules can be implemented supporting elements where specific syntax is required, for example to ensure that dates are in the syntax format defined by ISO 8601. Validation
+
+28
+
+IS 15994 (Part 2) : 2012 ISO 23081-2 : 2009
+techniques need to be carefully considered so as not to accept data that conform to the syntax but actually mean something else. For example, both European and American citation of dates can be technically accepted by a validation process, but one can mean 5th November and the other 11th May. Process metadata for managing records accumulate as actions, are taken on as a record and are obtained directly from the processes themselves. In practice, it is often difficult to identify the specific values that are required to document the processes, as proprietary records and document application software embed these in functional programming codes, rather than regarding them as inherently part of the record.
+
+11.4 Creating a metadata record for managing records
+At specific points of time, as determined by the application of a set of appraisal decisions, it can be necessary to create an application-independent representation of the record and its metadata. Typically this is done by "writing out" the metadata into a standard metadata format, such as XML, using the defined elements of the metadata schema for managing records. A deliberate decision point can be implemented at which time all the metadata associated with a record will be written out either as an independent record or stored with the record to which they relate. In practice, this writing out of metadata for managing records can occur at multiple points in the existence of the record. These include: a) b) c) d) e) f) g) at initial capture; at application of disposal processes; as changes to storage media occur; at systems upgrade or change; where there are changes in a custody arrangement; for data exchange with other systems (e.g. organization-wide information discovery); as the object moves outside the records application software boundaries (e.g. transfer to alternative storage).
+
+Whenever the creation of an independent metadata record is undertaken, the result is to lock a record object and its metadata into a single point in time representation where further process metadata accumulate externally to the captured object. Processes involved in the continuing management of any such object will continue to occur and to accumulate metadata, but these metadata will remain linked, and not be reflected within the static independent metadata object. For example, this can occur when records are removed to the custody of an external organization such as an archive. At that time, further contextual detail and management processes can be undertaken by an independent archival system, rather than the system which managed the creation and/or management of the record. In some implementations, these further metadata can be required to be "rewritten" for the record object at designated points as defined in the appraisal process.
+
+11.5 Registration
+As identified above, as much metadata as possible about a record at its point of capture should be inherited or derived from the environment of its creation. Where common office software is employed, a single map to identify the relevant sources of metadata can be devised, which can then be applied many times to all records captured within that environment. Unfortunately, it cannot be assumed that our records application software will interface with each business system in the same way as is possible with common office software. Mappings between the metadata in individual business systems and the metadata schema for managing records will identify the specific elements needed for managing records. However, there are many business systems deployed in organizations. Most
+
+29
+
+IS 15994 (Part 2) : 2012 ISO 23081-2 : 2009
+are proprietary and many have been specifically designed to suit one specific organizational requirement. Standard interfaces between the records application software and individual business systems are achievable in the short term but are not sustainable, as systems change and can be expensive to implement across all business systems within an organization. To achieve implementations that are robust and which will enable easy updating, formalized mappings between the metadata schema adopted and the specific metadata within business systems should be maintained separately as an organizational resource. Metadata registry and translation brokering functionality is emerging to provide such an independent service (see 10.2). Separating the mappings from the specific implementation and maintaining them as a record, allows changes to be made to the mappings with ease, providing a mechanism that is more flexible than "hard coding" the translations into a specific application. This, then, provides an ongoing organizational resource for enabling the mappings to be maintained up to date and available for dynamic (automatic) translations between the systems as required.
+
+11.6 Metadata as control tools for managing records
+Implementing metadata for managing records includes defining the appropriate sources of business-specific values for metadata elements. Such specific values can be managed in a variety of ways, but commonly the tools for managing records outlined in ISO 15489-1, such as business classification schemes and disposal authorities, can be regarded as encoding schemes applicable to specific metadata elements. For example, the values to be ascribed to the descriptive metadata elements "title" or "classification" can be sourced from a structured vocabulary that is the business activity classification scheme; or the security ascribed to a particular record can be identified in use and sourced from the set of identified security levels defined in a particular implementation. The encoding schemes or control tools used are records in their own right. Metadata for managing records will not only contain details of what has happened to the record (event history), but will also contain triggers to events that need to occur in the future (event plan). For example, a planned event can be the automatic change in security status after a period of time, or the automatic invoking of disposal action after a specified time. Metadata for managing records shall reflect such future events and what will invoke them, as well as maintain an accurate description of the events that took place on the records.
+
+11.7 Linking metadata
+Most records application software currently available stores the content of electronic record objects as passive or static entities and all the accumulating metadata (both point of capture and process metadata) are stored as operational fields in the records application software or data entry interface. The connection between the record and its metadata is managed by links or pointers. Links and pointers not only exist between the records object and its metadata in records application software, but also can exist within the metadata themselves. Virtual records can consist entirely of links or logical relationships identifying multiple discrete objects which, when considered as a whole, constitute a record. The issue is how to keep these links or pointers viable over time. This is an issue of significance in managing records over the long term. The multiple entity data model defines metadata elements about agents, business and the record itself. The values of these elements can come from different systems, for example the most authoritative source of metadata about people (agents) may be found in the network log-in system or the human resources system. The relevant content can be written into the relevant field of records application software or managed by a reference or pointer, which indicates where the relevant data are. Such techniques are common in distributed computing environments. For managing records, however, the issues are more complex. Some records are extremely long lived and for that reason, there is concern that such strategies of linking records and related metadata cannot be viable over the long term. Links break, associations change and, unless considerable care is taken, the record can become disassociated from its metadata over time. If pointers to other systems are included in the metadata, there is an additional risk that the system and relevant data field used to source the value cannot be accessible for the length of time the record is to be kept.
+
+30
+
+IS 15994 (Part 2) : 2012 ISO 23081-2 : 2009
+Each implementation shall determine the level of risk associated with such linking strategies. In some cases, this strategy so commonly deployed in distributed computing environments will not pose a significant risk. In other cases, particularly those where the records are required for long-term preservation, the longevity of source systems and the possibility that links will break, rendering the record incomplete, can be too great (for further consideration of these issues, see 11.10). In such instances, storage strategies such as inheriting the values or writing out the metadata through techniques such as encapsulation can be pursued.
+
+11.8 Appraisal
+Metadata for managing records shall themselves be subject to appraisal decisions. These appraisal decisions determine not only what metadata shall be captured about the record, but how long the metadata shall be retained, and when, in relation to the record, some or all of them can be destroyed or managed separately to the record object. Within the electronic environment, decisions on records and metadata for managing records can be made at a degree of granularity not possible in the paper world. Thus, for example, tailored "point of capture" metadata can be designed for use by very specific sets of records (for example, emails). Such tailoring and selection of which metadata elements will be appropriate is in itself an appraisal decision. For some records, the risks associated with their creation, capture and management may not be significant and a set of pragmatic decisions limiting the metadata to be captured can be introduced. For other records, risks can be greater and a fuller set of metadata shall be captured to ensure authenticity, integrity and reliability. The ability to make such decisions on tailoring is dependent on a sophisticated understanding of the organizational operations, functions and records required to support the organizational activities, understandings typically undertaken in the function of appraisal. Appraisal, too, is applied in decision making on preservation for digital records. Some records have significant retention periods and can need active preservation intervention a number of times across that retention period. At each instance of preservation intervention, an appraisal decision is required regarding what metadata to maintain. The metadata associated with a record can themselves be subject to appraisal decisions that are separate (but linked) to the appraisal decisions on the records to which the metadata relate. For example, it can be deemed unnecessary to retain all aspects of process metadata such as use history for the full retention period associated with the record. Such decisions should be undertaken with caution and informed by clear understandings of risk, authenticity, reliability and organizational requirements for records. However, it is perfectly possible to select only portions of the metadata to accompany a record over time. At the time of implementing an appraisal decision to destroy records, a separate set of decisions should be taken on which, if any, of the metadata associated with that record should also be destroyed. Typically a portion of the metadata is retained after the record itself is destroyed, to bear evidence to the fact of the record's existence at a period of time. Appraisal decisions will also inform decision making on the format and methods of storage of the metadata for managing records (see 11.10). At nominated points, for example when the record is moved between storage environments, decisions on whether to write the metadata into the record (encapsulate) or whether to write the metadata as a separate record to accompany the record will be required.
+
+11.9 Transferring records
+Apart from use of records and their metadata outside the immediate creating domain, records can be transferred to other organizations, either following business functions or activities, or because of legal mandate, e.g. cultural heritage. Any change in custody has to be documented, including the authorization for it and the agents involved. It will reflect the "history of ownership". The actual transfer, as well as the conditions and requirements under which it took place, have to be documented as well. Specific formats (for example metadata expressed in XML) and protocols (for example Business Records Requirement -- Transfer of Digital Records) may be defined to manage transfer between organizations.
+
+31
+
+IS 15994 (Part 2) : 2012 ISO 23081-2 : 2009
+
+11.10 Preservation and storage formats
+11.10.1 General
+
+Issues relating to the preservation of digital objects are being addressed by many research communities, particularly those in the archival and digital library world. The issues include deciding which format the records and associated metadata will be stored in and which preservation techniques will be employed to maintain records over time. 11.10.2 Storage in specified formats
+
+As a matter of policy, rather than technology, some organizations determine that specific formats will be used within the organization as the standard formats for records content. One such commonly deployed format is that of PDF (ISO 32000-1) or PDF/A (ISO 19005-1), which have the advantage of having published specifications, which will enable future programmers to devise reading mechanisms, rather than being reliant on multiple individual formats' being readable. This strategy reduces the number of formats being managed to those few nominated as standards by the organization. Other implementations have determined a storage standard that "normalizes" the data to its preferred storage format prior to acceptance into a repository. Metadata for managing records are typically stored in a metadata repository (see 11.2.2). All metadata, themselves, should be capable of rendition in a storage-neutral format, so that they cease to be dependent on proprietary coding often embedded within the functionality of metadata repository systems for managing records. All metadata for managing records should be able to be extracted from proprietary formats to be stored in the chosen repository format. One commonly used format for metadata is XML. Once expressed in a standard format there is a further decision on whether to store the metadata record as a record in its own right and/or whether to incorporate the metadata into the record itself (see 11.10.3). Note that both strategies can be employed simultaneously, i.e. they are not mutually exclusive. 11.10.3 Encapsulating
+
+This strategy requires that the metadata relating to the records object are written into the record itself at critical points in the management of the record. It seeks to create a self-contained entity consisting of the record and its metadata. Once joined with its metadata, a record can exist in any storage or operating environment as it contains embedded with it all details of triggers and processes that apply, including those needed to access, render and re-present the record. However, such strategies need to embrace multiple points of metadata capture within the record, as the event history of the record is as critical as its initial capture metadata. Techniques for storage of metadata within a record include the notion of embedding the metadata as part of the record's header information. Alternatively, formal encapsulation protocols can be defined for the organization. Typically this involves defining a technical standard for the storage and presentation of the metadata and the record, which can also include technical mechanisms to assert authenticity.
+
+11.11 Ensuring management of metadata over time
+Records and their metadata are constantly used in new business contexts, including research contexts. Every new use adds new meaning to the record(s) and therefore has to be documented. Thus new metadata will be created about every use, the agent(s) involved, the business activity and the circumstances of use. New regimes for managing records will occur over time, and they have to be documented, thus representing different levels of managing records. This can include archival management for those records that have archival value. The activity of archival description can be considered as a continuing activity for metadata management.
+
+32
+
+IS 15994 (Part 2) : 2012 ISO 23081-2 : 2009
+
+Bibliography
+
+[1] [2] [3] [4] [5] [6] [7] [8]
+
+ISO/IEC 2382-17:1999, Information technology -- Vocabulary -- Part 17: Databases ISO 8601, Data elements and interchange formats -- Information interchange -- Representation of dates and times ISO 14721:2003, Space data and information transfer systems -- Open archival information system -- Reference model ISO/TR 15489-2:2001, Information and documentation -- Records management -- Part 2: Guidelines ISO 19005-1, Document management -- Electronic document file format for long-term preservation -- Part 1: Use of PDF 1.4 (PDF/A-1) ISO/IEC 19501:2005, Information technology -- Open Distributed Processing -- Unified Modeling Language (UML) Version 1.4.2 ISO 32000-1, Document management -- Portable document format -- Part 1: PDF 1.7 The Long Term Preservation of Authentic Electronic Records: Findings of the Interpares Project. Appendix 5: A model of the Preservation Function. http://www.interpares.org/book/interpares_book_n_app05ii.pdf Metadata Standards for Managing and Accessing Information Resources in Networked Environments over time for Government, Commerce, Social and Cultural Purposes, Monash University research project, also known as the SPIRT project. http://www.sims.monash.edu.au/research/rcrg/research/spirt/deliver/conrelmod.html
+
+[9]
+
+33
+
+Bureau of Indian Standards BIS is a statutory institution established under the Bureau of Indian Standards Act, 1986 to promote harmonious development of the activities of standardization, marking and quality certification of goods and attending to connected matters in the country. Copyright BIS has the copyright of all its publications. No part of these publications may be reproduced in any form without the prior permission in writing of BIS. This does not preclude the free use, in course of implementing the standard, of necessary details, such as symbols and sizes, type or grade designations. Enquiries relating to copyright be addressed to the Director (Publications), BIS. Review of Indian Standards Amendments are issued to standards as the need arises on the basis of comments. Standards are also reviewed periodically; a standard along with amendments is reaffirmed when such review indicates that no changes are needed; if the review indicates that changes are needed, it is taken up for revision. Users of Indian Standards should ascertain that they are in possession of the latest amendments or edition by referring to the latest issue of `BIS Catalogue' and `Standards: Monthly Additions'. This Indian Standard has been developed from Doc No.: MSD 5 (399). Amendments Issued Since Publication ______________________________________________________________________________________ Amendment No. Date of Issue Text Affected ______________________________________________________________________________________ ______________________________________________________________________________________ ______________________________________________________________________________________ ______________________________________________________________________________________ ______________________________________________________________________________________ BUREAU OF INDIAN STANDARDS Headquarters: Manak Bhavan, 9 Bahadur Shah Zafar Marg, New Delhi 110002 Telephones: 2323 0131, 2323 3375, 2323 9402 Website: www.bis.org.in Regional Offices: Central : Manak Bhavan, 9 Bahadur Shah Zafar Marg NEW DELHI 110002 Telephones 2323 7617 { 2323 3841
+
+Eastern : 1/14, C.I.T. Scheme VII M, V.I.P. Road, Kankurgachi KOLKATA 700054 Northern : SCO 335-336, Sector 34-A, CHANDIGARH 160022 Southern : C.I.T. Campus, IV Cross Road, CHENNAI 600113 Western : Manakalaya, E9 MIDC, Marol, Andheri (East) MUMBAI 400093
+
+8499, 2337 8561 { 2337 2337 8626, 2337 9120 3843 { 260 260 9285 1216, 2254 1442 { 2254 2254 2519, 2254 2315 9295, 2832 7858 { 2832 2832 7891, 2832 7892
+
+Branches: AHMEDABAD. BANGALORE. BHOPAL. BHUBANESHWAR. COIMBATORE. DEHRADUN. FARIDABAD. GHAZIABAD. GUWAHATI. HYDERABAD. JAIPUR. KANPUR. LUCKNOW. NAGPUR. PARWANOO. PATNA. PUNE. RAJKOT. THIRUVANATHAPURAM. VISAKHAPATNAM.
+Published by BIS, New Delhi
+
+

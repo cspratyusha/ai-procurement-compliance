@@ -1,0 +1,534 @@
+UDC
+
+621'397'452
+
+: 621-503'52
+
+IS t 12429
+
+( . Part 2 II
+
+lSg8
+
+( Reaffirmed 2002 )
+
+Indian Standard TIME AND CONTROL
+2
+
+CODE FOR VIDEO TAPE
+TIME CODE
+
+RECORDER
+)
+
+PART
+
+VERTICAL-INTERVAL
+
+(VITC
+
+0. Foreword 0.1 This Indian Standard ( Part 2 ) was adopted by the Bureau of Indian Standards on 22 February 1988 on the recommendations of the Recording Sectional Committee and approved by the Electronics and Telecommunication Division Council. 0.2 While preparing this standard, assistance has been derived from IEC Pub 461 `Time code for video tape recorders', issued by the International Electrotechnical Commission. 0.3 In reporting the result of a test made in acccordance with this standard, observed or calculated, is to be rounded off, it shall be done in accordance with and control
+
+if the final IS : 2-1960*.
+
+value,
+
+1. Scope 1.1 This standard (Part 2) specifies the format and modulation method to be employed when using the verticat-interval time-and-control code for timing and control purposes on television tapemachines for recordings made in accordance with the 625lines/50-fields television system. It also specifies the location of the code within the television longitudinal time-and-control code for television tape recordings is applicable for 50 Hz 625 lines system. 2. Terminology 2.1 For the purpose shall apply. 3. Modulation of this standard, the terms and definitions given in IS : 1885 ( Part 48 )-19781_. signal and its relationship to the defined in Part 1. This standard
+
+Method
+
+and Bit-Rate each state of the signal corresis a change in the data contained cells contain the same data. This illustrated in Fig. 1.
+
+modulation method shall be such that 3.1 Type of Code -The ponds to a binary state and a transition occurs only when there in adjacent bit cells. No transition shall occur when adjacent bit system, commonly known as `non-return to zero' level ( NRZ ), is
+
+Recordedwaveform:
+Clock : FIG. 1
+
+xJ=wiI
+
+I MODULATION
+
+I SYSTEM
+
+I
+
+I
+
+I
+
+I
+
+I
+
+I
+
+I
+
+`NON-RETURN
+
+TO ZERO'
+
+3.2 Bit-Rate
+
+-
+
+The bit-rate
+
+F,, shall
+
+be as follows: Fc = Fh x 116 f 200 bits/s
+
+where Fh is the line frequency.
+*Rules for rounding off numerical values ( revised tElectrotechnical vocabulary : Part 48 Recording.
+1.
+
+Adopted
+
+22 February
+
+1988 I
+
+@J March
+
+1990, BIS
+
+I_
+
+Gr 4
+
+BUREAU
+MANAK
+
+OF
+BHAVAN,
+
+INDIAN
+9 NEW BAHADUR DELHI
+
+STANDARDS
+SHAH 110002 ZAFAR MARG
+
+IS : 12429
+4. Code Format
+
+( Part
+
+2 ) - 1988
+
+comprising an odd-numbered 4.1 Rafe of Change of the Code Word - Each television frame, field followed by an even-numbered field*, shall be identified by a complete code word. A code word shall also include a field identification as specified in 5.5.1 ( field-mark bit ). 4.2 Composition inclusive. of the Code Word Each code word shall consist *of 90 bits, numbered relationship 1 : fixed zero 0 to 89
+
+4.3 Bit Assignment - The longitudinal time-and-control
+
+o-
+
+1
+
+Sync.
+
+bits
+
+bits shall be assigned as described below. Their code, as specified in Part 1 is shown in Fig. 2. 0 : fixed one:
+
+to the
+
+2- 5 6- 9 10-11 12-13 14 15 16-19 20-21 22-25 26-29 30-31 32-34 35 36-39 40-41 42-45 46-49 50-51 52-54 56-59 60-61 62-65 66-69 70-71 72-73 74 75 76-79 80-81 82-89
+
+Units of frames First binary group Sync. bits bit ( see 5.6 ) group 20 : fixed one; group 30 : fixed one; 31 : fixed zero 21 : fixed zero IO : fixed one; 11 : fixed zero Tens of frames Unassigned Colour Second lock flag bit ( see 5.4 ) binary
+
+Sync. bits Units of seconds Third binary Sync. bits Binary Fourth
+
+Tens of seconds group flag bit ( see 5.3.1 ) binary group 40 : fixed one; 41 : fixed zero
+
+Sync. bits Units of minutes Fifth binary group Sync. Binary Sixth Sync. bits group flag bit ( see 5.3.1 ) binary bits group group Tens of minutes
+
+50 : fixed one;
+
+51 : fixed zero
+
+60 : fixed one;
+
+61 : fixed zero
+
+Units of hours Seventh binary Sync. bits
+
+Tens of hours Unassigned bit ( see 5.6 ) Field mark bit ( see 5.5 )
+
+70 : fixed one;
+
+71 : fixed zero
+
+Eighth binary group 80 : fixed one; Sync. bits 81 : fixed zero Cyclic redundancy check group ( see 4.4 ) 4.4 Cyclic Redundancy Check - Eight bits, 82 to 89, are set aside at the end of the code word for error detection by means of cyclic redundancy checking. The generating polynominal of the cyclic redundancy check G (X) will be applied to all bits from 0 to 81 inclusive and shall be as follows: G (X) = X8 + 1 The data information ( bits 0 to 81 ) is represented by a polynomial which is divided by G ( X ). The division is made according to the laws of the division of the polynomials whose coefficients are elements of the group of two elements ( 0 and 1 ). The remainder of the division is added to the product of the polynomial representing the data information ( bits 0 to 81 ) by polynomial X8, to form the polynomial representing the recorded information ( bit 0 to 89 ). In reply, the division of this last polynomial by G ( X ) will lead to a zero remainder, unless errors exist in the total data block ( CRC based on `all zeros' remainder system ). Note - An explanation of cyclic redundancy checking in the case of `all zeros' remainder and generating polynomial of the form of Xn + 1 is given in Appendix A. *Odd-numbered Even-numbered fields fields,:
+
+: ( fields 1, 3, 5, 7)
+( fields 2, 4, 6, 8 )
+
+2
+
+IS : 12429
+
+( Part 2 ) - 1988
+
+29
+
+23
+
+90 bifs per frame: 32 user binary 18 sync. bits 30 address bits spare bits
+"-
+
+83 84
+
+2 unassigned bits 8 CRC code bits All unassigned zeros. FIG. 2 bits are
+
+I
+VERTICAL-INTERVAL TIME FOR 625/50 SYSTEM CODE AND
+
+65 I
+
+RELATIONSHIP
+
+BETWEEN
+
+LONGITUDINAL
+
+TIME
+
+CODE
+
+3
+
+5. Structure
+
+of the Coded
+
+Data
+
+_I
+
+5.1 Structure of the Time La&i* - Thebasic structure of the time label is based upon the binary coded decimal ( BCD ) system. In those cases where the count does not attain 9, only two or three bits are required, rather than four bits as is normal in the BCD code. 5.2 Assignment Frames Units Tens Seconds Units Tens Minutes Units Tens Hours Units Tens Bits Bits Bits Bits 42-45 : four-bit 52-54 : three-bit 62-65 : four-bit 72-73 : two-bit clock system BCD arranged 1, 2, 4, 8 count 0 to 9. BCD arranged 1, 2, 4 count 0 to 5. BCD arranged BCD arranged is used ), 1, 2, 4, 8 count 1, 2 count to 9. Bits Bits 22-25 : four-bit I 32-34 : three-bit BCD arranged 1, 2, 4, 8 count 0 to 9, BCD arranged 1, 2, 4 count 0 to 5. Bits Bits 2- 5 : four-bit 12-13 : two-bit BCD arranged 1, 2, 4, 8 count 0 to 9. BCD arranged 1, 2 count D to 2.
+
+of the Time Bits*
+
+0
+
+0 to 2.
+
+( The 24-hour 5.3 Use of Binary
+
+Groups*
+
+5.3.1 The binary groups are intended for the storage of supplementary data by the users. The 32 bits within the eight binary groups may be assigned in any way without restrictions if the character set used for the data insertion is not specified and the binary group flag bits No. 35 and 55, both are zero. However. the binary group data contents of the two code words assigned to one picture should be identical. to IS0 Standards 646 and 2022 is signalled by the If an eight-bit character set conforming binary group flag bits No. 35 and 55, the characters should be inserted in accordance with Fig. 3. The information carried by the user bits is not subjected to any regulation.
+
+2 Binarygroups
+; 6 I i 4
+
+6 8
+
+I I I I,
+7-bit ISO: 8-bll ISO: bl al b2 b3 b4 a2 a3 a4 one IS0 character
+
+I I I L+_
+b5 b6 b7 0 a5 a6 a7 a8
+
+-
+
+FIG. 3
+
+USE OF BINARY GROUPS OF THE TIME-AND-CONTROL CODE TO DESCRIBE THE IS0 CHARACTERS CODED WITH 7 OR 8 BITS
+
+At present,
+
+the following
+
+truth-table
+
+applies: Bit 35 (55) 0 1 0 1 cannot be used and their assignment is reserved to
+
+Character set not specified Eight-bit character set conforming Unassigned Unassigned
+
+to IS0 Standards
+
+646 and 2022
+
+The unassigned states of the. truth-table the international Electrotechincal Commission.
+*These points are identical in both the longitudinal numbers which are different in the two codes. \
+
+and vertical-interval
+
+time codes,
+
+with
+
+the exception
+
+of the bit
+
+4
+
+IS : 12429
+It should be noted that, in each time code word, No. 35 and 55 are encountered. The da& in these earlier
+Note The International Standard IS0 646 defines two 7-bit
+
+( Part 2 ) - 1988
+
+some user bits will be decoded before bits user-bit locations must not be lost.
+Latin character characters more than code tables: including punctuation one graphic symbol marks, ten and
+
+a) the basic
+a choice
+
+code table with free positions for national
+
+control and alpha-numerical use and some positions with
+
+b) the internationel
+
+reference version ( referred to as IRV ), where the national positions are filled is made where more than one graphic symbol is shown in the basic code table.
+
+The International Standard IS0 2022 gives code extension techniques from the 7-bit code of IS0 646 to 8-bit codes, based on the use of the `escape' command of the basic code table of IS0 Standard 646. With character-combinations following the `escape' command, access is given to a library of centrally registered character sets. This library consists of national character sets like the American ASCII although versions for special ( for example broadcast ) applications may also be included and registered. This central registration is done by the French national standardization office ( AFNOR ).
+
+5.4 Co/our-Lock
+
+Signalisation
+
+5.4.1 The colour-lock flag bit No. 15, shall be set to 1 when the time-code is locked to the associated PAL colour signal in accordance with the eight-field sequence and when the video signal has the `preferred subcarrier-to-line-sync. phase. The definition of field 1 in the eight-field sequence ,of the PAL signal is described in Appendix B. 5.5 Field Mark Bit fields, 2, 4, 6 and 8, and to 0 during to identify odd and even numbered fields fields
+
+5.5.1 The field-mark bit No. 75, shall be set to 1 during 1, 3, 5 and 7. The field-mark bit enables a VITC decoder without reference to the field synchronizing signal. 5.6 Unassigned Bits* for future
+
+5.6.1 Bits No. 14 and 74 are reserved the IEC. 6. Relatidnship Recording Between
+
+assignment Time Code
+
+and shall
+
+be zeros
+
+until
+
+specified
+
+by
+
+the Vertical-Interval
+
+and the Television
+
+Signals
+
+Prior to
+
+6.1 Association of Code Words and Television Fields - Each code word is associated with the particular television field at the beginning of which it is generated. It is an important operational requirement that decoding delays are compensated, where possible, so as not to corrupt the production and post-production process. 6.2 Timing of the Code Word of the code word
+
+6.2.1 Duration
+
+6.2.1.1 The code word starts at the leading edge of the first synchronizing bit ( bit 0 ). The 90 bits shall be evenly spaced and, nominally, shall occupy 49655 ~1sof the television line ( see Fig. 4 ). 6.2.2 The position of the code word on the line - It is important that the data signal does not corrupt the line-blanking interval of the video signal. For this reason, the half-amplitude point of the leading edge of the first data bit shall not occur earlier than 625/50 : 11'2 ps after the halfamplitude point of the leading edge of the line synchronizing pulse. Likewise, if the last data bit in the code word is a 1, the half-amplitude point of its trailing edge shall occur not later than 625/50 : 1.9 ps before the half-amplitude point of the leading edge of the following line synchronizing pulse. Hence 625150 : 50'9 ps of the available unblanked line may contain the code word ( see Fig. 4 ).
+
+r> r50%
+em on
+
+-7r
+
+I/ \
+1
+
+I
+
+/
+__J
+
+Y
+I\ L _--_---+_--__--_--A
+
+- 50%
+
+4
+
+Time code 90 bits 49.655
+
+ps nominal
+
+Available unblanked 64.000 FIG. 4 POSITION us
+
+line: 50.9 ps max.
+
+OF THE CODE WORD ON THE LINE ( 625/50 ) and vertical-interval time codes with the exception of the bit
+
+longitudinal *These points are identical in both the numbers which are different in the two codes.
+
+5
+
+IS :.I2429
+
+( Part 2 ) - 1988
+
+6.2.3 The position of the code word in the field-blanking interval - There is no need to precisely define the position of the VITC word in the field-blanking.interval. It is recommended, however, that each broadcaster selects the position of the VITC words in the vertical interval as required, taking notice of the following points:
+
+4
+
+In order to protect the VITC reading process against drop-outs, the VITC word shall be repeated on two non-adjacent available lines in the vertical interval of the recorded video signal, but not earlier than : line 6 ( 319 ) or later than line 22 ( 335 ). It must be kept in mind that for certain recordings, the use of some of these lines might interfere with other signals inserted in the field-blanking interval of a television signal and that in SECAM lines 7 to 15 ( 320 to 328 ) are occupied by field-identification signals. To avoid decoding should be allowed errors which may arise in the presence of skew, an adequate margin between the video head switching points and the recorded VITC words. Mevision Signal This.
+
+b)
+
+6.3 Relationship Between the Time Address and the Associated Co/our specification is identical to 6.2 of Part 1 : Longitudinal time code ( LTC ). 7. Specifications of the Characteristics of the VITC Signal
+
+P&or to Recording
+
+7.1 Prefiltering the Data Signal Prior to its Addition to the Video Signal - To avoid distortion ofhigher-order harmonics of the VITC signal by the chrominance circuits of some types of equipment, the data signal should be lowpass filtered before it is added to the video signal. The transient, response of the filter should be such that the data signal meets the overshoot and rise time specified in 7.2. 7.2. Waveform the following of the VITC Signal - The data signal specificafions in Fig. 5: added to the video signal should conform to`
+
+Bit "1"
+
+Bit "0"
+
+(Logic " 1 " level)
+
+(Logic "0"
+
+level)
+
+Data amplitude: Data amplitude: Clock period:
+
+logic logic
+
+"0": "1":
+
+blanking + 550 f
+
+level 50 mV with respect to blanking level
+
+0'55 ps approx. of data transitions: 200 f 50 ns 5 Percent WAVEFORM
+
+( see .3.2 ) amplitude
+
+Rise and fall times Maximum
+
+overshootjundershoot: FIG. 5
+
+of peak-to-peak
+
+OF THE CODE SIGNAL
+
+6
+
+IS : 12429
+APPENDIX ( Clause 4.4 )
+THE USE OF CYCLIC REDUNDANCY CHECK CODES
+
+( Part 2 ) - 1988
+
+A
+
+FOR ERROR
+
+DETECTION
+
+Fundamentally the encoding of a cyclic redundancy code ( CRC ) is equivalent to dividing the information data, in this case the VITC signal, interpreted as a binary number by some other binary number ( divisor ), and appending the result to the data block. The new binary number so obtained is an exact multiple of the divisor so that if the division is repeated a zero remainder will result, unless errors exist in the total data block. It is possible that multiple errors will also result in a zero remainder and the choice of the divisor is important in reducing the likelihood of this occurrence, bearing in mind the way errors may be introduced. The division is not an exact arithmetic process since, `for example, carry terms are ignored analogous to be interpreted as a polynomial division ( we make 1 + 1 = 0 ), but it is sufficiently with powers of x representing positions in a binary sequence where the coefficients are 0 or 1. Thus the polynomial used in the VITC encoding scheme x* + 1 is equivalent to 100000001. If the information data is also represented as a polynomial, then performing a modified algebraic division will provide the required remainder. mials, For example, leads to: consider data sequence 10101101 divided by 10001, expressing both as polyno-
+
+x3 + x x4+1
+Ix' X' X6 X5 +x5,+x3+x2 + x3 + x" +x +1 $1
+
++---subtraction as addition + 1 +---remainder
+
+is interpreted without borrowing
+
+x2 + x
+
+The remainder is then 0111. Appending this to the data sequence a polynomial is xl1 + x9 + x7 + x6 + x4 + x4 t x t I. Division of this polynomial by x4 + 1 gives.
+
+gives 101011010111 which
+
+as
+
+x7 + x5 + x1 + x + 1 x4+ 1 1x11+ x9+x'+x6
+Xl1 X9 X9 X' + x6 +xb+x4+xa+x+1
+
+x4+xB+x+l
+
+x6 + x5 + x4 +
+X6 x5 + x4 X5
+X4
+
+x* +
+x'
+
+x + 1
+
++
+
++x+1
+
++x
++1
++1 c-----zero remainder the process of
+
+X'
+
+The important division is provided
+
+feature of the by shift registers
+
+CRC is the ease of implementation, with feedback paths.
+
+in which
+
+IS : 12439
+
+( Part 2 ) i 3988
+
+Thus forthe polynomial ~8 + 1 an eight-stage shift register with an exclusive-OR addition of output to input is all that is required. During the passage of information data, the switch is in position 1 and the data is fed to the channel while simultaneously the division is performed in the shift register. After all the input data is transmitted the shift register contains the remainder and after switching to position 2 this may be clocked out to the channel. When the process is repeated on decoding, the shift register should contain all zeros if no errors exist. A further important property is that CRC coding has known properties when burst errors are encountered, for example, in magnetic recorc'ing. Irrespective of the length of the information sequence a fixed probability of misdetection occurs which, in the case of the polynomial x8 + 1 for example, is l/256 for burst errors of IO or longer. This is sufficient in practice, particularly when supplemented by other knowledge of how well the VITC signal is recovered.
+
+APPENDIX ( Clause 5.4.1)
+
+B
+
+DEFINITION OF FIELD ONE lk THE EIGHT-FIELD SEQUENCE OF THE PAL SIGNAL
+A complete repetition a sequence of eight fields. period of the synchronizing signals of the PAL video signal consists of
+
+For the sake of clear communication, the IEC and the CCIR have numbered the successive fields of one repetition period of a PAL video signal by adopting the following definition of field one of the eight successive fields: field
+values: Note The Fu
+
+At the half-amplitude 1, the phase of the
+
+point
+
+of the
+
+leading
+
+edge
+
+of the
+
+line
+
+synchronizing
+
+pulse
+
+of line
+
+1 of
+
+extrapolated
+
+E'u
+
+component 909 < `p E'u Q
+
+of the video burst 90"
+
+may
+
+accept
+
+the following
+
+component
+
+of the video burst is defined in CCIR Report No. 624-2,
+
+Fig. 4.
+
+Prlnted at
+
+New India Prlntlng Press, Khurja,lndla
+
+

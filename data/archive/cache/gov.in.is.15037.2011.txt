@@ -1,0 +1,703 @@
+Is 15037:2002
+
+*m
+4 RN1-WT W)4)4 -- SFnT1-mfa-m
+Indian Standard
+
+ANALYSIS TECHNIQUES FOR DEPENDABILITY -- RELIABILITY BLOCK DIAGRAM METHOD
+
+ICS 03.120.01;03.120.99
+
+@BIS2002
+
+BUREAU
+
+OF
+
+INDIAN
+
+STANDARDS
+
+MANAK BHAVAN, 9 BAHADUR SHAH ZAFAR MARG NEW DELHI 110002 Jwe 2002
+Price Group 7
+
+Reliability of Electronic and Electrical Components and Equipment Sectional Committee, LTD 3
+
+FOREWORD This Indian Standard was adopted by the Bureau of Indian Standards, after the draft finalized by the Reliability of Electronic and Electrical Components and Equipment Sectional Committee had been approved by the Electronics and Telecommunication Division Council. Different analytical methods of dependability analysis are available, of which the Reliability Block Diagram (RBD) is one. The purpose of each method and their individual or combined applicability in evaluating the reliability and availability of a given system of component should be examined by the analyst prior to starting work on the RBD. Consideration should also be given to the results obtainable from each method, data required to perform the analysis, complexity of analysis, and other factors identified in this standard. While preparing this standard, assistance has been derived from IEC 61078 (1991) `Analysis techniques for dependability -- Reliability block diagram method', issued by the International Electrotechnical Commission. The composition of the Committee responsible for formulation of this standard is given in Annex C. In reporting the results of a test or analysis made in accordance with this standard, if the final value, observed or calculated, is to be rounded off, it shall be done in accordance with IS 2:1960 `Rules for rounding off numerical values (revised)'.
+
+IS 15037:2002
+
+Indian Standard
+
+ANALYSIS TECHNIQUES FOR DEPENDABILITY -- RELIABILITY BLOCK DIAGRAM METHOD
+1 SCOPE 1.1 I'his standard describes procedures for modelling the dependability of a system and for using the model in order to calculate reliability ~d availability measures.
+
+6 SYSTEM FAULT DEFINITIONS RELIABILITY REQUIREMENTS 6.1 General Considerations
+
+AND
+
+1.2 A set of symbols related to this standard is given in Annex A. Some related formulae are also given in Annex B. 2 REFERENCE The following Indian Standard is a necessary adjunct to this standard:
+
+A prerequisite for constructing system reliability modeIs is a sound understanding of the ways in which the system can operate. Systems often require more than one fault definition. These should be defined and listed. In addition there should be clear statements concerning a) fictions to be performed; b) performance parameters and permissible limits on such parameters; and c) environmental and operating conditions. Various qualitative analysis techniques may be employed in the construction of an REID. Therefore the system's fault definition has to be established. The system success is dependent on one or more system failures. For each system fault definition the next step is to divide the system into logical blocks appropriate to the purpose of the reliability analysis. Particular blocks may represent system substructures, which in turn may each be represented by other RBDs (system reduction). For the quantitative evaluation of an RBD, various methods are available. Depending on the type of structure, simple Boolean techniques and/or path and cut set analysis may be employed. Calculations may be made using basic component reliability/availability data. It should be noted that a reliability block diagram does not necessarily represent the way the hardware is physically connected. While this is obvious to experienced reliability engineers, it may not be so to others. 6.2 Detailed Considerations
+6.2.1 System Operation
+
+n No. 1885(Part39) :1999
+
+Title Electrotechnicai vocabulary: Part 39 Reliability of electronic and electrical items (second revision)
+
+3 DEFINITIONS For the purpose of this standard, the definitions specified in 1S 1885 (Part 39) shall apply. 4 SYMBOLS Symbols and abbreviations are given in Annex A. 5 APPLICABILITY An RBD is a pictorial representation of a system's reliability performance. It shows the logical connection of (functioning) components needed for system success. The modelling techniques described are intended to be applied primarily to systems without repair and where the order to which failures occur does not matter. For systems where the order to failures must be taken into account or where repairs are to be carried out, other modelling techniques, such as Markov analysis, are more suitable. At any instant in time, an item is considered to be in only one of two possible states: operational or faulty. In the symbolic representation, no distinction is made between open circuit, short circuit or other fault modes, however, in the numerical evaluation this is possible.
+
+It maybe possible to use a system for more than one functional mode. If separate systems were used for each mode, such modes should be treated independently of the rest, and separate reliability models should be used accordingly. If the same system were used to perform all these flmctions, then separate I
+
+IS 15037:2002 diagrams should be used for each type of operation. Clear statements of the reliability requirements associated with each aspect of system operation is a prerequisite. 6.2.2 Environmental Conditions The system performance specifications should be accompanied by a description of the environmental conditions under which the system is designed to operate. This should include a description of all the conditions to which the system will be subjected during transportation, storage and use. A particular piece of equipment is often used in more than one environment, for example, on board ship, in an aircraft or on the ground. When this is so, reliability evaluations may be carried out using the same reliability block diagram each time but using the appropriate failure rates for each environment. 6.2.3 Duty Cycles The relationship between calendar time, operating time and onloff cycles should be established. When it can be assumed that the process of switching equipment on and off does not in itself promote failures, and that the failure rate of equipment in storage can be negligible, then only the actual operational time of the equipment need be considered. However, in some instances the process of switching on and off is in itself the prime cause of equipment failures, and equipment may have a higher failure rate in storage than when operational. In complex cases where only parts of the system are switched on and off, modelling techniques other than reliability block diagrams (for example Markov analysis) maybe more suitable. 7 ELEMENTARY MODELS
+7,1 Developing the Model
+
+next step is to divide the system into blocks of equipment to reflect its logical behaviour of the system so that each block is statistically independent and as large as possible. At the same time each block should contain (where possible) no redundancy. For same of numerical evaluation, each block should contain only those items which follow the same statistical distributions for times to failures. In practice it may be necessary to make repeated attempts at constructing the block diagram (each time bearing in mind the steps referred to above) before a suitable block diagram is finalized. The next step is to refer to the system fault definition and construct a diagram that connects the blocks to form a `success path'. As indicated in the diagrams that follow, the various paths, between the input and output ports of the diagram, pass through those combinations of blocks which must function in order that the system timctions. If all the blocks are required to function for the system to function then the corresponding block diagram will be one to which all the blocks are joined in series as illustrated in Fig. 1.
+pOlt
+
+In this diagram "Z" is the input port, "O" the output and A, B, c...... Z are the blocks which together constitute the system. Diagrams of the type are known as `series reliability block diagrams'. A different type of block diagram is needed when failure of one component or `block' does not affect system performance as far as the system fault definition is concerned. If in the above instance the entire link is duplicated (made redundant), then the block diagram is as illustrated by Fig. 2. If, however, each block within the link is duplicated the block diagram is as illustrated by Fig. 3. Diagrams of this type are known as parallel reliability block diagrams. Block diagrams used for modelling system reliability are oilen mixtures of series and parallel diagrams. Such a diagram would arise if we were to consider an example consisting of a duplicated communication link comprising three repeaters A, B
+
+The first step is to select a system success definition. If more than one definition is possible a separate reliability block diagram may be required for each. The
+
+I*
+
+B
+
+c
+FIG. 1
+
+`�--+"
+
+Al l-- A2
+
+B1 B2
+
+cl C2
+FIG.2 2
+
+-�
+
+Zf 0 Z2
+
+E
+
+:=
+
+IS 15037:2002
+
+and C, and a common power supply item (D). The resulting diagram would become as illustrated in Fig. 4 and 5. On account of the statistical independence stated above, failure of any block must not give rise to change in the probability of failure of any other block within the system, in particular, failure of a duplicated block must not affect system power supplies or signal sources. The need frequently arises to model systems where the success definition is that m or more of n items connected in parallel are required for system success. The block diagram then takes the form of Fig. 6 or Fig. 7.
+
+Thus, in Fig. 6, failure of one item is tolerated but two or more are not. Most reliability block diagrams are easily understood and the requirements for system success are evident. Not all block diagrams, however, can be simplified to combinations of series or parallel systems. The diagram in Fig. 8 is an example. Again, the diagram is self-explanatory. System success is achieved if items B1 and Cl are working both, or items A and Cl, orA and C'2,or finally B2 and C2, only B1 and C2 or B2 and C2 are not enough for the system to work. Figure 8 could represent the fiel supply to the engines of a light aircraft. Item B 1represents the supply s
+
+Al l-- 0
+
+FIG.3
+
+Al 1+ { D A2
+FIG.4
+
+B1
+
+H
+
+c1 --o
+
+B2
+
+C2
+
+I*
+
+D
+
+w
+x
+
+--o
+
+x
+
+I*
+
+I
+
+x x
+
+1:
+FIG.6 3
+
+l----
+x
+
+G1-J'
+FIG.7
+
+IS 15037:2002
+
+B1
+
+H//l
+
+cl
+
+Formulae (1) and (2) can be combined. Thus if we have a system as depicted by Fig. 2, but with only three items in each branch, the system reliability is:
+
+`--DK
+B2 t>
+FIG.
+
+t-"
+C2
+8
+
+R,= RA, R,, Rc, + RA2RB, Rcz - RAI R,, Rcl R.l Rm Ra
+
+...(3)
+
+Similarly, for Fig. 3 we have:
+
+R,= (RAI+ RA2- RA,RA2)(R,, + R,, - R,, R,,) (Rc, + R=, -- R,, RC2) ...(4)
+
+to the port engine (Cl), item B2 the supply to. the starboard engine (C'2)and item A a backup supply to both engines. The system fault definition is that both engines must fail before the aircraft fails. Notice that in all the above diagrams, no block appears more than once in a given diagram. The procedures for developing the reliability expression for diagrams of this type are outlined in 8. 7.2 Evaluating the Model The reliability of a system, R ~ (t), is the probability that a system can perform a required function under given conditions for a given time interval (0, t). in general it is defined by the relationship: R,(f)
+
+For Fig. 4 and 5, the system reliability expressions are obtained simply by multiplying expressions (3) and (4) by R.. 7.2.3 m out of n Models (Identical Items) The system reliability expression corresponding to Fig. 6 and 7 is a little more complicated than those above. In general, if the reliability of a system can be represented by n identical items in parallel where m out of n are required for system success, then the system reliability R~is given by
+
+R,= `~(~')R"-*(l-R)'
+
+.,,.(5)
+
+=q-jk (24) du
+o
+
+Thus the reliability of the system illustrated by Fig. 6 is given by:
+R~=R3+3R2(l �R)=3R'-2RJ ...(6)
+
+where A(u) denotes the system failure rate at t= u, u being a dummy variable. In what follows R~(t) will be written for simplicity as R~. The unreliability of a system (probability of failure), F,, is given by:
+
+where R is the reliability of the individual items. Similarly for Fig. 7:
+R~=I'P+ 4R3(l-R)+6R2(l-R)2 =3 R4�8R3+6RZ ..(7)
+
+7.2.1 Series Models For systems as illustrated by Fig. 1,the system reliability R~is given by the simple expression:
+R, = RAR, Rc ,,,,,,,,, Rz ...(1)
+
+If then items are not identical, use of a more general procedure is recommended (see 8.3). 7.2.4 Standby Redundancy Models Another frequently used form of redundancy is what is known as standby redundancy. In its most elementary form, the physical arrangement of items is represented in Fig. 10.
+
+that is by multiplying together the reliabilities of all the blocks constituting the system. 7.2.2 Parallel Models For systems of the type illustrated by Fig. 9, the system probability of failure (FS) is given by:
+F, = FAFB
+
+Hence system reliability (RS) is given by
+
+M
+(
+
+4
+
+FIG. 10
+
+FIG.9 4
+
+In Fig. 10, item A is the on-line active item, and item B is standing by waiting to be switched on to replace A when the latter fails. The REID formulae already established are not applicable for the reliability analysis of standby redundant systems. The expression for system reliability is:
+
+IS 15037:2002
+
+l$(t) = e-h (1 + k),
+
+with the following assumptions:
+
+a) when operating, both items have a constant failure rate Aand have zero failure rate in standby mode; b) the switch is perfect; c) switching-over time is negligible; and d) standby unit does not fail while in standby mode. If there are n items in standby, this expression becomes: /?,(()= e
+i [ 1 + A + (At)z / 2! + (A)' / 3! + ........+ (h)"/ n! ]
+
+l--m--m
+FIG.
+
+11
+
+So that:
+Pr (SS I A faulty) = R,, Rc, + RB2 R=, � R,l Rc, R,, RC2
+
+It is to be noted that a practical block diagram should
+
+Similarly, when A is operational, the block diagram is simply:
+
+include blocks to represent the reliability of the switch plus sensing mechanism, which is often the `weak link' in standby systems. Further, unlike all the examples considered so far and in the remainder of this standard, the probability of survival of one item (item B) is dependent upon the time when the other item (item A) falls. In other words items A and B cannot be regarded as failing independently. As a consequence, other procedures, such as Markov analysis, should be tised to analyze standby systems. 8 MORE COMPLEX MODELS 8.1 General Procedures
+
+1+
+
+rEh
+
+w
+FIG.12
+%) RA + (%,% +%,
+
++0
+
+So that
+Pr (SS I A operational) = Rcl + I?c, - Rc, Rcz
+
+Hence
+R,= (Rc, + RC2 � %, (1 17c2 � `BIRCI `B, Rc2)
+
+It is possible to evaluate the reliability R~ of all the systems considered so far by the application of a suitable reliability formula selected from expressions (1) to(7). However, for some systems the corresponding RBDs may not conveniently be evaluated by any of the above fommlae. These systems are considered to be more complex and their reliability analysis techniques have to be employed. Note that complex RBDs. can usually be evaluated using Monte Carlo simulation. However, the use of such procedures is not dealt with in this standard. For the procedures which follow, the same condition of independence as stated in 7.1 applies. 8.1.1 Use of the Conditional Probability Rule When dealing with block diagrams of the type illustrated by Fig. 8, a different kind of approach is required.. One such approach is to make repeated use of the relationship:
+R, = Pr (SS I X operational)
+x Pr (X operational)
+
+RA)
+
+if Rc, = RC2= R= and RBI = RBZ = RB
+
+The above expression simplifies to:
+R,= (2RC - Rc') RA+ (2RBRC- RB2RC')(1 - RA) .(8)
+
+The above can be applied to verify expressions (5) to (7) inclusive. 8.1.2 Use of Boolean Truth Tables
+8.1.2.1
+
+General
+
+The system success paths depicted by RBDs can also be represented by Boolean expressions. For example, three items A, B and C which are connected in parallel (one required for system success) can be represented by the RBD illustrated in Fig. 13, or by the Boolean expression:
+SS=AUBUC ...(9)
+
++ Pr (SS I x faulty) x Pr (X faulty).
+
+In the above expression R~ denotes the reliability of the system, Pr (SS [ X operational) denotes the reliability of the system given that a particular block X is operational, and Pr (SS I X faulty) denotes the reliability of the system given that the particular item X has failed. For example, if in Fig. 8 the item~ has failed, the block diagram becomes simply: 5
+
+where SS denotes system success, while A, B and C denote success events of components A, B and C. However, the Boolean terms A, B and C cannot be directly replaced by probabilities (R., R~, Rc) in order to obtain a value for system reliability. This is because expression (9) is in effect a set of `overlapping' terms. This can be seen by studying a Venn diagram (not shown) representing expression (9). From such a diagram it can be seen that expression(9) can be written as the sum of non-overlapping terms:
+
+IS 15037:2002
+
+SS=A~U~BZUZCU
+
+A~CUABZU~BCU
+
+ABC...(lO)
+
+in purely Boolean terms, expression (9) and (10) are identical. In expression (10) each literal (A, ~, B,'~ , C, ~ ) can be replaced by the corresponding reliability term: ~~,(1
+-R~), R,, (l -R,), RC, (l -R,)
+
+8.1.2.2 Application Fig. 8.
+
+of ~ruth table to example of
+
+If we list all combinations of operational and faulty items as they might exist we would have a table as illustrated in Table 2.
+Table 2 Application of Truth Table to Fig. 8
+
+to yield an expression for system reliability R~:
+R, = RA(l -R,) (1 -RC) (1 -RJRC+R~(l-RJRC + R~ Re RC + (1 -RJR, + R~R,(l-RC) (I -RC)+(I +(l-RJR, -RJ RC ...(I 1) B] o 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1 1 1 I I 1 1 1 1 1 I I I 1 1 1 NOTE -- B2 o 0 0 0 0 0 0 0 1 1 I 1 1 1 I 1 0 0 0 0 0 0 0 0 1 1 1 1 1 1 1 1
+
+(Clause 8.1.2.2)
+Item c1 o 0 0 0 1 1 1 1 0 0 0 0 I 1 I 1 0 0 0 0 1 1 1 1 0 0 0 0 1 1 I 1 C2 o 0 1 1 0 0 1 1 0 0 1 I o 0 1 : 0 1 1 0 0 1 1 0 0 1 1 0 0 1 1 A o 1 0 1 0 1 0 1 0 1 0 1 0 1 0 1 0 1 0 1 0
+
+lystem
+o 0 0 1 0 1 0 1 0 0 1 1 0 1 1 1 0 0 0 1 1 1 1 1 0 0 1 1 1 1 1 1
+
+It can be demonstrated by use of a Venn diagram that an even simpler way of writing expression (9) in nonoverlapping terms is:
+SS=A+~B+BAC ...(12)
+
+So that
+R, =R~+(l -RJR,+ (1 -R,)(I -RJR, ...(13)
+
+It can be shown that once simplified expressions(11) and (13) are identical.
+
+A I* B c
+FIG.
+
+[
+
+"o
+
+i o
+1 0 1 0 1 0 1 0 1
+
+13
+
+The process of arriving at expression (11) can be more systematically carried out by using a truth table to convert expression (9) to expression ( 10), as shown in Table 1. From Table 1the success terms are (from top to bottom): ----
+fiC,
+iBC, ABC, A~C, A% C,AB~, ABC
+
+1 = operational O = faulty
+
+These terms are added together to give expression (10).
+Table 1 Application of Truth Table to Fig. 13
+
+(Qlau.se8. 1,2.1)
+Item A o 0 0 0 1 I 1 1 NOTE -- B 0 0 1 1 0 o 1 1 1 = operational O = faultv c 0 1 0 1 0 1 0 I
+
+System
+0 1 1 1 1 1. 1 1
+
+On inspecting Table 2, we can pick out the success combinations of items and write down the expression for system reliability as the set of mutually exclusive terms: -------- ---- SS= B1.B2.Cl.C2.A+Bl. B2.Cl.~.A+ .....B2l.B2.Cl.C2.A
+.,.(14)
+
+from which
+R,=(1 -RB, )(1 -R,, )( I -RC,)RC2RA + (1 -R,, ) (1 -R., )
+(1 - R~2)Rc,(1 - Rc, )R~ + ........ + RB,R,2 Rc, RC2RA
+
+Expression (14) contains 19 terms (one for each combination that results in success), all of which must be summed to give the.desired result. From this it can be seen that the Boolean approach can soon become unwieldy, although the principle involved is quite straightforward. 6
+
+IS 15037:2002
+
+8.2 Models with Common Blocks Note that in 7 no block appeared more than once in the RBDs. It may however be advantageous to model by block diagrams of the type illustrated by Fig. 14. For example, items C and D might be two fictional] y similar items acting as duplicates for one another, but item D can be powered only by item B, whereas item B is capable of supplying power to both C and D. This is illustrated by Fig. 14 which represents not only the physical arrangements of the items, but also the reliability block diagram as well, it is important to include the arrows in Fig. 14. Alternatively the system success paths in the above example may be represented by a block diagram in which some blocks appear more than once, as in Fig. 15. This diagram was derived from Fig. 14by examining the latter and noting which pairs of items, if failing together, would cause the system to fail. Fig. 15 is thus a series combination of such pairs. When dealing with a block diagram of the above type, it would be incorrect to treat the blocks as independent pairs and then multiply the reliabilities of the pairs together. Instead, use should be made of either of the methods given in 8.1.1 and 8.1.2. As an example, using the method described in 8.1.1 we have:
+R, = F? (SS I B operational)
++ E+ (SS ] B x F% (B operational)
+x
+
+Note that Fig. 14 and 15 are different ways of modelling the same failure definition. Namely system failure occurs when blocks A and B fail, or B and C or C and D. In other words the Boolean expressions for system success (S$ or for system failure (W) are the same for both Fig. 14 and 15 that is
+SS=(,4C)U(BC)U(BD)
+SF= (~)
+U (=) U (=)
+
+By applying the method described in 8.1.2 we have: Table 3 Application of Truth Table to Fig. 14 and 15 Item
+A
+1 1 1 1 1 1 1 1 0 0 0 0 0 0 0 0 1 I 1 0 0 0 0 1 1 1 1 0 0 0 0
+
+~ystem
+c 1 1 0 0 1 1 0 0 1 1 0 0 1 1 0 0
+
+B
+
+D 1
+0 1 0 1 0 1 0 1 0 1 0 1 0 1 0 1 1 1 0 1 1 0 0 1 1 1 0 0 0 0 0
+
+faulty)
+
+Pr (B faulty) NOTE -- I = operational O = faultv
+
+where Pr (SS IB operational) is given by the reliability block diagram comprising blocks C and D in parallel, but
+Pr (SS \B faulty) = F? (SS I B faulty I C operational)
+x
+
+From the above table, we may write down
+R~=R, RBRCRD+ R, R, RC(l-RD )+ R~R, (l- RC)RD+RA (l-
+
+Pr (C operational) + Pr (SS I B faulty I faulty) x Pr (C faulty) = RARC + Q
+
+R,)Rc R~+R~ (l- R,)RC (1-RJ+ (l-R. )R, RCR. +(l-R. R= (1- R.) + (1-RJ R. (1- Rc )R~
+
+)R,
+
+hence
+R, = (RC + RD -RC RD)R, +R. RC(I -R,) = (R. RC + R~R= + R~RD � R~R~RC + R$~ RC
+
+which simplifies to:
+R~=R~Rc +R, R~+RBRc -R~R, Rc-R~Rc Ro
+
+r
+
+1
+
+r
+
+1
+
+FIG.
+
+14
+
+FIG.
+
+15 7
+
+IS 15037:2002
+
+Yet another method of dealing with common blocks is as follows: first ignore the fact that some blocks appear more than once and write down the expression for system reliability R's in the usual way
+R', = (R. + R, - R. R,) (R, + RC - R,RC) (RC + RD- RC RD)
+
+and so R~= ( 1 � FJ can be found.
+NOTE -- More etlcient techniques have become available.
+
+If these brackets are now multiplied out (producing 27 terms in all) and terms the R~ R~ RC2and R~ R~ RC2 replaced by their Boolean equivalents R~ R~ Rc et R~ R, Rc respectively and so on, then the expression for system reliability (RJ will reduce to:
+R. = R~RC+ R~RD+ R,RC � R~R~RC� RDR~RC
+
+o
+
+8.3 m out of n Models (Non-identical Items) The procedure described in 7.2.3 is not applicable here. As an example, consider a system represented by the block diagram in Fig. 16. The reliability of such a system maybe evaluated by either of the techniques described in 8.1.1 or 8.1.2. Of these, the technique described in 8.1.2 will require 32 entries from which the probability of system failure Fs can be derived as:
+F,=(I-RJ R,j) (1 �Rc)(l (l- RJ(l-RJ -Rr,)(l (l- R,)(I-RC)(l-RD) -R,,) R,+ (1 �RA)(l RC(l--RD)(I-RE) -R,)(1 -Rc)(l (l-RE)+(l-R~)(l�RJ (1 -RC)RD(l�RE)+ + (l- RJR, (l- RC)(l
+
+w
+FIG.
+
+16
+
+8.4 Method of Reduction Occasionally block diagrams seen very complicated. By careful examination, however, the blocks in the diagram can often be grouped into more manageable items; such items must be statistically independent. This means that no two (or more) manageable items can contain the same lettered block. For example, consider the block diagram illustrated by Fig. 17.
+
+-RE)+R~(l
+
+-RJ(I
+
+-R,)
+
+.----
+
+---- ----.
+
+.--
+
+--.----_
+
+__a
+
+---------------
+
+--_T
+
+x2
+
+-'0
+
+x4
+
+FIG.
+
+17 8
+
+IS 15037:2002
+
+The above diagram can be reduced to the one shown in Fig. 18 (a), by evaluating the reliability of the four dotted groups of blocks Xl ,X2, X3 andX4 as illustrated in 8.1, 7.2.3, 8.2 and 7.2.3 again, respectively. The diagram in Fig. 18 (a) can be further reduced to the one in Fig. 18 (b).
+r f I
+1
+
+be a measure of that item alone and should not depend upon how many other items have also failed and are in need of repair. This means that, in practice, attention has to be paid to the way in which items are assembled; emphasis being placed on making sure that each item should be readily accessible and not obstructed by any other. 9.3 Examples The following examples should clarify the procedure. Suppose we have a system for which the failure definition can be modelled by the diagram illustrated by Fig. 5, reproduced in Fig. 19. The corresponding expression for system reliability (RJ is given by the expression (see 7.2.2):
+
+FIG.
+
+18 (a)
+
+Xl
+
+n X2
+
+1~ X3 n X4
+FIG.
+
+--o
+
+(Ra R, = R. (R~,+R~2- R,lR~2) (R~2+ R~2�R~,R~2)
+
+`RC2�RCIRC2)
+
+18 (b)
+
+Hence the final system reliability [referring to Fig. 18 (b)] is given by: R,= RX,RX, + RX3RX,- RX,RX2RX3RXd, as explained in 7.2.2. 9 EXTENSION OF RELIABILITY BLOCK DIAGRAM METHODS TO AVAILABILITY CALCULATIONS
+9.1 Introduction
+
+If the steady-state availability of item D is now ADand ofAl, A2, Bl, B2, Cl and C2areAA,, A~z, A~,, A~l, Ac1 and AC2respectively, then the expression for system steady-state availability (AJ is simply:
+As = A~(A,, + A~l � A,,AA2) (A~, + A,, � A,lA~2) (Acl + A., AC,AC2)
+
+As another example, we might consider the system fault definition modelled by Fig. 3. The corresponding system reliability (RJ was shown to be given (see 8.1.1) by:
+R~= (Rcl + RC2- RC,RC2) R. + (R,,RCI + R,2RC2- R,iRclR,2Rm) (1 - RJ
+
+Under certain conditions, it will be possible to make use of all the formulae and procedures in this standard, in order to carry out system steady state availability predictions. This is accomplished by simply replacing expressions for reliability, by corresponding expressions for availability. 9.2 Assumptions The procedure described below will be valid only if the failures and repairs of the individual items are independent of one another. In practice this means that the failure of any item should in no way affect the onset of failure of any other and that there should be available, in effect, an `infinite pool' of repairmen. In other words the mean down time of any item should
+
+Hence the corresponding steady-state availability (AJ is given by: A,= (&+& - &.%,)AA + (J4dC,+4W4C2(1 J4,,ACIAB2Z4C2)
+
+AJ
+
+Note that for items where the failure and repair rates (denoted by 2,,1,, AC and K., Y,, #c respectively) are constant with respect to time, the reliability of such items is given by:
+exp (�AAt) , exp (�ABt) , exp (�act)
+
+and the steady-state availabilities by:
+
+1
+
+1
+
+i
+
+1
+
+Al I
+
+61
+
+cl
+
+D
+AZ
+FIG.
+
+--o
+B2
+19
+
+C2
+
+9
+
+IS 15037:2002
+
+9.4 Conclusions and General Remarlm The adaptation of reliability formulae to availability calculations can be very useful but the assumptions state above should be carefidly checked. These are, of course, additional to the assumptions necessary for the reliability formulae themselves to be valid. The
+
+availability assumptions include the requirement that there are no order dependent or time dependent failures. When this is not so, or when failures and repairs are not independent, recourse must be made to other methods of availability analysis, such as Markov analysis.
+
+ANNEX A (Clauses 1.2 and4)
+SYMBOLS AND ABBREVIATIONS
+
+Symbol/Abbreviation R,R(t) R~RB... R,
+
+Meaning Reliability ~robability that an item can perform a required function under given conditions for a given time interval (O,t)] Reliability of blocks A, B,..... System reliability Number of ways of selecting r items fkom n items Condltlonal probabdlty (system rellabdlty gwen that ltemXls faded) System success (used in the Boolean expressions) System failure (used m the Boolean expressions) When used m Boolean expressions, these quantities mdlcate that Items A, B, C,....are in operational states When used m Boolean expressmns, these quantities mdlcate that items A, B, C.., are in faulty states These quantities are used m truth tables to denote faulty and operational states and apply to whichever item is the column heading Boolean symbol denoting AND, for example A fl B (intersection) Boolean symbol denoting OR for example A UB (union) Active (parallel) redundancy I
+
+L,)
+
+Pr@S IXfaulty)
+
+A,B, C,....
+------
+A,B,C, ......
+
+n u
+
+Standby redundancy
+
+rnh is symbol used to show m-out-of-n items needcd for system success in an active redundant configuration
+
+Indicates input Indicates output Such indicat~ns are used for convenience. They are not mandatory, but may be useful where connections have a directional significance Basic grouping of equipment l++ o
+
+10
+
+IS 15037:2002
+
+ANNEX B (Ch.zt.w 1.2)
+SUMMARY OF FORMULAE
+
+Basic confimration 1. Series Im 2. Parallel Active
+
+Equation for system reliabilip R, A. General case RS=R,R~.....Rm B. WithR, =Rz....=R~=R R.=R" A. Active general case R,= 1-(1 -R,) (1 -R,)..(1 -RX) B. Active with Rl = Rz.... RX= R R~=l�(l�R~ C. Standby with R= exp (- k) R~=e-fi+ke-& +....+ { [(k~-;e-~ ] /(x�l)! }
+
+Standby
+
+3. Series parallel or system redundant Active A. Active general case l$=l-(l-R,lRti ....R~) (1�R~1R~2 .....R~n) ,,..(l-R,,Rfi...RJ B. Active with Ral=Ro= ... =Ra R~i=R~z=... =R~ RXl=Rti= ... =RX R~ = 1�(1�R,") (1-R: )...(l�R: ) C, Active with R,i=R~i= ... =RXi=R fori= 1 ton ~~=1-( l�Rn~ D. Standby with R = e-k R~=e_"& � nh e+k + .... e_"* (nhY-'
+
+Standby I R
+
+/
+
+(x�l)!
+
+4. Parallel series or element redundant Active
+
+A, Active general case R,=[l -(1-R,,) (l-RJ..
+
+(1 -R,,)]
+
+[1 -(1 -R,,)(l -R,,)..(1 -R,,)] ....[1-(1 -Rn,)(l -Rn,) ...(1 -Rnx)l B. Active with R~l=Rd =...=R, R~l= R~z=... =R~ R., =Rd =...=R~ R~=[l-(l-Ra~]. [l-(l-RJ]...[(l(
+
+R R
+
+RnY]Y]
+
+C. Active with Rai= ~ = ...=R~i= R for i=ltox R~=[l�(1�RYl" Assuming that x = 2 and R = e~~ R~= (2e-&� e-2k~ D. Standby with R = && R,= { e-@'"~ + (fi/n) e-(~n~}m
+
+IS 15037:2002
+Basic con fi~uration
+
+Equation for system reliability R~ A. Active, assuming all R,i z R, = RX,= R (except R,W) RS=[l-(l-R) (l� RR,W)X-']" B. Active assuming x = 2 and ali R., = R,i = RX,= R = e-k (except R,W) .-(2A+AS,Vi R,=e-~ + ~-{~+AWY_
+
+5. Elementredundantwithswitching
+
+r-m---l*
+
+1. The reliability of element redundancy with switching (configuration 5A above) will still be superior to the basic system redundant configuration (3C) as long as the reliability of the switching device exceeds the value of RS for the basic system redundant configuration divided by R for the elemenr to be switched. In equation form:
+
+where R, pertatns 2. For constant
+
+to configuration
+
+3 C in the above table.
+
+failure rates, R(t) can be replaced by e-~'.
+
+12
+
+IS 15037:2002
+
+ANNEX C
+
+(Foreword)
+COMMITTEE COMPOSITION
+
+Reliability of Electronic and Electrical Components and Equipment Sectional Committee, LTD 3
+Organization
+Indian institute of Technology, Kharagpur All India Radio, New Delhi Bhabha Atomic Bharat Central Centre Research Centre, Mumbai
+
+Representative(s)
+PROF K. B. MISRA (Chairman) SHWA. B. MATHUR SHRIJ. P. THAKUR(Alternate) SHRID. KIRO SHRJR. K. SARAF (Alternate) SHRIRUDRA MANUEL SHRJMATI MEENAPARAMESHWARAN (Alternate) DIRECTOR (TELECOMMUNICATION) DEPUTYDIRECTOR (TELECOMMUNICATION) PTCC
+
+Electronics Electricity
+
+Ltd, Bangalore Authority, New Delhi (C-DOT), New Delhi
+
+(Alternate)
+
+for Development
+
+of Telematics
+
+SHFU Y. K. PANOEY SHRIA. K AHUJA (Alternate) SHRJN. G. NANDA SHRJA. K. SINHA SHRJS. K. KJMOTHI (Alternate) SHRIV. A. RAMARAO DIRECTOR (Alternate) SHRI V. K. SEKHRI SHJU R. RAMDEV SHIOB. BHASKAR RAO (Alternate) SHRIV. RAMMOHAN RAO SHRJS. C. H. JAGNANATHA RAO (Alternate) MAJ-GENYASHWANT DEVA MAJ-GEN K. B. JHALDIYAL (Alternate)
+
+Consumer Electronics New Delhi Department Department Electronic Electronics Hindustan
+
+& TV Manufacturers (STQC),
+
+Association,
+
+of Electronics
+
+New Delhi (TEC), New Delhi New Delhi
+
+of Telecommunication Components Corporation Aeronautics Industries
+
+Association,
+
+of India Ltd, Hyderabad Ltd, Hyderabad
+
+IETE, New Delhi Instrumentation ISRO (Department ITI Ltd, Bangalore Ministry ONIDA, Philips of Defence Mumbai India Ltd, Loni-Kalbhor Design and Standards Energy Cyclotron General Organization, Kolkata Lucknow (DGQA)(L), Bangalore Ltd, Kota of Space), Bangalore
+
+SHIUA. P. PADARHA SHRIRAJIVSJUVASTAVA (Alternate)
+
+SW S. SATISH
+SHRJG. LAKSHMIPATHI (Alternate) SHRJV. MUTJUAH SHRJK. L. CHOG SHRJKALYANROY (Alternate) SHRIT. C. GOSALIA SHRJP. D. SHASTRJ (Alternate) SHRIR. A. WJLLIAMS SHRJB. DEVICHARAN (Alternate) JOINT DIRECTOR STANDARDS (LAB) JOINT DIRECTOR STANDARDS (Alternate) SHRIR. DE SHRJD. SARKAR(Alternate) SHRI VIJAI, Director& [Representing Director
+
+Research, Variable
+
+Centre,
+
+BIS Directorate
+
+Head (LTD)
+General
+
+(.Ex-oJ(cio)]
+
+Member-Secretary
+SHRJ PRAVEEN KUMAR
+
+Assistant
+
+Director
+
+(LTD), BIS
+
+13
+
+Bureau of Indian Standards BIS is a statutory institution established under the Bureau of Indian Standards Act, 1986 to promote harmonious development of the activities of standardization, marking and quality certification of goods and attending to connected matters in the country. Copyright
+
+BIS has the copyright of all its publications. No part of these publications may be reproduced in any form without the prior permission in writing of BIS. This does not preclude the free use, in the course of implementing the standard, of necessary details, such as symbols and sizes, type or grade designations. Enquiries relating to copyright be addressed to the Director (Publications), BIS. Review of Indian Standards Amendments are issued to standards as the need arises on the basis of comments. Standards are also reviewed periodically; a standard along with amendments is reaffirmed when such review indicates that no changes are needed; if the review indicates that changes are needed, it is taken up for revision, Users of Indian Standards should ascertain that they are in possession of the latest amendments or edition by referring to the latest issue of `BIS Catalogue' and `Standards: Monthly Additions'. This Indian Standard has been developed from Doc : No. LTD 3 ( 1816),
+
+Amendments
+
+Issued Since Publication
+
+Amend No.
+
+Date of Issue
+
+Text Affected
+
+BUREAU OF INDIAN STANDARDS Headquarters : Manak Bhavan, 9 Bahadur Shah Zafar Marg, New Delhi Telephones :3230131,3233375, 3239402 Regional Offices : Central Eastern Northern Southern Western : Manak Bhavan, 9 Bahadur Shah Zafar Marg NEW DELHI 110002 : 1/14 C.1.T. Scheme VII M, V. 1.P. Road, Kankurgachi KOLKATA 700054 : SCO 335-336, Sector 34-A, CHANDIGARH 160022 : C.I.T. Campus, IV Cross Road, CHENNAI 600113 : Manakalaya, E9 MIDC, Marol, Andheri (East) MUMBAI 400093
+10002
+
+Telegrams : Manaksanstha (Common to all offices) Telephone 3237617 { 3233841 3378499,3378561 { 3378626,3379120 603843 { 602025 2541216,2541442 { 2542519,2541315 18329295,8327858 ~832 7891,8327892
+
+Branches : AHMEDABAD. BANGALORE. BHOPAL. BHUBANESHWAR. COIMBATORE. FARIDABAD. GHAZIABAD. GUWAHATI. HYDERABAD. JAIPUR. KANPUR. LUCKNOW. NAGPUR. NALAGARH. PATNA. PUNE. RAJKOT. THIRUVANANTHAPURAM.
+Pmted at Prabhat Offset Press, New Delhl-2
+
+

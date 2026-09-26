@@ -1,0 +1,749 @@
+IS 15446 (Part 1) :2004
+
+wm@hn
+
+Indian Standard
+G~TIDE TO PRODUCTION PART 1 INTRODUCTION CONTROL
+
+ICS 03.100.50
+
+G BIS 2004
+
+BUREAU
+MANAK
+
+OF
+BHAVAN,
+
+INDIAN
+
+STANDARDS
+ZAFAR MARG
+
+9 BAHADUR SHAH NEW DELHI 110002
+
+Septetnber 2004
+
+Price Group 7
+
+Management and Productivity Sectional Committee, MSD 4
+
+FOREWORD This Indian Standard (Part 1) was adopted by the Bureau of Indian Standards, afier the drafi finalized by the Management and Productivity Sectional Committee had been approved by the Management and Systems Division Council. The prime objective of production control is to help a company become more competitive and profitable. An effective production control function endeavors to fulfil this objective by keeping a balance between satisfying sales demand, achieving high plant utilization and maintaining low investment in stocks and work-in-progress. An optimum balance between these often conflicting objectives will only be achieved by a production control system designed to meet the specific needs of the company and run by well trained and dedicated staff. This standard is largely based on BS 5192 (Part 1) :1993 `Guide to production control -- Introduction'. Reference has been made to following British Standards for which Indian Standards do exist. The corresponding Indian Standards, which are to be substituted in their place, are listed below with their degree of equivalence : IL(S No. 4335:1987 6046 (Part 1) :1984
+Corresponding Indian Standard Degree of Equivalence
+
+1S 14580 (Part 1) : 1998 Glossary of terms used in project network analysis (jlrst revision) 1S 14580 (Part 1) : 1998 Use of network analysis for project management: Part 1 Management, planning, review, reporting and termination procedures
+
+Not equivalent Not equivalent
+
+6046 (Part 2): 1992
+
+IS 14580 (Part 2) Use of network analysis for project management: Part 2 Use of graphical techniques (under
+preparation)
+
+Not equivalent
+
+In addition, reference has also been made to following British Standards for which there are no Indian Standards :
+BS No, Title
+
+3138:1992 5191:1975 6046 (Part 3) :1992 6046 (Part 4): 1992
+
+Glossary of terms used in management services Glossary of production planning and control terms Guide to the use of computers Guide to resource analysis and cost control
+
+The concerned Committee has reviewed the provisions of these British Standards and has decided that they are acceptable for use in conjunction with this standard. This standard is published in six parts and gives comprehensive guidance in those areas that are considered essential for effective production control. The other parts of the standard are as follows: (Part (Part (Part (Part (Part 2): 3): 4): 5): 6): 2004 2004 2004 2004 2004 Production programming Ordering methods Dispatching (shop-floor control) Relationship between control and other management functions Computer aided production control
+
+IS 15446 (Part 1) :2004
+
+Indian Standard GUIDE TO PRODUCTION
+PART 1 INTRODUCTION
+
+CONTROL
+
+1 SCOPE
+
+3.6 Batch Quantity -- The number of components in
+
+This standard (Part 1) provides an introduction to the objectives and concepts of production control. 2 REFERENCES The following standards contain provisions which, through reference in the text, constitute provisions of this standard:
+IS No. Title
+
+a batch.
+NOTE -- Another term for batch quantity is run quantity.
+
+3.7 Call-off Schedule -- A schedule which shows by
+
+period, for example, week or month, the quantity to be delivered of goods listed in a blanket purchase order.
+NOTE -- A typical call-off schedule would show the next eight weeks four weeks as firm requirements and the following as estimates.
+
+15446 (Part (Part (Part (Part 2): 3): 4): 5):
+
+Guide to production control:
+
+2004 Production programming 2004 Ordering methods 2004 Dispatching (shop-floor control) 2004 Relationship between control and other management functions (Part 6): 2004 Computer aided production control 3 DEFINITIONS For the purpose of this standard, the definitions given in BS 3138 and BS 5191 shall apply together with the following : 3.1 Activity Based Costing (ABC) -- Cost attribution to cost units on the basis of benefit received from indirect activities, for example, ordering, setting-up, assuring quality. 3.2 Architecture -- The design of the computer's hardware, system software and communication systems on which the application software functions. 3.3 Assembly Schedule --
+time and sequence planned The detailed schedule of
+
+3.8 Capacity Bill of Material -- A bill of material which shows for each manufactured item the amount of capacity and type of resource needed to manufacture the quantity required to make one unit of the product.
+NOTE -- A capacity bill of material that contains only details of capacity for key or critical resources is called a rough-cut capacity bill of material (see 3.64).
+
+3.9 Capacity
+
+Requirements
+
+Planning
+
+(CRP) --
+
+A system that calculates time-phased capacity requirements by resource type in order to execute the production programme.
+NOTES 1 Where CRP is linked to a material (MRP) system, information requirements planning about open and planned orders is system. More sophisticated of information about part
+
+input from the MRP system to the CRP system and limitations in capacity reported to the MRP versions of CRP take account
+
+completed open orders, provided from a shop order system. 2 Another term for CRP is capacity planning.
+
+3.10 Closed Loop Material Requirements Planning--
+
+for the assembly of a
+
+product. 3.4 Base Stock System -- An ordering method in which a fixed (or base) stock is established for every item. Any issue from stock is immediately followed by issuing a new order for the same quantity to the preceding processing stage; this in turn causes orders to be issued to all previous stages and finally to the material supplier.
+NOTE -- Base stock control is a stock base, pull method of ordering.
+
+An overall system in which MRP is linked to other systems to provide feedback of information between the planning and executing functions, thus closing the information loop.
+NOTE -- Production programmed are developed scheduling and CRP through the and the master production systems,
+
+programmed input to the MRP system which generates timephrrsed manufacturing and buying instructions. Purchasing and shop order systems feedback information necessary (see a/so 3.48). about performance to the MRP system to enable corrective action to be taken, if
+
+3.5 Big Bang -- Expression denoting an abrupt change from one system to another without overlap or parallel running. 1
+
+Loop System -- A control system in which the planning and execution phases are linked so that information about performance compared to plan is fed back to the planning phase to enable corrective act ion to be taken, if necessary. 3.11 Closed
+
+IS 15446 (Part 1) :2004
+NOTE-- Another term for closed Ioop system is feedback
+
+control system.
+
+3.12 Complete-to-Order -- A type of manufacturing that completes or configures lower-level items to customer order upon receipt of the order.
+Aided Design (CAD) -- The 3.13 Computer application of computers in the interactive mode for design, draughting and storing designs. (CAM) -- 3.14 Computer Aided Manufacture Manufacture in which computers are used to instruct and control production plant and equipment.
+
+3.22 Engineering Change Control -- A procedure for planning and executing the introduction of a new bill of material, routing or process. H maybe done by date, batch, on run out of old component (machine), or as soon as a new component is available. 3.23 Expert System -- A computer programme that uses the programming techniques of artificial intelligence, especially those techniques developed for problem solving, to interrogate data and deduce results within parameters programmed into it. 3.24 Explosion -- A breakdown of a bill of material into the total of each of the components required to manufacture a given quantity of a higher assembly or sub-assembly.
+Modelling -- A finite 3.25 Finite Production scheduling technique operating at a level of planning detail below MRP to assist in the scheduling/ re-balancing of the shop floor in which computer based techniques are usually applied.
+
+3.15 Computer Aided Process Planning (CAPP) -- The application of computers in the interactive mode for the planning of manufacturing processes and operations and for the storing of process planning information. 3.16 Computer Aided Production Management (CAPM) -- A collective term for production control software packages.
+NOTE -- Another term for CAPM is computer aided production control (CAPC).
+
+3.17 Computer Integrated Manufacture (CIM) -- Manufacture in which various computerized systems are linked to provide an integrated manufacturing system.
+NOTE -- Degrees of integration are possible, from simple links (for example, CAM) between C,ID and CAPP and between MRP and to a totally integrated factory.
+
+3.26 Flexible Machine Centre (FMC) -- Usually an automated system, comprised of computerized numerical control machines with robots loading and unloading parts conveyed into and through the system.
+NOTE -- The purpose of an FMC is to provide quicker throughput, changeovers, setups, etc, to manufacture multiple products.
+
+3.18 Database
+
+-- A data structure for accepting, storing and providing on demand data for multiple independent users.
+NOTE -- The database may be distributed across various storage media such as paper, magnetic tape, etc.
+
+3.27 Flexible Manufacturing System (FMS) -- A manufacturing process designed so that the production line may be re-balanced often, rapidly matching output to changes in demand.
+NOTE -- FMC involves mixed-model operators, standardization scheduling, multi-skilled of equipment for quick changeover time
+
+items, and design of the production line to allow workers to do more than one job and to cut down on transportation between lines.
+
+3.19 Dependent Demand -- A demand directly related to, or derived from, the demand for other items or end products. Dependent demands are therefore calculated and not forecast. 3.20 Dispatching -- The detailed allocation and subsequent control of production resources to individual work orders, necessary to complete orders in accordance with the production programme. 3.21 Electronic Data Interchange a)
+General -- The transfer of structured data in
+
+3.28 Flexible Programming -- A method of programming in which the year is divided into equal short time periods aqd new short-term sales and production programmed are prepared at the beginning of each period.
+NOTE stocks. -- Flexible to follow programming makes it possible for production changes in the market with minimum
+
+electronic form between computer systems in separate organizations. b) In business -- The transfer of structured business data by agreed message standards in electronic form between computer systems in separate organizations. 2
+
+3.29 Flow Control -- A term used to describe a specific production control system that is based primarily on setting production rates and feeding work into production to meet these planned rates, then following it through production to make sure that it is moving.
+NOTE -- Flow control has its most successful application in repetitive production.
+
+IS 15446 (Part 1) :2004 3.30 Fourth-Generation Language -- A high-level, near-English computer language which produces lower-level computer code. 3.31 Functional Requirements Specification -- The requirements specification for the computer software systems that are needed to meet the business requirements. 3.32 Gantt Chart -- A bar chart used as a means of control on which work planned and work done are represented, showing their relation to each other and to time.
+NOTE -- This type of chart is named after its inventor, Henry L: Gantt.
+
+3.38 Kanban -- A method of JIT (see 3.37) production
+
+which uses standard containers or lot sizes with a single card attached to each. It is a pull system in which work centres signal with a card that they wish to withdraw parts from feeding operations or from vendors.
+NOTE -- Loosely translated from Japanese the word kanban means card. Literally developed in Japan. it means billboard or sign. The term is system otten used synonymously for the specific scheduling
+
+3.39 Kit -- The components of an assembly that have been drawn from stock and made ready for movement to the assembly area. 3.40 Kit List -- The list of components that are to be pulled from stock and made ready for movement to the assembly area. 3.41 Kitting -- The act of withdrawing pars from stock using a kit list. A manual, graphical technique 3.42 Line of Balance ------ for planning, scheduling and monitoring progress against key milestones of repetitive batches. 3.43 Linear Programming (LP) -- A method for determining the numerical values of a group of variables, which interact through a given set of linear constraints, such that a given linear function of these variables is optimized. 3.44 Lot-for-Lot -- A lot-sizing technique that generates planned orders in quantities equal to the individual net requirements in each period. 3.45 Machining Centre -- A machine capable of performing a variety of material removal operations on a part, usually under numerical control. 3.46 Make-to-Stock -- A type of manufacturing that converts lower-level components and raw materials all the way to saleable end items (sales products) in anticipation of a customer order.
+Cell -- A group of various 3.47 Manufacturing machines laid out in sequence to fulfil a series of processes to manufacture'an item or a family of items.
+NOTE -- Another term for manufacturing cell is group technology line. The term machine ccntre is deprecated.
+
+3.33 Group Technology-- In production control, the classification of related items into families in order to gain efficiencies of operation.
+Example
+
+a) b)
+
+Coding of parts on the basis of similarities of the parts; Grouping of parts into production families based on similarities in their production so that the parts in a particular family could then be processed together; and Grouping of diverse machines together to produce a particular family of parts.
+
+c)
+
+3.34 Implosion -- Compression of detailed data into a summary-level record or report. The term is also used for the tracing of a usage and/or cost impact from the bottom to the top (end product) of a bill of material, employing where-used logic.
+Demand -- Demand which is 3.35 Independent unrelated to demand for other products. Demand for finished goods, parts required for destructive testing and service parts requirements are examples of independent demand.
+
+3.36 Inter-process processes. 3.37 Just-in-Time a)
+
+Stock -- Stock held between
+
+(JIT)
+
+General -- An approach to achieving excellence based on the continuing elimination of waste (waste being considered as those things which do not add value to the product).
+
+3.48 Manufacturing Resource Planning (MRP 11) -- A method for the effective plann ing of all the resources of a manufacturing company.
+NOTE -- MRP [[ ideally planning addresses operational in money, planning in units, financial capability and has a simulation
+
+b) In production control -- The movement of material at the necessary place at the necessary time; the implication is that each operation is closely synchronized with the subsequent ones to make this possible. 3
+
+to answer `what it" questions. It is made up of a planning, MPS, MRP, CRP and the
+
+variety of functions, each linked together : business planning, master (or production) execution systems for capacity and priority. Output from these systems would be integrated with financial reports, such as, the business plan, purchase commitment stock projections in money. report, shipping budget, resource etc. Manufacturing
+
+IS 15446 (Part 1) :2004
+planning also 3.10). NOTE-- PBCisan extension of flexible programming. It is is a direct outgrowth and extension of MRP (see
+
+generated by the same explosion.
+a flow control, single-cycle, push method of ordering.
+
+3.49 Master Production Schedule (MPS) -- The build plan of products or groups of products required to meet market demand, constrained within the limits of production resources.
+NOTE -- MPS is derived from the sales plan but the two may be identical. Seasonal sales or the need to an MPS may may result in differences not necessarily
+
+smooth under -- or over-capacity
+
+3.58 Production Capacity -- The amount of resource available for loading work after deducting all nonproductive time such as planned maintenance, holidays and rest periods, allowances for plant breakdown, sickness and absenteeism, etc.
+NOTE -- Machine set-up time may be included or excluded from capacity, according to whether it is treated as a planned activity or not. Activities that forma vital part of the production
+
+between the MPS and the sales plan. Although
+
+be based on a forecast, it is itself not a forecast but a statement of what is to be produced over a certain period of time. The MI'S provides the inpot to other systems for planning materirtl provisioning, requirements. internal manufacture and short-term capacity
+
+process, such
+planning.
+
+as testing,
+
+should
+
+be included
+
+in capacity
+
+3.50 Min-Max
+
+-- A type of order point replenishment system where the `A4in' is the order point and the `Max' is the order-up-to inventory level. The System
+
+3.59 Pull System -- System of ordering in which a fixed stock is held of every item and orders are issued for the immediate replacement of any items which are removed from stock.
+NOTE -- Examples of pull systems are base stock control and kanban.
+
+order quantity is variable and is the difference between
+the
+
+`Max'
+
+quantity
+
+and
+
+the
+
+available
+
+and
+
+on-order
+
+inventory. An order is recommended when the available and on-order inventory is at or below the minimum level.
+
+3.51 Module -- A separate and distinct unit of hardware or software which may be used as a component in a system. 3.52 Multi-cycle Ordering -- Systems of ordering in which each item to be ordered is treated individually. Each item will normally have its own unique order quantity, its own order date and its own due-date. 3.53 Net Change Planning --An approach via which the material requirements plan is continually retained in the computer. Whenever there is a change in requirements, open order or stock status, or engineering usage, a partial explosion is made only for those parts affected by the change.
+NOTES
+
+3.60 Push System -- System of ordering in which orders are issued for completion by specified due-dates, based on estimated lead times. 3.61 Real-Time Scheduling � Altering schedules using the conversational mode of computing (as opposed to the batch mode). 3.62 Reorder Point -- The stock level pre-determined such that a (fixed quantity) replenishment order is placed whenever the stock falls to or below this level.
+NOTE -- Another term for reorder point is reorder level.
+
+3.63 Reorder Quantity -- In a fixed order system of inventory, the fixed quantity that should be ordered each time the available stock (on hand plus on order) falls below the order point. In a variable reorder quantity system, the amount ordered from time period to time period will vary. 3.64 Rough-Cut Capacity Planning -- A simplified form of capacity planning that generally ignores workin-progress and concentrates on key or critical resources. 3.65 Sales Order Processing -- The total of all the administrate iveoperations, from the receipt of the orders to invoicing and preparation of the forwarding instruction needed to deliver the products or services stated in the order.
+NOTE -- Sales order processing forms one of the inputs to the master production schedule.
+
+1Net
+
+change systems maybe continuous and totally transaction
+
+oriented, or done in periodic (often daily) batch. 2 Another term for net change planning is net change MRP.
+
+3.54
+
+Objective Chart -- Cumulative delivery schedule used in the line-of-balance technique.
+
+3.55 Optimized Production Technology (OPT) -- A concept for balancing flow by maximizing throughput through bottleneck resources. 3.56 Order Release Schedule--A schedule of orders that are released to the factory in batches at regular, fixed intervals through the year.
+3.57 Period Batch Control (PBC) -- A method of
+
+3.66 Service Level a)
+General -- A measure for the extent to which customer orders can be executed at delivery conditions normally accepted in the market. In production control -- A parameter in a
+
+ordering in which the ordering of made parts is based on explosion from a series of short-term programmed and, as far as possible, the deliveries of materials and bought parts from suppliers are based on call-off notes 4
+
+b)
+
+IS 15446 (Part 1): 2004
+
+model for safety stock calculations expressing the strategy for the accepted risk that a customer order meets a stock-out situation. 3.67 Total Quality Management (TQM) -- Management philosophy and company practices that aim to harness the human and material resources of an organization in the most effective way to achieve the objectives of the organization.
+NOTES 1 The objectives of an organization may include customer etc, satistiction, business objectives, such as, growth profit or market position, or the provisions of services to the community, but they should always be compatible of society organization. 2 An organization directly term customer. 3 The use of this approach goes under may other names some of which are as follows : a) b) c) d) e) Continuous quality improvement; operates within the community and may serve it, this may require a broad conception of the whether legislated or as perceived with the requirements by the
+
+products in the factory) are generated from production programmed. The orders are followed up to ensure that they are completed in accordance with production programmed [see IS 15446 (Part 3)]. c)
+-- The detailed allocation of production resources to individual orders and the subsequent control of those orders to ensure that they are completed in accordance with the production programme [see IS 15446 (Part4)]. Dispatching
+
+Total quality; Total business management; Company wide quality management; Cost effective quality management. and
+
+4.3 The first stage, programming, constitutes the planning phase of production control. The second and third stages, ordering and dispatching, are execution phases. A vital element in all production control systems is a means whereby information about deviations from programme can be fed back promptly from the execution phases to the planning phase so that corrective action can be taken, or, if necessary, the programme amended. This cycle in which there is a continuous flow of information between the planning and execution processes is called a closed loop system (see 3.11 and Fig. 2). 4.4 Although each phase is described as though it were a separate entity, in practice planning is a continuous process through all levels of the organization. At each level tactical decisions are made within the framework of the overall programme. Many companies are tending to delegate more and more responsibility for tactical decision-making, and to involve operators on the shop floor in deciding how the production plan is to be achieved. 5 RELATIONSHIP BETWEEN PRODUCTION CONTROL AND OTHER FUNCTIONS 5.1 Production control occupies a central position in the exchange of information between the functional departments within a manufacturing organization. As can be seen from Fig. 3, its activities bring it into contact with nearly every other function in the business. The kind of information that flows between production control and other functions is as follows. Detailed explanations of the relationships are given in other Parts of this standard, in particular IS 15446 (Part 5). a)
+Sales/Marketing -- Information flowing between this function and production control might include the following.
+
+3.68 Transfer Quantity -- The number of items transferred as a batch between the work centres for successive operations.
+NOrE -- It is not necessarily a process batch quantity.
+
+3.69 Traveller -- Batch identification card that travels with the batch from operation to operation. 3.70 Work-to List -- A list of jobs to be operated within a specific period in priority order. 4 PRODUCTION
+CONTROL FUNCTION
+
+4.1 Production control is the function of management
+
+which plans, directs and regulates the flow through the entire manufacturing process from the provisioning of materials to the delivery of finished goods to the customer. 4.2 The function comprises the following three interrelated stages (see Fig. 1) : a)
+Programming -- The process of creating and maintaining programmed that state the products to be manufactured related to the resources available or required to make them in order to achieve the manufacturing objectives expressed in the corporate and business plans [see IS 15446( Part 2)]. Ordering -- The second stage of production control in which instructions (in the form of orders for the supply of materials from external sources and for the manufacture of
+
+b)
+
+1) sales and production plans; 2) customers' delivery requirements and promises; 3) sales orders; 4) finished goods stock status; 5) status of work-in-progress; and 5
+
+IS 15446 (Part 1): 2004
+
+I)
+
+PROGRAMMING E Business plan Sales orders 4 -- ~
+
+Customer
+
+I
+Resources: peopie machines Production
+
+I I
+programme b A
+
+money 2) ORDERING
+
+I I I I I
+
+I I
+Purchase orders 4v Suppiiers I I L 3) OISPAICtIING-- -- 1
+f v
+
+Factory orders A
+
+I I
+I
+I
+
+I I
+
+I I I I I
+1 I
+
+r
+
+cFu��
+u
+
+Q-r--i .
+ti
+
+QQ
+I
+I
+
+.......
+Key Requmements
+Feedback
+
+I Factory
+
+U
+
+----
+
+Goods fiow
+
+FIG. 1 STAGES OFPRODUCTION CONTROL
+
+6
+
+IS 15446 (Part 1): 2004
+
+1
+
+Bustness
+
+plonning I
+
+1 Product Ion progromme Icopocityond motertol)
+
+I
+i
+
+Ordering
+
+1
+
+1
+C)ispotching 1
+
+Fm. 2 CLOSED LooP SYSTEM
+
+6) b)
+
+customer priorities.
+-- Information flowing
+
+Design/Development
+
+between this function and production control might include the following: 1) 2) 3) 4) parts lists and bills of materials; design specifications; engineering changes; and plans for the introduction of new/ re-ciesigned products and the phasing out of slow moving and obsolete products.
+-- Information flowing between
+
+Engineering-- Information flowing between this function and production control might include the following:
+
+1) 2) 3) 4) 5) 6)
+f)
+
+plant capacity; manufacturing methods and processes; operation times and sequences; plant, machines and tools data; quality and test requirements; and work orders, order reporting.
+
+c)
+
+Purchasing
+
+this function and production control might include the following: l) 2) 3) 4) d) purchase requisitions; delivery schedules; supplier delivery lead times; and vendor rating.
+
+Distribution -- Information flowing between this function and production control might include the following:
+
+1) delivery methods and schedules; and 2) warehouse stock status. g)
+Personnel -- Information flowing between this function and production control might include the following:
+
+Finance/Accounting -- Information flowing between this function and production control might include the following:
+
+1) manpower planning; and, 2) manpower training. 5.2 Last but by no means least, there is the relationship between senior management and production control. Senior management should provide the leadership and direction necessary for the production control function to perform effectively. Successful production control depends upon there being a clear understanding of 7
+
+1) inventory levels and values; 2) production and financial plans, cash flow projections and budgets; and 3) e) manufacturing costs.
+Assurance/Production ManufacturinglQuali@
+
+IS 15446 (Part 1) :2004
+
+w
+I
+
+Design/ Development
+
+Manufacturing Quality assurance Production engineering
+
+r
+
+I
+
+Finance/ Accounting
+
+I
+
+I
+
+Personnel
+
+I
+
+FIG. 3 mLATIONSHIP BETWEEN PRODUCTION CONTROL AND OTHER FUNCTIONS
+
+the business plans and policies that influence manufacturing. Senior management should review and approve production programmed before they are issued. 6 THE IMPACT OF TECHNOLOGY PRODUCTION CONTROL 6.1 General Over the last two decades the introduction of the lowcost microchip has radically transformed the way in which manufacturing is managed and operated. The transformation has taken place along two parallel and, until recently, independent paths (see Fig. 4). 6.2 Information
+6.2.1 Technology
+
+system since it lacks any form of input from resource planning. The next step, therefore, has been to create a link between MRP and capacity planning. 6.2.3 A further development has been to create computer links between production systems and other information systems in the business, for example, accounting, sales order processing, design and methods engineering. This has led to a more integrated management information and control system for the business, manufacturing resource planning, known as MRP 11 to distinguish it from MRP. MRP II links business planning, that includes financial and sales plans, with production planning, MPS, MRP, CRP and manufacturing operations (see Fig. 5). 6.2.4 The development of MRP 11 together with facilities for simulating different manufacturing strategies now enables managers to perform simulations to determine the optimum course of action. IS 15446 (Part 6) contains information about the application of computers to production control. 6.3 Manufacturing
+Technology
+
+ON
+
+First, there has been the development of information technology (IT), the process whereby computers are applied to the processing of information as an aid to management. Initial computer applications were directed at eliminating the clerical intensive and time consuming tasks commonly associated with production, such as, updating stock records and recording work-in-progress. This was followed by the application of computer systems to tasks which involve processing of large volumes of data, for example, MRP and capacity planning and loading. 6.2.2 From being a purely material provisioning technique, MRP has been extended to become a system for planning and scheduling shop floor operations. However, MRP is unsatisfactory as a scheduling 8
+
+of computers for IT has been the application of microchips to programme and control machine tools and equipment, for example, computer numerically controlled (CNC), machines. This has cut down the time taken to setup a machine, has improved consistency between batches of the same item and has contributed towards an
+
+6.3.1 Parallel with the development
+
+IS 15446 (Part 1) :2004
+
+PEm!El
+Computer Computer based based stock records bills of material
+
+EEi!cl
+Computer Direct numerically numerically controlled controlled (CNC) machines
+
+(DNC) machines
+
+Material requirements planning (MRP) Capacity requirements planning (CRP) Data collection and shop floor systems Manufacturing resource planning (MRP 11) Computer links to other business systems: accounting; sales; design; methods Production planning simulations
+
+Computer aided design (CAD) Computer aided process planning (CAPP) estimating, inspection, testing and maintenance Machining cells Robotics Automated guided vehicles (AGV) Automated storage and retrieval Flexible manufacturing systems 1 (FMS) Advanced manufacturing technology (AMT)
+
+Orders I Computer integrated manufacture
+
+Facilities
+
+(CIM)
+
+FIG. 4 DEVELOPMENT OFCOMPUTERIZED APPLICATIONS INMANUFACTURE improvement in quality. 6.3.2 Two other developments, not necessarily dependent upon electronics, are the improved design of machines and fixtures to facilitate the quick exchange of tooling and, secondly, the application of group technology principles to the layout of machines. In many factories, machines of similar type are grouped by work centre and the work moved from one group to the next with queues forming at each centre. In group technology, machines are arranged in sequence of operations to produce families of parts. This layout not only reduces the amount of movement of work on the shop floor but also cuts manufacturing lead time since jobs flow down a line instead of having to join queues at each work centre. 6.3.3 In consequence of these developments it is now possible in many instances to make major reductions in batch size without additional cost. The ability to reduce batch size, in some cases to as little as one, without increased cost is having a profound effect on the way in which many manufacturing businesses are conducted. It has made possible the introduction of concepts, such as, just-in-time (JIT) which are achieving significant reductions in manufacturing lead times and inventories whilst improving service to the customer in terms of being able to respond more 9 quickly to demand [see IS 15446 (Part 3)]. Advanced manufacturing technology (AMT) is a general term that is used to describe further microprocessor applications, such as, the automation of groups of machines in machining cells, flexible manufacturing systems, automation of tool changing systems, automated assembly and robotics, automated transfer, movement, storage and retrieval systems. 6.4 Computer Integrated Manufacture
+6.4.1 General 6.4.1.1 A recent development is the creation of a link between Information Technology, AMT and computer aided manufacture (CAM) to produce the fully" automated process. The term computer integrated manufacturing (CIM) is sometimes applied to this condition. It is now possible with the existing technology to pass manufacturing instructions directly from production control to a manufacturing process such as a machine or machine cell. (CIM)
+
+6.4.1.2 Of course, technology should never be applied for its own sake. The fully automated process or factory represents the ultimate in present technology. In many plants, only certain processes or operations are likely to benefit from AMT applications. Before introducing new technology, a thorough and critical appraisal should be made of the potential costs and savings. The
+
+1S 15446 (Part 1) :2004
+
+8usiness
+
+planning
+
+Rough-cul copaclty planning
+
+Production
+
+planning
+
+-
+
+Master
+
+production
+
+scheduling
+
+I Materiel requmements planning e
+
+I
+L
+
+I
+r I Capacity t requirements 1 planning
+
+I I
+-
+
+1
+
+L
+
+No
+
+Internal
+
+orders
+
+Purchase
+
+orders
+
+I
+Execute plans
+
+I
+
+FIG. 5
+
+MANUFACTURING
+
+RESOURCE
+
+PLANNING (MRP II)
+
+10
+
+IS 15446 (Part 1): 2004
+latter should include not only direct savings resulting from improved methods and lower Iabour cost, but also indirect savings arising from faster throughput times and less stock. Judicious application of AMT will provide opportunities to increase profitability.
+
+6.4.1.3 The developments in information and manufacturing technology described have changed radically the way in which production control functions. First, there are the changes caused by the opportunity to adopt new manufacturing strategies (see 6.4.2). Secondly, there are the changes in the organization and stafling of the production control function (see 6.4.3). 6.4.2 Manufacturing
+Strategv
+
+to added value. Examples of waste include the cost of financing stocks, unusable byproducts of processes, movement of material on the shop floor and sales lost through failure to meet demand, as well as conventional forms of waste such as faulty parts and non-productive or idle time. 6.4.2.7 The attainment of fast throughput in order to achieve maximum overall profitability may be incompatible with high utilization of resources. Indeed, this objective can usually only be achieved at the expense of some idle time in non-critical resources. 6.4.2.8 The fast throughput strategy has created a need for new methods of costing which, by allocating overhead costs more closely according to their underlying cause, will provide more accurate product costs and a truer measurement of performance. Systems such as activity based costing (ABC) are being developed as an alternative to traditional costing methods in an endeavour to rectify the latter's deficiencies. 6.4.2.9 Customers, particularly those in the retail and consumer goods industries, are tending to hold ever lower stocks and to demand quicker deliveries in order to reduce their costs. To satisfy such customers, manufacturers have either to hold large stocks or cut production lead times. To avoid carrying stocks, manufacturers put pressure in turn on their suppliers to respond rapidly.
+6.4.2.10 This compression of the overall manufacturing
+
+6.4.2.1 In a traditional cost accounting system, overhead cost is allocated or charged to a product in proportion to the Iabour cost of the product. In many businesses, Iabour cost accounts for only a small percentage of the total cost (often less than 10 percent of the total compared to a material cost of over 50 percent and overheads of 40 percent). Overhead rates of 300 percent to 400 percent or more of Iabour cost are common. 6.4.2.2 Because of the imbalance between labour and overhead costs, traditional costing methods can seriously distort product costs and in turn lead to incorrect assumptions about the appropriate manufacturing strategy to be followed. 6.4.2.3 Since under-utilization of Iabour results in under-recovery of overheads, traditional costing methods place undue emphasis on high utilization of resources. Consequently, the performance of production managers and supervisors tends to be judged by the amount of idle time recorded in their departments. 6.4.2.4 The cautious response by production control to traditional cost accounting is to ensure that plenty of work-in-progress and material is stacked up in every department to fill any available capacity. Such action results in long manufacturing lead times and high stock investment, as well as using up floor space. 6.4.2.5 An alternative strategy to that described is based on regarding a factory as a total system for converting or adding value to material in order to produce marketable products at a profit. 6.4.2.6 Resources apart from material are regarded as fixed in the short to medium term. The objective of the strategy is to maximize profits from these fixed resources by achieving maximum throughput of marketable and profitable products with the minimum of waste. Waste is interpreted in its widest sense to include anything or any activity that does not contribute 11
+
+lead time has given rise to a new discipline called supply chain management or logistics management, that embraces the planning and control logistics of all distribution and manufacturing activities in the supply chain between the customer, manufacturer and supplier.
+6.4.2.11 Internationalization of industry adds a further
+
+dimension to the supply chain. Increasingly manufacturers are sourcing supplies from foreign suppliers. The motor industry is a prime example of international sourcing. 6.4.2.12 Internationalization brings with it a host of new planning and control factors shipping and transport, communications, delivery times and foreign terms and conditions.
+6.4.2.13 To sum up, competitive pressures are driving manufacturers to even greater efforts to cut waste and reduce lead time. When correctly applied, developments in manufacturing and information technology, such as, those described, can make a major contribution in the drive to become more competitive and profitable. 6.4.2.14 Parts 3 and 4 of IS 15446 contain descriptions
+
+1S 15446 (Part 1) :2004
+
+of concepts, such as, just-in-time (JIT) and optimized production technology (OPT) that aim to achieve fast throughput with minimum waste. 6.4.3 Production
+Organization and Staffing
+
+6.4.3.7 Choice of title and responsibilities for the production control function will be different in every business. They depend on many factors, especially the level of expertise and ability of the present management team and the size and type of business.
+
+6.4.3.1 Before the advent of effective computer systems, a typical production control department comprised a number of clerks all busy entering stock records and updating shop movements, often supported by a small army of progress chasers. The work was Iabour intensive and the records were often several days or even weeks behind the occurrence of the actual events.
+6.4.3.2
+Under these circumstances a production controller's ability to make decisions and influence events was limited by lack of timely accurate information and by constraints imposed by manual procedures. In consequence, the production controller was likely to
+
+7 CHARACTERISTICS ORGANIZATIONS 7.1 General
+
+OF MANUFACTURING
+
+occupy a low status in the management hierarchy and was often little more than an office supervisor.
+6.4.3.3 The introduction of computers brought about a profound change in the organization of production control. The number of people engaged in production control has decreased, but remaining staff required higher skills to manage the more powerful and comprehensive planning and control techniques that a well designed computer system could provide. The production controller's status in the organization rose even though he may have been managing far fewer staff.
+
+Part 2 to Part 6 of IS 15446 contain descriptions of a number of production control techniques. Choosing the right technique for a business depends on a clear understanding of the characteristics that drive the business. These characteristics, although many, can be readily identified and classified. It is the combination of characteristics that is unique to each business. Hence, there is no such thing as a standard production control system. Every business is different. Some of the characteristics that are especially relevant to production control are described in 7.2 to 7.5. They may be grouped into those that apply to the market (see 7.2), those that apply to the product (see 7.3), those that apply to the manufacturing process (see 7.4), and those that apply to the availability of capital to finance the business (see 7.5). 7.2 Market This is the most important of the four groups of characteristics relevant to production control, since without satisfied customers there is no business. The characteristics chiefly applicable to production control are as follows: a)
+Volume and varie~ -- At one extreme, this could be a few orders from a small number of customers and, at the other extreme, it could be a multitude of orders from many customers. Delive~ time -- This is the time between receiving an 9rder and its delivery to the customer. In certain industries, such as fast moving consumer goods (FMCG), delivery time will be of utmost importance, and, if this should be less than manufacturing lead time (including time taken to procure raw material), then it will be necessary to hold stocks in some form (either as finished or semi-finished products or as raw materials). In others, like capital equipment, delivery time, but not delivery date, may be secondary to other factors. Demand pattern -- This could be seasonal,
+
+6.4.3.4 These changes are reflected in new titles and reporting levels for the production controller. Titles, such as, `Production Control Manager', `Planning Manager', `Programme Manager', `Logistics Manager', reporting in some instances directly to the chief executive, acknowledge the increasing responsibilities and importance in the organization of production planning and control. 6.4.3.5 A consequence of the increased power and facilities provided by on-line computer systems is the ability to combine production control with other responsibilities. Thus, the manager of a small factory may be able to plan and control production with the aid of a small computer system in addition to his other tasks. 6.4.3.6 As previously mentioned, material content in many businesses accounts for over 50 percent of the product cost and Iabour for less than 10 percent. Some managements have recognized the importance of effective control over material by appointing a materials manager with responsibility for purchasing, stock control, production control and the movement and storage of materials. 12
+
+b)
+
+c)
+
+cyclical, lumpy, etc.
+
+IS 15446 (Part 1): 2004
+
+d)
+
+Customerprofile -This could bewholesale, retail, industrial, national, international. b)
+
+NOTE -- For examples of bills of material and product
+
+structures (seeFig.6).
+variefy, that is, the range of products that the business produces;
+
+7.3 Product The characteristics which influence production control are as follows: a)
+complexity,
+that is, whether the product has many components with many
+
+c) frequency, that is, of designlengineeringf fashion changes; d)
+homogeneity, that is, standard, standard with options, make to order; and
+
+levels in the bill of material or whether it is a simple product;
+P
+
+onc
+
+uniquo
+
+or fcw raw
+
+malcrlul(n) producing onc unlquc or
+
+few end products
+
+Many raw materials producing onc tinkluc or a fcw cnd products
+
+P
+
+One unique or few raw material(s) producing mrmy end products or product tmcks
+
+., x
+
+Many raw matetials producing a few modules or standard subassemblies that are then assembled and packed into
+many end products
+
+rm
+
+MM\y
+
+riiw
+
+materials
+
+producing many cnd products
+
+rm NOTE -- p is product, r m IS (are) new material(s)
+
+FIG. 6 SHAPE OFBILLSOFMATERIAL 13
+
+1S 15446 (Part 1): 2004 e)
+other factors,
+
+for example,
+
+shelf life,
+
+traceability. 7.4 Processes Manufacturing processes are conventionally classified as jobbing, contract, batch, process, and flow or continuous manufacturing. Each requires a different
+approach by production control. The individual
+
+comprising sizing, packing and labelling, in batch mode. Another example is an assembly line in which the line is fed by components produced in batches. Some companies produce standard and special products in the same factory, the standard product being produced in batch and the special product being produced as a jobbing operation. Therefore, it is essential to establish the actual modes of manufacture that are being performed within a plant as different modes require different production control techniques. 7.5 Capital Capital available for investment in plant and stocks may impose restrictions on manufacturing strategy. In the case of production control, there maybe limits on the value of stocks that may be carried. 8 CHOOSING THE RIGHT PRODUCTION CONTROL SYSTEM FOR THE BUSINESS 8.1 Part 3 and Part 4 of IS 15446 contain descriptions of various production control techniques together with the applications for which they are suited. This clause contains some broad guidelines to assist in selecting the right production control system for the business. 8.2 Whoever devises the production control system ought to have a clear understanding of the business strategy and characteristics as described in 6, including any changes planned. In particular, it is essential to understand the key objectives of the business. Examples of how business characteristics influence the choice of system are illustrated in items (a) to (g): a) A sub-contract business depends for its livelihood on providing a service, often at short notice, to the main contractor. The business needs a capacity planning and scheduling system that provides information to enable the manager to track the progress of jobs and decide quickly what orders to accept. , A larger sector of industry comprises manufacturers of comparatively low cost items produced on plant with a high capital investment. Plastic moulding and extrusions, nuts, bolts and screws are examples of products produced by these companies. Here the emphasis is on keeping key machines fully loaded and keeping downtime due to tool changes and maintenance to a minimum. Simple but effective systems for planning and scheduling work are required in this environment. Capacity planning and scheduling is also
+
+processes are as follows: a)
+-- This can be defined as the manufacture to order, generally in very small or unit quantities, of unique products or components. Control is related to an order and output is measured on completion of the order. The term is typically applied to companies that provide a sub-contract service and to manufacturers of products made to a unique design. Jobbing Contract -- This is a variant of jobbing in which the typical order is for a large capital project, such as, an oil rigor rolling mill. The contract will often include design and installation as well as manufacture. Control is related to the contract or stages thereof. Batch -- This is defined as the manufacture,
+
+b)
+
+c)
+
+in discrete batches, of products or components on a repetitive or non-repetitive basis in which control is related to the batch. Batch manufacture is used extensively in the engineering, electronic, electrical, clothing and many other industries. d)
+Flow or continuous manufacture -- This is the manufacture of products in a line of operations in which no distinct break occurs. Control is related to the number of completed units issuing from the end of the line. Motor vehicles and consumer goods are typical products produced by flow manufacture. Process -- The term given to manufacture in
+which homogeneous products are produced other than by assembly discrete parts, or machining of
+
+e)
+
+for example, by mixing, forming, and treating. Control is related to the process and output is usually measured in terms of length, mass or volume emerging from the end of the process. Oil refineries, food processing, chemical plants are typical process operations. Whilst the terms batch, flow, process, etc, are often applied to whole industries, for example, the chemical industry, such terms are apt to be too simplistic since many plants contain a mix of modes. For example, a pharmaceutical company may perform the initial operations in process and the finishing operations, 14
+
+b)
+
+c)
+
+IS 15446 (Part 1): 2004
+
+important in process industries, but here the task is often more complex. The raw material may vary in quality and consistency, resulting in variable yields. By-products may be produced in addition to the main product, making it difficult to equate demand to output. Optimum performance depends on balancing the overall load on the plant. Mathematical modelling techniques are often appropriate in these circumstances.
+d)
+
+of maintaining low stock levels at all stages. JIT and MRP techniques are appropriate in these circumstances. 8.3 In all these examples the choice of production control system needs to be balanced within the threefold requirement of investment in technology, strategy and people. The production control system represents one aspect of the application of technology; investment in shop floor equipment is another; and the equipment for communications support is a third. 8.4 All of these investments can only be coordinated properly, if the strategic issues are identified and agreed. Strategy planning, that drives technology investments, will be in the areas of marketing strategy, business strategy, product strategy and IT strategy, this enabling the best decision for the production control system to be made. 8.5 Often seriously neglected, is the requirement for investment in people. Managing the strategic and technological changes required can only be done if the people are willing and able to support these changes. The issues need to be communicated and understood, and the use and benefits of the new system across the whole business need to be understood, in addition to the somewhat more obvious requirement of training and motivating people in the detailed use of new equipment and systems. The investment in people is no less difficult or expensive but, without proper implementation, will cause the other investments to fail. 8.6 Without this balance of investment in people, strategy and technology, the optimization of these potentially expensive and crucial investments in production control systems will not reap their full advantage and therefore the opportunity for securing the all important competitive edge for which they were introduced will be negated. 9 IMPLEMENTING SYSTEM AND MAINTAINING THE
+
+Companies making fashion goods, shoes and garments, for example, face different problems. The emphasis is on bringing new designs to the market ahead of the competition. Product systems have to be geared to rapid conversion of design information into production programmed and orders on suppliers for material. Communications between designers, production management and suppliers should be swift and clear. Manufacturers of high technology products, such as, scientific instruments and electronic equipment have a similar problem of converting designs into products rapidly, owing to the diminishing life cycle of such products. Computer aided design (CAD), with output directly linked to production systems, reduces delays in converting design information into manufacturing and purchase instructions. At the upper end of the high technology sector are manufacturers of large, highly complex products, such as, aircraft. The products comprise a vast number of parts and their manufacture involves a multitude of operations. Production management has to contend with frequent engineering changes. Companies in this sector require sophisticated material provisioning and capacity planning and loading systems.
+
+e)
+
+f)
+
+Contract manufacture involves the coordination of multidisciplinary teams engaged in the design, production and installation of a project. Manufacturers making mass produced products for the consumer markets, for example, cookers, television sets, and motor cars are primarily engaged in assembly operations and products have a high boughtout content. In these companies, the emphasis is on fast reacting material control systems closely linked to suppliers, systems capable 15
+
+9.1 Having ascertained the characteristics of the particular business, the next step is to devise the simplest system that will provide effective control. A
+
+g)
+
+specification should be prepared defining the system required to meet the needs of the organization taking into account any developments to the business that are planned. The specification should be compared with the existing system and the limitations `ofthe existing system should be noted. In particular, the question of whether the present system will meet the company's future needs should be addressed. 9.2 Possible solutions may then be investigated. These may be either manual or computer based or a
+
+IS 15446 (Part 1): 2004 combination of both and may involve either minor changes to the existing organization and system or complete re-design. Because production control
+impinges on so may other functions of the business, it is essential to involve representatives of those fimctions
+
+10 ALTERNATIVES PRODUCTION CONTROL
+
+TO COMPLEX SYSTEMS
+
+at an early stage in any proposals that could affect them. 9.3 If major changes are contemplated, it is advisable to set up a project team comprising representatives of the departments affected to manage the project through all its stages. The commitment of senior management is vital to the success of the project and the project team should report at regular intervals to a senior manager. 9.4 The reasons for change have to be explained to the people involved. Once the necessity for change has been accepted, opposition to change has at least been reduced and may be replaced by willing acceptance of the new ideas. Change is opposed for many reasons, for example, fear of losing one's job, difficulty in acquiring new (computer) skills, doubt about the value of the new system, or simply reluctance to change longstanding practices. The people who will be operating the new system should be kept informed and brought into the discussions at the earliest possible stage so that they can make a contribution from their experience. Thorough and extensive training is vital to build up confidence and support for the system. Unless the people who have to work the system are properly trained and completely committed, the system is almost certain to fail. 9.5 Once the system has been implemented, it has to be maintained. Many systems fail because insufficient attention is given to the need to follow procedures and to maintain accurate records. This required dedication and perseverance on the part of the staff involved. Adequate training and supervision is essential, particularly in the early stage of implementation.
+
+10.1 There is a tendency when designing production control systems to make them over-complicated. Some manufacturing operations are, of course, extremely
+
+complex, that is large variety of products, many parts, numerous levels in the bill of materials, many processes and a multitude of orders on the shop floor. Production control systems in such factories tend to be complex as they have to provide the means to control complex operations. 10.2 In many situations, however, there is an alternative to developing evermore complex systems to deal with increasingly complex operations. It involves putting effort into reducing or even eliminating the elements of complexity and uncertainty inherent in manufacturing operations, for example by the following : a) b) c) d) e) o g) h) j) Designing for ease of manufacture; Improving factory layout; Introducing improved production methods; Improving quality; Reducing the incidence of faults both internally and from suppliers; Improving plant maintenance and increasing reliability; Creating factories focused on one type of operation, for example, assembly; Reducing product variety; and Improving communications with customers and suppliers.
+
+Above all, success in eliminating complexity and uncertainty in manufacturing depends upon creating a well trained, well informed and committed workforce.
+
+16
+
+Bureau of Indian Standards
+
+BIS is a statutory institution established under the Bureau of Zndian Standards Act. 1986 to promote harmonious development of the activities of standardization, marking and quality certification of goods and attending to connected matters in the country.
+Copyright
+
+BIS has the copyright of all its publications. No part of these publications may be reproduced in any form without the prior permission in writing of BIS. This does not preclude the free use, in the course of implementing the standard, of necessary details, such as symbols and sizes, type or grade designations. Enquiries relating to copyright be addressed to the Director (Publications), BIS.
+Review of Indian Standards
+
+Amendments are issued to standards as the need arises on the basis of comments. Standards are also reviewed periodically; a standard along with amendments is reaffirmed when such review indicates that no changes are needed; if the review indicates that changes are needed, it is taken up for revision. Users of Indian Standards should ascertain that they are in possession of the latest amendments or edition by referring to the latest issue of `BIS Catalogue' and `Standards: Monthly Additions'. This Indian Standard has been developed from Doc : No. MSD 4 (227).
+
+Amendments
+
+Issued Since Publication
+
+Amend No.
+
+Date of Issue
+
+Text Affected
+
+BUREAU OF INDIAN STANDARDS Headquarters : Manak Bhavan, 9 Bahadur Shah Zafar Marg, New Delhi 110002 Telephones "23230131,23233375,2323 9402 Regional Offices : Central Eastern Northern Southern Western : Manak Bhavan, 9 Bahadur Shah Zafar Marg NEW DELHI 110002 : 1/14 C.I.T. Scheme VII M, V. I. P. Road, Kankurgachi KOLKATA 700054 : SCO 335-336, Sector 34-A, CHANDIGARH 160022 : C.I.T. Campus, IV Cross Road, CHENNAI 600113 : Manakalaya, E9 MIDC, Marol, Andheri (East) MUMBAI 400093 Telegrams: Manaksanstha (Common to all offices) Telephone 23237617 { 23233841 23378499,23378561 { 23378626,23379120 603843 { 609285 22541216,22541442 { 22542519,22542315 28329295,28327858 { 28327891,28327892
+
+Branches : AHMEDABAD. BANGALORE. BHOPAL. BHUBANESHWAR. COIMBATORE. FARIDABAD. GHAZIABAD. GUWAHATI. HYDERABAD, JAIPUR. KANPUR. LUCKNOW. NAGPUR. NALAGARH. PATNA. PUNE. RAJKOT. THIRUVANANTHAPURAM. VISAKHAPATNAM.
+Printed at Prabhat Offset Psess. New Delhi-2
+
+

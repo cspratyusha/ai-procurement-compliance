@@ -80,6 +80,25 @@ SECTOR_RULES = [
     ("geotechnical", r"\bsoils?\b|geotechnical|\bfoundation|bearing capacity|\bpiles?\b|earthwork|\bsubgrade\b|embankment"),
     ("machinery_equipment", r"\bmachine|\bpumps?\b|\bcompressor|\bbearings?\b|\bgears?\b|hydraulic|pneumatic|\bcrane\b|conveyor|\bengine\b|\btools?\b|\blathe\b"),
     ("measurement_testing", r"method(s)? of test|\bsampling\b|calibrat|\bmeasuring\b|\bgauges?\b|\binstrument|test method|\bcaliper"),
+
+    # Families added after sampling what the first pass left unclassified.
+    # Each pattern was written against scope clauses that actually appear in
+    # the archive rather than guessed from a taxonomy: electronics and
+    # metallurgy alone accounted for a large share of the discards, and
+    # dropping them meant the corpus silently excluded whole BIS divisions.
+    #
+    # These sit after the rules above deliberately. Classification is
+    # first-match, so the established sectors keep their claim on a record
+    # and these only catch what would otherwise have been discarded.
+    ("electronics_telecom", r"electronic|semiconductor|transistor|diode|capacitor|resistor|varistor|printed circuit|telecommunication|antenna|radio|television|signal generator|amplifier|integrated circuit|relay|connector"),
+    ("metals_alloys", r"aluminium|copper|brass|bronze|zinc|nickel|lead|tin|alloy|ingot|casting|forging|metallurg|non-ferrous|smelting|foundry"),
+    ("paints_coatings", r"paints?|varnish|pigment|lacquer|enamel|primer|coating|anti-?corrosi|galvani[sz]|electroplat|powder coat"),
+    ("petroleum_lubricants", r"petroleum|lubricat|grease|diesel|petrol|kerosene|bitumen|asphalt|crude oil|fuel oil|refiner"),
+    ("refractories_ceramics", r"refractor|ceramic|dolomite|fireclay|kiln|porcelain|vitreous|silica brick|crucible"),
+    ("mechanical_fittings", r"fitting|coupling|stud|nipple|elbow|union|spindle|bush(ing)?|washer|spring|seal(s|ing)?|gasket"),
+    ("paper_printing", r"paper|paperboard|printing|ink|stationery|cardboard|pulp"),
+    ("automotive", r"automotive|vehicle|automobile|tractor|motorcycle|brake|clutch|chassis|windscreen"),
+    ("medical_laboratory", r"medical|surgical|hospital|syringe|pharmaceutic|laborator|dental|diagnostic"),
 ]
 
 # Standards we do not want: management-system, vocabulary-only and
@@ -276,6 +295,12 @@ def main() -> int:
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--limit", type=int, default=600, help="how many standards to keep")
     parser.add_argument("--scan", type=int, default=4000, help="how many archive records to consider")
+    parser.add_argument(
+        "--overfetch",
+        type=float,
+        default=3.0,
+        help="candidates fetched per standard kept; many yield no usable record",
+    )
     parser.add_argument("--list", action="store_true", help="list candidates without fetching text")
     args = parser.parse_args()
 
@@ -310,7 +335,16 @@ def main() -> int:
 
     # Keep only those whose title already suggests one of our sectors; the
     # scope check happens after the text is fetched.
-    targeted = [c for c in candidates if classify(c["title"], "")]
+    # Title-matched candidates first, then the rest.
+    #
+    # The title pre-filter used to be the whole selection, which quietly
+    # capped the corpus: "Male stud tee bodies" names no sector, but its
+    # scope clause does, and the record was discarded before its text was
+    # ever fetched. Titles that already match are still fetched first --
+    # they have the best hit rate -- but the others are no longer excluded.
+    titled = [c for c in candidates if classify(c["title"], "")]
+    untitled = [c for c in candidates if not classify(c["title"], "")]
+    targeted = titled + untitled
     print(f"\n{len(targeted)} of {len(candidates)} candidates fall in our sectors")
 
     if args.list:
@@ -334,26 +368,34 @@ def main() -> int:
 
         cleaned = clean_ocr(text)
         scope = extract_scope(cleaned)
-        if not scope:
-            return {"_skip": "no_scope"}
 
-        sector = classify(item["title"], scope)
+        # A record with no extractable SCOPE clause is kept, not discarded.
+        # Its IS number and title are real, so it stays findable by both, and
+        # roughly a third of the collection is in this state -- dropping them
+        # excluded thousands of genuine standards. The weaker evidence is
+        # recorded in `provenance` rather than papered over, and no scope text
+        # is ever invented to fill the gap.
+        record_provenance = "published_text_ocr" if scope else "number_and_title_only"
+
+        # Without a scope clause the title is all the classifier has.
+        sector = classify(item["title"], scope or "")
         if not sector:
             return {"_skip": "no_sector"}
 
         return {
             "number": item["number"],
             "title": item["title"],
-            "scope": scope,
+            "scope": scope or "",
             "category": sector,
             "version": item["year"],
             "identifier": item["identifier"],
+            "provenance": record_provenance,
             "source_url": f"https://archive.org/details/{item['identifier']}",
         }
 
     # Fetching dominates the runtime and is almost entirely network wait, so
     # a small thread pool turns hours into minutes without straining the host.
-    pool = targeted[: args.limit * 3]  # over-fetch: many will lack a scope clause
+    pool = targeted[: int(args.limit * args.overfetch)]
     with ThreadPoolExecutor(max_workers=WORKERS) as executor:
         futures = {executor.submit(process, item): item for item in pool}
         for future in as_completed(futures):
@@ -392,6 +434,9 @@ def main() -> int:
     print(f"ingested        : {len(ingested)}")
     print(f"  no text file  : {no_text}")
     print(f"  no scope found: {no_scope}")
+    _prov = Counter(r.get("provenance", "published_text_ocr") for r in ingested)
+    print(f"  with scope    : {_prov.get('published_text_ocr', 0)}")
+    print(f"  title only    : {_prov.get('number_and_title_only', 0)}")
     for sector, count in sorted(Counter(s["category"] for s in ingested).items()):
         print(f"  {sector:<28} {count:>4}")
     print()

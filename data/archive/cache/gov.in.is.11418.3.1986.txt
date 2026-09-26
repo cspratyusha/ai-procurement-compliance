@@ -1,0 +1,1347 @@
+IS : 11418 (Part 3).1986
+UDC 681'321'8
+
+IS0 Indian Standard
+
+7809-l 984
+
+( Reaffirmed 2003 )
+
+1I m
+National Foreword
+
+HIGH
+PART
+
+LEVEL
+
+DATA
+
+LINK CONTROL C'
+OF CLASSES .<
+
+PROCEDURES
+OF PROCEDURES
+
+3 CONSOLIDATION
+
+I
+
+[ IS0 Title : Information Processing Systems -Data Communication-High-Level Data Link Control Procedures-Consolidation of Classes of Procedures ]
+
+This Indian Standard (Part 3) which is identical with IS0 7809 - 1984 `Information processing systems-Data communications -High level data link control procedures-Consolidation of classes of procedures', issued by .fhz!< International Orbanization for Standardization (ISO), was adopted by the Indian Standardi&, Hstitution on the recommendation of the Computers, Business Machines and Calculators Sebti'onal Committee and approved by the Electronics and Telecommunication Diirision Council. Wherever the words `International be, read as `Indian Standard'. Standard' appear, referring to this standard,
+
+they
+
+should
+
+:: Cross References International
+IS0 ,33C9-1984 bms-Data data link structure
+
+Standard
+
+Corresponding
+
+Indian
+
+Standard
+
+Information processing syscommunication-High-level control procedures-Frame Data communication-Highlink control procedures-conof elements of procedures
+
+IS : 11418 (Part l)-1986 High level data link control procedures : Part 1 Frame structure (Identical) IS : 11418 (Part 2)-1986 High level data link control procedures : Part 2 Consolidation of elements 6f procedures (Identical)
+
+I
+
+IS0
+
+4335-1984 level data solidation
+
+Adopted
+L
+
+15 January 1986
+
+8
+
+November 1986, ISI
+
+I
+
+Gr 7
+
+INDIAN MANAK
+
+STANDARDS BHAVAN, 9 BAHADUR NEW DELHI
+
+INSTITUTION SHAH 110002 ZAFAR MARG
+
+IS : 11418 (Part 3)-1986 IS0 7809-l 984
+
+0
+
+Introduction
+
+High-level data link control (HDLC) classes of procedures describe methods of data link operation which permit synchronous, code-transparent data transmission between data stations in a variety of logical and physical configurations. The classes are defined in a consistent manner within the framework of an overall HDLC architecture. One of the purposes of this International Standard is to maintain maximum combatibility between the basic types of procedures, unbalanced'and balanced, as this is particularly desirable for data stations with configurable capability, which may have the characteristics of a primary, secondary, or combined station, as required for a specific connection.
+
+This International Standard defines three fundamental classes of procedures (two unbalanced and one balanced). The unbalanced classes apply to both point-to-point and multipoint configurations (as illustrated in figure 1) over either dedicated or switched data transmission facilities. A characteristic of the unbalanced classes is the existence of a single primary station at one end of the data link plus one or more secondary stations at the other end(s) of the data link. The primary station is alone responsible for data link manaoement, hence the designation "unbalanced" classes of procedures.
+
+4 Primary station ,
+
+W ---
+
+I ?Secondary station A
+
+t_
+Figure
+
+I I
+
+Secondary station
+
+1 -
+
+Unbalanced
+
+data link configuration
+
+2
+
+IS : 11418 (Part 3)-1986 IS0 7809-l 984
+
+The balanced class applies to point-to-point configurations (as illustrated in figure 2) over either dedicated or switched data transmission facilities. A characteristic of the balanced class is the existence of two data stations, called combined stations, on a logical data link, that may share equally in the responsibility for data link management, hence the designation "balanced" class of procedures. For each class of procedures, a method of operation is specified in terms of the capabilities of the basic repertoire of commands and responses that are found in that class. A variety of optional functions are also listed. Procedural descriptions for the use of the optional functions are being~consideredfor inclusion in this International Standard at a later date. It is recognized that it is possible to construct symmetrical configurations for operation on a single data circuit from the unbalanced classes of procedures which are defined in this International Standbrd. For example, the combination of two unbalanced procedures (with I frame flow as commands only) in opposite directions would create 2 symmetrical. point-to-point configuration (as illustrated in figure 3).
+
+1
+
+Scope and field
+
+of application
+
+This International Standard describes the HDLC unbalanced classes of procedures and the HDLC balanced class of procedures for synchronous data transmission. Balanced operation is intended for use in circumstances which require equal control at either end of the data link. Operational requirements are covered in accordance with the overall HDLC architecture. The procedures use the HDLC frame structure defined in IS0 3309lJ and the HDLC elements of procedures described in IS0 43352). For the unbalanced classes, the data link consists of a primary station plus one or more secondary stations and operates in either the normal response mode or the asynchronous response mode in a point-to-point or multipoint configuration. For the balanced class, the data link consists of two combined stations and operates in the asynchronous balanced mode in a point-topoint configuration. In each class, a basic repertoire of commands and responses is defined, but the capability of the data link may be modified by the use of optional functions.
+
+Figure 2 -
+
+Balanced date link configuration
+
+I
+2)
+
+Primary station / 1 \
+
+Secondary station 2
+
+Primary station
+
+Figure 3 -
+
+Symmefrical
+
+data link configuration
+
+11 IS0 3309, Data communication-
+
+High-level data link control procedures -
+
+Frame structure.
+
+IS0 4335, Dota. communication - High-level date link contrd procedures - Consolidation of elements of procedures. 3
+
+IS : 11418 (Part 3)-1966 IS0 7809-l 964
+
+2
+2.1
+
+General
+
+description
+
+2.1.1.2
+
+One type of data station is defined for the balanced class of procedures (see figure 41, i.e. combined stations, which send both commands and responses, receive both commands and responses, error recovery. and are responsible for data link layer
+
+Principles
+
+2.1.1
+
+Types
+
+of data
+
+station
+
+2.1.2 are defined for the un-
+
+Configurations classes of procedures, a single primary sta-
+
+2.1.1.1
+
+Two
+
+types
+
+of data station
+
+For the unbalanced
+
+balanced classes of procedure.? (see figure 4)
+
+:
+
+tion plus one or more secondary station(s) shall be connected together over various types of transmission facilities to build point-to-point non-switched For the or multipoint, half-duplex configurations. class of procedures, together or duplex, switched or
+
+,
+
+which sepds commands, receives a) primary station, responses and is ultimatelv responsible for data link layer error recovery; b) secondary stations, which receive commands, send
+
+balanced
+
+two
+
+combined
+
+sta-
+
+tions shall be connected responses and may initiate data link layer error recovery.
+
+over various types of transor duplex,
+
+mission facilities to build point-to-point, half-duplex switched or non-switched configurations.
+
+.
+
+Source and sink*
+
+,
+
+I
+
+`0
+2 g U Response control
+
+Command and response control
+
+4
+
+i
+
+Pi imary 5,:dtlOn
+
+Secondary station
+
+Combined station
+
+Figure l
+
+4 -
+
+HDLC
+
+stations
+
+-
+
+Building
+
+blocks
+
+For send-only
+
+I frame stations or
+
+receive-only
+
+I frame
+
+stations,
+
+remove source or sink capability,
+
+as appropriate.
+
+4
+
+IS : 11418 (Part 3)-1986 IS0 7809-l 984
+
+2.1.3
+
+Operational
+
+modes
+
+2.2.2.1
+
+UNC
+
+In an unbalanced class, any coupling of a primary station with secondary station(s) shall be operated in either the normal response mode (NRM) or the asynchronous response mode (ARM), two-way alternate or two-way simultaneous, in accordante with the capability of the configuration being employed. In the balanced class, two combined stations shall be operated in the asynchronous balanced mode (ABM), two-way alternate or two-way simultaneous, in accordance with the capability of the configuration being employed. 2.1.4 Addressing scheme
+
+The basic repertoire of commands and responses for UNC shall be as follows: Commands Responses I RR RNR UA .DM FRMR
+
+I
+RR RNR SNRM DISC
+
+2.2.2.2 In all classes (unbalanced and balanced), commands shall always be sent containing a destination data station address, and responses shall always be sent containing the assigned transmitting data station address, 2.1.5 Send and receive state variables
+
+UAC
+
+The basic repertoire of commands and responses for UAC shall be as follows : Commands I RR RNR SARM DISC Responses I RR RNR UA DM FRMR
+
+For each primary-to-secondary or combined-to-combined pairing, a separate pair of send and receive state variables shall be used for each direction of transmission of information (I) frames. Upon receipt and acceptance of a mode setting command, both the send and receive state variables of the receiving station shall be set to zero. Upon receipt and acceptance of an acknowledgment response to a mode setting command, both the send and receive state variables of the originating station shall be set to zero.
+
+2.2.2.3
+
+BAC
+
+The basic repertoire of commands and responses for BAC shall be as follows : Commands I RR RNR SABM DISC Responses I RR RNR UA DM FRMR
+
+2.2
+2.2.1
+
+Fundamental Designations
+
+classes
+
+of procedures
+
+Three fundamental classes of procedures are defined. They are designated : UNC Class; Unbalanced operation Normal response mode
+
+UAC - Unbalanced operation Asynchronous response mode Class; BAC Class. Balanced operation Asynchronous balanced mode
+
+2.3
+
+Optional
+
+functions
+
+In these designations the first letter, U or B, indicates unbalanced or balanced operation ; -. the second letter, A or N, indicates asynchronous or normal response mode;
+
+Fourteen optional functions are available (see table 1) to modifv the fundamental classes of procedures defined in 2.2. These'optional functions are obtained by the additions or deletions of commands and responses to or from the basic repertoires, or by the use of alternate address or control field formats or alternate frame checking sequences (see figure 5). Option 11 is applicable to the balanced class of procedures only.
+
+2.4
+
+Consistency
+
+of classes
+
+of procedures
+
+2.2.2
+
+the third letter, C, stands for class. Basic repertoires
+
+The following basic repertoires utilize single octet addressing, unextended control field format, and a 16-bit FCS.
+
+The consistency in the three classes of procedures, obtained through the use of the concepts of modes of operation, basic command/response repertoires, and hierarchical structuring, is shown in figure 5. This consistency in repertoire facilitates the inclusion of multiple versions of the classes of procedures in a data station that is configurable.
+
+IS : 11418 (Part 3)-1986 IS0 7809-l 984
+
+Table Option 1 2 3 4 5 Functional
+
+1 -
+
+Optional
+
+functions Required change Add command: XID Add response: XID Add command : REJ Add response: REJ Add command : SREJ Add respohse: SREJ Add command: UI Add response: UI Add command: SIM Add response: RIM Add command: UP Use exiended addressing format instead of basic addressing format Delete response : I Delete command
+
+description
+
+Provides the ability to exchange identification and/or characteristics of data stations Provides the ability for more timely reporting of I frame sequence errors Provides the abilityfor more efficient recovery from I frame sequence errors by requesting retransmission of a single frame Provides the ability to exchange information fields without impacting the I frame sequence numbers Provides the ability to initialize a remote data station, and the ability to request initialization Provides the ability to perform unnumbered group and all-station polling as well as unnumbered individual polling Provides for greater than single octet addressing
+
+6 7
+
+9 9 10
+
+, Limits the procedures to allow I frames to be commands only
+Limits the procedures to allow I frames to be responses only
+
+:I
+
+/ Provides the ability to use extended sequence numbering (module 128) ( I I Provtdes the ability to reset the state variables associated with only one direction of flow (for 8AC only) I Information . I
+Provides the ability to perform a basic data link test
+
+Use extended control field format instead of basic control field format. Use SXXME instead of SXXM Add command
+
+11 12 13 14
+
+: RSET
+
+Add command: TEST Add response: TEST Add response: RD Use the 32-bit +CS instead of the lbbit FCS
+
+' Provides the ability to request logical disconnection i Provides . for 32-bit frame checking sequence (FCS) , I
+
+6
+
+IS : 11418
+
+(Part 3)-1986 IS0 7809-l 98 4
+
+UNC Primary station
+Commands
+I RR RNR SNRM DISC
+
+UAC Primary station
+Commands
+
+BAC Combined station
+
+Secondary station
+Responses
+I RR RNR FRMR UA DM
+
+Secondary station
+Responses
+
+Commands
+
+Responses
+
+I
+RR RNR SARM DISC
+
+I
+RR RNR FRMR UA DM
+
+I
+RR RNR SABM DISC
+
+I
+RR RNR FRMR UA DM
+
+3asic addressing format, L Modulo 8 I
+
+16-bit FCE> J
+
+I'
+L
+
+Basic addressing format, 08
+
+16-bit FCS
+
+Basic addressing format, Modulo 8
+
+16-bit FCS
+
+I
+Command Response Command Response
+
+I
+
+I
+
+1
+I
+
+For identification XID + Add -. XID
+
+For improved REJ
+
+performance + Add REJ
+
+.Trlx--t
+For single frame retransmission For unnumbered 4 UI + Add * UI information
+
+For extended
+
+sequence
+
+numbering
+
+I
+
+x) -i
+
+Use extended
+
+control field format
+
+instead of basic control field format; use SXXME instead of SXXM
+
+For one-way
+
+reset (BAC only) Add
+
+11
+
+RSET
+
+5
+
+For initialization SIM + Add + RIM
+
+-I
+I-
+
+For data link test
+
+12
+
+TEST
+
++
+
+Add
+
+--t
+
+TEST
+
+For unnumbered
+
+polling + Add
+
+For request disconnect
+
+6
+
+UP
+
+13
+
+Add
+
+-
+
+RD
+
+For multi-octet
+
+addressing instead of basic addressing 14
+
+For 32-bit FCS Use the 32-bit FCS instead of the 16-bit FCS
+
+7
+
+Use extended format
+
+Figure
+
+5 -
+
+HDLC
+
+classes
+
+of procedures
+
+IS : 11418 (Part 3)-1986 IS0 7809-1984
+
+2.5 Conformance procedures
+
+to the HDLC
+
+classes
+
+of
+
+NOTE - The HDLC unbalanced classes of procedures operate as illustrated in the examples given in IS0 4335, annex B. (See clause 1.)
+
+A data station shall be described as conforming to a given class of procedures, with optional functions, if it implements all Commands and responses procedures a) in the basic repertoire for the ClaSS of i.e. as modified by the selected optional functions,
+
+3.2 3.2.1
+
+Description Configuration
+
+of the data
+
+link
+
+(see figure 1)
+
+a priman/
+
+station shall have the ability to receive all of in the basic repertoire as modified for the unbalanced optional bv the selected
+
+the responses functions;
+
+class of procedures
+
+The unbalanced operation data link configuration shall consisl of one primary station and one or more secondary station5 interconnected by physical layer transmission facilities.
+
+b) a secondary station shall have the ability to receive all of the commands in the basic repertoire for the unbalanced class of procedures functions; c) a combined station shall have the ability to receive all of and responses in the basic repertoire for the as modified by the selected optional
+
+3.2.2
+
+Physical layer transmission
+
+facilities
+
+The physical layer transmission facilities may provide either half-duplex or duplex transmission over switched or non
+switched data circuits.
+
+the commands
+
+balanced class of procedures as modified by the selected optional functions. 2.6 Method functions of indicating classes and optional
+
+NOTE - In the case of a switched data circuit, the procedures de scribed assume that the switched data circuit has been established.
+
+The classes of procedures and the optional functions shall be indicated by specifying the designation of the class (see 22.1) plus the number(s) of the accompanying optional functions (see 2.3).
+Example 7: Class UNC 1,2,6,9 indicates the unbalanced operation normal response mode class of procedures with the optional function for identification (XID), improved performance (REJ). unnumbered polling (UP), and one-way data flow from the secondary station(s) to the primary sta-
+
+The data link layer shall not initiate data transmission until ar indication of circuit availability is provided by the physical layer, (In some systems providing two-way alternate data exchange on physical layer data circuits using half-duplex transmission, this indication of physical layer circuit availability is indicated b! an idle data link channel state.)
+
+3.3
+
+Description
+
+of the procedures
+
+3.3.1
+
+General
+
+tion .
+Example 2: Class UAC 1.5.10.13 indicates the unbalanced operation asynchronous response mode class of procedures with the optional functions for identification (XID), initialization (SIM, RIM), extended sequence numbering fmodulo 1281, and request disconnect (RD). Example 3: Class BAC 2,8 indicates the balanced operation
+
+Unbalanced control procedures shall operate on a data link witt one primary station and one or more secondary station(s) ir either normal or asynchronous response mode. Only ont secondary station at a time shall be put in asynchronou!
+response mode. The primary station shall be ultimately sible for overall data link error recovery. Each data station shall check for the correct I frame or supervisory receipt of the frame. respon
+
+asynchronous balanced mode class of procedures with the optional functions for improved performance (REJ) and the ability to send I frames as commands only.
+
+frames it has sent to the remote data station by checking the N(R) of each received
+
+3.3.2
+
+Data station characteristics
+
+3 Unbalanced multipoint) 3.1 General
+
+operation
+
+(point-to-point and
+
+The primary station shall be responsible for : a)
+setting up tne data link and disconnecting the data link and un
+
+The following requirements apply to the procedure
+
+for unbalanced operation of synchronous data transmission over Point-to-point or multipoint data links with two-way alternate Or two-Way simultaneous data transfer. The procedure uses the
+
+b) sending information transfer, numbered commands; and c) checking received responses.
+
+supervisory
+
+HDLC frame structure defined in IS0 3309 and the HDLC elements of procedures described in IS0 4335. It uses the basic command/response repertoire (see figure 5) designated UNC for UAC). Although only the basic commands and responses are described, there are several optional functions available for enhanced operation. These are listed in 2.3 and shown in figure 5.
+
+Each secondary a) b) checking sending
+
+station shall be responsible received commands; information responses transfer, and
+
+for:
+
+supervisory by the
+
+and
+
+ur con
+
+numbered mands.
+
+as required
+
+received
+
+6
+
+IS : 11418 (Part 3)-1986 IS0 7809-1984
+
+3.4
+
+Detailed
+
+definition
+
+of the
+
+procedures connected data link or an in 3.4.1 to 3.4.6. a switched Stanand/or is
+
+This action may continue response
+
+until either the UA response or a DM correctly or until recovery action
+
+has been received
+
+The procedures established
+
+for a permanently connection
+
+takes place at a higher level.
+
+switched
+
+are defined
+
+The protocol dard. However,
+
+for establishing
+
+and disconnecting
+
+3.4.1.3
+
+Procedure station
+
+in a disconnected in NDM
+
+mode shall monitor oppprtunity, DISC in 3.4.1.1, comto a
+
+data circuit is not within the scope of this International the ability to exchange after the switched identification characteristics connection
+
+A secondary mands, SNRM respond
+
+(or ADM) as outlined
+
+is established
+
+shall react, (or SARM)
+
+at the earliest command
+
+respond
+
+and shall command.
+
+available as an optional function.
+
+with a DM response
+
+to a received
+
+3.4.1
+
+Setting
+
+up and disconnecting
+
+the data
+
+link
+
+The secondary station shall respond to other commands received with the P bit set to "1" with a disconnected mode (DM) response with the F bit set to "1". Other commands received with the P bit set to "0" shall be ignored. The DM response shall be used to report chronously in ADM. the secondary station status asyn-
+
+3.4.1.1
+
+Setting
+
+up the data link
+
+The primary station shall initialize the data link with a secondary station by sending a SNRM (or SARM) command and shall start a response time-out ed secondary command portunity station, correctly, function (or equivalent). the SNRM The address(or SARM)
+
+3.4.2
+
+Exchange
+
+of information
+
+II) frames
+
+upon receiving
+
+shall send the UA response at its first opthe data link set and the
+
+3.4.2.1
+
+Sending
+
+I frames shall be as defined in IS0 4336 (see
+
+and shall set its send and receive state variables to The control field format clause 1) for an secondary station is complete,
+
+zero. If the UA response is received correctly, up to the addressed primary station
+
+I frame, with N(S) set to the value of the send
+Following parameter. N(S), plus data link set-up, both V(S) and
+
+shall set its send and receive state variables station to zero and shall stop the If, upon receipt
+Of
+
+state variable V(S) and with N(R) set to the value of the receive state variable V(R). be a system-defined V(R) shall be set to zero. The maximum length of I frames shall
+
+relative to that secondary response?ime-out the SNRM DM function (or SARM)
+
+(or equivalent).
+
+command,
+
+the secondary is received time-out
+
+station detercorrectly, function the for
+
+mines that it cannot enter the indicated mode, it shall send the response. If the DM response primary station equivalent). If the SNRM (or SARM) command, UA response or DM resThe result function (or 3.4.2.2 Receiving I frames shall stop the response If the data station is ready to send an I frame numbered where N(S) is equal to the last received acknowledgment the modulo-1, shall follow the procedures ponse is not received correctly, equivalent) SNRM function it shall be ignored. described in 3.4.3.
+
+the data station shall not send the I frame but
+
+will be that the primary station's response time-out (or SARM) command
+
+will run out, and the primary station may resend the and restart the response time-out (see 3.4.3). until a UA response has been reAfter a data station receives correctly.an in-sequence I frame that it can accept, it shall increment its receive state variable V(R), and, at its next opportunity to send, take one of the following a) actions
+
+(or equivalent)
+
+This action
+
+may continue
+
+:
+is available is ready and for transmission the and received the I station 3.4.2.1 to receive, it shall act as field of the next
+
+ceived correctly or until recovery action takes place at a higher level.
+
+tf information data in
+
+remote
+
+described 3.4.1.2 Disconnecting the data link the data link with a seconand shall start a The addressed command corb)
+
+ac&nowledge
+
+frame(s) by setting N(R) in the control transmitted I frame to the value of V(R). If information
+
+The primary station shall disconnect dary station by sending a DISC response time-out secondary station,
+
+command
+
+is not available for transmission
+
+but the
+
+function (or equivalent). upon receiving the DISC
+
+data station is ready to receive I frames, the data station shall send an RR frame and acknowledge the received I frame(s) by setting N(R) to the value of V(R).
+
+rectly, shall send a UA response at its first opportunity and shall enter the normal disconnected mode (NDM), or the asynchronous disconnected mode (ADM), as predefined for that secondary station. If, upon receipt of the DISC command, the addressed secondary station is already in the disconnected mode, it shall send the DM response. The primary station, upon receiving a UA or DM response to a sent DISC command, shall stop the response time-out function (or equivalent).
+
+c) If the data station is not ready to receive further I frames, the data station may send an RNR frame and acknowledge the received I frame(s) by setting the N(R) to the value of V(R). If the data station is unable to accept the correctly received I frame(s), V(R) shall not be incremented. The data station may send an RNR frame with the N(R) set to the value of V(R).
+
+If the DISC command, UA response or DM response is not received correctly, it shall be ignored. This will result in the expiry of the primary station's response time-out function (or equivalent), and the primary station may resend the DISC command and restart the response time-out function (or equivalent) (see 3.4.3).
+
+3.4.2.3
+
+Reception
+
+of incorrect frames with an incorrect FCS, it shall be dis-
+
+If a frame carded.
+
+is received
+
+9
+
+IS : 11418 (Part 3)-1986 IS0 7809-l 984
+
+If an I frame is received with a correct FCS but with an incorrect N(S), the receiving data station shall ignore the N(S) field and discard the information field in that frame. This shall continue until the expected I frame is received correctly. The data station shall, however, use the P/F and N(R) indications in the discarded I frames. The data station shall then acknowledge the expected I frame, when received correctly, as described in 3.4.2.2. The P/F recovery (checkpointing) shall cause retransmission of the I frames received incorrectly, as described in 3.4.4.
+
+In the case of normal respond opportunity, two-way alternate, data link operation, a data station shall not accept further frames after a frame with the P/F bit set to "1" was accepted and before it sends a frame with the F/P bit, respectively, set to "1". In the case of asynchronous respond opportunity, two-way alternate, data link operation, transmission from a data station shall not be allowed until either
+a) detection of an idle data link channel state after receipt of a frame or a flag; or
+
+3.4.2.4
+
+Data station receiving acknowledgments
+
+b) the end of an extended period of inactivity (idle data link channel state).
+NOTE - In the case of half-duplex data circuit facilities, appropriate accommodation has to be made to control the direction of data fransmission. The direction of transmission is controlled by the data link layer, and may be signalled by the physical layer.
+
+A data station receiving an I, RR or RNR frame with a valid N(R) = x shall treat as acknowledged all previously transmitted I frames up to and including the I frame transmitted with N(S) equaltox - 1.
+
+3.4.3
+
+Time-out
+
+considerations
+
+In order to detect a no-reply or lost-reply condition, each primary station shall provide a response time-out function (or equivalent). Also, in ARM, each secondary station shall provide a command time-out function (or equivalent). In each case, the expiry of the time-out function (or equivalent) shall be used to initiate appropriate error recovery procedures. In NRM, a secondary station shall depend on the priman/ station to initiate time-out recovery. The duration of time-out functions (or equivalent) shall be system-dependent and subject to bilateral agreement. To resolve possible contention situations in ARM, the duration of the secondary station's time-out function shall be different from that of the primary station.
+
+If no frames were transmitted from either data station while in ARM and information is waiting for transmission, it is advisable that the data station transmits at first a supervisory frame only in order to avoid long time recovery action, which would occur in the case of I frame contention. If a data station has transmitted frames and no further frames are pending for transmission, it shall give the right to transmit to the remote data station.
+Two-way simultaneous considerations
+
+3.4.6
+
+3.4.4
+
+P/F bit usage
+
+P/F bit usage in the unbalanced classes of procedures, UNC and UAC, shall be as described in IS0 4335.
+
+For each unbalanced class of procedures, two-way simultaneous communication protocols may be used independent of physical data circuit capability (i.e. half-duplex transmission). However, in the case of half-duplex data circuit facilities, appropriate.accommodation has to be made to control the direction of data transmission. The direction of transmission is controlled by the data link layer. In addition, in the case of normal respond opportunity, data transmission from the secondary station shall not be allowed until receipt of a frame with the P bit set to "1".
+
+3.4.5
+
+Two-way
+
+alternate considerations
+
+4
+In the &se of normal respond opportunity, two-way alternate, data link operation
+
+Balanced General
+
+operation
+
+(point-to-point)
+
+4.1
+from the primary station shall not be
+
+a)
+
+transmission
+
+allowed
+
+until either
+
+1)
+
+receipt of a frame with the F bit set to "1". or
+
+The following requirements apply to the procedure for balanced operation of synchronous data transmission over point-to-point data links with two-way alternate or two-way simultaneous data transfer. The procedure uses the HDLC frame structure defined in IS0 3309 and the HDLC elements of procedures described in IS0 4335. It uses the basic command/response repertoire (see figure 5) designated BAC. Although only the basic commands and responses are described, there are several optional functions available for enhanced operation. These are listed in 2.3 and shown in figure 5.
+NOTE - The HDLC balanced class of procedures operates as illustrated in the examples given in IS0 4335, annex B. (See clause 1.1
+
+2)
+
+expiry of a no-response
+
+time-out
+
+function
+
+; and
+
+b! transmission from the secondary station shall not be allowed until receipt of a frame with the P bit set to "1". NOTE - In multipoint configurations of normal respond opportunity, two-way alternate, data link operation over duplex physical facilities, the primary station may transmit frames with the P bit set to "0" to non-polled secondary stations in the above mentioned period.
+
+10
+
+IS :11418(Part 3)-1988 IS0 7809-1984
+
+4.2 4.2.1
+
+Description Configuration
+
+of the data
+
+link
+
+(see figure 2)
+
+The balanced operation data link configuration shall consist of two combined stations interconnected by physical layer transmission facilities. 4.2.2 Physical layer transmission facilities
+
+The physical layer transmission facilities may provide either half-duplex or duplex transmission over switched or nonswitched data circuits.
+NOTE - In the case of a switched data circuit, the procedures described assume that the switched data circuit has been established.
+
+response time-out function (or equivalent). The other combined station, upon receiving the SABM command correctly, shall send a UA response and reset both its send and receive state variables to zero. If the UA response is received correctly, the data link set-up shall be complete, and the initiating combined station shall set both its state variables to zero, stop the response time-out function (or equivalent), and enter the indicated mode. If, upon receipt of the SABM command, a combined station determines that it can not enter the indicated mode, it shall send the DM response. If the DM response is received correctly, the initiating combined station shall stop the response time-out function (or equivalent). If a SABM command, UA response or DM response is not received correctly, it shall be ignored. The result will be that the response time-out function for equivalent) will run out in the combined station which originally sent the SABM command and that combined station may resend the SABM command and restart the response time-out function for equivalent) (see 4.4.3). This action may continue until a UA response has been received correctly or until recovery action takes place at a higher layer.
+
+The data link layer shall not initiate data transmission until an indication of circuit availability is provided by the physical layer. (In some systems providing two-way alternate data exchange on physical layer data circuits using half-duplex transmission, this indication of physical layer circuit availability is indicated by an idle data link channel state.)
+
+4.3 4.3.1
+
+Description General
+
+of the procedures 4.4.1.2 Disconnecting the data link
+
+Balanced control procedures shall operate on a data link where the data station at each end of the data link is a combined station. The procedures shall use the asynchronous balanced mode. Each combined station shall be equally responsible for data link layer error recovery. Each combined station shall check for the correct receipt of the I frames it has sent to the remote combined station by checking the N(R) of each received I frame or supervisory frame. 4.3.2 Combined station characteristics
+
+Either combined station may take the initiative to disconnect the data link. It shall send the DISC command and start a response time-out function for equivalent). The other combined station, in an operational mode, upon receiving the DISC command correctly, shall send a UA response and enter the asynchronous disconnected mode (ADM). If, upon receipt of the DISC command, the other combined station is already in the disconnected mode, it shall send the DM response. The initiating combined station, on receiving a UA or DM response to a sent DISC command, shall stop its response time-out function for equivalent). If a DISC command, UA response or DM response is not received correctly, it shall be ignored. The result will be that the response time-out function for equivalent) will run out in the combined station which originally sent the DISC command unless a separate mode setting command is received, in which case the response time-out function for equivalent) may be stopped. This combined station may resend the DISC command and restart its response time-out function for equivalent). This action may continue until a UA or DM response has been received correctly, a DISC command has been received correctly, or until recovery action takes place at a higher layer.
+
+Each station shall be a combined station, i.e. it shall be able to set up the data link, disconnect the data link, and both send and receive commands and responses. 4.4 Detailed definition of the procedures
+
+The procedures for a point-to-point data link using a permanently connected or an established switched connection are defined in 4.4.1 to 4.4.6. The protocol for establishing and disconnecting. a switched data circuit is not within the scope of this International Standard. However, the ability to exchange identification and/or characteristics after the switched connection is established is available as an optional function. 4.4.1 4.4.1.1 Setting up and disconnecting Setting up the data link the data link
+
+4.4.1.3
+
+Procedure in a disconnected mode
+
+Either combined station may take the initiative to initialize the data link. It shall send the SABM command and start a
+
+A combined station in ADM shall monitor received commands, shall react to a SABM command as outlined in 4.4.1 .l, and shall respond with a DM response to a received DISC command. It shall respond to other, commands received with the P bit set to "1" with a disconnected mode (DM) response with the F bit set to "1". Other commands received with the P bit set to "6" shall be ignored. The DM response shall be used to report the combined station status asynchronously in ADM.
+
+11
+
+IS : 11418 (Part 3)-1986 IS0 7809-l 98 4
+
+4.4.1.4
+
+Simultaneous
+
+attempts
+
+to set mode (contention)
+
+b)
+
+if information
+
+is not available for transmission,
+
+but the
+
+When a combined station issues a mode setting command and, before receiving an appropriate response, receives a mode setting command in the following When from the remote combined Contention manner. mode setting commands are the station, a contention situation has developed. situations shall be resolved
+
+combined station is ready to receive I frames, the combined station shall send an RR frame and acknowledge the received I frame(s) c) by setting N(R) to the value of V(R); or I
+
+if the combined the combined
+
+station is not ready to receive further station may send an RNR frame and I frame(s)
+
+frames,
+
+acknowledge the sent and received same, each combined station shall send a UA response at the
+
+the received
+
+by setting the N(R) to
+
+the value of V(R). If the combined station is unable to accept the correctly received I frame(s), V(R) shall not be incremented. The combined station may send an RNR frame with the N(R) set to the value of V(R). The I or supervisory frame transmitted or a response depending bit set to "1" on whether transmission, frames will be either a command a P bit set to "1" or an F is required. commands If the the or
+
+earliest respond opportunity. Each combined station shall either enter the indicated mode immediately or defer entering the indicated mode until receiving a UA response. In the latter case, if the UA response is not received, equivalent) expires, or the combined the combined station (or may enter the mode when the response time-out station mode setting command. When the mode setting commands are different, each comfunction
+
+may reissue the
+
+respectively, may be
+
+transmission responses.
+
+of a P bit or F bit set to "1" is not required, either
+
+bined station shall enter ADM earliest respond opportunity.
+
+and issue a DM response at the In the case of a DISC command
+
+acknowledgment
+
+contention with a different mode setting command, no further action is required. In the case of contention between SABM and SABME SABME sending the commands, SABM the combined in station sending data the command shall have priority over the combined station command re-attempting link
+
+4.4.2.3
+
+Reception
+
+of incorrect frames with an incorrect FCS, it shall be dis-
+
+If a frame carded.
+
+is received
+
+establishment. If an I frame is received with a correct FCS but with an incorrect 4.4.2 Exchange of information (I) frames N(S), the receiving combined station shall ignore the N(S) field and discard the information field in that frame. This shall continue until the expected 4.4.2.1 Sending I frames shall be as defined in IS0 4335 (see I frame is received correctly. The combined station shall, however, use the P/F and N(R) indications in the discarded I frames. The combined station shall then acknowledge described the expected I frame, when received correctly, as in 4.4.2.2. (checkpointing) shall cause the retransmisas described in 4.4.4.
+
+,
+
+The control
+
+field format
+
+clause II for an
+
+I frame, with N(S) set to the value of the send
+
+state variable V(S) and with N(R) set to the value of the receive state variable V(R). Following data link set-up, both V(S) and V(R) shall be set to zero. The maximum length of I frames shall be a system-defined If the combined parameter.
+
+The P/F recovery
+
+sion of the I frames received incorrectly,
+
+4.4.2.4 station is ready to send an I frame numbered N(S), where N(S) is equal to the last received acknowledgment plus the modulo-1, the combined station shall not send the I frame but shall follow the procedures described in 4.4.3. The decision whether response, to send an I frame as a command or as a 4.4.3
+
+Combined station
+
+station receiving acknowledgments receiving an I, RR, or RNR frame with a
+
+A combined valid N(R) transmitted
+
+= x shall treat as acknowledged all previously I frames up to and including the I frame transmitted
+
+with N(S) equal to x - 1. i.e. to use the remote or the local address to indicate
+
+a P or an F bit, respectively, shall depend on the need to a acknowledge a received P bit set to "1" by transmitting response with the F bit set to "1".
+
+Time-out
+
+considerations
+
+In order to detect a no-reply or lost-reply condition, each combined station shall provide a response time-out function (or equivalent). The expiry of the time-out function (or equivalent) shall be used to initiate appropriate error recovery procedures.
+
+4.4.2.2
+
+Receiving
+
+I frames The duration of time-out and functions to (or equivalent) bilateral shall be The receives correctly [i.e. N(S) equals an in-sequence I the value of the system-dependent subject agreement.
+
+After a combined station frame that it can accept
+
+receive state variable V(R)], the combiried station shall, at its next opportunity to send, take one of the following actions: a) if information is available for transmission and the
+
+duration of the time-out function (or equivalent) in the two combined stations shall be unequal in order to resolve contention situations, The time-out especially in two-way alternate operation.
+
+function
+
+(or equivalent)
+
+shall be started whenever
+
+remote combined station is ready to receive, it shall act as described in 4.4.2.1 and acknowledge the received I frame(s) by setting N(R) in the control field of the next transmitted I frame to the value of V(R);
+
+the combined station has transmitted a frame for which a reply is required. When the expected reply is received, the time-out function (or equivalent) shall be stopped. If, during the interval that the time-out function (or equivalent) is running, other
+
+12
+
+IS : 11418 (Part 3)-1986 IS0 7809-l 984
+
+frames are sent for which acknowledgments are required, the time-out function (or equivalent) may have to be restarted. If the response time-out function (or equivalent) runs out, a command with the P bit set to "1" may be (rehransmitted, and the response time-out function (or equivalent) restarted.
+
+NOTE - In the case of half-duplex data circuit facilities, appropriate accommodation has to be made to control the direction of data transmission. The direction of transmission is controlled by the data link layer, and may be signalled by the physical layer.
+
+4.4.4
+
+P/F bit usage
+
+If no frames were transmitted from either combined station while in ABM and information is waiting for transmission, it is advisable that the combined station transmits at first a supervisory frame only in order to avoid long time recovery action, which would occur in the case of I frame contention. If a combined station has transmitted frames and no further frames are pending for transmission, it shall give the right to transmit to the remote combined station. 4.4.6 Two-way simultaneous consideration
+
+P/F bit usage in the balanced class of procedure, BAC, shall be as described in IS0 4336 (see clause 1).
+
+4.4.5
+
+Two-way
+
+alternate
+
+considerations
+
+In two-way alternate, data link operation, transmission from a combined station shall not be allowed until either a) detection of an idle data link channel state after receipt of a frame or a flag; or b) the end of an extended period of inactivity (idle data link channel state).
+
+For the balanced class of procedures, two-way simultaneous communication protocols may be used independent of physical data circuit capability (i.e. half-duplex or duplex transmission). However, in the case of half-duplex data circuit facilities, appropriate accommodation has to be made to control the direction of data transmission. The direction of transmission is controlled by the data link layer.
+
+IS : 11418
+
+(Part 3)-1986 IS0 7809-l 984
+
+Annex Examples of typical HDLC procedural subsets
+
+(This annex does not form part of the standard.)
+
+A.1
+
+Introduction
+procedures are designed to cover a wide range of applications between computers, concentrators half-duplex switched with or non-switched, define (for example, or duplex). characteristics, including frame formats, operational' two-way alternate [TWA], two-way simul-
+
+The HDLC
+
+taneous [TWS] ple, multipoint International modes,
+
+data communication or point-to-point,
+
+and terminals)
+
+and a wide range of configurations
+
+(for exam-
+
+Standards
+
+dealing
+
+HDLC
+
+a number
+
+of necessary
+
+commands,
+
+responses and exception included in HDLC.
+
+recovery techniques.
+
+These functions,
+
+used in various combinations,
+
+provide the full
+
+range of capabilities The majority Therefore,
+
+of HDLC
+
+implementations
+
+will not require the full range of capabilities future.
+
+provided
+
+by these
+
+International
+
+Standards. intended
+
+this annex describes several typical subsets of the HDLC procedures of applications independent required in the immediate HDLC implementations among
+
+to provide uniform HDLC implementations requirements.
+
+to meet the majority interoperability Other procedural this International
+
+Use of these suggested
+
+typical subsets will help to promote
+
+designed to satisfy similar operational requirements
+
+subsets may be chosen to meet new or additional Standard.
+
+provided that they conform to the classes defined in
+
+A.2
+
+Selection
+
+parameters
+subsets, the following application parameters have been considered:
+
+In order to define these typical HDLC procedural data communication configuration (TWA, TWS); (pt-pt), and
+
+[point-to-point
+
+multipoint
+
+(mptll.
+and are summarized in table 2.
+
+From these parameters, The optional functions
+
+three typical procedural
+
+subsets have been selected as examples in table 3 (see also table 1). Typical HDLC procedural subsets
+
+2, 8 and 10 are recapitulated Table 2 -
+
+Parameters Data communication
+1
+
+Typical HDLC procedural subsets I
+I
+
+Configuration
+
+No.
+
+I I
+
+Definition
+
+TWA TWS
+
+1 mpt/pt-ptl)
+mpt/pt-ptt) Pt-Pt
+
+1 1 1 UNC
+2 3 UNC 2 BAC 2,82)
+
+1J Pomt-to-point may be vlewed as a specific multipoint configuration. 2) BAC 2,8,10 is recommended in some cases (see 4.3.21 Table Option 2 Functional 3 Optional functions Command Add REJ . Delete I 2, 8 and 10 Response Add REJ Comment
+
+-.
+
+description
+
+Provides the ability for more timely reporting of frame sequence errors Limits the procedures to allow I frames to be commands only
+
+I
+
+8
+
+I
+10
+
+I
+
+m__..: l-r""l"t 9s the ability to use ext,ended sequence numbelring (module 728)
+
+Add SABME Delete SABM
+
+Uses extended contra field format instead oi basic control field format
+
+14
+
+IS : 11418 (Part 3)-1986 IS0 7809-l 964
+
+A.3
+
+Common
+
+features
+
+The following common features have been established for all the procedural subsets described in clause A.4: data integrity and recovery is assured by P/F checkpointing;
+
+-
+
+time-outs are used in conjunction with the P/F mechanism; and each subset may be used with either half-duplex or duplex transmission.
+
+A.4
+A.4.1
+
+Typical procedural
+
+subsets
+or point-to-point, UNC (no options)
+
+Subset 1: TWA, multipoint
+
+Commands I RR RNR SNRM DISC
+
+Responses I RR RNR UA DM FRMR
+
+This procedural subset uses the P/F bit for polling of information and status, for last frame indication and for checkpointing. The subset is suitable for two-way alternate operation on point-to-point or multipoint configurations. In two-way alternate, multipoint configurations operating over duplex physical facilities, the primary station may at any time transmit frames with the P bit set to "0" to non-polled secondary stations. Primary and secondary stations shall be able to receive all listed responses and commands from the remote data station.
+
+A.4.2
+
+Subset 2: lWS,
+
+multipoint
+
+or point-to-point,
+
+UNC 2
+
+Commands
+
+Responses
+
+I
+RR RNR REJ SNRM DISC
+
+I
+RR RNR REJ UA DM FRMR
+
+This procedural subset uses the P/F bit for polling of information and status, for last frame indication and for checkpointing. The REJ frame is used by a data station to request retransmission of I frames. The subset is suitable for multipoint or point-to-point configurations where the primary and secondary stations are both capable of two-way simultaneous communication. Some point-to-point data links may be considered as specific multipoint data links. Primary and secondary stations shall be able to receive all listed responses and commands from the remote data station.
+
+A.4.3 A.4.3.1
+
+Subset 3 Non-extended sequence numbering: `MIS, point-to-point, BAC 2.8
+
+Commands I RR RNR REJ SABM DISC
+
+Responws
+
+Rk
+RNR REJ UA DM
+
+This procedural subset uses the P/F bit for polling of status, and for checkpointing. The REJ frame is used by a data station to request retransmission of I frames. The subset is suitable for two-way simultaneous communication on point-to-point data links when symmetrical control of the data link is desirable. Both combined stations shall be able to receive all listed commands and responses.
+NOTE X.25 LAPB is compatiblewith this procedure.
+
+A.4.3.2
+
+Extend sequence numbering: TWS, point-to-point, BAC 2.8.10
+
+Commands I RR RNR REJ SABME DISC
+
+Responses RR RNR REJ UA DM FRMR
+
+;.a.
+P
+
+This procedural subset is applicable in the same conditions as the non-extended one, when higher performance is needed on data links with specific characteristics such as long round trip delays and short information field lengths.
+
+i
+
+18
+
+Printed at Slmco Prlntlna Prei;; Delhiilndla
+
+___.__
+
+___..__.. _
+
+

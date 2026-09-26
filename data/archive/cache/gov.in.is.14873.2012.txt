@@ -1,0 +1,188 @@
+IS 14873 : 2012 ISO 2709 : 2008
+
+Hkkjrh; ekud
+
+lwpuk ,oa �ys[ku
+
+--
+
+lwpuk fofue; osQ fy, iQkesZV
+
+( igyk iqujh{k.k )
+Indian Standard INFORMATION AND DOCUMENTATION -- FORMAT FOR INFORMATION EXCHANGE ( First Revision )
+
+ICS 35.240.30
+
+� BIS 2012
+
+BUREAU OF INDIAN STANDARDS
+MANAK BHAVAN, 9 BAHADUR SHAH ZAFAR MARG NEW DELHI 110002 August 2012 Price Group 4
+
+Documentation and Information Sectional Committee, MSD 5
+
+NATIONAL FOREWORD This Indian Standard (First revision) which is identical with ISO 2709 : 2008 `Information and documentation -- Format for information exchange' issued by the International Organization for Standardization (ISO) was adopted by the Bureau of Indian Standards on the recommendation of the Documentation and Information Sectional Committee and approval of the Management and Systems Division Council. This standard was first published in 2000 as adoption of ISO 2709 : 1996. The revision of this standard has become necessary as the corresponding International Standard ISO 2709 has been revised in 2008. The text of ISO Standard has been approved as suitable for publication as an Indian Standard without deviations. Certain conventions are, however, not identical to those used in Indian Standards. Attention is particularly drawn to the following: Wherever the words `International Standard' appear referring to this standard, they should be read as `Indian Standard'. In this adopted standard, reference appear to the following International Standard for which Indian Standard also exists. The corresponding Indian Standard which is to be substituted in its place is listed below along with its degree of equivalence for the edition indicated: International Standard ISO/IEC 646 : 1991 Information technology -- ISO 7-bit coded character set for information interchange Corresponding Indian Standard IS 10315 : 1997 7-bit coded character set for information interchange (first revision) Degree of Equivalence Identical
+
+The technical committee has reviewed the provisions of the following International Standards referred in this adopted standard and has decided that they are acceptable for use in conjunction with this standard: International Standard ISO/IEC 6429 : 1992 ISO/IEC 10646 : 2003 Title Information technology -- Control functions for coded character sets Information technology -- Universal Multiple-Octet Coded Character Set (UCS)
+
+IS 14873 : 2012 ISO 2709 : 2008
+
+Indian Standard INFORMATION AND DOCUMENTATION -- FORMAT FOR INFORMATION EXCHANGE ( First Revision )
+1 Scope
+
+This International Standard specifies the requirements for a generalized exchange format which will hold records describing all forms of material capable of bibliographic description as well as other types of records. It does not define the length or the content of individual records and does not assign any meaning to tags, indicators or identifiers, these specifications being the functions of an implementation format. This International Standard describes a generalized structure, a framework designed specially for communications between data processing systems and not for use as a processing format within systems.
+
+2
+
+Normative references
+
+The following referenced documents are indispensable for the application of this document. For dated references, only the edition cited applies. For undated references, the latest edition of the referenced document (including any amendments) applies. ISO/IEC 646:1991, Information technology -- ISO 7-bit coded character set for information interchange ISO/IEC 6429:1992, Information technology -- Control functions for coded character sets ISO/IEC 10646:2003, Information technology -- Universal Multiple-Octet Coded Character Set (UCS)
+
+3
+
+Terms and definitions
+
+For the purposes of this document, the following terms and definitions apply. 3.1 character member of a set of elements used for the organization, control, or representation of data 3.2 data field characters recording the descriptive content of the record 3.3 directory index to the location of the fields within a record 3.4 directory map set of parameters specifying the structure of the entries in the directory
+
+1
+
+IS 14873 : 2012 ISO 2709 : 2008
+3.5 field variable length portion of the record containing a particular category of data, following the directory and associated with one entry of the directory
+NOTE A field can contain one or more subfields.
+
+3.6 field separator control character that terminates the directory, record identifier, reference fields and data fields 3.7 tag three octets associated with a field and used to identify it 3.8 indicator first data element, if present, associated with a field supplying further information about the contents of the field, about the relationship between the field and other fields in the record, or about the action required in certain data manipulation processes 3.9 octet group of 8 consecutive bits also referred to as an 8-bit byte; it may represent one character or be part of a representation of a character 3.10 record collection of fields, including a record label, a directory and data
+NOTE If required, the linking of records and their division into subrecords is allowed and should be implemented as specified in the explicit exchange format.
+
+3.11 record identifier field characters identifying the record 3.12 record label section occurring at the beginning of each record providing parameters for the processing of the record 3.13 record separator control character that terminates the record 3.14 reference field data that may be required for processing a record 3.15 separating character control character used to separate and qualify units of data logically, and in some cases hierarchically 3.16 structure arrangement of the parts constituting a record 3.17 subfield part of a field containing a defined unit of information
+
+2
+
+IS 14873 : 2012 ISO 2709 : 2008
+3.18 identifier data element of one or more characters immediately preceding and identifying a subfield 3.19 subrecord group of fields within a record which may be treated as an entity
+
+4
+4.1
+
+Structure of communication format for a record
+General
+
+The general structure of a record is shown schematically in Figure 1. A more detailed structure is shown schematically in Figure 2, which includes four alternatives for the data sections. Record label Directory Fields Record separator Figure 1 -- General structure A record contains the following fixed and variable-length elements in the sequence shown in Figure 2: a) b) c) d) e) f) g) record label (fixed length); directory (variable length); record identifier field (variable length); reference fields (variable length); data fields (variable length); field separator(s); record separator.
+
+The directory, record identifier, reference fields and data fields shall each be terminated by a field separator, i.e. separator IS2 in accordance with lSO/IEC 646 or lSO/IEC 6429. The record shall be terminated by the record separator, i.e. separator IS3 in accordance with ISO/IEC 646 or lSO/IEC 6429.
+
+4.2
+
+Basic character encoding
+
+All data in the record label and directory, and the indicators, subfield identifiers, field separators, and record separators, shall be taken from the character repertoire of ISO/IEC 646, with one octet per character encoding as specified in ISO/IEC 646 or ISO 10646 with UTF-8 encoding.
+
+4.3
+4.3.1
+
+Record label
+General
+
+The record label shown in Figure 2 shall be fixed in length to 24 octets, each representing one character and the octet positions shall be as defined in 4.3.2 to 4.3.9.
+
+3
+
+IS 14873 : 2012 ISO 2709 : 2008
+4.3.2 Record length (octets 0 to 4)
+
+The record length shall be defined by the number of octets in the record, including the record label, directory, fields, and the record separator. The length is a five-digit decimal number, right-aligned with zero fill if necessary.
+NOTE The record length described here is a logical record length. For practical reasons relating to machine processing of data, it is sometimes necessary to divide the information into blocks.
+
+4.3.3
+
+Record status (octet 5)
+
+The record status shall be defined by a single character, to be defined in an implementation International Standard, describing the status of a record, for example new or amended. In the absence of an International Standard, special agreement should be reached between the interchange partners. 4.3.4 Implementation codes (octets 6 to 9)
+
+The implementation codes are not defined in this International Standard. Special agreement should be reached between the interchange partners. 4.3.5 Indicator length (octet 10)
+
+The indicator length shall be defined by one decimal digit giving the number of octets of the indicators. If indicators are not used, the indicator length shall be set to zero. 4.3.6 Identifier length (octet 11)
+
+The identifier length shall be defined by one decimal digit giving the number of octets of the identifier. The first or only character of this identifier shall always be IS1 in accordance with lSO/IEC 646 or ISO/IEC 6429. If the identifier is not used, the identifier length shall be set to zero. 4.3.7 Base address of data (octets 12 to 16)
+
+The base address of data shall be defined by five decimal digits, right-aligned with zero fill if necessary, equal to the combined length in characters of the record label and the directory, including the field separator at the end of the directory. 4.3.8 Positions defined by user systems (octets 17 to 19)
+
+Octets positions 17 to 19 shall be defined by user systems. 4.3.9 Directory map
+
+The directory map positions shall be defined by the following. a) b) c) d) Octet 20: one decimal digit equal to the length in characters of the length of field part of each entry in the directory. Octet 21: one decimal digit equal to the length in characters of the starting character position part of each entry in the directory. Octet 22: one decimal digit equal to the length in characters of the implementation-defined part of each entry in the directory. Octet 23: reserved for future use.
+
+4
+
+IS 14873 : 2012 ISO 2709 : 2008
+
+4.4
+4.4.1
+
+Directory
+General
+
+The directory shall consist of a variable number of entries, each corresponding to its respective field (record identifier, reference and data fields). The directory shall end with a field separator. 4.4.2 Directory entry
+
+An entry shall consist of the following parts in the given order: a) b) c) d) a tag; the length of the field; the starting character position; the implementation-defined part.
+
+The length of the tag shall be three octets. The length in octets of the other three parts in each directory entry shall be given by the directory map (octets 20 to 22 in the record label). All entries in a directory shall have the same structure. 4.4.3 Tag
+
+The tag shall consist of three octets which specify, according to definition in an implementation International Standard, the name of any associated field. In the absence of an International Standard, special agreement shall be reached between the interchange partners. 4.4.4 Length of field
+
+This length shall be either a) b) c) the total number of octets [including indicator(s) and field separator] in the field indicated by the preceding tag, or zero, implying that the directory entry refers to a field whose total length is greater than the largest decimal number (n) which can be stored in the "length" of field part of a directory entry (see Note), or the number of octets (including field separator) in the final part of a field which has been treated as described in b).
+
+NOTE In the case of b), the field is regarded as being divided into a number of parts, of which all but the last are of equal length (n). Each part has a corresponding directory entry containing the tag for the field and the starting character position of the part to which the directory entry refers. A length of zero indicates that the directory entry refers to a part of the field which is not the final part and that the length of this part is to be taken as (n).
+
+In the cases described in b) and c), all directory entries which refer to parts of the same field shall be adjacent and in sequence. 4.4.5 Starting character position
+
+The starting character position shall consist of a decimal number giving the position of the first octet of the field identified by the preceding tag, relative to the base address of data [i.e. the starting character position of the first field following the directory is 0 (zero)].
+
+5
+
+IS 14873 : 2012 ISO 2709 : 2008
+4.4.6 Implementation-defined part
+
+The implementation-defined part of the entry, if present, shall contain control information relative to the field referenced by the entry.
+
+4.5
+4.5.1
+
+Fields
+General
+
+All fields shall end with a field separator. There are three types of fields: a) b) c) record identifier field: tag 001 ("0" signifies zero); reference fields: tags 002 to 009 and 00A to 00Z as required (for alphabetic characters, use either capital or lower case letters); data fields: tags 010 to 999 and 0AA to ZZZ as required (for alphabetic characters, use either capital or lower case letters; any combination of numeric and alphabetic characters is permitted; when alphanumeric tags are used, they shall not start with 00 since only reference fields start with two zeros). Record identifier field
+
+4.5.2
+
+The record identifier field shall consist of characters identifying the record and shall be assigned by the organization creating the record.
+NOTE The record identifier field does not contain indicators or identifiers.
+
+4.5.3
+
+Reference fields
+
+A reference field supplies data which may be required for the processing of the record.
+NOTE Reference fields do not contain indicators or identifiers.
+
+4.5.4
+
+Data fields
+
+Each data field shall consist of indicator(s) (optional), identifier(s) (optional), data and a field separator. The presence and length of the indicator(s) or identifier(s) are determined by the indicator length and identifier length, as defined in the record label, and shall be used consistently within each data field of the record. Each data field in a record shall therefore be constructed according to one of the following alternatives: a) b) c) d) data: the indicator length and the identifier length in the record label are set to zero (see Figure 2, alternative 1); identifier and data: the indicator length in the record label is set to zero and the identifier length is set to "1" or more (see Figure 2, alternative 2); indicator and data: the indicator length in the record label is set to "1" or more and the identifier length is set to zero (see Figure 2, alternative 3); indicator, identifier and data: the indicator length and the identifier length in the record label are set to "1" or more (see Figure 2, alternative 4).
+
+6
+
+IS 14873 : 2012 ISO 2709 : 2008
+
+Figure 2 -- Detailed record structure
+
+7
+
+Bureau of Indian Standards BIS is a statutory institution established under the Bureau of Indian Standards Act, 1986 to promote harmonious development of the activities of standardization, marking and quality certification of goods and attending to connected matters in the country. Copyright BIS has the copyright of all its publications. No part of these publications may be reproduced in any form without the prior permission in writing of BIS. This does not preclude the free use, in course of implementing the standard, of necessary details, such as symbols and sizes, type or grade designations. Enquiries relating to copyright be addressed to the Director (Publications), BIS. Review of Indian Standards Amendments are issued to standards as the need arises on the basis of comments. Standards are also reviewed periodically; a standard along with amendments is reaffirmed when such review indicates that no changes are needed; if the review indicates that changes are needed, it is taken up for revision. Users of Indian Standards should ascertain that they are in possession of the latest amendments or edition by referring to the latest issue of `BIS Catalogue' and `Standards: Monthly Additions'. This Indian Standard has been developed from Doc No.: MSD 5 (392). Amendments Issued Since Publication ______________________________________________________________________________________ Amendment No. Date of Issue Text Affected ______________________________________________________________________________________ ______________________________________________________________________________________ ______________________________________________________________________________________ ______________________________________________________________________________________ ______________________________________________________________________________________ BUREAU OF INDIAN STANDARDS Headquarters: Manak Bhavan, 9 Bahadur Shah Zafar Marg, New Delhi 110002 Telephones: 2323 0131, 2323 3375, 2323 9402 Website: www.bis.org.in Regional Offices: Central : Manak Bhavan, 9 Bahadur Shah Zafar Marg NEW DELHI 110002 Telephones 2323 7617 { 2323 3841
+
+Eastern : 1/14, C.I.T. Scheme VII M, V.I.P. Road, Kankurgachi KOLKATA 700054 Northern : SCO 335-336, Sector 34-A, CHANDIGARH 160022 Southern : C.I.T. Campus, IV Cross Road, CHENNAI 600113 Western : Manakalaya, E9 MIDC, Marol, Andheri (East) MUMBAI 400093
+
+8499, 2337 8561 { 2337 2337 8626, 2337 9120 3843 { 260 260 9285 1216, 2254 1442 { 2254 2254 2519, 2254 2315 9295, 2832 7858 { 2832 2832 7891, 2832 7892
+
+Branches: AHMEDABAD. BANGALORE. BHOPAL. BHUBANESHWAR. COIMBATORE. DEHRADUN. FARIDABAD. GHAZIABAD. GUWAHATI. HYDERABAD. JAIPUR. KANPUR. LUCKNOW. NAGPUR. PARWANOO. PATNA. PUNE. RAJKOT. THIRUVANATHAPURAM. VISAKHAPATNAM.
+Published by BIS, New Delhi
+
+

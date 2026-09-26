@@ -1,0 +1,715 @@
+IS : 11418 (Part
+UDC 631'327'3 IS0
+
+l)-1986
+
+3309-l 984
+
+Indian
+
+Standard
+
+( Reaffirmed 2003 )
+
+HIGH
+
+LEVEL
+
+DATA
+PART
+
+LINK
+I FRAME
+
+CONTROL
+STRUCTURE
+
+PROCEDURES
+
+`I
+( I!SO Title
+
+: Information Processing Systems Data Communication - High-Level Data Link Control Procedures - Frame Structure )
+
+Mational Foreword
+This Indian Standard (Part 1) cessing systems - Data communicalion structure', issued by the International the Indian Standards institution on the and Calculators Sectional Committee cation Division Council. which is identical with IS0 3309-1984 `Information pro- High-level data tink control procedures - Frame Organization for Standardization (BO), was adopted by recommendation of the Computers, Business Machines and approved by the Electronics and Telecommuni-
+
+should
+
+Wherever the words `International be read as `Indian Standard'.
+
+Standard'
+
+appear,
+
+referring
+
+to this standard,
+
+they
+
+/ , / ,
+I I , ,
+
+i I
+
+t I
+1
+
+I
+
+I i i ;
+L
+
+I
+Adopted
+c
+
+15 January 1936 I INDIAN MANAK
+
+0
+
+November
+
+1936,
+
+ISI
+
+Gr 4
+
+STANDARDS BHAVAN, 9 BAHADUR NEW DELH!
+
+INSTITUTION SHAH 110002 ZAFAR MARG
+
+IS : 11418(Partl)-1988 IS0 3309-1984
+
+0
+
+Introduction
+Standard is one of a series to be used in the implementation of various applications with synchronous transmission
+
+This International facilities.
+
+1
+
+Scope and field of application
+Standard specifies the frame structure for data communication systems using bit-oriented high-level data link con-
+
+This international
+
+trol (HDLC) procedures. It defines the relative positions of the various components of the basic frame and the bit combination for the frame delimiting sequence (flag). The mechanism used to achieve bit pattern independence within the frame is also defined. In addition, two frame checking sequences ventions available are described. Control field encodings and formats are defined in other International Standards. (FCS) are specified; the rules for address field extension are defined; and the addressing con-
+
+2
+
+Basic frame structure
+all transmissions are in frames, and each frame consists of the following fields (transmission sequence left to right)
+
+In HDLC,
+
+:
+
+Flag
+01111110
+l
+
+Address
+8 bits number
+
+Control
+8 bits
+
+Information
+l
+
+FCS
+16 or 32 bits
+
+Flag
+01111110 character size; for
+
+Ac unspecified an octet.
+
+of bits which in some cases may be a multiple of a particular
+
+example,
+
+where Flag = flag sequence Address Control = data station address field = control field = information field field form a special case where there is no information field. The format for these frames shall
+
+Information
+
+FCS = frame checking Frames containing be
+
+sequence
+
+only control sequences
+
+I
+
+Flag
+01111110
+
+I
+
+Address
+8 bits
+
+)
+
+Control
+8 bits
+
+1
+
+FCS
+16 or 32 bits
+
+I
+
+Flag
+01111110
+
+I I
+
+I
+
+2
+
+IS :11418(Partl)-1988 IS0 3309-1984
+
+3 3.1
+
+Elements
+
+of the frame
+
+3.6.2 The All data a)
+
+16-bi' 16-bit
+
+*rame FCS
+
+checking
+
+sequence of the sum
+
+Flag sequence
+
+shall be the ones complement
+
+tmodulo to the data link shall continuously
+
+2) of the remainder of
+
+All frames shall start and end with the flag sequence. stations which are attached hunt for this sequence. chronization..
+
+Thus, the flag is used for frame syn-
+
+xk (x15 + x14 + x13 -I. x12 + xl1 + x10 + $3 + Xs + x7 +
+xs+xs+xs+x3+x2+~+1)
+
+A single flag may be used as both the closing flag
+
+for one frame and the opening flag for the next frame. divided (module 2) by the generator polynomial
+
+3.2
+
+Address
+
+field
+
+x16 + x12 + x5 + 1, where k is the number of bits in the frame existing between, but not including, and b) the remainder polynomial of the division (module 2) by the the final bit of the opening flag and the first bit of the FCS, excluding bits inserted for transparency,
+
+In command frames, the address shall identify the data station(s) for which the command is intended. In response frames, the address shall identify the data station from. which the response originated.
+
+3.3
+
+Control
+
+field
+or responses, The con-
+
+generator
+
+The control field indicates the type of commands and contains sequence trol field shall be used al to convey a command a particular numbers,
+
+x16 + ~`2 + x5 -I- 1 of the product between, of x16 by the content of the frame existing bits inserted for
+
+where appropriate.
+
+but not including,
+
+the final bit of the opening flag excluding
+
+to the addressed data station(s) or from the ad-
+
+and the first bit of the FCS, transparency. As a typical implementation,
+
+to perform b)
+
+orperation,
+
+to convey a response to such a command
+
+at the transmitter,
+
+the initial conof
+
+dressed data station.
+
+tent of the register of the device computing by the generator of bits. In most cases it will structure, for example number of bits At the receiver, the initial content computing the remainder polynomial mainder after multiplication by the generator polynomial (as described
+
+the remainder above)
+
+the division is preset to all ones and is then modified by division
+
+3.4
+
+Information
+
+field
+
+of the adof FCS.
+
+dress, control and information Information be linked may be any sequence to a convenient to a character the resulting remainder character structure.
+
+fields; the ones complement as the 16bit
+
+is transmitted
+
+octets, but, if required, and unrelated
+
+it may be an unspecified
+
+of the register of the device (module 2)
+
+is preset to all ones. The final reby x16 and thendivision
+
+3.5
+
+Transparency
+x's + x12 + x5 + 1 shall examine including the frame content the address, between the of the serial incoming protected bits and the FCS will be
+
+The transmitter two
+
+flag sequences
+
+control
+
+and FCS of 5 con-
+
+fields and shall insert a "0" bit after all sequences tiguous "1" bits (including that a -flag sequence ~examine the frame content is not simulated. The
+
+the last 5 bits of the FCS) to ensure receiver shall and shall discard any "0" bit which "1" bits.
+
+0001 1101 0000 1111
+
+(x15 through J?, respectively) errors.
+
+in the absence of transmission
+
+directly follows 5~contiguous
+
+3.6.3
+
+X&bit 32-bit
+
+frame FCS
+
+checking be
+
+sequence complements of the sum
+
+3.6
+3.6.1 Two
+
+Frame checking
+General frame checking
+
+sequence
+
+IFCS) field
+The shall ones (module 2) of the remainder xk (x31 + 9 of
+~26 -t ~25 + ~24 f +
+
+sequences
+
+are specified;
+
+a 16-bit frame
+
+a)
+
+checking sequence and a 32-bit frame checking sequence. The 16-bit frame checking sequence is normally used. The 32-bit frame checking sequence is for use by prior agreement in those cases that need a higher degree of protection than can be provided by the 16-bit frame checking sequence.
+
++ ~29 + .Y28 + ~27 f
+
+x23 + x22 + x21 + xm + .Y'9 + x18 + x17 + x16 +
+
+x15 + x14 + x13 + x12 + x1: + x-10 + x9 + fl
+x7 + 9 + x5 + Ip + .Y3 + x2 + .Y +
+
+1)
+
+divided (module NOTES 1 If future applications show that other degrees of protection are needed, different numbers of bits in the FCS will be specified, but they will be an integral number of octets. 2 Explanatory notes on the implementation of the frame checking sequence are given in the annex.
+
+2) by the generator
+
+polynomial
++ x10 + .ue +
+
+x32 + _Y26+ ~23 + ~22 i- ~16 + x12 + xll ~7+~5+~4+~2+~+1,
+
+where k is the number of bits in the trame exrsttng between, but not including, the final bit of the opening flag and the first bit of the FCS, excluding bits inserted for transparency, and
+
+3
+
+IS : 11418 (Part 1)-l 986 IS0 3309-l 984
+
+b)
+
+the
+
+remainder polynomial
+xx + x23 +
+
+of
+
+the
+
+division
+
+(module
+
+2)
+
+by
+
+the
+
+As an example, transmit
+
+one method
+
+of aborting
+
+a frame would
+
+be to
+
+generator
+x= +
+
+8 contiguous
+
+"1" bits.
+
+x=
+
++
+
+~1'3 +
+
+x12
+
++
+
+xl'
+
++
+
+x10
+
++
+
+Xe
+
++
+
+k+x5+~4+~2+~+1
+
+of the product between
+
+of x2
+
+by the content FCS,
+
+of the frame existing bits inserted for
+
+4
+4.1
+
+Extensions
+Extended address field
+
+, but not including, the final bit of the opening flag
+excluding
+
+and the first bit of the transparency. As a typical implementation,
+
+at the transmitter,
+
+the initial con-
+
+A single octet address field shall normally bemusedand all 256 combinations However, extended shall be avaiiable. the address field range can be bit (low-order) of then be set to binary zero to of the address octet(s) shall be the same as address field is
+
+tent of the register of the device computing the remainder of the division is preset to all ones and is then modified by division by the generator polynomial (as described above) of the address, control and information fields; the ones complement of the resulting remainder is transmitted as the 32-bit FCS.
+
+by prior agreement, by reserving
+
+the first transmitted
+
+each address octet which would indicate that the following that of the first octet. sively extended. indicated When field. The format of the extended Thus,
+
+octet is an extension
+
+A: the receiver, the initial content of the register of the device computing the remainder is preset to all ones. The final remainder after multiplication by the generator
+~32 t.y26 +
+
+the address field may be recurbit to binary one. of a binary "1" in the
+
+by x32 and then division (module 2)
+
+The last octet of an extended
+
+polynomial
+x23 + x22 + xl`5 + ~`2 + x'l + xl0 + 9 +
+
+by setting the low-order
+
+extension
+
+is used, the presence
+
+xJ + x5 + .-c' + ~2 + x + 1
+of the serial incoming protected bits and the FCS will be
+
+first transmitted
+
+bit of the first address octet indicates that only
+
+one address octet is being used. The use of address extension thus restricts the range of single octet addresses to 128.
+
+1100 0111 0000 0100 1101 1101 0111 1011 (.~31 through 9, respectively) in the absence of transmission errors.
+
+4.2
+
+Extended
+
+control
+
+field
+by one or more octets. Standardlsl The and
+
+The control field may be extended extension methods responses are defined
+
+and the bit patterns for the commands in related International
+
+3.7
+
+Order
+
+of bit transmission
+responses, that and sequence numbers the first bit 5
+
+Addresses, commands,
+shall be transmitted of the sequence weight 20). number
+
+Addressing
+
+conventions
+
+low-order
+
+bit first (for example, is transmitted
+
+shail have the
+
+5.1
+field is not
+
+General
+conventions shall apply in the assignment of ad-
+
+The order of transmitting bits within the information specified in this International Standard. ThemFCS shall be transmitted coefficient to the line commencing
+
+The following
+
+dresses to data stations for which commands with the
+
+are intended.
+
+of the highest term.
+
+5.2
+
+All-station
+
+-address
+11111111 is defined as the all-
+
+3.8
+
+Inter-frame
+
+time
+
+fill
+by transmitting either
+
+The address
+
+field bit pattern
+
+s:ation address. The all-station address shall only be used frame. with command
+
+Inter-frame time fill shall be accomplished
+contiguous flags or seven to fourteen combination of both. Selection of the inter-frame systems requirements. time
+
+contiguous
+
+"1" bits or a
+
+frames, and it shall instruct all receiving data stations to accept and action the associated command Any response to a command with the all-station address shall contain the assigned individual address of the data station transmitting the response.
+
+fill method
+
+depends
+
+on
+
+3.9
+
+Invalid
+
+frame
+
+The all-station address may be used for all-station po!ling. When there is more than one receiving data station for which a command another.
+NOTE - The mechanism used to avoid overlapping responses to a poll using the all-station address is not specified in this International Standard.
+
+An invalid frame is defined as one that is not properly bounded
+by two flags or one which is too short (that is, shorter than 32 bits between flags when using the l&bit FCS and shorter than 48 bits between "1" bit sequence shall be ignored. flags when using the 32-bit FCS). Invalid frames shall be ignored. Thus, a frame which ends with an all
+
+with
+
+the
+
+all-station
+
+address
+
+is
+
+intended,
+
+any
+
+responses from these data stations shall not interfere with one
+
+of length equal to or greater than seven bits
+
+4
+
+IS : 11418(Part l)-1888 IS0 3309-l984
+
+The all-station address may be used to determine the data link level identification (assigned address) of data station(s) when unknown; for example, in switched or reconfigured situations.
+
+a) transmitting a frame simultaneously to the assigned group of data stations or
+
+5.3
+
+No-station
+
+address
+b) polling the assigned group of data stations.
+
+Thebitpattem00000000inthefin3toctetoftheextendedornonextended address field is defined as the no-station address. The nostatkxr address shall never bs assigned to a data station. The no-station address may be used for testing when it is intendedthat no data station react or reqxmd to a frame containing the no-station address.
+
+Any address field bit pattern, except the all-station address, the no-station address and any individual addresses already assigned, may be assigned as a group address. A group address may be used for group polling. When there is more than one data station for which a command with a group address is intended, any responses from these data stations shall not interfere with one another. NOTE - The mechanism used to avoid overlapping responses to a poll using a group address is not specified in this International Standard.
+
+5.4
+
+Group addresses
+
+In addition to an individual assigned address, one or more data stations may be assigned one or more group addresses. A group address may be used, for example, for
+
+.5
+
+IS :11418(Partl)-1988 IS0 33093984
+
+Annex Explanatory notes on the implementation of the frame checking sequence
+
+(This annex does not form part of the standard.)
+
+In order to permit the use of existing devices that are arranged to use a zero preset register, the following implementation may be used. (This example is given in terms of the `E-bit frame checking sequence.) At the transmitter, generate the FCS sequence in the following manner while transmitting the elements of the frame unaltered onto the line: a) b) cl d) preset the FCS register to zeros; invert the first 16 bits (following the opening flag) before shifting them into the FCS register; shift the remaining fields of the frame into the FCS register uninverted; invert the contents of the FCS register (remainder) and shift onto the line as the FCS sequence.
+
+At the receiver, operate the FCS checking register in the following manner while receiving (and storing) unaltered the elements of the frame as received from the tine: a) b) c) d) preset the FCS register to zeros; invert the'first 16 bits (following the opening flag) before shifting them into the FCS checking register: shift the remaining elements of the frame, up to the beginning of the FCS, into the checking register uninverted; invert the FCS sequence before shifting into the checking register.
+
+In the absence of errors, the FCS register will contain all zeros after the FCS is shifted in. In the above, inversion of the first 16 bits is equivalent to a ones preset, and inversion of the FCS at the receiver causes the registers to go to the all zeros state. The transmitter or the receiver can independently use the ones preset or the first 16-bit inversion. Also, the receiver can choose not to invert the FCS in which case it has to check for the unique nonzero remainder specified in 3.6. It shall be realized that inversion of the FCS by the receiver requires a K-bit storage delay before shifting received bits into the register. The receiver cannot anticipate the beginning of the FCS. Such storage, however, will normally take place naturally as the FCS checking function will need to differentiate the FCS from the data, and it will thus withhold 16 bits from the next function at all times.
+
+I
+
+Flag
+
+Address
+
+Control
+
+Information
+
+Frame checking sequence
+16 bits
+
+I
+
+Flag
+
+I
+
+G(x)
+
+The procedure for using the FCS is based on the assumptions that: a) The k bits of data which are being checked by the FCS can be represented by a polynomial G(x).
+
+Examp/a: G(x) = x5 + x3 + 1 represents 101001. b) The address field, control field and information field (if it exists in the frame) are represented by the polynomial G(x).
+
+c) For the purpose of generating the FCS, the first bit following the opening flag is the most significant bit of G(x) regardless of the actual representation of the address, control and information fields, d) There exists a generator polynomial P(x) of degree 16, having the form P(x) = xts + x12 + x5 + 1.
+
+6
+
+IS : 11418 (Part 1).1988 IS0 3309-1984
+
+The FCS is defined as a ones complement of a remainder R(x) obtained from the modulo 2 division of .VtsG(x) + xk
+(A-15 + x14 f x-13 + x12 + A-1' + x10 + x9 + a+ + x7 + xs + ..* + x4 + x3 + x2 + x +
+
+1)
+
+by the generator polynomial P(x). FCS
+
+f
+.r'sGLV) + 3-k ix15 + -P(x)
+x14 + ... x +
+
+1) = Q(x) + g
+
+The multiplication of Ct.4 by xts corresponds to shifting G(x) by 16 places and thus providing the space of 16 bits for the FCS. The addition of xk(x15 + x14 + . . . + x + 1) to xlsG(x) [equivalent to inverting the first 16 bits of xtsG(x)l corresponds to initializing the initial remainder to a value of all "ones". This addition is provided for the purpose of protection against the obliteration of leading flags, which may be non-detectable if the initial remainder is zero. The complementing of R(x), by the transmitter, at the completion of the division ensures that the received, error-free message will result in a unique, non-zero remainder at the receiver. The non-zero remainder provides protection against potential non-detectability of the obliteration of trailing flags. At the transmitter, the FCS is added to the xtsG(x), resulting in an M(x) of length n, where M(x) = xtsG(x) + FCS. At the receiver, the incoming M(x) is multiplied by x16, added to xn (x15 + x14 + . . . + x + 1) and divided by P(x). xtefx'eG(x_) + FCSI +
+x"(x'5 + x14 + ... + x +
+
+1) = Qrtx) + -
+
+Rdx) P(x)
+
+P(x)
+
+If the transmission is error free, the remainder Rrfx) will be "0001 1101 0000 1111" (x15 through x0, respectively). Rr(xI is the remainder of the division
+
+x'6Ltx)
+
+where L(x) = x15 + x14 + . . + x + 1. This can be shown by establishing that all other terms of the numerator of the receiver division are divisible by p(x). Note that FCS = RbA = L(x) + R(x). [Adding L(x) without carry to a polynomial of its same length is equivalent to a bit-by-bit inversion of the polynomial.1 The equation above, for the FCS receiver residual, is used in the following to show that inverting the FCS at the receiver returns the checking register to zero. This equation is
+
+x'Q.(x) ---=
+P(x)
+
+Q(x) + z
+
+where L(x) is as defined above and Rr(x) is the residual contents of the FCS register. If xtsUx) is added to the above numerator, the result is xW(x) + xW.(x) P(x) Physically, the addition of xtsL(x) is achieved by inverting the FCS. = 0
+
+

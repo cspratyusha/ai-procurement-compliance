@@ -1,0 +1,1835 @@
+IS 14175 : 1994 IS0 9293 : 1987
+
+( Reaffirmed 2003 )
+
+Indian Standard
+INFORMATION PROCESSING - VOLUME AND FILE STRUCTURE OF FLEXIBLE DISK CARTRIDGES FOR INFORMATION INTERCHANGE
+
+UDC 681.327.634
+
+: 621.798.11-52
+
+0 BIS 1994
+
+BUREAU
+MANAK
+
+OF
+BHAVAN,
+
+INDIAN
+
+STANDARDS
+ZAFAR MARG
+
+9 BAHADUR SHAH NEW DELHI 110002
+
+June 1994
+
+Price Group 9
+
+Computer Peripherals and Media Sectional Committee, LTD 37
+
+NATIONAL
+
+FOREWORD
+
+This Indian Standard, which is identical with IS0 9293 : 1987 `Information processing - Volume and file structure of flexible diskcartridges for information interchange', issued by the International Organization for Standardization was adopted by the Bureau of Indian Standards on the recommendation of the Computer Peripherals and Media Sectional Committee (LTD 37) and approval of the Electronics and Telecommunication Division Council. The text of the IS0 standard has been approved as suitable for publication as Indian Standard without deviations. Certain conventions are, however, not identical to those used in Indian Standards; attention is particularly drawn to the following: a) b) c) Wherever the words `International read as `Indian Standard'. Standard' appear referring to this standard, they should be
+
+Comma (J has been used as a decimal marker while in Indian Standards, the current practice is to use a point (.) as the decimal marker. For the purpose of this Indian Standard metric dimensions are applicable.
+
+CROSSREFERENCES In this Indian Standard, the following places the following: International Standard IS0 646 Information processing IS0 7-bit coded character set for information interchange IS0 7487-l Information processing - Data interchange on 130 mm (5.25 in) flexible disk cartridges using modified frequency modulation recording at 7 958 ftprad, 1.9 tpmm (48 tpi), on both sides: Part 1 Dimensional, physical and magnetic characteristics IS0 7487-3 Information processing - Data interchange on 130 mm (5.25 in) flexible disk cartridges using modified frequency modulation recording at 7 958 ftprad, 1.9 tpmm (48 tpi), on both sides: Part 3 Track format B IS0 7665 Information processing - Fi:e structure and labelling of flexible disk cartridges for information interchange International Standards are referred to. Read in their respective
+
+Corresponding lndian Standard IS 10315 : 1994 7-bit coded character set for information interchange (first revision) IS 11405 (Part 1) : 1986 Data interchange on 130 mm, double sided, 1.9 tpmm, flexible disk cartridges using modified frequency modulation recording: Part 1 Physical and magnetic characteristics
+
+Degree of Equivalence Identical
+
+Identical
+
+IS 11405 (Part 3) : 1986 Data interchange on 130 mm, double sided, 1.9 tpmm, flexible disk cartridges using modified frequency modulation recording: Part 3 Track format B
+
+Identical
+
+IS 11406 : 1986 File structure and labelling of flexible diskcartridges for information interchange
+
+Identical
+
+(Continued on third cover)
+
+IS 14175:1994 IS0 9293:1987
+
+Indian Standard
+1NFORMATION PROCESSING - VOLUME AND FILE STRUCTURE OF FLEXIBLE DISK CARTRIDGES FOR INFORMATION INTER%HANGE
+
+Section
+0 Introduction
+
+one : General
+- interchange of any file when sender and recipient wish to carry out frequent update of the file between interchange cycles, for example files of commercial transactions.
+
+For many purposes IS0 7665provides a satisfactory data interchange between different types of information-processing systems. However, it imposes some restrictions on the operation of a system as follows : a) Each individual file must be recorded on the disk in a sequential, "batch-processing" mode. After a set of files has been recorded on the disk, a file cannot be extended beyond its pre-determined length. It is common practice in small systems for the user to interact continuously with the system to update files. Files having a suitable structure for this purpose are not within the provision of IS0 7665. The interchange cartridge has to be created by an "export" copy prdcess from the application's files, after the application has terminated. A similar "import" process is required in the receiving system. b) Limitations on the number of file labels permitted on an interchange FDC prevents the full use of the disk space if the average size of files is significantly less than, say 20 kbytes. For conventional data processing purposes this is usually satisfactory. However, the file sizes typically encountered in text processing and small single-user systems are very much smaller and would lead to very inefficient use of the disk space. In view of these requirements it was decided to develop a second standard for volume and file structure of flexible disk cartridges, the provisions of which were to be based on already existing practice in general use world-wide. Hence this International Standard has the following beneficial characteristics, in addition to those of JSO 7665. - The interchange file will be especially for direct updating by interactive application. - There will be no limit on the number of individual files on an FDC, within the overall limitation of available spacefor holding files. Any file can be extended whenever required. These characteristics are advantageous for
+
+1
+
+Scope and field of application
+
+This International Standard specifies the volume and file structure of flexible disk cartridges (FDC) for the interchange of information between users of information processing systems. It also specifies an optional record structure. This International Standard is applicable to various types of flexible disk cartridges including those identified in clause 3, and other types which may be the subject of future International Standards. This International Standard specifies the location of files of information on a flexible disk cartridge, and also specifies a set of recorded descriptors which identifies :
+
+- the files which may be interchanged;
+the losations of the files; the attributes of the files; the location of unused space for recording on the FDC; the location of defective recording space on the FDC;
+
+- the attributes of the FDC and of the descriptors recorded on it. This International Standard also specifies requirements for the processes which are provided within information processing systems to enable information to be interchanged between different systems, utilizing recorded flexible disk cartridges as the medium of interchange. For this purpose it specifies the functions within systems which are intended to originate or to receive flexible disk cartridges which conform to this International Standard. This International Standard provides a method for the allocation of space that is independent of the number of files that are recorded on the volume. It also enables the sizes of the recorded files to be expanded or contracted during processing, subject only to the availability of unused recording space when needed.
+
+:
+
+- interchange of sets of text files or of small files, or of multiple-part document files;
+
+IS 14175: 1994' IS0 9293 : 1987
+
+The contents and organization of the files are not specified by this International Standard and are subject to agreement between the originator and the recipient of the interchanged FDC.
+
+frequency modulation recording at 13 262 ftprad, (96 tpi), on both sides - Part 1: Dimensional, istics. 1)
+
+3.8 tpmm
+
+physical and magnetic character-
+
+2
+2.1
+
+Conformance Conformance of a flexible disk cartridge
+
+- Part 3: Track format B for &I tracks. 11
+ISO8860, Information processing - Data interchange on 96 mm (3.5 in) flexi&le disk cartridges usrng modified frequency modulation recording at 7 958 ftprad, 5.3 tpmm (135 tpi), on both sides - Pwt 1: Dimensional, physical and magnetic characteristics. Part 2: Track format.
+
+A flexible disk cartridge shall be in conformance with this International Standard when all information recorded on it conforms to the requirements of section 2 of this International Standard. A prerequisite to such conformance is the conformance of the flexible disk cartridge to the appropriate International Standard for data interchange of flexible disk cartridges.
+
+2.2 Conformance system
+
+of an information
+
+processing
+
+4
+
+Definitions
+
+An information processing system shall be in conformance with this International Standard if it meets the set of requirements specified in section 3 of this International Standard either for an originating system, or for a receiving system, or for both types of system. A statement of conformance shall identify which of these sets of requirements is met by the system. Conformance with this Internation Standard does not require conformance with section 4.
+
+For the purposes of this International Standard the following definitions apply. 4.1 byte: A string of binary digits operated upon as a unit. In this International Standard this term designates an 8-bit byte.
+
+4.2
+
+data field of a sector: the data of a sector.
+
+A fixed-length field containing
+
+3
+
+References
+IS0 7-bit coded character
+
+4.3
+
+IS0 646, Information processing set for information interchange.
+
+data interchange standard : A standard which defines the physical and magnetic characteristics, the recording method, and the track format of a flexible disk cartridge. A sector which cannot be read or
+
+IS0 7487, Information processing - Data interchange on 139 mm (5.25 in) flexible disk cartridges using modified frequency modulation recording at 7 958 ftprad, 1,9 tpmm (48 tpi), on both sides
+
+4.4
+
+defective sector: written without error.
+
+4.5
+
+- Part I: Dimensional, istics.
+-
+
+descriptor: A recorded structure containing descriptive information about the volume or a file. file: A named collection of information.
+
+physicaf and magnetic character-
+
+4.6 4.7
+
+Part 3: Track format 6. formatting : Writing the control information establishing the physical addresses of sectors on the surfaces of a flexible disk cartridge.
+
+IS0 7665, Information processing - File structure andlabelfing of flexible disk cartridges for information interchange . IS0 8878, Information processing Data interchange on 136 mm (5.25 in) flexible disk cartridges using modified frequency modulation recording at 7 958 ftprad, 3,8 tpmm (95 tpi), on both sides - Part 1: Dimensional, istics. physical and magnetic character-
+
+4.8
+
+implementation: A set of processes which enable an information processing system to behave as an originating system, or as a receiving system, or as both types of system.
+
+4.9 initialization : Writing descriptors initially required to be on the FDC, prior to the commencement of general processing or use.
+
+Part 3: Track format B.
+
+4.10
+IS0 8630, Information processing Data interchange on 130 mm (5.25 in) high density flexibfe cartridges using modified
+
+originating system : An information processing system which can record files on an FDC for the purpose of data interchange with another system.
+
+1)
+
+At present at the stage of draft.
+
+IS 14175: 1994 IS0 9293 : 1987
+
+4.11 receiving sysrem : An information processing system which can read files from an FDC which has been recorded by another system for the purpose of data interchange. 4.12 sector: That part of a track on a flexible disk cartridge that can be accessed independently of other parts of the track by the magnetic heads of the flexible disk drive.
+
+5
+
+Notetions
+
+The following notations are used in this International Standard.
+
+5.1
+
+Decimal
+
+and hexadecimal
+
+notations
+
+4.13 track : That part of a flexible disk that can be accessed
+by a single magnetic head that is stationary while the disk makes a complete revolution.
+
+Numbers in decimal notation are represented by decimal digits, namely 0 to 9. Numbers in hexadecimal notation are represented by hexadecimal digits, namely 0 to 9 and A to F, shown in parentheses.
+
+4.14 user: A person or other entity (for example an application program) that causes the invocation of the services provided by an implementation. In addition thefo!lowing four. definitions apply specifically to section
+
+5.2
+
+Other notations
+
+BP : Byte position within a Descriptor, starting with 1 ZERO
+
+: A single bit with the value 0
+
+4.15 fixed-length
+
+record: A record contained in a file in which all records must have the same length.
+
+ONE: A single bit with the value 1
+
+ipfx): The integer part of x 4.16 4.17 4.16 record : Related data treated as a unit of information. segment: A part of a record. ceil(x) : The smallest integer that is not less than x rem(x,y) :
+is, rem(x,y) The remainder = x y x of the integer division of x by y, that
+
+ip(xly)
+
+segmented record: A record contained in a file in which the records may have different lengths and each record may consist of one or more separate segments.
+record : A record contained in a file in which the records may have different lengths but a record must not consist of separate segments.
+
+5.3
+
+Capital
+
+letters
+
+4.19 variable-length
+
+Where a word or a group of words is used to designate a specific concept, for example the name of a descriptor field, it is printed with initial capital letters except for prepositions.
+
+Section
+6 Volume structure
+
+two:
+
+Requirements
+6.1.2
+
+for the medium
+Physical Addresses
+
+6.1 Arrangement cartfidge 6.1.1
+
+of data on a flexible
+
+disk
+
+FDC parameters
+
+Each sector shall be identified by a Physical Address comprising the Side Number, the Track Number, and the Sector Number. The sides shall be numbered 0 and 1, tracks shall be numbered starting with 00, and the sectors shall be numbered starting with 1 on each track.
+
+For the purpose of this International Standard the significant parameters of the data interchange standard are shown in table 1.
+
+6.1.3
+
+Logical
+
+Sector
+
+Number
+
+Table 1
+
+I
+
+FDC parameters
+
+1
+
+Acronym
+
+1
+
+Each sector on a volume shall be identified by a Logical Sector Number. There shall be a one-to-one correspondence between Physical Address and Logical Sector Number. The Logical Sector Numbers shall be assigned in an ascending sequence, beginning with 0, starting at sector 1, track 00, side 0, continuing onto track 00, side 1 (if the FDC is recordable on both sides) and then to track 01, side 0, etc. The relation between the Side Number (HN), Track Number (TN), Sector Number (SN) and the Logical Sector Number (LSN) shall be given by the formulae : LSN = SPT x IHN + (NOS x TN11 + SN -
+
+Total Number of Sectors of the FDC Number of Bytes per Data Field of a Sector
+
+The values of these parameters shall be obtained from the text of an appropriate data interchange standard (see annex A).
+
+1
+
+IS 14175: 1994 IS0 9293 : 1987
+
+SN = rem {rem [LSN, (SPT LSN SPT x NOS
+
+x NOSII,
+
+SPT}
+
++ 7
+
+TN = ip
+
+HN = ip
+
+rem ILSN,(SPT C
+SPT
+
+x NOS)I
+
+Each cluster shall be identified by a unique Cluster Number (CN). Cluster Numbers shall be integers, assigned in ascending order starting with 2. Cluster Number 2 shall be assigned to the cluster the first or only sector of which~has the Logical Sector Number SSA. Each successive Cluster Number shall be assigned to the cluster the sectors of which have the next higher set of LSNs. If the total number of sectors in the Data Area is not a multiple of SC the remaining sectors shall not be used. The Logical Sector Number of the first sector in a cluster shall be related to the Cluster Number by the following formula : LSN = [(CN - 2) x SC1 + SSA where LSN CN SC is the Logical Sector Number; is the Cluster Number; is the number of sectors per cluster;
+
+6.1.4
+
+System
+
+Area and Data Area
+
+The space on an FDC shall be divided into a System Area and a Data Area. The System Area shall be recorded on track 00, side 0 and track 00, side 1. The System Area shall occupy sectors with the Logical Sector Numbers 0 to SSA - 1, where SSA is the number of sectors in the System Area (see 6.3.4). The System Area shall contain Descriptors which specify the recording format of the FDC, describe the use of the Data Area, and provide a Directory of the files on the volume. No part of any file shall be contained in the System Area. The Data Area shall occupy sectors with Logical Sector Numbers starting with SSA. Interchange files and supplementary Descriptors (such as Sub-directories) shall be contained in the Data Area. Files not intended for interchange may also be contained in the Data Area. 6.1.5 Parameters of the Volume Structure
+
+SSA is the size of the System Area in number of sectors (see 6.3.4).
+
+6.2.2
+
+Status
+
+of clusters
+
+A status shall be assigned to each cluster, and shall be one of the following :
+
+This International Standard specifies various types of data structure within the System Area and Data Area. The sizes of these data structures are identified by a set of numerical parameters. These parameters are listed in table 2. Table 2 Parameter Sectors per Cluster Reserved Sector Count Sectors per FAT Root Directory Entries Acronym SC RSC SF RDE
+
+- allocated to a file;
+available for allocation; defective.
+
+The status of each cluster shall be identified in the File Allocation Table (FAT) in the System Area.
+
+6.2.2.1
+
+Clusters allocated to a file
+
+The values of these parameters for each FDC type are contained in annex A.
+
+The clusters allocated to contain a file shall be identified in the FAT. The clusters allocated to contain a file need not have consecutive Cluster Numbers.
+
+6.2
+6.2.1
+
+Arrangement Clusters
+
+0-f the Data
+
+Area
+
+6.2.2.2
+
+Clusters available for allocation
+
+The clusters available for allocation shall be identified in the FAT. The clusters available for allocation need not have consecutive Cluster Numbers. The contents of clusters available for allocation shall be ignored in interchange.
+
+The Data Area shall be organized into units of allocation called clusters. Each cluster shall consist of the same number of sectors which shall be a power of 2, i.e. 1, 2, 4, 8, . . . . The number of sectors in each cluster (Sectors per Cluster, SC) shall be as specified in annex A. The data of a cluster shall be recorded in the Data Fields of its constituent sectors. If a cluster comprises more than one sector, the set of Logical Sector Numbers (LSN) of its constituent sectors shall form a consecutive ascending sequence.
+
+-6.2.2.3
+
+Defective Clusters
+
+Clusters containing one or more defective sectors shall be marked as Defective Clusters in the FAT. The contents of Defective Clusters shall be ignored in interchange.
+
+4
+
+IS 14175: IS0 9293
+
+1994
+
+: 1987
+
+6.3
+
+Arrangement
+
+of the
+
+System
+
+Area < NOS x SPT
+
+The System Area shall contain an FDC Descriptor and space for, system use, the Root Directory, and the File Allocation Table (FAT) recorded twice.
+
+where RSC is the number of sectors preceding the first FAT, i.e. the Reserve,l Sectors Count; SF RDE is the number of sectors in the FAT: is the number of Root Directory Entries; is the number of bytes in the Data Field of a sector; is the number of sides available for recording; is the number of sectors per track.
+
+6.3.1
+
+FDC Descriptor
+
+and space for system
+
+use
+
+The sector with Logical Sector Number 0 shall contain the FDC Descriptor and space for system use. The FDC Descriptor shall contain a Medium Identifier, the FDC parameters, an identifier of the system which recorded the FDC `Descriptor and information about the parameters of the volume structure. Additional sectors shaving successiveiy higher Logical Sector Numbers may also be reserved for system use. The contents of such sectors shall be ignored in interchange. The number of sectors reserved for system use (RSC) shall include the sector the LSN of which is 0. The values of the Medium Identifier and the Reserved Sectors Count for each medium type shall be as specified in annex A. 6.3.2 File Allocation Table (FAT)
+
+SS NOS SPT
+
+6.4
+
+Files
+
+A file shall be an interchange file or a Sub-directory or a file not intended for interchange Each file shall be identified by an entry in a Directory. 6.4.1 File Space
+
+The FAT shall contain a Format Identifier and one entry for each cluster of the.Data Area of the FDC. These entries shall be numbered consecutively starting with 2 and the Entry Number shall' be equal to the Cluster Number of the corresponding cluster. Each entry in the FAT shall indicate the status of the corresponding cluster. The FAT entries shall be used to identify the set of clusters that are allocated to each file. Annex D shows an example of a FAT. The number of sectors of the FAT (SF) shall be dependent on the number of clusters in the Data Area and shall be as specified in annex A. The FAT shall be recorded in the System Area, in a sequence of sectors starting with the Logical Sector Number equal to RSC. The second occurrence of the FAT shall be recorded in a sequence of sectors immediately following the first occurrence of the FAT. 6.3.3 Root Directory
+
+Each file shall be recorded in the Data Fields of the sectors of a set of clusters. This set shall be known as the File Space of the file. The order of the clusters within the set shall be specified by their FAT entries. The bytes in the File Space shall be numbered consecutively. The numbering shall start with 1, which shall be assigned to the first byte of the first cluster of the File Space. The numbering shall continue through successive bytes of the first cluster, and then through successive bytes of each successive cluster (if any) of the File Space. The numbering shall end with a number equal to the number of bytes per cluster (i.e. SS x SC) multiplied by the number of clusters in the File Space. 6.4.2 Relation to clusters
+
+The Cluster Numbers of the clusters forming the File Space of a file shall be recorded as a chain as follows : - The Cluster Number of the first cluster of the File Space shall be recorded in the Starting Cluster Number field of the Directory entry of the file. - For each cluster of the File Space, except the last one, the corresponding -FAT entry shall contain the Cluster Number of the next cluster of the File Space. - For the last cluster of the File Space, the corresponding FAT entry shall contain an entry indicating that it is the last cluster of the file. 6.4.3 File length
+
+The Root Directory shall be recorded in the System Area in a sequence of consecutive sectors immediately following the second occurrence of the FAT. It shall contain a set of entries each of which identifies a file, a Volume Label or a subdirectory, or indicates that it is not in use. The number of these entries, the Root Directory Entries (RDE), shall be as specified in annex A. 6.3.4 Size of the System Area in number of sectors, is
+
+The size of the System Area (SSA), given by the following formula :
+
+The length of a file shall be the number of consecutive bytes in the File Space, starting from the first byte, that are intended for interchange. It this number is less than the number of bytes in
+
+5
+
+IS 14175: 1994 IS0 9293 : 1987
+
+the File Space then any remaining bytes in the File Space shall
+
+7
+
+Contents
+
+of a file
+
+be ignored in interchange.
+
+The information 6.5 Sub-directories
+
+in an interchange file shall be interpreted according to the relevant International Standards for the coded representation of information.
+NOTE - The identification of the standard to which the coding of the information content of the file conforms is assumed to be the subject of an agreement between originator and recipient of the file. This International Standard makes no general provision for recording that identification on the FDC. However, some selected standards may be identified in the Name Extension Field of the File Entry of a Directory, see 11.5.1.
+
+In addition to the Root Directory in the System Area, additional Directories called Sub-directories may be recorded as files in the Data Area of the FDC. Sub-directories shall contain Directory entries each of which identifies a file or another Subdirectory, or indicates that it is not used. The number of entries in a Sub-directory shall be calculated as follows :
+
+ip i 32
+where K directory.
+
+-L
+
+x SC x ss 1
+is the
+
+8
+of clusters allocated to the Sub-
+
+Recording Numerical
+
+of descriptor
+
+fields fields
+
+number
+
+8.1
+
+values in one-byte
+
+A numerical value in a one-byte field shall be an &bit number
+Each Sub-directory shall be identified by one entry called a Sub-directory Pointer Entry in another directory. The Directory containing this Sub-directory Pointer Entry shall be called the Parent Directory of the Sub-directory. Each Subdirectory shall have a Parent Pointer Entry which points back to its Parent Directory. Different Sub-directories may have the same Parent Directory. A hierarchical relationship shall exist between the Root directory and all Sub-directories : ROOT / SUB 1 1 \ SUB 3 / The hierarchy shall consist of a number of levels (level 0, level 1, . . . ). The Root Directory shall be the one and only directory at level 0 of the hierarchy. If a Parent Directory is at level n of the hierarchy, its Subdirectories shall be at level (n + 1). The number of levels of the hierarchy is limited only by a restriction on the length of the virtual path name which shall be calculated as follows. The length of the virtual path name shall be the sum of the length of the file name; \ SUB 2 recorded in binary notation.
+
+8.2
+
+Numerical
+
+values in two-byte
+
+fields
+
+A numerical value in a two-byte field shall be a 16-bit number the hexadecimal representation (wx yz) of which shell be recorded as Iyz wx).
+NOTE - For example, the decimal number 72 has @CJ 481 as ita hexadecimal representation and is recorded as (48 00).
+
+8.3
+
+Numerical
+
+values in four-byte
+
+fields
+
+A numerical value in a four-byte field shall be a 32-bit number the hexadecimal representation(st uv wx yz) of which shall be recorded as (yz wx uv st).
+NOTE For example, the decimal number X6 419 896 has (12 34 56 78). as its hexadecimal representation and is recorded as (78 56 34 12).
+
+8.4
+
+Pairs of 12-bit integers
+
+A pair of 12-bit numbers the hexadecimal representations of which are (abc) and (def) shall be recorded as (bc fa de). This method shall be used for FAT entries.
+NOTE - For example, the pair of 12-bit numbers with hexadecimal representations (123) and (456) is recorded as (23 61 45).
+
+- if there is a file name extension, the length of the file name extension, plus 1; the length of the names of all relevant Sub-directories;
+
+8.5
+
+Character set and coding
+
+Unless otherwise stated, the characters in the Descriptors shall be coded according to IS0 646 (see annex Cl. The~37 characters in the following positions of the International Reference Version are referred to as d-characters : 3/o 4/l 5115 to to 319 5110
+
+- the length of the name extensions of all relevant Subdirectories; the number of relevant Sub-directories; of name extensions of all relevant Sub-
+
+- the number directories.
+
+This sum shall not exceed 63.
+
+6
+
+IS 14175: IS0 9293
+
+1994
+
+: 1987
+
+The S7 characters in the following positions of the International Reference Version are referred to as a-characters : 2/g 2/5 3/Q 4/l 5/g 5115 to to to to to 212 2115 3il5 4/15 5110
+
+9.2.2
+
+Creating
+
+System
+
+Identifier
+
+(BP 4 to 11) for the system that has
+
+This field shall specify
+
+an identification
+
+recorded the FDC Descriptor. The characters in this field shall be a-characters.
+
+9.2.3
+
+Sector
+
+Size (BP 12 and 13)
+
+This field shall specify the size of the Data Field of a sector. It shall be recorded as a numerical value according to 8.2. of characters 9.2.4 Sectors per Cluster (BP 14)
+content
+
+8.6
+
+Justification
+
+of which is specified by this International Standard to be d-characters, the d-characters shall be left-justified and any remaining positions on the right shall be set to G!O).
+
+In each field the
+
+This field shall specify the number of sectors per cluster. It shall be recorded as a numerical value according to 8.1.
+
+9
+
+FDC Descriptor
+
+9.2.5
+
+Reserved
+
+Sector
+
+Count
+
+(BP 15 and 16)
+
+The FDC Descriptor describes the format of the flexible disk cartridge and provides information about other Descriptors in the System Area of the FDC.
+
+This field shall specify the number of sectors reserved for system use. It shall be recorded as a numerical value according to 8.2.
+
+9.1
+
+FDC
+
+Descriptor
+
+layout 9.2.6 Table 3 This field shall specify the number 2. Number of FATS (BP 17)
+
+BP 1 to 3 4 IO 11 12 and 13 14 15 and 16 17
+18 and 19 20 and 21 22 23 and 24 25 and 25 27 and 29 29 and 39 31 to 512
+
+Field name O%sserved for system use) Creating System Identifier Sector Size Sectors per Cluster Reserved Sector Count Number of FATS
+Root Directory Entries Total Secton Medium Identifier Sectors per FAT Sectors per Trark Nurr'w of Sides
+
+Acronym
+
+Content not specified a-characters It shall be recorded as a numerical value according to 8.1.
+
+9.2.7
+
+Root Directory
+
+Entries (BP 18 and 191
+
+ss SC WC
+FN RDE TS
+
+numerical value numerical value numerical value
+
+This field shall specify the number of entries in the Root Directory. It shall be recorded as a numerical value according to 8.2.
+
+Number 2 numerical value numerical value (FD) or fF9)
+
+9.2.8
+
+Total Sectors
+
+(BP 20 and 21)
+
+This field shall specify the total number of sectors on `the FDC (including defective sectors). It shall be recorded as a numerical value according to 8.2.
+
+SF SPT NDS
+
+numerical value numerical value numerical value WJ) 09) not specified
+
+(Resewed for future standardization) (Reserved for system use)
+
+9.2.9
+
+Medium
+
+Identifier
+
+(BP 221
+
+This field shall specify an identification of the medium. It shall be recorded as a single byte. specified in annex A. Its value shall be as
+
+9.2 9.2.1
+
+FDC
+
+Descriptor
+
+fields 9.2.10 Sectors per FAT (BP-23 and 241 for system use (BP 1 to 3) This field shall specify the number of sectors occupied by each occurrence of the FAT. It shall be recorded as a numerical value according to 8.2.
+
+Field resewed
+
+This field shall be reserved for system use. Its content is not specified by this International Standard and shall be ignored in interchange.
+
+7
+
+IS 14175:1994 IS0 9293:1987
+
+9.2.11 Sectors
+
+per Track
+
+(BP 25 and 26) of sectors in earh track. value according to 8.2.
+
+10.2.3
+
+FAT entry
+
+values
+
+This field shall specify the number tt shall be recorded as a numerical
+
+The values for FAT entries shall be
+
+:
+
+NCO)
+
+shall mean that the corresponding cluster is not in use and may be allocated to any File Space. shall mean that the corresponding cluster is in use; the entry value shall be the cluster number o! the next cluster allocated in the File Space. MAX shall be the Maximum Cluster Number (see 10.2.4). are reserved for future standardization and shall not be-used. shall mean that the corresponding cluster contains a defective sector. shall mean that the corresponding cluster is in use and is the last cluster of a File Space.
+
+9.2.12
+
+Number
+
+of Sides IBP 27 and 28) (002) to MAX of recordable sides. to 8.2.
+
+This field shall specify the number It shall be recorded as a numerical
+
+value according
+
+Field reserved 9.2.13 and 30)
+
+for future
+
+standardization
+
+(BP 29 MAX + 1 to (FF6J
+
+This field shall be reserved for future It shall contain only ZEROS.
+
+standardization. ffF7)
+
+9.2.14
+
+Field reserved
+
+for system
+
+use (BP 31 to 512)
+
+(FF8) to IFFF)
+
+This field shall be reserved for system use. Its contents are not specified by this International shall be ignored in interchange. Standard and 10.2.4 Maximum
+
+Cluster
+
+Number
+
+(MAX) as
+
+10
+
+File Allocation
+
+Table
+
+The value for Maximum follows :
+
+Cluster Number shall be calculated
+
+The first three bytes of the FAT shall be used as follows: byte 0 shall contain the Format Identifier, each contain (FF). bytes 1 and 2 shall where TS SSA SC is the total number is the number is the number of sectors on the medium; Area:
+
+The remaining bytes of the FAT shall contain FAT entries each of which shall indicate the status of the cluster associated with it. FAT entries shall be numbered starting with 2.
+
+of sectors in the System of sectors per cluster.
+
+10.1
+
+Format
+
+Identifier
+for the source of the
+
+This field shall specify an identification volume structure parameters. IF9) shall mean that these parameters Descriptor. (FDI shall mean that these parameters annex A for 1S.O 7487. All other values are prohibited
+
+10.3
+
+Number
+
+of sectors
+
+in each FAT
+
+are recorded
+
+in the FDC
+
+Each FAT shall occupy one or more sectors. The number of sectors per FAT (SF) shall be calculated by iteration from :
+
+shall be as specified
+
+in SF = ceil
+
+from future
+
+use.
+
+8 SS
+
+10.2
+10.2.1
+
+FAT entries
+where FAT entry size of each FAT entry shall be 12 bits. TS SC SS RSC is the total number is the number of sectors on the medium;
+
+The length
+
+of sectors per cluster;
+
+10.2.2
+
+Number of FAT entries
+
+is the sector data field size; is the Reseved Sector is thk number Coupt;
+
+The number of entries in the FAT shall be equal to the number of clusters.
+
+RDE
+
+of entries in the Root Directory
+
+8
+
+IS 14175: 1994 IS0 9293 : 1987
+
+10.4
+
+Recorded
+
+form of the FAT
+
+11.3.1
+
+Name (BP 1 to 8)
+
+The recorded form of the FAT shall be a sequence of 3-byte fields. The first field shall contain the Format Identifier followed by two (FF) bytes. Successive a-byte fields shall contain consecutive pairs of FAT entries (FAT entries with number n and n + 1, where n is even, form a pair). Each pair of FAT entries shall be recorded according to 8.4. A pair of FAT entries may be split between successive sectors of the FAT. Bytes at the end of the Data Field of the last FAT sector which are not used for FAT entries shall be ignored in interchange.
+
+The contents and~the interpretation of this field shall depend on the entry type. 11.3.2 Name Extension (BP 9 to 11)
+
+The interpretation of this field shall depend on the entry type. The contents of this field shall be d-characters.
+
+11.3.3
+
+Attributes
+
+(BP 12)
+
+The bits of this field shall be numbered from 1 for the most significant bit to 8 for the least significant bit.
+
+11 11.1
+
+File directories
+11.3.3.1 Bits 1 and 2
+
+Characteristics
+
+A Directory is a Descriptor that shall contain a set of consecutive 32-byte Directory entries each of which identifies a file, a Volume Label, another Directory or is unused. There are two types of Directories: Root Directory and SubDirectory. Directory entries shall be recorded starting with the first byte of the space in which the Directory is recorded.
+
+These bits shall be reserved for system use and shall be ignored in interchange.
+
+11.3.3.2
+
+Archive Bit (bit 3)
+
+This bit shall specify whether a copy of the file exists. ZERO shall mean that a copy of the file exists on this or another medium. ONE shall mean that a copy of the file need not exist.
+
+11.2
+
+Directory
+
+entry types
+
+A Directory entry shall have one of two states
+
+: used or unused.
+
+11.3.3.3
+
+Sub-directory
+
+EntryBit
+
+ibit 4)
+
+Used Directory entries shall contain descriptive information about the files recorded on the FDC, for example file name, attributes, data and time of creation, location and length. There are five types of used entries :
+
+This bit shall specify whether the entry is a Sub-directory entry. ZERO entry. ONE 11.3.3.4 shall mean that the entry is not a Sub-directory
+
+- File Entry
+Volume Label Entry
+
+shall mean that the entry is a Sub-directory Volume Label Bit (bit 5)
+
+entry.
+
+Sub-directory Sub-directory Sub-directory
+
+Pointer Entry This bit shall specify whether the entry is a Volume Label entry. Identifier Entry Parent Pointer Entry ZERO entry; ONE 11.3.3.5 shall mean that the entry is not a Volume Label
+
+There are two types of unused entries: Not-currently-in-use Never-used Entry Entry
+
+shall mean that the entry is a Volume Label entry. Bits 6 and 7
+
+These bits shall be set to ZERO for interchange files.
+
+11.3
+
+General
+
+definition
+
+of Directory Table 4
+
+Entry fields
+
+If either bit is set to ONE, the file shall be ignored in interchange. 11.3.3.6 Read-only Bit (bit 8)
+
+BP 1 to 8 9 to 11 12 13 to 22 29 and 24 25 and 26 27 and 29 29 to 32
+
+Field name
+
+Contents
+depend on entry type d-characters eight bits all (99) or fFF) numerical value numerical value numerical value numerical value
+
+Name Name Extension Attributes Reserved Field Time Recorded Date Recorded Starting Cluster Number File Length
+
+This bit shall specify whether the file may be modified by the recipient. ZERO shall mean that the file may be modified by the recipient; ONE shall mean that the file shall not be modified by the recipient. This attribute shall not apply to other than File Entries.
+
+9
+
+IS iso
+
+14175 9293
+
+: 1994 : 1987
+
+11.3.4
+
+Reserved
+
+Field (BP 13 to 22)
+
+11.4.2
+
+Name
+
+extension
+
+(BP 9 to 11)
+
+The contents of this field shall depend on the entry type (see il.4 to 11.10).
+
+This field shall specify a name extension to the name of the file. It shall be recorded according to 11.3.2.
+
+11.3.5
+
+Time
+
+Recorded
+
+(BP 23 and 24)
+
+11.4.3
+
+Attributes
+
+(BP 12)
+
+This field~shall contain a 16-bit integer representing a time. The time shall be expressed in terms of hour (0 to 23). minute (0 to 59), and second (0 to 59). The value of this integer shall be computed by the formula : (2 048 x hour) + (32 x minute) + it, k.econd/2)
+
+The Volume Label Bit and the Sub-directory Bit shall be set to ZERO. Other bits shall be interpreted according to 11.3.3.
+
+11.4.4
+
+Reserved
+
+Field (BP 13 to 221
+
+All bytes shall be set to (00). Il.45 Kme Recorded (BP 23 and 24)
+
+The value shall be recorded as a numerical value according to 8.2.
+
+11.3.6
+
+Date
+
+Recorded
+
+(BP 25 and 26)
+
+This field shall specify the time at which the file was recorded. It shall be recorded according to 11.35.
+
+This field shall contain a 16.bit integer representing a date. The date shall be expressed in terms of year (1980 to 2107), month I1 to 12). and day (1 to 31). The value of this integer shall be computed by the formula : ItYear 1980) x 5121 + (Month x 321 i- Day
+
+11.4.6
+
+Date Recorded
+
+(BP 25 and 26)
+
+This field shall specify the date on which the file was recorded. It shall be recorded according to 11.3.6. 11.4.7 Starting Cluster Number (BP 27 and 28)
+
+The value shall be recorded as a numerical value according to 8.2. If the value is 0, it shall mean that the date is not specified.
+
+This field shall specify the Cluster Number of the first cluster allocated to the file. It shall be recorded according to 8.2.
+
+11.4.8 11.3.7 Starting Cluster Number (BP 27 and 28)
+
+File Length
+
+(BP 29 to 32)
+
+The contents of this field shall depend on the entry type. This field shall be recorded as a numerical value according lo 8.2.
+
+This field shall specify the length of the file in bytes. It shall be recorded according to 8.3.
+
+11.5
+
+Volume
+
+Label
+
+Entry
+
+A Volume Label Entry is optional. If present it may appear in any Directory position in the Root Directory. 11.3.8 File Length (BP 29 to 32) A Directory entry shall be a Volume Label Entn/ if the Volume Label Attribute Bit is set to ONE and the Sub-directory Attribute Bit is set to ZERO. 11.5.1 11.4 File sentry Name and Name Extension (BP 1 to 11)
+
+The contents of this field shall depend on the entn/ type. This field shall be recorded as a numerical value according to 8.3.
+
+A Directory entry shall be a File Entry if both the Volume Label and the Sub-directory Attributes bits are set to ZERO and if the first byte of the Name field contains a d-character. A File Entry may appear in an entry position of any Directory, other than the first or second entry in any Sub-directory. Each File Entry of a Directory shall contain a File Name (Name concatenated with Name Extension) that shall not be duplicated within that Directory.
+
+The Name and the Name Extension fields are treated as one single 11-character Volume Name. The characters shall be d-characters. The name shall be left-justified in the 1 l-byte field and any unused byte shall be set to (20). The Volume Name does not participate in the identification of interchange files except as agreed upon by originator and recipient.
+
+115.2
+
+Attributes
+
+(BP 12)
+
+11.4.1
+
+Name
+
+(BP 1 to 8)
+
+The Volume Label Attribute Bit shall be set to ONE. All other Attribute bits shall be set to ZERO. 11.5.3 Reserved Field (BP 13 to 22)
+
+This field shall specify the name of the file. The contents of this field shall be a left-justified string of d-characters. Any unused bytes shall be set to (20).
+
+All bytes shall be set to (00).
+
+10
+
+IS 14175 tS0 9293
+
+: 1994 : 1987
+
+11.5.4
+
+Time
+
+Recorded
+
+(BP 23 and 24)
+
+11.6.7
+
+Starting
+
+Cluster
+
+Number
+
+(BP 27 and 28)
+
+This field shall specify the time at which the Volume Label Entry was recorded. This time shall be recorded according to 11.35 11.5.5 Date Recorded (BP 25 and 26)
+
+This field shall specify the Cluster Number of the first cluster allocated to the Sub-directory. It shall be recorded as a numerical value according to 8.2. 11.6.8 File Length (BP 29 to 32)
+
+This field shall specify the date on which the Volume Label Entry was recorded. This date shall be recorded according 11.3.6. 11.5.6 Starting Cluster Number (BP 27 and 28)
+
+The content of this field is not specified by this International Standard, it shali be ignored in interchange. `91.7 Sub-directory identifier Entry
+
+The content of this field is not specified by this International Standard, it shall be ignored.in interchange. 11.5.7 File length (BP 29 to 32)
+
+The content of this field is not specified by this International Standard, it shall be ignored in interchange.
+
+A Directory entry shall be a Sub-directory Identifier Entry if it occurs as the first entry in a Sub-directory; if the Sub-directory Attribute Bit is set to ONE, if the first byte of the Name field is set to (2E) and if the remaining seven bytes of the Name field are set to (20). A Sub-directory Identifier Entry identifies a file as a Subdirectory. Sub-directories are optional, if present, they shall have a Sub-directory Identifier Entry as their first Directory entry. A Sub-directory Directory. 11.7.1 Name Identifier Entry shall not appear in the Root
+
+11.6
+
+Sub-directory
+
+Pointer
+
+Entry
+
+A Directory entry shall~be a Sub-directory Pointer Entry if the Sub-directory Attribute Bit is set to ONE and the first byte of the Name field contains a d-character. Sub-directory Pointer Entries are optional. If present a Sub-directory Pointer Entry may appear in any entry position of its Parent Directory, other than in the first or second -entry. Within a Directoty, each Sub-directory Pointer Entry shall have a unique concatenated Plame and Name Extension field. 11.6.1 Name (BP 1 to 8)
+
+(BP 1 to 8)
+
+The first byte of this field shall be set to (2E), the remaining seven bytes shall be set to (20). 11.7.2 Name Extension (BP 9 to 11)
+
+This field shall specify the name df the Sub-directory. The contents of this field shall be a left-justified string of d-characters. Any unused bytes shall be set to (201. 11.6.2 Name Extension (BP 9 to 11)
+
+All bytes shall be set to (20). 11.7.3 Attributes (BP 12)
+
+This field shall specify an extension to the name of the Subdirectory. It shall be recorded according to 11.3.2. 11.6.3 Attributes (BP 12)
+
+The Sub-directory Attribute Bit shall be set to ONE. The Volume Label Bit shall be set to ZERO. The value of the other Attribute bits shall be ignored in interchange. 11.7.4 Reserved Field (BP 13 to 22)
+
+The Sub-directory Attribute Bit shall be set to ONE. The Volume Label Bit shall be set to ZERO.~Other Attribute bits shall be interpreted according to 11.3.3 11.6.4 Reserved Field (BP 13 to 22)
+
+All bytes shall be set to (00). 11.7.5 Time Recorded (BP 23 and 24)
+
+All bytes shall be set to (00). 11.6.5 Time Recorded (BP 23 and 24)
+
+This field shall specify the time at which the Sub-directory Identifier Entry was recorded. It shall be recorded according to 11.35 13.7.6 Date Recorded (BP 26 and 26)
+
+This field shall specify the time at which the Sub-directory Pointer Entry was recorded. It shall be recorded according to 11.3.5. 11.6.6 Date Recorded (BP 25 and 26)
+
+This field shall specify the date on which the Sub-directory Identifier Entry was recorded. It shall be recorded according to 11.3.6. ll17.7 Starting Cluster Number (BP 27 and 26)
+
+This field shall specify the date on which the Sub-directory Pointer Entry was recorded. It shall be recorded according to 11.3.6.
+
+This field shall specify the Cluster Number of the first cluster allocated to the Sub-directory. It shall be recorded according to 8.2.
+
+11
+
+IS l4&: 1994 IS0 9293 : 1987
+
+11.7.8
+
+File Length (BP 29 to 32)
+
+The content of this field is not specified by this International Standard. It shall be ignored in interchange.
+
+If the Parent Directory is a Sub-directory, the Cluster Number of the first cluster allocated to it shall be recorded according to 6.2. If the Parent Directory is the Root Directory, then the value K0OO~ shall be recorded.
+
+11.8
+
+Sub-directory
+
+Parent
+
+Pointer
+
+Entry
+
+A Directory entry shall be a Sub-directory Parent Pointer Entry if it occurs as the second entry in a Sub-directory, if the Subdirectory Attribute Bit is set to ONE, if the first two bytes of the Name field are set to (2E) and if the remaining six bytes of the Name field are set to 120). The Sub-directory Parent Pointer Entry shall specify the location of the directory which contains a Sub-directory Pointer Entry which points to the associated Sub-directory. Subdirectories are optional, if present, they shall have a Subdirectory Parent Pointer Entry as their second Directon/ entry. A Sub-directory Root Directory. 11.8.1 Parent Pointer Entry shall not appear in the
+
+Il.88
+
+File Length
+
+(BP 29 to 32)
+
+The content of this field is not specified by this International Standard and shall be ignored in interchange.
+
+11.9
+
+Not-currently-used
+
+Entry
+
+A Directory entry shall be a Not-currently-used Entry if the first byte is set to (E5). A Not-currently-used Entry indicates available Directory space which can subsequently be used to record other entries. A Not-currently-used Entry shall not appear as the first or second entry in a Sub-directory. 11.9.1 Name Field (BP 1 to 81
+
+Name /BP 1 to 8)
+
+The first two bytes of this field shall be set to /2E), the remaining six bytes shall be set to (20). 11.8.2 Name Extension (BP 9 to II)
+
+The first byte of this field shati be set to !E5). The values of the remaining bytes are not specified by phis International Standard and shall be ignored in interchange. 11.9.2 Remaining bv+es !W 9 to 322)
+
+All bytes shall be set to (20). 11.8.3 Attributes (BP 12)
+
+The Sub-directory Attribute Bit shall be set to ONE. The Volume Label Bit shall be set to ZERO. The value of the other Attribute bits shall be ignored in interchange. 11.8.4 Reserved Field (BP 13 to 22)
+
+The values of bytes 9 tc 52 are not specified by this International Standard and shfr!l be ignored IG interchange.
+
+11.10
+
+Never-used
+
+Enrry
+
+All bytes shall be set to WO). 11.8.5 Time Recorded (BP 23 and 24)
+
+A Directory entry shall be a Never-used Entry if the first byte is set to (00). A Never-used Entry indicates available Directory space which has not been used before, and which can subsequently be used to record other entries. A Never-used Entry shall not appear in any Sub-directory. Never-used before any other type of Directory Entries shall appear at the end of a 11.10.1 Name Field (BP 1 to 8) as the first or second entry Entries shall not appear entry, i.e. all Never-used Directory.
+
+This field shall specify the time at which the Sub-directory Parent Pointer Entry was recorded. It shall be recorded according to 11.3.5. 11.8.8 Date Recorded (BP 25 and 28)
+
+This field shall specify the date on which the Sub-directory Parent Pointer Entry was recorded. It shall be recorded according to 11.3.6. 11.8.7 Starting Cluster Number (BP 27 and 28)
+
+The first byte of this field shall be set to @61. The values of the remaining bytes are not specified by this International Standard and shall be ignored in interchange. 11.10.2 Remaining bytes (BP 9 to 32)
+
+This field shall specify the Cluster Number of the first cluster of the Parent Directory.
+
+The contents of the remaining bytes 9 to 32 are not specified by this International Standard and shall be ignored in interchange.
+
+12
+
+IS liQ175: 1994 IS0 9293 : 1987
+
+Section
+
+three : Requirements
+
+for systems
+
+12 Requirements systems
+
+for the description
+
+of
+
+-
+
+Date Recorded Time Recorded
+
+File Entry BP 25 and 26 Sub-directory Pointer Entry BP 23 and 24 Sub-directory Pointer Entry BP 25 and 26 Sub-directory Parent Pointer Entry BP 23 and 24 Sub-directory Parent Pointer Entry BP 25 and 26 Sub-directory Identifier Entry BP 23 and 24 Sub-directory Identifier Entry BP 25 and 26
+
+Clauses 13 and 14 of this international Standard specify that certain information shall be-communicated between a user and an implementation. An information processing system that conforms to this lnternational Standard shall be the subject -of a description which identifies the means by which the user may supply such information, or may obtain it when it is made available, as specified in these clauses.
+
+-
+
+Date Recorded
+
+-
+
+Time Recorded
+
+-
+
+Date Recorded
+
+-
+
+Time Recorded
+
+13
+13.1
+
+Requirements
+General
+
+for an originating
+
+system
+Date Recorded
+
+The implementation in an originating system shall be capable of recording an FDC that conforms to this International Standard.
+
+14
+14.1
+
+Requirements
+General
+
+for a receiving
+
+system
+
+13.2
+
+Files
+
+The implementation shall obtain from the user the information that constitutes the interchange files to be recorded.
+
+The implementation in a receiving system shall be capable of reading all interchange files from an FDC that conforms to this International Standard.
+
+13.3 13.3.1
+
+Descriptors 14.2 Files
+
+The implementation shall allow the user to supply the information that is to be recorded in each of the Descriptor fields listed below, and shall supply the information for a field if the user does not supply it. Name Name Extension Read-only Bit File Entry BP 1 to 8 File Entry BP 9 to 11 File Entry BP 12 (bit 8)
+
+The implementation shall make available to the user the information that constitutes the interchange files of the volume.
+
+14.3
+
+Descriptors
+
+14.3.1 The implementation shall allow the user to supply information sufficient to enable the implementation to locate the files required by the user, and locate the FDCs on which these files are recorded. 14.3.2 The implementation shall make available to the user the information that is recorded in each of the Descriptor fields listed below.
+Name Name Extension Name Name Extension Read-only Bit Volume Label Entry BP 1 to 8 Volume Label Entry BP 9 to 11 File Entry BP 1 to 8 File Entry BP 9 to 11 File Entry BP 12 (bit 8)
+
+13.3.2 The implementation shall allow the user to supply the information that is to be recorded in each of the Descriptor fields listed below, and need not record a Volume Label Entry if the user does not supply the information. Name Name Extension Volume Label Entry BP 1 to 8 Volume Label Entry BP 9 to 11
+
+13.3.3 If the implementation allows the user to supply the information that is to be recorded in any of the Descriptor fields listed below, then the implementation shall record such information as supplied by the user, and shall supply the information if the user does not supply it. Time Recorded Date Recorded Time Recorded Volume Label Entry BP 23 and 24 Volume Label Entry BP 25 and 26 File Entry BP 23 and 24
+
+14.3.3 The implementation shall not be required to make available to the user the information that is recorded in each of the Descriptor fields listed below.
+Time Recorded Volume Label Entry BP 23 and 24
+
+13
+
+1s 14175 : 1994 ISO 9293 : 1987
+
+-
+
+Date Recorded Time Recorded Date Recorded Time Recorded
+
+Volume Label Entry BP 25 and 26 File Entry BP 23 and 24
+
+-
+
+Time Recorded
+
+Sub-directory Parent Pointer Entry BP 23 and 24 Sub-directory Parent Pointer Entry BP 25 and 26 Sub-directory Identifier Entry BP 23 and 24 Sub-directory Identifier Entry ~BP 25 and 26
+
+File Entry BP 25 and 26 Sub-directory Pointer Entry BP 23 and 24 Sub-directory Pointer Entry BP 25 and 26 -
+
+Date Recorded
+
+Time Recorded
+
+-
+
+Date Recorded
+
+-
+
+Date Recorded
+
+Section
+
+four
+
+15 15.1
+
+Record General
+
+structure
+
+length. The format of the records in the file shall be fixed-length format. A fixed-length record shall be contained in an MDU that consists only of that record. The minimum assigned length of a fixed-length be 1. 152.4 Variable-length records record shall
+
+Section four of this International Standard specifies a record structure for use within files that are recorded on an FDC conforming to section two of this International Standard. This record structure may be used in the input or output data streams of an application program when such data streams are required to be organized as a set of records. The use of this recordstructure may require additional user-supplied program statements in an application expressed in a programming language. ~Aiternatively, utility programs may have to be developed to transform between these record structures_those supported by the originating or receiving system.
+
+A variable-length record shall be a record contained in a file that is assigned to contain records that may have different lengths. The format of the records in the file shall be variable-length format. A variable-length record shall be contained in an MDU. The MDU shall consist of a Record Control Word (RCW), followed immediately by the variable-length record. The RCW shall consist of four characters which shall be coded according to IS0 646 and shall express the sum of the lengths of the record and of the RCW as a four-digit decimal number. A maximum record length shall be assigned for a file. The length of any record in the file shall not exceed this value. The assigned maximum record length shall not be 0 and shall not exceed 9 995. The minimum length of a variable-length record shall be 0. 15.2.5 Segmented records
+
+15.2
+15.2.1
+
+Records
+Characteristics
+
+A record shall be a sequence of bytes consisting of the coded representation of a part of the information in a file. The length of a record shall be the number of bytes in the record. A record shall either be a fixed-length length record, or a segmented record. 15.2.2 Measured Data Units record, or a variable-
+
+A Measured Data Unit (MDU) shall contain either a fixed-length record, or a variable-length record or a record segment. Each MDU shall be recorded in successive bytes of the File Space. The first or only MDU shall begin at the first byte of the File Space. Each successive MDU shall begin at the byte in the File Space immediately following the last byte of the preceding MDU. 15.2.3 Fixed-length records
+
+A segmented record shall be a record contained in a file that is assigned to contain records that may have differrent lengths and that may be recorded entirely in one MDU or over more than one MDU. The format of the records in the file shall be segmented format. That part of a segmented record that is recorded in one MDU is a record segment. Successive segments of the same record within the same file shall be recorded in successive MDUs. Different segments of the same record shall only be recorded on different FDCs if one of the segments is contained within
+
+A fixed-length record shall be a record contained in a file that is assigned to contain records all of which must have the same
+
+14
+
+IS 14175: 1994 IS0 9293 : 1987
+
+the last MDU recorded in a File Space on one FDC, and the next segment of the record is contained within the first MDU recorded in a File Space on another FDC. A maximum record length shall be assigned for a file. The length of any record in the file shall not exceed this value. The assigned maximum record length shall not be 0.
+NOTE - The assigned maximum record length is unbounded in that this international Standard specifies no limit to the number of record segments in a record.
+
+15.3
+
+Attributes
+
+of record-structured
+
+files
+
+The following information shall be regarded as a set of attributes of a record-structured file :
+
+- the format of the records in the file; - the record length, if the format of the records is fixedlength;
+- the maximum record length, if the format of the records is either variable-length or segmented.
+NOTE - The attributes of a record-structured file are assumed to be the subject of an agreement between originator and recipient of the FDC on which the file is recorded.
+
+A recerd segment shall be contained in an MDU. The MDU shall consist of a Segment Control Word (SCW), followed immediately by the record segment. The SCW shall consist of five characters which shall be coded according to IS0 646. The first character of the SCW is called the Segment Indicator. This character shall have one of the values 0, 1, 2 or 3 with the following meaning. shall mean that the record begins and ends in this record segment. shall mean that the record begins but does not end in this record segment. shall mean that record neither begins nor ends in this record segment. shall mean that the record ends but does not begin in this record segment. The last four characters of the SCW shall express as a decimal number the sum of the lengths of the record segment and the sew. The maximum length of a record segment shall be 9 994. The minimum length of a record segment shall be 0.
+
+15.4 Requirements section four
+15.4.1
+
+for systems
+
+implementing
+
+Originating systems
+
+The implementation shall obtain from the user the length of each record of the file. tf the records of a file are segmented records the implementation may impose a limit on the maximum record length.
+
+15.4.2
+
+Receiving systems
+
+The implementation shall make available to the user the length of each record in the file. If the records are segmented records the implementation may impose a limit on the length of a record in the file. The implementation is not required to make available to the user any byte beyond the first n bytes of the record, where n is the value of the imposed limit.
+
+15
+
+IS 14175:1994 IS0 9293: ?987
+
+Annex Parameter values
+
+A Standard
+
+for FDCs conforming to an International for data interchange
+(This annex forms part of the Standard.)
+
+A.1
+
+Parameters International Description Diameter
+
+defined
+
+in an IS0 Data Interchange _c-
+
+Standard IS0 7467 IS0 8373 IS0 8630 IS0 8860
+
+Standard
+
+130 mm 7 958 ftprad 40 2 9 512 720 Standard
+
+130 mm 7 956 ftprad 80 2 9 512 1440
+
+130 mm 13 262 ftprad 80 2 15 512 2400
+
+90mm 7 956 ftprad 80 2 9 512 1440
+
+Physical recording density FDC Parameters Number of Tracks (NOT) Number of Sides (NOS) Sectors per Track (SPT) Sector Data Field (SS) Total Number of Sectors (TS) A.2 Parameters Volume Defined by this International Parameters
+
+Structure
+
+Medium Identifier Sectors per Cluster (SC) Reserved Sector Count (RSC) Sectors per FAT (SF) Root Directory Entries (RDE) A.3 Variables -Medium calculated from the above parameters Track, Side, Sector Number
+
+(FD) 2 1 2 112
+
+(F9) 2 1 3 176
+
+(F9) 1 1 7 224
+
+(F9) 2 1 3 112
+
+map summary
+
+System Area begins FDC Descriptor 1st FAT 2nd FAT Root Directory Data Area begins Root Directory Sectors Sectors per System Area (SSA) Maximum Cluster Number (MAXI
+
+00; 0, 1 00; 0, 1 00; 0,2 00; 0,4 00; 0,6 00; 1.4 7 12 355
+
+00; 0,l 00; 0. 1 00; 0,2 00; 0, 5 00; 0,8 01; 0, 1 11 18 712
+
+00: 0,l 00; 0, 1 00; 0,2 00; 0,9 00; 1,l 06; 1, 15 14 29 2 372
+
+00; 0, 1 00; 0, 1 00; 0,2 00; 0, 5 00; 0,8 00; 1.6 7 14 714
+
+16
+
+IS 14175:1994 IS0 9293:1987
+
+Annex Parameter values
+
+B FDC formats
+
+for other
+
+(This annex forms part of the Standard.)
+
+If International Standards become available in future for other types of FDC not shown in annex A, the requirements of this International Standard may be applied, as specified in this annex, ta such types of FDC. For each such type of FDC it is a prerequisite that the FDC can be described in terms of the parameters in 6.1 .l of this International Standard. The value of the Format Identifier (see 10.1) shall be fF91.
+
+B.2
+
+Reserved
+
+Sector
+
+Count
+
+The value of this parameter shall be at least 1.
+
+B.3
+
+Sectors
+
+per FAT
+
+The value of this parameter shall be given by the formula in 10.3.
+
+B.4
+The values of the Volume sha!l be derived as follows. Structure Parameters (see 6.1.51,
+
+Root Directory
+
+Entries
+
+B.l
+
+Sectors
+
+per Cluster
+
+The impfementation that records the FDC Descriptor shall select the number of sectors to be allocated to the Root Directory. The number RDE of Root Directory Entries is then given by the formula : RDE = ip (Number of sectors in Root Directory) 32 x SS
+
+The value of this parameter shall be chosen by the implementation that records the FDC Descriptor.
+
+1
+
+17
+
+IS 14175: 1994 IS0 9293 : 1987
+
+Annex IS0 646 : International
+
+C Version (IRV)
+
+Reference
+
+(This annex does not form part of the Standard.)
+
+Table 5
+
+b+
+1 1 1 1 1 1 1 1
+The d-characters are those which are not shaded in table 5.
+
+10
+
+18
+
+IS 14175:1994 IS0 9293:1987
+
+Table 6
+
+The a-characters are those which are not shaded in table 6.
+
+19
+
+IS 14175:1994 iso 9293:1987
+
+Annex Example of volume
+
+D and file location
+
+structures
+
+(This annex does not form part of the Standard.)
+
+D.l
+
+Sample
+
+~mapping of Cluster
+
+Number
+
+to flexible
+
+disk cartidge
+
+sectors
+
+This sample mapping assumes: NOS
+
+= 2, SPT = 9, NOT = 40, SC = 2, WC
+
+= 1, SF = 2 and RDE = 112.
+
+Tracks Sectors 00
+I 01 I 02 I 03 I 04 I 05 I 06 I 07 I 08
+
+I 09
+
+SIDE0
+
+SIDE 1
+
+R = Reserved sector
+F = FAT sector D = Root Directory sector
+
+Each entn/ of the table other than R, F, D is a cluster number. For example, Cluster Number 11 contains sectors 4 and 5 of track 01, side 1.
+
+D.2
+
+A sample
+
+Fite Allocation
+
+Table (FAT)
+
+This example assumes three files; the FAT is shown below. The contents of the FAT shown are the logical contents, not the recorded format
+
+no
+00
+10 20 30 40 (FDF
+
+01
+
+02 000 000 000 om 000
+
+03 000 000 Om 000 000
+
+04 000 000 009 000 000
+
+05 006 000 Oca 000 m
+
+06 oc@ IXQ 000 @xl 000
+
+07 000 019 000 000 000
+
+09
+
+09
+
+FFFI 024 000 000 000
+
+(FFFI
+019 000 000 000
+
+(FFF)
+020 Om 000 000
+
+ooo
+(FFF) OOO Oca
+
+340 350
+
+m 000
+
+000 Om
+
+000 OCKI
+
+Cal oca
+
+OGil 000
+
+000 CQO
+
+000 000
+
+Ow
+
+000
+
+000
+
+20
+
+IS 14175 : 1994 IS0 9293 : 1987
+
+Cluster Numbers are shown in decimal notation. The entry indicating the end of each file is shown in hexadecimal notation (FFF). The FFF) is explained in clause 10. meaning of the value (FDF First File Chain = 11, 24and9
+
+Second File Cnain = 5, 6 and 8 Third File Chain Avai!able Clusters = 17, 18, 19 and 20 = 2 to 4, 7, 10, 12 to 16, 21 to 23 and 25 to 356
+
+0.3
+
+Address
+
+mapping
+
+example
+
+This example uses the parameter values as in clauses D.l and D.2.
+
+D.3.1
+
+File Space
+of eighteen 128-byte fixed-length records.
+
+This example assumes that a file contains a sequence
+
+The File Space is composed of the ordered set of 2 560 bytes, and the file length is 2 304 (18 x 128 = 2 304).
+
+D.3.2
+
+Cluster
+
+Space
+on the previous use history of the
+
+Since any available clusters may be allocated, and the existence of available clusters is dependent clusters, it is probable that the available clusters will not have consecutive cluster numbers. Records Cluster Number 1 to 4 011 5 to 8 011 9to 12 13 to 16 024
+
+17 and 18 009
+
+024
+
+It should be noted that since there are two sectors per cluster, each group of eight records occupies only one cluster. The second sector in cluster 005l is not used in this example; it is available for extension of the file at some later time. Due to the release of a cluster from some other file between space allocations to this file, the order of clusters is non-ascending.
+
+0.3.3
+
+Logical Sector
+
+Numbers
+
+The sectors of a flexible disk cartridge are logically numbered starting with 0; this corresponds to side 0, track 00, sector 1. Logical Sector Number 1 corresponds to side 0, track 00, sector 2; etc. This numbering continues consecutively through side 0 of a track, then proceeds with side 1 of the same track (if it is a two-sided flexible disk cartridge), then to the next higher numbered track, etc. Cluster Numbers can be converted to Logical Sector Numbers by the following calculation : Logical Sector Number equals the product of the Cluster Number minus 2, times the number of sectors per cluster added to the number of sectors in the systems area LSN = IfCN 2) x SC] + SSA (SC), and twelve sectors in the system area (SSA), therefore:
+
+For this example there are two sectors per cluster
+
+Table 7
+~1 Cluster Number CO2 011 024 009 (decimal)
+
+)
+
+Logical Sector 12, 13 30, 31 56, 57 26. 27
+
+Numbers
+
+1
+
+21
+
+-1s 14175 : 1894 IS0 9293 : 1987
+
+D.3.4
+
+~Physical Address
+
+Space
+
+To convert a Logical Sector Number to a Physical Address divide the Logical Sector Number by 9 (the number of sectors per track) and then by 2 (the number of recordable sides). The quotient is the Track Number; then divide the remainder by 9, the second quotient is the Side Number, and the second remainder plus 1 is the Sector Number. It should be noted that for other flexible disk cartridge formats, all occurrences of the values 9 and 2 should be replaced by the number of sectors per track and the number of recordable sides, respectively.
+
+Table 8
+
+Logical Sector Number tYGFhY+CtaZdreIector 30
+31 55 57 26 27 1 01 01 03 03 01 01
+
+It should be noted that cluster 069 contains the sectors with Logical Sector Numbers 26 and 27 which are on different sides of the flexible disk cartridge.
+
+D.3.5
+
+Summary
+
+of address
+
+mapping
+
+examples Table 9
+
+Records
+Cluster Number Sector of Cluster
+
+1 to4
+011 1
+
+5 to 8
+011 2
+
+9 to 12
+024 1
+
+13 to 16
+024 2
+
+17 and 18
+009 1
+
+l
+
+009 2
+
+Logical Sector Number Physical address - Side
+l
+
+30
+1 01 4
+
+31
+1 01 5
+
+56
+0 03 3
+
+57
+0 03 4
+
+26
+0 01 9
+
+27
+1 02 1
+
+Track Sector
+
+The second sector of the cluster is available for subsequent use in this file.
+
+22
+
+14175: 1994 ISO 9293 : 1987 IS
+
+Annex E Index of acronyms
+(This annex does not form part of the Standard.)
+
+CN HN FAT LSN NOS NOT RDE MC SC SF SN SPT ss SSA TN TS
+
+Cluster Number Side Number File Allocation Logical Number Number Number Sector Table Number Sides
+
+of Recordable
+
+of Tracks per Side of Root Directory Count Entries
+
+Reserved Sector Sectors Sectors Sector Number Number
+
+per Cluster per FAT Number of Sectors per Track
+
+of bytes in the Data Field of a Sector Area (in number of sectors)
+
+Size of the System -Track Number Total Number
+
+of Sectors
+
+of the FDC
+
+23
+
+(Continued form second cover)
+
+International Standard
+
+Corresponding Indian Standard IS 11853 (Part 1) : 1987 Data interchange on 130 mm, double sided, 3.8 tpmm, flexible disk cartridges using modified frequency modulation recordings: Part 1 Dimensional, physical and magnetic characteristics
+
+Degree of Equivalence identical
+
+IS0 8378-l Information processing - Data interchange on 130 mm (5.25 in) flexible disk cartridges using modified frequency modulation recording at 7 958 ftprad, 3.8 tpmm (96 tpi), on both sides: Part 1 Dimensional, physical and magnetic characteristics IS0 8378-3 Information processing - Data interchange on 130 mm (5.25 in) flexible disk cartridges using modified frequency modulation recording at 7 958 ftprad, 3.8 tpmm (96 tpi), on both sides: Part 3 Track format B IS0 8630-I Information processing - Data interchange on 130 mm (5.25 in) high density flexible cartridges using modified frequency modulation recording at 13 262 ftprad, 3.8 tpmm (96 tpi), on both sides: Part 1 Dimensional, physical and magnetic characteristics IS0 8630-3 Information processing - Data interchange on 130 mm (5.25 in) high density flexible cartridges using modified frequency modulation recording at 13 262 ftprad, 3.8 tpmm (96 tpi), on both sides: Part 3 Track format B IS0 8860-l Information processing - Data interchange on 90 mm (3.5 in) flexible disk cartridges using modified frequency modulation recording at 7 958 ftprad, 5.3 tpmm (135 tpi), on both sides: Part 1 Dimensional, physical and magnetic characteristics IS0 8860-2 Information processing - Data interchange on 90 mm (3.5 in) flexible disk cartridges using modified frequency modulation recording at 7 958 ftprad, 5.3 tpmm (135 tpi), on both sides: Part 2 Track format
+
+IS 11853 (Part 3) : 1986 Data interchange on 130 mm, double sided, 3.8 tpmm, flexible disk cartridges using modified frequency modulation recordings: Part 3 Track format B
+
+ldentlcal
+
+IS 12327 (Part 1) : 1988 Data interchange on 130 mm, flexible disk cartridges using modified frequency modulation recording at 13 262 ftprad on 80 tracks on each side: Part 1 Dimensional, physical and magnetic characteristics
+
+Identical
+
+IS 12327 (Part 3) : 1989 Data interchange on 130 mm, flexible disk cartridges using modified frequency modulation recording at 13 262 ftprad on 80 tracks on each side: -Part 3 Track format B for 80 tracks IS12922 (Part 1) : 1989 90 mm flexible disk cartridges using modified frequency recording at -7 958 ftprad, on 80 tracks on each side: Part 1 Dimensional, physical and magnetic characteristics
+
+Identical
+
+Identical
+
+IS 12922 (Part 2) : 1989 90 mm flexible disk cartridges using modified frequency recording at 7 958 ftprad, on 80 tracks on each side: Part 2 Track format
+
+Identical
+
+Bureau of Indian Standards BIS is a statutory institution established under the Bureau cflnrlian Standards Act, 1086 to promote harmonious development of the activities of standardization, marking and quality certification of goods and attending to connected matters in the country. Copyright BIS has the copyright of all its publications. No part of these publications may be reproduced in any form without the prior permission in writing of BIS. This does not preclude the free use, in the course of implementing the standard, of necessary details, such as symbols and sizes, type or grade designations. Enquiries relating to copyright be addressed to the Director ( Publications ), BIS. Review of Indian Standards Amenqments are issued to standards as the need arises on the b&s of comments. Standards are also reviewed periodically; a standard along with amendments is reaffirmed when such review indicates that no changes are needed; if the review indicates that changes are needed, it is taken up for revision. Users of Indian Standards should ascertain that they are in possession of the latest amendments or edition. by referring to the latest issue of `BIS Handbook' and `Standards Monthly Additions'. This Indian Standard has been developed from Dot No. LTD 37 (1692). Issued Since Publication Date of Issue Text Affected
+
+Amendments Amend No.
+
+BUREAU OF INDIAN STANDARDS Headquarters: Manak Bhavan, 9 Bahadur Shah Zafar Marg, New Delhi 110002 Telephones : 33~101 3 I, 331 13 75 Regional Offices : Central
+:
+
+Telegram : Manaksanstha ( Common to all offices ) Telephone 33101 31 331 1375
+
+Manak Bhavan, 9 Bahadur Shah Zafar Marg NEW DELHI 110002
+
+Eastern
+
+:
+
+1/14~C. I. T. Scheme VII M, V. I. P. Road, Maniktola CALCUTTA 700054
+
+378499, 37 86 26,
+
+378561 37 86 62
+
+Northern : SC0 445-446, Sector 35-C. CHANDIGARH
+
+I60036
+
+53 38 43, 53 23 84
+
+53 1640
+
+S~~uthern : c'. I. 7`. Campus, IV Cross Road, MADRAS 6001 13
+
+Western
+
+:
+
+Manakalaya, E9 MIDC, Marol, Andheri (East) BOMBAY 400093
+
+632 02 Yi, 632 38 0 I,
+
+632 78 58 632 78 92
+
+Branches
+
+.-2HMADABAD. BANGALORE BHOPAL I~`Af~IDAHAD. CHAZIABAD. G~JWAHAI'I.
+I.IiCKNOW. PATNA.
+
+BHUBANESHWAR. C0IMBATORE. HYDERABAD. JAIt'C-`IJR. KANPUR.
+
+THIRUVANANTHAPURAM.
+
+

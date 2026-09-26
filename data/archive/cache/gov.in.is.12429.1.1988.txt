@@ -1,0 +1,277 @@
+,;
+
+IS:12429
+
+(Partl)-1988
+( Reaffirmed 2002 )
+
+`.
+
+Indian Standard VIDEO TAPE RECORDERS
+PART 1 LONGITUDINAL TIME CODE ( LTC )
+
+TIME AND CONTROL CODE FOR
+
+UDC
+
+621.397452 : 621-503-52
+
+Q Ceppriht1989
+
+BUREAU
+MANAK
+
+OF
+
+INDIAN
+
+STANDARDS
+ZAFAR MARC
+March 1989
+
+BHAVAN, 9 BAHADUR SHAH NEW DELHI 110002
+
+IS : 12429( Part 1 ) - I988
+
+Indian Standard
+
+TIME AND CONTROLCODE FOR VIDEO TAPE RECORDERS
+PART 1 LONGITUDINAL TIME CODE ( LTC )
+
+O.FOREWORD
+Standard ( Part 1 ) was adopted by the Bureau of Indian Standards on 22 February 1988 on the recommendations of the Recording Sectional Committee and approved by the Electronics and Telecommunication Division Council. this standard, assistance 0.2 While preparing has been derived from IEC Pub 461 `Time and control code for video tape recorders' issued by
+
+0.1 `This Indian
+
+the International ( IEC ).
+
+Electrotechnical
+
+Commission
+
+8.3 In reporting the result of a test made in accordance with this standard, if the final value, observed or calculated, is to be rounded off, it shall be done in accordance with IS: 2-1960*. *Rules for rounding off numerical values ( revised ).
+
+1. SCOPE 1.1 This standard ( Part 1 ) specifies a digital code format and modulation method to be used for timing and control purposes of television-tape audio separate machines and/or associated The encoded signal shall be recorded recorders. on the cue track or on an auxiliary longitudinal track. This standard is applicable for 50 HZ625 lines system. 2. TERMINOLOGY 2.1 For the purpose of this standard, and definitions given in IS : 1885 1970* shall apply. 3. MODULATION METHOD the terms ( Part 48 )-
+
+4. CODE
+
+FORMAT shall be associated of with 80 bits in Fig. 2
+
+4.1 A unique code word each television frame. 4.2 Each numbered
+
+code word shall consist from 0 to 79, inclusive.
+
+4.3 The bits shall be assigned and as described hereinafter: o-3 4-7 8-9 10 11 12-15 16-19 20-23 24-26 27 28-31 32-35 36-39 40-42 43 44-47 48-51 52-55 58 59 1 Units of frames group
+
+as shown
+
+First binary Unassigned &lout--lock
+
+Tens of frames address bit flag bit
+
+3.1 The modulation method shall be such that a transition occurs at the beginning of every bit period. In the case of a `zero', there is no second transition within the bit period. In the a case of a `one', there is a second transition, half-bit period after the start of the bit. This method is also known as `Bi-Phase Mark' ( scc Fig. 1 ).
+10 1 1011 lJ Z-WC
+
+Binary group No. 2 Units of seconds Binary group No. 3 Tens of seconds Binary group flag bit Binary group No. 4 Units of minutes Binary Binary Binary Units Binary Bi-phase group group group of hours group NO. 7 bit mark phase correction bit No. 5 flag bit No. 6 Tens of minutes
+
+Waveform : Clock :
+
+m-l
+
+Fro. 1
+
+I
+MODULATION
+
+I
+
+I
+
+I
+
+I
+
+I
+
+I
+
+I
+
+l
+
+SYSTEM "%-PHASE MARK"
+
+Unassigned
+
+l Electrotechnicai vocabulary: Part 48 Recording.
+
+Isa 12429(bartl)- 1988 60-63 Binary group No. 8
+64-79 64-65 Synchronizing Fixed zero word 66-67 78 79 Fixed one Fixed zero Fixed one
+
+80 biti per frame: 32 user binarysparebits 16 sync. bits 30 address bits 2 unassigned address bits The unassigned bits are zeros
+
+FIG. 2
+
+CONSTITUTIONOF THE CODE WORD ( LONGITUDINAL CODB )
+
+2
+
+IS : 12429 ( Part 4.4 Boundaries of the Code Word - The code word shall start at the clock edge before the first bit ( bit zero ). The bits shall be evenly spaced in such a way that the code word period shall coincide with the period of one television The bit rate shall be 80 times the frame frame. rate ( per second ) of the television system used. 4.6 Assigned and Unassigned Bits
+
+1) 9 1988
+
+4.5 Use of Binary Groups The binary groups are intended for the storage of supplementary data by the users. The 32 bits within the eight binary groups may be assigned in any way without restrictions, if the character set used for the data insertion is not specified and the binary group flag bits No. 27 and 43, both are zero. If an eight-bit character set conforming to IS : 10315-1982* and IS : l2326-1987t is signalled by the binary group flag bits No. 27 and 43, the characters should be inserted in accordance with Fig. 3. The information carried by the user bits is not subjected to any regulation. At present, Character the following set not specified truth-table applies: 0 1
+
+4.6.1 Colour-Lock Flag Bit - The colour-lock flag bit No. I I shall be set to 1 when the time code is locked to the associated PAL colour signal in accordance with the eight-field sequence, and when the video signal has the `preferred subcarrier-to-line-sync phase'.
+
+4.6.2 Bi-Phase Mark Phase-Correction Bit - The purpose of the phase-correction bit is to compensate for phase reversals in the bi-phase mark modulation that could occur when code inserts Such compensation may be are performed. required when code inserts modify the content of any of bits No. 0 to 63, bit No. 59 excluded. 4.6.2.1 In order that the magnetization transient between bit-cell 79 of one word and bit-cell 0 of the next shall always be in the same direction, bit No. 59 will be put in a state where every 80-bit word will contain an even number of logic zeros. 4.6.2.2 This requirement results following truth-table for bit No. 59: Number of Logic zeros in Bits NO. 0 to 63 ( 59 Excluded) Odd 1 0 in Bit 59 the
+
+Bit No. 27( 43 ) Eight-bit character set conforming to IS0 standards 646 and 2022 Unassgined Unassigned The unassigned states of the cannot be used and their assignment for the International Electrotechnical sion ( IEC ).
+
+0 1 truth-table is reserved Comrnis-
+
+Even
+
+4.6.2.3 In drawing up this specification, the use of time code write/read systems that have equal polarity relations between input/output voltage and the tape magnetization is assumed. 4.6.2.4 This specification should not be understood as a requirement for time code insert capacity in television tape-machines in situations where tapes have to be interchanged, until further notice from the International Electrotechnical Commission ( IEC ). 4.6.3 Unassigned Bits - Bits No. 10 and 58 are reserved for future assignment and shall be zeros until specified by the International Electrotechnical Commission ( IEC ). 2
+4 6 0
+
+It should be noted that, in each time code word, some user bits will be decoded before bits No. 27 (43) are encountered. The data in these earlier user-bit locations must not be lost. If the time code is locked to the eight-field skquence in PAL, as defined in 6, bit No. 11 shall be set to 1.
+character fir-Bit and 8-bit coded techniques.
+
+l 7-Bit coded
+
+set for information character sets -
+
+interchange. Code extension
+
+1
+
+&nary groups
+I
+
+: 7
+
+I I I l_QJI
+7-bit ISO: 8-bit ISO: bl b2 b3 b4
+
+I I L+b5 b6 b7 0
+
+a5 a6 a7 a8 al a2 s3 64 one IS0 charecter
+
+FIG. 3
+
+USE OF BINARY GROUPS OF THE TIME-AND-CONTROL CODE TO DESCRIBE
+THE IS0 CHARACTER CODED WITH 7 OR 8 BITS
+
+3
+
+IS : 12429 ( Part 1 ) - 1988
+5. STRUCTURE OF THE TIME ADDRESS Recognition of these requirements can be accomplished with the aid of the time and control code, provided that there exists a fixed relationship between time address of the code and the sequence of television fields. This particular relationship is described below. 6.1.1 PAL Signals Systems B, G, H and IDuring electronic editing of colour signals recording on television tape-machines, itis important that in the case of sophisticated editing opeiations on PAL signals, the correct eight-field sequence also be maintained in the edited master, and that the `in-phase' or `out-of-phase' position of a slave tape can be controlled. These sequences can be preserved with the aid of the time-and-control code, provided that there exists a fixed relationship between the time addresses of the code and the sequence of television fields. Therefore, it has been agreed that, when necessary, the on-tape relationship between the time address-numbers of the time and control code and the associated eight fields of the PAL video signal, shall be as follows: bit No. 0 is A Hours Units Tens Bits 48-51: four 1, 2, 4, 8 count Bits 56-57: two 1, 2 count 0 to bits BCD 0 to 9. bits BCD 2. arranged arranged bit No. 16 is B bit No. 8 is C bit No. 8 is D bit No. 17 is E bit No. 24 is F the time-code is displayed in decimal When S and P designating the numbers of numbers, ~~~ 1. and ^ seconas pictures respectively, the above condition is expressed as: remainder on dividing S + P by 4 is
+
+5.1 The basic structure of the time address is based upon the Binary Coded Decimal ( BCD ) system. In those cases, when the count does not rise to 9, only two or three bits are required, rather than four bits as is normal in the BCD code. 5.2 Assignment Frames Units Tens Seconds Units Tens Minutes Units Tens Bits 32-35: four bits BCD arranged 1,2,4,8countOto9. Bits 40-42: three bits BCD arranged 1, 2, 4 count 0 to 5. Bits ' 16-19: four bits BCD arranged 1, 2, 4, 8 count 0 to 9. Bits 24-26: three bits BCD arranged 1,2,4 count 0 to 5. Bits O-3: four 1, 2, 4, 8 count bits BCD 0 to 9. arranged 1, 2 of the Time Bits
+
+Bits 8-9: two bits BCD count 0 to 2.
+
+arranged
+
+( The 24"hour
+
+clock system is used ). TELEVISION
+
+6. ADDITIONAL COLOUR REQUIREMENTS
+
+6.1 Field Sequence of Colour Recordings - Simple editing of colour signals on television timing disturtape machines where a picture of the colour bance of up to half the period subcarrier can be tolerated need only consider a four field sequency in PAL. Sophisticated editing operations, where disturbance must be held to a minimum, shall take into account an eight-field PAL sequence. The phase relationship between colour subcarrier and the synchronizing signal should show minimum discontinuity at the edit point.
+
+0 for fields 7 and 8 1 for fields 1 and 2 2 for fields 3 and 4 3 for fields 5 and 6 6.2 The' requirements of 6.1 shall be met at the output of the time and control code generator.
+
+4
+
+IS : 12429 ( Part 1) - 1988
+
+7. WAVEFORM
+Clock pulse
+
+OF THE TIME AND CONTROL
+811 "0"
+
+CODE SIGNAL ( seeFig. 4 )
+Bit " 1"
+250 vs Clock pulse
+
+Clock pulse
+
+500 ps (clock period)
+
+Rise and fall time:
+
+50 + :i t.csmeasured between the 10% and 90% amplitude
+
+points of the waveform
+
+Shape of transition: Similar to the edge of a sine squared pulse Maximum overshoot, undershoot, tilt: 5 % of peak-.to-peak amplitude Clock period: 500 gs ( nominal ) Maximum timing error of any clock period: f 2.5 ps Maximum timing error of " 1" transition: j, 2.5 w NOTE waveform Any distribution equipment is expected to transmit the signal with negligible of the input signal to the recorder meets the same requirements. distortion so that the
+
+FIG. 4 8. TIMING which
+
+WAVEFORM OF THE TIME
+
+AND
+
+CONTROL CODE
+
+SIQNAL
+
+(
+
+625/50 )
+
+OF THE START OF THE CODE WORD
+word occurs within the period of the picture with
+
+8.1 625150 Systems
+
+- The start of the code the code word is associated ( Fig. 5 ).
+0" field 2. 4. 6, 8
+-t field 1. 3. 5, 7
+
+% Tolerance Interval for the start of the code word Fra. 5 START OF THE CODE WORD IN THE FIELD-BLANKING INTERVAL ( 625/50 5 )
+
+BUREAU
+./'
+
+OF
+
+INDIAN
+
+STANDARDS
+
+,:`."@dquarters: Manak Bhavan, 9 Bahadur Shah Zafar Marg, NEW DELHI 110002
+Telephones : 3 31 01. 31 Regional Central : @Eastern Offices: Manak Bhavan, 9 Bahadur Shah Zafar Marg, NEW DELHI l,t0002 : l/14 C. I. T. Scheme VII M, V. I. P. Road, Maniktola, CALCUTTA 700054 Sector 35-C, 160036 41 24 42, 3 31 01 31, 3 31, 13 75 Telegrams : Manaksanstha ( Common to all Offices ) Telephone 3 31 13 75 36 24 99
+
+Northern : SC0 445-446, CHANDIGARH
+
+21843,
+41 26 19,
+
+31641
+41 29 1,s 6 32 92 95
+
+Southern : C. I. T. Campus, IV Cross Road, MADRAS 600113 TWestern : Manakalaya, E9 MIDC, Marol, Andheri ( East ), BOMBAY 400093
+
+Branch Off ices:
+`Pushpak', Nurmohamed Shaikh Marg, Khanpur, AHMADABAD 380001 $Beenya Industrial Area, 1st Stage, Bangalore-Tumkur BANGALORE 560058 Gangotri Complex, 5th Floor, Bhadbhada Road, T. T. Nagar, BHOBAL 462003 Blot No. 82/83. Lewis Road, BHUBANESHWAR 751002 Road, 26348, 38 49 55, 26349 38 49 56 6 6726 5 38 27 3 31, 77 23 10 83 63471, 22 88 76, 69832 21.82 92
+
+53/5 Ward No. 29, R. G. Barua Road, 5th By-lane, GUWAHATI 781,003 5-8-56C L. N. Gupta Marg ( Nampally Station Road ), HYDERABAD 500001, RI4 Yudhister Marg, C Scheme, JAIPUR 302005 l,1,7/41.8 B Sarvodaya Nagar, KANFUR 208005 Patliputra Industrial Estate, PATNA 800013 695034 6 21 04,
+
+6 23 06 6 21. 1.7
+
+T.C. No. 1,4/1421,, University B.O., Balayam, TRIVANDRUM Inspection Offices ( With Sale Point ):
+
+Pushpanjali, First Floor, 205-A West High Court Road, Shankar Nagar Square, NAGPUR 440010 Institution of Engineers ( India ) Building, 1332 Shivaji Nagar, PUNE 411,005
+
+2 51 71. 5 2435
+
+*Sales Office in Calcutta is at 5 Chowringhee Approach, P.O. Princep Street, Calcutta 700072 tSales Office in Bombay is at Noveltv Chambers, Grant Road, Bombay 400007 #Saks Office in Bangalore is at Unity Building, Narasimharaja Square, Bangalore 560002 Printed at Printograph,
+
+27 68 00 89 65 28 22 39 71 New Delhi, India
+
+

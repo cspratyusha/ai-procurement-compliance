@@ -1,0 +1,4260 @@
+**************** 
+
+
+
+
+Disclosure to Promote the Right To Information 
+
+Whereas the Parliament of India has set out to provide a practical regime of right to 
+information for citizens to secure access to information under the control of public authorities, 
+in order to promote transparency and accountability in the working of every public authority, 
+and whereas the attached publication of the Bureau of Indian Standards is of particular interest 
+to the public, particularly disadvantaged communities and those engaged in the pursuit of 
+education and knowledge, the attached public safety standard is made available to promote the 
+timely dissemination of this information in an accurate manner to the public. 
+
+
+
+
+Mazdoor Kisan Shakti Sangathan 
+"The Right to Information, The Right to Live'' 
+
+
+
+IS 13615 (1993) : Service definition for the association 
+control service element in open systems interconnection for 
+information processing systems [LITD 14: Software and 
+System Engineering] 
+
+
+
+
+Jawaharlal Nehru 
+'Step Out From the Old to the New" 
+
+
+
+aj^&vi f 7ui^s:y%K^ isb^^ni^seg 
+
+
+
+:<>5&i| mT'5K^5?::5:^>^i»l 
+
+
+
+K^^^iXSVCd^ 
+
+
+
+Satyanarayan Gangaram Pitroda 
+Invent a New India Using Knowledge 
+
+
+
+Bhartrhari — Nitisatakam 
+''Knowledge is such a treasure which cannot be stolen" 
+
+
+
+
+^'^^^r 
+
+
+
+k 
+
+
+
+
+BLANK PAGE 
+
+
+
+^*-^^^ 
+
+
+
+
+
+PROTECTED BY COPYRIGHT 
+
+
+
+IS 13615 : 1993 
+ISO 8649 : 1988 
+
+Indian Standard 
+
+SERVICE DEFINITION FOR THE ASSOCIATION 
+
+CONTROL SERVICE ELEMENT IN OPEN SYSTEMS 
+
+INTERCONNECTION FOR INFORMATION 
+
+PROCESSING SYSTEMS 
+
+
+
+UDC 681-327-901 
+
+
+
+© BIS 1993 
+
+BUREAU OF INDIAN STANDARDS 
+
+MANAK BHAVAN. 9 BAHADUR SHAH ZAFAR MARG 
+NEW DELHI 110002 
+
+August 1993 Price Qroup 9 
+
+
+
+Computer System and Interconnection Sectional Committee, LTD 36 
+
+
+
+NATIONAL FOREWORD 
+
+This Indian Standard which is identical with ISO 8649 : 1988 'Information processing systems- 
+Open systems interconnection - Service definition for the association control service element', 
+issued by the International Organization for Standardization ( ISO ) was adopted by the Bureau 
+of Indian Standards on the recommendation of the Computer Systems and Interconnection 
+Sectional Committee and approval of the Electronics and Telecommunication Division Council. 
+
+In the adopted standard certain terminology and conventions are however not identical to 
+those used in Indian Standards. Attention is particularly drawn to the following: 
+
+Wherever the words 'Interhational Standard' appear referring to this standard, they 
+should be read as 'Indian Standard'. 
+
+
+
+In this Indian Standard, the following 
+respective place the following: 
+
+International Standard 
+
+
+
+international standards ate referred to. Read in their 
+
+
+
+Indian Standard 
+
+IS 12373 (Parti) : 1987 Basic reference 
+model of open systems interconnection for 
+information processing systems : Part 1 
+( Identical ) 
+
+IS 12373 ( Part 3) : 1992 Basic reference 
+model of open systems interconnection for 
+information processing systems : Part 3 
+Naming and addressing 
+( Identical ) 
+
+IS 13706 : 1993 Protocol specification for 
+the association control service element 
+in open systems interconnection for 
+information processing systems 
+( Identical ) 
+
+IS Connection oriented presenta- 
+
+tion service definition in open systems 
+interconnection for information processing 
+systems ( under preparation ) 
+( Identical ) 
+
+The technical committee responsible for the preparation of this standard has reviewed the 
+provisions of the following ISO Standards and has decided that they axe acceptable for use 
+in conjunction with this standard: 
+
+ISO/TR 8509 Information processing systems — Open systems interconnection - Service 
+Conventions 
+
+
+
+ISO 7498 Information processing systems- 
+Open systems interconnection — Basic 
+reference model 
+
+ISO 7498-3 Information processing systems- 
+Open systems Interconncetion — Basic 
+reference model — Part 3 Naming and 
+addressing 
+
+ISO 8650 Information processing systems — 
+Open systems interconnection — Protocol 
+specification for the association control 
+service element 
+
+ISO 8822 Information processing systems — 
+Open systems interconnection — Connec- 
+tion oriented presentation service 
+definition 
+
+
+
+ISO 8326 Information processing systems — Open 
+connection oriented session service definition 
+
+
+
+systems interconnection — Basic 
+
+
+
+ISO 8327 Information processing systems — Open systems interconnection — Basic 
+connection oriented session protocol specification 
+
+CCITT Recommendation X. 410: Message handling systems : remote operation and 
+seliable transfer server ( 1984 ) 
+
+
+
+The text of Amendment No. 1 and Amendment No. 2 to ISO 8649 
+the end of this standard. 
+
+
+
+1 988 is being given at 
+
+
+
+Only the English language text in the international standard has been retained while adopting 
+it in this standard. 
+
+
+
+IS 13615 : 1903 
+ISO 8649 : 1988 
+
+
+
+ISO 
+8649 
+
+
+
+AMENDMENT 1 : Authentication during association 
+establishment 
+
+
+
+IMOVB THE INTRODUCTION {THE OMGINAL CiAUSiO) TO THE 
+FRONT OE THE INTERNA TIONAL STANDARD AS A PRELIMINARY 
+ELEMENT, WHEN THIS IS DONE, THE INTRODUCTION \MLL BE ON 
+PAGE -^iv^AND THE NUMBERS PRECEDING THE PARAGRAPHS 
+OF THE ORIGINAL CLAUSE WILL BE DELETED. ] 
+
+Introduction 
+
+{MODIFY THE FOURTH PARAGRAPH iI.E, THE ORIGINAL 0.41 AS 
+FOLLOWS.) 
+
+Or4 This International Standard defines services provided by 
+the application service element for application-association 
+control: the Association Control Service Element (ACSE). 
+The ACSE provides basic facilities for the control of an 
+application-association between two application-entities 
+that communicate by means of a presentation-connection. 
+« The ACSE includes a functional unit for exchanging infor- 
+mation in support of authentication during association estab- 
+lishment. The ACSE services apply to a wide range of ap- 
+plication-process communication requirements.» 
+
+1 Scope 
+
+{INSERT THE FOLLOWING TEXT AS THE NEW SECOND PARA- 
+GRAPH OF CLAUSE 1 .) 
+
+Two functional units are defined in the ACSE. Tlhe mandatory 
+Kernel functional unit is used to establish and release applica- 
+tion-associations; The optional Authentication, functional 
+unit provides additional facilities for exchanging information 
+in support of authentication during association estab- 
+lishment without adding services. The ACSE authentication 
+facilities may be used to support a limited class of authen- 
+tication methods. 
+
+( END OF INSERTED PARAGRAPH. ] 
+
+
+
+2 frNormative»f references 
+
+{INSERT THE FOLLOWING TEXT AS THE NEW PARAGRAPH 
+UNDER CLA USE 2 BEFORE THE LIST OF REFERENCES. ) 
+
+The following standards contain provisions which, through 
+reference in this text, constitute provisions of this Interna- 
+tional Standard. At the time of publication, the editions 
+indicated were valid. All standards are subject to revision, 
+and parties to agreements based on this International Stand- 
+ard are encouraged to investigate the possibility of applying 
+the most recent editions of the standards listed below. 
+Members of lEC and ISO maintain registers of currently valid 
+Intemational Standards. 
+
+{ADD THE FOLLOWING REFERENCES.) 
+
+ISO 7498-2:1 989. in formation processing systems — Open 
+Systems Interconnection — Basic Inference Model — Part 
+2: Security architecture, 
+
+ISO/IEC 9545:1989, Information technology — Open Sys- 
+tems interconnection — Application Layer Structure. 
+
+ISO/IEC 9834-1 \ information technology — Open Systems 
+Interconnection — Procedures for the operation of OSi 
+f^istration Authorities — Part 1: General procedures. 
+
+{END OF ADDED REFERENCES. ) 
+
+3 Definitions 
+
+3.1 Reference rnocM definitions 
+
+3.1.1 Basic reference model definitions {NgwHiAotMO] 
+
+{MOVE TEXT FROM THE ORIGINAL SUBCLAUSE 3. 1 TO THIS 
+SUBCLAUSE AND ADD THE FOLLOWING TERMS MAINTAINING 
+ALPHABETICAL ORDER) 
+
+application-function 
+(N)-function 
+
+
+
+1) To be published. 
+
+
+
+If 4Jt1S:1MS 
+ISO 8649 : IMS 
+
+
+
+{0^$£fi7NeWSUBCLAUS£Xf.2.) 
+
+3.1.2 Security architecturtdellnitlons {Niw\ 
+
+TNs Intemational Standard makes use of the following terms 
+defined in ISO 7498-2: 
+
+a) credentials; 
+
+b) password; and 
+
+c) peer-entity authentication. 
+{END Of0^S£8rEO SUBCLAUSB 3, 1.2, ) 
+
+3.1.3 Naming and addressing definitions [f>Re/i0USLY 3,2) 
+{MOVE TEXT FROM ORfGfNAL 3.2 TO TNiS SUBCLAUSE. ] 
+
+3.2 Service conventions definitions [PREVIOUSLY 3.3) 
+{MOVE TEXT FROM ORIGINAL 3.3 TO THIS SUBCLAUSE ) 
+
+3.3 Presentation service definitions {PREVIOUSLY 3.4) 
+{MOVE TEXT FROM THE ORfGfNAL 3.4 TO THIS SUBCLAUSE \ 
+
+3.4 ACSE service definitions {PREVIOUSLY 3.5] 
+
+{MOVE TEXT FROM THE ORIGINAL 3.5 TO THIS SUBCLAUSE AND 
+ADO THE FOLLOWING DEFINITIONS MAINTAINING ALPHABETICAL 
+ORDER.) 
+
+3.4.. authentication: The corroboration of the identity of 
+objects relevant to the establishment of an association. For 
+example, the^e can include the AEs, APs, and the human 
+usera of applications. 
+
+NOTE - This term hss been defined to maice it clear that a wider 
+scope of authentication is being addressed than is covered by 
+peer-entity authentication in ISO 7498-2. 
+
+3.4.. authentication-function: An application-function 
+within an application-entity Invocation that processes and 
+exchanges authentication-values with a peer authentication- 
+function. 
+
+3.4.^ authentication-value: The output from an authentica- 
+tion-function to be transferred to a peer ACSE service-user 
+for input to the peer's authentication-function. 
+
+3.4._ authenticatkNi-mechanism: The specification of a 
+specific set of authentication-function rules for defining, 
+processing, and transferring authentication-values. 
+
+{iNSERT NEW SUBCLAUSE 3.5. ) 
+
+3.5 Application Layer Structure definltione {new\ 
+
+This Intemational Standard malces use of the following terms 
+defined in ISO/IEC 9S45: 
+
+a) application-entity invocation; 
+
+b) single association control function; and 
+
+c) single association object. 
+{END OF M^SERTEO SUBCLAUSE 3.5.) 
+
+
+
+4 Abbreviations 
+
+{ADD THE FOLLOWING ABBREVIATIONS MAINTAINING AL^ 
+PHABETICAL ORDER.) 
+
+AEI application-entity invocation 
+
+SACF single association control function 
+
+SAO single association object 
+
+{END OF ' lOEOABBREVIA TIONS. ) 
+
+5 Conventlont {NO CHANGE) 
+
+{NO CHANGE IS MADE TO THIS CLA USE. ) 
+
+6 Basic concepts 
+
+{USING THE ORIGINAL CLAUSE 6 AS A BASE, REPLACE CLAUSE 
+6 WITH THE FOLLOWING TEXT.) 
+
+{INSERT NEW HEADING 6. 1. MOVE ORIGINAL PARAGRAPHS 6. 1 
+THROUGH 6.4 UNDER THIS NEW HEADING AS PARAGRAPHS 
+6.1.1 THROUGH 6.1.4. THEN, INSERT NEW PARAGRAPHS 6.1.5 
+THROUGH 6. 1. 7. ALSO, INSERT NEW SUBCLAUSE 6.2) 
+
+6.1 General {new heading) 
+
+S.1.1 The reference model (ISO 7498) represents com- 
+munication between a pair of application-processes ( APs) in 
+terms of communication between their application-entities 
+( AEs) using the presentation-service. The functionality of an 
+AE is factored into a number of application-service-elements 
+(ASEs). The interaction between AEs is described in terms 
+of the use of their ASEs' services. 
+
+e. 1.2 This Intemational Standard introduces the additional 
+modeling concepts of application-association and applica- 
+tion context. 
+
+e. 1 .3 An appilcation-essodation is a cooperative relationship 
+between two AEs. It provides the necessary frame of refer- 
+ence between the AEs in order that they may interworic 
+effectively. This relationship is formed by the exchange of 
+application-protocol-control-information between the ap- 
+plication^entities through their use of presentation-services. 
+
+8.1. 4 An appttcetion context is an explicitly identified set of 
+application-service-elements, related options and any other 
+necessBTY information for the interworking of application-en- 
+tities on an application association. 
+
+e.l.S (Mcw) The ACSE service-user is that part of an applica- 
+tion-entity that malces use Qf ACSE services. It may be the 
+single association control function (S ACPI or an ASE or some 
+combination of the two. 
+
+e.l .e (Mcw) An aSE standard does not needto specify the use 
+of ACSE siervice primitive parameters that are not relevant 
+to the operation of the ASE. It may be assumed that the 
+SACF passes such parameters between the ACSE service- 
+provider and that part of the AEI to which the parameters are 
+relevant. 
+
+e.1.7(Mcw)A8 an example, consider the authentication 
+parameters of the Authentication functional unit discussed 
+below In 6.2. The SACF may be used to model the passing 
+of authenticatfon-values between the authenticatlon-func- 
+
+
+
+IS 13615 : 1993 
+ISO 8649 : 1988 
+
+
+
+Indian Standard 
+
+SERVICE DEFINITION FOR THE ASSOCIATION 
+
+CONTROL SERVICE ELEMENT IN OPEN SYSTEMS 
+
+INTERCONNECTION FOR INFORMATION 
+
+PROCESSING SYSTEMS 
+
+
+
+Introduction 
+
+0.1 This International Standard is one of a set of Internation- 
+al Standards produced to facilitate the interconnection of in- 
+formation processing systems. It is related to other Interna- 
+tional Standards in the set as defined by the Reference Model 
+for Open Systems Interconnection (ISO 7498). The 
+reference model subdivides the area of standardization for 
+interconnection into a senes of layers of specification, each 
+of mar ageable size. 
+
+0.2 The goal of Open Systems Interconnection is to allow, 
+with a minimum of technical agreement outside the intercon- 
+nection standards, the interconnection of information 
+processing systems: 
+
+— from different manufacturers; 
+— under different managements; 
+— of different levels of complexity; and 
+— of different technologies. 
+
+0.3 This International Standard recognizes that application- 
+processes may wish to communicate with each other for a 
+wide variety of reasons. However, any communication will 
+require the performance of certain services independent of 
+the reasons for communication The application-service-ele- 
+ment defined herein provides such services 
+
+0.4 This International Standard defines services provided by 
+the application service element for application-association 
+control: the Association Control Service Element (ACSE). 
+The ACSE provides basic facilities for the control of an ap- 
+plication-association between two application-entities that 
+communicate by means of a presentation-connection. 
+
+0.5 The use of services defined in this International Standard 
+is also governed by the use of the presentation-service (ISO 
+8822) and the session-service (ISO 8326). 
+
+0.6 It is recognized that, with respect to ACSE Quality ot 
+Services (QOS), described in clause 9, work is still in 
+progress to provide an integrated treatment of COS across 
+all tayers of the OSI Reference Model, and to ensure that the 
+indiv dual treatments in each layer service satisfy overall 
+QOS objectives in a consistent manner. As a consequence. 
+
+
+
+an addendum may be added to this International Standard at 
+a later time which reflects further COS developments and in- 
+tegration. 
+
+
+
+1 Scope and field of application 
+
+This International Standard defines ACSE services for ap- 
+plication-association control in an open systems intercon- 
+nection environment. The ACSE services are provided by 
+the use of the ACSE protocol (ISO 8650) in conjunction with 
+the presentation-service (ISO 8822). The ACSE services as- 
+sume as a minimum the use of the presentation-service Ker- 
+nel functional unit 
+
+This International Standard does not specify individual im- 
+plementations or products, nor does it constrain the im- 
+plementation of entities ana interfaces within a computer 
+system 
+
+No requirement is made for conformance to this Internation- 
+al Standard 
+
+
+
+2 References 
+
+ISO 7498, Information processing systems - Open Systems 
+Interconnection - Basic Reference Model 
+
+ISO 7498-3, Information processing systems - Open Sys- 
+tems Interconnection - Basic Reference Model - Part 3 
+Naming and Addressing. ^ 
+
+ISO 8326. Information processing systems - Open Systems 
+Interconnection - Basic connection oriented session service 
+definition. 
+
+ISO 8327, Information processing systems - Open Systems 
+Interconnection - Basic connection oriented session protocol 
+specification. 
+
+ISO/Th 8509, Information processing systems - Open Sys- 
+tems Interconnection - Service conventions. 
+
+
+
+1 At present at the stage of draft, publication anticipated in due course. 
+
+
+
+r 
+
+
+
+18 1361S : 1993 
+ISO 8649 : 1988 
+
+
+
+tion and the ACSE service-provider. An ASE that references 
+ACSE need not be concerned with these parameters. 
+
+6.2 Authentication {/V£W} 
+
+This International Standard includes the Authentication 
+functional unit. The functional unit allows APIs, AEIs and 
+their related objects to exchange authentication information 
+during the establishment of an association. 
+
+6.2.1 Authentication concepts 
+
+This International Standard includes the modeling concepts 
+of authentication-function, authentication-mechanism, 
+authentication-mechanism ndme and authentication-value. 
+Each is discussed below. 
+
+6.2.1.1 Authentication-function 
+
+6.2.1.1.1 For this International Standard, authentication is 
+supported by a pair of authentication-functions. An authen- 
+Hcation-function is modeled as an application-function (i.e., 
+IS an (N)-function as defined in ISO 7498) that is available 
+the ACSE service-user. Each is contained within the as- 
+sociated AEIs. 
+
+L2.1.1.2 Modeling the authentication-function in this way 
+illows ACSE to deal with authentication communication 
+equirements without having to understand the semantics of 
+he security information exchanged or how it is used. 
+
+^2.1 .2 Authentication-mechanism 
+i.2.1.2.1 An authentication-mechanism is a particular 
+ipecif ication of the processing to be performed by a pair of 
+ipplication-functions for authentication. A specification 
+contains the rules for creating, sending, receiving and 
+)roces$ing information needed for authentication. 
+
+1.2.1.2.2 Annex B in ISO 8660 is an example of an authen- 
+:icat ion-mechanism. It defines the authentication of the 
+sending AEI based on its AE title and its password. The 
+password is contained in the Authentication-value 
+parameter. 
+
+6.2.1 .3 Authentication-mechanism name 
+
+6.2.1.3.1 An authentication-mechanism name is used to 
+specify a particular authentication-mechanism. For example, 
+the name of the authentication-mechanism specified in ISO 
+8650 annex B is assigned (i.e., registered) in the annex. The 
+value has the data type of an OBJECT IDENTIFIER. 
+
+6.2.1.3.2 An authentication-mechanism name may also be 
+used to specify a more general security mechanism that 
+includes an authentication-mochanism. An example of a 
+general security mechanism is an ASE that provides security 
+facilities to its service-user). 
+
+6.2.1.3.3 Authentication-mechanism names and general 
+security mechanism names are subject to registration within 
+OSI (see clause 1 2 in ISO 8650). 
+
+6.2.1 .4 Authentication-value 
+
+6.2.1.4.1 An •uthenticatlon-valiie consists of information 
+used by a pair of authentication-functions to perform authen- 
+tication. It can consist of information such as, credentials, a 
+time-stamp, a digital aignature, etc. It can also identify the 
+
+
+
+type and/or name of object to be authenticated, such as the 
+AE, a human user, etc. 
+
+6.2.1.4.2 The semantic structure of an authentication-value 
+is specified by the authentication-mechanism involved. 
+
+6.2. 1 .4.3 An authentication-function provides an authentica- 
+tion-value to its AEI to be sent to the peer AEI. The peer AEI's 
+authenticatlon-fuTKtion receives and processes this authen- 
+tication-value. For example, it may use the value to authen- 
+ticate objects at the sending AEI. 
+
+6.2.1.4.4 An authentication-mechanism may be part of a 
+ASE that provides security facilities to its service-user. In 
+this situation, the authentication-mechanism name iden- 
+tifies the ASE; the authentication-value is an APOU of the 
+ASE. 
+
+6.2.2 ACSE authentication facilities 
+
+6.2.2.1 The ACSE Kernel functional unit does not support 
+authentication. However, AP Title, AE Qualifier, AP invoca- 
+tion-identifier and AE invocation-identifier values are option- 
+ally transferred during the establishment of an association. 
+They may be used to identify the calling, called and respond- 
+ing AEIs. 
+
+6.2.2.2 The ACSE Authentication functional unit supports 
+the transfer of authentication-values as part of the A-AS- 
+SOCIATE service. An authentication-value is treated as an 
+atomic item by ACSE. Its semanticr are transparent to the 
+ACSE service-provider. 
+
+6.2.2.3 The facilities of the Authentication functional unit 
+may be used to convey other security-related information. 
+This may be done with the transfer of authentication infor- 
+mation during association establishment. 
+
+{ END Of REPLACBO CLA USE 6, ) 
+
+7 Service overview 
+
+{//VS£/?r THE NE^V HEADING 7. /.} 
+
+7.1 ACSE services {NEV^ heading) 
+
+[MOVE THE PARAGRAPHS UNDER ORIGINAL CLAUSE 7 TO THIS 
+SUBCLAUSE AND RENUMBER THE PARAGRAPHS ACCORDINGL Y. 
+THEN INSERT NEW SUBCLAUSE 7.2. ) 
+
+7.2 Functional units (NEW) 
+
+7.2.1 Functional units are used by this International Standard 
+to identify ACSE user requirements during association estab- 
+lishment. Two functional units are defined: 
+
+a) Kernel functional unit; and 
+
+b) Authentication functional unit. 
+
+7.2.2 The Kernel functional unit is always available, and 
+includes the basic services identified in 7. 1 . 
+
+7.2.3 The Authenticati9n functional unit supports authen- 
+tication during association establishment. The availability of 
+this functional unit is negotiated during association estab- 
+lishment. This functional unit does not include additional 
+
+
+
+18 13616:1993 
+ISO 8649 : 1988 
+
+
+
+services. It adds parameters to the A-ASSOCIATE and A- 
+ABORT services. 
+
+7.2.4 Table a shows the services and parameters associatisd 
+with the ACSE functional unita. The services and their 
+parameters are discussed in clause 9. 
+
+{INSERT NBW TABLE $. RENUMBER THE REMAINING TABLES 
+AND ADJUST REFERENCES TO THESE TABLES IN THE TEXT) 
+
+8 Relationship wHh other ASEs and lower layer 
+services {NO CHANGE) 
+
+{NO CHANGE IS MADE TO THIS CLA USE, ) 
+
+9 Service definition 
+
+{NO CHANGE TO THE INTRODUCTORY TEXT\ 
+
+
+
+9.1 A-ASSOCIATE service 
+
+{NO CHANGE TO THE INTRODUCTORY TEXT) 
+
+9.1.1 A-ASSOCIATE iMramsters 
+
+{TABLE 2 - ADD THE FOLLOWING PARAMETERS AFTER 
+
+Responding AE InvocstkHh-Mentifier. } 
+ACSE Requirements U C C C(«) 
+
+Authentication-mechanism Name U C(«) U C(->) 
+Authentication-value U C(-) U C(») 
+
+{INSERT NEW SUBCLAUSES 9. 1. 1. 14a, 9. 1. 1. 14b AND 
+a ;. /. 14c AFTER SUBCLAUSE 9. 1. /. 14 Responding AE Invoca- 
+non-identifier,) 
+
+9. 1 . 1 . 1 4a ACSE Requirements (/vav) 
+
+This parameter is used by the requestor to indicate the 
+
+functional units requested for the association. If not present. 
+
+
+
+Table a — Functional unit services and their parameters {he^ 
+
+
+
+Functional Unit 
+
+
+Service 
+
+
+Parameter 
+
+
+Kernel 
+
+
+A-ASSOCIATE 
+
+A-RELEASE 
+
+A-ABORT 
+A-P-ABORT 
+
+
+Mode 
+
+Application Context Name 
+
+Catling AP Title 
+
+Calling AE Qualifier 
+
+Calling AP Invocation-identifier 
+
+Calling AE InvocationHdentlfler 
+
+Called AP Title 
+
+Called AE Qualifier 
+
+Called AP Invocation-identifier 
+
+Called AE Invocation-identifier 
+
+Responding AP Title 
+
+Responding AE Qualifier 
+
+Responding AP Invocation-identifief 
+
+Responding AE Invocation-identifier 
+
+User Information 
+
+Result 
+
+Result Source 
+
+Diagnostic 
+
+Calling Presentation Address 
+
+Called Presentation Address 
+
+Responding Presentation Address 
+
+Presentation Context Definition Ust 
+
+Presentation Context Definition Result Ust 
+
+Default Presentation Context Name 
+
+Default Presentation Context Result 
+
+Quality of Sen^e 
+
+Session Requirements 
+
+Initial Synchronization Point Serial Number 
+
+Initial Assignment of Tokens 
+
+Session-connection Identifier 
+
+Reason 
+
+User Infonnation 
+
+Result 
+
+Abort Source 
+User Infonnation 
+
+Providef Reason 
+
+
+Authentication 
+
+
+A-ASSOCIATE 
+A-ABORT 
+
+
+Authentication«value 
+Diagnostic 
+
+
+
+fWflled at Dm Kay PrinlMS. New DiHu, India 
+
+
+
+IS 13615 : 1993 
+ISO 8649 : 1988 
+
+
+
+dniy the Kernel functional unit'is available for the association. 
+In supporting this negotiation mechanism^ the ACSE service- 
+provider removes values for unsupported functional units 
+t)efore issuing the indication primitive to the acceptor. 
+
+This parameter is used by the acceptpr to indicate which of 
+the requested functional units the acceptor selects. The 
+acceptor shall not select a functional unit in the response 
+primitive which was not requested in the indication primitive. 
+
+The value of the parameter in the response primitive is 
+delivered unchanged in the confirm primitive. 
+
+This parameter takes on the following symbolic value: 
+— authentication. 
+
+9.1 .1 .14b Authentication-mechanism Name {/vfw) 
+
+This parameter is only used if the ACSE Requirements 
+parameter includes the Authentication functional unit, if 
+present/ the value of this parameter identifies the authentica- 
+tion-mechanism in use. If not present, the communicating 
+AEis must implicitly know the mechanism in use, e.g., by 
+prior understanding. 
+
+NOTES 
+
+1 Some authentication-mechanisms may require this parameter, 
+and if so, will state this in their specification. 
+
+2 This parameter may specify a more general authentication 
+mechanism. For example, it may specify an ASE that provides 
+security facilities to its service-user. 
+
+9.1 .1 .14c Authentication-value {n£W\ 
+
+This parameter shall only be used if the ACSE Requirements 
+parameter includes the Authentication functional unit. 
+
+The Authenx\cai\on'ya)ue parameter is used as defined 
+below. 
+
+a) If present on the request or the response primitive, it 
+contains an authentication-value generated by the 
+authentication-function in the AEI that issued the service 
+primitive. It is intended for the peer's authentication-func- 
+tion. 
+
+b) If present on the indication or the confirm primitive, it . 
+contains an authentication-value generated by the 
+authentication-function in the AEI that issued the cor- 
+responding request or response primitive. It is intended 
+for the peer's authentication-function. 
+
+{iND OP INSERTED SUBCLAUSES 9. /. /.a, 9. 1. f.bAND 9. /. /.c.) 
+
+9.1.1.18 Diagnostic 
+
+{REPLACE THE PIRST PARAGRAPH USiNG THE POLLQWING 
+
+TEXT) 
+
+This parameter may be used by the acceptor to provide 
+diagnostic information about the establishment of the as- 
+sociation. 
+
+
+
+{ TO THE LfST OP SYMBOLIC VALUES POR THE ACSE SERVICE- 
+USER ADD THE POLLOWING.) 
+
+Authentication-mechanism Name not recognized; 
+
+Authentication-mechanism Uame required; 
+
+Authentication failure; or 
+
+Authentication required. 
+
+{END OP ADDED SYMBOLIC VALUES. ) 
+
+9.1 .2 A-ASSOCIATE procedure {no cHANon 
+{NO CHANGE IS MADE TO THIS SUBCLAUSE. } 
+
+9.2 A-RELEASE service {NO change) 
+{NO CHANGE IS MADE TO THIS SUBCLAUSE.) 
+
+9.3 A-ABORT service 
+
+{NO CHANGE TO THE INTRODUCTORY TEXT} 
+
+9.3.1 A- ABORT parameters 
+
+{ TABLE 4 - ADD THE POLLOWING PARAMETER APTER Abort 
+Source. ) 
+
+Diagnostic U C|») 
+
+{RENUMBER THE ORIGINAL 9.3. 1.2 AS 9.3. U3. INSERT NEY^ 
+SUBCLA USE 9. 3. 1.2 USING THE POLLOWING TEXT. ) 
+
+9.3.1.2 Diagnostic 
+
+The requestor may optionally include diagnostic informatior 
+on the request primitive. It takes one of the following sym 
+bolic values: 
+
+No reason given; 
+
+Protocol error; 
+
+Authentication-mechanism Nantt, not recognized; 
+
+Authentication-mechanism Name required; 
+
+Authentication failure; or 
+
+Authentication required. 
+
+9.3.2 A-ABORT service procedure {no change) 
+{NO CHANGE IS MADE TO THIS SUBCLA USE. ) 
+
+9.4 A-P-ABORT service {NO change) 
+
+{ NO CHANGE IS MADE TO THIS SUBCLA USE. ) 
+
+10 Sequencing information {NOCHANGB} 
+
+{NO CHANGE IS MADE TO THIS CLAUSE. ) 
+
+
+
+Pnnted at Dee K«y Pnnten, New Delhi, Indii 
+
+
+
+IS 13615 : 1M$ 
+ISO 8649 : IMS 
+
+
+
+ISO 
+8649 
+
+
+
+AMENDMENT 2: Connectionless-mode ACSE 
+Service 
+
+
+
+[MOVE THE INTRODUCTION (THE ORIGINAL 
+CLAUSE 0) TO THE FRONT OF THE 
+INTERNATIONAL STANDARD AS A PRELIMINARY 
+ELEMENT, WHEN THIS IS DONE. THE 
+INTRODUCTION WILL BE ON PAGE "iV" AND THE 
+NUMBERS PRECEDING THE PARAGRAPHS OF THE 
+ORIGINAL CLAUSE WILL BE DELETED.) 
+
+
+
+-4- Introduction 
+
+[ADD AN ADDITIONAL PARAGRAPH FOLLOWING 
+THE FOURTH PARAGRAPH AS FOLLOWS.) 
+
+ACSE provides both conncction-orienicd and connectionless 
+mode of service. For its connection-oriented services, the 
+ACSE uses presentation connoction-oriented services (ISO 
+8822). For the conTiectionlcss service, the ACSE uses the 
+presentation connectionless service (ISO 8822/Aind.l). 
+
+
+
+1 Scope 
+
+[DELETE THE FIRST PARAGRAPH AND REPLACE 
+WITH THE FOLLOWING THREE PARAGRAPHS) 
+
+This International Standard defines ACSE services for 
+application-association control in an open systems 
+interconnection environment. 
+
+The ACSE connection-oriented services are provided by the 
+use of the connection-oriented ACSE protocol (ISO 86S0) 
+in conjunction with the connection-oriented presentation- 
+service (ISO 8822). These ACSE services assume as a 
+minimum the use of the presentation-service connection- 
+oriented Kernel functional unit. 
+
+The ACSE connectionless-mode service (A-UNIT-DATA) is 
+provided by the use of the connectionless ACSE protocol 
+(ISO/IEC 1(X)3S) in conjunction with the connectionless- 
+mode presentation-service (P-UNIT-DATA - ISO 
+8822/Amd.l). 
+
+
+
+2 Normative References 
+
+[ADD THE FOLLOWING REFERENCES) 
+
+ISO 7498/Add.l: 1987, Information processing systems - 
+Open Systems Interconnection - Basic Reference Model - 
+Addendum I: Connectionless-mode transmission. 
+
+ISO/IEC 10035: 1991, Information technology - Open 
+Systems Interconnection - Connectionless ACSE Protocol 
+to provide to Provide the Connectionless-mode ACSE 
+Service. 
+
+ISO 8822/Amd.I: 1991, Information processing systems - 
+Open Systems Interconnection - Connection oriented 
+presentation service definition - Amendment 1: 
+Connectionless mode presentation service. 
+
+
+
+3 Definitions 
+
+3.1 RcfercDce Model DefiDitions 
+
+3,1.1 Basic reference model definitions 
+
+[REPLACE THE SENTENCE UNDER 3.1.1 WFTH THE 
+FOLLOWING TEXT) 
+
+This International Standard is based on the concepts 
+developed in ISO 7498 and 7498/Add.l and makes use of 
+the following terms defined in them: 
+
+[ADD TH£ FOLLOWING TO THE UST OF TERMS 
+ACCORDING TO THE ALPHABETICAL ORDER:) 
+
+- connecdonless^mode presenuition-service; 
+
+- (N)-connectionle$s-mode transmission. 
+
+3.3 Presentation service definitions 
+
+[REPLACE THE TEXT UNDER 3,3 WITH THE 
+FOLLOWING) 
+
+This International Standard makes use of the following 
+terms deOned in ISO 8822 and ISO 8822/Add.l. 
+
+
+
+[ADD THE FOLLOWING TO THE UST OF TERMS) 
+
+
+
+IS 13615 : 1993 
+ISO 8649 : 1988 
+
+
+
+ISO 8650, Information processing systems - Open Systems 
+interconnection - Protocol specification for the Association 
+Control Service Element. 
+
+ISO 8822, Information processing systems - Open Systems 
+Interconnection - Connection oriented presentation service 
+definition. 
+
+CCITT Recommendation X.410: Message Handling Sys- 
+tems: Remote Operation and Reliable Transfer Server 
+(1984). 
+
+
+
+3 Definitions 
+
+3.1 Reference model definitions 
+
+This International Standard Is based on the concepts 
+developed in ISO 7498 and makes use of the following terms 
+defined in it: 
+
+a) Application Layer; 
+
+b) application-process; 
+
+c) application-entity; 
+
+d) application-service-element; 
+
+e) application-protocol-data-unit; 
+
+f) application-protocol-control-information; 
+
+g) presentation-service; 
+
+h) presentation-connection; 
+I) session-service; 
+j) session-protocol; and 
+k) session-connection. 
+
+3.2 Naming and addressing definitions 
+
+This International Standard makes use of the following terms 
+defined in ISO 7498-3: 
+
+a) application-process title; 
+
+b) application-entity qualifier; 
+
+c) application-entity title; ^ 
+
+d) application-process invocation-identifier; 
+
+e) application-entity invocation-identifier; and 
+
+
+
+f) presentation address. 
+
+3.3 Service conventions definitions 
+
+This International Standard makes use of the following terms 
+defined in ISO/TR 8509: 
+
+a) service-provider; 
+
+b) service-user; 
+
+c) confirmed service; 
+
+d) non-confirmed service; 
+
+e) provider-Initiated service; 
+
+f) primitive; 
+
+g) request (primitive); 
+h) indication (primitive); 
+
+1) response (primitive); and 
+j) confirm (primitive). 
+
+3.4 Presentation service definitions 
+
+This International Standard makes use of the following terms 
+defined in ISO 8822: 
+
+a) abstract syntax; 
+
+b) abstract syntax name; 
+
+c) default context; 
+
+d) defined context set; 
+
+e) functional unit Ipresentationl; 
+
+f) normal mode Ipresentationl; 
+
+g) presentation context; 
+
+h) presentation data value; and 
+
+i) X.41 0-1 984 mode ipresentationl. 
+
+3.5 ACSE service definitions 
+
+For the purpose of this International Standard, the following 
+definitions apply: 
+
+3.5.1 application-association; association: A cooperative 
+refatlonship between two application-entitles, formed by 
+
+
+
+1 As defined in ISO 7498-3. so application-entity title is composed of an application-process title and an application-entity qualifier. The 
+ACSE service provides for the transfer of an application-entity title value by the transfer of its component values. 
+
+
+
+IS 13615 : 
+ISO 8649 
+
+
+
+1993 
+:19S8 
+
+
+
+their exchange of application-protocol-control-information 
+through their use of presentation-services 
+
+3.5.2 application context: An explicitly identified set of ap- 
+plication-service-elements, related options and any other 
+necessary information for the interworking of application- 
+entities on an application-association. 
+
+NOTE — This definition is subject to refinement as a result of on- 
+going work in the area of the Application Layer structure 
+
+3.5.3 Associafion Control Service Element: The particular 
+application-service-element defined in this International 
+Standard 
+
+3.5.4 ACSE service-user: The part of the application-entity 
+that makes use of ACSE services 
+
+3.5.5 ACSE service-provider: An abstraction of the totality 
+of those entities which provide ACSE services to peer ACSE 
+service-users 
+
+3.5.6 requestor: The ACSE service-user that issues the re- 
+quest pnmitive for a particular ACSE service For a con- 
+firmed service,. It also receives the confirm pnmitive 
+
+3.5.7 acceptor: The ACSE service-user that receives the in- 
+dication primitive for a particular ACSE service For a con- 
+firmed service, it also issues the response pnmitive 
+
+3.5.8 association-initiator: The ACSE service-user that in- 
+itiates a particular association, i e , the requestor of the A- 
+ASSOCIATE service that establishes the association 
+
+3.5.9 association-responder: The ACSE service-user that is 
+not the initiator of a particular association, i e , the acceptor 
+of the A-ASSOCIATE service that establishes the associa- 
+tion 
+
+3.5.10 normal mode The mode of ACSE operation that 
+results in the transfer of ACSE semantics, using the presen- 
+tation-service 
+
+3.5.11 X.410-1984 mode: The mode of ACSE operation 
+that allows ACSE service-users to interwork using the 
+protocol specified m CCITT Recommendation X 410-1 984 
+The use of this mode results in no transfer of ACSE seman- 
+tics. 
+
+3.5.12 disrupt: A service procedure is disrupted by another 
+service procedure if the second service results in service 
+pnmitives not being used as specified for the procedure of 
+the first service. 
+
+
+
+4 Abbreviations 
+
+The following abbreviations are used in this International 
+Standard. 
+
+ACSE Association Control Service Element 
+
+AE application-entity 
+
+ASE application-service-element 
+
+OSI Open Systems Interconnection 
+
+QOS Quality of Service 
+
+
+
+5 Conventions 
+
+5.1 This International Standard defines services for the 
+ACSE following the descnptive conventions defined in 
+ISO/TR 8509 In clause 9, the definition of each ACSE ser- 
+vice includes a table that lists the parameters of its primi- 
+tives For a given primitive, the presence of each parameter 
+IS descnbed by one of the following values 
+
+blank not applicable 
+
+C conditional 
+
+M mandatory 
+
+P subject to conditions defined in ISO 8822 
+
+U user option 
+
+5.2 In addition, the notation { =) indicates that a parameter 
+value IS semantically equal to the value to its left in the table 
+
+
+
+6 Basic concepts 
+
+6.1 The reference model (ISO 7498) represents com- 
+munication between a pair of application-processes (APs) in 
+terms of communication between their application-entities 
+(AEs) using the presentation-service The functionality of an 
+AE IS factored into a number of application-service-elements 
+(ASEs) The interaction between AEs is described in terms 
+of the use of their ASEs' services 
+
+6.2 This International Standard introduces the additional 
+modeling concepts of application-association and applica- 
+tion context 
+
+6 3 An application-association is a cooperative relationship 
+between two AEs It provides the. necessary frame of 
+reference between the AEs in order that they may interwork 
+effectively This relationship is formed by the exchange of 
+application-protocol-control-information between the ap- 
+plication-entities through their use of presentation-services 
+
+6.4 An application context is an explicitly identified set of 
+application-service-elements, related options and any other 
+necessary information for the interworking of application-en- 
+tities on an application association 
+
+
+
+7 Service overview 
+
+7.1 This International Standard defines the following ser- 
+vices for the control of a single association 
+
+a) A-ASSOCIATE, 
+
+b) A-RELEASE, 
+
+c) A-ABORT,and 
+
+d) A-P-ABORT. 
+
+7.2 The A-ASSOCIATE service causes the start of use of an 
+association by those ASE procedures identified by the value 
+of Application Context Name parameter 
+
+NOTE — The use of an association by several ASEs is the subject 
+of ongoing work. 
+
+
+
+IS 1361$ : 1903 
+ISO 8640 : 1088 
+
+
+
+7.3 The A-RELEASE service/ if successful causes the com- 
+pletion of the use of an association by those ASE procedures 
+identified by the application context that is in effect without 
+loss of information in transit. However, the success of the 
+A-RELEASE service may be negotiated. 
+
+7.4 The A-ABORT service causes the abnormal release of 
+the association with the possible loss of information in tran- 
+sit. 
+
+7.5 The A-P-ABORT service indicates the abnormal release 
+of the association as a result of action by the underlying 
+presentation-service with the possible loss of information in 
+transit. 
+
+7.6 For a particular association, the ACSE services operate 
+in one of the following modes: 
+
+a) normal mode; or 
+
+b) X.41 0-1 984 mode. 
+
+7.7 The normal mode of operation allows the ACSE service- 
+user to take full advantage of the functionality provided by 
+both ACSE and the presentation-service (ISO 8822). In this 
+mode the ACSE service-provider transfers its semantics 
+using the normal mode of the presentation-service. 
+
+7.8 The X. 410-1 984 mode of operation allows the ACSE 
+service-user to interwork with a peer using the protocol 
+specified by the CCITT Recommendation X.41 0-1 984. In 
+this mode, the ACSE service-provider does not transfer any 
+semantics of its own and uses the X.41 0-1 984 mode of the 
+oresentation-service. 
+
+
+
+8 Relationship with other ASEs and lower layer 
+services 
+
+8.1 Other application-service-elements 
+
+8.1.1 The ACSE is intended to be used with other ASEs in 
+order to support a specific information processing task. 
+Therefore, it is expected that the ACSE will be included in all 
+application context specifications. 
+
+8.1 .2 The collection of the ACSE and other ASE(s) included 
+in an application context are required to use the facilities of 
+the presentation-service in a coordinated manner. 
+
+8.2 Presentation-service 
+
+8.2.1 A one-to-one correspondence exists between an ap- 
+plication-association and a presentation-connection. 
+
+8.2.2 The ACSE services require access to the P-CONNECT, 
+P-RELEASE, P-U-ABORT and P-P-ABORT services. The 
+ACSE services neither use nor constrain the use of any other 
+presentation service. 
+
+
+
+8.2.3 The requestor and acceptor of the A-ASSOCIATE ser- 
+vice determine the mode, the default presentation context, 
+and the initial defined context set of the underlying presen- 
+tation-connection using the following A-ASSOCIATE 
+parameters: 
+
+— Mode; 
+
+— Presentation Requirements; 
+
+— Presentation Context Definition List; 
+
+— Presentation Context Definition Result List; 
+
+— Default Presentation Context Name; and 
+
+— Default Presentation Context Result. 
+
+8.2.4 If the requestor specifies the value "normal" for the 
+Mode parameter, the last five parameters above determine 
+the presentation context facility for the association accord- 
+ing to the rules for the normal mode of the presentation-ser- 
+vice (ISO 8822). At the conclusion of the A-ASSOCIATE 
+procedure, the requestor and acceptor must have obtained a 
+presentation context that supports the abstract syntax 
+specified in ISO 8650 for the ACSE application-protocol- 
+data-units. 
+
+NOTE — The ACSE service-provider is aware of the presentation 
+context that contains its abstract syntax by a local mechanism. 
+
+8.2.5 If the requestor specifies the value "X. 41 0-1 984" for 
+the Mode parameter, the ACSE service-provider does not 
+transfer ACSE semantics and therefore does not require a 
+presentation context for its abstract syntax. However, the 
+user information that the ACSE service-provider does trans- 
+fer uses the unnamed default presentation context for the 
+X.41 0-1 984 mode of the presentation-service (ISO 8822). 
+
+NOTE — Table 2 indicates the A-ASSOCIATE service parameters 
+that are not used in the X.41 0-1 984 mode. None of the presen- 
+tation context related parameters are used. 
+
+8.3 Session -service 
+
+8.3.1 Using the Session Requirements parameter, the A- 
+ASSOCIATE sen/ice requestor and acceptor determine the 
+functional units for the underlying session-service (ISO 
+8326). 
+
+8.3.2 The rules and the parameter value length restrictions 
+of the underlying session-service affect ACSE services. The 
+ACSE service-user must be aware of these constraints. 
+
+NOTE — Some examples of these constraints are: 
+
+a) Version 1 of the session-protocol (ISO 8650) imposes user 
+data length restrictions which affect ACSE primitive parameters. 
+Some special considerations apply to the A-ABORT service (see 
+9.3). 
+
+b) The choice of session functional units for a particular associa- 
+tion affects the rules for the use of ACSE services. For example, 
+the selection of session tokens controls the possibilities of 
+negotiated release and release collisions. 
+
+
+
+IS 13615 : 1993 
+ISO 8649 : 1988 
+
+
+
+9 Service definition 
+
+The ACSE services are listed in table 1 . 
+
+Table 1 - ACSE-services 
+
+
+
+SERVICE 
+
+
+TYPE 
+
+
+A-ASSOCIATE 
+A-RELEASE 
+A-ABORT 
+A-P-ABORT 
+
+
+Confirmed 
+Confirmed 
+Non-confirmed 
+Provider-initiated 
+
+
+
+9.1 A-ASSOCIATE service 
+
+The A-ASSOCIATE service is used to cause the beginning of 
+the use of an association; it is a confirmed service. 
+
+9.1.1 A-ASSOCIATE parameters 
+
+Table 2 lists the A-ASSOCIATE service paranneters. In ad- 
+dition, groups of paranneters are defined for reference by 
+other ASEs as follows: 
+
+
+
+a) Calling AE Title is the composite of the Calling AP 
+Title and the Calling AE Qualifier parameters; 
+
+b) Called AE Title is the composite of the Called AP 
+Title and the Called AE Qualifier parameters; and 
+
+c) Responding AE Title is the composite of the Respond- 
+ing AP Title and the Responding AE Qualifier 
+parameters. 
+
+The two components of the AE title ( AP title and AE qualifier) 
+are defined in ISO 7498-3. 
+
+9.1.1.1 Mode 
+
+This parameter specifies the mode in which the ACSE ser- 
+vices will operate for this association. It takes one of the f ol - 
+lowing symbolic values: 
+
+— normal; or 
+— X.410-1984. 
+
+If this parameter is not included on the request primitive, the 
+default value of "normal" is used by the ACSE service- 
+provider. This parameter is always present on the indica- 
+tion primitive. 
+
+
+
+Table 2 - A-ASSOCIATE parameters 
+
+
+
+Parameter Name 
+
+
+Req 
+
+
+Ind 
+
+
+Rsp 
+
+
+Cnf 
+
+
+Mode 
+
+
+U 
+
+
+M< = ) 
+
+
+
+
+
+
+• Application Context Name 
+
+
+M 
+
+
+M( = ) 
+
+
+M 
+
+
+M( = ) 
+
+
+• Calling AP Title 
+
+
+U 
+
+
+C{ = ) 
+
+
+
+
+
+
+' Calling AE Qualifier 
+
+
+U 
+
+
+C( = ) 
+
+
+
+
+
+
+• Calling AP invocation-identifier 
+
+
+U 
+
+
+C( = ) 
+
+
+
+
+
+
+• Calling AE invocation-identifier 
+
+
+U 
+
+
+C( = ) 
+
+
+
+
+
+
+• Called AP Title 
+
+
+U 
+
+
+C( = ) 
+
+
+
+
+
+
+• Called AE Qualifier 
+
+
+U 
+
+
+C( = ) 
+
+
+
+
+
+
+* Called AP Invocation-identifier 
+
+
+U 
+
+
+C( = ) 
+
+
+
+
+
+
+* Called AE Invocation-identifier 
+
+
+U 
+
+
+C( = ) 
+
+
+
+
+
+
+• Responding AP Title 
+
+
+
+
+
+
+U 
+
+
+C(-) 
+
+
+• Responding AE Qualifier 
+
+
+
+
+
+
+U 
+
+
+C( = ) 
+
+
+• Responding AP Invocation-identifier 
+
+
+
+
+
+
+U 
+
+
+C( = ) 
+
+
+• Responding AE Invocation-identifier 
+
+
+
+
+
+
+U 
+
+
+C( = ) 
+
+
+User Information 
+
+
+U 
+
+
+Cl = ) 
+
+
+U 
+
+
+CI-) 
+
+
+Result 
+
+
+
+
+
+
+M 
+
+
+M(-) 
+
+
+Result Source 
+
+
+
+
+
+
+
+
+M 
+
+
+• Diagnostic 
+
+
+
+
+
+
+U 
+
+
+C( = ) 
+
+
+Calling Presentation Address 
+
+
+P 
+
+
+P 
+
+
+
+
+
+
+CaUed Presentation Address 
+
+
+P 
+
+
+P 
+
+
+
+
+
+
+Responding Presentation Address 
+
+
+
+
+
+
+P 
+
+
+P 
+
+
+• Presentation Context Definition List 
+
+
+P 
+
+
+P 
+
+
+
+
+
+
+♦ Presentation Context Definition Result List 
+
+
+
+
+P 
+
+
+P 
+
+
+P 
+
+
+• Default Presentation Context Name 
+
+
+P 
+
+
+P 
+
+
+
+
+
+
+• Default Presentation Context Result 
+
+
+
+
+
+
+P 
+
+
+P 
+
+
+Quality of Service 
+
+
+P 
+
+
+P 
+
+
+P 
+
+
+P 
+
+
+• Presentation Requirements 
+
+
+P 
+
+
+P 
+
+
+P 
+
+
+P 
+
+
+Session Requirements 
+
+
+P 
+
+
+P 
+
+
+P 
+
+
+P 
+
+
+Initial Synchronization Point Serial Number 
+
+
+P 
+
+
+P 
+
+
+P 
+
+
+P 
+
+
+Initial Assignment of Tokens 
+
+
+P 
+
+
+P 
+
+
+P 
+
+
+P 
+
+
+Session-connection Identifier 
+
+
+P 
+
+
+P 
+
+
+P 
+
+
+P 
+
+
+* • not used In X.410-1984 mode 
+
+
+
+IS 13615 : 1993 
+ISO 8649 : 1988 
+
+
+
+9.1 .1 .2 Application Context Name 
+
+This parameter identifies the application context proposed 
+by the requestor. The acceptor returns either the same or a 
+different name. The returned name specifies the application 
+context to be used for this association. 
+
+NOTE — The offer of an alternate application context by the ac- 
+ceptor provides a possible mechanism for limited negotiation. 
+However, the semantics and rules for this exchange are entirely 
+user specific. If the requestor cannot operate in the acceptor's 
+application context, it may issue an A-ABORT request primitive. 
+
+9.1.1.3 Calling AP Title 
+
+This parameter identifies the AP that contains the requestor 
+of the A-ASSOCIATE sen/Ice. 
+
+9.1 .1 .4 Calling AE Qualifier 
+
+This parameter identifies the particular AE of the AP that con- 
+tains the requestor of the A-ASSOCIATE service. 
+
+9.1 .1 .5 Calling AP Invocation-identifier 
+
+This parameter identifies the AP invocation that contains the 
+requestor of the A-ASSOCIATE service. 
+
+9.1.1.6 Calling AE Invocation-identifier 
+
+This parameter identifies the AE invocation that contains the 
+requestor of the A-ASSOCIATE service. 
+
+9.1.1.7 Called AP Title 
+
+This parameter identifies the AP that contains the Intended 
+acceptor of the A-ASSOCIATE service. 
+
+9.1.1.8 Called AE Qualifier 
+
+This parameter identifies the particular AE of the AP that con- 
+tains the intended acceptor of the A-ASSOCIATE service. 
+
+9.1 .1 .9 Called AP Invocation-identifier 
+
+This parameter identifies the AP invocation that contains the 
+intended acceptor of the A-ASSOCIATE service. 
+
+9.1 .1 .10 Called AE Invocation-identifier 
+
+This parameter identifies the AE invocation that contains the 
+intended acceptor of the A-ASSOCIATE service." 
+
+9.1 .1 .1 1 Responding AP Title 
+
+This parameter identifies the AP that contains the actual ac- 
+ceptor of the A-ASSOCIATE service. 
+
+
+
+9.1 .1 .12 Responding AE Qualifier 
+
+This parameter identifies the particular AE of the AP that con- 
+tains the actual acceptor of the A-ASSOCIATE service. 
+
+9.1 .1 .13 Responding AP Invocation-identifier 
+
+This parameter identifies the AP invocation that contains the 
+actual acceptor of the A-ASSOCIATE service. 
+
+9.1.1.14 Responding AE Invocation-identifier 
+
+This parameter identifies the AE invocation that contains the 
+actual acceptor of the A-ASSOCIATE service. 
+
+9. 1 . 1 . 1 5 User information . 
+
+Either the requestor or the acceptor may optionally include 
+user information. Its meaning depends on the application 
+context that accompanies the primitive. 
+
+NOTE - For example, this parameter may be used to carry the 
+initialization Information of other ASEs included in the applica- 
+tion context specified by the value of the accompanying Applica- 
+tion Context Name parameter. 
+
+9.1.1.16 Result 
+
+This parameter^ is provided by either the acceptor, by the 
+ACSE service-provider, or by the presentation service- 
+provider. It indicates the result of using the A-ASSOCIATE 
+service. It takes one of the following symbolic values: 
+
+— accepted; 
+
+— rejected (permanent); or 
+
+— rejected (transient). 
+
+9.1.1.17 Result Source 
+
+The value of the parameter^ is supplied by the ACSE service- 
+provider. It identifies the creating source of the Result 
+parameter and the Diagnosticparameter, if present. It takes 
+one of the following symbolic values: 
+
+— ACSE service-user; 
+
+— ACSE service-provider; or 
+
+— presentation service-provider. 
+
+NOTE — If the Result parameter has the value ''accepted**, the 
+value of this parameterjs **ACSE service-user." 
+
+9.1.1.18 Diagnostic 
+
+This parameter^ is only used if the Result parameter has the 
+value of "reiected(permanent)'' or "rejected(transient)." 
+Optionally, it can be used to provide diagnostic information 
+about the result of the A-ASSOCIATE service. 
+
+
+
+1 It is recognized that, with respect to this parameter, work is still in progress to provide an integrated treatment across all layers of the 
+031 Reference Model. As a consequence, an addendum may be added to this International Standard at a later time that reflects further 
+developments and integration. 
+
+
+
+IS 13615 : 
+ISO 8649 
+
+
+
+1993 
+1988 
+
+
+
+If the Result Source parameter has the va.ue " ACSE service- 
+provider". It takes one of the following symbolic values: 
+
+
+
+reason given, or 
+common ACSE version. 
+
+
+
+If the Result Source parameter has the value "ACSE service- 
+user", It takes one of the following symbolic values: 
+
+— no reason given, 
+
+— application context name not supported, 
+
+— calling AP title not recognized, 
+
+— calling AE qualifier not recognized, 
+
+— calling AP invocation-identifier not recognized, 
+
+— calling AE invocation-identifier not recognized 
+
+— called AP title not recognized, 
+
+— called AE qualifier not recognized, 
+
+— called AP invocation-identifier not recognized, or 
+
+— called AE invocation-identifier not recognized 
+
+9.1.1.19 Calling Presentation Address 
+This parameter is as defined in ISO 8822. 
+
+9.1.1.20 Called Presentation Address 
+This parameter is as defined in ISO 8822 
+
+9.1.1.21 Responding Presentation Address 
+This parameter is as defined in ISO 8822 
+
+9.1.1.22 Presentation Context Definition List 
+This parameter is as defined in ISO 8822 
+
+9.1.1.23 Presentation Context Definition Result List 
+This parameter is as defined in ISO 8822 
+
+9.1 .1 .24 Default Presentation Context Name 
+
+This parameter corresponds to the Default Context Name 
+parameter defined in ISO 8822 
+
+9.1 .1 .25 Default Presentation Context Result 
+
+This parameter corresponds to the Default Context Result 
+parameter defined in ISO 8822. 
+
+9.1 .1 .26 Quality of Service 
+
+This parameter is as defined in ISO 8822 
+
+9.1.1.27 Presentation Requirements 
+This parameter is as defined in ISO 8822 
+
+9.1.1.28 Session Requirements 
+
+This parameter is as defined in ISO 8822. 
+
+9.1 .1 .29 Initial Synchroni^tion Point Serial Number 
+This parameter is as defined in ISO 8822. 
+
+
+
+9.1 .1 .30 Initial Assignment of Tokens 
+This parameter is as defined in ISO 8822. 
+
+9.1 .1 .31 Session Connection Identifier 
+This parameter is as defined m ISO 8822 
+9.1 .2 A'^ASSOCIATE service procedure 
+
+9.1 .2.1 The A-ASSOCIATE service procedure has a one-to- 
+one correspondence with the P-CONNECT service defined in 
+ISO 8822 When the A-ASSOCIATE service is used, the as- 
+sociation IS created simultaneously with the creation of the 
+underlying presentation-connection 
+
+9.1.2.2 An ACSE service-user that desires to establish an 
+association issues an A-ASSOCIATE request pnmitive The 
+called AE is identified by parameters of the request primitive 
+The requestor cannot issue any primitives except an A- 
+ABORT request primitive until it receives an A-ASSOCIATE 
+confirm pnmitive 
+
+9.1.2.3 The ACSE service-provider issues an A-AS- 
+SOCIATE indication pnmitive to the acceptor 
+
+9.1 .2.4 The acceptor accepts or rejects the association by 
+sending an A-ASSOCIATE response primitive with an ap- 
+propriate Result parameter ACSE service-provider issues 
+an A-ASSOCIATE confirm pnmitive having the same Result 
+parameter The Result Source parameter is assigned the 
+symbolic value of "ACSE service user " 
+
+9.1.2.5 If the acceptor accepts the association, the as- 
+sociation IS available for use Requestors in both AEs may 
+now use any service provided by the ASEs included in the 
+application context that is in effect (with the exception of 
+A-ASSOCIATE) 
+
+9.1 .2.6 If the acceptor rejects the association, the associa 
+tion IS not established 
+
+9.1.2.7 The ACSE service-provider may not be capable of 
+supporting the requested association In this situation, it 
+returns an A-ASSOCIATE confirm primitive to the requestor 
+with an appropnate Result parameter The Result Source 
+parameter is appropriately assigned either the symbolic 
+value of "ACSE service-provider" or "presentation service 
+provider " The indication primitive is not issued The as 
+sociation is not established 
+
+9.1.2.8 A requestor in either AE may disrupt the A AS 
+SOCIATE service procedure by issuing an A-ABORT request 
+pnmitive The acceptor receives an A-ABORT indication 
+pnmitive The association is not established 
+
+9.2 A-RELEASE service 
+
+The A-RELEASE service is used by a requestor in either AE 
+to cause the completion of the use of an association, it is a 
+confirmed service If the session Negotiated Release func- 
+tional unit was selected for the association, the acceptor 
+may respond negatively (see 8 3 2) This causes the unsuc- 
+cessful completion of the A-RELEASE service and the con 
+
+
+
+IS 13615 : 
+ISO 8649 
+
+
+
+1993 
+1988 
+
+
+
+tinuation of the association without loss of information in 
+transit. 
+
+9.2.1 A-RELEASE parameters 
+
+Table 3 lists the A-RELEASE parameters. 
+
+
+
+9.2.2 A-RELEASE service procedure 
+
+9.2.2.1 The A*RELEASE service procedure has a one-to-one 
+correspondence with the P-RELEASE service defined in ISO 
+8822. When the A-RELEASE service is used, the associa- 
+tion is released simultaneously with the release of the under- 
+
+
+
+Table 3 - A-RELEASE parameters 
+
+
+
+
+Riram«ter nam^^ 
+
+
+Req 
+
+
+Ind 
+
+
+R«P 
+
+
+Cnf 
+
+
+• Reason 
+
+♦ User Information 
+Result 
+
+
+U 
+U 
+
+
+C(.) 
+C(«) 
+
+
+U 
+U 
+M 
+
+
+C(-) 
+C(-) 
+
+
+• - not used in X.4 1 0- 1 984 mode 
+
+
+
+9.2.1.1 Reason 
+
+When used on the request primitive, this parameter identifies 
+the general level of urgency of the request. It takes one of 
+the following symbolic values: 
+
+— normal; 
+— urgent; or 
+— user defined. 
+
+NOTE — For example, if the session Negotiated Release function- 
+al unit was selected for the association, the value "urgent" may 
+be used on the request primitive when the requestor desires to 
+urgently release the association. 
+
+When used on the response primitive, this parameter iden- 
+tifies information about why the acceptor accepted or 
+rejected the release request. It takes one of the following 
+symbolic values: 
+
+—normal; 
+
+— not finished; or 
+
+— user defined. 
+
+NOTE — For example, if the session Negotiated Release function- 
+al unit was not selected for the association, the value "not 
+finished" may be used on the response primitive when the ac- 
+ceptor is forced to release the association but wishes to give a 
+warning that it has additional information to send or receive. 
+
+9.2.1 .2 User Information 
+
+Either the requestor or acceptor may optionally include user 
+information on the request or response primitive, its mean- 
+ing depends on the application context that is in effect. 
+
+9.2.1.3 Result 
+
+This parameter is used by the acceptor to Indicate If the re- 
+quest to release the association normally is acceptable. It 
+takes one of the following symbolic values: 
+
+— affirmative; or 
+—-negative. 
+
+
+
+lying presentation-connection. 
+
+9.2.2.2 An ACSE service-user that desires to release the as- 
+sociation issues an A-RELEASE request primitive. This re- 
+questor cannot issue any further primitives other than an A- 
+ABORT request primitive until it receives an A-RELEASE con- 
+firm primitive. 
+
+9.2.2.3 In order to issue an A-RELEASE request primitive, 
+the requestor is required to meet all the requirements for is- 
+suing a P-RELEASE request (see 8.2). 
+
+9.2.2.4 The ACSE service-provider issues an A-RELEASE 
+indication primitive to the acceptor. The acceptor then can- 
+not issue any ACSE primitives other than an A-RELEASE 
+response primitive or an A-ABORT request primitive. 
+
+9.2.2.5 The acceptor replies to the A-RELEASE indication 
+primitive by issuing an A-RELEASE response primitive with 
+a Result parameter that has a value of "affirmative" or "nega- 
+tive." The acceptor may give a negative response only if the 
+session Negotiated Release functional unit was selected for 
+the association (see 8.3). 
+
+9.2.2.6 If the acceptor gives a negative response, it may 
+once again use any service provided by the ASEs included 
+in the application context that is in effect (with the excep- 
+tion of the A-ASSOCIATE service). If it gave a positive 
+response, it cannot issue any further primitives for the as- 
+sociation. 
+
+9.2.2.7 The ACSE service-provider issues an A-RELEASE 
+confirm primitive with an "affirmative" or "negative" value 
+for the Result parameter. If the value is "negative", the re- 
+questor may once again use any of the services provided by 
+the ASEs of the application context that is in effect (with 
+the exception of A-ASSOCIATE). 
+
+9.2.2.8 If the value of the Result parameter is "affirmative", 
+the association and the underlying presentation-connection 
+have been released. 
+
+9.2.2.9 A requestor in either AE may disrupt the A-RELEASE 
+service procedure by issuing an A-ABORT request. The ac- 
+ceptor receives an A-ABORT indication. The association is 
+released with the possible loss of information in transit. 
+
+
+
+IS 13615 : 1993 
+ISO 8649 : 1988 
+
+
+
+9.2.2.10 An A-RELEASE service procedure collision results 
+when requestors in both AEs simultaneously issue an A- 
+RELEASE service primitive. This can occur only when no 
+session tokens are available on the association (see 8.3). In 
+this situation, both ACSE service-users receive an unex- 
+pected A-RELEASE indication primitive. The following se- 
+quence then occurs to complete the normal release of the as- 
+sociation. 
+
+
+
+a) The association-initiator 
+response primitive. 
+
+
+
+issues an A-RELEASE 
+
+
+
+b) The association-responder waits for an A-RELEASE 
+confirm primitive from its peer. When it receives one, it 
+then issues an A-RELEASE response primitive. 
+
+c) The association-initiator receives an A-RELEASE con- 
+firm primitive 
+
+9.2.2.1 1 The association is released when both ACSE ser- 
+vice-users have received an A-RELEASE confirm primitive. 
+
+9.3 A-ABORT service 
+
+The A-ABORT service is used by a requestor in either AE to 
+cause the abnormal release of the association. It is a non- 
+confirmed service. However, because of the possibility of 
+an A-ABORT service procedure collision (see 10.3.5), the 
+delivery of the indication primitive is not guaranteed. 
+However, both AEs are aware that the association has been 
+released. 
+
+9.3.1 A-ABORT parameters 
+
+Table 4 lists the A-ABORT parameters. 
+
+Table 4 • A-ABORT parameters 
+
+
+
+Parameter name 
+
+
+Req 
+
+
+Ind 
+
+
+• Abort Source 
+User Information 
+
+
+U 
+
+
+M 
+C( = ) 
+
+
+• - not used in X.4 1 0-mode 1 
+
+
+
+9.3.1.1 Abort Source 
+
+This parameter indicates the initiating source of this abort, 
+it takes one of the following symbolic values: 
+
+— ACSE service-user; or 
+— ACSE service-provider. 
+
+9.3.1.2 User Information 
+
+The requestor may optionally include user information on the 
+request primitive. Its meaning depends on the application 
+context that is in effect. 
+
+NOTE — When ACSE is supported with version 1 of the session- 
+protocol (ISO 8327), this parameter is subject to length restnc- 
+tJons mentioned in 8.3. For use with version 1, the A-ABORT 
+service procedure does not transfer any of its own semantics, 
+
+
+
+thus allowing the maximum possible length for presentation data 
+value(s) of the User Information parameter, in this situation, the 
+Abort Source parameter of the A-ABORT indication primitive al- 
+ways indicates "ACSE service-user." 
+
+9.3.2 A-ABORT service procedure 
+
+9.3.2.1 The A-ABORT service procedure has a one-to-one 
+correspondence with the P-U-ABORT service defined in ISO 
+8822. When the A-ABORT service is used, the association 
+is abnormally released simultaneously with the abnormal 
+release of the underlying presentation-connection. 
+
+9.3.2.2 An ACSE service-user that desires to abnormally 
+release the association issues the A-ABORT request primi- 
+tive. This requestor cannot issue any further primitives for 
+the association. 
+
+9.3.2.3 The ACSE service-provider issues an A-ABORT in- 
+dication primitive to the acceptor. The ACSE service- 
+provider assigns the value of "ACSE service-user" for the 
+Abort Source parameter. The association and the underly- 
+ing presentation-connection have been released. 
+
+9.3.2.4 The ACSE service-provider may itself cause the ab- 
+normal release of the association because of internal errors 
+detected by it. In this case,the ACSE service-provider issues 
+A-ABORT indication primitives to acceptors in both AEs. 
+The ACSE service-provider assigns the value of "ACSE ser- 
+vice-provider" to the Abort Source parameter. The User In- 
+formation parameter is not used. 
+
+
+
+9.4 A-P-ABORT service 
+
+The A-P-ABORT service is used by the ACSE service- 
+provider to signal the abnormal release of the association due 
+to problems in services below the Application Layer. This 
+occurrence indicates the possible loss of information in tran- 
+sit. A-P-ABORT is a provider-initiated service. 
+
+9.4.1 A-P-ABORT parameter 
+
+Table 5 lists the A-P-ABORT parameter. 
+
+Table 5 - A-P-ABORT parameter 
+
+
+
+Parameter name 
+
+
+Ind 
+
+
+Provider Reason 
+
+
+P 
+
+
+
+Provider Reason: This parameter is as defined in ISO 
+8822. 
+
+9.4.2 A-P-ABORT service procedure 
+
+When the ACSE service-provider detects an error reported 
+by the underlying presentation-service, it issues A-P-ABORT 
+indication primitives to acceptors in both AEs. The associa- 
+tion is abnormally released. Requestors in both AEs cannot 
+issue any further primitives for the association. 
+
+
+
+IS 13615 : 1993 
+ISO 8649 : 1988 
+
+
+
+10 Sequencing information 
+
+This clause defines the interaction among the ACSE service 
+procedures for a particular association. 
+
+10.1 AASSOCIATE 
+
+10.1.1 Type of service 
+
+A-ASSOCIATE is a confirmed service. 
+
+10.1 .2 Usage restrictions 
+
+The A-ASSOCIATE service is not used on an established as- 
+sociation. 
+
+10.1 .3 Disrupted service procedures 
+
+The A-ASSOCIATE service procedure does not disrupt any 
+other service procedure. 
+
+10.1 .4 Disrupting service procedures 
+
+The A-ASSOCIATE service procedure is disrupted by the A- 
+ABORT and the A-P-ABORT service procedures. 
+
+10.1.5 Collisions 
+
+An A-ASSOCIATE service procedure collision results when 
+requestors in both AEs simultaneously issue an A-AS- 
+SOCIATE request primitive for each other. Both ACSE ser- 
+vice-users are issued A-ASSOCIATION Indication primitives 
+that represent distinct associations. Both can choose to ac- 
+cept or reject the indicated association by issuing an A-AS- 
+SOCIATE response primitive with the appropriate value for 
+its Result parameter. This will result in the establishment 
+of none, one or two associations. 
+
+NOTE — If an AE has several concurrent associations, a local 
+mechanism is needed to distinguish between them. 
+
+10.2A-RELEASE 
+
+10^.1 Type of service 
+
+A-RELEASE is a confirmed Service. 
+
+10.2.2 Usage restrictions 
+
+The A-RELEASE service is only used on an established as- 
+sociation. 
+
+10.2.3 Disrupted service procedures 
+
+The ArRELEASE service procedure does not disrupt any other 
+service procedure. 
+
+10.2.4 Disrupting service proce(dures 
+
+The A-REI^ASE service procedure is disrupted by the A- 
+ABORT or A-P-ABORT service procedures. 
+
+
+
+10.2.5 Collisioni 
+
+An ArRELEASE service procedure collision results when re- 
+questors in both AEs simultaneously issue an A-RELEASE 
+request primitive. The processing of A-RELEASE service 
+procedure collisions is described in 9.2.2. 
+
+10.2.6 Further sequencing information 
+
+The use of the A-RELEASE service is subject to the con- 
+straints on the S-RELEASE service defined in ISO 8326 (see 
+8.3). 
+
+10.3A-ABORT 
+
+10.3.1 Type of service 
+
+A-ABORT is an non-confirmed service. 
+
+10.3.2 Usage restrictions 
+
+The A-ABORT service has effect only when used on an as- 
+sociation in the process of establishment, on an established 
+association, or on an association in the process of being 
+released. 
+
+10.3.3 Disrupted service procedures 
+
+The A-ABORT service procedure disrupts the A-ASSOCIATE 
+and A-RELEASE service procedures. 
+
+10.3.4 Disrupting service procedures 
+
+The A-ABORT service procedure is disrupted by the A-P- 
+ABORT service procedure. 
+
+10.3.5 Collisions 
+
+An A-ABORT service procedure collision results when re- 
+questors in both AEs simultaneously issue the A-ABORT re- 
+quest primitive. The collision processing is governed by the 
+P-U-ABORT service defined in ISO 8822. In this situation, 
+neither A-ABORT indication primitive is issued. 
+
+10.3.6 Fijrther sequencing information 
+
+Any use of the A-ABORT service results in the abnormal 
+release of the association, or the abnormal termination of 
+the A-ASSOCIATE service procedure or the A-RELEASE ser- 
+vice procedure with possible loss of information. 
+
+10.4 A-P-ABORT 
+
+10.4.1 Type of service 
+
+A-P-ABORT is a provider-initiated service. 
+
+10.4.2 Usage restrictions 
+
+No restrictions are placed on the occurrence of this service. 
+
+
+
+10 
+
+
+
+IS 13615 : 1993 
+ISO 8649 : 1988 
+
+
+
+10.4.3 Disniptad Mrvlce procaduret 10.4.4 Disrupting service procedures 
+
+The A-P-ABORT service procedure disrupts all other service The A-P-ABORT service procedure is not disrupted by any 
+
+procedures. other service procedure. 
+
+
+
+11 
+
+
+
+IS 13615 : 1003 
+ISO 8640 : 1088 
+
+
+
+ISO 
+8649 
+
+
+
+AMENDMENT 1 : Authentication during association 
+establishment 
+
+
+
+{MOVE THE INTRODUCTION iTHB ORIGINAL CLAUSE 01 TO THE 
+FRONT Of THE INTERNA TIONAL STANDARD AS A PRELIMINARY 
+ELEMENT, WHEN THIS IS DONE, THE INTRODUCTION WILL BE ON 
+PAGE "^iv^AND THE NUMBERS PRECEDING THE PARAGRAPHS 
+OF THE ORIGINAL CLAUSE WILL BE DELETED, } 
+
+Introduction 
+
+{MODIFY THE FOURTH PARAGRAPH (I.E. THE ORIGINAL 0,4) AS 
+FOLLOWS,) 
+
+Oi4 This International Standard defines services provided by 
+the application service element for application-association 
+control: the Association Control Service Element (ACSE). 
+The ACSE provides basic facilities for the control of an 
+application-association between two application-entities 
+that communicate by means of a presentation-connection. 
+#f The ACSE Includes a functional unit for exchanging infor- 
+mation in support of authentication during association estab- 
+lishment. The ACSE services apply to a wide range of ap- 
+plication-process communication requirements. » 
+
+1 Scope 
+
+{INSERT THE FOLLOWING TEXT AS THE NEW SECOND PARA- 
+GRAPH OF CLAUSE t,] 
+
+Two functional units are defined in the ACSE. The mandatory 
+Kernel functional unit is used to establish and release applica- 
+tion-associations. The optional Authentication functional 
+unit provides additional facilities for exchanging information 
+in support of authentication during association estab- 
+lishment without adding services. The ACSE authentication 
+facilities may be used to support a limited class of authen- 
+tication methods. 
+
+{ END OF INSERTED PARAGRAPH. ] 
+
+
+
+2 ((Normative^ references 
+
+{INSERT THE FOLLOWING TEXT AS THE NEW PARAGRAPH 
+UNDER CLA USE 2 BEFORE THE LIST OF REFERENCES. } 
+
+The following standards contain provisions which, through 
+reference in this text, constitute provisions of this Interna- 
+tional Standard. At the time of publication, the editions 
+indicated were valid. All standards are subject to revision, 
+and parties to agreements based on this International Stand- 
+ard are encouraged to investigate the possibility of applying 
+the most recent editions of the standards listed t)elow. 
+Members of lEC and ISO maintain registers of currently valid 
+International Standards. 
+
+{ADD THE FOLLOWIf>iG REFERENCES. ) 
+
+ISO 7498-2:1 989, Information processing systems — Open 
+Systems Interconnection — Basic Reference Model — Part 
+2: Security architecture. 
+
+ISO/IEC 9545:1989, Information technology - Open Sys- 
+tems Interconnection — Application Layer Structure. 
+
+ISO/IEC 9834-1 \ Information technology — Open Systems 
+Interconnection — Procedures for the operation of OSi 
+Registration Authorities — f^rt 1: General procedures. 
+
+{ END OF ADDED REFERENCES. ] 
+
+3 Definitions 
+
+3.1 Reference model definitions 
+
+3.1.1 Basic reference model definitions {Niw heading] 
+
+{MOVE TEXT FROM THE ORIGINAL SUBCLAUSE 3. 1 TO THIS 
+SUBCLAUSE AND ADD THE FOLLOWING TERMS MAINTAINING 
+ALPHABETICAL ORDER) 
+
+application-function 
+(N)-function 
+
+
+
+1) To be published. 
+
+
+
+l$4i61S:1993 
+ISO 8649 : 1988 
+
+
+
+{INSERT NiW SUBCLAUSE 3. 1,2.] 
+
+3.1.2 Security architecture definitions {New\ 
+
+TNs International Standard makes use of the following terms 
+defined in ISO 7498-2: 
+
+a) credentials; 
+
+b) password; and 
+
+c) peer-entity authentication. 
+{BND OF INSERTED SUBCLAUSE 3.1.2.} 
+
+3.1.3 Naming and addressing definitions {PREVIOUSLY 3.2) 
+[MOVE TEXT FROM ORIGINAL 3.2 TO THIS SUBCLAUSE } 
+
+3.2 Service conventions definitions {PREVIOUSLY 3,3\ 
+{MOVE TEXT FROM ORIGINAL 3.3 TO THIS SUBCLAUSE } 
+
+3.3 Presentation service definitions {PREVIOUSLY 3.4) 
+{MOVE TEXT FROM THE ORIGINAL 3.4 TO THIS SUBCLAUSE ) 
+
+3.4 ACSE service definitions {PREVIOUSLY 3.5) 
+
+{MOVE TEXT FROM THE ORIGINAL 3.6 TO THIS SUBCLAUSE AND 
+ADD THE POLL OWING DEFINITIONS MAINTAINING AL PHABETICAL 
+ORDER.) 
+
+3.4._ authentication: The corroboration of the identity of 
+objects relevant to the establishment of an association. For 
+example, theie can include the AEs, APs, and the human 
+users of applications. 
+
+NOTE — This term has been defined to make it clear that a wider 
+scope of authentication is being addressed than is covered by 
+peer-entity authentication in ISO 7498-2. 
+
+3.4._ authentication-function: An application-function 
+within an application-entity invocation that processes and 
+exchanges authentication-values with a peer authentication- 
+function. 
+
+3.4._ authentication-value: The output from an authentica- 
+tion-function to be transferred to a peer ACSE service-user 
+for input to the peer's authentication-function. 
+
+3.4._ authentication-meciianism: The specification of a 
+specific set of authentication-function rules for defining, 
+processing, and transferring authentication-values. 
+
+{INSERT NEW SUBCLAUSE 3.5. } 
+
+3.5 Application Layer Structure definitions {NEW) 
+
+This Intemational Standard makes use of the following terms 
+defined in ISO/IEC 9545: 
+
+a) application-entity invocation; 
+
+b) single association control function; and 
+
+c) single association object. 
+{END OF INSERTED SUBCLAUSE 3.5.) 
+
+
+
+4 Abbreviations 
+
+{ADD THE FOLLOWING ABBREVIATIONS MAINTAINING AL- 
+PHABETICAL ORDER.] 
+
+AEI application-entity Invocation 
+
+SACF single association control function 
+
+SAO single association object 
+
+{ END OF ' ODED ABBREVIA TIONS. } 
+
+5 Conventions {NO CHANGE] 
+
+{NO CHANGE IS MADE TO THIS CLA USE ) 
+
+6 Basic concepts 
+
+{USING THE ORIGINAL CLAUSE 6 AS A BASE, REPLACE CLAUSE 
+6 WITH THE FOLLOWING TEXT.) 
+
+{INSERT NEW HEADING 6. 1. MOVE ORIGINAL PARAGRAPHS 6. 1 
+THROUGH 6.4 UNDER THIS NEW HEADING AS PARAGRAPHS 
+6. 1. 1 THROUGH 6. 1.4. THEN INSERT NEW PARAGRAPHS 6. 1.5 
+THROUGH 6. 1. 7. ALSO, INSERT NEW SUBCLAUSE 6.2) 
+
+6.1 General {new heading) 
+
+6.1.1 The reference model (ISO 7498) represents com- 
+munication between a pair of application-processes ( APs) in 
+terms of communication between their application-entities 
+( AEs) using the presentation-service. The functionality of an 
+AE is factored into a number of application-service-elements 
+(ASEs). The interaction between AEs is described in terms 
+of the use of their ASEs' services. 
+
+6.1.2 This International Standard introduces the additional 
+modeling concepts of application-association and applica- 
+tion context. 
+
+6.1 .3 An application-association is a cooperative relationship 
+between two AEs. It provides the necessary frame of refer- 
+ence between the AEs in order that they may interwork 
+effectively. This relationship is formed by the exchange of 
+application-protocol-control-information between the ap- 
+plication-entities through their use of presentation-services. 
+
+6.1.4 An application context is an explicitly identified set of 
+application-service-elements, related options and any other 
+necessary information for the interworking of application-en- 
+tities on an application association. 
+
+6.1.5 |>vfwj The ACSE service-user is that part of an applica- 
+tion-entity that makes use gf ACSE services. It may be the 
+single association control function (SACF) or an ASE or some 
+combination of the two. 
+
+6. 1 .6 i^fwi An ASE standard does not need to specify the use 
+of ACSE service primitive parameters that are not relevant 
+to the operation of the ASE. It may be assumed that the 
+SACF passes such parameters between the ACSE service- 
+provider and that part of the AEI to which the parameters are 
+relevant. 
+
+6.1.7 (/vfMO As an example, consider the authentication 
+parameters of the Authentication functional unit discussed 
+below in 6.2. The SACF may be used to model the passing 
+of authentication-values between the authentication-func- 
+
+
+
+1813616:1993 
+ISO 8649 : 1988 
+
+
+
+tion and the ACSE service-provider. An ASE that references 
+ACSE need not be concerned with these parameters. 
+
+6.2 Authentication {new\ 
+
+This International Standard includes the Authentication 
+functional unit. The functional unit allows APIs, AEIs and 
+their related objects to exchange authentication information 
+during the establishment of an association. 
+
+6.2.1 Authentication concepts 
+
+This International Standard includes the modeling concepts 
+of authentication-function, authentication-mechanism, 
+authentication-mechanism ndme and authentication-value. 
+Each is discussed below. 
+
+6.2.1.1 Authentication-function 
+
+6.2.1.1.1 For this International Standard, authentication is 
+supported by a pair of authentication-functions. An authen- 
+tication-function is modeled as an application-function (i.e., 
+iS an (N)-function as defined in ISO 7498) that is available 
+o the ACSE service-user. Each is contained within the as- 
+sociated AEIs. 
+
+L2.1.1.2 Modeling the authentication-function in this way 
+illows ACSE to deal with authentication communication 
+equirements without having to understand the semantics of 
+he security information exchanged or how it is used. 
+
+J.2.1 .2 Authentication-mechanism 
+L2.1.2.1 An authentication-mechanism is a particular 
+jpecification of the processing to be performed by a pair of 
+ipplication-functions for authentication. A specification 
+:ontains the rules for creating, sending, receiving and 
+Kocessing information needed for authentication. 
+
+>.2.1.2.2 Annex B in ISO 8650 is an example of an authen- 
+:ication-mechanism. It defines the authentication of the 
+sending AEI based on its AE title and its password. The 
+Dassword is contained in the Authentication-value 
+parameter. 
+
+6.2.1.3 Authentication-mechanism name 
+
+6.2.1.3.1 An authentication-mechanism name is used to 
+specify a particular authentication-mechanism. For example, 
+the name of the authentication-mechanism specified in ISO 
+8650 annex B is assigned (i.e., registered) in the annex. The 
+value has the data type of an OBJECT IDENTIFIER. 
+
+6.2.1.3.2 An authentication-mechanism name may also be 
+used to specify a more general security mechanism that 
+includes an authentication-mechanism. An example of a 
+general security mechanism is an ASE that provides security 
+facilities to its service-user). 
+
+6.2.1.3.3 Authentication-mechanism names and general 
+security mechanism names are subject to registr9tion within 
+OSI (see clause 1 2 in ISO 8650). 
+
+6.2.1 .4 Authentication-value 
+
+6.2.1.4.1 An authentication-value consists of information 
+used by a pair of authentication-functions to perform authen- 
+tication. It can consist of information such as, credentials, a 
+time-stamp, a digital signature, etc. It can also identify the 
+
+
+
+type and/or name of object to be authenticated, such as the 
+AE, a human user, etc. 
+
+6.2.1.4.2 The semantic structure of an authentication-value 
+is specified by the authentication-mechanism involved. 
+
+6.2.1 .4.3 An authentication-function provides an authentica- 
+tion-value to its AEI to be sent to the peer AEI. The peer AEI's 
+authentication-function receives and processes this authen- 
+tication-value. For example, it may use the value to authen- 
+ticate objects at the sending AEI. 
+
+6.2.1.4.4 An authentication-mechanism may be part of a 
+ASE that provides security facilities to its service-user. In 
+this situation, the authentication-mechanism name iden- 
+tifies the ASE; the authentication-value is an APDU of the 
+ASE. 
+
+6.2.2 ACSE authentication facilities 
+
+6.2.2.1 The ACSE Kernel functional unit does not support 
+authentication. However, AP Title, AE Qualifier, AP invoca- 
+tion-identifier and AE invocation-identifier values are option- 
+ally transferred during the establishment of an association. 
+They may be used to identify the calling, called and respond- 
+ing AEIs. 
+
+6.2.2.2 The ACSE Authentication functional unit supports 
+the transfer of authentication-values as part of the A-AS- 
+SOCIATE service. An authentication-value is treated as an 
+atomic item by ACSE. Its semanticr are transparent to the 
+ACSE service-provider. 
+
+6.2.2.3 The facilities of the Authentication functional unit 
+may be used to convey other security-related information. 
+This may be done with the transfer of authentication infor- 
+mation during association establishment. 
+
+{END OF REPLACED CLAUSE 6.) 
+
+
+
+7 Service overview 
+
+[INSERT THE NEW HEADING 7, 1. ) 
+
+7.1 ACSE services [new heading) 
+
+{MOVE THE PARAGRAPHS UNDER ORIGINAL CLAUSE 7 TO THIS 
+SUBCLAUSE AND RENUMBER THE PARAGRAPHS ACCORDINGL Y. 
+THEN INSERT NEW SUBCLAUSE 7.2. ) 
+
+1,1 Functional units [new\ 
+
+7.2.1 Functional units are used by this International Standard 
+to identify ACSE user requirements during association estab- 
+lishment. Two functional units are defined: 
+
+a) Kernel functional unit; and 
+
+b) Authentication functional unit> 
+
+7.2.2 The Kernel functional unit is always available, and 
+includes the basic services identified in 7. 1 . 
+
+7.2.3 The Authentication functional unit supports authen- 
+tication during association establishment. The availability of 
+this functional unit is negotiated during association estab- 
+lishment. This functional unit does not include additional 
+
+
+
+IS 13616: 1993 
+ISO 8649 : 1988 
+
+
+
+services. It adds parameters to the A-ASSOCIATE and A- 
+ABORT services. 
+
+7.2.4 Table a shows the services and parameters associated 
+with the ACSE functional units. The services and their 
+parameters are discussed in clause 9. 
+
+{fNSBRT NE>A/ TABLE a. RBNUMBER THE REMAINING TABLES 
+AND ADJUST REFERENCES TO THESE TABLES IN THE TEXT.) 
+
+
+
+8 Relationship with other ASEs and lower layer 
+services {NO CHANGE] 
+
+{NO CHANGE IS MADE TO THIS CLAUSE.] 
+
+9 Service definition 
+
+{NO CHANGE TO THE INTRODUCTORY TEXT] 
+
+
+
+9.1 A*ASSOCiATE service 
+
+{NO CHANGE TO THE INTRODUCTORY TEXT] 
+
+9.1.1 A-ASSOaATE parameters 
+
+{TABLE 2 - ADD THE FOLLOWING PARAMETERS AFTER 
+
+Responding AE Invocathn-ldenttfler, ] 
+ACSE Requirements U C C C(b) 
+
+Authentication-fnechanism Name U C(») U C(b) 
+Authentication-value U C(") U C{») 
+
+{INSERT NEW SUBCLAUSES 9. /. /. 14a, 9, 1. 1. 14b AND 
+9. /. /. f4c AFTER SUBCLAUSE 9. 1. 1. 14 Responding AE Invoca- 
+tion-ldenttfler. ] 
+
+9. 1 . 1 . 1 4a ACSE Requirements {m£w\ 
+
+This parameter is used by the requestor to indicate the 
+
+functional units requested for the association. If not present. 
+
+
+
+Table a - 
+
+
+- Functional unit services and their parameters {new} 
+
+
+Functional Unit 
+
+
+Service 
+
+
+Parameter 
+
+
+Kernel 
+
+
+A-ASSOCIATE 
+
+
+Mode 
+
+Application Context Name 
+
+Calling AP Title 
+
+Calling AE Qualifier 
+
+Calling AP Invocation-identifier 
+
+Calling AE Invocation-identifier 
+
+Called AP Title 
+
+Called AE Qualifier 
+
+Called AP Invocationndentifier 
+
+Called AE Invocation-identifier 
+
+Responding AP Title 
+
+Responding AE Qualifier 
+
+Responding AP Invocation-identifier 
+
+Responding AE Invocation-identifier 
+
+User Information 
+
+Result 
+
+Result Source 
+
+Diagnostic 
+
+Calling Presentation Address 
+
+Called Presentation Address 
+
+Responding Presentation Address 
+
+Presentation Context Definition List 
+
+Presentation Context Definition Result List 
+
+Default Presentation Context Name 
+
+Default Presentation Context Result 
+
+Quality of Service 
+
+Session Requirements 
+
+Initial Synchronization Point Serial Number 
+
+Initial Assignment of Tokens 
+
+Session-connection Identifier 
+
+
+
+
+A-RELEASE 
+
+
+Reason 
+
+User Information 
+
+Result 
+
+
+
+
+A-ABORT 
+
+
+Abort Source 
+User Information 
+
+
+
+
+A-P-ABORT 
+
+
+Provider Reason 
+
+
+Authentication 
+
+
+A-ASSOCIATE 
+
+
+Authentication-mechanism Name 
+Authentication-value 
+
+
+
+
+A-ABORT 
+
+
+Diagnostic 
+
+
+
+Primed at Dee Kiy Prinicn* Hew Delhi, India 
+
+
+
+1813615:1993 
+ISO 8649 : 1988 
+
+
+
+only the Kernel functional unit'is available for the association. 
+In supporting this negotiation mechanism, the ACSE service- 
+provider removes values for unsupported functional units 
+before issuing the indication primitive to the acceptor. 
+
+This parameter is used by the acceptpr to indicate which of 
+the requested functional units the acceptor selects. The 
+acceptor shall not select a functional unit in the response 
+primitive which was not requested in the indication primitive. 
+
+The value of the parameter in the response primitive is 
+delivered unchanged in the confirm primitive. 
+
+This parameter takes on the following symbolic value: 
+
+— authentication. 
+
+9.1 .1 .14b Authentication-mechanism Name \New\ 
+This parameter is only used if the ACSE Requirements 
+parameter includes the Authentication functional unit. If 
+present, the value of this parameter identifies the authentica- 
+tion-mechanism in use. If not present, the communicating 
+AEIs must implicitly know the mechanism in use, e.g., by 
+prior understanding. 
+
+NOTES 
+
+1 Some authentication-mechanisms may require this parameter, 
+and if so, will state this in their specification. 
+
+2 This parameter may specify a more general authentication 
+mechanism. For example, it may specify an ASE that provides 
+security facilities to its service-user. 
+
+9. 1 . 1 . 1 4c Authentication-value {new\ 
+
+This parameter shall only be used if the ACSE Requirements 
+parameter includes the Authentication functional unit. 
+
+The Authentication-value pararneter is used as defined 
+below. 
+
+a) If present on the request or the response primitive, it 
+contains an authentication-value generated by the 
+authentication-function in the AEI that issued the service 
+primitive. It is intended for the peer's authentication-func- 
+tion. 
+
+b) If present on the indication or the confirm primitive, it . 
+contains an authentication-value generated by the 
+authentication-function in the AEI that issued the cor- 
+responding request or response primitive. It is intended 
+for the peer's authentication-function. 
+
+{END OF INSERTED SUBCLAUSES 9, 1. 1.9. 9, 1. l.bAND 9, 1. I.e.} 
+9.1.1.18 Diagnostic 
+
+{REPLACE THE FIRST PARAGRAPH USING THE FOLLOWING 
+TEXT.) 
+
+This parameter may be used by the acceptor to provide 
+diagnostic information about the establishment of the as- 
+sociation. 
+
+
+
+{ TO THE LIST OF SYMBOLIC VALUES FOR THE ACSE SERVICE- 
+USER ADD THE FOLLOWING.) 
+
+Authentication-mechanism Name not recognized; 
+
+Authentication-mechanism Name required; 
+
+Authentication failure; or 
+
+Authentication required. 
+
+{END OF ADDED SYMBOLIC VALUES. ) 
+
+9.1 .2 A- ASSOCIATE procedure (/vo chams£] 
+{NO CHANGE IS MADE TO THIS SUBCLAUSE. ) 
+
+9.2 A-RELEASE service {NO change) 
+
+{ NO CHANGE IS MADE TO THIS SUBCLA USE. ) 
+
+9.3 A-ABORT service 
+
+{NO CHANGE TO THE INTRODUCTORY TEXT) 
+
+9.3.1 A-ABORT parameters 
+
+{ TABLE 4 - ADD THE FOLLOWING PARAMETER AFTER Abort 
+Source. ) 
+
+Diagnostic U C( ^^ ) 
+
+{RENUMBER THE ORIGINAL 9.3.1.2 AS 9.3.1.3. INSERT NEV^ 
+SUBCLAUSE 9.3. 1.2 USING THE FOLLOWING TEXT.) 
+
+9.3.1.2 Diagnostic 
+
+The requestor may optionally include diagnostic inf ormatior 
+on the request primitive. It takes one of the following sym 
+bolic values: 
+
+No reason given; 
+
+Protocol error; 
+
+Authentication-mechanism Name not recognized; 
+
+Authentication-mechanism Name required; 
+
+Authentication failure; or 
+
+Authentication required. 
+
+9.3.2 A-ABORT service procedure \no change] 
+{NO CHANGE IS MADE TO THIS SUBCLA USE ) 
+
+9.4 A-P-ABORT service {NO Change) 
+
+{NO CHANGE IS MADE TO THIS SUBCLA USE. ) 
+
+10 Sequencing information {NO CHANGE) 
+
+{NO CHANGE IS MADE TO THIS CLA USE. ) 
+
+
+
+Primed at Dee Kay Printers, New Delhi, India 
+
+
+
+IS 13615 : 1003 
+ISO 8640 : 1088 
+
+
+
+ISO 
+8649 
+
+
+
+AMENDMENT 2: 
+Service 
+
+
+
+Connectionless-mode ACSE 
+
+
+
+[MOVE THE INTRODUCTION (THE ORIGINAL 
+CLAUSE 0) TO THE FRONT OF THE 
+INTERNATIONAL STANDARD AS A PRELIMINARY 
+ELEMENT. WHEN THIS IS DONE. THE 
+INTRODUCTION WILL BE ON PAGE "iv" AND THE 
+NUMBERS PRECEDING THE PARAGRAPHS OF THE 
+ORIGINAL CLAUSE WILL BE DELETED.] 
+
+
+
+Introduction 
+
+[ADD AN ADDITIONAL PARAGRAPH FOLLOWING 
+THE FOURTH PARAGRAPH AS FOLLOWS.) 
+
+ACSE provides both conncciion-oricntcd and connectionless 
+mode of service. For its connccLion-orienicd services, the 
+ACSE uses presentation connection-oriented services (ISO 
+8822). For the connectionless service, the ACSE uses the 
+presentation connectionless service (ISO 8822/Amd.l). 
+
+
+
+1 Scope 
+
+[DELETE THE FIRST PARAGRAPH AND REPLACE 
+WITH THE FOLLOWING THREE PARAGRAPHS] 
+
+This International Standard defines ACSE services for 
+application-association control in an open systems 
+interconnection environment. 
+
+The ACSE connection -oriented services arc provided by the 
+use of the connection-oriented ACSE protocol (ISO 8650) 
+in conjunction with the connection-oriented presentation- 
+service (ISO 8822). These ACSE services assume as a 
+minimum the use of the presentation-service connection- 
+oriented Kernel functional unit. 
+
+The ACSE connectionless-mode service (A-UNIT-DATA) is 
+provided by the use of the connectionless ACSE protocol 
+(ISO/IEC 1(X)35) in conjunction with the connectionless- 
+mode presentation-service (P-UNIT-DATA • ISO 
+8822/Amd.l). 
+
+
+
+2 Normative References 
+
+[ADD THE FOLLOWING REFERENCES] 
+
+ISO 7498/Add.l: 1987, Information processing systems - 
+Open Systems Interconnection - Basic Reference Model - 
+Addendum I: Connectionless-mode transmission. 
+
+ISO/IEC 10035: 1991. Information technology - Open 
+Systems Interconnection - Connectionless ACSE Protocol 
+to provide to Provide the Connectionless-mode ACSE 
+Service. 
+
+ISO 8822/Amd.l: 1991, Information processing systems - 
+Open Systems Interconnection - Connection oriented 
+presentation service definition - Amendment I: 
+Connectionless mode presentation service. 
+
+
+
+3 Definitions 
+
+3.1 Reference Model DefinitioDS 
+
+3.1.1 Basic reference model definitions 
+
+[REPLACE THE SENTENCE UNDER 3. 1. 1 WITH THE 
+FOLLOWING TEXT] 
+
+This International Standard is based on the concepts 
+developed in ISO 7498 and 7498/Add.l and makes use of 
+the following terms defined in them: 
+
+[ADD THE FOLLOWING TO THE UST OF TERMS 
+ACCORDING TO THE ALPHABETICAL ORDER:] 
+
+- connectionless-mode presentation-service; 
+
+- (N)-connectionless-mode transmission. 
+
+3.3 Presentation service definitions 
+
+[REPLACE THE TEXT UNDER 3.3 WITH THE 
+FOLLOWING] 
+
+This International Standard makes use of the following 
+terms defined in ISO 8822 and ISO 8822/Add.l. 
+
+
+
+[ADD THE FOLLOWING TO THE UST OF TERMS] 
+
+
+
+IS 13615 : 1903 
+ISO 8649 : 1988 
+
+
+
+h) connectionless mode (presentation] 
+
+3.4 ACSE service deHnitions 
+
+[REPLACE 3,4,1 WITH THE FOLLOWING TEXT] 
+
+3.4.1 application-association: A cooperative relationship 
+between application-entity invocations which enables the 
+communication of information and the coordination of their 
+joint operation for an instance of communication. This 
+relationship is formed by the transfer of application- 
+protocol-control-information using the presentation service. 
+
+4 Abbreviations {NO CHANGE] 
+
+[NO CHANGE IS MADE TO THIS CLAUSE,] 
+
+5 Conventions [NO CHANGE] 
+
+[NO CHANGE IS MADE TO THIS CLAUSE,] 
+
+
+
+6 Basic concepts 
+
+[REPLACE THE THIRD SENTENCE OF 6.1,3 WITH 
+THE FOLLOWING TEXT] 
+
+This relationship is formed by the communication of 
+application-protocol-control-information between the 
+application-entity invocations through their use of 
+presentation-services. 
+
+
+
+7 Service overview 
+
+[ADD TO THE END OF THE USTIN 7.1 ] 
+
+e) A-UNTT-DATA. 
+
+[ADD THE FOLLOWING] 
+
+7.9 The A-UNIT-DATA service provides a service for 
+information transfer between AEIs using the connectionless- 
+mode presentation service. 
+
+8 Relationships to other ASEs and lower l^yer 
+services 
+
+8.2 Presentation-service 
+
+[ADD THE FOLLOWING] 
+
+
+
+%2jS The A-UNIT-DATA service requires access to the P- 
+UNTT-DATA service. 
+
+
+
+9 Service definition 
+
+[REPLACE TABLE 1] 
+
+Table 1 > ACSE-serviccs 
+
+
+
+MODE 
+
+
+SERVICE 
+
+
+TYPE 
+
+
+Connection oriented 
+
+
+A-ASSOCIATE 
+A-RELEASE 
+A'ABORT 
+AP-ABORT 
+
+
+Confirmed 
+Confinned 
+Non-confirmed 
+Provider initiated 
+
+
+Connectionless 
+
+
+A-UNIT-DATA 
+
+
+Non-confirmed 
+
+
+
+[ADD THE FOLLOWING NEW SUBCLAUSE 9.5] 
+
+9.5 A-UNIT-DATA service 
+
+The A-UNIT-DATA service is used to transfer information 
+between AEIs using connectionless-mode presentation 
+services. It is a non-confirmed service. 
+
+9.5.1 A-UNIT-DATA Parameters 
+
+Table 7 lists the A-UNIT-DATA service parameters. In 
+addition, groups of parameters are defined for reference by 
+other ASEs as follows: 
+
+a) Calling AE Title is the composite of the Calling AP 
+' Title and the Calling AE Qualifier parameters; and 
+
+b) called AE Title is the composite of the Called AP 
+Title and the Called AE Qualifier parameters; 
+
+The two components of the AE title (AP title and AE 
+qualifier) are defined in ISO 7498-3. 
+
+9.5.1.1 Application Context Name 
+
+This parameter identifies the application context which 
+applies to this instance of communication. It is nominated 
+by the requestor. 
+
+
+
+IS 13615 : 1993 
+ISO 8649 : 1988 
+
+
+
+9.5.1.2 Calling AP Title 
+
+This parameter identifies the AP whose invocation contains 
+the requestor of the A-UNTT-DATA service. 
+
+9.5.1.3 Calling AE Qualifier 
+
+This parameter identifies a particular AE within an AP 
+whose invocation is involved in the current exchange. The 
+associated AE invocation contains the requestor of the A- 
+UNIT-DATA service. 
+
+9.5.1.4 Calling AP Invocation-identifier 
+
+This parameter identifies the AP invocation that contains 
+the requestor of the A-UNTT-DATA service. 
+
+9.5.1.5 Calling AE Invocation-identifier 
+
+This parameter identifies the particular AE invocation which 
+is involved in the current exchange. The associated AE 
+invocation contains the requestor of the A-UNIT-DATA 
+service. 
+
+9.5.1.6 Called AP Title 
+
+This parameter identifies the AP whose invocation contains 
+the intended acceptor of the A-UNIT-DATA service. 
+
+9.5.1.7 Called AE Qualifier 
+
+This parameter identifies a particular AE within an AP 
+whose invocation is involved in the current exchange. The 
+
+
+
+associated AE invocation contains the intended acceptor of 
+the A-U?OT-DATA service. 
+
+9.5.1.8 Called AP Invocation-Identifier 
+
+This parameter identifies the AP invocation that contains 
+the intended acceptor of the A-UNIT-DATA service. 
+
+9.5.1.9 Called AE Invocation-identifier 
+
+This parameter identifies the particular AE invocation which 
+is involved in the current exchange. The associated AE 
+invocation contains the intended acceptor of the A-UNIT- 
+DATA service. 
+
+9.5.1.10 User Information 
+
+The user information parameter is mandatory. The meaning 
+of this parameter depends on the application context that 
+accompanies the primitive. 
+
+NOTE- The amount of user infonnation which can be transferred 
+is limited by the underlying presentation service provider. 
+
+9.5.1.11 Calling Presentation Address 
+
+This parameter is as defined in ISO 8822/Amd. 1 . 
+
+9.5.1.12 Called Presentation Address 
+
+This parameter is as defined in ISO 8822/Amd. 1 . 
+
+
+
+Table 7 - A-UNIT-DATA parameters 
+
+
+
+
+Parameter Name 
+
+
+Req 
+
+
+Ind 
+
+
+Application Context Name 
+
+
+M 
+
+
+M(=) 
+
+
+Calling AP.Title 
+
+
+U 
+
+
+C{=) 
+
+
+Calling AE Qualifier 
+
+
+U 
+
+
+C(=) 
+
+
+Calling AP Invocation-identifier 
+
+
+U 
+
+
+C(=) 
+
+
+Calling AE Invocation-identifier 
+
+
+u 
+
+
+C(=) 
+
+
+Called AP Title 
+
+
+u 
+
+
+C(=) 
+
+
+Called AE Qualifier 
+
+
+u 
+
+
+a=) 
+
+
+Called AP Invocation-identifier 
+
+
+u 
+
+
+C(=) 
+
+
+Called AE Invocation-identifier 
+
+
+u 
+
+
+C(=) 
+
+
+User Infonnation 
+
+
+M 
+
+
+M(=) 
+
+
+Calling Presentation Address 
+
+
+P 
+
+
+p 
+
+
+Called Presentation Address 
+
+
+P 
+
+
+p 
+
+
+Presentation Context Definition List 
+
+
+P 
+
+
+p 
+
+
+Quality Of Service 
+
+
+P 
+
+
+
+
+
+18 13615:1993 
+ISO 8649 : 1988 
+
+
+
+9.5.L13 Presentation Context Deflnltion List 
+
+This parameter is as defined in ISO 8822/Aindl. 
+
+9.5.1.14 Quality Of Service 
+
+This parameter is as defined in ISO 8822/Amd.l. 
+
+9.5.2 A-UNIT-DATA Procedure 
+
+93.2.1 The A-UNIT-DATA procedure is directly related to 
+that defined for P-UNTT-DATA service. 
+
+9.5.2.2 The requestor issues an A-UNIT-DATA request 
+primitive. The called AEI is identified by parameters on the 
+request i>rimitive. Use of the A-UNIT-DATA service is 
+restricted to connectionless operation. 
+
+9.5.2.3 The ACSE service provider issues an A-UNIT- 
+DATA indication primitive to the accq>tor. 
+
+9.5.2.4 The acceptor accepts the A-UNIT-DATA 
+indication. No response prin)itive is returned. 
+
+10 Sequencing information 
+
+[ADD THE FOLLOWING NEW SUBCLAUSE 10.5) 
+10.5 A-UNIT-DATA 
+
+
+
+10.5.1 Type Of Service 
+A-UNIT-DATA service is a non-confirmed tovice. 
+
+10.5.2 Usage Restrictioiis 
+
+The A-UNIT-DATA service operates completely 
+independently from other connection-oriented ACSE 
+services. Both forms of communications can occur 
+concurrently between any given pair of communicating AE 
+invocations. 
+
+10.5.3 Disrupted Services 
+
+The A-UNIT-DATA s^vice does not disrupt any services. 
+
+10.5.4 Disrupting Services 
+
+The A-UNIT-DATA service is not disrupted by any 
+services. However, delivery of the A-UNIT-DATA may fail 
+without notice because there is no confirmation and failures 
+can occur in supporting services. 
+
+10.5.5 Collisions 
+
+The simultaneous issuing of A-UNIT-DATA request from 
+two AEIs to each other results in the acceptance of both A- 
+UNTT-DATA indication primitives. No collision situation 
+results. 
+
+
+
+Printed at Dee Kay Priniers, New Delhi- 110015, India 
+
+
+
+Standard Mark 
+
+The use of the Standard Mark is governed by the provisions of the Bureau of Indian 
+Standards Act, 1986 and the Rules and Regulations made thereunder. The Standard Mark 
+on products covered by an Indian Standard conveys the assurance that they have been 
+produced to comply with the requirements of that standard under a well defined system 
+of inspection, testing and quality control which is devised and supervised by BIS and 
+operated by the producer. Standard marked products are also continuously cheked by 
+BIS for conformity to that standard as a further safeguard. Details of conditions under 
+which a licence for the use of the Standard Mark may be granted to manufacturers or 
+producers may be obtained from the Bureau of Indian standards. 
+
+
+
+Birtao of lodiu StMdftras 
+
+BIS if a statutor^r institution established under the Bureau of Indian Standards AeU \986 to 
+promote harmonious development of the activities of standardization, marking and quality 
+certification of goods and attending to connected matters in the country. 
+
+Copyright 
+
+BIS has the copyright of all its publications. No part of these publications may be reproduced 
+in any form without the prior permission in writing of BIS. This docs not preclude the free use, 
+in the course of implementing the standard, of necessary details, such a^ symbols and sizes, type 
+or grade designations. Enquiries relating to copyright be addressed to the Director 
+( Publications ), BIS 
+
+Revision of Indian Standards 
+
+Amendments are issued to standards as the need arises on the basis of comments. Standards 
+are also reviewed periodically; a standard along with amendments is reaffirmed when such review 
+indicates that no changes are needed; if the review indicates that changes are needed, it is taken 
+up for revision Users of Indin Standards should ascertain that they are in possession of the 
+latest amendments or edition by referring to the latest issue of 'BIS Handbook' and 'Standards 
+Monthly Additions'. Comments on this Indian Standard may be sent to BIS giving the following 
+reference: 
+
+Doc: No. TLD36( 1568 ) 
+
+AmendineBts Issued Since Pabllcatton 
+
+Amend No. Date of Issue Text Affected 
+
+
+
+BUREAU OF INDIAN STANDARDS 
+Headquarters: 
+
+Manak Bhavan, 9 Bahadur Shah Zafar Marg, New Delhi 11002 
+
+Telephones : 331 01 31, 331 13 75 Telegrams : Manaksanstha 
+
+Common to all Offices ) 
+
+Regional Offices : Telephone 
+
+Central : Manak Bhavan, 9 Bahadur Shah Zafar Marg f 331 01 31 
+
+NEW DELHI 110002 \331 13 75 
+Eastern : 1/14 C. I. T. Scheme VII M, V. I. P. Road, Maniktola 
+
+CALCUTTA 700054 
+
+
+
+r37 84 99, 37 85 61 
+\37 86 26, 37 86 62 
+
+
+
+f53 38 43, 53 16 40 
+I 53 23 84 
+
+
+
+Northern : SCO 445-446, Sector 35-C, CHANDIGARH 160036 
+
+Southern : C. I, T. Campus, IV Cross Road, MADRAS 600113 -I ' 
+
+Western : Manakalaya, E9 MIDC, Marol, Andheri ( East ) f632 92 95, 632 78 58 
+
+
+
+235 02 16. 235 04 42 
+235 15 19, 235 23 15 
+
+
+
+f 
+
+!« 
+
+
+
+BOMBAY 400093 \63278,91, 63278 92 
+
+Branch : AHMADABAD. BANGALORE. BHOPAL. BHUBANESHWAR. COIMBATORE. 
+f^,oU^,5>^,^\.9il^^^^^^^' GUWAHATI. HYDERABAD. JAIPUR. KANPUR 
+LUCKNOW. PATNA. THIRUVANANTHAPURAM. 
+
+
+
+Pruted at Piintwell Printers, Alitarb. India 
+
+
+

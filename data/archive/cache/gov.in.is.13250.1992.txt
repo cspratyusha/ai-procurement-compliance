@@ -1,0 +1,4511 @@
+IS 13250 : 1992
+IS0 7848 : 1985
+
+( Reaffirmed 2004 )
+
+INDUSTRIAL REAL-TIME FORTRAN - APPLICATION FOR THE CONTROL OF INDUSTRIAL PROCESSES
+
+UDC 681'3'06
+
+: 800'92
+
+FORTRAN
+
+@BlS
+
+1992
+
+BUREAU
+MANAK
+
+OF
+9
+
+INDIA-N
+BAHADUR NEW DELHI
+
+STANDARDS
+SHAH 110002 Price Group 11 ZAFAR MARG
+
+BHAVAN,
+
+February
+
+1992
+
+IS 13250 : 1992 IS0 7846 : 1985
+
+Indian Standard
+INDUSTRIAL REAL-TIME FORTRAN - APPLlCATlON FOR THE CONTROL OF INDUSTRIAL PROCESSES
+NATIONAL FOREWORD This Indian Standard which is identical with IS0 7846 : 1985 `industrial real-time FORTRAN Application for the control of industrial processes', issued by the International Organization for Standardization ( IS0 ), was adopted by the Bureau of Indian Standards on the recommendation of the Programming Languages Sectional Committee ( LTD 34 ) and approval of the Uectronics and Telecommunication Division Council. The text of the IS0 standard has been approved as suitable for publication as Indian Standard However, wh-erever the words `International Standard' appear referring without deviations. to this standard, they should be read as `Indian Standard'. CROSS REFERENCES
+International Standard Indian Standard Degree of Correspwdence
+
+IS0 1539 Programming languages - FORTRAN
+
+IS0 10680 : 1983 Programming languages - FORTRAN
+
+Identical
+
+As in the Original Standard, this Page is Intentionally Left Blank
+
+IS 13250 IS0
+
+: 1992
+
+7846 : 1985
+
+0
+
+Introduction
+Standard to allow describes a task model and a set of control of multi-task systems using concerlanguage. Information Standard
+
+NOTE -
+
+Terms printed in italics in the definitions are themselves
+
+defin
+
+This International related routines FORTRAN
+
+ed in this clause. However, in each definition, printed in italic at their first occurrence.
+
+such items are only
+
+as the programming
+
+2.1 write)
+
+access
+
+mode:
+
+The right or permission to access (read or by the processor following a request for
+
+ning the development
+
+of this International and justifications
+
+is given in
+
+a file granted
+
+annex A, and suggestions
+
+for some features These annexes do
+
+such permission.
+
+are given in annex 0. Annex
+
+C deals with the problem of aborStandard. 2.2 basic clock counts: Counts of the basic unit of the
+
+ting tasks and annex 0 with file handling. not form part of this International
+
+system real-time
+
+clock as available for the user's program.
+
+1
+This
+
+Scope
+
+and field
+
+of application
+establishes computer external control procedure systems.
+
+2.3
+
+computation:
+
+A set of operations
+
+carried out on a set of
+
+data, as available for the user's program. International for use Standard references in industrial
+
+2.4
+
+critical
+
+region:
+
+A part of a sequential
+
+order of opera-
+
+These external procedure ~date information, systems,
+
+references
+
+provide access to time and of programs functions, with executive allow manipula-
+
+tions operating execution.
+
+on shared data such that this part of the pro-
+
+permit interface
+
+gram must have exclusive access to the shared data during the
+
+process input and output
+
+tion of bit strings and provide a method These procedures FORTRAN expected executive to be
+
+for file handling. in a 2.5 DORMANT: One of the definite states of a task. syrtem and is not in
+or SUSPENDED.
+
+are intended for use with programs written executable environment both in a solitary and in
+
+in accordance
+
+with IS0 1539.111 These programs are under the control of a real-time
+
+A dormant
+
+task is known to the executive RUNNING,
+
+multiprogramming system.
+
+any of the states PENDING,
+
+2.6 It is the responsibility ceptions or errors, of the executive
+such as division
+
+event:
+
+A
+
+significant
+
+discrete
+
+occurrence
+of some
+
+or
+
+incident
+
+system to deal with exby zero or referencing
+
+which is intended ned manner.
+
+to affect the execution
+
+task in a plan-
+
+SORT( - 1 .O), so that such errors do not cause serious effects, for example unwanted tasks. 2.7 This International Standard is applicable to systems which require multi-tasking features. all FORTRAN eventmark: Internal variable of the executive system, used to indicate that an event has occurred. are or uncontrolled abortion, or affect other An event itself occurs instantaneously and setsan eventmarkll.
+
+if the user's system contains parallel tasks, the eventmarks
+NOTE - No extensions or variations from this international Standard should be implemented except for features explicitly declared in this International Standard to be processor dependent.
+
+shared data elements
+
+for the tasks. 1)
+
+2.8 2 Definitions
+of this International Standard. the following
+
+execution: The collection of actions performed by a computer processor carrying out instructions in a sequential manner.
+
+For the purpose definitions apply.
+
+2.9 executable program: A program including all of its functions and subroutines in a form suitable for execution.
+
+1)
+
+See also 5.3.1.
+
+3
+
+IS 13250
+
+:
+
+1992
+
+IS0 7846:1985
+
+2.10 executive routine; executive system: The part of the processor which supports the procedures described in this International Standard. 2.11 file: A collection of related records treated as a unit.
+
+2.23 processor dependent: Describes an action of the cessor that is not specified in this International Standard.
+
+pro-
+
+2.24 repetitive execution: Occurs when a task is repeatedly initiated, whether at fixed intervals or by repetitive events.
+
+For the purpose of this International Standard, the records are considered to be of fixed length. Record storage and access are independent of the internal format of records. 2.12 initiation: The action taken by the executive system to start the execution of a task at its first executable statement. 2.13 multiprocessinglj: A mode of operation that provides for parallel processing by two or more processors of a multiprocessor. 2.14 multiprogrammingll: A mode of operation that provides for the interleaved execution of two or more computer programs by a single processor.
+
+2.25
+
+system,
+
+resourcemark: Internal variable of the executive used to indicate that a resource is exclusively reserved for a task. 2)
+
+2.26
+
+RUNNING:
+
+One of the definite states of a task.
+
+A running task is executing in its virtual processor.
+
+2.27 semaphore: A variable of the executive system, used for the exchange of synchronizing information betieen interacting parallel tasks. All semaphore operations fin this International Standard imply critical region protection, provided by the executive system.
+
+2.15 multitasking
+
+1): A multiple operation that provides for the concurrent performance or interleaved execution of two or more tasks. One of the definite (formal) states of
+
+2.28
+
+sequential
+
+order of operations:
+
+An order of opera-
+
+tions the results of whiich are as if the operations are performed
+
+2.16 NON-EXISTENT: a task.
+
+strictly one after another.
+
+2.29 A non-existent task is unknown to the executive 2.17
+system.
+
+SUSPENDED:
+
+One of the definite states of a task.
+
+object task; designated task; referenced task: The task that is wanted or expected to be started, halted, stopped, or otherwise affected as a consequenceof a system subroutine call.
+
+A suspended task has temporarily halted the execution of its virtual processor, and is waiting for a specified condition to continue the execution of its virtual processor.
+
+2.30
+
+task: A computation
+
+which can be scheduled.
+
+.
+
+2.18 operation: A deterministic rule for the generation of a finite set of data from another finite set of data. 2.19 overrun: Occurs when the condition for initiation of a
+
+The operations of this computation are performed in a strict
+sequential order of operatibns.
+
+(See also 2.17 and 2.28.)
+
+task becomes true while the task is still running because of a previous initiation.
+
+2.31 2.20 parallel tasks; concurrent tasks: whose operations may overlap in time. 2.21 PENDING: A set of tasks a) b) One of the definite states of a task.
+
+time: absolute time: Complete time and date specification. relative time: A time increment or difference.
+
+A pending task has been associated with an event or time condition such that when the condition occurs, the task will be transferred to state RUNNING and initiated. 2.22 -processor: The combination of a data processing system and the mechanism by which programs are transformed for use on that data processing system.
+
+virtual processor: An environment in which a task can 2.32 run from the time it is initiated until it terminates without consideration of availability of resources, managed by the processor and not by the user`s program. A particular implementation serves to map a set of virtual processors onto a set of real processor(s). This mapping is processor dependent.
+
+1) Definitiontaken from IS0 2382/10.121 2) See also 5.3.2.
+
+4
+
+IS 13250 : 1992 IS0 7846 : 1985
+
+Section
+
+one
+
+:
+
+Multiprogramming
+
+and real-time
+
+features
+
+3
+
+Introduction
+describes real-time several procedure operation. are generally references available and, i.e. and relating to multiprogramming considered indivisible,
+
+4.2
+
+Obtain clock counts"
+of a reference to this subroutine allows the user proclock,
+
+This section in particular, tion,
+
+for the user's program, the operations
+
+Execution expressed
+
+For all calls given in this set
+
+gram to obtain the current value of the system real-time in basic clock counts.
+
+their operation
+
+will behave as if they are not interrupted. The form of the call is
+
+4
+
+Date
+
+and time
+
+information
+environment, the user must system. variables of the executive
+
+CALL where j
+
+CLDCK(j,kl,kZ)
+
+For programming have access below. Unambiguous time including defining time DATIM the Gregorian The calls are CALL DATIMLtl)
+
+in a real-time
+
+to the time
+
+These time variables are obtained
+
+by system calls as described
+
+designates
+
+an integer
+
+variable
+
+or integer
+
+array element value as
+
+into which the current value of the clock will be placed as a time specification requires unique designation of complete date and an acknowledged calendar, zero. Execution of reference to subroutine information. The date refers to calendar. positive integer. j is counted up to a maximum given by k2, then set to zero and counted again; kl
+
+provides this complete
+
+is the number of basic clock counts per second.
+
+It is an shall be
+
+integer value returned by the system. This argument an integer variable or an integer array element; k2 is the maximum value
+
+j can attain. It is an integer value
+shall be an integer
+
+for obtaining
+
+current
+
+date and time,
+
+CALL CLOCK(j,kl,k2)
+
+for obtaining
+
+the basic clock counts.
+
+returned by the system. This argument variable or an integer array element.
+
+4.1
+
+Obtain date and time
+
+The modulus size of j is given by argument k2 (modulus = k2 + 1). In practice, this will usually be equal to the modulus of the hardware counter realizing the clock.
+
+The form of the call is CALL where tl DATIM(t1) designates an integer array, into whose first 8
+
+5
+
+General
+
+aspects
+
+of tasking
+
+elements will be placed the absolute time, as expressed by the executive system's real-time clock at the time when the call is executed. These elements are as follows
+
+:
+
+5.1
+
+States and transitions
+a task is in one and only one state. system, Actions ex-
+
+first element:
+
+Counts of the basic clock Milliseconds (0 to 999)
+
+At any time,
+
+second element: third element: fourth element: fifth element: sixth element:
+
+ecuted by the executive
+
+other tasks, or the designated from one state to another. instantly, i.e. they are con
+
+Seconds Minutes
+
+(0 to 59) LO to 58)
+
+task itself, may cause transition These transitions are performed sidered ideally to take no time. This mathematical diagram",
+
+Hours LO to 23) Day (1 to 31) Month Year (1 to 12) model of a task may be visualized by a "state in which the states are drawn as as circles, while transitions such as that shown in the figure,
+
+seventh element: eighth element:
+
+are nodes, illustrated
+
+pointed arrows from one node to another. 131
+
+1)
+
+See also annex B
+
+5
+
+IS 13250 : 1992
+-IS0 7848 : 1985
+
+A multitasking system consists of several parallel tasks and can be considered as modelled by a number of disjointed but similar diagrams. It is feasible to apply a three-dimensional picture, with the similar diagrams sandwiched on top of each other and oriented so that the identical states of the individual diagrams cover each other. State transitions are generally caused by subroutine calls, occurrence of events, or expiration of time limits. The name, form, and interpretation of the subroutine calls are standardized and described below.
+
+In this international Standard, a task is described by a mathematical model illustrated by the state diagram shown in the figure. This model adheres to the following basic principles: a) transitions are non-ambiguous, i.e. for a given stimulus in a given state, the task can transit to only one possible new state; b) cl transitions are performed instantly, i.e. in zero time; a task exists in one state only at a time:
+
+d) the state model describes the behaviour of tasks as seen by the application programmer.
+
+DORMANT
+
+Figure -
+
+State model and transition
+
+diagram
+
+6
+
+IS 13250 IS0 7846
+
+: 1992 : 1985
+
+The following diagram -
+
+symbolism
+
+is used for transitions
+
+in the state
+
+5.3.1 In the
+
+Eventmarks management external of concurrent or internal tasks, it is necessary events to
+
+:
+Capital letters in box
+
+: Effect on a task imposed
+task.
+
+by
+
+associate be either
+
+certain tasks with certain events. events. such as a contact
+
+These events may are of
+
+another
+
+task, i.e. a subroutine on the designated box
+
+call in one task has the in-
+
+External
+
+dicated effect -
+
+some physical nature, nection between the scope of CALL
+
+closure, but the conis beyond event An internal
+
+Capital letters without
+
+: Effect imposed by the task
+under which the executive
+
+an external event and its eventmark Standard.
+
+of this International
+
+itself while in the state RUNNING. Small letters
+
+arises from specific program POST). are selected
+
+action (see 6.9.1 for a description
+
+: Conditions
+the indicated
+
+system performs With reference
+
+state transitions. Eventmarks by reference to a numeric selector in Eventno attempt is made to is related for the to be by the procomThe association calls CALL SUSPND of events to tasks is done by the subroutine (see 6.4), CALL HOLD CON (see 6.5.8), CALL (see 6.8.1). of an internal with this task to SKED the range 1 (one) to n, where n is processor dependent. marks have two states
+
+to principle system
+
+d) above, actions
+
+describe
+
+executive
+
+transparent
+
+to the applica-
+
+tion programmer.
+
+Consequently,
+
+the state RUNNING processor
+
+to-the task's virtual processor (see 2.32). state of a task whether executive adapted puters. system a physical assigned to it or the execution
+
+It is immaterial happens hampered
+
+ON
+OFF
+
+is temporarily availability Thus,
+
+due to limited
+
+of physical
+
+cessors and the task's low priority. to multiprocessors
+
+the model is as well
+
+as it is to single processor
+
+(see 6.71, and CALL
+
+An eventmark
+
+is turned to ON by the occurrence
+
+or external event.
+
+If one or more tasks are associated system will cause each associated An eventmark execution.
+
+5.2
+
+Multiple
+
+activation
+
+calls 1)
+conflicting transition calls
+
+event, the executive begin or continue direct program changed events.
+
+is turned to OFF by system as it services Eventmarks can be defined in this Inter-
+
+Different operation,
+
+tasks may issue apparently
+
+control or by the executive with the eventmark. references
+
+for the same object task. This will be the case during normal as well as under error conditions, task. with the principle of a task being in Transition will apply one state state calls are its own since the state of call is made an object task is unknown by another at the time a transition
+
+the tasks associated national Standard
+
+only by the procedure
+
+and by the executive system that services the
+
+In accordance transitions received scheduling Depending or rejected. withan
+
+Eventmarks gram action,
+
+may also be set to the OFF state by a specific prothe CALL CLEAR (see 6.9.4 (see 6.9.21, and 6.9.51. and they may be Additionally, the
+
+only at a time (see 5.1). by the executive strategy
+
+a distinction system,
+
+is made between
+
+and calls for such transitions. which in handling such calls.
+
+masked and unmasked value of an eventmark TESTEM (see 6.9.3).
+
+may be tested
+
+by the logical function
+
+on available resources, system, An argument normally
+
+such as internal tablespace, call will be accepted after the reference, the reference has
+
+etc., of the executive appropriate
+
+a transition
+
+5.3.2
+
+Resourcemarks
+for various resources is
+
+will be returned or rejected.
+
+value indicating
+
+whether
+
+A simple means to resolve contention provided by-the resourcemark concept,
+
+been accepted
+
+which permits one and
+
+only one task to use a resource at a time. Resourcemarks in the range three concepts for synResourcemarks LOCKED UNLOCKED are selected by reference 1 (one) to n, where have two states to a numeric selector dependent.
+
+5.3
+
+Synchronization
+Standard
+
+concepts
+provides
+
+n is processor
+
+This International chronization tention, as follows: eventmarks;
+
+between
+
+tasks and the resolution
+
+of resource con-
+
+-
+
+resourcemarks; semaphores. and semaphores whereas are mainly used for synchronizaare mainly used for
+
+This International
+
+Standard
+
+does not define what can be conIt is the responsibility of the user to If the user wants to the reference be in the will
+
+sidered to be a resource.
+
+associate a resource with a resourcemark. Eventmarks reserve a resource exclusively a resourcemark CALL state and semaphores are local variables of the executive system and they may not be accessed other than by the mechanisms described in this International Standard. Eventmarks, resourcemarks, change resource LOCK to UNLOCKED state exclusively (see 6.70.1). at this for tion purposes, the resolution the resourcemarks for the resource Should
+
+for the running task, he chooses and performs the This thiz resourcemark the
+
+of resource contention.
+
+moment,
+
+resourcemark reservation
+
+LOCKED,
+
+reserving
+
+corresponding is later to EXIT (see
+
+this task.
+
+released by the task, by execution 6.121 or UNLOCK (see 6.10.2).
+
+of a reference
+
+1)
+
+See also annex B.
+
+IS 13250
+
+: 1992
+
+IS0 7846 : 1985
+
+Should the
+
+a task
+
+attempt
+
+to
+
+LOCK where
+
+a resourcemark it remains
+
+which until
+
+is the
+
+6
+6.1
+
+Procedure
+
+references of procedure references lJ
+
+already locked, the executive state SUSPENDED, becomes resourcemark
+
+system will transfer this task into
+
+Terms and summary
+
+unlocked
+
+by some other task. This clause contains a summary of the subroutine calls and function references described in subsequent clauses. The following designations for parameters apply to several of the calls. If the exact meaning of these perameter designations deviates from that described ally in the detailed description below, it will be marked specificwill be will be of the cell. If the meaning is ex-
+
+If
+
+several
+
+tasks
+
+are
+
+waiting
+
+for
+
+a
+
+resourcemark
+
+to
+
+be
+
+UNLOCKED, ecutive
+
+only one will be selected for execution (For details, see 6.10.2.)
+
+by the ex-
+
+system.
+
+This is a main dif-
+
+ference from the eventmark concept, where all tasks waiting for an eventmark are transferred to state RUNNING if the eventmark is set to ON.
+
+actly as defined here, the description of the parameter omitted in the description of the call and a reference by reference to the made to this subclause. i specifies the task to be affected ment shall be an integer array. The contents used as input parameter (see 6.10.3).
+
+A resourcemark logical function
+
+can also be set to LOCKED TLOCK
+
+(object task). The arguby CREATE. i is
+
+5.3.3
+
+Semaphores
+
+of i may be partly generated in all other calls.
+
+Semaphores
+
+represent
+
+a synchronization
+
+concept
+
+useful
+
+for
+
+cases where a more advanced mechanism than those available by resourcemarks and eventmarks is desired. Semaphores are selected by reference to a numeric selector in the range 1 (one) to n, where n is processor dependent. Unlike eventmarks and resourcemarks, a semaphore has an integer value, s . The value s of a semaphore must be initialized and may later be set by the reference CALL PRESEM (see 6.11.1).
+
+t,tl,t2 designate integer arrays, whose first 8 elements contain a specification of absolute or relative time. Negative values of elements are not permitted. follows : first element: Basic clock counts Milliseconds These elements are as
+
+second element: third element: fourth element:
+
+Seconds Minutes Hours Day(s) Month(s) Year(s)
+
+If the task needs greater reference WAITS, than CALL
+
+to wait
+
+until the value value, (see 6.11.2).
+
+of a semaphore
+
+is fifth element: sixth element:
+
+or equal WAITS
+
+to a specific
+
+the task uses the of CALL
+
+By execution
+
+the executive
+
+system tests if the specified decrement value
+
+j
+to
+
+seventh element: eighth element:
+
+is greater than s. In this case, the calling task is transferred state SUSPENDED, s is incremented where it remains until the semaphore
+
+by another task to a value greater than or equal
+
+If, for absolute times, value 0 is used for one of the three date date", elements, "current this shall be interpreted or "current year" as "current by the exmonth",
+
+to j. If j is not greater than s and the calling task continues
+
+, the value s is decremented
+its execution.
+
+by j
+
+ecutive system. By execution of CALL SIGNAL (see 6.11.3). the executive system increments by j the value s of the specified semaphore. This incrementation greater may bring a task, waiting for this if s m is set on return to the calling program, ot the request as fo\\ows : to indicate the disposition semaphore, becomes multiple from state SUSPcNDED to state RUNNING, The interpretation of a relative time specification containing months or years different from zero is processor dependent.
+
+than or equal to j of the suspended for this semaphore
+
+task. If
+
+tasks are waiting
+
+and are can-
+
+didates for running, after the incrementation of s by j. the order in which these tasks transit to state RUNNING is processor dependent. By setting s to certain values and choosing j, a variety of advanced for resource contention In addition semaphore (see 6.11.4). to the synchronization are possible. described above, the value of a different values for
+
+0 or less: undefined 1: request accepted 2 or greater: request rejected (error condition)
+
+concepts and solutions
+
+This argument element. rejection.
+
+shall be an integer variable or integer array may define specific values greater between certain reasons for
+
+The processor
+
+than or equal to 2 to distinguish
+
+calls
+
+may be read using the integer
+
+function
+
+IRDSEM
+
+The list of function subsequent
+
+and subroutine
+
+cells, described
+
+in detail in
+
+subclauses,
+
+is given in table 1.
+
+~.
+1)
+
+~~-
+
+See also annex B.
+
+IS 13250:1992 IS0 7846 :1985
+
+Table 1
+Full description in subclause 6.2 6.3
+:ALL CREATE(i,m) :ALL KILL(i,m) Ipposite of CREATE) : mode selector eventmark reference absolute or relative time for first initiation time period for cyclic initiations reference to eventmark for overrun
+
+Call
+I
+
+Parameters
+: identification of created task and associated program
+
+6.4
+
+:ALL SKED(i,s,el,tl,t2,e2,m) general scheduling)
+
+: I :
+1 2: 2:
+
+6.5.1
+
+:ALL STRT(i,m) start immediately) :ALL 5GTRTAFli.tl.m) start after time delay) :ALL STRTAT(i,tl,m) time) 1
+
+6.5.2
+
+: :
+
+time delay before initiation
+
+6.5.3
+
+1
+
+absolutetime
+
+for initiation
+
+start at absolute
+
+6.5.5
+
+CALL CYCL(i,t2.m) [cyclic, with immediate first initiation)
+
+2:
+
+length of time interval
+
+6.5.6
+
+CALL CYCLAFli,tl,t2,m) (cyclic, with delayed First initiation) CALL CYCLAT(i,tl,t2,m) (cyclic, with absolute time specification of first initiation) CALL CON(i,e,m) (establish event connection) CALL DSKED(i,s,e,m) (eliminate scheduling) CALL DCON(i,e,m) (eliminate event connection) CALL CANCEL(i,m) (eliminate time scheduling) CALL SUSPND(s,e,t,n,m) (suspend continuation of calling task for time period or until event)
+
+:l : 2:
+
+time delay before first initiation length of time interval
+
+6.5.7
+
+t1 : t2:
+
+absolute
+
+time for first initiation
+
+length of time interval
+
+6.5.8
+
+a:
+
+eventmark
+
+reference
+
+6.6
+
+s: e: e:
+
+mode selector eventmark reference eventmark reference
+
+6.6.1
+
+6.6.2
+
+6.7
+
+s: e: t: n: e:
+
+mode selector reference to eventmark
+
+for end of delay
+
+time delay indicator for cause of end of delay reference to eventmark for end of delay
+
+6.8.1
+
+CALL H0LDte.m) (suspend until event
+
+occurs) t: time delay
+
+6.8.2
+
+CALL DELAY(t,m) (suspend for a relative time) CALL POST(e,m) (setting of an eventmark) CALL CLEAR(e,m) (resetting of an eventmark) TESTEM(e,m) (resting the state of an eventmark)
+
+6.9.1
+
+e:
+
+eventmark
+
+reference
+
+6.9.2
+
+e
+
+eventmark
+
+reference
+
+6.9.3
+
+eventmark e: function value
+
+reference
+
+:
+
+condition
+
+of the eventmark
+
+63.4
+
+CALL MKEM(e,m) (setting the mask of an eventmark) CALL UNMKEM(e,m) (clearing the mask of an eventmark) CALL LOCK(r,m) (locking of a resourcemark) CALL UNLOCK(r,m) (unlocking ~of a resourcemark)
+
+e
+
+: :
+
+eventmark
+
+reference
+
+6.9.6
+
+e
+
+eventmark
+
+reference
+
+6.10.1
+
+r:
+
+resourcemark
+
+reference
+
+6.10.2
+
+r
+
+:
+
+resourcemark
+
+reference
+
+9
+
+IS 13250 IS0 7846
+
+: 1992 : 1985
+
+Table
+Full description in subclause 6.10.3
+
+1 (concluded)
+
+Call TLOCK(r,ml (testing and locking of a resourcemark)
+
+Parameters r : resourcemark reference function value : condition of the resourcemark
+
+6.11.1
+
+CALL PRESEM(r,s,m) (initialization of semaphore) CALL WAITS(r.j.m) (wait on semaphore)
+
+r s
+
+semaphore
+
+reference
+
+:
+
+initial value of semaphore
+
+6.11.2
+
+r : J: r : j:
+
+semaphore decrement semaphore increment
+
+reference
+
+6.11.3
+
+CALL SIGNAL(r,j,m) (release semaphore) IRDSEM(r,ml (read semaphore CALL EXIT (termination
+
+reference
+
+6.11.4
+
+value)
+
+r semaphore function value
+
+:
+
+reference value of semaphore
+
+vanable
+
+6.12
+
+of execution)
+
+6.2
+
+Creation
+
+of a new
+
+task
+
+6.3.
+
+Eliminating
+
+a task from
+
+the real-time
+
+system')
+task NON-
+
+A new task is introduced subroutine CREATE. with some specified
+
+to the real-time system by reference to task will be associated a resource like other considered
+
+A reference to subroutine from the real-time EXISTENT. PENDING, designated mination
+
+KILL will eliminate by transferring
+
+a designated it to state
+
+The designated program,
+
+system,
+
+resources, necessary for the task to perform. The associated program is normally assumed to exist in an executable form. Formally, red from reference and in terms of the state model, the task is transferNON-EXISTENT to DORMANT as the effect of the (see the figure and 5. I!. is assumed Standard which to exist outside the scope of this
+
+If the designated task is in state DORMANT or the effect shall be carried out immediately. If the task is in state RUNNING shall affect only future or SUSPENDED, executions. the ter the any Thus, without
+
+designated task will continue intervention by this call. The form of the call is
+
+its present execution
+
+A mechanism international i.e. the parent,
+
+to create and initiate at least a first task, in its turn may create other tasks. where
+
+CALL
+
+KILL(i,m) in 6.1
+
+i and m are as described
+
+The form of the call is
+
+6.4
+CALL where i specifies an integer array which contains all the informaCREATE(i,ml
+
+Scheduling
+
+a task
+to the subroutine SKED, or Its shall schedule the initiation of a the condition for subsequent task is in state DO% task shall transit PENDING, the transfer
+
+Execution of a reference derivates as listed in 6.5, designated transition MANT task, to RUNNING. PENDING.
+
+establishing
+
+If the designated
+
+when the call is made, the designated If it is already its conditions in state shall augment according
+
+tion necessary to specify the task and its associated program. The latter includes, among other items, its designation, where the program can be found (such as description of file), residency while existent (primary memory resident or swappable), etc. The array may also contain processor priority. the task's
+
+to state reference
+
+for subsequent
+
+to RUNNING the designated conditions NING
+
+to the arguments
+
+of the call, such that when any of the otherwise an and
+
+task will transit to RUNNING
+
+still valid becomes true. The transition to state RUNoccurs. The augmentation of running condi
+
+requires the task being in state PENDING,
+
+This array will in general also contain output information, i.e. references distinguishing this task from other tasks created from an identical sets, etc. may be used by other procedure i, see program code, reference to individual dqa Such
+
+overrun condition any violation
+
+tions is subject to any resource limitation of such limitation
+
+of the processor,
+
+will result in an error return. the condition that caused this a running to DOR
+
+When a task transits to RUNNING, of parameter
+
+information
+
+transition is removed from the possible complex of combined conditions, such that the other conditions remain. When task subsequently exits, by transition from RUNNING
+
+references 6.1.
+
+in clause 6. For a description
+
+All details of this array are processor m is as described in 6.1
+
+dependent.
+
+MANT, possible scheduling conditions, remaining from previous scheduling calls, shall cause immediate transition to state PENDING. (Note, however, the definition of the term "overrun" and the provision for Its Indication, as explained below.)
+
+1)
+
+See also annex B.
+
+10
+
+IS 13250 : 1992 IS0 7946: 1985
+
+Each normally accepted reference to the subroutine SKED causes the following effect. After expiration of a specified time delay or at a desired absolute time or upon the occurrence of a specified event, the object task is transferred to state RUNNING and begins at the first executable statement of the program. The actual time resolution obtainable in a specific industrial computer system is subject to the resolution of that system's real-time clock. If the object task is initiated by an event occurrence, the executive system will set the eventmark OFF, as part of the initiation. If more than one task is waiting for a specified eventmark to change to the condition ON, when the change occurs all these tasks will transit into state RUNNING. The form of this procedure reference is CALL SKEDfi,s,el ,tl ,t2,eZ,m) where i and m are as described in 6.1.
+
+If s = 20: start immediately plus cyclic by t2 If s = 21: start at tl plus cyclic by t2 If s = 22: start after tl plus cyclic by t2 If s = 23: start at el plus cyclic bv t2 If s = 24: start at t-l or el plus cyclic by t2 If s = 25: start after tl or at el plus cyclic by t2 The values of the argument s between 30 and 35 define the first execution of the task which is subsequently executed whenever the eventmark specified by el becomes ON. If s = 30: start immediately plus repeated by el If s = 31: start at tl plus repeated by el If s = 32: start after tl plus repeated by el If s = 33: start at el plus repeated by el If s = 34: start at tl or el plus repeated by el If s = 35: start after tl or at el plus repeated by el
+
+6.5
+
+Starting a task by simplified calls
+
+s is an integer expression, specifying three categories of task scheduling (see below), as follows: the values of the argument s between 10 and 15 cause the task to be initiated once; the values of the argument s between 20 and 25 cause the task to be initiated periodically by time; the values of the argument s between 30 and 35 cause the task to be initiated whenever a specified eventmark becomes ON. el specifies the eventmark for scheduling; it is an integer expression. tl designates an integer array containing the absolute, or relative, time for the scheduling. (The term relative time for scheduling means the time delay from the time the reference is executed until the intended running.) (See 6.1.) t2 is an integer array to designate the time period for cyclic runs. (See 6.1.) e2 is an eventmark for overrun. It will be turned ON if overrun occurs. The action performed with the object task is processor dependent. The values of the argument s between 10 and 15 define the first and only execution of the task. If s = 10: start immediately If s = 11: start at absolute time tl If s = 12: start after time tl Ifs = 13: start at event el (once) Ifs = 14: start at absolute time tl or event el (once) If s = 15: start after time tl or at event el (once) The values of the argument s between 20 and 25 define the first execution of the task which is subsequently executed repetitively at the time period t2. -
+
+The following calls for scheduling represent subsets of the features of CALL SKED. They are established for ease of programming only. CALL STRT(i,m) CALL STRTAFfi,tl,m) CALL STRTATfi,tl,m) CALL CYCLfi,Q.m) CALL CYCLAFfi.tl,Q.m) CALL CYCLAT(i,tl,Q,m) CALL CON(i,el,m) start immediately start after time tl start at time tl start immediately bv t2 start after time tl plus cyclic plus cyclic
+
+bv Q
+start at time tl plus cyclic by t2 start at event el plus repeated by el
+
+6.5.1 Starting a task immediately
+Execution of a reference to subroutine STRT establishes a condition for immediate transfer of the designated task to RUNNING via PENDING. Execution begins at the task's first executable statement. If in state DORMANT when the reference is made, the task will transit to state PENDING and continue immediately to stata RUNNING. The form of the call is CALL STRT(i,m) where i and m are as described in 6.1. 6.5.2 Starting a task after a specified time delay
+
+Execution of a reference to subroutine STRTAF establishes a time delay as the condition for transfer of the designated task to RUNNING via PENDING. After expiration of a specified time delay after the time when the reference is executed, the designated task is expected to transfer to state RUNNING and will do so if its state at that time is PENDING. If in state DORMANT when the reference is
+
+11
+
+IS 13250
+
+: 1992
+
+IS0 7846 : 1985
+
+made, NING,
+
+the task will transit to state PENDING. the task will begin at its first executable
+
+In state RUNstatement.
+
+If the execution is not finished before the time for the next execution, an overrun situation exists and the action taken with the repeated task is processor dependent. under the specified conditions shall continue unterminated or DCON by a call of subroutine CANCEL (see 6.6.1). are similarly valid for the CALL SKED has
+
+The form of the call is Rescheduling CALL where The statements i and m tl after are as described an integer the object in 6.1. array, task specifying is to start the time delay its execution 6.5.5 6.5.3 Starting a task at a specified to subroutine absolute STRTAl time establishes an Initial start immediately with parameter situation above s - 20 to 25 and 30 to 35; SKED, however, STRTAF(i,tl,m) tit actively (see 6.6.2)
+
+a special parameter designates which
+
+e2, set to ON in the case of the overrun
+
+(see 6.1)
+
+The form of the call is CALL where CYCLfi,t.Z,m)
+
+Execution absolute
+
+of a reference
+
+time as the condition via PENDING. absolute time,
+
+for transfer
+
+of the designated
+
+tdsk to RUNNING At the specified
+
+the object task is expected
+
+to
+
+i and m
+
+are as described
+
+in 6.1; the nominal
+
+transfer to state RUNNING and will do so, if its state at that time is PENDING. If in state DORMANT when the reference is made, NING, the task will transit to state PENDING. the task will begin at its first executable immediately if the specified to STRTAT In state RUNstatement. absolute The is time
+
+t2 designates an integer array, specifying length of the time interval (see 6.1).
+
+task is started
+
+6.5.6
+
+Initial
+
+start
+
+after
+
+a specified
+
+time
+
+delay
+
+already passed when the reference The form of the call is
+
+is executed. The form of the call is CALL
+
+:
+
+CYCLAF(i,tl,t2,m)
+
+CALL
+
+STRTATti,tl,m) where i and m are as described in 6.1; a time delay for
+
+i and m tl time
+
+are as described an integer the object
+
+in 6.1. array, task specifying is to start the absolute its execution
+
+tl
+
+designates
+
+an integer array, specifying
+
+designates at which
+
+the initial activation, made (see 6.1);
+
+as measured from the time the call was
+
+(see 6.1).
+
+t2 designates an integer array, specifying length of the time interval (see 6.1). a task in repeated execution 6.5.7 Initial start at specified absolute time and CON for repeated features
+
+the
+
+nominal
+
+6.5.4
+
+Starting
+
+The calls for CYCL, execution
+
+CYCLAF.
+
+CYCLAT, common
+
+have the following
+
+:
+if its
+
+The form of the call is CALL where i and m tl are as described an integer in 6 1; array, specifying is exactly STRTAT the absolute equivalent (see 6.1); the nominal to CYCLATfi,tl.t2,m)
+
+The designated present Further,
+
+task will be transferred or when establishes
+
+to state PENDING it becomes
+
+state is DORMANT the reference
+
+DORMANT. to RUNN-
+
+the condition
+
+for subsequent
+
+transfer of the designated ING for a first execution `executions.
+
+task from state PENDING
+
+and additionally
+
+causes future repeated
+
+desrgnates
+
+time at which the designated A reference to subroutine CYCL, CYCLAF, CYCLAT, or CON has the same immediate effect as a reference for single execu tion: additionally, after its termination (for example by EXIT), as the object task will be transferred immediately from state DORexecution, RUNNING parameter initially.
+
+task is supposed to enter state
+
+This argument
+
+tl of call for subroutine
+
+MANT to state PENDING for the next repeated indicated in the figure by "repetitions". The actual running may be delayed
+
+t2 designates an integer array, specrfying length of the time interval (see 6.1 j.
+
+6.5.8 unintentionally while in state RUNNING, because of running of other programs. Such
+
+Connection
+
+of a task
+
+to an event CON establishes a
+
+Execution
+
+of a reference
+
+to subroutine
+
+delays will not be accumulated
+
+for tasks with cyckc repetitions
+
+specified event as the condition
+
+for transition
+
+from state PEN
+
+12
+
+IS 13250: 1992 ISO 7846 :1985
+
+DING
+
+to RUNNING.
+
+First, the task will transit DORMANT. Then,
+
+to state PENif the related
+
+6.6.1 Elimination of event connections
+Execution connection it eliminates SKED SUSPENDED, of a reference between further to subroutine DCON shall cancel any
+
+DING if the state is DORMANT or when the state becomes
+
+when the reference is executed, an object task and a specified event. Thus, effects from a previous call to subroutine task is in state shall affect RUNNING or only future execu-
+
+eventmark is or becomes ON, the designated task will transit from state PENDING to RUNNING and will begin with its first executable the reference statement. task to DSKED The association remains or DCON until between actively the event and cancelled by a designated
+
+or CON.
+
+If the object the cancelling
+
+(see 6.6 and 6.6.1).
+
+tions. Thus, the object task will conclude without any intervention by this call. If the object task is in state PENDING,
+
+its present execution,
+
+The form of the call is the cancelling will cause reCALL where The form of the call is i and m e are as described in 6.1. it is an integer expression. CALL where i and m Execution of a reference to subroutine DSKED or its derivates, DCON and CANCEL, shall cancel specified scheduling conditions for an object task. Thus, it eliminates previous calls to subroutine SKED subroutines. If the object cancelling task is in state RUNNING its present execution, or SUSPENDED, without the Execution of a reference to subroutine CANCEL shall cancei the future initiations of an object task due to time scheduling by previous calls of SKED or its simplified versions. The executive system shall ensure that no further move to the state PENDING shall take place due to previous cyclic scheduling. the cancelling will cause conditions reIf the object task is in any active state (RUNNING or further effects from derived 6.6.2 or its simplified e are as described in 6.1. an integer expression (see 6.6). DCONfi,e,m) specifies the eventmark; CONfi,e,m) a transition main. to state DORMANT if no scheduling conditions
+
+6.6
+
+Elimination
+
+of previous scheduling
+
+specifies the eventmark;
+
+Elimination of time connections
+
+shall affect only future executions.
+
+Thus, the object any interven-
+
+task will conclude tion by this call.
+
+If the object task is in state PENDING, a transition main. The form of the call is to state DORMANT
+
+if no scheduling
+
+SUSPENDED), without
+
+the elimination
+
+shall affect
+
+only future
+
+execu-
+
+tions. Thus, the object task will conclude any intervention by this call.
+
+its present execution
+
+If the object task is in state PENDING, CALL where The form of the call is i and m s are as described expression in 6.1. CALL is an integer selecting one of the following where 1: eliminate all time-based scheduling e; including remain and i-and m are as described in 6.1. conditions: If s = CANCEL(i.m) DSKED(i,s.e,m) a transition main. to state DORMANT
+
+the cancelling
+
+will cause re-
+
+if no scheduling
+
+conditions
+
+scheduling If s = 2: repetition unaltered; If s = 3:
+
+by events as specified eliminate by time. all time-based Possible event
+
+by argument scheduling connections
+
+6.7
+
+Delaying
+
+continuation
+
+of a task
+SUSPND shall pro(i.e. transits
+
+Execution
+
+of a reference
+
+to the subroutine for a specified
+
+vide a means whereby to state SUSPENDED)
+
+a running task is suspended
+
+length of time or until a with the statement SUSPND.
+
+specified event has occurred. eliminate event-based scheduling, including e. state RUNN,lNG immediately event-based repetition, as specified by argument Possible time connections remain unaltered. following
+
+The task shall then transit back to
+
+and shall resume execution the call of subroutine
+
+If more than one task is suspended
+
+and waiting for a specified ON, when the change
+
+e
+
+is an eventmark(
+
+integer expression, whose connection
+
+which
+
+specifies
+
+the as
+
+eventmark
+
+to change
+
+to the condition
+
+is to be eliminated,
+
+occurs all tasks will transit to state RUNNING. The time delay is defined as the nominal duration from the time
+
+follows
+
+:
+eventmark connections for the when the call was made until the program resumes execution in its virtual processor, by being transferred to state RUNNING. The actual NING specific eventmark, as instants for the entering are subject and leaving states to the resolution system. RUNof the and SUSPENDED
+
+- 1: all If e = designated task: If e = 0: If e > 0:
+
+no event cancelling; reference to one
+
+system's real-time actions performed
+
+clock and to the interrogating by the executive
+
+and activating
+
+specified
+
+by the value of e.
+
+13
+
+IS 13250 : 1992 IS0 7846 : 1985
+
+The form of the call is CALL where s is an integer expression selecting the condition shall end, as follows: time t; on which SUSPND(s,e,t,n,m)
+
+The form of the call is CALL where t designates an integer array, specifying (see 6.1). in 6.1. the relative time DELAY(t,m)
+
+the suspension
+
+for the suspension m is as described
+
+If s = 1 : at absolute If s = 2: after time t; Ifs = 3:atevente;
+
+6.9
+time t or event e;
+
+Eventmark
+
+operations to the ON condition
+shall set a
+
+If s = 4: at absolute
+
+If s = 5: after time t or at event e. e specifies the eventmark for ending suspension; it is an
+
+6.9.1
+
+Setting an eventmark
+
+Execution of a reference to subroutine POST
+designated eventmark to the ON condition. was already ON, there shall be no action.
+
+integer expression. t designates an integer array, specifying (see 6.1). the absolute, or
+
+If the eventmark may cause a task to state
+
+Because of an earlier
+
+transition
+
+call in some task, the ON condition from state PENDING
+
+relative time; for the suspension n is a return parameter
+
+to be transferred RUNNING.
+
+or SUSPENDED
+
+to indicate the cause of the end of
+
+the delay in case of s = 4 or s = 5
+
+:
+
+The form of the call is CALL where POST(e,m)
+
+If n = 1: end of delay by event e; If n = 2: end of delay by time t. m is as described in 6.1.
+
+e 6.8
+
+specifies the eventmark; is as described in 6.1.
+
+it is an integer expression.
+
+Suspending
+
+until
+
+event
+
+or time
+
+m
+
+The following calls for suspension represent subsets of the features of CALL SUSPND. They are established for the ease of programming CALL only. suspend until the event e has occurred CALL DELAY(t,m) suspend for a time delay as specified by t
+
+6.9.2
+
+Clearing
+
+an eventmark
+to subroutine OFF. CLEAR shall cause the was
+
+Execution designated
+
+of a reference eventmark
+
+HOLD(e,m)
+
+to become
+
+If the eventmark
+
+already OFF, there shall be no action. The form of the cell is CALL CLEAR(e,m)
+
+6.8.1
+
+Delay until event has occurred
+where
+
+Execution of a reference to subroutine HOLD shall suspend the calling task until a specified event has occurred. The task shall then transit to state RUNNING the statement immediately HOLD. and thus resume execution following the with call of subroutine
+
+e
+m
+
+specifies the eventmark; is as described in 6.1.
+
+it is an integer expression.
+
+9.9.3 The form of the call is CALL where e specifies the eventmark integer expression. m is as described in 6.1. for ending suspension; it is an HOLD(e,m)
+
+Tostlng an eventmark
+of a reference
+
+condition
+TESTEM shall return a
+
+Execution
+
+to function
+
+logical value TRUE if the specified eventmark was ON and a logical value FALSE if the eventmark was OFF. If the eventmark is unknown be returned, dition. to the processor, a logical FALSE value will and the error parameter will indicate an error con-
+
+The form of this function 6.8.2
+
+reference
+
+is
+
+Delay for a specified relative time
+
+TESTEM(e.m) where e m specifies the eventmark; is as described in 6.1. it is an integer expression.
+
+Execution of a reference to subroutine DELAY shall transit the
+calling task to state SUSPENDED tion with the statement for a specified following duration. the The of task shall then transit back to state RUNNING, immediately subroutine DELAY. resuming execucall
+
+14
+
+IS 13250 : 1992 IS0 7849 : 1985
+
+6.9.4
+
+Masking
+
+an eventmark
+
+Execution of a reference to subroutine MKEM does not change the state of the designated eventmark but causes it to be masked. The masking-effect is that the eventmark may freely change its state without any effect on tasks that might be PENDING or SUSPENDEO waiting for this eventmark to be set.
+The form of the call is CALL where e specifies the eventmark whose corresponding event is to MKEM(e,m)
+
+b) if the resourcemark is locked and there are no tasks suspended as a result of a previously unsuccessful attempt to lock the associated resource, the resourcemark shall be unlocked; cj if the resourcemark is locked and there are one or more tasks suspended as a result of previous attempts to lock the
+associated resourcemark, one and only one task shall transit resourcemark remains to state RUNNING. RUNNING The associated dependent.
+
+locked. The criteria used to select the task to transit to state are processor
+
+The form of the call is CALL where r specifies the resourcemark; is as described in 6.1. it is an integer expression.
+
+UNLOCK(r,m)
+
+be masked; m
+
+it is an integer expression. in 6.1.
+
+is as described
+
+6.9.5
+
+Unmasking
+
+an eventmark
+
+m
+
+Execution of a reference to the subroutine UNMKEM shall allow actions associated with the specified eventmark to be executed. If the eventmark is in the ON condition, then all actions
+associated The form-of CALL with the specified the call is eventmark will be executed.
+
+6.10.3 Testing and setting a resourcemark condition
+Execution of the function The function is unlocked; TLOCK
+
+to the locked
+
+shall first test the specified if the the value F~ALSE,
+
+resourcemark. resourcemark however,
+
+shall return the value TRUE it shall return
+
+UNMKEM(e,m)
+
+if the resourcemark is locked. After this test, the resourcemark will be locked.
+whose corresponding event is to The form of this function TLOCK(r,m) where reference is
+
+e
+
+specifies the eventmark
+
+be unmasked; m
+
+it is an integer expression. in 6.1.
+
+is as described
+
+6.10 6.10.1
+
+Resourcemark
+
+operations to the locked condition
+
+r m
+
+specifies
+
+the resourcemark;
+
+it is an integer expression.
+
+Setting a resourcemark
+
+isasdeScrjbedin6.1 as compared to CALL LOCK or
+
+Execution of a reference to the subroutine LOCK shall cause the specified resourcemark to be locked. If the specified resourcemark was locked already, of the task. the executive system shall suspend the execution The form of the call is CALL where r m specifies the resourcemark; is as described in 6.1. it is an integer expression. LOCK(r,m)
+
+The reason for the use of TLOCK to continue with CALL execution LOCK.
+
+is to allow a task to either reserve a resource if it is unlocked,
+
+if it is locked. This would not be possible
+
+6.11
+
+Semaphore
+
+operations')
+have the form of local variables of the an The to is
+
+All semaphore executive
+
+variables
+
+system,
+
+and the only means of access is through
+
+argument, r, which refers to one particular semaphore. value of a particular semaphore variable thus referred termed s in the following. of subroutines j SIGNAL and WAITS
+
+The effects
+
+are, respecvalue by
+
+6.10.2
+
+Setting a resourcemark
+
+to the unlocked condition
+UNLOCK shall cause
+
+tively, the increasing and decreasing an amount ment of the calls. For WAITS, suspended
+
+of the semaphore
+
+, a positive integer conveyed as the second arguthe decrease will only take place the calling task is takes place, and continuavalue.
+
+Execution
+
+of a reference to the subroutine actions
+
+one of the following a) tion;
+
+:
+is unlocked, there shall be no ac-
+
+if the result is not less than zero; otherwise before the decrementing tion will not occur
+
+if the resourcemark
+
+until after s > j, i.e. the decrementation will yield a non-negative
+
+linked to the continuation
+
+1)
+
+See also annex 6.
+
+15
+
+IS 13250 IS0 7846
+
+: 1992 : 1985
+
+The
+
+subroutine
+
+calls for the synchronizing
+
+mechanisms
+
+are
+
+6.11.3
+
+Release
+
+of semaphore to the subroutine SIGNAL shall increof the
+
+describedin
+
+more detail below. Execution of a reference and referred The subroutine ment an integer semaphore sion below, PRESEM has two warnings PRESEM Normally, where j is an argument (see below). magnitude, releasing caused by transfer to for this m will inA change to a positive value of sufficient this operation, state RUNNING event to occur. Other tasks, suspended in their after execution of CALL SIGNAL WAITS may provide a possible reference. variable, designated shall be granted s in the expres-
+
+6.11.1
+
+initialization
+
+of semaphore to the subroutine
+
+to by one of the arguments
+
+Execution purposes. semaphore, a
+
+of a reference permitting that is
+
+exclusive access to
+
+Firstly, it declares the intention operation the
+
+of use of a particular is issued referring to Secondly,
+
+this semaphore ing modification s=s+j
+
+during its operation of its value :
+
+and will execute the follow-
+
+the system to give diagnostic not value program. initialized. for
+
+at run time if another semaphore semaphore the establishes PRESEM ecution initial
+
+semaphore.
+
+is referenced of a real-time
+
+only in the initialization if no semaphore
+
+phase of the ex-
+
+The error parameter
+
+dicate an error condition dicated designation. The form of the call is CALL where r s PRESEM(r.s.mJ
+
+exists with the in-
+
+for a task waiting in state SUSPENDED
+
+relating to the same semaphore condition minated. specifies a semaphore; is the initial value it is an integer expression. to the semaphore. for a particular system call Until the and this is an re-evaluated
+
+r, shall have their suspension call is tertasks This to at a above. for suspended
+
+the present
+
+This will provide an opportunity is subject to all common
+
+to be released and resume operation, continuation exclusive operation
+
+as described restrictions
+
+given
+
+pertaining
+
+CALL PRESEM undefined, semaphore and
+
+is executed another
+
+semaphore, referring to
+
+on a same semaphore.
+
+Thus, the effect will of the semaphore of WAITS as long as a The order in
+
+the internal variable is assigned value s, the internal value is shall give an error return. This parameter
+
+be that only one of the suspended time. This examination for the examined equal which value again, as a consequence
+
+tasks will be examined
+
+may involve reduction
+
+of releasing operation continues task.
+
+integer expression. A negative semaphore negative value is permissible. a negative SIGNAL This is the only way The effect greater before a inthe
+
+task. This examination of some
+
+possibility remains that the semaphore to the j-value suspended value. of a tasks are checked
+
+value is greater than or otherwise is processor
+
+suspended
+
+may attain
+
+initial value is that a correspondingly of CALL is required
+
+dependent. The form of the call is CALL SIGNALfr,j,mJ
+
+crease by virtue
+
+releasing action can take place. m is as described in 6.1
+
+6.11.2
+
+Wait
+
+on semaphore to subroutine WAITS will involve a by the
+
+where r j value s will be reduced by will this is as described in 6.11 .l. specifying the amount by which
+
+Execution referenced
+
+of ~a reference semaphore.
+
+possible suspension
+
+of the calling
+
+task, as controlled
+
+is an integer expression,
+
+By the end of the call, the semaphore the amount j value.
+
+the semaphore variable is to be incremented, if applicable. The value of j shall be positive (one or greater), and j = 1 corresponds used. m is as described in 6.1. to the simple semaphore most commonly
+
+. The reduction and subsequent continuation
+the calling task is suspended until
+
+only take place when this can be done giving s a non-negative Otherwise, decrementation can take place.
+
+The form of the call is CALL WAITS(r,j,mJ where r j is as described in 6.11 .l. specifying the amount by which and j = 1 commonly
+
+6.11.4
+
+Reading
+
+a semaphore
+
+value by execution of a
+
+A semaphore reference function system. shared
+
+value
+
+may be interrogated IRDSEM.
+
+to the integer function
+
+The purpose of this operation, in a
+
+is not that it be used as a synchronization Thus, a reference information is the reference resource to function about from IRDSEM
+
+but only to provide a means to supervise synchronization ple, provide (honoured), another how far a buffer saturation. When exclusive to IRDSEM
+
+can, for examor another accepted access to by is made,
+
+is an integer expression,
+
+the semaphore corresponds used. m to
+
+variable is to be decremented, the simple semaphore
+
+if applicable.
+
+The value of j shall be positive (one or greaterr, most
+
+will be granted the reference
+
+the semaphore.
+
+If the semaphore
+
+is already being accessed
+
+system call when
+
+is as described
+
+in 6.1.
+
+the reference will be subject to the same deferred response and contention mechanisms as the other semaphore operations. On
+
+i6
+
+60
+
+IS 13250 : 1992
+7846 : 1985
+
+return, the function designator will have a value equal to the internal semaphore value when the reference was accepted. The form of the reference is IRDSEM(r,m) where r m is as described in6.11 .l. is as described in 6.1.
+
+Eventmarks and semaphores shall not be affected. ~Resourcemarkspreviously locked by this task shall be unlocked (see 5.3.2). and files released. The form of this call is CALL EXIT ,?
+
+6.12
+
+Normal termination
+
+of execution
+
+1)
+
+Execution of a reference to subroutine EXIT shall terminate the execution of a task and return the task to state DORMANT.
+
+The common FORTRAN operations STOP and END provide alternative means to terminate execution of a task. However, the effect onconnected units, such as files, is as described in IS0 1!39fll; the effect on other resources described in this International Standard is processor dependent.
+
+11 See also annex B.
+
+17
+
+IS 13250
+
+: 1992
+
+IS0 7846 : 1985
+
+Section
+
+two:
+
+Binary
+
+pattern
+
+and ~bit -processing
+
+7
+The
+
+Introduction
+:
+function references for operations described in this section provide Function value
+
+0101
+0011 0001
+
+mechanisms
+
+on bit patterns
+
+as well as individual 8.1.3 Boolean complement is
+
+bits of the internal representation The operations presuppose that
+
+of integer variables. integer numbers are conshift
+
+sidered as if they are unsigned operation With (see 8.2.2)
+
+integers,
+
+The arithmetic
+
+The form of this function NOT(j)
+
+is an exception. referencing individual bits, a bit bit, is the
+
+resp?ct
+
+to arguments
+
+numbering
+
+rule in which bit number 0, the rightmost bit is assumed.
+
+The
+
+value
+
+of the function value, j, according j 01 value 1 0
+
+is the logical
+
+complement
+
+of the
+
+least significant
+
+parameter
+
+to the following
+
+truth table:
+
+Function
+
+8
+
+Binary
+
+pattern
+
+processing
+8.1.4 Exclusive OR is
+
+8.1
+
+Boolean
+
+operations
+The form of this function provided are IEOR(j,k)
+
+Boolean operations OR, AND,
+
+EOR and NOT. The value of the function is computed from the values of the truth table: are implemented as integer functions. bythe The parameters j and k according 0101 : Function value 0011 0110 to the following
+
+These operations
+
+implicit type for CR, AND k, are integer expressions. After execution The
+
+and EOR is indicated
+
+use of I
+
+as the first letter of the function
+
+name. Their parameters,
+
+j and
+
+of the functions, operations are
+
+the parameters on
+
+remain
+
+un-
+
+changed. (equally following responding
+
+performed
+
+corresponding giving the corin the
+
+8.2
+
+Shift
+
+operations
+provided are logical, arithmetic and cirfunc-
+
+numbered)
+
+bits of the two operands,
+
+bit value of the result. The values indicated truth tables represent and of the function value.
+
+The shift operations cular. tions. The functions
+
+the individual and correspond-
+
+The shift operations
+
+are implemented
+
+as integer
+
+ing bits of the arguments
+
+have two parameters, as follows:
+
+j and n, considered
+
+as integer expressions, 8.1.1 Inclusive OR is j n
+
+specifies the value (binan/ pattern) specifies the shift count: n > 0 indicates indicates indicates value a left shift, no shift, a right shift. of the shift count
+
+to be shifted;
+
+The form of this function IOR(j,k) The value of the function parameters
+
+n = 0 n < 0 is computed from the values of the truth table: If the absolute number QlOl : 0011 value 0111 The parameter undefined. j and k according to the following
+
+is greater
+
+than
+
+the
+
+of bits in a numeric
+
+storage
+
+unit,
+
+then the result is
+
+Function
+
+values are not changed
+
+by the shift operations.
+
+82.1 8.1.2 Boolean AND
+
+Logical
+
+shift is
+
+The form of this function The form of this function 1ANDtj.k) All bits representing The value of the function parameters is computed from the values of the truth table: j and k according to the following is ISHL(j,n)
+
+the parameter
+
+j are shifted
+
+n places. end.
+
+Bits
+
+shifted out from the left end or the right end, as the case may be, are lost. Zeros are shifted in from the opposite
+
+18
+
+IS 13250 : 1992
+IS0 7846 : 1985
+
+8.2.2 Arithmetic shift The form of this function is ISHAfj,n) Argument j and the function value are considered as signed integers. All bits representing the parameter j are shifted n places. In the case of a right shift (n < 01, zeros are shifted into the left end if j is positive, and ones are shifted in if j is negative. The bits shifted out of the right end are lost. In case of a left shift (n > 01, zeros are shifted into the right end while the bits shifted out of the left end are lost, In a left shift an arithmetic overflow may occur. 8.2.3 Circular shift The form of this function is ISHC(j,n) All bits representing the parameter j are shifted circularly n places, i.e., the bits shifted out of one end are shifted into the opposite end. No bits are lost. NOTE - The number of bits representing j is processordependent.
+
+The parameter values are not changed by these functions.
+
+9.1
+
+Bit testing
+
+The form of this function is BTEST(j,k) This function is of type LOGICAL. The kth bit of parameter j is tested. If it is 1, the value of the function is TRUE ; if it is 0, the value of the function is FALSE.
+
+9.2
+
+Set -bit
+
+The form of this integer function is IBSETlj,k) The value of the function is equal to the value of parameter j with the kth bit set to 1.
+
+9.3
+
+Clear bit
+
+The form of this integer function is IBCLRfj,k)
+
+-9
+
+Bit processing
+The value of the function is equal to the value of parameter j with the krh bit set to 0.
+
+Individual bits of an integer can be tested with the functions for bit processing. The functions have two parameters j and k, which are integer expressions, as follows: j k specifies the binan/ pattern; specifies the selected bit, numbered as in clause 7.
+
+9.4
+
+Change bit
+
+The form of this integer function is IBCHNG(j,k)
+
+If k is negative or greater than the number of bits that are used to represent an integer value, the result of the function is undefined.
+
+The value of the function is equal to the value of parameter j with the kth bit complemented.
+
+1Q
+
+IS 13250 IS0
+
+: 1992
+
+7846 : 1985
+
+Section
+
+three:
+
+Process
+
+input/output
+
+10
+
+Introduction
+FORTRAN must be able to adAs the major-
+
+i
+
+specifies the number
+
+of values to be transferred:
+
+it is an
+
+integer expression; The user of industrial real-time dress specific process devices for his application.
+
+1 specifies the name of an integer array or array element
+that contains I/O The ports, orderly necessary information and data of for description conversion information of the i.e. address information. is processor
+
+ity of input/output (I/O) systems are computer dependent, this can only be standardized in a universal way by standardized calls to driver routines which are especially written for each I/O system. Computer independent I/O systems are either standardized, GPIB, or standards etc.). are under consideration (CAMAC, MEDIA, Standardized I/O calls designed for these here but are outStandard.
+
+representation
+
+dependent; k specifies the name of an integer array or array element the input or output values; indicator. Its value characterizes the
+
+that contains m is a
+
+systems are equally valid to the calls presented side the scope of this International
+
+status
+
+"success" m < 0:
+
+of a call, as follows undefined, all data have been transferred, error conditions. shall be an integer variable or an integer array
+
+11 Scope of the process structure of I/O routines
+The process peripheral terminal devices,
+
+I/O and general
+
+m =
+
+1:
+
+m > 2: the process, or its This argument element.
+
+is the link between processing
+
+and the central
+
+unit of the comof the pro-
+
+puter. Data describing the space and time behaviour cess are received by a processing can be transferred interface. The variety of tasks to the central processing required of peripheral
+
+unit and prepared so that they unit through an I/O by the process has For input, a distinction is made between hardware implemented sequential the first sequential and random input. In the first case, for input, the input parameter j contains the address of analog input; further addresses case, will be generated of adthe form is In the second the full sequence
+
+12
+
+Input/output
+
+of analog
+
+values
+
+resulted in a large number
+
+devices from different
+
+manufacturers. However, in the course of many years of hardware development, largely compatible and generally accepted lines of development characterized I/O l/O have become established. They may be by the following statements. addresses. The
+
+automatically. always random, Generally,
+
+dresses must be given in the array j. For output, ports are distinguished port designations by their individual used i.e. all addresses (addresses) in the procedure the format of j is system dependent.
+
+are given in array j. See annex 8,
+
+references will probably, in most systems, be identical to the individual hardware addresses, but this is not mandatory. This relation is considered a processor dependent feature beyond the scope of this International IS0 1539 specifies that Standard. must be completed
+
+clause B.10. The relationship between the range of an input or output port and its corresponding element in k is processor dependent. Some suggested design guidelines may be found in annex B, clause B.10.
+
+one statement
+
+before processing process I/O dicated
+
+of the next statement
+
+begins. The standard mode is in-
+
+described
+
+herein adheres to this rule. The calling and this operating 12.1
+
+task will wait for completion
+
+Sequential
+
+analog data input
+to the subroutine AISQW reads a se-
+
+by the last letter W (waiting) designations
+
+of all subroutine
+
+names. Execution of a reference quence of analog input ports of sequential addresses.
+
+The following
+
+for parameters
+
+apply to several of parameter it will be of the
+
+the references. If the exact meaning of these designations deviates from that described below, marked specifically If the meaning parameter and a reference The procedures in the detailed description tn the description is exactly as defined
+
+The form of the call is CALL AISQW(i, where j, k, m)
+
+of the reference. of the reference
+
+here, the description
+
+will be omitted
+
+will be made to this clause.
+
+I specifies the number of analog Input ports to be reac.
+for process
+
+l/Onormally have four (in a specral
+will be designated Such an I/O
+
+The parameter j
+
+is an integer expresslon; of either hardware or software informa
+
+case, five) parameters
+
+which In the following
+
+in thegeneral form with i, j. k. m (and n If needed). call has the general form CALL procioti, where indicates procio described: one CTf thF: subroutlnes j, k. m)
+
+is a description
+
+tion for the acquisition and for rhe conversion of the first and the following analog ports. It IS the name of an Integer array or nf an elemen?. k See annex B, clause B.lO; It I:,
+
+1s an array for recording the converted analog values
+
+the name of an inteyer array or of an elemeni. subsequently clause 6 ICI V IS as described in clause 11
+
+See ;lnnex H,
+
+20
+
+IS 13250
+IS0 7846
+
+: 1992 : 1985
+
+12.2
+
+Analog
+
+data
+
+input
+
+in random
+
+sequence
+of analog input ports
+
+13.2
+
+Digital
+
+output
+Output Momentary) is permanently held value
+
+The subroutine AIRDW in a specified order. The form of the call is CALL where AIRDW(i,j,k,m)
+
+reads a sequence
+
+For the output, pulse output (Digital distinguished from digital output witha (Digital Output 13.2.1 Digital Latching). pulse output
+
+Execution ports to be read. The
+
+of a reference
+
+to the subroutine
+
+DOMW
+
+performs bit and by
+
+pulsed output to a collection i specifies the number of input parameter is an integer expression; those bits selected element parameter
+
+of I/O ports. A pulse will occur on on bits selected
+
+by a binary 1 of the corresponding is indicated
+
+of an array k. No pulse appears n.
+
+j
+
+is a description of either hardware or software information for the acquisition and for the conversion of each analog value. It is the name of an integer array. See annex B, clause B.10; k is an array for recording See annex B, clause B.lO; m is as described the converted analog values.
+
+binary 0. The pulse duration
+
+in a suitable form by
+
+The pulse will begin either when the DOMW pulse, for example polarity, voltage, ware used. The form of the call is
+
+is executed
+
+or at of the
+
+the next clock tick. This, as well as the representation
+
+etc., depends on the hard-
+
+in clause 11.
+
+12.3
+
+Analog
+
+data
+
+output
+
+CALL where
+
+DOMWfi,j,k,n,rn)
+
+The subroutine AOW outputs a sequence of analog values to a collection of analog output ports in a specified order. The form of the call is CALL where i specifies the number of analog parameter is an integer expression; output ports. The AOW(i,j,k,m)
+
+I specifies the number of digital values output; it is an integer expression; j k contains hardware information for transfer of each digital It value. This parameter is the name of an integer array; the digital values to be output. value wil!
+
+is an array representing
+
+is the name of an integer array. The first outputted be taken from the first array element index is 1); n is the number
+
+(i.e. the element whose on the
+
+j contains information for the data conversion and transfer. It is the name of an integer array. See annex B, clause B.10; k is an array from which the analog values are output. It is the name of an integer array. See annex B, clause B.10; m is as described in clause 11.
+
+of time units of a clock depending
+
+hardware duration, argument m 13.2.2
+
+used. If the processor does not allow selection of this argument is ignored but must be present. This shall be an integer expression; in clause 11. output (DOLWI, in addition to the output sub-
+
+is as described Latched
+
+digital
+
+13
+
+Input/output
+
+of digital
+
+values
+
+For latched be changed
+
+digital output in the output.
+
+field, a mask field is also required to indicate which bits are to For this type of input/output, it is assumed that, while the effective information may be represented at times by a single bit, it will, nevertheless, be necessary to transfer digital values (considered as entities using whole numeric storage units or words) into or out of an integer array (for example 16 bits for each numeric storage unit). The parameter k is therefore divided into kl and k2. The form of the call is CALL where DOLW(i,j,kl,k2,m)
+
+13.1
+The
+
+Digital
+
+input
+
+i j
+
+specifies the number of digital words; contains hardware information
+
+it is an integer ex-
+
+form of the call is CALL DIW(i,j,k,m)
+
+pression; for every digital value that is output. This parameter is the name of an integer array;
+
+where i specifies the number teger expression; of digital values input; it is an in-
+
+kl is an array representing the digital values to be output. The parameter is the name of an integer array; k2 designates an array whose values define digital outputs A bit set in the k2 to the in the corwhich can be changed by the subroutine. state defined responding elements argument element; m is as described in clause 11. by the corresponding integer array element
+
+j contains hardware and in some case software information for conversion and transfer. It is the name of an integer array. A possible reset specificatron can also be contained in j; k is an array in which the digital values will be stored. It is the name of an integer array; m is as described in clause 11.
+
+array indicates that the digital output will be changed bit position in kl.
+
+The order of the
+
+in kl and k2 will correspond
+
+to the order in j. This
+
+shall be an integer array name, or an integer array
+
+21
+
+-IS 13250 : 1992 IS0 7846 : 1985
+
+Section
+
+four:
+
+File handling
+
+14
+
+Introduction
+references
+problems
+
+described in this section proof files, and also provide contention
+
+a file can have security
+
+attributes
+
+associated
+
+with the
+
+file for the purpose The external procedure
+means for resolving
+
+of ensuring
+
+file privacy; with a task, this association for reasons of privacy;
+
+vide means for controlling multitasking/multiprocessing ment, it is expected cedure references
+
+the access
+
+-
+
+when
+
+a file is associated
+
+of file access
+
+in a
+
+can be restricted -
+
+by the processor
+
+environment. therefore,
+
+In such an environto access proacthe external the
+
+a file can be associated of contention
+
+with a set of related concurrent among the concurrent
+
+that concurrent defined herein
+
+tasks will attempt provide
+
+tasks and this association resolution tasks; -
+
+can be restricted to assure orderly problems
+
+the same file at the same time; necessary for the processor
+
+information of access
+
+to resolve such simultaneous
+
+cess in an orderly manner.
+
+The method for resolution
+
+a file can be internal or external
+
+to a task; media; storage; may
+
+control is left to the processor. The procedure references in this section are intended to pro-
+
+a file can reside on fixed or removable a file can reside on main storage restrictions
+
+-
+
+or backing
+
+vide the methods by which the task can inform the processor of the manner in which it intends to use the file, but the references are not intended be associated to require specific problems when properties or attributes to with the referenced files. They provide rhe means used in conjunction with
+
+for reasons of privacy
+
+or contention
+
+apply to a file or a component data items.
+
+of a file such as records and
+
+to avoid contention sound program tional Standard arise.
+
+design bur the implementation of this Internais no assurance that such problems will not
+
+16
+In
+
+File system
+industrial
+with This
+
+environment
+computer
+resources Standard
+
+real-time
+shared
+
+systems,
+such does
+
+concurrent
+not address
+
+.ask
+ocall the
+
+15
+
+Background
+
+information
+systems and can have various at-
+
+operation currence.
+
+as files is a common
+
+International
+
+Files exist in most computing
+
+areas of file management that most commonly systems.
+
+but is concerned in industrial
+
+with the problems real-time computer
+
+tributes -
+
+and features,
+
+such as data, programs, or catalogue infor-
+
+arise
+
+a file can contain
+
+mation; there can be a variety of ways for file access such as sedirect, and stream; by a task, by a system
+
+Table
+
+2 shows those
+
+features
+
+covered
+
+by this International however, the excluded of a are
+
+Standard features concurrent
+
+and those that are excluded; task to a file. Such
+
+quential, -
+
+may affect the result of a request for association restrictions on association
+
+a file can be created or deleted or at system generation time;
+
+processor dependent tional Standard.
+
+and are outside the scope of this Interna-
+
+utility,
+
+Table
+Included Files whose contents are considered to be data
+
+2 -
+
+Features
+
+and attributes
+
+of files
+Excluded
+
+Files whose contents ing concurrent task media that
+
+are not considered
+
+to be data by the access-
+
+Files which exist on fixed media only or on removable are not removed Files that reside in main storage Files that are external Creation and deletion or in backing storage task task
+
+Files that exist on removable
+
+media which are removed task utility or at system
+
+Files that are internal to a concurrent Creation generation and deletion
+
+to a concurrent
+
+of files by a system
+
+of files by a concurrent
+
+Methods
+
+of file access of a-file
+
+The association of a file to a concurrent task for both systemcreated and for concurrent task-created files
+Restrictions on file access as applied to the file of a file to a concurrent task irrespective or stream) of the
+
+Restrictions on file access as applied to a component
+Attributes of a file for the purpose of ensuring
+
+file privacy
+
+The association method
+
+of access ffor example
+
+direct, sequential,
+
+22
+
+IS 13250 IS0 7846
+
+: 1992
+: 1985
+
+17 17.1
+
+Procedures
+Introduction
+
+to control
+
+file access
+
+The form CALL where
+
+of the call is DFILW(j,m)
+
+The procedure references defined in this interruptible, that is the processor will only procedure the features reference described at a time. are executed
+
+section execute
+
+are nonone such that
+
+j
+
+specifies a) b)
+
+the file.
+
+The argument or or
+
+is either
+
+This requirement in an orderly
+
+ensures manner.
+
+an integer an integer a procedure a character
+
+expresslon, array name, name, or
+
+The argument m, shown below, shall be set equal to or greater than two (2) in value when the request is not accepted by the executive que values specific system. reason Individual implementation range may specify to designate unithe of m within for which the allowabie the request
+
+c) d)
+
+expression. which of the above four forms,
+
+was rejected.
+
+The processor are acceptable:
+
+shall define
+
+17.2
+
+Creation
+of but
+
+of files
+to the subroutine file. CFILW shall by
+
+is set m disposition a named Files established to restrict
+
+on
+
+return
+
+to
+
+the
+
+calling
+
+task
+
+to
+
+tndlcate
+
+fht,
+
+of the request.
+
+The value shall be 1 or gribarer deleted
+
+Execution establish, CFILW
+
+a reference not open,
+
+1 ~~ File successfully 2 or greater This argument array element ~
+
+do not have any privacy
+
+attribute
+
+a concur-
+
+File not deleted vanable name or irltecl~~r
+
+rent task from accessing the files. The contents of a newly created file are not defined by this International Standard. The form CALL where of the call is
+
+shall be an Integer name.
+
+17.4
+CFILW(j,nl,nZ,m)
+
+Opening
+of
+
+files
+to the subroutine OPENW shall
+
+Execution
+
+a reference
+
+associate the unit specified by the task with the named fllc, and shall define the desired access mode of that task to rhe ftle specifies a) h) cl d) the file. The argument expression, array name, or or CALL an integer a procedure a character or where name, OPENW(i,j,k,m) is elthcr The form an integer of the call IS
+
+j
+
+expression. which of the above four forms
+
+I specifies
+integer
+
+the unit
+
+by which
+
+the file,
+
+named
+
+by the argo shall bt- ,+i
+
+ment j, is referenced The processor shall define expression; the file
+
+in the task.
+
+This argument
+
+are acceptable; specifies the number of character storage units per nl record in this file. This argument shall be an integer expression; n2 specifies the maximum number of records in this file.
+
+1 speclfles
+al b) cl d) indicate the
+
+The argument or or
+
+is either
+
+an integer an integer a procedure a character
+
+expresston, array name, name, or
+
+This argument m is set on
+
+shall be an integer return to the
+
+expresslon; task to
+
+expression. which of the above foilr i01n1,.
+
+calling
+
+The processor are acceptable; k specifies
+
+shall define
+
+disposition
+
+of the request.
+
+The value created
+
+shall he 1 or greater.
+
+1 ~~~ File successfully 2 or greater This argument array element
+
+the access of the task's
+
+mode
+
+destred
+
+by the task The followlnq
+
+It /<I
+
+3
+
+declaration Ftle not created shall be an integer name variable name or tnteqer ment are defined.
+
+Intended
+
+us{? of the file
+
+This dr(,ii val~lr~~,
+
+shall be an Integer
+
+expression
+
+17.3
+
+Deletion
+
+of files
+2 Protected read -... Read access to other IS requesred by rtrt, calling task anrl allowrcl Read `write task tasks, tasks, a<.cess is requestc:cl any Me ;I(
+
+Execution of a reference to the subroutine DFILW shail remove a file from the file system. Any file created by the mechanism described in 17.2 can he deleted by the execution of a reference to DFILW, hut deletion will not he effected if the file is c:urrrntly open to any task.
+
+3 Locked hy the calling cess by other
+
+or write
+
+Thr calling
+
+task excludes
+
+23
+
+IS 13250
+IS0 7846
+
+: 1992
+: 1985
+
+m
+
+is set on return
+
+to the
+
+calling
+
+task
+
+to indicate
+
+the
+
+17.6
+
+Modify
+
+access
+
+mode
+to the subroutine MODAPW shall
+
+disposition 1 -
+
+of the request.
+
+The value shall be 1 or greater: Execution of a reference to the calling task to the calling task name or integer change opened file. If t,le calling task does not have access mode to the file, the re quest fails. the calling task's access mode of a file previously by the calling task without closing and reopening the
+
+File successfully -
+
+opened
+
+2 or greater This argument array element The following
+
+File not opened
+
+shall be an integer variable name. apply:
+
+limitations
+
+If the request for change task, the disposition of a
+
+cannot
+
+be granted,
+
+the previous ac-
+
+cess mode remains in force. If the file is currently open to another possible request for a particular access mode will be as follows Unlocked -
+
+:
+
+The form of the call is CALL where I specifies the unit. This argument shall be an integer exMODAPWfi,k,m)
+
+Fails if another task currently has the file open in the Locked or Protected modes: otherwise succeeds.
+
+Protected
+
+read -
+
+Fails if another task currently has the file open in the Locked or Unlocked modes.
+
+pression; k specifies the new access mode desired. This argument shall be an integer expression The following values are defined
+
+Locked Any attempt
+
+-
+
+Fails. to open a file will be successful Standard, the attributes only if the file ex-
+
+:
+Unlocked Read/write or write-access is requested
+
+ists. If the file was created by a mechanism this International creation task. may restrict the granting
+
+outside the scope of given to the file at its mode to the
+
+1
+
+by the calling task; other tasks are also allowed the same access, 2 Protected read ~ Read access is requested to other tasks, or write-access is requested by the
+
+of an access
+
+calling task and allowed
+
+17.5
+
+Closing
+
+files
+
+3
+
+Locked
+
+-
+
+Read/write
+
+by the calling task. The calling task excludes any file ac Execution of a reference to the subroutine CLOSEW shall end the task association of the specified logical unit with a named file. The form of the call is 1 CALL where i specifies the unit. The argument shall be an integer exCLOSEWh,m) Access mode requested is granted to the task cess by other tasks; m is set on return to the calling task to indicate the disposition of the request. The value shall be 1 or greater:
+
+2 or greater in force This argument array element The following
+
+Access mode before the request remains
+
+shall be an integer variable name. apply:
+
+name or integer
+
+pression; m is set on return to the calling task to indicate the
+
+limitations
+
+disposition 1 -
+
+of the request.
+
+The value shall be 1 or greater: closed to the calling task
+
+If the file is currently change
+
+open to another
+
+task, the request for a
+
+File successfully -
+
+of mode will fail. outside the scope of this given to the file at its
+
+2 or greater This argument array element
+
+Non-performance name or integer
+
+If the file was created by a mechanism International Standard, the attributes the granting creation task. may restrict
+
+shall be an integer variable
+
+of an access mode to the
+
+name.
+
+24
+
+IS 13250 : 1992
+IS0 7846 : 1985
+
+Annex Historical
+
+A
+
+background
+
+(This annex does not form part of the standard.)
+
+A.1
+
+Introduction
+language was originally developed by IBM in 1955. Since that time, FORTRAN has become the most widely used high for scientific applications, and large powerful user libraries are available in FORTRAN. internationally in IS0 1539 ltl
+
+The FORTRAN level language FORTRAN
+
+has been standardized
+
+A.2
+
+Special
+
+requirements
+of FORTRAN for scientific applications operations, two ways: calculations and for reading and writing of data by standard peripherals. bit-string soon led to its use for industrial real-time manipulation systems. These
+
+The wide use and the proved excellence These applications operations a) can only be accomplished
+
+require special operations,
+
+i.e. real-time
+
+and facilities for process I/O.
+
+in one of the following
+
+FORTRAN
+
+remains the basic language for arithmetic are realized by elements language
+
+The special operations b) the complete
+
+outside the syntax of FORTRAN; the syntax of ~FORTRAN or FORTRAN-functions. programming facilities for the special system used; thus this language was of this kind (see, for ex(see, for example, including the special operations. This means that
+
+real-time
+
+remains within
+
+these operations The first approach operations. ample, created these extensions
+
+have to be FORTRAN-subroutines leads to typical real-time such extensions,
+
+languages which offer the user simple but powerful the designers try to apply all the features as a later development, features
+
+In developing
+
+of the real-time
+
+operating
+
+become dependent references 171).
+
+on the actual system. This was especially true for the early developments It offers very advanced for real-time
+
+bibliographic
+
+[41, [51and [61). PROCOL,
+
+avoids this disadvantage; programming
+
+in France for a series of French computers. reference
+
+bibliographic All languages
+
+with extensions
+
+outside the syntax of FORTRAN
+
+need special compilers
+
+for their translation. is gained the advantage that a first and their to
+
+In choosing approach compilation associated this approach,
+
+b), where the language
+
+remains within the syntactical leads to somewhat
+
+frame of FORTRAN,
+
+and check of the user program can be done on any computer using subroutines and functions, parameters. Yet this may be considered
+
+for which a FORTRAN
+
+compiler exists. On the other hand, are well accustomed
+
+clumsy handling of the added CALLS and FUNCTIONS as the many users of FORTRAN
+
+as a minor inconvenience
+
+this kind of programming. Industrial real-time FORTRAN real-time has also to be compared with three other families of real-time languages
+
+industrial languages Ada [sl.
+
+BASIC; designed for real-time applications, such as PEARL, RTL/2, etc;
+
+specifically
+
+The industrial real-time can be implemented The languages
+
+BASIC
+
+languages
+
+are very easy to learn and to apply. They are well suited for simple and small problems. systems. features real-time to the user. These languages system)
+
+They
+
+relatively
+
+easily in large as well as in small computer type deliver very powerful Their implementation Although
+
+of the specific real-time
+
+programming (compiler-and
+
+are therefore
+
+well suited to large and complex
+
+problems.
+
+is relatively expensive. languages, its size and com-
+
+Since 1980, Ada has been a possible alternative.
+
+Ada is more general than the specific real-time
+
+plexity puts it in the same category as far as implementation is concerned. Ada is considered to be very advanced with respect to synchronization (rendezvous); on the other hand, the possibilities for time-based scheduling appear less developed. The industrial real-time and the specific quently, operations FORTRAN language languages real-time implemented'by approach a) above are often similar to the specific real-time languages. by approach b) are in many respects between to these two language facilities. BASIC Conse-
+
+On the other hand, the industrial real-time a language according
+
+FORTRAN
+
+languages
+
+implemented
+
+type. Thus, this language
+
+offers the user an alternative
+
+to approach
+
+b) has to be relative simple; this means that the number and complexity
+
+of the additional
+
+have to remain restricted
+
+because of the ease of learning and programming.
+
+25
+
+IS 13250 IS0
+
+: 1992
+
+7846 : 1985
+
+A.3
+
+Source
+
+of this
+
+International
+
+Standard
+real-time languages, the "Workshop on Standardization of Industrial Corn-
+
+In order to prevent the development
+
+of many incompatible
+
+puter Languages" was founded in 1970 at Purdue University. After a union with another organization in 1973, the workshop was named "International Purdue Workshop on Industrial Computer Systems". The "FORTRAN Committee" of the Purdue Workshop was very active and successful from the beginning. special operations comprehensive being kept within the syntactical Society of America (ISA) standard in a timely manner, For various and good reasons, this committee frame of the FORTRAN language. Recognizing decided to develop a series of standards. ISA formed Technical which was approved Committee and published chose approach b) above with all that it could not develop a single A program of work was proposdeveloped in a S61 .l
+
+the committee and accepted. FORTRAN
+
+ed to the Instrument
+
+SP61. The committee
+
+relatively short time a first proposal for real-time (1972) 191.The standard contains the following statement
+
+by the ISA as ISA Standard
+
+groups and numbers STOP for controlling
+
+of special operations
+
+:
+activated "programs" 1).
+
+3 CALLS and the FORTRAN 6 CALLS for process I/O. 5 INTEGER FUNCTIONS standard
+
+the state of concurrently
+
+for bit-string
+
+manipulation
+
+applied on an INTEGER
+
+used as a bit-string. groups and
+
+A second supplementary numbers
+
+ISA 5X1.2 (1973) 1101 was published one year later. This standard contains the following
+
+of special operations: 7 CALLS for handling 1 LOGICAL FUNCTION random unformatted files. bit in an INTEGER. bit in an INTEGER and, by worldwide use, great importance (the proposal for file handling exCommittee" of the Purdue
+
+-
+
+for testing an individual
+
+2 CALLS for setting and clearing of an individual have gained great acknowledgement and the publication
+
+These ISA standards cepted). Workshop
+
+The early development
+
+of these standards
+
+by the American
+
+"FORTRAN
+
+and the ISA has been an important the ISA standards
+
+step for industrial further except
+
+process control. as ANS/ISA standards. Thus, ANS/ISA S61.2
+
+In the meantime,
+
+were developed
+
+and were finally approved the file handling;
+
+S61.11111 contains all sections of the old standards
+
+the file handling
+
+is the subject
+
+of ANS/ISA
+
+(1979) 1121.As a significant difference from earlier standards, ANS/ISA S61.1 (1976) does not allow subroutine calls without wait on the completion of the procedure. The change was made to maintain'compatibility with the external procedure reference operation of the host language, FORTRAN 111. references which have gained wide acceptance, are needed, the American "FORTRAN has developed this standard Committee" a complete can be considered as a "basic of has
+
+As ISA S61.1 contains some procedure industrial real time FORTRAN" worked parallel tasks. 1) Since more extensive intensively on a supplementary as a draft standard 75" comprises
+
+of the Purdue Workshop. mechanisms
+
+It contains only 3 CALLS and the statement the management
+
+STOP for the management of the Purdue Workshop
+
+proposal concerning
+
+of parallel tasks, organized
+
+as ISA S61.3 1131.Parallel to
+
+this work, the working group "Prozess-FORTRAN" 75", published
+
+of the German VDI/VDE
+
+proposal "Prozess-FORTRAN
+
+of the VDI/VDErt41. 11 CALLS for the management FUNCTIONS for arithmetic of parallel tasks and thus offers a restricted but powerful and circular shift and a CALL for a bit change. tool for is
+
+"Prozess-FORTRAN programming different. practically In ANS/ISA handling
+
+real-time operations.
+
+The binary pattern and bit processing is similar to ANS/ISA
+
+S61 .l (1976); merely the description
+
+There are additional identical to ISA. S61.1 (1976).
+
+INTEGER
+
+The process I/O is
+
+only the standardization S61.2 (1978).
+
+of the analog I/O is performed
+
+in the direction
+
+of a restrictive
+
+standard.
+
+The file
+
+is different
+
+from ANS/ISA
+
+In 1976, the Purdue working dustrial real-time
+
+Europe21 Technical
+
+Committee
+
+1 on industrial
+
+real-time
+
+FORTRAN
+
+was founded
+
+bv members a complete
+
+of the VDI/VDE proposal for in
+
+group "Prozess-FORTRAN" FORTRAN.
+
+and other specialists in Europe. The committee
+
+decided to formulate
+
+Up to the end of 1977, the cooperation between the American and European committees was rather loose, with only one joint meeting per year at the International Purdue Workshop meeting. Thus, the American and European commtttees worked rather In dependently of each ISO/TC97/SCS/WGl, American objective, other, with the result that the proposals produced were quite different in several respects. Therefore, the Purdue Europe Workshop, ECMA TC8, and the International Purdue Workshop all requested the completely, identical. In order to reach tht!:
+
+and European committees to develop proposals that were largely, or preferably cooperatron had to be intensified considerably.
+
+1)
+
+In this lnternattonal Standard, the term "task" is usd
+
+n-dead
+
+of the term "program" used in bibliographic references 191. 1101. 11'1I and 1171
+
+See 2.30.
+
+2)
+
+Now EWICS
+
+26
+
+IS 13250
+
+: 1992
+
+IS0 7846 : 1985
+
+From the middle of 1976 onward, most meetings of each organization were attended by at least one member of each of the other two organizations concerned. Through this level of intense international cooperation significant technical progress was made. This resulted in rapid~development of this joint standard. Concurrently, to complete its program of work, ISASP developed a draft standard S61.3tt41 that is fully compatible with this International Standard. To further the common goal of a single international-standard for the application of FORTRAN to the control of industrial processes, the ISA took several actions: a) It recommended to ANSI that ANS/ISA taken. b) It recommended to ANSI that ANS/ISA S61 .I 1111 be withdrawn as an item of work for ISOITC97/SC5/WGl. S61.21121not be proposed as an item of work for WGl . This action was
+
+cl
+
+It decided that the draft standard S61.3tt31, if approved, would not be forwarded to ANSI for processing as a nationatstandard.
+
+This International Standard will need to be adapted from time to time to allow the progress of FORTRAN and also the progress of realtime operating systems. Thus supplements must be expected.
+
+27
+
+IS 13250
+
+: 1992
+
+IS0 7846 : 1985
+
+Annex Further descriptions
+
+6 to individual clauses
+
+pertaining
+
+(This annex does not form part of the standard.)
+
+B.l
+
+Definitions
+
+and naming
+
+rules
+from such literature as bibliographic referencesll51. 1161, and
+
+Some qf the definitions
+
+given in clause 2 are inspired by or borrowed correspond largely to those commonly
+
+other sources. The definitions
+
+used in the International
+
+Purdue Workshop
+
+and are identical or
+
+nearly identical to definitions of ANS/ISA S61.21121 and proposed standard ISA S61.3.1131 Definitions of the states refer to the figure of section one and its description in clause 5 and may be clearer if the figure and its description are consulted. The names of the calls in this International a) b) The names should be descriptive They should be different Standard have been chosen according of their use. S61.1, S61.2 and S61.3, if such a call is not completely idento a few basic rules, as follows:
+
+giving an indication
+
+from calls in any of the ISA standards In the latter case, an identical otherwise
+
+tical to a call in the other standards. c)
+
+name is desirable,
+
+and only then.
+
+The names should not be too common, programs.
+
+they might easily coincide with names naturally selected by users for certain
+
+application
+
+Rule b) has the desired effect that an implementor existing user programs will not become obsolete
+
+may choose to keep calls already implemented just because of the new implementation.
+
+according
+
+to an older starldard,
+
+and
+
+B.2
+
+Use of CALL
+
+CLOCK
+
+(see 4.2)
+
+The call CALL CLOCK is useful, first of all for applications requiring a somewhat lower level of programming. All three parameters are output arguments, j (the first in line) supplying the instantaneous value of the system clock. This value directly represents the contents of the counting register of the clock. supply system constants portability necessary and sufficient to achieve system independence in the use of rhrs call. to
+
+The next two arguments
+
+allow the user to preserve
+
+and system independence
+
+for his programs.
+
+The first of these arguments, kl, supplies the basic clock frequency, whereas the last argument Informs about the module ot the clock, i.e. it reveals the number of bits of the clock register. The modulo IS equal to the value of k2 + 1, One clock tick after the value of
+
+j is equal to k2, j will be reset to zero and start counting upwards again.
+
+B.3
+
+Choice
+
+of task
+
+model
+
+(see clause 5) a call to the executive system (by calls of SKED, This
+IS
+
+Commonly, to PENDING
+i.e.
+
+in many implementations, to cause state transitions to the activation
+
+STRTAF,
+
+STATAT,
+
+etc.
+
+t for state transition
+to be effected, and
+
+causes listing in a table, appropriately are either time dependent (STRTAF,
+
+called "pending-table". STRTAT) executive
+
+a queue of transition (CON).
+
+calls waiting
+
+intended
+
+some time later, All enrries in this table involve some conditions or event-dependent system implementors time. Often,
+
+for future activations,
+
+these conditions two
+
+Entnes with time conditions will general to split this queue tnto
+
+ly be sorted according
+
+will find it convenient
+
+: a time queue and an event qUelJe. With an ordered time queue, the executive system's task of monitoring when time IS due for any task will be simple : it has only to check the first element, since this always represents the next task to be activated. The other part
+of the "pending-table" contains entries made by reference to the suhroutlnc CON. All these elements refer to events as their condo tions. The executive system will check this queue when external interrupts are received, as well as at some other Instances, in order to be able to react to possible programmed events, for example eventmarks set to ON by reference to subroutlne POST, may exist to direct the supervIsIon of suspended tasks: In fact, often these two sets of tables will be c:ombined. Similar tables
+
+Transition calls such as those mentloned wrll cause entry in rhe "pending-table" up to the point where the maximum table space is ex hausted. When this occurs, the transltton call will be rejected with the error parameter (termed m in clause 6) Indicating this fact by being set to a value greater than one.
+
+28
+
+IS 13250 : 1992 IS0 7848 : 1985
+
+The obvious benefit of a system like this will be that a call for a state transition will be independent pens to be in at the time the call is made. Therefore, "minimum" system without such buffering will behave like the system described comes, however, number
+
+of what state the objecttask
+
+hap-
+
+there will be no conflict with the state, and error returns are less likely to occur. A when the pending-table is full. Since this may hapafter any activation program, the error parameter
+
+pen for any table of finite size, the programming
+call. The benefit of a system with pending-table the substantial time savings obtained of buffered
+
+of the tasks must allow for this by checking of error returns.
+
+not so much from simplification
+
+of the application
+
+as from
+
+from the reduced
+
+A further advantage For example, operation
+
+calls is that multiple activations
+
+are possible, yielding an OR-function
+
+of activations
+
+of a certain task.
+
+an operator
+
+action to schedule
+
+a certain task to start its operation
+
+in 5 min does not conflict
+
+with a previous call for
+
+at 10 h 00 next day. of the CYCL, CYCLAF, CYCLAT, and CON calls, i.e. the calls causing possibility (by CALL EXIT or STOP), the pending-table is of run-conditions from the
+
+This rule will also give a simple and logical operation of multiple subsequent checked. table entries. difference, activations (RUNS). Whenever If listed, the task will be transferred If the activating
+
+a task attains state DORMANT, to state PENDING, calls CYCL,
+
+immediately
+
+guided by an OR-function
+
+call was one of the recurrence or STRTAT the immediate
+
+etc., or CON, the table condition
+
+will remain. The same will calls CYCL, etc., and
+
+be the case if multiple calls of STRTAF in principle, between CON. The effect of the recurrence the task after a CALL The details concerning with appropriate A different
+
+were made, leaving the future activation
+
+times in the table. Thus, there will be no
+
+effects of multiple calls of STRTAF, to PENDING. CYCLAT,
+
+etc., and the recurrence
+
+calls will only be that the condition past DORMANT
+
+in the table entry will be adjusted recursively at the instant when
+
+EXIT is transferred
+
+specific calls such as STARTAT, values.
+
+etc. also pertain to references
+
+to the comprehensive
+
+CALL SKED,
+
+argument
+
+issue is the problem
+
+caused by tasks whose execution as scheduled are termed "overrun"
+
+is excessively
+
+delayed,
+
+so that the time or other RUNNING
+
+condi-
+
+tions for their next execution, The problem is, however, record of connections-back there is no obvious vides one possibility, SKED, overrun in case of overrun. condition, handled by the executive
+
+by call of SKED or its derived simplified does not exist when the scheduling within the user's program.
+
+versions,
+
+is already satisfied before EXIT of the
+
+previous run is called. Such conditions
+
+and should normally be regarded as errors and give some error reaction. call is made, and most systems do not keep any to FORTRAN. Thus, in general, Standard prosuch error reactions should be The International conditions. This eventmark By using the CALL will be turned ON would hardly conform Most appropriately, Standard. react on overrun of overrun.
+
+that the error condition to the scheduling system,
+
+task; at least, such operations
+
+receiver of such error reactions however,
+
+and, as such, it is outside the scope of this International by which the user may make his own mechanism task may be connected conditions e2, for indication
+
+rather than the simplified calls, this call has a return argument, Thus, a special user-supplied thereby monitoring overrun
+
+to this eventmark
+
+by CALL CON and thus initiated upon the
+
+in other tasks.
+
+B.4
+
+Use of error
+
+parameter
+
+(see 6.1) between certain reasons for rejection. information. For example, it could be ad-
+
+The processor may define specific values for m > 2 to distinguish vantageous, after a rejected reference to subroutine WAITS, range of values of m: m
+
+to obtain further
+
+This could be supplied by the following
+
+is set on return to the calling task, to indicate the disposition 0 or less: 1: 2: 3: 4 or greater: undefined request accepted, request rejected, request rejected, request rejected, synchronization obtained
+
+of the request as follows:
+
+because of non-existing
+
+semaphore range
+
+because j is outside allowed because of unspecified error.
+
+This argument
+
+shall be an integer variable or integer array element.
+
+6.5
+
+Creation
+
+of a new task
+
+(see 6.2) Standard implies independent tasking, a reference to subroutine CREATE should to
+
+Since the tasking model used in this International not form a dependent relationship between 6.12 should not cause a state transition It is not the intent of this International dependent tasking relationships. of another Standard,
+
+the creating task and the created task; that is, the termination
+
+of one task according
+
+task, in spite of the fact that the one task may have created the other task. however, to preclude alternative subroutines, similar to CREATE, which do form
+
+34
+
+IS 13250 : 1992 IS0 7846 : 1985
+
+B.6
+
+Use of CALL
+
+KILL (see 6.3)
+
+The processor may impose certain restrictions regarding which calling tasks may be permitted to kill other tasks. For example, a reference to subroutine KILL may be effective only if the designated task has been created by the same calling task, i.e. there exists a parent-child relationship.
+
+8.7
+
+Use of semaphores
+represent
+
+(see 6.11) mechanisms, and this IS probably mechanism also the one most widely accepted, included in this International Stan-
+
+Semaphores dard. Semaphores
+
+one of the most basic synchronization for the selection
+
+This consideration
+
+has been dominant
+
+as the main synchronization
+
+are traditionally operations the
+
+manipulated contained
+
+by Dijkstra's
+
+terms, single letter identifiers should be avoided, and semaphore value 1. Thus, Semaphore), Argument semaphore. semaphore manipulating
+
+P and V primitives. 1 171 Although these primitives are widely known by these since they can too easily be confused with user-defined terms. Also, the semaphores than the common simple type, using the since increment designations is not confined WAITS (WAIT to on calls are described here
+
+here are more advanced subroutine
+
+and SIGNAL,
+
+corresponding
+
+to P and V respectively. that r = 2 specifies one semaphore as a constant, This is necessary to avoid deadlock, under control of the operating and It and r = 3 specifies another, completely differenr,
+
+r specifies a semaphore. In a user's program,
+
+This means
+
+r will usually be specified WAITS
+
+Exclusive access rights of a task referencing since this suspension does not conflict with the basic atomic
+
+are released when the task is suspended. of the synchronization before. mechanism mentioned
+
+is a normal and intended
+
+operation
+
+system,
+
+reouirement
+
+8.8
+
+Termination
+
+of execution
+
+(see 6.12)
+
+It is recommended to terminate execution of a task by call of subroutine EXIT, which performs a defined release of the resources, eventmarks, semaphores, and resourcemarks. This is not the case for the common FORTRAN operations STOP and END, whose ef~ feet on these resources is processor dependent.
+
+B.9
+
+Binary
+
+pattern
+
+operations
+programs -
+
+(see clauses 7 and 8) of process technology is much less characterized programs by the processing of INTEGER,
+
+The,arithmetic
+
+in most application
+
+REAL,
+
+or QQUELE PRECISION quantities or single bits, which often represent rules of IS0
+
+as, for example,
+
+in engineering-scientific
+
+than by the processing of binary patterns Standard complres wrth the however, on
+
+some form of status values or packed data. Since this International new data types for the elements: process binary patterns integer values are represented
+
+1539, it is not possible to introduce procedure references references, described
+
+binary pattern and brt. If one proceeds,
+
+the premise that, in most modern dtgrtal computers, of standardized In the procedure effectively
+
+by their binary values, then one can, with the aid
+
+as well as single bits. in binary form. The represen this representation shift operation. For machine
+
+in section two, it is assumed that integer numbers are represented however, would as two's complement Standard, representanon
+
+tation of negative values is processor dependent; for negative numbers is assumed example, Value bit : 0 1 -1 70 10 the followrng internal Binary representation pattern
+
+is most common,
+
+in general in this International
+
+and applies especially to the arithmettc
+
+be obtained
+
+with a word length of 16 bits on a two's complement
+
+15 14 13 12 11 10 09 06 07 06 05 04 03 02 01 00 ,... . 0000000000000000 0000000000000001 1111111111111111 0000000000001010 1111111111110110 from right to left does not prohibit implementations of the binary pattern operations AS intrinsic fltnctions
+
+The bits are thus numbered Thus International Standard
+
+30
+
+IS 13250 IS0
+
+: 1992
+
+7846 : 1985
+
+B.10
+
+Analog
+
+input
+
+operations
+
+(see clauses 11 and 121
+
+The parameters j and k for analog I/O have the following meanings: The parameter j consists of a measurement specification and a measurement point address. The measurement specification may, for example, contain the measurement range of the analog input unit. The measurement point address specifies the address of the analog l/O points; this also comprises a channel address, if required. Generally, the format of j is system dependent. For block transfers of sequential analog inputs, only.one element of j is required. This may be determined by one or two integers. For block transfers of random analog inputs or outputs, the measurement point address at least changes from point to point. Therefore, a description field for j with several elements is required. The relationship between the measurement range of an input port and its corresponding element in k is processor dependent. The following scaling rules have the advantage that the engineering units y can be computed from the converted values x with the same formula y = Jx) for all computers with the same integer representation without any knowledge of the special coding of the ADC used. The analog value zero is represented by the numerical value zero.
+
+A unipolar positive analog signal is represented by a positive numerical value such that 100 % of the measurement range is represented by half of (the maximum value + 1) of integer variables. This allows a measurement overrange of approximately 99 % Thus, in the case of 18bit storage unit for integer variables, 100 % of the measurement range would correspond to 2**14 = 16 364 and the representation accuracy would be 2""f - 15) or about 0,003 % of the measurement range. Bipolar, as well as negative unipolar, analog signals are represented similarly to unipolar positive signals, such that negative analog values are represented by negative numerical values in the usual format of the processor.
+
+31
+
+-IS 13250
+
+: 1992
+
+JSO 7846 : 1985
+
+Annex Abortion
+
+C
+
+of tasks
+
+(This annex does not form part of the standard.)
+
+An "aborting" mechanism dangerous some other operator
+
+mechanism
+
+is sometimes
+
+needed in an industrial real-time system. There are, however, terminating and its memon/,
+
+several valid arguments
+
+against Such a
+
+the inclusion of a mechanism state. Abortion, unusual dialog.
+
+capable of forcefully or forceful termination The abortion
+
+another task which may be in an arbitrary state at that moment. files, and other resources in a messy, indefinite, task, often running
+
+will involve the risk of leaving the computer situation. is effected
+
+and possibly in
+
+of an object task, may be necessary because of malfunction by a call, issued in some supervising
+
+in a process section, or interactively
+
+This annex outlines a safe method, how to program an equivalent
+
+by which the application
+
+programmer
+
+is not given a general aborting manner.
+
+tool, but a prescription
+
+on
+
+mechanism
+
+that can be used safely and in an ordered
+
+A task will often have sections where abortion would be improper, done without Assume "IABORT" statements problems. The application is defined programmer programmer
+
+or fatal. Equally, there are sections where a possible abort could be
+
+is the obvious person most able to identify these sections. for a certain task. For reference, let us denote this eventmark In all tasks, and similar
+
+an eventmark
+
+to be used to guide an "abort"
+
+in the following.
+
+This eventmark
+
+may be set ON by a supervising task, possibly following and can be allowed,
+
+an operator
+
+request.
+
+where the application
+
+decides that abort may be necessary
+
+he includes the following
+
+at the "safe spots" of the program: IF 0-ESTEM(IABORT,M)) GO TO 9000
+
+90
+
+. .. .
+CONTINUE HERE MAY TION THE TION. CALL END A supervising EXIT
+
+C C C C C
+
+BE INCLUDED NECESSARY BEFORE
+
+ANY
+
+PROGRAM TO
+
+PORBY BE EX-
+
+DEEMED JUST
+
+OR CONVENIENT FORCED
+
+APPLICATION
+
+PROGRAMMER, THE
+
+ECUTED
+
+TERMINA-
+
+task may now abort the object task by calling:
+
+. . ... . ...
+CALL CALL DSKEDf i, 1, - 1, Ml1 GO TO 8010 GO TO BOO0 IF (Ml.NE.1) IF (Ml.NE.1)
+
+POST(IABORT,Ml)
+
+.. .. . ...
+The effect is that the aborted task itself may perform etc. Remark that DSKED be initiated between and POST should be called in that order. Otherwise, call of POST and DSKED. it generally does not generate the operating system any harmful operations. It may remain there forever, to deallocate such the ima slight possibility exists that a new execution of task i will a "graceful" termination, taking care of opened files, dangerous process states,
+
+If the-task to be aborted is in state SUSPENDED, though, that are needed by the rest of the system. include a CALL DSKED
+
+waiting for a condition that will never occur, because of some malfunction. Usually, so this is not covered any further
+
+In this case, this task may occupy some resources with some mechanism
+
+is provided
+
+resources, mediately.
+
+here. For the purpose of taking care of the case that the object task is PENDING, as above in the controliing task, whereby the object task transits back to DORMANT
+
+aborting statements
+
+32
+
+IS 13250
+
+: 1992
+
+1SO 7846 : 1985
+
+Annex
+
+D
+
+File handling
+(This annex does not form part of the standard.)
+
+This International Standard is based on the programming language FORTRAN as specified in IS0 1539. In section four, file handling, the access to file is assumed to be performed by the standard FORTRAN input/output statements.
+
+33
+
+IS 13250
+
+: 1992
+
+IS0 7846 : 1985
+
+Bibliography
+Ill IS0 1539, Programming languages FORTRAN. Section 10: Operating techniques State and facilities. Model and State Transitions. 1977. 2nd edition.
+
+121
+131
+
+IS0 2382110, PETTERSEN, 0: Minutes
+
+Data processing Management
+
+Vocabulary
+
+of Parallel Activities Meeting
+
+in Real-Time
+
+FORTRAN.
+
+of the Purdue
+
+Europe Spring
+
+1977 at ISPRA
+
+CCR Euratom, IEEE Transactions
+
+Vol. II. IRIA,
+
+Rocquencourt,
+
+141 151 161 171 (81 I91
+
+HOHMEYER, R. E. INDAC DDP-516
+
+: CDC 1700 FORTRAN
+Corporation,
+
+for Process Control. 1969. Manual.
+
+on IECl, Vol. 15, No. 2, Dec. 1968
+
+8. Digital Equipment OLERT,
+
+ProgrammerS
+
+Reference
+
+Honeywell
+
+Inc.,
+
+Dot.
+
+No. 1300 72069 A, EM-602, IFAC Congress, of Defense, Functions
+
+1969.
+
+BONNARD, P. Reference
+
+: PROCOL
+
+: A Programming
+
+System Adapted Language. FORTRAN
+
+to Process Control. States
+
+Paris, 1972. July 1980. and Process Input-Output. In-
+
+Manual
+
+for the Ada Programmmg Industrial of America, (draft): Computer 1972. Computer System
+
+United
+
+Department for Executive
+
+ISA S61 .l (1972). strument Society (1973)
+
+Procedures
+
+1101
+
+ISA
+
+S61.2
+
+Industrial
+
+System
+
+FORTRAN Society
+
+Procedures of America,
+
+for Handling 1973.
+
+Random
+
+Unformatted
+
+Files, Bit
+
+Manipulation, I1 11 ANSIISA
+
+and Date and Time Information. (1976). Industrial Computer Society
+
+Instrument System
+
+S61.1
+
+FORTRAN 1976.
+
+Procedures
+
+for Executive
+
+Functions,
+
+Process Input-Output,
+
+and Bit Manipulation. 1121 ANSIISA Instrument 1131
+
+Instrument
+
+of America,
+
+S61.2 (1978). IndustrialComputer Society of America, (draft). 1978. Industrial
+
+System FORTRAN
+
+Procedures
+
+for File Accessand
+
+the Controlof
+
+File Contention.
+
+ISA S61.3 (Aug.19781 related
+
+Computer
+
+System
+
+FORTRAN
+
+Procedures
+
+for the Management
+
+of Independent
+
+Inter-
+
+Tasks. Instrument 3556,
+
+Society
+
+of America, 75, eine Gesellschaft
+
+1978. Erweiterung von FORTRAN ffir Prozessrechner-Anwendungen. Dtisseldorf, 1978. VDI/VDE-
+
+1141
+
+VDIIVDE Richtlinie
+
+Prozess-FORTRAN VDI/VDE -
+
+(Entwurf).,
+
+fiir Mess- und Regelungstechnik, Prentice-Hall, 1973 1974. Languages"
+
+(151 1161 1171
+
+BRINCH HANSEY, P: Operating SHAW, A.C.
+
+System
+
+Principles.
+
+: The Logical Design of Operating Systems. Prentice-Hall,
+Sequential Processes. In "Programming
+
+DIJKSTRA, E.W. : Cooperating Press, New York, 1968.
+
+(V. Genuys,
+
+ed. ), pp 43 -
+
+112. American
+
+34
+
+

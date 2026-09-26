@@ -1,0 +1,221 @@
+IS 15995 : 2012 ISO 25577 : 2008
+
+Hkkjrh; ekud
+
+lwpuk ,oa �ys[ku
+
+--
+
+ekoZQ ,Dlpsat
+
+Indian Standard INFORMATION AND DOCUMENTATION -- MARCXCHANGE
+
+ICS 35.240.30
+
+� BIS 2012
+
+BUREAU OF INDIAN STANDARDS
+MANAK BHAVAN, 9 BAHADUR SHAH ZAFAR MARG NEW DELHI 110002 August 2012 Price Group 7
+
+IS 15995 : 2012 ISO 25577 : 2008
+Documentation and Information Sectional Committee, MSD 5
+
+NATIONAL FOREWORD This Indian Standard which is identical with ISO 25577 : 2008 `Information and documentation -- MarcXchange' issued by the International Organization for Standardization (ISO) was adopted by the Bureau of Indian Standards on the recommendation of the Documentation and Information Sectional Committee and approval of the Management and Systems Division Council. The text of ISO Standard has been approved as suitable for publication as an Indian Standard without deviations. Certain conventions are, however, not identical to those used in Indian Standards. Attention is particularly drawn to the following: Wherever the words `International Standard' appear referring to this standard, they should be read as `Indian Standard'. In this adopted standard, reference appears to certain International Standards for which Indian Standards also exist. The corresponding Indian Standards which are to be substituted in their respective places are listed below along with their degree of equivalence for the editions indicated: International Standard ISO 2709 : 2008 Information and documentation -- Format for information exchange ISO/IEC 646 : 1991 Information technology -- ISO 7-bit coded character set for information interchange Corresponding Indian Standard IS 14873 : 2011 Information and documentation -- Format for information exchange (first revision) IS 10315 : 1997 7-bit coded character set for information interchange (first revision) Degree of Equivalence Identical
+
+do
+
+The technical committee has reviewed the provision of the following International Standard referred in this adopted standard and has decided that it is acceptable for use in conjunction with this standard: International Standard ISO/IEC 10646 Title Information technology -- Universal Multiple-Octet Coded Character Set (UCS)
+
+Annexes A, B and C of this Standard are for information only.
+
+i
+
+IS 15995 : 2012 ISO 25577 : 2008
+
+Introduction
+In 2001, the U.S. Library of Congress developed a framework for working with MARC data in an XML environment. The core of the framework is a MARCXML schema that allows lossless round-trip conversion of an ISO 2709 MARC 21 record and an XML-encoded MARC 21 record. MARCXML is tightly coupled to ISO 2709. It was obvious to generalize this to an XML-based alternative for ISO 2709 such that any existing format based on ISO 2709 could be represented. This International Standard describes a schema which is a generalized version of, and with as few changes as possible to, MARCXML but which retains the original MARCXML structure. The resulting schema is an XML extension to ISO 2709. Thus, the original elements of MARCXML are reused and verbal links to the terminology of ISO 2709 have been added. MarcXchange is useable as a framework for conversion of all records using the ISO 2709 syntax into XML. Extensions to MarcXchange might be required to retain the definition and application of fields, subfields and control characters employed in data representation techniques specific to implementations of ISO 2709. The international exchange of records uses local variations of internationally recognized formats as much as it uses internationally recognized formats in the precise way in which they are prescribed for international exchange. MarcXchange, as an internationally recognized format, is mainly intended as a framework for making local schemas, or to which local extensions can be added. Experience has shown that there is a need for local deviations � even if MARC 21 or UNIMARC is chosen as the local format. This schema provides a specification for the development of local specific schemas, ensuring compatibility. The relationship of the schema described in this International Standard to MARC and ISO 2709 are as follows. The XML schema is constructed to contain MARC data. The schema can be used for the exchange of MARC records or to act as a "bus" to enable MARC data records to go through further transformations such as to Dublin Core and/or processes such as validation. The basic components of ISO 2709 are treated in the following way in the XML schema:      the record label is treated as a simple string; the directory has no counterpart in the schema; when converting from MarcXchange to ISO 2709 the directory has to be recalculated; the record identifier field and the control fields are treated as elements with the tag as an attribute; data fields are treated as elements with the tag and indicators as attributes; subfields are treated as sub-elements with the subfield code as an attribute.
+
+ii
+
+IS 15995 : 2012 ISO 25577 : 2008
+
+Indian Standard INFORMATION AND DOCUMENTATION -- MARCXCHANGE
+1 Scope
+
+This International Standard specifies the requirements for a generalized XML-based exchange format for bibliographic records as well as other types of metadata. It does not define the length or the content of individual records and does not assign any meaning to tags, indicators, or identifiers, these specifications being the functions of an implementation format. This International Standard describes a generalized structure, a framework designed primarily for communication between data processing systems, but may also be relevant for use as a processing format within systems. MarcXchange could potentially be used as follows:         for representing a complete MARC record or a set of MARC records in XML; for original resource description in XML syntax; as an extension schema to METS (Metadata Encoding and Transmission Standard); for exchange of MARC records in XML; for transfer of MARC records in web services like SRU (search/retrieval via URL); for publisher transmission of data; as a temporary format in all kinds of data transformation or manipulation, e.g. conversion, publication, editing, validation; for metadata in XML that may be packaged with an electronic resource.
+
+Validation of MARC records content is not enforced by the schema but by dedicated software tailored for the specific usage (e.g. the specific MARC-format).
+
+2
+
+Normative references
+
+The following referenced documents are indispensable for the application of this document. For dated references, only the edition cited applies. For undated references, the latest edition of the referenced document (including any amendments) applies. ISO 2709, Information and documentation -- Format for information exchange ISO/IEC 646, Information technology -- ISO 7-bit coded character set for information interchange ISO/IEC 10646, Information technology -- Universal Multiple-Octet Coded Character Set (UCS)
+
+1
+
+IS 15995 : 2012 ISO 25577 : 2008
+
+3
+
+Terms and definitions
+
+For the purposes of this document, the following terms and definitions apply. 3.1 MAchine-Readable Cataloguing MARC family of format standards for the storage and exchange of bibliographic records and related information in machine-readable form
+NOTE All MARC standards conform to ISO 2709.
+
+3.2 collection set of records
+NOTE 1 In the schema, this is represented by a root element named "collection".
+
+NOTE 2 The terms root element, element and attribute are in line with the definitions in XML. The term sub-element is used for an element which is the content (or child) of another element (the parent).
+
+3.3 record collection of fields, including record label, directory and data
+NOTE In the schema, this is represented by a root element named "record". It can occur alone or as a sub-element of a the "collection" element.
+
+3.4 format specification of the information content of record label, control fields, data fields, indicators and subfields of an ISO 2709 record
+NOTE In the schema, an attribute, named "format", of the "record" element is used to specify the MARC format used in the particular record.
+
+3.5 type sub-application of format
+NOTE EXAMPLE In the schema, an attribute, named "type", of the "record" element is used to specify the application. Bibliographic record, holdings record.
+
+3.6 record label field occurring in an ISO 2709 record
+NOTE In the schema, this is represented by a sub-element, named "leader", of the "record" element.
+
+3.7 directory index used in ISO 2709 records 3.8 control field record identifier field or reference field in ISO 2709
+NOTE In the schema, this is represented by a sub-element, named "controlfield", of the "record" element.
+
+2
+
+IS 15995 : 2012 ISO 25577 : 2008
+3.9 data field type of field in ISO 2709
+NOTE In the schema, this is represented by a sub-element, named "datafield", of the "record" element.
+
+3.10 tag three characters associated to a control field or a data field in ISO 2709 and used to identify it
+NOTE element. In the schema, this is represented by an attribute, named "tag", of the "controlfield" element and the "datafield"
+
+3.11 indicator data element in a data field in ISO 2709
+NOTE In the schema, this is represented by an attribute, named "ind1", ..., "ind9", of the "datafield" element.
+
+3.12 subfield part of a data field in ISO 2709
+NOTE In the schema, this is represented by a sub-element, named "subfield", of the "datafield" element.
+
+3.13 subfield identifier data element consisting of a control code followed by from zero to eight characters identifying a subfield in an ISO 2709 record
+NOTE In the schema, the subfield identifier excluding the control code is represented by an attribute, named "code", of the "subfield" element.
+
+4
+4.1
+
+XML schema exchange of MARC records
+General
+
+The generic schema is listed in Annex A. Examples of formatted records are listed in Annex B. References to applications of the schema are listed in Annex C. The MarcXchange schema supports XML markup of MARC records, using terminology and element names consistent with ISO 2709. ISO 2709 defines the general structure illustrated in Figure 1. Record label Directory Fields Record separator Figure 1 -- ISO 2709 general structure
+
+3
+
+IS 15995 : 2012 ISO 25577 : 2008
+An ISO 2709 record contains the following components: a) a record label (fixed length); b) a directory (variable length); c) a record identifier field (variable length); d) a number of reference fields (variable length); e) a number of data fields (variable length); f) g) a field separator, i.e. separator IS2 conforming to lSO/IEC 646, which terminates the directory and each field; a record separator, i.e. separator IS3 conforming to lSO/IEC 646, which terminates each record.
+
+In MarcXchange the element "leader" is used for the ISO 2709 record label. Part of the ISO 2709 record label (positions 0 to 4 record length and positions 12 to 16 base address of data), contains information, which is only meaningful for the ISO 2709 record. It is recommended always to recalculate this information when converting from MarcXchange to ISO 2709. The ISO 2709 directory has no counterpart in MarcXchange. When converting from MarcXchange to ISO 2709, this component has to be recalculated. In the MarcXchange schema the element "controlfield" is used for the ISO 2709 record identifier field and reference field; and the element "datafield" is used for ISO 2709 data field. This schema is an extension to ISO 2709. It allows the usage of the "datafield" element for all legal ISO 2709 tags, including 001 to 009, 00A to 00Z and 00a to 00z; and two attributes are introduced to specify the content of a record, i.e. "format" to specify the MARC format and "type" to specify the kind of record. This schema states that subfield identifiers may consist of 8-bit characters from ISO/IEC 10646, BMP row 00 (Basic Latin and Latin-1 Supplement). There is one restriction. A special mode (identifier length = 0) of ISO 2709 operates with data fields without subfields. In the MarcXchange schema subfields are required, i.e. identifier length = 0 is not supported.
+
+4.2
+
+Structure of XML schema
+
+Figure 2 illustrates the structure of the MarcXchange schema. All elements have an optional attribute, named id, inherited from MARCXML. The description of elements and attribute are as follows:   collection: a top level container element for zero or many record elements; record: a top level container element for the leader element and all of the controlfield and datafield elements which comprise the record; the record element has the following attributes:    format (optional): identifies the MARC format (examples: MARC21, UNIMARC, danMARC2, Ibermarc); type (optional): identifies the type of record (examples: bibliographic, authority, holdings, classification and community);
+
+leader: corresponds to ISO 2709 record label, 24 octets;
+
+4
+
+IS 15995 : 2012 ISO 25577 : 2008
+ controlfield: corresponds to ISO 2709 record identifier field (tag 001) and reference fields (tags 002 to 009 and 00A to 00Z); the controlfield element has one attribute:  tag (required): identifies the field (e.g. 008);  datafield: may be used for all fields (tags 001 to 999 and 00A to ZZZ); it contains subfield elements; the datafield element has the following attributes:  tag (required): identifies the field (e.g. 245);
+
+ ind1 to ind9 (optional): contain the indicator values;  subfield: corresponds to ISO 2709 subfield; the subfield element has one attribute:  code (required): corresponds to ISO 2709 subfield identifier.
+
+Figure 2 -- MarcXchange general structure
+
+5
+
+IS 15995 : 2012 ISO 25577 : 2008
+
+Annex A (informative) The generic MarcXchange schema
+
+<?xml version="1.0"?> <xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema" elementFormDefault="qualified" attributeFormDefault="unqualified"> <xsd:annotation> <xsd:documentation> The schema supports XML markup of MARC records as specified in ISO 2709. ISO 2709 defines the following general structure: Record Label - Directory - Record Identifier - Reference Fields Data Fields. In the schema the element "leader" is used for ISO 2709 Record Label, the element "control field" for ISO 2709 Record Identifier and Reference Fields, and the element "data field" for ISO 2709 Data Fields. The schema has no counterpart to ISO 2709 Directory. </xsd:documentation> <xsd:documentation> Extensions and elucidations: The schema allows the usage of "data fields" for all legal tags, including 001 to 009, 00A to 00Z and 00a to 00z. Subfield identifiers may consist of 8 bits characters from ISO 10646 BMP row 00 (Basic Latin and Latin-1 Supplement). Two attributes are introduced to specify the content of a record - "format" to specify the MARC format, "type" to specify the kind of record. </xsd:documentation> </xsd:annotation> <xsd:element name="collection" type="collectionType" nillable="true" id="collection.e"> <xsd:annotation> <xsd:documentation>collection is a top level container element for 0 or many records</xsd:documentation> </xsd:annotation> </xsd:element> <xsd:element name="record" type="recordType" nillable="true" id="record.e"> <xsd:annotation> <xsd:documentation>record is a top level container element for all of the field elements which compose the record</xsd:documentation> </xsd:annotation> </xsd:element> <xsd:complexType name="collectionType" id="collection.ct"> <xsd:sequence minOccurs="0" maxOccurs="unbounded"> <xsd:element ref="record"/> </xsd:sequence> <xsd:attribute name="id" type="idDataType" use="optional"/> </xsd:complexType> <xsd:complexType name="recordType" id="record.ct"> <xsd:sequence minOccurs="0"> <xsd:element name="leader" type="leaderFieldType"/> <xsd:element name="controlfield" type="controlFieldType" minOccurs="0" maxOccurs="unbounded"/> <xsd:element name="datafield" type="dataFieldType" minOccurs="0" maxOccurs="unbounded"/> </xsd:sequence> <xsd:attribute name="format" type="xsd:NMTOKEN" use="optional"/> <xsd:attribute name="type" type="xsd:NMTOKEN" use="optional"/> <xsd:attribute name="id" type="idDataType" use="optional"/> </xsd:complexType> <xsd:complexType name="leaderFieldType" id="leader.ct"> <xsd:annotation> <xsd:documentation>ISO 2709 Record Label, 24 octets</xsd:documentation> </xsd:annotation> <xsd:simpleContent> <xsd:extension base="leaderDataType"> <xsd:attribute name="id" type="idDataType" use="optional"/> </xsd:extension> </xsd:simpleContent> </xsd:complexType> <xsd:simpleType name="leaderDataType" id="leader.st">
+
+6
+
+IS 15995 : 2012 ISO 25577 : 2008
+<xsd:restriction base="xsd:string"> <xsd:whiteSpace value="preserve"/> <xsd:pattern value="\d{5}\p{IsBasicLatin}\p{IsBasicLatin}{4}\d\d\d{5}\p{IsBasicLatin}{3}\d\d\d\p{IsBasicLatin}"/> </xsd:restriction> </xsd:simpleType> <xsd:complexType name="controlFieldType" id="controlfield.ct"> <xsd:annotation> <xsd:documentation>ISO 2709 Record Identifier and Reference Fields</xsd:documentation> </xsd:annotation> <xsd:simpleContent> <xsd:extension base="controlDataType"> <xsd:attribute name="id" type="idDataType" use="optional"/> <xsd:attribute name="tag" type="controltagDataType" use="required"/> </xsd:extension> </xsd:simpleContent> </xsd:complexType> <xsd:simpleType name="controlDataType" id="controlfield.st"> <xsd:restriction base="xsd:string"> <xsd:whiteSpace value="preserve"/> </xsd:restriction> </xsd:simpleType> <xsd:simpleType name="controltagDataType" id="controltag.st"> <xsd:restriction base="xsd:string"> <xsd:whiteSpace value="preserve"/> <xsd:pattern value="00[1-9A-Za-z]"/> </xsd:restriction> </xsd:simpleType> <xsd:complexType name="dataFieldType" id="datafield.ct"> <xsd:annotation> <xsd:documentation>ISO 2709 data fields</xsd:documentation> </xsd:annotation> <xsd:sequence maxOccurs="unbounded"> <xsd:element name="subfield" type="subfieldatafieldType"/> </xsd:sequence> <xsd:attribute name="id" type="idDataType" use="optional"/> <xsd:attribute name="tag" type="tagDataType" use="required"/> <xsd:attribute name="ind1" type="indicatorDataType" use="optional"/> <xsd:attribute name="ind2" type="indicatorDataType" use="optional"/> <xsd:attribute name="ind3" type="indicatorDataType" use="optional"/> <xsd:attribute name="ind4" type="indicatorDataType" use="optional"/> <xsd:attribute name="ind5" type="indicatorDataType" use="optional"/> <xsd:attribute name="ind6" type="indicatorDataType" use="optional"/> <xsd:attribute name="ind7" type="indicatorDataType" use="optional"/> <xsd:attribute name="ind8" type="indicatorDataType" use="optional"/> <xsd:attribute name="ind9" type="indicatorDataType" use="optional"/> </xsd:complexType> <xsd:simpleType name="tagDataType" id="tag.st"> <xsd:restriction base="xsd:string"> <xsd:whiteSpace value="preserve"/> <xsd:pattern value="(00[1-9A-Za-z]|0[1-9A-Za-z][0-9A-Za-z]|[1-9A-Za-z][0-9A-Za-z]{2})"/> </xsd:restriction> </xsd:simpleType> <xsd:simpleType name="indicatorDataType" id="ind.st"> <xsd:restriction base="xsd:string"> <xsd:whiteSpace value="preserve"/> <xsd:pattern value="\p{IsBasicLatin}{1}"/> </xsd:restriction> </xsd:simpleType> <xsd:complexType name="subfieldatafieldType" id="subfield.ct"> <xsd:simpleContent> <xsd:extension base="subfieldDataType"> <xsd:attribute name="id" type="idDataType" use="optional"/> <xsd:attribute name="code" type="subfieldcodeDataType" use="required"/> </xsd:extension> </xsd:simpleContent> </xsd:complexType> <xsd:simpleType name="subfieldDataType" id="subfield.st"> <xsd:restriction base="xsd:string"> <xsd:whiteSpace value="preserve"/> </xsd:restriction> </xsd:simpleType>
+
+7
+
+IS 15995 : 2012 ISO 25577 : 2008
+<xsd:simpleType name="subfieldcodeDataType" id="code.st"> <xsd:restriction base="xsd:string"> <xsd:whiteSpace value="preserve"/> <xsd:pattern value="(\p{IsBasicLatin}|\p{IsLatin-1Supplement}){0,8}"/> </xsd:restriction> </xsd:simpleType> <xsd:simpleType name="idDataType" id="id.st"> <xsd:restriction base="xsd:ID"/> </xsd:simpleType> </xsd:schema>
+
+8
+
+IS 15995 : 2012 ISO 25577 : 2008
+
+Annex B (informative) Examples
+
+B.1 Example of a MARC 21 record that complies with MarcXchange
+<?xml version="1.0" encoding="UTF-8"?> <collection xmlns=" info:lc/xmlns/marcxchange-v1" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation=" info:lc/xmlns/marcxchange-v1 http://www.loc.gov/iso25577/v1/marcxchange-1-1.xsd"> <record format="MARC21" type="Bibliographic"> <leader>01142cam 2200301 a 4500</leader> <controlfield tag="001"> 92005291 </controlfield> <controlfield tag="003">DLC</controlfield> <controlfield tag="005">19930521155141.9</controlfield> <controlfield tag="008">920219s1993 caua j 000 0 eng </controlfield> <datafield tag="010" ind1=" " ind2=" "> <subfield code="a"> 92005291 </subfield> </datafield> <datafield tag="020" ind1=" " ind2=" "> <subfield code="a">0152038655 :</subfield> <subfield code="c">$15.95</subfield> </datafield> <datafield tag="040" ind1=" " ind2=" "> <subfield code="a">DLC</subfield> <subfield code="c">DLC</subfield> <subfield code="d">DLC</subfield> </datafield> <datafield tag="042" ind1=" " ind2=" "> <subfield code="a">lcac</subfield> </datafield> <datafield tag="050" ind1="0" ind2="0"> <subfield code="a">PS3537.A618</subfield> <subfield code="b">A88 1993</subfield> </datafield> <datafield tag="082" ind1="0" ind2="0"> <subfield code="a">811/.52</subfield> <subfield code="2">20</subfield> </datafield> <datafield tag="100" ind1="1" ind2=" "> <subfield code="a">Sandburg, Carl,</subfield> <subfield code="d">1878-1967.</subfield> </datafield> <datafield tag="245" ind1="1" ind2="0"> <subfield code="a">Arithmetic /</subfield> <subfield code="c">Carl Sandburg ; illustrated as an anamorphic adventure by Ted Rand.</subfield> </datafield> <datafield tag="250" ind1=" " ind2=" "> <subfield code="a">1st ed.</subfield> </datafield> <datafield tag="260" ind1=" " ind2=" "> <subfield code="a">San Diego :</subfield> <subfield code="b">Harcourt Brace Jovanovich,</subfield> <subfield code="c">c1993.</subfield> </datafield> <datafield tag="300" ind1=" " ind2=" "> <subfield code="a">1 v. (unpaged) :</subfield> <subfield code="b">ill. (some col.) ;</subfield> <subfield code="c">26 cm.</subfield> </datafield> <datafield tag="500" ind1=" " ind2=" "> <subfield code="a">One Mylar sheet included in pocket.</subfield> </datafield>
+
+9
+
+IS 15995 : 2012 ISO 25577 : 2008
+<datafield tag="520" ind1=" " ind2=" "> <subfield code="a">A poem about numbers and their characteristics. Features anamorphic, or distorted, drawings which can be restored to normal by viewing from a particular angle or by viewing the image's reflection in the provided Mylar cone.</subfield> </datafield> <datafield tag="650" ind1=" " ind2="0"> <subfield code="a">Arithmetic</subfield> <subfield code="x">Juvenile poetry.</subfield> </datafield> <datafield tag="650" ind1=" " ind2="0"> <subfield code="a">Children's poetry, American.</subfield> </datafield> <datafield tag="650" ind1=" " ind2="1"> <subfield code="a">Arithmetic</subfield> <subfield code="x">Poetry.</subfield> </datafield> <datafield tag="650" ind1=" " ind2="1"> <subfield code="a">American poetry.</subfield> </datafield> <datafield tag="650" ind1=" " ind2="1"> <subfield code="a">Visual perception.</subfield> </datafield> <datafield tag="700" ind1="1" ind2=" "> <subfield code="a">Rand, Ted,</subfield> <subfield code="e">ill.</subfield> </datafield> </record> </collection>
+
+B.2 The same MARC 21 record in a labelled display
+For indicators the value "blank" is represented by underscore. 000 01142cam 2200301 a 4500 001 92005291 003 DLC 005 19930521155141.9 008 920219s1993 caua j 000 0 eng 010 __|a 92005291 020 __|a0152038655 :|c$15.95 040 __|aDLC|cDLC|dDLC 042 __|alcac 050 00|aPS3537.A618|bA88 1993 082 00|a811/.52|220 100 1_|aSandburg, Carl,|d1878-1967. 245 10|aArithmetic /|cCarl Sandburg ; illustrated as an anamorphic adventure by Ted Rand. 250 __|a1st ed. 260 __|aSan Diego :|bHarcourt Brace Jovanovich,|cc1993. 300 __|a1 v. (unpaged) :|bill. (some col.) ;|c26 cm. 500 __|aOne Mylar sheet included in pocket. 520 __|aA poem about numbers and their characteristics. Features anamorphic, or distorted, drawings which can be restored to normal by viewing from a particular angle or by viewing the image's reflection in the provided Mylar cone.
+
+10
+
+IS 15995 : 2012 ISO 25577 : 2008
+650 _0|aArithmetic|xJuvenile poetry. 650 _0|aChildren's poetry, American. 650 _1|aArithmetic|xPoetry. 650 _1|aAmerican poetry. 650 _1|aVisual perception. 700 1_|aRand, Ted,|eill.
+
+B.3 Example of a UNIMARC record that complies with MarcXchange
+<?xml version="1.0" encoding="windows-1251"?> <collection xmlns=" info:lc/xmlns/marcxchange-v1" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation=" info:lc/xmlns/marcxchange-v1 http://www.loc.gov/iso25577/v1/marcxchange-1-1.xsd"> <record format="UNIMARC" type="Bibliographic"> <leader>01307nam0 2200349 i 450 </leader> <controlfield tag="001">RU/NLR/BIBL/128053</controlfield> <controlfield tag="005">20050608165836.0</controlfield> <datafield tag="010" ind1=" " ind2=" "> <subfield code="a">0-19-925621-7</subfield> </datafield> <datafield tag="100" ind1=" " ind2=" "> <subfield code="a">20050512d2003 u y0engy0189 ba</subfield> </datafield> <datafield tag="101" ind1="0" ind2=" "> <subfield code="a">eng</subfield> </datafield> <datafield tag="102" ind1=" " ind2=" "> <subfield code="a">GB</subfield> </datafield> <datafield tag="105" ind1=" " ind2=" "> <subfield code="a">y |||||||||</subfield> </datafield> <datafield tag="200" ind1="1" ind2=" "> <subfield code="a">The Liberal Party in rural England, 1885-1910</subfield> <subfield code="e">radicalism and community</subfield> <subfield code="f">Patricia Lynch</subfield> </datafield> <datafield tag="210" ind1=" " ind2=" "> <subfield code="a">Oxford</subfield> <subfield code="c">Clarendon press</subfield> <subfield code="d">2003</subfield> </datafield> <datafield tag="215" ind1=" " ind2=" "> <subfield code="a">X, 262 p.</subfield> <subfield code="d">22</subfield> </datafield> <datafield tag="225" ind1="1" ind2=" "> <subfield code="a">Oxford historical monographs</subfield> </datafield> <datafield tag="320" ind1=" " ind2=" "> <subfield code="a">Bibliogr.: p.236-248</subfield> </datafield> <datafield tag="320" ind1=" " ind2=" "> <subfield code="a">Index: p.249-262</subfield> </datafield> <datafield tag="601" ind1="0" ind2="2"> <subfield code="a">Liberal Party (Great Britain)</subfield> <subfield code="2">lc</subfield> </datafield> <datafield tag="607" ind1=" " ind2=" "> <subfield code="a">Great Britain</subfield> <subfield code="x">Politics and government</subfield> <subfield code="z">1837-1901</subfield> <subfield code="2">lc</subfield>
+
+11
+
+IS 15995 : 2012 ISO 25577 : 2008
+</datafield> <datafield tag="607" ind1=" " ind2=" "> <subfield code="a">Great Britain</subfield> <subfield code="x">Rural conditions</subfield> <subfield code="2">lc</subfield> </datafield> <datafield tag="676" ind1=" " ind2=" "> <subfield code="a">324.24106'09'034</subfield> <subfield code="v">21</subfield> </datafield> <datafield tag="700" ind1=" " ind2="1"> <subfield code="a">Lynch</subfield> <subfield code="b">P.</subfield> <subfield code="g">Patricia</subfield> </datafield> <datafield tag="712" ind1="0" ind2="2"> <subfield code="3">RU/NLR/RU/AUTH/10023815</subfield> <subfield code="a">Liberal Party</subfield> <subfield code="c">Great Britain</subfield> <subfield code="4">570</subfield> </datafield> <datafield tag="801" ind1=" " ind2="0"> <subfield code="a">RU</subfield> <subfield code="b">NLR</subfield> <subfield code="c">20050512</subfield> <subfield code="g">RCR</subfield> </datafield> <datafield tag="801" ind1=" " ind2="1"> <subfield code="a">RU</subfield> <subfield code="b">NLR</subfield> <subfield code="c">20050512</subfield> </datafield> <datafield tag="801" ind1=" " ind2="2"> <subfield code="a">RU</subfield> <subfield code="b">NLR</subfield> <subfield code="c">20050608</subfield> </datafield> </record> </collection>
+
+B.4 The same UNIMARC record in a labelled display
+For indicators the value "blank" is represented by underscore. 000 01307nam0 2200349 I 450 001 RU/NLR/BIBL/128053 005 20050608165836.0 010 __$a0-19-925621-7 100 __$a20050512d2003 101 0_$aeng 102 __$aGB 105 __$ay ||||||||| 200 1_$aThe Liberal Party in rural England, 1885-1910$eradicalism and community$fPatricia Lynch 210 __$aOxford$cClarendon press$d2003 215 __$aX, 262 p.$d22 225 1_$aOxford historical monographs 320 __$aBibliogr.: p.236-248 u y0engy0189 ba
+
+12
+
+IS 15995 : 2012 ISO 25577 : 2008
+320 __$aIndex: p.249-262 601 02$aLiberal party (Great Britain)$2lc 607 __$aGreat Britain$xPolitics and government$z1837-1901$2lc 607 __$aGreat Britain$xRural conditions$2lc 676 __$a324.24106'09'034$v21 700 _1$aLynch$bP.$gPatricia 712 02$3RU/NLR/AUTH/10023815$aLiberal party$cGreat Britain$4570 801 _0$aRU$bNLR$c20050512$gRCR 801 _1$aRU$bNLR$c20050512 801 _2$aRU$bNLR$c20050608
+
+13
+
+IS 15995 : 2012 ISO 25577 : 2008
+
+Annex C (informative) Applications of the generic MarcXchange schema
+
+Applications of the generic MarcXchange schema may be obtained from: Library of Congress Network Development and MARC Standards Office Washington, DC 20540 USA Email: marcxchange@loc.gov The Library of Congress is hosting an application of the schema at the website: http://www.loc.gov/standards/iso25577/ The schema may be updated to correct possible errors and/or to conform to future versions of the XML schema standards. The web site will contain a link to the most current version.
+
+14
+
+IS 15995 : 2012 ISO 25577 : 2008
+
+Bibliography
+
+[1] [2] [3]
+
+Extensible Markup Language (XML), W3C Recommendation XML Schema Part 1: Structures, W3C Recommendation XML Schema Part 2: Datatypes, W3C Recommendation
+
+15
+
+Bureau of Indian Standards BIS is a statutory institution established under the Bureau of Indian Standards Act, 1986 to promote harmonious development of the activities of standardization, marking and quality certification of goods and attending to connected matters in the country. Copyright BIS has the copyright of all its publications. No part of these publications may be reproduced in any form without the prior permission in writing of BIS. This does not preclude the free use, in course of implementing the standard, of necessary details, such as symbols and sizes, type or grade designations. Enquiries relating to copyright be addressed to the Director (Publications), BIS. Review of Indian Standards Amendments are issued to standards as the need arises on the basis of comments. Standards are also reviewed periodically; a standard along with amendments is reaffirmed when such review indicates that no changes are needed; if the review indicates that changes are needed, it is taken up for revision. Users of Indian Standards should ascertain that they are in possession of the latest amendments or edition by referring to the latest issue of `BIS Catalogue' and `Standards: Monthly Additions'. This Indian Standard has been developed from Doc No.: MSD 5 (396). Amendments Issued Since Publication ______________________________________________________________________________________ Amendment No. Date of Issue Text Affected ______________________________________________________________________________________ ______________________________________________________________________________________ ______________________________________________________________________________________ ______________________________________________________________________________________ ______________________________________________________________________________________ BUREAU OF INDIAN STANDARDS Headquarters: Manak Bhavan, 9 Bahadur Shah Zafar Marg, New Delhi 110002 Telephones: 2323 0131, 2323 3375, 2323 9402 Website: www.bis.org.in Regional Offices: Central : Manak Bhavan, 9 Bahadur Shah Zafar Marg NEW DELHI 110002 Telephones 2323 7617 { 2323 3841
+
+Eastern : 1/14, C.I.T. Scheme VII M, V.I.P. Road, Kankurgachi KOLKATA 700054 Northern : SCO 335-336, Sector 34-A, CHANDIGARH 160022 Southern : C.I.T. Campus, IV Cross Road, CHENNAI 600113 Western : Manakalaya, E9 MIDC, Marol, Andheri (East) MUMBAI 400093
+
+8499, 2337 8561 { 2337 2337 8626, 2337 9120 3843 { 260 260 9285 1216, 2254 1442 { 2254 2254 2519, 2254 2315 9295, 2832 7858 { 2832 2832 7891, 2832 7892
+
+Branches: AHMEDABAD. BANGALORE. BHOPAL. BHUBANESHWAR. COIMBATORE. DEHRADUN. FARIDABAD. GHAZIABAD. GUWAHATI. HYDERABAD. JAIPUR. KANPUR. LUCKNOW. NAGPUR. PARWANOO. PATNA. PUNE. RAJKOT. THIRUVANATHAPURAM. VISAKHAPATNAM.
+Published by BIS, New Delhi
+
+

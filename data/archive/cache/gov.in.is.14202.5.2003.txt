@@ -1,0 +1,433 @@
+IS 14202 (Part 5) :2003 lSO/lEC 7816-5:1994 VT?7%? J7TW7
+
+W?mFPi3
+wl-JT5*~i3*zjim*qd
+
+�
+
+FiwhTRaaw$'lpd-mm
+
+Timhuiiulgfann
+
+Indian Standard IDENTIFICATION CARDS -- INTEGRATED CIRCUIT(S) CARDS WITH CONTACTS
+PART 5 NUMBERING SYSTEM AND REGISTRATION PROCEDURE FOR APPLICATION IDENTIFIERS
+
+ICS 35.240
+
+@ BIS 2003
+
+BUREAU
+
+OF
+
+INDIAN
+
+STANDARDS
+
+MANAK BHAVAN, 9
+
+BAHADUR SHAH ZAFAR MARG
+
+NEW DELHI 110002
+December 2003
+
+Price Group 4
+
+Computer Hardware Sectional Committee,
+
+LTD 37
+
+NATIONAL FOREWORD This Indian Standard ( Part 5 ) which is Integrated circuit(s) cards with contacts for application identifiers' issued by the International Electrotechnical Commission on the recommendations of the Computer and Telecommunication Division Council. identical with lSO/lEC 7816-5 : 1994 `identification cards -- -- Part 5 : Numbering system and registration procedure International Organizataion for Standardization ( ISO ) and ( IEC ) jointly was adopted by the Bureau of Indian Standards Hardware Sectional Committee and approval of the Electronics
+
+The text of International Standard has been proposed to be approved as suitable for publication as an Indian Standard without deviations. Certain terminology and conventions are, however, not identical to those used in Indian Standards. Attention is particular drawn to the following: Wherever the words `International as `Indian Standard'. CROSS REFERENCES In this adopted standard, reference appears to certain International Standards for which Indian Standards also exist. The corresponding Indian Standards which are to be substituted in their place are listed below along with their degree of equivalence for the editions indicated: International Standard Corresponding Indian Standard Degree of Equivalence Identical Standard' appear, referring to this standard, they should be read
+
+ISO 7812 : 1987 Identification cards -- Numbering system and registration procedure for issuer identifiers ISO 7816-1 : 1987 Identification cards -- Integrated circuit(s) cards with contacts -- Part 1 : Physical characteristics lSO/lEC 7816-3:1989 Identification cards -- Integrated circuit(s) cards with contacts -- Part 3 : Electronic signals and transmission protocols
+
+IS 14173 ( Part 1 ) :2003 ldentificaof tion cards -- Identification issuers: Part 1 Numbering system ( first revision) IS 14202 ( Part 1 ) :2003 identification cards -- Integrated circuit(s) cards with contacts: Part 1 Physical characteristics ( first revision ) IS 14202 ( Part 3 ) :2003 ldentification cards -- Integrated circuit(s) cards with contacts: Part 3 Electronic signals and transmission protocols
+
+do
+
+do
+
+The concerned Technical Committee responsible for the preparation of this standard has reviewed the provisions of the following International Publications and has decided that they are acceptable for use in conjunction with this standard: International Publications Codes for the representation Title of names of countries
+
+ISO 3166:1981 lSO/l EC 8824:1990
+
+Information technology -- Open Systems Interconnection -- Specification of Abstract Syntax Notation One ( ASN.1 ) Information technology -- Open Systems Interconnection -- Specification of Basic Encoding Rules for Abstract Syntax Notation One ( ASN.1 ) Identification cards -- Integrated circuit(s) cards Part 4: Interindustry commands for interchange with contacts --
+
+lSO/l EC 8825:1990
+
+lSO/lEC 7816-4:1995
+
+IS 14202 (Part 5) :2003 lSO/lEC 7816-5:1994
+
+hdku-1 standard IDENTIFICATION CARDS -- INTEGRATED CIRCUIT(S) CARDS WITH CONTACTS
+PART 5 NUMBERING SYSTEM AND REGISTRATION PROCEDURE FOR APPLICATION IDENTIFIERS
+
+1
+
+Scope
+
+This part of lSO/lEC 7816 specifies a numbering
+
+system for application identifiers and a registration procedure for application provider identifiers. The numbering system described in this standard provides a means for an application and related services offered by a provider to identify if a given card contains the elements required by its application and related services. An application identifier (AID) is used to address an application in the card. This part of lSO/lEC 7816 specifies the coding of application identifiers together with means and mechanisms for addressing application parts in cards. This part of lSO/lEC 7816 establishes the authorities and procedures to ensure and optimize the reliability of the corresponding registration.
+
+Information technology - Open Systems Interconnection - Spewfication of Basic Encoding Rules for Abstract Syntax Notation One (ASN. 1). 1"S0 7812: 1987, Identification cards - Numbering system and registration procedure for issuer identifiers. ISO 7816-1: 1987, Identification cards - Integrated circuit(s) cards with contacts - Part 1: Physical characteristics.
+
+lSO/lEC 8825:1990,
+
+lSO/tEC
+
+7816-3: 1989, /dentifkation cards Integmted circuit(s) cards with contacts - Part 3: Electronic signals and transmission protocols.
+
+lSO/lEC
+
+Identification cards 7816-4:-1), Integrated circuit(s) cards with contacts - Part 4: Interindustry commands for interchange.
+
+3
+
+Definitions and abbreviations
+
+2
+
+Nonnative references
+
+For the purposes of this part of lSO/lEC 7816, the definitions given in iSO/lEC 7816-4, as well as the following definitions, apply. 3.1 Definitions
+
+The following standards contain provisions which, through reference in this part of lSO/lEC 7816, constitute provisions to this standard, At the time of publication, the editions indicated were valid. All standards are subject to revision, and parties to agreements based on this part of lSO/lEC 7816 are encouraged to investigate the possibility of applying the most recent editions of the standards listed below. Members of IEC and ISO maintain registers of currently valid International Standards. ISO 3166: 1981, Codes for the representation of
+names of countries.
+
+A data element 3.1.1 application Identifier: which identifies an application in a card. An application identifier may contain a registered application provider identifier, If it contains either a registered application provider identifier or an issuer identification number, then this identification is unambiguous. An entity which 3.1.2 application provider: provides those components of an application on a card required to perform the respective application.
+
+lSO/lEC 8824:1990, Information technology - Open Systems Interconnection - Specification of Abstract Syntax Notation One (ASN. 1).
+
+I) To be published
+
+IS 14202 (Part 5) :2003 lSO/lEC 7816-5:1994 3.1.3 application label : A data element for use at the man-machine interface. 3.1.4 application template : A data element, which may be present for example in a DIR file, and which contains one or more ASN. 1 object(s) relevant to an application. 3.1.5 ASN.1 object : ASN. 1 objects are defined in lSO/lEC 8824, and their coding in lSO/tEC 8825. NOTE 1
+The ASN.1 objects defined in this part of lSO/lEC 7816 are comprised of one byte of tag, followed by one byte of body length, followed by a body of at most 127 bytes. The number of bytes in the body is given by the length byte. The body of a primitive ASN.I object contains a data element. The body of a constructed ASN.1 object contains primitive or constructed ASN.I objects. 3.1.6
+
+4
+
+Data elements for application identification and seiection
+
+The following data elements are defined in this pati of lSO/iEC 7816: The application identifier (AID) comprised of the registered application provider either identifie~ (RID) a'n"d optionally the proprietary identifier application extension (PIX) the proprietary application identifier; or The application label; The path to a file; A command to perform; Discretionary data The application template.
+5 5.1
+
+ATR file : The answer to reset (ATR) file is an optional elementary file, as defined in lSO/lEC 7816-4. element : As defined
+in
+
+Coding of the data eiements Structure of an ASN.1 object
+
+3.1.7 data 7816-4.
+
+lSO/lEC
+
+If a data element defined in this clause is represented as an ASN.1 object, it shall be encoded according to table 1. Table 1- ASN.1 coding of data elements TAG LENGTH(L) VALUE(data element) 1 byte 1 byte L bytes `4F'
+'50'
+
+3.1.8 directory (DIR) file : An optional elementary file containing a list of applications supported by the card, and optional related data elements defined in this part of lSO/lEC 7816. 3.1.9 master 7816-4. file : As defined in lSO/lEC
+
+TYPE
+
+'01' to `lo'
+'00 to `lo'
+
+3.1.10 path : As defined in lSO/lEC 7816-4. In this part of lSO/lEC 7816, all paths commence with the master file.
+3.2
+
+Application identifier (AID) Application label Path Command to perform, see ISOIIEC 7816-4 Discretionary data Discretionary ASN. 1 objects Application template
+
+P P P P P
+
+Abbreviations AID ASN. I ATR BCD IFD IIN Plx
+PTS RID
+
+'51` '52' '53' ,73,
+
+'00' to `7E'
+'04' to `7F'
+
+Application identifier. Abstract Syntax Notation 1, as defined in ISO 8824. Answer-to-Reset, as defined in lSO/lEC 7816-3. Binary coded decimal. Interface device, as defined in lSO/lEC 7816-3. Issuer identification number, as defined in ISO 7812. Proprietary application identifier extension. Protocol type selection, as defined in lSO/lEC 7816-3. Registered application provider identifier.
+
+'00 to `7F' '00 to `7P
+
+c c
+
+,6,, '03' to `7F'
+
+TYPE: P = primitive ASN, 1 object, C = constructed ASN. 1 object
+All other application class tags are resewed by ISO
+
+5.2
+
+Application
+
+identifier
+
+The AID is coded using hexadecimal notation. The most significant 4 bits of the first byte are the registration category (see table 2), which is used to
+
+IS 14202 (Part 5) :2003 lSO/lEC 7816-5:1994
+differentiate identifiers. registered and proprietary application
+
+5.2.3 Registration category = `D' The RID consists of the following fields Registration category: 4 bits, coded as 1101. Country code of the national registration authority, 12 bits as 3 BCD digits, coded according to ISO 3166, numeric part only. Field(s) specified by the national authority, 24 bits, BCD coding recommended.
+
+Table 2- Registration category values
+
+II`0'-'9' I
+
+As defined in ISO 7812
+
+II
+
+-
+
+The coding of the AID is therefore: -------Application identifier (AID) --------> `D' `E' `F' National registration Reserved for ISO Proprietary non-registered ~ I .---5
+
+b~es ----->
+
+I <---
+
+s 11 b~es --->1
+
+5.2.4 Registration category = `F' The PIX allows an application provider to identify their application(s). The PIX has a free coding. If the AID is 16 bytes long, then the value `FF' for the least significant byte is reserved for futureuse. 5.2.1 Registration category = `O'to `9'
+The first part of the AID is the IIN (The registration category is the first digit of the IIN). If the IIN contains an odd number of digits, it shall be padded with `F ( i.e. bit 4 to bit 1 of the least significant byte shall be set to 1). If a PIX is present, it shall be preceded
+by
+
+The coding of the remaining part of the AID is proprietary, the format of the AID is therefore: < -------Application identifier (AID) --------> Proprietary application identifier I <------------1 to 16 b~es------------4 ,1
+
+WARNING VVNhinthe category `F', where identifiers are not registered, the same value of the AID may be used by different application providers. 5.2.5 Registration category = `B','C','E' These values are reserved for ISO.
+
+a byte
+
+coded as `FF'. The coding of the AID is therefore :
+< -----�At) DliCatiOn identi !r (AID) -------Proprietary application identifier extension >
+
+5.3
+
+Additional data elements
+
+IIN,
+as defined in ISO 7812
+
+`FF'
+
+(Plx)
+length not defined in <- lSO/l EC 7816 -�> \
+
+In addition to the application identifier, the following data elements may be used for the application selection. 5.3.1 Application label
+
+<------------2to1'6 W@ ------------->
+
+I
+
+5.2.2 Registration category = `A
+The RID consists of the following fields : Registration category :4 bits, coded as 1010. Registered application provider number, 36 bits as 9 BCD digits. Other codings are reserved for ISO use. Application identifier (AID) ------->
+
+This data element of ftee coding maybe specified by an application provider for use at the man-machine interface, e.g. trademark to be displayed to the customer.
+
+I
+I <-----------5.3.2 Path
+
+Application label
+()
+
+I
+------------>I
+
+to 16 bfies
+
+The coding of the AID is therefore : < �-����-
+
+The number of bytes of this data element is even.
+
+,
+
+Registered application provider identifier (RID)
+
+I
+i<--
+
+Path -----variable from Oto 126 bytes ------->
+
+Proprietary application identifier extension
+
+(Plx) I <-.---5 b~es ----> \ < ----s11 b~es ---> I
+
+3
+
+IS
+
+14202
+
+lSO/lEC
+
+(Part 5): 2003 7816-5:1994 6 6.1 Use of the data elements Application identification
+
+5.3.3 Command to perform The `command to perform' data element is a command APDU relevant to application selection.
+
+I
+
+Command to pedorm, see lSO/lEC 7816-4 variable from 4 to 127 bytes -------
+
+I
+>I
+
+The application identification shall enable the IFD To ascerlain that an application may be initiated in the card ; To identify the access method to a specific application in the card. Retrieval of the application identifier
+
+I <-------
+
+5.3.4 Discretionary data The application provider may put any relevant data in this data element. Discretionary data ] <------variable from () to 127 bytes ------OR Dkcretionary ASN. 1 objects I <------variable >I 6.2
+
+If application identifier retrieval is offered by the card, the application identifier(s) may be read in the DIR file(s), and/or ATR file, as defined in ISO/lEC 7816-4. For single application cards, the AID may be found in the historical bytes.
+
+from o to 127 bytes
+
+-------
+
+>I
+
+NOTE2 6.3
+
+See lSO/lEC7816-4 for the coding conventions in the historical bytes. selection
+
+5.3.5 Application template The application template shall contain one or more of the ASN.1 objects relevant to an application. W}thin the application template, the ASN. 1 object containing the application identifier is mandatory, all other ASN. 1 objects defined in this parl of lSO/lEC 7816 are optional. ASN. 1 objects relevant to an application variable from 3 to 127 byes ------of ASN.1 objects
+
+Application
+
+A card shall support one or more of the following application selection methods: Direct application selection with AID; Application selection by the use of a DIR file or an ATR file; Implicit application selection.
+
+6.3.1 Direct application selection with AID Direct application selection is performed by the use of the SELECT FILE command, specifying the AID as dedicated file name. If this mechanism is supported by the card, then the IFD may explicitly select an application to be performed, without previously checking that the respective application is present in the card. If the respective application is not present, then the card shall reject the command. If the application is present, the card shall execute the SELECT FILE command according to lSO/lEC 7816-4. 6.3.2 Selection by the use of a DIR file or an ATR file A DIR file contains a sequence of application template ASN.I objects, or AID ASN. 1 objects. Such sequences may be present in the ATR file. The contents of the DIR file and/or ATR file determine which command(s) shall be performed in order to select the application: a (set 09 SELECT FILE command(s) a (set 09 command(s)
+
+I
+5.4
+
+I
+>I
+
+I <-------
+
+Retrieval
+
+The ASN.1 objects defined in this part of lSO/lEC 7816 maybe found: In the historical bytes of the ATR, In a DIR file, In the ATR file, In any command or response message where ASN. 1 is used, e.g. in the file control information of a file, see lSO/lEC 7816-4,
+
+The DIR file contains only a sequence of application identifiers and/or application templates. Erased ASN.1 objects may be replaced by a sequence of '00 or `FF' bytes. If present in the historical bytes of the ATR, the tag and length of the ASN. 1 object containing the AID shall be coded according to lSO/lEC 7816-4.
+
+4
+
+iS 14202 (Part 5) :2003 iSO/iEC 7816-5:1994 6.3.3 Implicit application selection An application may be seiected implicitlyafter ATR and possibie PTS. This is indicated in the historical bytes, see iSO/iEC 7816-4. When the AiD is present in the historical bytes, it denotes the implicitly seiected application.
+NOTE 3 The implicit application selection
+is not recommended for multi-application cards.
+
+7.2.2 Responsibilities authorities
+
+of the sponsoring
+
+The responsibiiities of the sponsoring authorities shaii be a) to receive registration forms for RiDs from within their countries or areas of responsibiiity; b) to forward to the registration authority those requests for a RiD which are in mmpiiance with this pariofiSO/fEC7816. 7.3
+
+6.4
+
+Use of the `command to perform' ASN.I object.
+
+Registration authority
+
+This ASN. 1 object contains a command message relevant to application seiection. if severai such objects are reiated to an application, the commands shall be performed in the order presented. 7 7.1 Registration of identifiers of RIDs
+
+For the purpose of this part of iSO/iEC 7816 and according to the ruies for the designation and operation of registration authorities in the iSO Dkectives, the iSO Counai has designated : KTAS iSO/iEC 7816-5 Registration authority Tegihoimsgade 1 DK-1 790 Copenhagen V to act as registration authority, With regard to the initial assignment of RiDs, changes and deietions of RiDs and subsequent additions to the register, the responsibiiities of the registration authority shaii be a) to aiiocate the application provider number, to register the RiD and to notify the sponsoring authority as to the disposition of the request; b) to maintain a register of the identifiers assigned to application providers; c) to submit annuaiiy, to the secretariat of the iSO technicai body responsible for this part of iSO/iEC 7816, a copy of this register. The form in which this copy shaii be provided shaii be agreed upon by the registration authority and the secretariat of the iSO technicai body responsible for this part of iSO/iEC 7816. d) to make avaiiabie upon request a copy of the register to nationai standard bodies, Such copies are for the exciusive use of nationai standard bodies and shouid not be distributed to third pariies. 7.4 Registration Management Group (RMG)
+
+Request for assignment
+
+A named and identified application provider may make a request to its nationai standards body for the assignment of a RiD using the registration form shown in annex A. in the absence of a nationai standards body, the request shall be made to the secretariat of the iSO technical body responsible for this part of iSO/iEC 7816. The nationai standards body (or the secretariat of the iSO technicai body responsible for this part of iSO/iEC 7816 as appropriate), then acts as "the sponsoring authority" (see 7J2) in respect of the request. 7.2 Sponsoring authorities
+
+7.2.1 Requests for assignment Requests for the assignment of RiDs may be forwarded to the registration authority (see 7.3) by the following bodies: any member body of iSO; the iSO technicai body responsible for this part of iSO/iEC 7816; any organization authorized by iSO for purposes concerned with the RiDs.
+
+A group shaii be established to form the Registration Management Group (RMG). The responsibiiities of the Registration Management Group shaii be as resoived by the iSO technicai body responsible for this part of iSO/iEC 7816.
+
+5
+
+IS
+
+14202
+
+lSO/lEC
+
+(Part 5) :2003 7816-5: 1994
+
+Annex A
+(normative)
+
+registration form for a registered
+This request is submitted in accordance with International Standard lSO/lEC 7816-5, ldentjficatjoncards Integrated circuit(s) cards with contacts - Numbering system and regktration procedure identifiers. for application
+
+A.1 To be completed by the requesting organization Name of organization Address to be registered Principal contact in organization
+
+Telephone number Address for correspondence/billing
+
+Fax number
+
+Date
+
+Signature
+
+A.2 To be completed by national standards body Request received by
+
+A.3 To be completed by lSO/lEC 7816-5 registration authority Registered application provider identifier
+
+Date
+
+Signature
+
+6
+
+IS
+
+14202
+
+lSO/lEC
+
+(Part 5) :2003 7816-5:1994
+
+Annex B
+(informative)
+
+National numbering systems for applications in integrated
+B.1 Introduction
+Registration category value `D' has been assigned for use by national standards bodies in order to establish national numbering systems for applicatioris in integrated circuit(s) cards.
+
+circuit(s) cards
+
+B.3 Contact with the registration authority National standards bodies that intend Ito set up national numbering systems for applications in integrated circuit (s) cards are asked to noti~ the registration authority accordingly and to supply that authority with details of the national procedures for the assignment of numbers, the method used to identify applications in integrated circuit(s) cards, and the name of the organization administering the system. NOTEWhere no national standardsbody exists, or if the
+national standards body is unable or unwilling to establish a national numbering system, application providers in that country may apply to the secretariat of the ISO technical body responsible for this part of ISOIIEC 7816 for assistance in finding a national standards body from among its member bodies to volunteer to support those user needs.
+
+B.2 Operation of national numbering systems National standards bodies are advised to establish rules by means of national standards or other methods, for identifying applications in integrated circuit(s) cards in a national numbering system. They are also recommended to make arrangements for the administration of the system, including the procedures to be adopted for application providers, when the application providers make a request for and are assigned RIDs in accordance with the rules, and the maintenance of a register of assigned RIDs (copies of which should be supplied at regular intervals to the registration authority at no cost). To this end, they may wish to appoint a responsible organization to act as their agents in the administration and maintenance of the system within their countries.
+
+B.4 Role of registration management group The registration management group in the ISO technical body respons~le for tfis part of lSO/lEC 7816 shall, on request, provide advice and counsel to any national standards body on the national numbering system.
+
+7
+
+Bureau of Indian Standards BIS is a statutory institution established under the Bureau of Indian Standards Act, 1986 to promote harmonious development of the activities of standardization, marking and quality certification of goods and attending to connected matters in the country.
+
+Copyright
+BI S has the copyright of all its publications. No part of these publications maybe reproduced in any form without the prior permission in writing of BIS. This does not preclude the free use, in the course of implementing the standard, of necessary details, such as symbols and sizes, type or grade designations. Enquiries relating to copyright be addressed to the Director (Publications), BIS. Review of Indian Standards Amendments are issued to standards as the need arises on the basis of comments. Standards are also reviewed periodically; a standard along with amendments is reaffirmed when such review indicates that'no changes &e needed; if the review indicates that changes are needed, it is taken up for revision. Users of Indian Standards should ascertain that they are in possession of the latest amendments or edition by referring to the latest issue of `BIS Catalogue' and `Standards : Monthly Additions'.
+
+This Indian Standard has been developed from Doc : No. LTD 37 ( 1934).
+Amendments Issued SincePublication ,
+
+Amend No.
+
+Date of Issue
+
+Text Affected
+
+BUREAU OF INDIAN STANDARDS
+Headquarters: Manak Bhavan, 9 Bahadur Shah Zafar Marg, New Delhi 110002 Telephones: 23230131,23233375,2323 9402 Regional Offices : Central: Manak Bhavan, 9 Bahadur Shah Zafar Marg NEW DELHI 110002 Eastern : l/14 C. 1.T. Scheme VII M, V. I. P. Road, Kankurgachi KOLKATA700 054 Northern: SCO 335-336, Sector 34-A, CHANDIGARH 160022 Southern : C. I. T. Campus, IV Cross Road, CHENNAI 600113 Western : Manakalaya, E9 MIDC, Marol, Andheri (East) MUMBAI 400093 Telegrams: Manaksanstha ( Common to all offices) Telephone 23237617
+{ 23233841
+
+23378499,23378561
+{ 23378626,23379120
+
+603843 { 609285 22541216,22541442 { 22542519,22542315 28329295,28327858 { 28327891,28327892
+
+Branches : AHMEDABAD. BANGALORE. BHOPAL. BHUBANESHWAR. COIMBATORE. FARIDABAD. GHAZIABAD. GUWAHATI. HYDERABAD. JAIPUR. KANPUR. LUCKNOW. NAGPUR. NALAGARH.PATNA. PUNE. RAJKOT. THIRWANANTHAPURAM. VISAKHAPATNAM.
+Printed at New India Printing Press, Khurja, India
+
+

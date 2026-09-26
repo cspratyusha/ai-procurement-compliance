@@ -56,6 +56,18 @@ SECTOR_PREFIX = {
     "packaging": "PACK",
     "rubber_leather": "RUB",
     "measurement_testing": "TEST",
+    # Sectors added when the ingest filters were relaxed. Without a prefix
+    # here a record is silently dropped at id-assignment, so this map has to
+    # track SECTOR_RULES in data/ingest_archive.py.
+    "electronics_telecom": "ELECTRONIC",
+    "metals_alloys": "METAL",
+    "paints_coatings": "PAINT",
+    "petroleum_lubricants": "PETRO",
+    "refractories_ceramics": "REFRAC",
+    "mechanical_fittings": "FITTING",
+    "paper_printing": "PAPER",
+    "automotive": "AUTO",
+    "medical_laboratory": "MEDLAB",
 }
 
 # Scope text shorter than this is not worth embedding.
@@ -161,8 +173,15 @@ def main() -> int:
         if key in seen:
             duplicate += 1
             continue
-        item = {**item, "scope": tidy_scope(item["scope"])}
-        if not usable_scope(item["scope"]):
+        item = {**item, "scope": tidy_scope(item.get("scope") or "")}
+
+        # A record the ingest marked title-only has no scope clause by
+        # definition, and rejecting it for that would re-impose the filter
+        # the ingest was changed to drop. Its IS number and title are real,
+        # so it stays searchable on those; the weaker evidence travels with
+        # the record as `provenance` rather than being hidden.
+        title_only = item.get("provenance") == "number_and_title_only"
+        if not title_only and not usable_scope(item["scope"]):
             rejected_scope += 1
             continue
 
@@ -190,7 +209,10 @@ def main() -> int:
                 "sources": ["archive.org/gov.in.is"],
                 "source_url": item.get("source_url"),
                 "verified": False,
-                "provenance": ingest_provenance,
+                # Per-record, not per-file: one ingest run now produces both
+                # scope-bearing and title-only records, and collapsing them to
+                # a single file-level label would overstate the weaker half.
+                "provenance": item.get("provenance", ingest_provenance),
             }
         )
 
@@ -227,7 +249,14 @@ def main() -> int:
     for record in merged:
         if not record["title"].strip():
             problems.append(f"{record['number']}: empty title")
-        if not record["scope"].strip():
+        # A title-only record has no scope clause by definition -- that is
+        # what its provenance records. Flagging it as a defect would fail
+        # every run, and "fixing" it by writing scope text would invent the
+        # very thing the provenance says was never found.
+        if (
+            not record["scope"].strip()
+            and record.get("provenance") != "number_and_title_only"
+        ):
             problems.append(f"{record['number']}: empty scope")
 
     if problems:

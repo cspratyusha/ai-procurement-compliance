@@ -1,0 +1,1433 @@
+ii403 : 1993 ISO/IEC 7185(1990) ( Reaffirmed 2004 )
+
+is
+
+Indian Standard
+
+INFORMATIONTECHNOLOGYPASCAL PROGRAMMINGLANGUAGES( First Revision )
+
+UDC
+
+681-3.06 : 800.92 PAS
+
+@
+
+BIS 1993
+
+BUREAU
+MANAK
+
+OF
+
+INDIAN
+
+STANDARDS
+ZAQAR MARG
+
+BHAVAN,
+
+9 BAHADUR SHAH NEW DELHI 110002
+
+June 1993
+
+Price Rs 22O.Op
+
+Programming
+
+Languages Sectional
+
+Committee,
+
+LTD 34
+
+NATIONAL
+
+FOREWORD
+
+This Indian Standard ( First Revision ) which is identical with ISO/IEC 7185 : 1990 `Information Organization for technology - Programming languages - Pascal', issued by the International Standardization and International Electrotechnical Commission ( ISO/IEC ), was adopted by the Bureau of Indian Standards on the recommendation of the Programming Languages Sectional Committee ( LTD 34 ) and approval of the Electronics and Telecommunication Division Council. This standard was first -published in 1986 adopting ISO/IEC 7185 : 1983. The present revision The major has been taken up, adopting the revised version of the above said ISO/IEC standard. revisions being: a) relaxation of the syntax of real numbers, to allow `digit sequences' integers' for the various components; b) in the handling of Gend-of-line characters' in text files; and c) in the handling cf run-time errors. `The text of the ISO/IEC International Indian Standard without deviations. Attention used in Indian Standards. rather than `unsigned
+
+Standard has been approved as suitable for publication as Certain conventions are however not identical with those is particularly drawn to the following: they should the current
+
+a) Wherever the words `International Standard' appear referring to this standard, be read as `Indian Standard', b) Comma ( , ) has been used as a decimal marker while in Indian Standard, practice is to use a point ( . ) as the decimal marker. CROSS REFERENCE In this Indian Standard, the following:
+International Standard IS0 646 Information
+
+the following
+
+International
+
+Standard is referred
+
+to.
+
+Read in its place
+Degree of Correspondence
+
+Indian Standard
+
+processing IS0 7-bit coded character set for information interchange
+
+IS 10315 : 1982 7-bit coded character set for information interchange
+
+Technically equivalent
+
+IS 11403:1993 ISO/IEC7185:1990
+
+Indian Standard
+
+INFORMATIONTECHNOLOGYPASCAL PROGRAMMINGLANGUAGES( First Revision )
+1 Scope
+1.1
+This
+
+International Standard specifies the semantics and syntax of the computer programming language Pascal by specifying requirements for a processor and for a conforming program. Two levels of compliance are defined for both processors and programs.
+
+1.2
+This International Standard does not specify a) the size or complexity of a program and its data that will exceed the capacity of any specific data processing system or the capacity of aparticular processor, nor the actions to be taken when the corresponding limits are exceeded; b) the minimal requirements of a data processing system that is capable of supporting an implementation of a processor for Pascal; c) the method of activating the program-block or the set of commands used to control the environment in which a Pascal program is transformed and executed; d) the mechanism by which programs written in Pascal are transformed for use by a data processing system; e) the method for reporting errors or warnings; f) the typographical representation of a program published for human reading.
+
+2 Normative reference
+The following standard contains provisions which, through reference in this text, constitute provisions of this International Standard. At the time of publication, the edition indicated was valid. All standards are subject to revision, and parties to agreements based on this International Standard are encouraged to investigate the possibility of applying the most recent edition of the standard listed below. Members of IEC and IS0 maintain registers of currently valid International Standards. IS0 646: 1983, Information processing-HO
+7-bit coded character set for information interchange.
+
+3 Definitions
+For the purposes of this International Standard, the following definitions apply.
+NOTE -To draw atbntion to language concepts, some terms are printed in italics on their first mention or at their defining occurrence(s) in this International Standard.
+
+1
+
+IS 11403 :-1993 ISO/IEC 7185 : 1990
+
+3.1 Error
+A violation by a program of the requirements of this International Standard that a processor is permitted to leave undetected.
+NOTES 1 If it is possible to construct a program in which the violation or non-violation of this International Standard requires knowledge of the data read by the program or the implementation definition of implementation-defined features, then violation of that requirement is classified as an error. Processors may report on such violations of the requirement without such-knowledge, but~there always remain some cases that require execution, simulated execution, or proof procedures with the required knowledge. Requirements that can be verified without such knowledge are not classified as errors. 2 Processors should attempt the detection of as many errors as possible, and to as complete a degree as possible. Permission to omit detection isprovided for implementations in which the detection would be an excessive bnrden.
+
+3.2 Extension
+A modification to clause 6 of the requirements of this International Standard that does not invalidate any program complying with this International Standard, as defined by 5.2, except by prohibiting the use of one or more particular spellings of identifiers (see 6.1.2 and 6.1.3).
+
+3.3 Implementation-defined
+Possibly differing between processors, but defined for any particular processor.
+
+3.4 Implementation-dependent
+Possibly differing between processors and not necessarily`defined for any particular processor.
+
+3.5 Processor
+A system or mechanism that accepts a program as input, prepares it for execution, and executes the process so defined with data to produce results.
+NOTE - A processor may consist of an interpreter, a compiler and run-time system, or another mechanism, together with an associated host computing machine and operating system, or another mechanism for achieving the same effect. A compiler in itself, for example, does not constitute a processor.
+
+4 Definitional conventions
+The metalanguage used in this International Standard to specify the syntax of the constructs is based on Backus-Naur Form. The notation has been modified from the original to permit greater convenience of description and to allow for iterative productions to replace recursive ones. Table 1 lists the meanings of the various metasymbols. Further specification of the constructs is given by prose and, in some cases, by equivalent program fragments. Any identifier that isdefined in clause 6 as a required identifier shall denote the corresponding-required entity by its occurrence in such a program fragment. In all other respects, any such program fragment is bound by any pertinent requirement OFthis International Standard. A meta-identifier shall be a sequence of letters and hyphens beginning with a letter. A sequence of terminal and nonterminal symbols in a production implies the concatenation of the text that they ultimately represent. Within 6.1 this concatenation is direct; no characters shall intervene. In all other parts of this International Standard the concatenation is inaccordance with the rules set out in 6.1. 2
+
+IS 11403 : 1993 ISO/IEC 7185 : 1990
+
+Table 1 - Metalanguage symbols Meaning Metasymbol I Shall be defined to be > Shall have as an alternative definition Alternatively I End of definition 0 or 1 instance of x Ix1 0 or more instances of x I x 1 Grouping: either of x or y (x I y) The terminal symbol xyz `xyz' A nonterminal symbol meta-identific-
+
+The characters required to form Pascal programs shall be those implicitly required to form the tokens and separators defined in 6.1. Use of the words of, in, containing, and closest-containing, when expressing a relationship between terminal or nonterminal symbols, shall have the following meanings -the -the -a -the
+These
+
+x of a y: refers to the x occurring directly in a production defining y; x in a y: is synonymous with `the x of a y'; y containing an x: refers to any y from which an x is directly or indirectly derived; y closest-containing an x: that y containing an x and not containing another y containing that x.
+
+syntactic conventions are used in clause 6 to specify certain syntactic requirements and also the contexts within which certain semantic specifications apply. In addition to the normal English rules for hyphenation, hyphenation is used in this International Standard to form compound words that represent meta-identifiers, semantic terms, or both. All met&identifiers that contain more than one word are written as a unit with hyphens joining the parts. Semantic terms ending in "type" and "variable" are also written as one hyphenated unit. Semantic terms representing compound ideas are likewise written as hyphenated units, e.g., digit-value, activation-point, assignment-compatible, and identifying-value. NOTES are included in this International Standard only for purposes of clarification, and aid in the use of the standard. NOTES are informative only and are not a part of the International Standard. Examples in this International Standard are equivalent to NOTES.
+
+5 Compliance
+There are two levels of compliance, level 0 and level 1. Level 0 does not include conformant-arrayparameters. Level 1 does include conformant-array-parameters.
+
+5.1 Processors
+A processor complying with the requirements of this International Standard shall ma) if it complies at level 0, accept all the features of the language specified in clause 6, except for 6.6.3.6 e), 6.6.3.7, and 6.6.3.8, with the meanings ,defined in clause 6; b) if it complies at level 1, accept all the features of the language specified in clause 6 with the meanings defined in clause 6; 3
+
+IS 11403 : 1993 ISO/IEC 7185 : 1990 c) not require the inclusion of substituteor additional language elements in a program in order to accomplish a feature of, the language that is specified in clause 6; d) be accompanied by a document that provides a definition of all implementation-defined features; e) be able to determine whether or not the program violates any requirements of this International Standard, where such a violation is not designated an error, report the result of this determination to the user of the processor before the execution of the program-block, if any, and shall prevent execution of the program-block, if any; f) treat each violation that is designated an error in at least one of the following ways 1) there shall be a statement in an accompanying document that the error is not reported, and a note referencing each such statement shall appear in a separate section of the accompanying document; 2) the processor shall report the error or the possibility of the error during preparation of the program for execution and in the event of such a report shall be able to continue further processing and shall be able to refuse execution of the program-block; 3) the processor shall report the error during execution of the program; and if an error is reported during execution of the program, the processor shall terminate execution; if an erroroccurs within a statement, the execution of that statement shall not be completed, NCYPE - 1 This means that processing will continue up to or beyond execution of the program at the option of the user. g) be accompanied by a document ,mat separately describes any features accepted by the processor that are prohibited or riotspecified in clause 6: such extensions shall be described as being `extensions to Pascal as specified by ISO/IEC 7185'; h) be able to process, in a manner similar to that specified for errors,any use of any such extension: i) be able to process, in a manner similar to that specified for errors. any use of an implementationdependent feature. NOTE - 2 The phrase `be able to' is used in 5.1 to permit the implementation of a switch Withwhich the user may control the reporting. A processor that purports to comply, wholly or partially, with the requirements of this International Standard shall do so only in,the following terms. A compliance statementshall be produced by the processor as a consequence of using the processor or shall be included in accompanying documentation. If the processor complies in all respects with the requirements of this International Standard, the compliance statement shall be <This processor> complies with the requirements of level <number> of ISO/lEC 7 185. If the processor complies withsome but not all of the requirements of this International Standard then it shall not use the above statement, but shall instead use the following compliance statement <Thisprocessor> complies with the requirements of level <number> of ISO/IJX 7 185, with the following exceptions: <followed by a reference to. or a complete list of, the requirements of the International Standardwith which the processor does not comply>. In both cases the text <This processor> shall be replaced by an unambiguous name identifying the processor, and the text <number> shall be replaced by the appropriate level number. NOTE - 3 Proce.ssorsthat do not comply fully with the requirements of the InternationalStandardare not required to
+give.Wl details of their failures to comply in the compliance statement; a brief feference to accompanying documentation thd contains a complete list in sufficient detail to identify the defects is sufficient,
+
+4
+
+IS 11403 : 1993 ISOfiEC 7185 : 1990
+
+5.2 Programs
+A
+
+program conforming with the requirements of this International Standard shall a) if it conforms at level 0, use only those features of the language specified in clause 6, except for 6.6.3.6 e), 6.6.3.7, and 6.6.3.8; b) if it conforms at level 1, use only those features of the-language specified in clause 6; and c) not rely on any particular interpretation of implementation-dependent features.
+
+NOTES 1 A program that complies with the requirementsof this International Standard may rely on particular implementationdefined v&es or features. 2 The requirements for conforming programs and compliant processors do not require that the results produced by a conforming program are always the same when processed by a compliant processor. They may be the same, or they may differ, depending on the program. A simple program to illustrate:this is program x (output) ; begin writeln (maxint) end.
+
+6 Requirements 6.l Lexical tokens
+NOTE - The syntax given in this subclause describes the formation of lexical tokens from characters and the separation of these tokens and therefore does not adhere to the same rules as the syntax in the rest of this International Standard.
+
+6.1.1 General The lexical tokens used to construct Pascal programs are classified into special-symbols, identifiers, directives, unsigned-numbers, labels, and character-strings. The representation ofa& letter (upper case-or lower case, differences of font, etc.) occurring anywhere outside of a character-string (see 6.1.7) shall be insignificant in that occurrence to the meaning of the program. letter = `a,
+I `b' I `c' I `d' j `e, I `f' j `g' j `h' I `i' I `j, 1
+
+I
+
+`k' 1`I' 1`m' 1 `n' I `0' I `p' I `q' I `r' l `s' l `t' `u' l `v' l `w' l `x' l `y' I `2'
+
+digit = `0' I `1' I `2' I `3' I `4' j `5' I `6' I `7' I `8' I `9' . 6.1.2 Special-symbols The special-symbols are tokens having special meanings and are used to delimit the syntqctic uniti of the language. special-symbol = `+' I `-7 I y* I `/' 1 `=' I `<' I `>' I `[' I `I'
+I I ._* I L,S I r:r I y `<>' I `c=' I `T' I G(, I G)S I word-symbol _ I `>=' I `:=' I `..'
+
+-word-symbol = `and' I `array' I `begin' I `case' I `const' I `div'
+I I I I I `do' I `downto' l `else' I `end' I `file' I `for' `function' I `goto' 1 `if' I `in' I `label" I `mod' `nil' I `not' 1 `of' I `or' I `packed' I `procedure' `program' I `record' I `repeat' I `set' I `then' `to' I `type' I `until' I `var' I `while' I `with' .
+
+5
+
+,IS 11403 : 1993 `ISO/IEC 7185 : 1990 6.13 Identifiers
+
+identifiers can be of any length. The spelling of an identifier shall be composed from all itsconstituent characters taken in textual order, without regard for the case of letters. No identifier shall have the same spelling as any word-symbol. Identifiers that are specified to be required shall have special significance (see 6.2.2.10 and 6.10). identifier = letter { letter I digit ) .
+Examples:
+
+X time readinteger
+WG4
+
+AlterHeatSetting InquireWorkstationTransformation InquireWorkstationIdentification
+6.1.4 Directives
+
+A directive shall only occur in a procedure-declaration or a function-declaration. The only directive shall be the requirt~I directive forward (see 6.6.1 and 6.6.2). No directive shall have the same spelling as any word-symbol. directive = letter { letter I digit } .
+NOTE -. Many processors provide, as an extension, the directive external, which is used to specify that the procedureblock or function-block corresponding to that procedure-heading or function-heading is external to the program-block. Usually it is in a library in a form to be input to, or that ha been produced by, the processor.
+
+6.1.5 Numbers
+
+An unsigned-integer shall denote in decimal notation a value of integer-type (see 6.4.2.2). An unsigned-real shall denote in decimal notation a value of real-type (see 6.4.2.2). The letter `e' preceding a scale-factor shall mean times ten lo the power of. The value denoted by an unsigned-integer shall be m the closed interval 0 to maxim (see 6.4.2.2 and 6.7.2.2). signed-number = signed-integer I signed-real . signed-real = [ sign ] unsigned-real . signed-integer = [ sign ] unsigned-integer . unsigned-number = unsigned-integer I unsigned-real . sign = `+' I`-'
+.
+
+unsigned-real = digit-sequence `,' fractional-part [ `e' scale-factor ] I digit-sequence `e' scale-factor . unsigned-integer = digit-sequence . fractional-part = digit-sequence . scale-factor = [ sign ] digit-sequence . digit-sequence = digit { digit } ,
+
+IS 11403 : 1993 ISO/IEC 7185 : 1990
+Examples:
+lel0
+J.
+
++100
+-0.1 Se-3
+
+87.353+8 6.1.6 Labels Labels shall be digit-sequences and shall be distinguished by their apparent~integral values and shall be in the closed interval 0 to 9999. The spelling of a label shall be its apparent integral value. label = digit-sequence 6.1.7 Character-strings
+A
+
+.
+
+character-string containing a single string-element shall denote a value of the required char-type (see 6.4.2.2). A character-string containing more than one string-element shall denote a value of a string-type (see 6.4.3.2) with the same number of components as the character-string contains string-elements. All character-strings with a given number of components shall possess the same string-type. There shall be an implementation-defined one-to-one correspondence between the set of alternatives from which string-elements are drawn and a subset of the values of the required char-type. The occurrence of a string-element in a character-string shall denote the occurrence of the corresponding value of char-type. character-string = `I' string-element { string-element } `I' . string-element = apostrophe-image apostrophe-image = `"' .
+. I string-character .
+
+string-character = one-of-a-set-of-implementation-defined-characters
+NOTE - Conventionally, be a string-character. the apostrophe-image
+
+is regarded as a substitute for the apostrophe character, which cannot
+
+Examples:
+`A' r;r I,II *
+
+' Pascal' *`THIS IS A STRING'
+
+6.t8
+
+Token separators
+
+Where a commentary shall be any sequence of characters and separations of lines, containing neither } nor `). the construct ( `{' I `(*' ) commentary ( `*)' I `}' ) shall be a comment if neither the { nor the (' occurs within a character-string or within a commentary. NOTES
+1 A comment 2 The sequence may thus commence with { and end with *) ,
+
+or commence with (* and end with }.
+{ ) can.
+
+(*) cannot occur in a commentary
+
+even though the sequence
+
+7
+
+IS 11403 :1993 ISO/IEC 7185:1990 Comments, spaces (except in character-strings), and the separations of consecutive lines shall be considered to be token separators. Zero or more token separators can occur between any two consecutive tokens, before the tirst token of a program text, or after the last token of the _prograrn text. There shall be at least one separator between any pair of consecutive tokens made up of identifiers, word-symbols, labels or unsigned-numbers. No separators shall occur within tokens. 6.19 Lexical alternatives The repmsentation for lexical tokens and separators given in 6.1.1 to 6.1.8, except for the character sequences (' and `). shall constitute a reference rejvesenfutionfor these tokens and separators. To facilitate the use of Pascal on processors that do not support the reference representation, the following alternatives have been defined. All processors that have the required characters in their character set shall provide both the reference representations and-the alternative representations, and the~corresponding tokens or separators shall not be distinguished. Provision of the reference representations, and of the alterative token @, shall be implementation-defined. The alternative representations for the tokens shall be Reference token Alternative token
+
+t [ 1
+
+@ c -1
+
+NOTE - 1 The character 1 that appears in some national variants of IS0 646 is regarded as identical to the character *. In this International Standard, the character t has been use&because of its greater visibility.
+
+The comment-delimiting characters { and ) shall be the reference representations, and (' and `) respectively shall be alternative representations (see 6.1.8). NOTE-2Seealso13f).
+
+6.2 Blocks, scopes, and activations
+6.2.1 Blocks A block closest-containing a label-declaration-part in which a label occurs shall closest-contain exactly one statement in which that label occurs. The occurrence of a label in the label-declaration-part of a block shall be its defining-point for the region that is the block. Each applied occurrence of that label (see 6.2.2.8) shall be a label. Within an activation of the block, all applied occurrences of that label shall denote the corresponding program-point in the algorithm of the activation at that statement (see 6.2.3.2 b)). block = label-declaration-part constant-definition-part type-definition-part variable-declaration-part procedure-and-function-declaration-part statement-part . labeldeclaration-part constantdefinition-part type-definition-part = [ `label' label { 0 label } `;' ] . = [ `const' constant-definition `;' { constant-definition `;' } ] .
+
+= [ `type' type-definition `;' { type-definition `i' } ] . = [ `var' variable-declaration `;' { variable-declaration `;' } ] : = { ( procedure-declaration 1function-declaration ) `;' ) .
+
+i%riabledeclaration-part
+
+procedure-and-functiondeclaration-part
+
+a
+
+IS l-1403 : 1993 ISO/IEC 7185 : 1990 The statement-part shall specify the algorithmic actions to be executed upon an activation of the block. statement-part = compound-statement
+.
+
+63.2 Scopes 6.2.2.1 Bach identifier or label contained by the program-block shall have a defining-point. 6.233 Bach defining-point shall have a region that is a part of the program text, and a scope that is a part or all of that region. 6.2.2.3 The region of each defining-point is defined elsewhere (see 6.2.1, 6.2.2.10, 63, 6.4.1, 6.4.2.3, 6.433, 6.5.1,6.5.3.3,6.6.1,6.6.2,6.6.3.1,68.3.10,6.10). 6.2.2.4 The scope of each defining-point shall be its region (including all regions enclosed by that region) subject to 6.2.2.5 and 6.2.2.6. 6.2.2.5 When an identifier or label has a defining-point for region A and another identifier or label having the same spelling has a defining-point for some region B enclosed by A, then region B and all regions enclosed by B shall be excluded from the scope of the defining-point for region A, 6.2.2.6 The region that is the field-specifier of a field-designator shall be excluded from the enclosing scopes. 6.2.2.7 When an identifier or label has a defining-point for a region, another identifier Dr label with the same spelling shall not have a defining-point for that region. 6.2.28 Within the scope of a defining-point of an identifier or label, each occurrence of an identifier or label having the same spelling as the identifier or label of the defining-point shall be'designated an applied occurrence of the identifier or label of the defining-point, except for an occurrence that constituted thedefining-point; such an occurrence shall be designated a defining occurrence. No occurrence outside that scope shall be an applied occurrence. NOTE - Within the scope of a defining-point of an identifier or label, there are no applied occurrences of an identifier
+or label that cannot be distinguished from it and have a defining-point for a region enclosing that scope.
+
+9
+
+IS 11403 : 1993 ISO/IEC 7185 : 1990 6.2.2.9 The defining-point of an identifier or label shall precede all applied occurrences of that identifier or label contained by the program-block with one exception, namely that an identifier can have an applied occurrence in the type-identifier of the domain-type of any new-pointer-types contained by the type-definition. part containing the defining-point of the type-identifier. 6.2.2.10
+Required
+
+identifiers that denote required values, types, procedures, and functions shall be used as if their defining-points have a region enclosing the program (see 6.1.3,6.3,6.4.1, and 6.6.4.1).
+NOTE The required identifiers
+
+input and output are not included, since these denote variables.
+
+6.2.2.11 Whatever an identifier or label denotes at its defining-point shall be denoted at all applied occurrences of that identifier or label.
+NOTES 1 Within syntax definitions, an applied occurrence constitutes a defining-point is not qualified. 2 It is intended that such qualification constant-identitkr denotes a constant. indicates of an identifier is qualified (e.g., type-identifier), whereas a use that
+
+the nature of the entity denoted by the applied occurrence:
+
+e.g., a
+
+6.23 Activations ~6.2.3.1 A procedure-identifier or function-identifier having a defining-point for a region that is a block within the procedure-and-function-declaration-part of that block shall be designated locai to that block. 6.23.2 The activation of a block shall contain a) for the statement-part of the block, an algorithm, the completion of which shall terminate the activation (see also 6.8.2.4); b) for each defining-point of a label in the label-declaration-part of the block, a corresponding programpoint (see 6.2.1); c) for each variable-identifier having a defining-point for the region that is the block, a variable possessing the type associated with the variable-identifier; d) for each procedure-identifier local to the block, a procedure with the procedure-block corresponding to the procedure-identifier, and the formal-parameters of that procedure-block; e) for each function-identifier local to the blcck, a function with the function-block corresponding to, and the result type associated with, the function-identifier, and the formal-parameters of that function-block; f) if the block is a function-block, a result possessing the associated result type.
+NOTE - Each activation contains its own algorithm, program-points, ikom every other activation. variables, procedures, and functions, distinct
+
+17l
+
+IS 11403 : 1993 ISO/liX 7185 : 1990 6.2.3.3
+
+The activation of a procedure or function shall be an activation of the block of the proceiiure~block of the procedure or function-block of the function, respectively, and shall be designated as within a) the activation containing the procedure or function; and b) all activations that that containing activation is within
+NOTE -An activation of a-block B can only be within activations of blocks containing B. Thus, an activation is not -kirhin another activation of the same block.
+
+Within an activation, an applied occurrence of a label or variable-identifier, or of a procedure-identifier or function-identifier local to the block of the activation, shall denote the corresponding program-point, variable, procedure, or function, respectively, of that activation; except that the function-identifier of an assignment-statement shall, within an activation of the function denoted by that function-identifier, denote the result of that activation.
+6.2.3.4
+A procedure-statement or function-designator contained in the algorithm of an activation and that specifies an activation of a block shall be designated the activation-point of the activation of the block.
+
+6.2.3.5 All variables contained by an activation, except for those listed as program-parameters, and any result of an activation, shall be totally-undefined at the commencement of that activation. The algorithm, programpoints, variables, procedures, and functions, if any, shall exist until the termination of the activation.
+
+6.3 Constant-definitions
+A
+
+constant-definition shall introduce an identifier to denote a value. constant-definition = identifier `=' constant .
+I constant-identifier
+
+constant = [ sign ] ( unsigned-number 1 character-string . constant-identifier = identifier .
+
+)
+
+The occurrence of an identifier in a constant-definition of a constant-definition-part of a block shall constitute its defining-point for the region that is the block. The constant in a constant-definition shall not contain an applied occurrence of the identifier in the constant-definition. Each applied occurrence of that identifier shall be a constant-identifier and shall denote the value denoted by the constant of the constant-definition. A constant-identifier in a constant containing an occurrence of a sign shall have been defined to denote a value of real-type or of integer-type. The required constant-identifiers shall be as specified in 6.4.2.2 and 6.7.2.2.
+
+6.4 Type-definitions
+6.4.1 General
+A type-definition shall introduce an identifier to denote a type. Type shall be an attribute that is possessed by every value and every variable. Each occurrence of a new-type shall denote a type that is distinct from any other new-type.
+
+type-definition = identifier `=* type-denoter
+
+.
+
+11
+
+IS 11403 : 1993 ISO/IEC 7185 : 1990
+
+type-d&oter
+
+= type-identifier
+
+I new-type
+
+. I new-pointer-type .
+
+new-type = new-ordinal-type
+
+I new-structured-type
+
+The occurrence~of~an identifier in a type-definition of a type-definition-part of a block snall constitute its
+
+defining-point for the region that is the block. Each applied occurrence of that identifier shall be a typeidentifier and shall denote the same type as that which is denoted by the type-denoter of the type-definition. Except for applied occurrences in the domain-type of a new-pointer-type, the type-denoter sl~allnot contain an applied occurrence of the identifier in the type-definition. `Qpes shall be classified as simple-types, structured-types norpointer-types. The required type-identifiers and corresponding required types shall be qs specified in 6.4.2.2 and 6.4.3.5. simple-type-identifier = type-identifier
+.
+
+structured-type-identifier pointer-type-identifier type-identifier
+
+= type.-identifier . = type-identifier
+.
+
+= identifier . or a pointer-
+
+A type-identifier shall be considered as a simple-type-identifier, a structured-type-identifier, type-identifier, according to the type that it denotes. 6.4.2 Simple-types 6.4.2.1 General
+
+A simple-type shall determine an ordered set of values. A value of an ordinal-type shall have an integer ordinal number; the ordering relationship between any two such values of one type shall~be the same as that between their ordinal numbers. An ordinal-type-identifier shall denote an ordinal-type. A real-typeidentifier shall denote the real-type. simple-type = ordinal-type I real-type-identifier ordinal-type = new-ordinal-type new-ordinal-type
+. .
+
+I ordinal-type-identifier I subrange-type .
+
+= enumerated-type
+
+ordinal-type-identifier real-type-identifier
+
+= type-identifier .
+
+= type-identifier .
+
+6.4.2.2 ~Required simple-types The following types shall exist a) inreger-rype. The required type-identifier integer shall denote the integer-type. The integer-type shall be an ordinal-type. The values shall be a subset of the whole numbers, denoted as specified in 6.1.5 by signed-integer (see also 6.7.2.2). The ordinal number of a value of~integer-type shall be the value itself. b) real-rype. The required type-identifier real shall denote the real-type. The real-type shall be a simple-type. The values shall be an implementation-defined subset of the real numbers, denoted as specified in 6.1.5 by signed-real. c) Boolean-rype. The required type-identifier Boolean shall denote the Boolean-type. The Booleantype shall be an ordinal-type. The values shall be the enumeration of truth values denoted by the required constant-identifiers false and true, such that false is the predecessor of true. The ordinal 12
+
+IS 11403 : 1993 ISO/IEC 7185 : 1990 numbers of the truth values denoted by false and true shall be the integer values0 and 1 respectively. d) char-rype. The required type-identifier char shall denote the char-type. The char-type shall be an ordinal-type. The values shall be the enumeration of a set of implementation-defined characters, some possibly without graphic representations. The ordinal numbers of the character values shall be values of integer-type that are implementation-defined and that are determined by mapping the character values on to consecutive non-negative integer values starting at zero. The following relations shall hold. 1) The subset of character values representing the digits 0 to 9 shall be numerically ordered and contiguous. 2) The subset of character values representing the upper case letters A to 2, if available, shall be alphabetically ordered but not necessarily contiguous. 3) The subset of character values representing the lower case letters a to z, if available, shall be alphabetically ordered but not necessarily contiguous.
+NOTE Operators applicable to the required simple-types are specified in 6.7.2.
+
+6.4.2.3 Enumerated-types enumerated-type = `(' identifier-list `)' .
+
+identifier-list = identifier { `,' identifier ) . The occurrence of an identifier in the identifier-list of an enumerated-type shall constitute its defining-point for the region that is the block closest-containing the enumerated-type. Each applied occurrence of the identifier shall be a constant-identifier. Within an activation of the block, all applied occurrences of that identifier shall possess the type denoted by the enumerated-type and shall denote the type's value whose ordinal number is the number of occurrences of identifiers preceding that identifier in the identifier-list.
+NOTE - Enumerated type constants are ordered by the sequence in which they are defined, and they have consecutive ordinal numbers starting at zero.
+
+Examples:
+(red,
+
+yellow, green, blue, tartan) (club, diamond, heart, spade) (married, divorced, widowed, single) (scanning, found, ~notpresent1 (Busy, InterruptEnable, ParityError,
+
+OutOfPaper, LineBreak)
+
+6.4.2.4 Subrange-types
+
+A subrange-type shall include identification of the smallest and the largest value in the subrange. The first constant of a subrange-type shall specify the smallest value, and this shall be less than or equal to the largest value, which shall be specified by the second constant of the subrange-type. Both constants shall be of the same ordinal-type,-and that ordinal-type shall be designated the host-fype of the subrange-type. subrange-type = constant `..' constant .
+Examples:
+
+1. ,100 -10. .+10 red..green `0'. .`9' 13
+
+IS li403 : 1993 ISOIIEC 7185 : 1990 6.4.3 Structured-types 6.4.3.1 General A new-structured-type shall be classified as an array-type, record-type, set-type, or file-type according to the unpacked-structured-type closest-contained by the new-struclured-type. A component of a value of a structured-type shall be a value. structured-type = new-structured-type
+I structured-type-identifier . .
+
+new-structured-type
+
+= [ `packed' ] unpacked-structured-type = array-type I record-type
+
+unpacked-structured4ype
+
+I set-type I file-type .
+
+The occurrence of the token packed in a new-structured-type shall designate the type denoted thereby as packed. The designation of a structured-type as packed shall indicate to the processor that data-storage of values should be economized, even if this causes operations on, or accesses to components of, variables possessing the type to be less efficient in terms of space or time. The designation of a structured-type as packed shall affect the representation in data-storage of that structured-type only; i.e., if a component is itself structured, the component's representation in data-storage shall be packed only if the type of the component is designated packed.
+NOTE -The ways in which the treatment of entities of a type is affected by whether or not the type is designated packed are specified in 6.4.3.2, 6.45,6.6.3.3,6.6.3.8. 6.6.5.4, and 6.7.1.
+
+6.4.3.2 Array-types
+An array-type
+
+shall be structured as a mapping from each value specified by its index-type to a distinct component. Each component shall have the type denoted by the type-denoter of the component-type of the array-type. array-type = `array' `[' index-type { `,' index-type } `1' `of' component-type index-type = ordinal-type . component-type Example I :
+array [l.
+
+.
+
+= type-denoter
+
+.
+
+array
+
+.lOOl of real [Boolean] of colour
+
+An array-type that specifies a sequence of two or more index-types shall be an abbreviated notation for an array-type specified to have as its index-type the first index-type in the sequence and to have a component-type that is an array-type specifying the sequence of index-types without the first index-type in the sequence and specifying the same component-type as the original specification. The component-type thus constructed shall be designated packed if and only if the original array-type is designated packed. The abbreviated form and the full form shall be equivalent.
+NOTE 1 Each of the following two examples thus contains different ways of expressing its array-type.
+
+Example 2: array array array array
+
+[Boolean] [Boolean] [Boolean, [Boolean,
+
+of array [l. .lO] of array [size] of array [l. .lO, size] of real 1. .lO, size] of real 1.. 101 of array [size] of real
+
+of real
+
+14
+
+IS 11403 : 1993 I SO/IEC 7185 : 1990 Example 3:
+
+packed packed
+
+array array
+
+11. .lO, tl. .lOl
+
+1. .81 of Boolean of packed array 11.. 81 of Boolean
+
+Let i denote a value of the index-type; let Vi denote a value of that component of the array-type that corresponds to the value i by the structure of the array-type; let the smallest and largest values specified by the index-type be denoted by m and n, respectively; and let k = (ord(n)-ord(m)+l) denote the number of values specified by the index-type; then the values of the array-type shall be the distinct k-tuples of the form WnI....,V").
+NOTE - 2 A value of an array-type does not therefore exist unless all of its component-values are defined. If the component-type has c values, then it follows that the cardinality of the set of values of the array-type is c raised to the power k.
+
+Any type designated packed and denoted by an array-type having as its index-type a denotation of a subrange-type specifying a smallest value of 1 and a largest value of greater than 1, and having as its component-typea denotation of the char-type, shall be designated a string-type.
+The correspondence
+
+of character-strings to values of string-types is obtained by relating the individual string-elements of the character-string, taken in textual order, to the components of the values of the string-type in order of increasing index.
+NOTE - 3 The values of a string-type possess additional properties which allow writing them to textfiles (see 6.9.3.6) and define their use with relational-operators (see 6.7.2.5).
+
+6.4.3.3 Record-types The structure and values of a record-type shall be the structure and values of the field-list of the record-type.
+
+record-type
+
+= `record' field-list `end'
+
+,
+
+field-list = [ ( fixed-part [ `;' variant-part ] I variant-part ) [ `;' ] ] . fixed-part = record-section { `;* record-section record-section = identifier-list `:' type-denoter . } .
+
+field-identifier = identifier . variant-part = `case' variant-selector `of' variant { `;' variant } . variant-selector = [ tag-field `:' I tag-type .
+
+tag-field = identifier . variant. = case-constant-list `:' `(' field-list `)' . tag-type = ordinal-type-identifier case-constant-list
+.
+
+= case-constant { `,' case-constant } .
+
+case-constant = constant . A field-list containing neither a fixed-part nor a variant-part shall have no components, shall define a single null value, and shall be designated empty.
+The occurrence of an identifier in the identifier-list of a record-section of a fixed-part of a field-list shall
+
+constitute its defining-point as a field-identifier for the region that is the record-type closest-containing the
+15
+
+IS 11403 : 1993 IsO/IEc 7185 : 1990 field-list and shall associate the field-identifier with a distinct component, which shall be designated ajield. 1 of the record-type and of the field-list. That component shall have the type denoted by the type&no&r of the record-section. The field-list closest-containing a variant-part shall have a distinct component that shall have the values 1 and structure defined by the variant-part. Let Vi denote the value of the i-th component of a non-empty field-list having m components; then the values of the field-list shall be distinct m-tuples of the form
+wt. V?,...,VaJ.
+
+NOTE - 1 If the type of the i:th component has Fi values, then the cardinal@ of the set of values of the field-list is (F1 + Fz * ... + F,,,).
+
+A tag-type shall be the type denoted by the ordinal-typeidentifier denote the value denoted by the constant of the case-constant.
+
+of the tag-type. A case-constant shall
+
+The type of each case-constant in the case-constant-list of a variant of a variant-part shall be compatible with the tag-type of the variant-selector of the variant-part. The values denoted by all case-constants of a type that is required to be compatible with a given tag-type shall be distinct and the set thereof shall be equal to the set of values specified by the tag-type. The values denoted by the case-constants of the case-constant-list of a variant shall be designated as corresponding to the variant.
+
+With each variant-part shall be associated a type designated~the;Felector-type possessed by the variant-part. If the variant-selector of the variant-part contains-a tag-field, or if the case-constant-list of each variant of the variant-partcontainsonly one case-constant, then the selector-type shall be denoted by the tag-type, and each variant of the variant-part shall be associated with those values specified by the selector-type denoted by the case-constants of the case-constant-list of the variant. Otherwise, the selector-type possessed by the variant-part shall be a new ordinal-type that is constructed to possess exactly one value for each variant of the variant-part, and no others, and each such variant shall be associated with a distinct value of that type. Each variant-part shall have a component which shall be designated the selector of the variant-part, and which shall possess the selector-type of the variant-part. If the variant-selector of the variant-part contains a taK-field, then the occurrence of an identifier in the tag-field shall constitute the defining-point of the identifier as a field-identifier for the region that is the-record-type cJosest-containing the variant-part and shall associate the field-identifier with the selector of the variant-part. The selector shall-be designated a field of the record-type if and only if it is associated with a field-identifier. Each variant of a variant-part shall denote a distinct component of the variant-part; the component shall have the values and structure of the field-list of the variant, and shall be associated with those values specified by the selector-type possessed by the variant-part asso&ited with the variant. The value of the selector of the variant-part shall cause the associated variant and component of the variant-part to be in a state that shall be designated active. The values of a variant-part shall be-the distinct pairs
+
+where k represents a value of the selector of the variant-part, and XC. is a value of the field-list of the active variant of the variant-part. NOTES
+2 If-there a& n values specified by the selector-type. and if the field-list of the variant associated with qhe i-th ~value has Ti values, then the cardinal@ of the set of values of the variant-par+ (T1 + T2 + ... + T,,). There is no component of a vaiue of a variant-part corresponding to any non-active variant of the variant-part.
+
+3 Restrictions placed on the use of fields of a record-variable pertaining to variant-par@ are specified in 6.5.33,6.63.3 and 6.653. 16
+
+IS 11403 : 1993 ISOAEC 7185 : 1990 Examples:
+
+record year : 0. .2000; month : 1..12; day : 1. .31 end record name, firstname : string; age : 0..99; case married : Boolean of true : (Spousesname : string) false : ( ) end
+
+;
+
+record xl y : real; area : real; case shape of triangle : anglel, angle2 (side : real; inclination, rectangle : (sidel, side2 : real; skew : angle) ; circle : (diameter : real); end 6.4.3.4 Set-types
+t
+
+: angle);
+
+A set-type shall determine the set of values that is structured as the power set of the base-type of the set-type. Thus, each value of a set-type shall be a set whose members shall be unique values of the base-type.
+
+set-type =
+
+`set' `of' base-type .
+
+base-type = ordinal-type .
+NOTE 1 Operators applicable to values of set-types are specified in 6.7.2.4.
+
+Examples:
+
+set
+set NOTE b.
+
+of char
+of (club, diamond, heart, spade)
+
+2 If the base-type of a set-type haxb values, then the cardinal@ of the set of values is 2raised to the power
+
+For each ordinal-type T that is not a subrange-type, there shall exist both an unpacked set-type designated the unpacked-canonical-set-of-T-type and a packed set-type designated thepacked-canonical-se&of-T-type. If S is any subrange-type and T is its host-type, then the-set of values determined by the type set of S shall be included in the sets of values determined by the unpacked-canonical-set-of-T-type and by the packedcanonical-set-of-T-type (see 6.7.1). 6.4.3.5 File-types
+NOTE - 1 A file-type describes sequencesof values of the specified component-type,~togetherwith a current position in each sequence and a mode that indicates whether the sequence is being inspected or generated.
+
+17
+
+IS 11403 : 1993 ISO/IEC 7185 : 1990
+
+file-type = `file' `of' component-type
+
+.
+
+A type-denoter shall notbe permissible as the component-type of a file-type if it denotes either a file-type or a structured-type having any component whose type-denoter is not permissible as the component-type of a file-type.
+Examples:
+
+file file
+
+of real of vector
+
+A file-type shall define implicitly a type designated a sequence-rype having exactly those values, which shall be designated sequences, defined by the following five rules in items a) to e).
+NOTE - 2 The notation x-y represents the concatenation of sequences x and y. The explicit representation of sequences (e.g., S(c)), of concatenation of sequences; of the first, last, and rest selectors; and of sequence equality is not part of the Pascal language. These notations are used to define file valuesbelow, and the required file operations in 6.652 and 6.6.65
+
+a) S( ) shall be a value of the sequence-type S and shall be designated the empty sequence. The empty sequence shall have no components. b) Let c be a value of the specified component-type and let x be a value of the sequence-type S; then S(c) shall be a sequence of type S, consisting of the single component-value c, and both S(c)-x and x-S(c) shall be sequences, distinct from S( ), of type S. c) Let c, S, and xbe as in b), let y denote the sequence S(c)-x and let z denote the sequence x-S(c); then the notation y&t shall denote c (i.e., the tirst component-value of y), y.rest shall denote x (i.e., the sequence obtained from y by deleting the first component), and z.last shall denote c (i.e., the last component-value of z). d) Let x and y each be a non-empty sequence of type S; then x = y shall be true if and only if both (x&t = y.tirst) and (x.rest = y.rest) are true. If x or y is the empty sequence, then x = y shall be true if and only if both x and y are the empty sequence. e) Let x. y, and z be sequences of type S; then x -(y -z) = (x-y)-z, S( )-x = x, and x-S( )`= x shall be true. A file-type alsoshall define implicitly a type designated a mode-type having exactly two values, which are designated Inspection and Generation.
+NOTE 3 The explicit denotation of the values Inspection and Generation is not part of the Pascal language.
+
+A file-type shall be structured as three components. Two of these components, designated f.L and f.R, shall be of the implicit~sequence-type. The third component, designated f.M, shall be of the implicit mode-type. Let f.L and f.R each be a single value of the sequence-type and let f.M be a single value of the mode-type; then each value of the file-type shall be a distinct triple of the form
+(f.L, f.R, f.M)
+
+where f.R shall be the empty sequence if f.M is the value Generation. `Ihe value, f, of the file-type shall be designated empfy if and only if f.L-f.R is the empty sequence. NOTE - 4 The two components,
+f.L and f.R. of a value of the file-type may be considered to represent the single sequence f.L -f.R together with a current position in that sequence. If f.R is non-empty, then f.R.first may be considered the currentcomponent as determined by the current position; otherwise, the current position is the end-of-file position.
+
+There shall be a file-type that is denoted by the required structured-type-identifier text. The structure of the type denoted by text shall define an additional sequence-type whose values shall be designated lines. A 18
+
+IS 11403 : 1993 ISWIEC 7185 : 1990 lineshall be a sequence cs -S(end-of-line), where cs is a sequence of components possessing the char-type, and end-of-line shall represent a special component-value. Any assertion in clause 6 that the end-of-line value is attributed to a variable other than a component of a sequence shall be construed as an assertion that the variable has attributed to it the char-type value space. If 1 is a line, then no component of 1 other than l.last shall be an end-of-line. There shall be an implementation-defined subset of the set of char-type values, designated characters prohibited from textfiles; the effect of causing a character in that subset to beattributed to a component of either t.L or t.R for any textfile t shall be implementation-dependent. A fine-sequence, Is, shall be either the empty sequence or the sequence 1- 1s' where 1 is a line and Is' is a line-sequence. Every value t of the type denoted by text shall satisfy the following two rules: a) If t.M = Inspection, then t.L -t.R shall be a line-sequence. b) If t.M = Generation, then t.L -t.R shall be 1s -cs, where 1s is a line-sequence and cs is a sequence of components possessing the char-type. NOTE - 5 In rule b), cs may be considered, especially if it is non-empty, to be a partial line that is being generated. Such a partial line cannot occur during inspection of a file. Also, cs does not correspond to t.R, since t.R is the empty sequence if t.M = Generation.
+A
+
+variable that possesses the type denoted by the required type-identifier text shall be designated a texfjile.
+
+NOTE - 6 All required procedures and functions applicable to a variable of typefile ofchar are applicable to textfiles. Additional-required procedures and functions, applicable only to textfiles, are defined in 6.6.6.5 and 6.9. 6.4.4 Pointer-types The values of a pointer-type shall consist of a single nil-value and a set of identifying-values each identifying a distinct variable possessing the domain-type of the new-pointer-type. The set of identifying-values shall be dynamic, in that the variables and the values identifying them shall be permitted to be created and destroyed during the execution of the program. Identifying-values and the variables identified by them shall be created only by the required procedure new.(see 6.6.5.3).
+NOTE 1 Since the nil-value is not an identifying-value, it does not identify a variable.
+
+The token nil shall denote the nil-value in all pointer-types. pointer-type = new-pointer-type new-pointer-type
+I pointer-type-identifier .
+
+= `1' domain-type .
+.
+to satisfy the assignmcnt-
+
+domain-type = type-identifier
+
+NOTE - 2 The token nil does not have a single type, but assumes a suitable pointer-type compatibility rules, or the compatibility rules for operators, if possible.
+
+6.4.5 Compatible
+
+types
+
+Types Tl and T2 shall be designated compatible if any of the following four statements is true: a) Tl and T2 are the same type. b) Tl is a subrange of T2, or T2 is a subrange of Tl, or both Tl and T2 are subranges of the same host-type. c) Tl and 72 are set-types of compatible base-types, and either both Tl and T2 are designated packed or neither Tl nor T2 is designated packed.
+
+19
+
+IS 11403 : 1993 ISO/IEC 7185 : 1990 d) Tl and T2 are string-types with the same number of components. 6.4.6 Assignment-compatibility A value of type T2 shall be designated assignment-compatibl with a type Tl if any of the following five statements is true: a) Tl and T2 are the-same type, and that type is permissible as the component-type of a file-type (see 6.435). b) Tl is the real-type and T2 is the integer-type. c) Tl and T2 are compatible ordinal-types, and the value of type `I'?! is in the closed interval specified by the type Tl. d) Tl and T2 are compatible set-types, and all the members of the value of type T2 are in the closed interval specified by the base-type of Tl. e) Tl and I"2 are compatible string-types. At any place where the rule of assignment-compatibility is used a) it shah be an error if Tl and T2 are compatible ordinal-types and the value of type `I2 is not in the closed interval specified by the type Tl; b) it shah be an error if Tl and T2 are compatible set-types and any member of the value of type `TZis not in the closed interval specified by the base-type of the type Tl . At any place where the rule of assignment-compatibility is used to requirea value of integer-type to be assignment-compatible witha real-type,an implicitinteger-to-real conversionshallbe performed. 6.4.7 Example of a type-definition-part
+
+type
+
+natural - 0, . maxint; count - integer; range - integer; colour - (red, yellow, green, blue); sex = (male, female) ; year = 1900..1999; shape - (triangle, rectangle, circle) ; punchedcard - array Il..801 of char; charseguence = file of char: polar - record r : real; theta : angle end; indextype = l..limit; vector = array [indextype] of real; person - t persondetails; persondetails - record name, firstname : charsequence; age : natural; married : Boolean; father, child, sibling : person; 20
+
+IS 11403 : 1993 ISO/IEC 7185 : 1990 case s : sex of male : (enlisted, bearded
+
+FileOfInteger
+
+: Boolean) ; female : (mother, programmer : Boolean) end; = file of integer:
+
+NOTE -
+
+natural are compatible
+
+In the above example counf, range. and integer denote the same type. The types denoted by year and with, but not the same as, the type denoted by range_count, and integer.
+
+6.5 Declarations
+
+and denotations
+
+of variables
+
+6.51 Variable-declarations A variable shall be an entity to which a value can be attributed (see 6.8.2.2). Each identifier in the identifierlist of a variable-declaration shall denote a distinct variable possessing the type denoted by the type-denoter of thevariable-declaration. variable-declaration =, identifier-list `:' type-denoter .
+
+The occurrence of an identifier in the identifier-list of a variable-declaration of the variable-declaration-part of a block shall constitute its defining-point as a variable-identifier for the region that is the block. The structure of a variable possessing a structured-type shall be the structure of the structured-type. A use of a variable-access shall be an access, at the time of the use, to the variable thereby denoted. A variableaccess, according to whether it is an entire-variable, a component-variable, an identified-variable, or a buffer-variable, shall denote a declared variable, a component of a variable, a variable that is identified by a pointer value (see 6.4.4), or a buffer-variable, respectively. variable-access = entire-variab!e I component-variable I buffer-variable .
+Example of a variable-declaration-part: var x, y, 2, max : real; 5 It 3 : integer; k : 0..9; p, g, r : Boolean; operator : (plus, minus, times) ; a : array [O.. 631 of real; c : colour; f : file of char; huel, hue2 : set of colour; pl, p2 : person; m, ml, m2 : array [l. .lO, l..lOl of real; coord : polar; pooltape : array [l. .4] of FileOfInteger; date : record month : 1..12; ~year : integer end;
+Variables occurring in examples in the remainder of this International Standard should be assumed to have
+
+I identified-variable
+
+NOTE -
+
+21
+
+-Is 11403 : 1993 ISO/IEC 7185 : 1990
+been declared as specified in the above example.
+
+6.5.2 Entire-variables entire-variable = variable-identifier = identifier .
+.
+
+variable-identifier
+
+6.5.3 Component-variables 6.5.3.1 General A component of a variable shall be a variable. A component-variable shall denote a component of a variable. A reference or an access to a component of a variable shall constitute a reference or an access, respectively, to the variable. The value, if any, of~the component of a variable shall be the same component of the value, if any, of the variable. component-variable 6.5.3.2 Indexed-variables A component of a variable possessing an array-type shall be denoted by an indexed-variable. indexed-variable = array-variable `[' index-expression, { `,' index-expression } `1' ; = indexed-variable
+1field-designator ,
+
+array-variable = variable-access . index-expression = expression .
+
+An array-variable shall be a variable-access that denotes a variable possessing an array-type. For an indexed-variable closest-containing a single index-expression, the value of the index-expression shall be assignment-compatible with the index-type of the array-type. The component denoted by the indexedvariable shall be the~component that corresponds to the value of the index-expression by the mapping of the type possessed by the array-variable (see 6.4.3.2).
+Example I :
+
+a1121 a[i + j] mikl If the array-variable is itself an indexed-variable, an abbreviation shall be permitted. In the abbreviated form, a single comma shall replace the sequence] [ that occurs in the full form. The abbreviated form and the full form shall be equivalent. The order of both the evaluation of the index-expressions of, and the access to the array-variable of, an indexed-variable shall be implementation-dependent.
+Example 2: m[kl[ll
+
+m[k, 11
+NOTE These two examples denote the same component-variable.
+
+6.533
+
+Field-designators
+
+A field-designator either shall denote that component of the record-variable of the field-designator associated (see 6.4.33) with the field-identifier of the field-specifier of the field-designator or shall denote the variable
+
+22
+
+IS 11403 : 1993 ISO/IEC 7185 : 1990 denoted by the field-designator-identifier (see 6.8.3.10) of the field-designator. A record-variable shall be a variable-access that denotes a variable possessing a record-type. The occurrence of a record-variable in a field-designator shall constitute the defining-point of the fieldidentifiers associated with components of the record-type possessed by the record-variable, for the region that is the field-specifier of the field-designator. field-designator = record-variable `.' field-specifier I field-designator-identifier record-variable = variable-access .
+.
+
+field-specifier = field-identifier .
+Examples: p2f .mother
+
+coord.theta An access to a component of a variant of a variant-part, where the selector of the variant-part is not a field, shall attribute to the selector that value associated (see 6.4.3.3) with the variant. It shall be an error unless a variant is active for the entirety of each reference and access to each component of the variant. When a variant becomes non-active, all of its components shall become totally-undefined.
+NOTE If the selector of a variant-part is undefined, then no variant of the variant-part is active.
+
+6.54 Identified-variables
+
+An identified-variable shall denote the variable, if any, identified by the value of the pointer-variable of the identified-variable (see 6.4.4 and 6.6.5.3) shall be accessible until the termination of the activation of the program-blockor until the variable is made inaccessible (see the required procedure dispose, 6.6.5.3).
+NOTE - The accessibility of the variable also depends on the existence the corresponding identifying-value. of a pointer-variable that has attributed to it
+
+A pointer-variable shall be a variable-access that denotes a variable possessing a pointer-type. It shall be an error if the pointer-variableof an identified-variable either denotes a nil-value or is undefined. It shall be an error to remove from the set of values of the pointer-type the identifying-value of an identified-variable (see 6.6.5.3) when a reference to the identified-variable exists.
+Examples:
+
+PIT pit . fathert pit . siblingt 6.55 Buffer-variables
+
+. fatherr
+
+A file-variable shall be a variable-access that denotes a variable possessing a file-type. A buffer-variable shall denote a variable associated with the variable denoted by the file-variable of the buffer-variable. A buffer-variable associated with a textfile shall possess the char-type; otherwise, a buffer-variable shall possess the component-type of the file-type possessed by the file-variable of the buffer-variable. buffer-variable = file-variable `t ' .
+
+file-variable = ~variable-access .
+Examples:
+
+input t pooltape
+
+1211
+
+23
+
+IS 11403 : 1993 ISO/IEC 7135.: 1990 It shall be an error to alter the value of a file-variable f when a reference to the buffer-variable ft exists. A reference or an access to a buffer-variable shall constitute a reference or an access, respectively, to the associated file-variable.
+
+6.6 Procedure and function declarations
+6.6.1 Procedure-declarations procedure-declaration = procedure-heading `;* directive 1 procedure-identification `;' procedure-block 1 procedure-heading `;' procedure-block .
+] .
+
+procedure-heading
+
+= `procedure' identifier [ formal-parameter-list = `procedure' procedure-identifier
+.
+
+procedure-identification procedure-identifier procedure-block
+
+= identifier .
+
+= block .
+
+The occurrence of a formal-parameter-list in a procedure-heading of a procedure-declaration shall define the formal-parameters of the procedure-block, if any, associated with the identifier of the procedure-heading to be those of the formal-parameter-list. The occurrence of an identifier in the procedure-heading of a procedure-declaration shrill constitute its defining-point as a procedure-identifier for the region that is the block closest-containing the proceduredeclaration. Each identifier having a defining-point as a procedure-identifier in a procedure-heading of a proceduredeclaration in which the directive forward occurs shall have exactly one of its applied occurrences in a procedure-identification of a procedure-declaration, and this applied occurrence shall be closest-contained by the procedure-and-function-declaration-part closest-containing the procedure-heading. The occurrence of a procedure-block in a procedure-declaration shall associate the procedure-block with the identifier in the procedure-heading, or with the procedure-identifier in the procedure-identification, of the procedure-declaration. There shall be at most one procedure-block associated with a procedure-identifier.
+Examples of procedure-and-function-declaration-parts:
+
+Example 1:
+NOTE This exampleis not for level 0.
+
+procedure
+var i
+
+AddVectors
+
+(var A, B, C : array
+
+[low. .high
+
+: natural)
+
+of real) ;
+
+: natural; begin for i :- low to high do A[i] end { of AddVectors );
+
+:= B(i]
+
++ C[i]
+
+Example 2: procedure readinteger var i : natural:
+begin
+
+(var f : text;
+
+var x : integer)
+
+;
+
+24
+
+IS 11403:1993 ISOAEC 7185:1990 while ft = ' ' do get(f); {The buffer-variable containsthe first non-spacechar} i := 0; while ft in [`0'..`9'] do begin i := (10 * i) + (ord(ff)- ord('0')); get(f) end; {The buffer-variable containsa non-digit} x :- i {Of course if there are no digits, x is ze-ro} end;
+f(x procedurebisect (function : real) : real; : real; var result : real); {This procedureattemptsto find a zero of f(x) in (a,b)by a, b
+
+the method of bisection.It is assumedthat the procedureis called with suitablevalues of a and b such that (f(a)< 0) and (f(b)>= 0) The estimate is returnedin the last parameter.} const eps - le-10; var, midpoint : real; begin {The invariantP is true by calling assumption} midpoint := a; while abs(a - b) > eps * abs(a) do begin midpoint := (a + b) / 2; if flmidpoint)< 0 then a := midpoint else b := midpoint (Khich re-establishes the invariant: P - (f(a) < 0) and (f(b) >- 0) and reduces the interval (a,b)providedthat the value of midpoint is distinct from both a and b.} . end; {P together with the loop exit conditionassuresthat a zero is containedin a small subinterval. Return the midpoint as the zero.} result := midpoint end; procedurePrepareForAppending (var f : FileOfInteger); { This proceduretakes a file'inany state suitablefor reset and places it in a conditionfor appendingdata to its end. Simpler conditioningis only possible if assumption%are made about the initial state of the file. } var LocalCopy : FileOfInteger; procedureCopyFiles 4var 'from, into : FileOfInteger); begin reset(f tom); rewrite(int0); while--6%eof(from)do begin
+
+25
+
+IS 11403 : 1993 ISO/IEC 7185 : 1990 into] := from]; put (into) ; get (from) 6nd I end { of CopyFiles }; begin { of body of PrepareForAppending CopyFiles (f, LocalCopy) ; CopyFiles (LocalCopy, fl end { of PrepareForAppending };
+6.6.2 Function-declarations
+
+}
+
+function-declaration
+
+= function-heading `;' directive I function-identification `;' function-block I function-heading `;' function-block . ] `:' result-type .
+
+function-heading
+
+= `function' identifier [ formal-parameter-list = `function' function-identifier
+.
+
+function-identification function-identifier
+result-type =
+
+= identifier .
+I pointer-type-identifier ,
+
+simple-type-identifier
+
+function-block = block . The occurrence of a formal-parameter-list in a function-heading of a function-declaration shall define the formal-parameters of the function-block, if any, associated with the identifier of the function-heading to be those of the formal-parameter-list. The function-block shall contain at least one assignment-statement such that the function-identifier of the assignment-statement is associated with the block (see 6.8.2.2). The occurrence of an identifier in the function-heading of a function-declaration shall constitute its definingpoint as a function-identifier associated with the result type denoted by the result-type for the region that is the block closest-containing the function-declaration. Each identifier having a defining-point as a function-identifier in the function-heading of a functiondeclaration in which the directive forward occurs shall have exactly one of its applied occurrences in a function-identification of a function-declaration, and this applied occurrence shall be closest-contained by the procedure-and-function-declaration-part closest-containing the function-heading. The occurrence of a function-block in a function-declaration shall associate the function-block with the identifier in the function-heading, or with the function-identifier in the function-identification, of the functiondeclaration; the block of the function-block shall be associated with the result type that is associated with the identifier or function-identifier. There shall be at most one function-block associated with a function-identifier. Example of a procedure-and-function-declaration-part: function Sqrt (x : real1 : real; {This function computes the square root of x (x > 0) using method.} var old, estimate : real; begin estimate :- x; repeat old :- estimate; estimate :- (old t x / old) * 0.5; 26
+
+Newton's
+
+IS 11403 : 1993 ISO/IEC 7185 : 1990
+
+until abs(estimate - old) < eps * estimate; {eps being a global constant} Sqrt := estilhate end { of Sqrt }; functionmax (a : vector1 : real; {This functionfinds the largest componentof the value of a.} var largestsofar: real; fence : indextype; begin largestsofar:= a[ll; {Establishes largestsofar - max(a[ll)} for fence := 2 to limit do begin if largestsofar < a[fence]then largestsofar:= alfence] {Re-establishing largestsofar = max(a[ll, . . . ,a[fencel)} end: {So now largestsofar = max(a[lI, ... ,a[limitl)} max :- largestsofar end { of max }; functionGCD (m, n : natural) : natural; begin if n-0 then GCD := m else GCD := GCD(n, m mod n); end;
+
+{The followingtwo functionsanalyze a parenthesized expressionand convert it to an internal form. They are declared forward since they are mutually recursive,i.e., they call each other. These function-declarations use the followingidentifiers that are not defined in this International Standard:formula, IsGpenParenthesis, IsOperator, MakeFormula, nextsym, operation,ReadElement, ReadOperator, and SkipSymbol.} functionReadExpression : formula;forward; functionReadOperand: formula:forward; functionReadExpression; {See forwarddeclarationof heading.} var this : formula; oP : operation; begin this := ReadOperand; while IsOperator(nextsym) do begin op :- ReadOperator; this :- MakeFormula(this, op, ReadOperand); end: ReadExpression:= this end:
+
+27
+
+Is 11403 : 1993 ISO/IEC 7185 : 1990 function -ReadOperand; {See forward declaration begin if IsOpenParenthesis (nextsym) then begin SkipSymbol ; ReadOperand := ReadExpression; (nextsym should be a close-parenthesis} SkipSymbol end else Readoperand :- ReadElement end; 4.63 Parameters 6.63.1 General The identifier-list in a value-parameter-specification shall be a list of value parameters. The identifier-list a variable-parameter-specification shall be a list of variable parameters. formal-parameter-list = `(' formal-parameter-section { `;' formal-parameter-section > value-parameter-specification I variable-parameter-specification I procedural-parameter-specification I functional-parameter-specification } `)' . of heading.}
+
+in
+
+formal-parameter-section
+
+.
+
+NOTE - 1 There is also a syntax rule for formal-parameter-section in 6.6.3.7.1. value-parameter-specification variable-parameter-specification procedural-parameter-specification functional-parameter-specification = identifier-list `:' type-identifier . = `var' identifier-list `:' type-identifier = procedure-heading = function-heading .
+. .
+
+An identifier defined to be a parameter-identifier for the region that is the -formal-paramcler-list of a procedure-heading shall be designated a formal-parumefer of the block of the procedurc-block, if any, associated with the identifier of the procedure-heading. An identifier defined to be a parameter-identifier for the region that is the formal-parameter-list of a function-heading shall be designated aformal-parameter of the block of the function-block, if any, associated with the identifier of the function-heading. The occurrence of an identifier in the identifier-list of a value-parameter-specification or a variable-parameterspecification shall constitute its defining-point as a parameter-identifier for the region that is the formalparameter-list closest-containing it, and its defining-point as the associated variable-identifier for the region that is the block, if any, of which it is a formal-parameter. `Ihe occurrence of the identifier of a procedure-heading in a procedural-parameter-specification shall constitute its defining-point as a parameter-identifier for the region that is the formal-parameter-list closest-containing it, and its defining-point as the associated procedure-identifier for the region that is the block, if any, of which it~is a formal-parameter. The occurrence of the identifier of a function-heading in a functional-parameter-specificationshall constitute its defining-point as a parameter-identifier for the region that is the formal-parameter-list closest-containing it, and its defining-point as the associated function-identifier for the region that is the block, if any, of which it is a formal-parameter 28
+
+IS 11403 : 1993 ISO/IEC 7185 : 1990
+NOTE - 2 If the formal-parameter-list specification. there is no corresponding is contained in a procedural-parameter-specification procedure-block or function-block. or a functional-parameter-
+
+6.6.3.2 Value parameters The formal-parameterand its associated variable-identifier shall denote the same variable. The forrnalparameter shall possess the type denoted by the type-identifier of the value-parameter-specification. The type possessed by the formal-parameter shall be one that is permitted as the componeni-type of a filetype (see 6.4.3.5). The actual-parameter (XC 6.7.3 and 6.8.2.3) shall be an expression whose value is assignment-compatible wilh the type possessed by the formal-parameter. me current vaiue of the expression shall be attributed upon activation of the block to the variable that is denoted by the formalparameter. 6.6.3.3 Variable parameters The actual-parameter shall be a variable-access. The type possessed by the actual-parameters shall be the same as that denoted by the type-identifier of the variable-parameter-specification, and the formalparameters shall also possess that type,. The actual-parameter shall be accessed before the activation of the block, and this access shall establish a reference to the variable thereby accessed during the entire activation of the block; the corresponding formal-parameter and its associated variable-identifier shall denote the referenced variable during the activation. An actual variable parameter shall not denote a field that is the selector of a variant-part. An actual variable parameter shall not denote a component of a variable where that variable possesses a type that is designated packed. 6.6.3.4 Procedural parameters The actual-parameter (se-e6.7.3 and 6.8.2.3) shall be a procedure-identifier that has a defining-pointcontained by the program-block. The formal-parameter-list, if any, closest-contained by the formal-parameter-section and the formal-parameter-list, if any, that defines the formal-parameters of the procedure denoted by the actual-parameter shall be congruous, or neither formal-parameter-list shall occur. The formal-parameter and its associated procedure-identifier shall denote the actual-parameter during the entire activation of the block. 6i6.3.5 Functional parameters The actual-parameter (see 6.7.3 and 6.8.2.3) shall be a function-identifier that has a defining-pointcontained by the program-block. The formal-parameter-list, if any, closest-contained by the formal-parameter-section and the formal-parameter-list, if any, that defines the formal-parameters of the function denoted by the actual-parameter shall be congruous, or neither formal-parameter-list shall occur. The result-type closestcontained by the formal-parameter-section shall denote the same type as the result type of the function. The formal-parameter and its associated function-identifier shall denote the actual-parameter during the entire activation of the block. 6.6.3.6 Parameter list congruity Two formal-parameter-lists shall be congruous if they contain the same number of formal-parametersections and if the formal-parameter-sections in corresponding posilions match. Two fortnal-parametersections shall match if any of the following statements is true. a) They are both value-parameter-specifications containing the same number of parameters and the type-identifier in each value-parameter-specification denotes the same type.
+
+29
+
+IS 11403 : 1993 ISO/IEC 7185 : 1990 b) They are t&h variable-parameter-specifications containing the same number of parameters and the type-identifier in each variable-parameter-specification denotes the same type. c) They are both procedural-parameter-specifications headings thereof are congruous. and the formal-parameter-lists of the procedure-
+
+d) They are both functional-parameter-specifications, the formal-parameter-lists of the functionheadings thereof are congruous, and the type-identifiers of the result-types of the function;headings thereof denote the same type. me) They are either both value-conformant-array-specifications or both variable-conformant-arrayspecifications; and in both cases the conformant-array-parameter-specifications contain the same number.of parameters and equivalent conformantiarray-schemas. Two conformant-array-schemas shall be equivalent if all of the following four statements are true. 1) There is a single index-type-specification in each conformant-array-schema. 2) The ordinal-type-identifier in each index-type-specification denotes the same type. 3) Either the (component) conformant-array-schemas of the conformant-array-schemas equivalent or the type-identifiers of the conformant-array-schemas denote the same type. 4) Either both conformant-array-schemas unpacked-conformant-array-schemas.
+NOTES 1 The abbreviated conformant-array-schema 2 For the status of item e) above see and its corresponding full form are equivalent (see 6.6.3.7).
+
+are
+
+are packed-conformant-array-schemas
+
+or both are
+
+5.1 a), 5.1 b),. 5.1 c). 5.2 a), and 5.2 b).
+
+6.6.3.7 Conformant array parameters
+NOTE For the status of this subclause see 5.1 a),
+
+5.1 b). 5.1 c). 5.2 a), and 5.2 b).
+
+6.6.3.7.1 General The occurrence of G identifier in the identifier-list contained by-a conformant-array-parameter-specification shall constitute its defining-point as a parameter-identifier for the region that is the formal-parameter-list closest-containing it and its defining-point as the assqciated variable-identifier for the region that is the block, if any, of which it is a formal-parameter. A variable-identifier so defined shall be designated a
+conformant-array-parameter. The occurrence of an identifier in an index-type-specification shall constitute its defining-point as abound-
+
+identifier for the region that is the formal-parameter-list closest-containing it and for the region that is the block, if any, whose formal-parameters are specified by that formal-parameter-list. formal-parameter-section > conformant-array-parameter-specification
+.
+
+conformant-array-parameter-specification value-conformant-array-specification variable-conformant-array-specification conformant-array-schema
+
+= value-conformant-array-specification I variable-conformant-array-specification
+.
+
+.
+
+= identifier-list `:* conformant-array-schema
+
+= `var. identifier-list `:' conformant-array-schema
+,
+
+.
+
+= packed-conformant-array-schema I unpacked-conformant-array-schema
+
+packed-conformant-array-schema
+
+= `packed' `array' `[' index-type-specification `of' type-identifier .
+
+`I'
+
+30
+
+ISO/IEC
+
+IS'11403:1993 7185:1990
+
+unpacked-conformant-array-schema = `array' `[' index-type-specification { `;' index-type-specification `of' ( type-identifier 1conformant-array-schema ) . index-type-specification = identifiet"..' identifier `:' ordinal-type-identifier
+. .
+
+} `1'
+
+factor > bound-identifier bound-identifier
+NOTE -
+
+= identifier .
+
+1 There are also syntax rules for formal-parameter-section in 6.6.3.1 and for factor in 6.7.1.
+
+If a conformant-array-schema closest-contains a conformant-array-schema, then an abbreviated form of definition shall be permitted. In the abbreviated form, a single semicolon shall replace the sequence ] of array [ that occurs in the full form. The abbreviated form and the full form shall be equivalent.
+Examples:
+
+array array
+
+[u. .v : Tl] [u..v : Tl;
+
+of array [j. .k : T21 of T3 j..k : T21 of T3
+
+Within the activation ofthe block, applied occurrences of the first identifier of an index-type-specification shall denote the smallest value specified by the corresponding index-type (see 6.63.8) possessed by the actual-parameter, and applied_ occurrences of the second identifier of the index-type-specification shall denote the largest valoe specified by that index-type.
+NOTE 2 The object denoted by a bound-identifier is neither a constant nor a variable.
+
+The actual-parameters (see 6.7.3 and 6.8.2.3) corresponding to formal-parameters that occur in a single conformant-array-parameter-specification shall all possess the same type. The type possessed by the actual-parameters shall be conformable (see 6.6.3.8) with the conformant-array-schema, and the formalparameters shall possess an array-type which shall be distipct from any other type and which shall have a component-type that shall be the fixed-component-type of the conformant-array-parameters defined in the conformant-array-parameter-specification and that shall have the index-types of the type possessed by the actual-parameters that correspond (see 6.6.3.8) to the index-type-specifications contained by the conformant-array-schema contained by the conformant-array-parameter-specification. The type denoted by the type-identifier contained by the conformant-array-schema contained by a conformant-array-parameterspecification shall be designated thejixed-component-type of the conformant-array-parameters defined by that conformant-array-parameter-specification. _.
+NOTE - 3 The tjlpe possessed by the formal-parameter cannotbe a string-type (see 6.4.3.2) because it is not denoted by an array-type.
+
+6.6.3.7.2 Value conformant
+
+arrays
+
+Xhe identifier-list in a value-conformant-array-specification shall be a list of value conformant arrays. Each actual-parameter corresponding to a value formal-parameter shall be an expression. The value of the expression shall be attributed before activation of the block to an auxiliary variable that the program does not otherwise contain. The~type possessed by this variable shall be the same as that possessed by the expression. This variable shall be accessed before the activation of the block, and this access shall establish a reference to the variable thereby accessed during the entire activation of the block; the corresponding formal-parameter and its associated variable-identifier shall represent the referenced variable during the activation. The fixed-component-type of a value conformant array shaI1 be one that is permitted as the component-type of a file-type. If the actual-parameter contains an occurrence of a conformant-array-parameter, of the conformant-array-parameter contained by the actual-parameter, either / then for each occurrence
+
+31
+
+IS 11403 : 1993 ISO/IEC 7185 : 1990 a) theoccurrence of theconfonnant-array-parameter by the actual-parameter: or shallbecontained by a function-designatorcontained
+
+b) the occurrence of the conformant-array-parameter shall be contained by an indexed-variable contained by the actual-parameter, such that the type possessed by that indexed-variable is the fixed-componznttype of the conformant-array-parameter.
+NOTE - This ensures that the type possessed by the expression and the auxiliary variable will always be known and that, as a consequence. the activation record of a procedure can be of a fixed size.
+
+6.6.3.7.3 Variable conformant arrays The identifier-list in a variable-conformant-array-specification shall be a list of variable conformant arrays. The actual-parameter shall be a variable-access. The actual-parameter shall be accessed before the activation of the block, and this access shall estabiish a reference to the variable thereby accessed during the entire activation of the block; the corresponding formal-parameter and its associated variable-identifier shall denote the referenced variable during the activation. An actual-parameter shall not denote a component of a variable where that variable possesses a type that is designated packed. 6.638
+NOTE -
+
+Conformability
+1 For the status of this subclause see
+
+5.1 a),51 b), 5.1 c), 5.2 a), and 5.2 b).
+
+Given a type denoted by an array-type closest-containing a single index-type and a conformant-arravschema closest-containing a single index-type-specification, then the index-type and the index-typeGiven two conformant-array-schemas closestspecification shall be designated as corresponding. containing a single index-type-specification, then the two index-type-specifications shall be designated as corresponding. Let Tl be an array-type with a single index-type and let T?! be the type denoted by the ordinal-type-identifier of the index-type-specification of a conformant-array-schema closest-containing a single index-type-specification; then Tl shall be conformable with the conformant-array-schema if all the following four statements are true. a) The index-type of Tl is compatible with T2. b) The smallest and largest values specified by the index-type of Tl lie within the closed interval specified by T2. c) The component-type of Tl denotes the same type as that denoted by the type-identifier of the conformant-array-schema or is conformable to the conformant-array-schema in the conformantarray-schema. d) Either Tl is not designated packed and the conformant-array-schema is an unpacked-conformantarray-schema, or Tl is designated packed and the conformant-array-schema is a packed-conformantarray-schema.
+NOTE - 2The abbreviated and full forms of a conformant-may-schema and full forms of an array-type are equivalent (see 6.4.3.2). are equivalent (see 6.6.3.7). The abbreviated
+
+At any place where the rule of conformability is used, it shall be an error if the smallest or largest value specified by the index-type of Tl lies outside the closed interval specified by T2. 6.6.4 Required procedures and functions The required procedure-identifiers and function-identifiers and the corresponding required procedures and functions shall be as spcciticd in 6.6.5.6.6.6, and 6.9.
+
+32
+
+IS 11403 : 1993 ISO/IEC 7185 : 1990
+NOTE Required procedures and functions do not necessarily follow the rules
+
+given elsewhere for procedures and
+
+functions. 6.6.5 Required procedures 6.6.5.1 General The required procedures shall be file handling procedures, dynamic allocation procedures and transfer procedures. 6.6.5.2 File handling procedures Except for the application of rewrite or reset to the program parameters denoted by input or output, the effects of `applying each of the 4ile handling procedures rewrite, put, reset, and get to a file-variable f shall be defined by pre-assertions and post-assertions about f, its components f.L, f.R, and f.M, and the associated buffer-variable ft. The use of the variable f0 within an assertion shall be iansidered to represent the state or value, as appropriate, off prior to the operation, while f (within an assertion) shall denote the variable after the operation, and similarly for fOT and fj'. It shall be an error if the stated pre-assertion does not hold immediately prior to any use of the defined operation. It shall be an error if any variable explicitly denoted in an assertion of equality is undefmed. The post-assertion shalhold prior to the next subsequent access to the file. ir; components, or its associated buffer-variable. The post-assertions imply corresponding activities on the external entities, if any, to which the file-variables are bound. These activities, and the point at which they are actually performed, shall be implementation-defined.
+NOTE - In order to facilitate interactive terminal input and output, the procedure get (and other input procedures) should be performed at the latest opportunity, and the procedure put (and other output procedures) should be performed at the first opportunity. This technique has been called `lazy I/O'.
+
+rewrite(f)
+
+pre-assertion: true. post-assertion: (f.L = f.R = S( )) and (f.M = Generation) and (f [ is totally-undefined). pre-assertion: (f0.M = Generation) and (f0.L is not undefined) and (f0.R = S( )) and (fOt is~not undefined). post-assertion: (f.M = Generation) and (f.L = (f0.L -S(Q)) (ft is totally-undefined).
+reset@
+
+) and (f.R = S( )) and
+
+pre-assertion: The components f0.L and f0.R are not undefined. post-assertion: (f.L = S( )) and (f.R = (f0.L 4O.R -X)) and (f.M = Inspection) and (if f.R = S( ) then (ft is totally-undefined) else (fT = f.R.first)), where, if f possesses the type denoted by the required type-identifier text and if f0.L -fO.R is not empty and if (f0.L -fD.R).last is not an end-of-line, then X shall be a sequence having an end-of-line component as its only component; otherwise, X = S( ). pre-assertion: (f0.M = Inspection) and (neither f0.L nor f0.R is undefined) and (f0.R C> S( )).
+
+33
+
+IS 11403 : 1993 ISO/IEC 7185 : 1990 post-assertion: (f.M = Inspection) and (f.L = (f0.L - S(M).R.first))) and (f.R = fO.R.rest) and (if f.R = S( ) then (fl is totally-undefined) else (ft= f.R.first)). When the file-variable f possesses a type other than that denoted by text, the required procedures read and write shall be defined as follows.
+read
+
+Let f denote a file-variable and v 1,...,v, denote variable-accesses (n>=2); then the procedure-statement read(f,vl ,...,v,,) shall access the file-variable and establish a reference to that file-variable for the remaining execution of the statement. The execution of the statement shall be equivalent to begin read(ff,vl); read(ff,v2,...,v,) end where ff denotes the referenced file-variable. Let f be a file-variable and v be a variable-access; then the procedure-statement read(f,v) shall access the file-variable and establish a reference to that file-variable for the remaining execution of the statement. The execution of the statement shall be equivalent to
+begin v := ff T; get(ff) end
+
+where ff denotes the referenced file-variable.
+NOTE -The variable-access is not a variable parameter. Consequently, it may be a component structure. and the value of the buffer-variable need only be assignment-compatible with it. of a packed
+
+write
+
+Let f denote a file-variable and el ,...,e, denote expressions (n>=2); then the procedure-statement writc(f,el ,...,e,) shall access the file-variable and establish a reference to that file-variable for the remaining execution of the statement. The execution of the statement shall be quivalent to begin write(ff&);
+write(ff,ez,...,e,) end
+
+where ff denotes the referenced file-variable. Let f be a file-variable and e be an expression; then the procedure-statement write(f,e) shall access the file-variable and establish a reference to that tile-variable for the remaining execution of the statement, The execution of the write statement shall be equivalent to
+begin ff r :S e; put(ff) end
+
+where ff denotes the referenced file-variable.
+NOTES 1 The required procedures
+read, write, readln, writeln,
+
+and page, as applied to textiles,
+
+are described
+
+in 6.10.
+
+2 Since the definitions of read and write include the use of get and their post-assertions also apply. 3 A consequence order.
+
+put, the implementation-defined
+
+aspects of
+
+of the definition of read and write is that the non-file parameters
+
+are evaluated in a kit-to-right
+
+6.6.5.3 Dynamic allocaticln procedures new@! s1;;r.l~fi:kr: a new variabk that is tuta:!y-uaddincd, shall create a new identifying-vatuc of th,: poin!cr-rype associated wirh p, that idcniifks the new v`ariablc, and shall attribute Ihis idcnlifyingvalue to the variable denoted by the variable-access p. The created variable shall possess the type that is the domain-type of the pointer-type possessed by p.
+
+34
+
+IS 11403 : 1993 ISO/IEC 7185 : 1990 newfp,cl ,...,c,) shall create a new variable that is totally-undefined, shall create a new identifying-value of the pointer-type associated with p, that identifies the new variable, and shall attribute this identifyingvalue to the variable denoted by the variable-access p. The created variable shall possess the recordtype that is the domain-type of the pointer-type possessed by p and shall have nested variants that correspond to the case-constants cl ,...,G. The case-constants shall be listed in order of increasing nesting of the variant-parts. Any variant not specified shall be at a deeper level of nesting than that specified by cn. It shall be an error if a variant of a variant-part within the new variable is active and a different variant of the variant-part is one of the specified variants.
+dispose(q)
+
+shall remove the identifying-value denoted by the expression q from the pointer-type of q. It shall be an error if the identifying-value had been created using the form new(p,ct ,...,c,).
+dispose(q,kl ,...,k,)
+
+shall remove the identifying-value denoted by the expression q from the pointer-type of q. The case-constants kl,...,k, shall be listed in order of increasing nesting of the variant-parts. It shall be an error unless the variable had been created using the form new(p,cr ,...,c,) and m is equal to n. It shall be an error if the variants in the variable identified by the pointer value of q are different from those specified by the values denoted by the case-constants kt ,...,k,.
+NOTE - The rembval of an identifying-value from the pointer-type to which it belongs renders the identified-variable inaccessible (see 6.5.4) and makes undefined all variables and functions that have that value attributed (see 6.6.3.2 and 6.8.2.2).
+
+It shall be an error if q has a nil-value or is undefined. It shall be an error if a variable created using the second form of new is accessed by the identified-variable of the variable-access of a factor, of an assignment-statement, or of an actual-parameter.
+6.654
+
+Transfer procedures
+
+In the statement pack(a,i,z) and in the statement unpack(z,a,i) the following shall hold: a and z shall be variable-accesses; a shall possess an array-type not designated packed; z shall possess an array-type designated packed; the component-types of the types of a and z shall be the same; and the value of the expression i shall be assignment-compatible with the index-type of the type of a. Let j and k denote auxiliary variables that the program does not otherwise contain and that have the type that is the index-type of the type of z and a, respectively. Let u and v denote the smallest and largest values of the index-type of the type of z. Each of the statements pack(a,i,z) and unpack(z,a,i) shall establish references to the variables denoted by a and z for the remaining execution of the statements; let aa and zz, respectively, denote the referenced variables within the following sentence. Then the statement pack(a,i,z) shall be equivalent to
+begin k := i; for j := IJ to v do begin zzb] := aa[k]; if j e> v then k := succ(k) end end
+
+and the statement unpack(z,a,i) shall be equivalent to
+
+35
+
+IS 11403 : 1993 ISO/IEC 7185 : 1990
+begin k:=i; for j := uto v do begin aa[k] := u[i]; if j <P v then k := succ(k) end enc'
+
+NOTE - Emrs will arise if the references cannot be established, if one or more of the values attributed to j is not
+assignment-compatible with the index-type of the type of a, or if an evaluated array component is. undefined.
+
+6.6.6 Required functions 6.6.6.1 General The required functions shall be arithmetic functions, transfer functions, ordinal functions, and Boolean functions. 6.6.6.2 Arithmetic functions For the following arithmetic functions, the expression x shall be either of real-type or integer-type. For the functions abs and sqr, the type of the result shall be the same as the type of the parameter, x. For the remaining arithmetic functions, the result shall always be of real-type. The result shall be as shown in table 2. `able 2 Function abs(x) sqr(x) sin(x) cos(x) exp(x) in(x) sqrt(x) arctan Arithmetic function results Result absolute value of x square of x It shall be an error if such a value does not exist. sine of x, where x is in radians cosine of x, where x is in radians base of natural logarithms raised to the power x natural logarithm of x, if x is greater than zero It shall be an error if x is not greater than zero. non-negative square root of x, if x is not negative It shall be an error if x is negative. principal value, in radians, of the arctangent of x
+
+6.6.6.3 Transfer functions
+trunc(x)
+
+From the expression x that shall be of real-type, this function shall return a result of integer-lype. The value of trunc(x) shall be such that if x is positive or zero, then O<x-trunc(x)<l; otherwise, -lcx-trunc(x)SO. It shall be an error if such a value does not exist.
+Examples:
+
+_trunc (3.51 .ttunc(-3.5)
+round(x)
+
+{yields {yields
+
+3) -3)
+
+From the expression x that shall be of real-type, this function shall return a result of integer-type. If x is positive or zero, round(x) shall be equivalent to trunc(x+O.S); otherwise, round(x) shall be
+
+36
+
+IS 11403 : 1993 IS@`IEC 7185 : 1990
+
+equivalent to trunc(x-0.5). It shall be an error if such a value does not exist.
+Examples:
+
+round(3.5) round (-3.5)
+
+{yields {yields
+
+4) -4)
+
+6.6.6.4 Ordinal functions ord(x)
+
+From the expression x that shall be of an ordinal-type, this function shall return a result of integertype that shall be the ordinal number (see 6.4.2.2 and 6.4.2.3) of the value of the expression x.
+chr(x)
+
+.From the expression x that shall be of integer-type, this function shall return a result of char-type that shall be the value whose ordinal number is equal to the value of the expression x, if such a character value exists. It shall be an error if such a character vahre does not exist. For any value, ch, of char-type, it shall be true that chr(ord(ch)) = ch succ(x) From the expression x that shall be of an ordinal-type, this function shall return a result that shall be of the same type as that of the expression (see 6.7.1). The function shall yield a value whose ordinal number is one greater than that of the expression x, if such a value exists. It shall be an error if such a value does not exist. pred(x) From the expression x that shall be of an ordinal-type, this function shall return a result that shall be of the same type as that of the expression (see 6.7.1). The function shall yield a value whose ordinal number is one less than that of the expression x, if such a value exists. It shall be an error if such a value does not exist.
+
+6.6.6.5 Boolean functions
+odd(x)
+
+From the expression x that shall be of integer-type, this function shall be equivalent to the expression
+(abs(x) mod 2 = 1).
+
+The
+
+parameter f shall be a file-variable; if the actual-parameter-list is omitted, the function shall be applied to the required textfile input (see 6.10) and the program shall contain a program-paramcterlist containing an identifier with the spelling input. When eof(f) is activated, it shall be an error `if f is undefined; otherwise, the function shall yield the value true if f.R is the empty sequcncc (see 6.4.3.5); otherwise, false. The parameter f shall be a textfile; if the actual-parameter-list is omitted, the function shall be applied to the required textfile input (see 6.10) and the program shall contain a program-paramctcr-list containing an identifier with the spelling input. When eoln(f) is activated, it shall be an error if f is undefined or if eof(f) is true; otherwise, the function shall yield the value true if f.R.first is an end-of-line component (see 6.4.3.5); otherwise, false.
+
+IS 11403 : 1993 ISO/IEC 7185: 1990
+
+6.7 Expressions
+6.7.1 General
+
+An expression shall denote a value. The use of a variable-access as a factor shall denote the value, if any, attributed to the variable accessed thereby. -When a factor is used, it shall be an error if the variable denoted by a variable-access of the factor is undefined. Operator precedences shall be according to four classes of operators as follows. The operator not shall have the highest precedence, followed by the multiplying-operators, then the adding-operators and signs, and finally, with the lowest precedence, the relational-operators. Sequences of two OTmore operators of the same precedence shall be left associative. expression = simple-expression [ relational-operator simple-expression simple-expression = [ sign ] term { adding-operator term } . I .
+
+term = factor { multiplying-operator factor } . factor > variable-access I unsigned-constant 1function-designator I set-constructor 1 `(' expression `)' 1 `not' factor .
+NOTE 1 There is also a syntax rule for factor in 6.6.3.7.1.
+
+unsigned-constant set-constructor =
+
+= unsigned-number
+
+1character-string
+
+I constant-identifier
+
+I `nil' .
+
+`[' [ member-designator { `,' member-designator = expression [ `..' expression ] .
+
+} ] `I' .
+
+member-designator
+
+Any factor whose type is S, where S is a subrange of T, shall be treated as if it were of type T. Similarly, any factor whose type is set of S shall be treated as if it were of the unpacked-canonical-set-of-T-type, and any factor whose type is packed set of S shall be treated as of the packed-canonical-set-of-T-type. A set-constructor shall denote a value of a set-type. The set-constructor [ ] shall denote the value in every set-type that contains no members. A set-constructor containing one or more member-designators shall denote either a value of the unpacked-canonical-set-of-T-type or, if the context so requires, the packedcanonical-set-of-T-type, where T is the type of every expression of each member-designator of the setconstructor. The type T shall be an ordinal-type. The value denoted by the set-constructor shall contain zero or more members, each of which shall be denoted by at least one member-designator of the sctconstructor. The member-designator x, where x is an expression, shall denote the member that shall be the value of x. The member-designator x..y, where x and y are expressions, shall denote zero or more members that shall be the values of the base-type in the closed interval from the value of x to the value of y. The order of evaluation of the expressions of a member-designator shall be~implementation-dependent. The order of evaluation of the member-designators of a set-constructor shall be implementation-dependent. NOTES
+2 The member-designator x..y denotes no members if the vaIue of x is greater than the value of y.
+
+3 The set-constructor [ ] does not have a single type, but assumes a suitable type to satisfy the assignment-compatibility rules, or the compatibility mles for operators, if possible.
+
+38
+
+IS l1403 : 1993 ISO/IEC 7185 : 1990
+Examples: a) Factors: 15 (x + y + 2) sin(x t y) [red, c, green1 [1, 5, IO. .19, 231 not p b) ~Tenns: x*y i / (1 - i) (x <- y) and (y < z)
+
+c) Simple Expressions:
+P or x+Y
+-X
+
+q
+
+hue1 t hue2 i* jtl d)
+
+Expressions:
+x = 1.5
+P (= q P = q and
+
+r (i < j) = (j < k) c in hue1
+
+6.7.2 Operators
+
+6.7.2.1 General
+multiplying-operator adding-operator relational-operator = = `I' 1`/' 1 `div' . I `<' I `P-' I `<=' I `>=' I `in' . The order of evaluation of the 1`mod' I `and' .
+
+`+' I `-' =
+
+I `or'
+
+`=' 1 `c>'
+
+A factor, a term, or a simple-expression shall be designated an operand. operands of a dyadic opcratc': shall be implementation-dependent.
+
+NOTE - This means, for example, that the operands parallel, or they may not both be evaluated.
+6.7.2.2 Arithmetic operators
+
+may be evaluated
+
+in textual order, or in reverse order, or in
+
+The types of operands respectively.
+NOTE 1 The symbols
+
+and results for dyadic and monadic
+
+operations
+
+shall be as shown in tables 3 and 4
+
++, -, and * are also used as set operators (see 6.7.2.4).
+
+A term of the form x/y shall be an error if y is zero; otherwise,
+
+the value of x/y shall be the result of
+
+dividing
+
+x by y. the value of i div j shall be such that
+
+A term of the form i div j shall be an error ifj is zero; otherwise, abs(i) - abs(j) < abs((i div j)
+l
+
+j) c= abs(i)
+
+39
+
+IS 11403 : 1993 ' ISO/IEC 7185 : 1990
+
+integer-type if both operands are of integer-type otherwise real-type
+
+Table 4 -
+
+Monadic arithmetic operations
+
+where the value shall be zero if abs(i) < abr(i); otherwise, the sign of the value shall be positive have the same sign and negative if i and j have different signs. A term of the form i mod j shall be an error if j is zero or negative; be that value of (i-(k*j)) for integral k such that 0 <= i mod j < j.
+NOTE -
+
+if i and j
+
+otherwise,
+
+the value of i mod j shall
+
+2 Only for i >= 0 and j > 0 does the relation (i div j) * j + i mod j = i hold.
+
+The required constant-identifier maxint shall denote an implementation-defined value shall satisfy the following conditions. a) All integral values in the closed interval from -maxint
+
+value of integer-type.
+
+This
+
+to +maxint shall be values of the integer-type. shall be correctly performed
+
+b) Any monadic operation performed on an integer value in this interval according to the mathematical rules for integer arithmetic.
+
+c) Any dyadic integer operation on two integer values in this same interval shall be correctly performed according to the mathematical rules for integer arithmetic, provided that the result is also in this interval. ~dj Any relational operation on two integer values in this same interval according to the mathematical rules for inleger arithmetic. shall bc correctly performed
+
+The results of integer-to-real conversion, of the real arithmetic operators and of the required real functions shall be approximations to the corresponding mathematical results. The accuracy of this approximation shall be implementation-defined. It shall be an error if an integer operation for integerarithmetic. 6.7.2.3 Boolean operators Operands and results for Boolean operations shall be of Boolean-type. The Boolean operators or, and, and not shall denote respectively the logical operations of disjunction, conjunction, and negation. or function is not performed according to the mathematical rules
+
+40 \
+
+IS 11403 : 1993 ISO/IEC 7185 : 1990
+
+' Operator t
+
+*
+
+Operation Set union Set difference Set intersection
+
+Set operations Type of operands The same unpacked-canonical-set-of-T-type or packed-canonical-set-of-T-type (see 67.1)
+
+Table 5 -
+
+Type of result Same as operands
+
+Table 6 - Relational operations Type of operands Operator 1 = <> 1 Any simple-type, pointer-type, string-type, unpacked-canonical-set-of-T-type or packed-canonical-set-of-T-type Any simple-type or string-type < > <- >= Any simple-type, string-type, unpacked-canonical-set-of-T-type or packed-canonical-set-of-T-type Left operand: any ordinal-type T in 1 right operand: the unpacked-canonical-set-of-T-type I or packed-canonical-set-of-T-type
+
+1 Type of result 1 Boolean-type
+
+Boolean-type Boolean-type
+
+Boolean-type
+I
+
+I
+
+Boolean-expression
+
+= expression
+
+A Boolean-expression shall be an expression that denotes a value of Boolean-type. 6.7.2.4 Set operators The types of operands and results for set operations shall be as shown in table 5. Where x denotes a value of the ordinal-type T and u and v are operands of a canonical-set-of-T-type, shall be true for all x that it
+
+x is a member of the value u+v if and only if it is a member of the value of u or a member of the value of v; x is a member of the value u-v if and only if it is a member of the value of u and not a member of the value of v; x is a member of the value u*v if and only if it is a member of the value of u and a member of the value of v.
+
+6.7.2.5 Relational operators The types of operands and results for relational operations shall be as shown in table 6. The operands of =, c>, <, >, >=, and <= shall be of compatible types, or they shall be of rhc same unpacked-canonical-set-of-T-type or packed-canonical-set-of-T-type, or one operand shall be of real-type and~thc other shall bc of integer-type. The operators 7, <>, <, and > shall stand for equal to, not equal to, less than, and greater than rcspectivcly. Except when applied to sets, the operators <= and >= shall stand for less than or equal to and greater than or equal fu respectively. Where u and v denote operands of a set-type, u C= v shall denote the inclusion of u in v and u >= v shall denote the. inclusion of v in u. NOTE - Since the Boolean-type
+is an ordinkl-type with false less than true, then if p and q are operands of Ikx~L:an-
+
+41
+
+IS 11403 : 1993 ,ISO/IEC 7185 : 1990
+type, p = q denotes their equivalence and p <= q means p implies q.
+
+When the relational-operators = , c7 , c , 7 , c=, and 7= are used to compare operands of compatible string-types (see 6.4.3.2), they shall denote the lexicographic relations defined below. This lexicographic ordering shall impose a total ordering on values of a string-type. If sl and s2 are two values of compatible string-types and n denotes the number of components of the compatible string-types, then sl = s2 iff for all i in [l..n]: sl[i] = s2[i]
+sl c
+
+s2 iff there exists a p in [l..n]:
+(for all i in [l ..p-11: sl[i] = s2[i]) and sl[p] < s2[p]
+
+The
+
+definitions of operations
+
+7, ~7,
+
+<=,
+
+and
+
+7= are
+
+derived from the definitions of = and <.
+
+The operator in shall yield the value true if the value of the operand of ordinal-type is a member of the value of the set-type; otherwise, it shall yield the value false. 6.7.3 Function-designators
+A
+
+function-designator shall specify the activation of the block of the function-block associated with the function-identifier of the function-designator and shall yield the value of the result of the activation upon completion of the algorithm of the activation; it shall be an error if the result is undefined upon completion of the algorithm. NOTE -When
+does not complete a function activation is terminated by a goto-statement (see 6.8.2.4). the algorithm of the activation (see 6.2.3.2 a)), and thus there is no error if the result of the activation is undefined.
+
+If the function has any formal-parameters, there shall be an actual parameter-list in the function-designator. The actual-parameter-list shall be the list of actual-parameters that shall be bound to their corresponding formal-parameters defined in the function-declaration. The correspondence shall be established by the positions of the parameters in the lists of actual-parameters and formal-parameters respectively. The number of actual-parameters shall be equal ~tothe number of formal-parameters. The types of the actualparameters shall correspond to the types of the formal-parameters as specified by 6.6.3. The order ~of evaluation, accessing, and binding of the actuaLparameters shall be implementation-dependent. function-designator actual-parameter-list actual-parameter = function-identifier [ actual-parameter-list = `(' actual-parameter { `,' actual-parameter
+] .
+
+} `)' .
+
+= expression 1variable-access I function-identifier .
+
+I procedure-identifier
+
+Examples:
+
+Sum(a, 63) GCD (147, k) sin(x + y) eof (f) ord(fl`)
+
+6.8 Statements
+68.1 General
+
+Statements shall denote algorithmic actions and shall be executable.
+
+42
+
+IS 11403: 1993 ISO/IEC 7185 : 1990
+NOTE 1 A statement may be prefixed by a label.
+
+A label, if any, of a statement S shall be designated as prejxing S. The label shallbe permitted to occur in a goto-statement G (see 6.8.2.4) if and only if any of the following three conditions is satisfied. a) S contains G. b) S is a statement of a statement-sequence containing G. of the compound-statement of the statement-part of a block
+
+c) S is a statement of the statement-sequence containing G. statement =
+
+[ label `1' I ( simple-statement
+
+1structured-statement
+
+) .
+
+NOTE a statement
+
+2 A goto-statement
+at the outermost
+
+within a block may refer to a label in an enclosing block, provided that the label prefixes level of nesting of the block.
+
+6.8.2 Simple-statements 6.8.2.1 General
+A simple-statement shall be a statement symbol and shall denote no action. simple-statement = ( = not containing a statement. An empty-statement shall contain no
+
+empty-statement 1assignment-statement procedurestatement ) goto-statement .
+
+.
+
+empty-statement
+
+6.8.2.2 Assignment-statements
+An assignment-statcmcnt shall attribute the value of the expression of the assignment-statementrilher to the variable denoted by the variable-access of the assignment-statement or to the activation result tha: is denoted by the function-idcntilier of the assignment&.atement; the value shall be assignment-compatible with the type possessed, rcspcctivcly, by the variable or by the activation result. The function-block associated (see 6.6.2) with the function-identifier of an assignment-statement shall contain the assignment-statement. assignment-statcmcnt = ( variable-access 1function-identifier ) `:=' expression .
+
+The variable-access shall establish a reference to the variable during the execution of the assignmentstati`mcnl The or&r of establishing the rcPerencc to the variable and evaluating the expression shall be iirlplcmcnt:ltiol~-~~~p~rl(i~n~. The start <:I`3 variahlc or activation rcsuh when the variable or activation result dots not have attributed to it a value spe~ificd by it< t)pc shall bc dcsignatcci unrit~%mL li'a variable posscsscs a structured-type, the state of the variahl~ when every component OT the varL\blc is totally-undefined shall be dcsignatcd (otul/yundcfkwd. Totally-undetincd shall bc synonymous with undefined for an activation result or a variable that does not possess a structured-type. Examples: x:=y+z P := (1 i= i) and (i < 100) i := sqr(k) - (i * j) hue1 :- [blue, succ(c) I plr.mother :- true
+
+43
+
+IS 11403 :lYY3 ISO/IEC 7185 : 1990 6.8.2.3 Procedure-statements A procedure-statement shall specify the activation of the block of the procedure-block associated with the procedure-identifier of the procedure-statement. If the procedure has any formal-parameters, the procedurestatement shall contain an actual-parameter-list, which is the list of actual-parameters that shall be bound to their corresponding formal-parameters defined in the procedure-declaration. The correspondence shall be established by the positions of the parameters in the lists of actual-parameters and formal-parameter: respectively. The number of actual-parameters shall be equal to the number of formal-parameters. The types of the actual-parameters shall correspond to the types of the formal-parameters as specified by 6.6.3. The order of evaluation, accessing, and binding of the actual-parameters shall be implementation-dependent The procedure-identifier in a procedure-statement containing a read-parameter-list shall denote the required procedure read; the procedure-identifier in a procedure-statement containing a readln-parameter-list shall denote the required procedure readln; the procedure-identifier in a procedure-statement containing a writeparameter-list shall denote the required procedure write; the procedure-identifier in a procedure-statement containing a writeln-parameter-list shall denote the required procedure writeln. procedure-statement = procedure-identifier ( [ actual-parameter-list ] ) read-parameter-list 1readln-parameter-list I write-parameter-list I writeln-parameter-list ) ,
+
+Examples: printheading transposela, n, m) -1.0, t1.0, bisect (fct, AddVectors (m[l] , m[2], NOTE -
+
+x) m[k])
+
+The fourth example is not for level 0.
+
+6.8.2.4 Goto-statements
+
+A goto-statement shall indicate that further processing is to continue at the program-point denoted by the label in the goto-statement and shall cause the termination of all activations except a) the activation containing the program-point; and
+\
+
+b) any activation containing the activation-point of an activation required by exceptions a) or b) not to be terminated. goto-statement = `goto' label . 6.8.3 Structured-statements 6.8.3.1 General structured-statement statement-sequence = compound-statement 1conditional-statement I repetitive-statement 1with-statement . = statement { `;' statement } .
+
+The execution of a statement-sequence shall specify the execution pf the statements of the statementsequence in textual order, except as modified by execution of a goto-statement.
+
+44
+
+IS 11403:1993 ISO/IEC 7185 : 1990 6.8.3.2 Compound-statements
+A
+
+compound-statement shall specify execution of the statement-sequence of the compound-statement. compound-statement = `begin' statement-sequence `end' .
+
+Example:
+
+begin
+
+2 :- x; x :- y; y := 2 end
+
+6.8,3.3 Conditional-statements conditional-statement
+6.8.3.4 If-statements
+
+= if-statement 1case-statement .
+
+if-statement = `if' Boolean-expression `then' stamment [ else-part ] . else-part = `else' statement . If the Boolean-expression of the if-statement yields the value true, the statement of the if-statement shall be executed. If the Boolean-expression yields the value false, the statement of the if-statement shall not be executed, and the statement of the else-part, if any, shall be executed. An if-statement without an else-part shall not be immediately followed by the token else. NOTE - An else-part is thus paired with the nearest preceding otherwise unpaired then.
+Examples:
+
+if x < 1.5 then if pl <> nil
+if
+
+z := x + y else := plf.father
+
+z := 1.5
+
+then pl
+
+j - 0 then if i = 0 then writeln (`indefinite' else writeln (' infinite' ) else writelfi( i I j 1
+
+1
+
+6.8.3.5 Case-statements The values denoted by the case-constants of the case-constant-lists of the case-list-elements of a casestatement shall be distinct and of the same ordinal-type as the expression of the case-index of the casestatement. On execution of the case-statement the case-index shall be evaluated. That value shall then specify execution of the statement of the case-list-element closest-containing the case-constant denoting that value. One of the case-constants shall be equal to the value of the case-index upon entry to the case-statement; otherwise, it shall be an error. NOTE -- Case-constants
+are-not the sameas statement labels.
+
+case-statement = `case' case-index `of' case-list-element { `;' case-list-element } [ `;' ] `end' . case-list-element = case-constant-list `:' statement .
+
+case-index = expression .
+
+45
+
+IS 11403 : 1993 ISO/IEC 7185 : 1990 Example: case operator of x :- x t y; plus : minus : x :- x - y; x:-x*y times : end 6.8.3.6 Repetitivedatements Repetitive-statements shall specify that certain statements are to be executed repeatedly. repetitive-statement = repeat-statement
+1while-statement I for-statement .
+
+6.8.3.7 Repeat-statements repeat-statement = `repeat' statement-sequence `until' Boolean-expression .
+
+The statement-sequence of the repeat-statement shall be repeatedly ~executed, except as modified by the execution of a goto-statement, until the Boolean-expression of the repeat-statement yields the value true on completion of the statement-sequence. The statement-sequence shall be executed at least once, because the Boolean-expression is evaluated after execution of thestatement-sequence. Example: repeat k := i mod j; i :- j; j :=k until j - 0 6.8.3.8 While-statements while-statement = `while' Boolean-expression `do' statement . The while-statement
+while b do body
+
+shall be equivalent to begin
+if b then repeat body until not (b) end
+
+Examples: while i Z 0 do begin if odd(i) i :- i div 2; x :- sqr(x) end
+
+then
+
+z :- z
+
+l
+
+x;
+
+while not eof (fl do begin process (f t ) ; get (f 1 end 46
+
+IS 11403 : 1993 ISO/IEC 7185 : 1990 6.8.3.9 For-statements The for-statement shall specify that the statement of the for-statement is to be repeatedly executed while a progression of values is attributed to a variable denoted by the control-variable of the for-statement. for-statement = `for' control-variable `:=' initial-value ( `to' I `downto' ) final-value `do' statement . control-variable = entire-variable
+.
+
+initial-value = expression . final-value = expression . The control-variable shall be an entire-variable whose identifier is declared in the variable-declaration-part of the block closest-containing the for-statement. The control-variable shall possess an ordinal-type, and the initial-value and final-value shall be of a type compatible with this type. The initial-value and the finalvalue shall be assignment-compatible with the type possessed by the control-variable if the statement of the for-statement is executed. After a for-statement is executed, other than being left by a goto-statement, the control-variable shall be undefined. Neither a for-statement nor any procedure-and-function-declarationpar-of the blgck that closest-contains a for-statement shall contain a statement threatening the variable denoted by the control-variable of the for-statement. A statement S shall be designated as threatening a variable V if one or more-of the following statements is true. a) S is an assignment-statement and V is denoted by the variable-access -of S. b) S contains an actual variable parameter that denotes V. c) S is a procedure-statement that specifies the activation of the required procedure read or the required procedure readln, and V is denoted by variable-access of a read-parameter-list or readln-parameterlist of S. d) S is a statement specified using an equivalent program fragment containing a statement threatening V. Apart from the restrictions imposed by these requirements, the for-statement
+for v := el to e2 do body
+
+shall Abe equivalent to
+begin templ := el; temp2 := e2; if templ begin .c= temp2 then
+
+v := templ; body; while v <> temp2 do begin v := succ(v); body end end end
+
+and the for-statement
+
+47
+
+IS 11403 : 1993 ISO/IEC 7185 : 1990
+for v :- el downto e2 do body
+
+shall be equivalent to
+
+begin templ := el; temp2 := e2;
+if templ begin v := templ; >= temp2 then
+
+body;
+while v <> temp2 do begin v := pred(v); body end end end
+
+where templ and temp2 denote auxiliary variables that the program does not otherwise contain, and that possess the type possessed by the variable v if that type is not a subrange-type; otherwise the host-type of the type possessed by the variable v. Examples: for i := 2 to 63 tjo if a[i] > max then max := a[i] for i :- 1 to 10 do for j := 1 to 10 do begin '
+x :0;
+
+for k := 1 to 10 do x :- x + ml[i,k] * m2[k,j];
+m[i, j] := x
+
+end for i := 1 to 10 do for j :- 1 to i - 1 do m[il [jl := 0.0 for c := blue downto red do q (4
+
+6.8.3.10 With-statements
+
+with-statement = `with' record-variable-list `do' statement . record-variable-list = record-variable { `,' record-variable = identifier . } .
+
+field-designator-identifier
+
+A with-statement shall specify the execution of the statement of the with-statement. The occurrence of a record-variable as the only record-variable in the record-variable-list of a with-statement shall constitute the defining-point of each of the field-identifiers associated with components of the record-type possessed by the record-variable as a field-designator-identifier for the region that is the statement of the with-statement; each applied occurrence of a field-designator-identifier shall denote that component of the record-variable
+
+48
+
+IS 11403 : 1993 ISOAEC 7185 : 1990 that is associated with the field-identifier by the record-type. The record-variable shall be accessed before the statement of the with-statement is executed, and that access shall establish a reference to the variable during the entire executionof the statement of the with-statement. The statement
+with VI ,v2,...,vn do s
+
+shall be equivalent to
+with vl do with v2 do .. . with vn do s
+
+Example: with date do' if month = 12 then begin month :~= 1; year end else month :- month+1
+
+:= year t 1
+
+has the same effect on the variable date as
+if date.month = 12 then begin date.month := 1; date.year end else date .month := date.monkhtl
+
+:- date.yeartl
+
+6.9 Input and output
+6.9.1 The procedure read The syntax of theparameter list of read when applied to a textfile shall be read-parameter-list
+*
+
+= `(' [ file-variable `,' ] variable-access { `,' variable-access
+
+} `)' .
+
+If the file-variable is omitted, the procedure shall be applied to the required textfile input, and the program shall contain a program-parameter-list containing an identifier with the spelling input. The requirements of this subclause shall apply for the procedure read when applied to a textfile; therein, f shall denote the textfile. The effects of applying read(f,v) to the textfile f shall be defined by pre-assertions and post-assertions within the requirements of 6.6.5.2. The pre-assertion of read(f,v) shall be the_preassertion of get(f). Let t denote a sequence of components having the char-type; let r, s, and u each denote a value of the sequence-type defined by the structure of the type denoted by text; if u = S( ), then let t = S( ); otherwise, let ufirst = end-of-line; let w = fOT or w = fO.R.lirst, where the decision as to which shall be implementation-dependent; and let r -s 4 -u = w -fO.R.rest. The post-assertion of read(f,v) shall be (f.M = f0.M) and (f.L - f.R = f0.L - f0.R) and (f.R = t - u) and (if f.R = S( ) then (fT is totally-undefined) else (ft = f.R.first)). NOTE - 1The variable-accessis not a variableparameter. Consequently,it may be a component of a packed structure,
+and the value of the buffer-variable need only be assignment-compatible with it.
+
+a) For n>=l, read(f,vi ,...,v.) shall access the textfile and establish a reference to that textfile ~for the remaining execution of the statement; each of v1,...,v, shall be a variable-access possessing a type that is the real-type, is a string-type, or iscompatible with the char-type or with the integer-type. For n>=2, the execution of read(f,vr ,...,v,,) shall be equivalent to
+49
+
+

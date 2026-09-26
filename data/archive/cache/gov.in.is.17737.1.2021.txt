@@ -1,0 +1,1242 @@
+Inda HAF IS 17737 (Part 1) : 2021 
+Indian Standard 
+
+
+maga Raga mat 
+
+
+qrt 1 Tata 
+
+
+Mobile Device Security 
+
+
+Part 1 Overview 
+
+
+ICS 01.040.33, 01.040.35 
+
+
+© BIS 2021 
+
+
+anda Ara aa 
+BUREAU OF INDIAN STANDARDS 
+HAR WH, 9 SENAR TH Ari, ay freh 110002 
+
+
+en arie MANAK BHAVAN, 9 BAHADUR SHAH ZAFAR MARG 
+NEW DELHI-110002 
+www.bis.gov.in www.standardsbis.in 
+
+
+December 2021 Price Group 6 
+
+
+Information Systems Security and Privacy Sectional Committee, LITD 17 
+
+
+FOREWORD 
+
+
+This Indian Standard (Part 1) was adopted by the Bureau of Indian Standards, after the draft finalized by 
+Information Systems Security and Privacy Sectional Committee had been approved by the Electronics and 
+Information Technology Divisional council. 
+
+
+There is no ISO/IEC Standard on this subject. 
+
+This standard is one of the series of Indian Standards on Mobile device security. Other parts in this series are: 
+Part 2 Security reguirements 
+Part 3 Security levels 
+Part 4 Assessment and evaluation 
+
+
+As mobile based services especially, financial services are gaining popularity, focus on the security of data and 
+content on mobile devices is obvious. Mobile devices need additional protection because their extensive mobility 
+(portability) and always on connectivity (generally using untrusted public network) places them at higher exposure 
+to threats than other client devices, such as desktop and laptop devices which are normally used only within the 
+organization’s facilities and on the organization’s networks. 
+
+
+It requires a totally different approach and strategy to address security of mobile devices as compared to normal 
+computer based systems and applications. Mobile devices uses mobile ecosystem that involves various subsystems 
+and components to provide an environment to enable the operations and connectivity of mobile devices and 
+information systems. Therefore, security of mobile needs to be addressed at different layers (subsystems and 
+components) of the mobile ecosystem covering mobile device technology stack (including firmware, embedded 
+components, operating system, pre-installed applications like mobile browser, device management software 
+agent, VPN client, Email client, etc.), Third party mobile applications, networks and communication interfaces 
+(including cellular, Wi-Fi, Bluetooth, NFC), mobile infrastructure (including mobile app store and services) and 
+enterprise mobile support/ monitoring services (Enterprise Mobility Management [EMM]/ device management 
+software and Mobile Application Management [MAM]). All these components of the mobile ecosystem 
+shall be considered for defining and assessing the security of mobile devices to meet the common security 
+objectives-confidentiality, integrity and availability. 
+
+
+This series of standards is applicable to the following: 
+a) Organizations designing, developing, and manufacturing mobile devices; 
+b) Customers seeking confidence in the security of mobile devices used by them; 
+c) Organizations seeking confidence in the security of mobile devices used by them; and 
+d) Organizations performing security assessment of mobile devices. 
+The composition of the Committee, responsible for the formulation of this standard is given at Annex A. 
+
+
+IS 17737 (Part 1) : 2021 
+
+
+CONTENTS 
+Page No. 
+0 INTRODUCTION ne 1 
+1 SCOPE sah 3 
+2 TERMINOLOGY we 3 
+ANNEX A COMMITTEE COMPOSITION m 8 
+BIBLIOGRAPHY oe 11 
+
+
+LIST OF FIGURES 
+
+
+Fig.l | Mobile Device Technology Stack an. 
+Fig.2 Mobile Ecosystem x 5 
+
+
+iii 
+
+
+This page has been intentionally left blank 
+
+
+IS 17737 (Part 1) : 2021 
+
+
+0 INTRODUCTION 
+
+
+Mobile devices like smartphones, tablets, and other mobile devices with similar features and capabilities have 
+become computing platform for both personal and enterprise level usage. The following hardware and software 
+characteristics collectively define the baseline for the purposes of this series of standards on mobile device security: 
+
+
+a) A small form factor, 
+
+
+b) At least one wireless network interface for network access (data communications). This interface uses Wi- 
+Fi, cellular networking, or other technologies that connect the mobile device to network infrastructures 
+with connectivity to the Internet or other data networks, 
+
+
+c) Local built-in (non-removable) data storage, and 
+
+
+d) Applications available through multiple methods (provided with the mobile device, accessed through 
+web browser, acguired and installed from third parties). 
+
+
+The list below details other common, but optional, characteristics of mobile devices. These features do not define 
+the scope of devices included in the publication, but rather indicate features that are particularly important in terms 
+of security risk. This list is not intended to be exhaustive, and is merely illustrative of common features of interest. 
+
+
+a) Network and communication services: 
+1) One or more wireless communication interfaces, such as Bluetooth or near-field communications; 
+2) One or more wireless network interfaces for voice communications, such as cellular; and 
+3) Global Positioning System (GPS), which enables location services. 
+b) One or more digital cameras/video recording devices 
+c) Microphone 
+d) Storage: 
+1) Support for removable media; and 
+2) Support for using the device itself as removable storage for another computing device. 
+
+
+e) Built-in features for synchronizing local data with a different location (desktop or laptop computer, 
+organization servers, telecommunications provider servers, other third party servers, etc.) 
+This standard is intended to help in understanding the terms and definitions in order to be able to effectively and 
+
+
+efficiently implement and assess the security of mobile devices. It will help organizations and interested parties to 
+improve communication through a common understanding of the vocabulary used. 
+
+
+This page has been intentionally left blank 
+
+
+IS 17737 (Part 1) : 2021 
+
+
+Indian Standard 
+
+
+MOBILE DEVICE SECURITY 
+PART 1 OVERVIEW 
+
+
+1 SCOPE 
+
+
+This standard (Part 1) describes the terms and definitions 
+of mobile device technology and ecosystem. 
+
+
+2 TERMINOLOGY 
+
+
+For the purpose of this standard the following 
+definitions shall apply: 
+
+
+2.1 Assessment — Systematic examination carried 
+out against a defined set of requirements, goals or 
+objectives. 
+
+
+2.2 Audit — An independent examination of a work 
+product or set of work products to assess compliance 
+with specifications, standards, contractual agreements, 
+or other criteria. 
+
+
+2.3 Availability — Property of being accessible and 
+usable on demand by an authorized entity. 
+
+
+2.4 Bluetooth — Wireless technology standard for 
+exchanging data over short distances. 
+
+
+2.5 Confidentiality — Property that information 
+is not made available or disclosed to unauthorized 
+individuals, entities, or processes. 
+
+
+2.6 Consequence — Outcome of an event affecting 
+objectives. 
+
+
+NOTES 
+
+1 An event can lead to a range of consequences. 
+
+2 A consequence can be certain or uncertain and can have 
+positive or negative effects on objectives. 
+
+3 Consequences can be expressed qualitatively or quantitatively. 
+
+
+4 Initial consequences can escalate through knock-on effects. 
+
+
+2.7 Containerization — Application container 
+technologies, also known as containers, are a form 
+of operating system virtualization combined with 
+application software packaging. Containers provide 
+a portable, reusable, and automatable way to package 
+and run applications. 
+
+
+2.8 Denial of Service — Prevention of authorized 
+access to a system resource or system operations 
+and functions, with resultant loss of availability to 
+authorized users. 
+
+
+2.9 Eavesdropping — Unauthorized interception and 
+interpretation of information-bearing emanations. 
+
+
+2.10 Evaluation — Systematic determination of the 
+extent to which an entity meets its specified criteria. 
+
+
+2.11 Event — Occurrence or change of a particular set 
+of circumstances. 
+
+
+NOTES 
+
+
+1 An event can be one or more occurrences, and can have 
+several causes. 
+
+
+2 An event can consist of something not happening. 
+
+
+3 An event can sometimes be referred to as an “incident” or 
+“accident”. 
+
+
+4 An event without consequences can also be referred to as a 
+
+
+“near miss”, “incident”, “near hit” or “close”. 
+
+
+2.12 External Context — External environment in 
+which the organization seeks to achieve its objectives. 
+
+
+NOTE — External context can include: 
+
+
+1 The cultural, social, political, legal, regulatory, financial, 
+technological, economic, natural and competitive environment, 
+whether international, national, regional or local; 
+
+
+2 Key drivers and trends having impact on the objectives of the 
+organization; and 
+
+
+3 Relationships with, and perceptions and values of external 
+stakeholders. 
+
+
+2.13 Integrity — Property of accuracy and 
+completeness (Absence of unauthorized modification). 
+
+
+2.14 Internal Context — Internal environment in 
+which the organization seeks to achieve its objectives. 
+
+
+NOTE — Internal context can include: 
+
+
+1 Governance, roles and 
+
+
+accountabilities; 
+
+
+organizational structure, 
+
+
+2 Policies, objectives, and the strategies that are in place to 
+achieve them; 
+
+
+3 The capabilities, understood in terms of resources and 
+knowledge (for example, capital, time, people, processes, 
+systems and technologies); 
+
+
+4 Information systems, information flows and decision-making 
+processes (both formal and informal); relationships with, and 
+perceptions and values of, internal stakeholders; 
+
+
+5 The organization’s culture; 
+
+
+6 Standards, guidelines and models adopted by the organization; 
+and 
+
+
+7 Form and extent of contractual relationships. 
+
+
+2.15 Jailbreaking — Manipulation by which the user 
+of a mobile device gains access to privileged operating 
+system administration rights. 
+
+
+NOTE — Jailbreaking is also known as rooting. 
+
+
+IS 17737 (Part 1) : 2021 
+
+
+2.16 Likelihood — Chance of something happening. 
+NOTES 
+1 In risk management terminology, the word “likelihood” is 
+used to refer to the chance of something happening, whether 
+defined, measured or determined objectively or subjectively, 
+gualitatively or guantitatively, and described using general 
+terms or mathematically (such as a probability or a freguency 
+Over a given time period). 
+2 The English term “likelihood” does not have a direct 
+eguivalent in some languages, instead, the eguivalent of 
+the term “probability” is often used. However, in English, 
+“probability” is often narrowly interpreted as a mathematical 
+term. Therefore, in risk management terminology, “likelihood” 
+is used with the intent that it should have the same broad 
+interpretation as the term “probability” has in many languages 
+other than English. 
+
+
+2.17 Malware — Malicious software designed 
+specifically to damage or disrupt a system, attacking 
+confidentiality, integrity and/or availability. 
+
+
+NOTE — Malware is also known as Malicious Code. 
+
+
+2.18 Man-in-the-Middle An attack on the 
+authentication protocol run in which the attacker 
+positions himself or herself in between the claimant and 
+verifier so that he can intercept and alter data traveling 
+between them. 
+
+
+Stack 
+
+
+> 
+60 
+Ke, 
+Oo 
+a 
+ie 
+D 
+| 
+u 
+= 
+> 
+D 
+O 
+ic 
+DO 
+Oo 
+= 
+
+
+2.19 Mobile Application — Software application 
+installed and run on a mobile device, such as a 
+smartphone or tablet computer. 
+
+
+Mobile apps are classified as: 
+
+
+a) Pre-installed application/bundled/stock/preloaded 
+— Mobile apps which comes bundled/preinstalled 
+with mobile device. 
+
+b) Third Party Application: Mobile apps which are 
+downloaded from app store or web. 
+
+NOTE — Mobile application is also known as Mobile App. 
+
+
+2.20 Mobile Device — A portable handheld device 
+with inbuilt capability for voice, SMS (short messaging 
+service) communication through a cellular network 
+(for example, 2G/3G/4G/5G) with possibly other 
+communication capabilities, such as WiFi, Bluetooth, 
+NFC; The Device may have data communication 
+capability. Example: Mobile phone, smartphone, tablet. 
+
+
+NOTE — This definition should be read in conjunction with 
+the introduction of this standard 
+
+
+2.21 Mobile Device Integrity — Absence of 
+unauthorized or unintended changes in the hardware, 
+firmware and software of a mobile device. 
+
+
+APPLICATION 
+3rd Party Apps/Library 
+Pre-installed Apps/Libraries 
+Data 
+
+
+Permissions, Exposed Services 
+
+
+OPERATING SYSTEM 
+Application Sandbox 
+Kernel 
+Media Services 
+
+
+Runtime Environment 
+
+
+FIRMWARE 
+Initialization code 
+Boot Loader 
+
+
+Device Drivers 
+
+
+HARDWARE 
+
+
+Application Processor and Memory 
+
+
+Baseband Processor and Memory 
+
+
+Security Modules 
+
+
+Peripherals , SIM , Camera, etc 
+
+
+FıG.1 MOBILE DEVICE TECHNOLOGY STACK 
+
+
+4 
+
+
+Gg 
+
+
+SIM Mobile Device 
+
+
+IS 17737 (Part 1) : 2021 
+
+
+Internet 
+
+
+Fic. 2 MOBILE ECOSYSTEM 
+
+
+2.22 Mobile Device Technology Stack — A set of 
+components or layers that constitute a mobile device. 
+Mobile device is considered to be consisting of 
+following components of mobile technology stack: 
+
+
+a) Mobile device hardware (processor, storage, 
+execution environment), 
+
+b) Mobile firmware, 
+
+c) Mobile operating system, and 
+
+d) Pre-installed (Bundled) apps. 
+
+
+2.23 Mobile Ecosystem — A mobile ecosystem is an 
+interconnected, interdependent set of various systems 
+that combine to create and operate products and 
+services. 
+
+
+Mobile ecosystem consists of the various core 
+components which include: 
+
+
+a) Mobile device technology stack, including the 
+hardware, the operating system, and embedded 
+
+
+mobile device components (for example, baseband 
+radio, sensors, bootloader, isolated execution 
+environments, Subscriber Identity Module [SIM] 
+card). 
+
+
+b) Mobile applications. 
+
+
+c) Networks and communication interfaces (for 
+example, cellular, Wi-Fi, Bluetooth, NFC) and 
+services provided by network operators. 
+
+
+d 
+
+
+— 
+
+
+Vendor mobile infrastructure, including mobile app 
+stores and updates and backup services provided 
+by the mobile device vendor or operating-system 
+vendor. 
+
+
+e 
+
+
+— 
+
+
+Enterprise mobile services and infrastructure, 
+including Mobile Device Management Software, 
+enterprise mobile app stores, and Mobile 
+Application Management (MAM). 
+
+
+IS 17737 (Part 1) : 2021 
+
+
+2.24 NFC (Near Field Communication) — 
+Contactless communication interface defined through 
+a set of standard communication protocols. 
+
+
+2.25 Process — Set of interrelated or interacting 
+activities which transforms inputs into outputs. 
+
+
+2.26 Risk — Effect of uncertainty on objectives. 
+NOTES 
+
+
+1 An effect is a deviation from the expected — positive and/or 
+negative. 
+
+
+2 Objectives can have different aspects (such as financial, 
+health and safety, and environmental goals) and can apply at 
+different levels (such as strategic, organization-wide, project, 
+product and process). 
+
+
+3 Risk is often characterized by reference to potential events 
+and consequences, or a combination of these. 
+
+
+4 Risk is often expressed in terms of a combination of the 
+consequences of an event (including changes in circumstances) 
+and the associated likelihood of occurrence. 
+
+
+5 Uncertainty is the state, even partial, of deficiency of 
+information related to, understanding or knowledge of an 
+event, its consequence, or likelihood. 
+
+
+2.27 Risk Analysis — Process to comprehend the 
+nature of risk and to determine the level of risk. 
+
+
+NOTES 
+
+
+1 Risk analysis provides the basis for risk evaluation and 
+decisions about risk treatment. 
+
+
+2 Risk analysis includes risk estimation. 
+
+
+2.28 Risk Assessment — Overall process of risk 
+identification, risk analysis, and risk evaluation. 
+
+
+2.29 Risk Criteria — Terms of reference against which 
+the significance of a risk is evaluated. 
+
+
+NOTES 
+
+
+1 Risk criteria are based on organizational objectives, and 
+external and internal context. 
+
+
+2 Risk criteria can be derived from standards, laws, policies 
+and other requirements. 
+
+
+2.30 Risk Evaluation — Process of comparing the 
+results of risk analysis with risk criteria to determine 
+whether the risk and/or its magnitude is acceptable or 
+tolerable. 
+
+
+2.31 Risk Identification — Process of finding, 
+recognizing and describing risks. 
+NOTES 
+
+
+1 Risk identification involves the identification of risk sources, 
+events, their causes and their potential consequences. 
+
+
+2 Risk identification can involve historical data, theoretical 
+analysis, informed and expert opinions, and stakeholder’s 
+needs. 
+
+
+2.32 Risk Source — Element which alone or in 
+combination has the intrinsic potential to give rise to 
+risk. 
+
+NOTE — Arisk source can be tangible or intangible. 
+
+
+2.33 Risk Treatment — Process to modify risk. 
+
+
+NOTES 
+1 Risk treatment can involve: 
+
+
+i) Avoiding the risk by deciding not to start or continue with 
+the activity that gives rise to the risk; 
+
+
+ii) Taking or increasing risk in order to pursue an opportunity; 
+iii) Removing the risk source; 
+
+iv) Changing the likelihood; 
+
+v) Changing the consequences; 
+
+
+vi) Sharing the risk with another party or parties (including 
+contracts and risk financing); and 
+
+
+vii) Retaining the risk by informed decision. 
+
+
+2 Risk treatments that deal with negative consequences are 
+
+
+sometimes referred to as “risk mitigation”, “risk elimination”, 
+
+
+“risk prevention” and “risk reduction”. 
+
+
+3 Risk treatment can create new risks or modify existing risks. 
+
+
+2.34 Security Controls — Management, operational 
+and technical controls (that is, safeguards or 
+countermeasures) prescribed for an information system 
+to protect the confidentiality, integrity and availability 
+of the system and its information. 
+
+
+2.35 SE (Secure Element) — Tamper-resistant 
+platform in the mobile device capable of securely 
+hosting and executing applications and associated 
+confidential and cryptographic data (for example, key 
+management). 
+
+
+2.36 Secure Environment — System that implements 
+the controlled storage and processing of information in 
+order to protect personal and/or confidential data. 
+
+
+2.37 Security Testing — Type of testing conducted to 
+evaluate the degree to which a test item, and associated 
+data and information, are protected so that unauthorized 
+persons or system s cannot use, read, or modify them, 
+and authorized persons or systems are not denied 
+access to them. 
+
+
+2.38 Sensitive Data — Data which is required to be 
+protected by security controls. 
+
+
+Example: Authentication credentials, payment and banking 
+credentials, cryptographic keys. 
+
+
+2.39 Stakeholder — Person or organization that can 
+affect, be affected by, or perceive themselves to be 
+affected by a decision or activity. 
+
+
+NOTE — A decision maker can be a stakeholder. 
+
+
+2.40 Trusted Execution Environment (TEE) — 
+Aspect of the mobile device comprising hardware 
+and/or software which provides security services to the 
+mobile device computing environment, protects data 
+against general software attacks and isolates hardware 
+and software security resources from the operating 
+system. 
+
+
+2.41 Testing 
+
+
+1) Setofactivities conducted to facilitate discovery 
+and/or evaluation of properties of one or more 
+test items. 
+
+
+2) The process of operating a system or 
+component under specified conditions, 
+observing or recording the results, and making 
+an evaluation of some aspect of the system or 
+component. 
+
+
+2.42 Threat — Potential cause of an unwanted incident 
+that may result in harm to a system or organization. 
+
+
+IS 17737 (Part 1) : 2021 
+2.43 Vulnerability — Weakness in the security of a 
+system that can be exploited or triggered by a threat. 
+
+
+2.44 Vulnerability Assessment — Process of 
+identifying and guantifying vulnerabilities. 
+
+
+IS 17737 (Part 1) : 2021 
+
+
+ANNEX A 
+( Foreword ) 
+COMMITTEE COMPOSITION 
+
+
+Information System Security and Privacy Sectional Committee, LITD 17 
+
+
+Organization 
+
+
+Ministry of Electronics and Information Technology, 
+New Delhi 
+
+
+Bharat Electronics Limited, Bengaluru 
+
+
+Centre for Development of Advanced Computing, 
+Pune 
+
+
+Centre for Internet and Society, Bengaluru 
+
+
+Confederation of Indian Industry, New Delhi 
+
+
+Data Security Council of India, Noida 
+
+
+Defence Research Development Organization, 
+Ministry of Defence, New Delhi 
+
+
+HCL, Noida 
+ISI Calcutta 
+
+
+Indian Cellular and Electronics Association, 
+New Delhi 
+
+
+Indian Institute of Technology Madras, Chennai 
+
+
+Infosys Technologies Limited, Bengaluru 
+
+
+KCPL 
+Lady Shri Ram College for Women, New Delhi 
+
+
+Larsen and Toubro Limited, Mumbai 
+
+
+Ministry of Electronics and Information Technology, 
+New Delhi 
+
+
+Ministry of Science and Technology, Department of 
+Science & Technology, New Delhi 
+
+
+Narnix Technolabs Private Limited, New Delhi 
+
+
+National Accreditation Board for Certification 
+Bodies, New Delhi 
+
+
+National Payments Corporation of India, Mumbai 
+
+
+Oxygen Consulting Services Private Limited, Pune 
+
+
+Patanjali Associates Private Limited, New Delhi 
+
+
+Representative(s) 
+SHRI ARVIND KUMAR (Chariman) 
+
+
+Ms SANGEETHA MANGAL 
+SHRI DEVESH KUMAR SINGH (Alternate) 
+
+
+Dr M. Sasi KUMAR 
+SHRIMATI P. R. LAKSHMI ESWARI (Alternate) 
+
+
+SHRI SUNIL ABRAHAM 
+SHRI AMBER SINHA (Alternate I) 
+SHRI GURSHABHAD GROVER (Alternate IT) 
+
+
+Cor SUHAIL ZAIDI 
+SHRI RAMESH KARWANI (A/ternate) 
+
+
+SHRI ADITYA 
+
+
+Ms NOOPUR SHROTRIYA 
+SHRI G. ANIL (Alternate) 
+
+
+SHRI SANJEEV CHHABRA 
+PROF BIMAL Roy 
+
+
+SHRI RAJESH SHARMA 
+Ms Arpita DE (Alternate) 
+
+
+PROF ANIL PRABHAKAR 
+
+
+SHRI SRINIVAS POOSARLA 
+SHRI RAJEEV THYKATT (Alternate 1) 
+Ms Aswatny AsoK (Alternate IT) 
+
+
+DR V. K. KANHERE 
+Ms SUSHILA MADAN 
+
+
+Suri N. SATHYAN 
+SHRI TIRUMALA Rao K. (Alternate) 
+
+
+SHRI S. K. NEHRA 
+SHRI RAKESH MAHESHWARI (Alternate I) 
+SHRI SANTOSH SONI (Alternate II) 
+DR SOMNATH CHANDRA (Alternate III) 
+SHRI TARUN PANDEY (Alternate IV) 
+
+
+SHRI SUJIT BANERJEE 
+DR RAJEEV SHARMA (Alternate) 
+
+
+SHRI KISHOR N. NARANG 
+
+
+SHRI A. S. BHATNAGAR 
+MS ANAJNA JAIN (Alternate) 
+
+
+MR SATYA KANUNGO 
+SHRI SATEESH PALAGIRI (Alternate) 
+
+
+SHRI SANJIV KUMAR AGARWALA 
+SHRI SACHIN PRAKASH JADHAV (Alternate) 
+
+
+SHRI KANTI MOHAN RUSTOGI 
+
+
+IS 17737 (Part 1) : 2021 
+
+
+Organization Representative(s) 
+Qualcomm India Private Limited, Bengaluru Dr Vinosu BABU JAMES 
+Reserve Bank Information Technology Private SHRI PRASHANT LOTLIKAR 
+Limited, Mumbai SHRI DEEPNARAYAN TIWARI (Alternate) 
+Smart Chip Private Limited, Noida Ms NISHA CHAUHAN 
+
+
+SHRI PANKAJ AGARWAL (Alternate I) 
+SHRI ANKIT GUPTA (Alternate ID) 
+
+
+Standardization Testing and Quality Certification Suri A. K. SHARMA 
+(STQC) Suri A. K. Upapuyaya (Alternate I) 
+SHRI NAKUL AGGRWAL (Alternate II) 
+
+
+Tata Consultancy Services Limited, Mumbai SHRI SATEESH SRINIWSAIAH 
+SHRI NATARAJAN SWAMINATHAN (Alternate 1) 
+SHRI ABHIK CHAUDHURI (Alternate II) 
+SHRI ANUPAM AGRAWAL (Alternate III) 
+
+
+Telecommunication Engineering Center, New Delhi SHRI S. SRIDHAR 
+SHRI ARVIND CHAWLA (Alternate) 
+
+
+The Perspective, New Delhi SHRI RAHUL SHARMA 
+
+WYSE Biometrics System Private Limited, Pune SHRI YOGENDRA D. WADASKAR 
+
+In personal capacity SHRIMATI AMUTHA ARUNACHALAM 
+
+In personal capacity, Kolkata DR GARGI KEENI 
+
+BIS Directorate General SHRIMATI REENA GARG, SCIENTIST ‘F’ AND Heap (LITD) 
+
+
+[ REPRESENTING DIRECTOR GENERAL (Ex-officio ) | 
+
+
+Member Secretary 
+
+
+SHRI KSHITIY BATHLA 
+Scientist ‘C’ (LITD), BIS 
+
+
+IS 17737 (Part 1) : 2021 
+
+
+Mobile Security Standards Panel, LITD 17 P4 
+
+
+Organization 
+
+
+Standardization Testing and Quality Certification 
+
+
+(STQC) 
+
+
+Telecommunication Engineering Center, New Delhi 
+
+
+Apple India Private Limited, Bengaluru 
+
+
+Cellular Operators Association of India, New Delhi 
+
+
+Fime India, Bengaluru 
+
+
+Google India, Bengaluru 
+HCL, Noida 
+
+
+Indian Cellular and Electronics Association, 
+New Delhi 
+
+
+KCPL 
+Pavone Technologies, New Delhi 
+
+
+Samsung India, Gurugram 
+
+
+Sony India, Mathura 
+
+
+Transsion India Limited, Noida 
+UL India Private Limited, Bengaluru 
+
+
+VIVO Mobile India Private Limited, Delhi 
+
+
+Vincular Testing Labs India Private Limited, 
+Bengaluru 
+
+
+Xiaomi Corporation, Bengaluru 
+
+
+10 
+
+
+Representative(s) 
+Suri A. K. UPADHYAYA (Convener) 
+
+
+Suri P. K. SINGH (Co-Convener) 
+Mr JUNAID A. SIDDIQUEE 
+SHRI ROHIT SINGH 
+
+
+Suri ANGAJ BHANDARI 
+SHRI HARDIK MIRANI (Alternate) 
+
+
+Ms TUHINA JOSHI 
+SHRI SANJEEV CHHABRA 
+
+
+SHRI RAJESH SHARMA 
+SHRI TARON MOHAN (Alternate) 
+
+
+DR V. K. KANHERE 
+SHRI ABHINAV SHARMA 
+
+
+Suri BAPPA MONDAL 
+SHRIMATI Noor KHAN (Alternate) 
+
+
+SHRI MANOJ KUMAR GUPTA 
+
+
+SHRI RAHUL GAUR 
+SHRI VINOD KUNDRA (Alternate) 
+
+
+Suri ASHISH MATHUR 
+Suri AJAY JAIDKA (Alternate) 
+
+
+SHRI PAIGHAM DANISH 
+
+
+SHRI VISHAL TOMAR 
+SHRI SACHIN Duir (Alternate) 
+
+
+Ms SuRBHI JAIN 
+SHRI MANISH JAIN (Alternate) 
+
+
+IS 17737 (Part 1) : 2021 
+
+
+BIBLIOGRAPHY 
+
+
+1) IS/ISO 31000 : 2018 Risk management — Guidelines. 
+2) ISO 12812-1 : 2017 Core banking — Mobile financial services — Part 1: General framework. 
+
+
+3) ISO/TS 12812-2 : 2017 Core banking — Mobile financial services — Part 2: Security and data protection 
+for mobile financial services. 
+
+
+4) ISO/IEC/IEFE 29119-1 : 2013 Software and systems engineering — Software testing — Part 1: Concepts 
+and definitions. 
+
+
+5) ISO/IEC/IEEE 29119-3 : 2013 Software and systems engineering — Software testing — Part 3: Test 
+documentation. 
+
+
+6) IEEE Std 610.12-1990 (R2002) Glossary of Software Engineering Terminology. 
+
+
+7) NIST Special Publication 800-124 Revision 1; Guidelines for Managing the Security of Mobile Devices 
+in the Enterprise, June 2013. 
+
+
+8) NISTIR-8144 Assessing Threats to Mobile Devices and Infrastructure: the Mobile Threat Catalogue, 
+September 2016. 
+
+
+9) NIST Special Publication 800-190 Application Container Security Guide September 2017. 
+
+
+10) Draft NIST Special Publication 800-53 Revision 5 Security and Privacy Controls for Information 
+Systems and Organizations. 
+
+
+11) Study on Mobile Device Security, Department of Homeland Security (DHS), April 2017. 
+12) https://www.cio.com/article/2383123/mobile/geofencing-explained.html. 
+13) https://www.techopedia.com/definition/2953/mobile-application-mobile-app. 
+
+
+11 
+
+
+This page has been intentionally left blank 
+
+
+This page has been intentionally left blank 
+
+
+Bureau of Indian Standards 
+
+
+BIS is a statutory institution established under the Bureau of Indian Standards Act, 2016 to promote harmonious 
+development of the activities of standardization, marking and quality certification of goods and attending to 
+connected matters in the country. 
+
+
+Copyright 
+
+
+BIS has the copyright of all its publications. No part of these publications may be reproduced in any form without 
+the prior permission in writing of BIS. This does not preclude the free use, in the course of implementing the 
+standard, of necessary details, such as symbols and sizes, type or grade designations. Enquiries relating to 
+copyright be addressed to the Director (Publications), BIS. 
+
+
+Review of Indian Standards 
+
+
+Amendments are issued to standards as the need arises on the basis of comments. Standards are also reviewed 
+periodically; a standard along with amendments is reaffirmed when such review indicates that no changes are 
+needed; if the review indicates that changes are needed, it is taken up for revision. Users of Indian Standards 
+should ascertain that they are in possession of the latest amendments or edition by referring to the latest issue of 
+‘BIS Catalogue’ and ‘Standards: Monthly Additions’. 
+
+
+This Indian Standard has been developed from Doc No.: LITD 17 (14996). 
+
+
+Amendments Issued Since Publication 
+
+
+Amend No. Date of Issue Text Affected 
+
+
+BUREAU OF INDIAN STANDARDS 
+
+
+Headquarters: 
+
+Manak Bhavan, 9 Bahadur Shah Zafar Marg, New Delhi 110002 
+
+Telephones: 2323 0131, 2323 3375, 2323 9402 Website: www.bis.gov.in 
+
+Regional Offices: Telephones 
+
+Central : Manak Bhavan, 9 Bahadur Shah Zafar Marg | 2323 7617 
+NEW DELHI 110002 2323 3841 
+
+Eastern: 1/14 C.I.T. Scheme VII M, V.I.P. Road, Kankurgachi | 2337 8499, 2337 8561 
+KOLKATA 700054 2337 8626, 2337 9120 
+
+Northern : Plot No. 4-A, Sector 27-B, Madhya Marg | 265 0206 
+CHANDIGARH 160019 265 0290 
+
+Southern : C.I.T. Campus, IV Cross Road, CHENNAI 600113 | 2254 1216, 2254 1442 
+
+2254 2519, 2254 2315 
+
+Western : Manakalaya, E9 MIDC, Marol, Andheri (East) | 2832 9295, 2832 7858 
+
+MUMBAI 400093 2832 7891, 2832 7892 
+
+
+Branches : AHMEDABAD. BENGALURU. BHOPAL. BHUBANESHWAR. COIMBATORE. 
+DEHRADUN. DURGAPUR. FARIDABAD. GHAZIABAD. GUWAHATI. 
+HYDERABAD. JAIPUR. JAMMU. JAMSHEDPUR. KOCHI. LUCKNOW. 
+NAGPUR. PARWANOO. PATNA. PUNE. RAIPUR. RAJKOT. VISAKHAPATNAM. 
+
+
+Published by BIS, New Delhi 
+
+

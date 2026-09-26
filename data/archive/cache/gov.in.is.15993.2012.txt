@@ -1,0 +1,1896 @@
+IS 15993 : 2012 ISO 20775 : 2009
+
+Hkkjrh; ekud
+
+lwpuk ,oa �ys[ku
+
+--
+
+Ldhek osQ fy, gksfYMax lwpuk
+
+Indian Standard INFORMATION AND DOCUMENTATION -- SCHEMA FOR HOLDINGS INFORMATION
+
+ICS 35.240.30
+
+� BIS 2012
+
+BUREAU OF INDIAN STANDARDS
+MANAK BHAVAN, 9 BAHADUR SHAH ZAFAR MARG NEW DELHI 110002 August 2012 Price Group 13
+
+IS 15993 : 2012 ISO 20775 : 2009
+Documentation and Information Sectional Committee, MSD 5
+
+NATIONAL FOREWORD This Indian Standard which is identical with ISO 20775 : 2009 `Information and documentation -- Schema for holdings information' issued by the International Organization for Standardization (ISO) was adopted by the Bureau of Indian Standards on the recommendation of the Documentation and Information Sectional Committee and approval of the Management and Systems Division Council. The text of ISO Standard has been approved as suitable for publication as an Indian Standard without deviations. Certain conventions are, however, not identical to those used in Indian Standards. Attention is particularly drawn to the following: a) Wherever the words `International Standard' appear referring to this standard, they should be read as `Indian Standard'. b) Comma (,) has been used as a decimal marker while in Indian Standards, the current practice is to use a point (.) as the decimal marker. In this adopted standard, reference appears to certain International Standards for which Indian Standards also exist. The corresponding Indian Standards which are to be substituted in their respective places are listed below along with their degree of equivalence for the editions indicated: International Standard ISO 4217 : 2001 Codes for the representation of currencies and funds ISO 8459 : 2009 Information and documentation -- Bibliographic data element directory for use in data exchange and enquiry
+1)
+
+Corresponding Indian Standard IS 15413 : 2003 Codes for the representation of currencies and funds IS 15991 : 2012 Information and documentation -- Bibliographic data element directory for use in data exchange and enquiry
+
+Degree of Equivalence Identical
+
+do
+
+Annex A of this Standard is for information only.
+
+1)
+
+The revised version in 2008 is under adoption as an Indian Standard.
+
+i
+
+IS 15993 : 2012 ISO 20775 : 2009
+
+Introduction
+This schema for holdings information is designed to meet the requirements for delivering information about holdings of resources in repositories, libraries and related institutions in response to direct queries. This schema may also be applicable to the holdings of cultural institutions, such as museum objects. The information contained in this schema includes scope of holdings, availability, availability policy and conditions, and access rights. Reporting capability for historical usage information is a secondary, optional part of this schema. This International Standard is designed to cover the holdings of all types of resources, physical and electronic, all types of resource format such as printed text, visual images, sound recordings, videos, electronic media and resources published or issued once, such as monographs or those published serially or in part. This schema is primarily designed to be included in responses to queries. Two primary query types have been identified and targeted, based on availability (main focus) and historical usage. Simply put, the schema's main purpose is to answer the question "who has one or more copies of this resource or this group of resources, is it available now and to me and what are the conditions?" Although this International Standard can be used for reporting holdings to a federated metadata repository such as a centralized union catalogue, metasearch database such as Google or centralized document repository, this is not its primary focus. The focus is for interactive exchange of a combination of stable and dynamic information. Reporting and harvesting convey only stable information and other schemas are already in use for this purpose such as MODS, MARC 21 Holdings, COPAC and ONIX. Most of these schemas include richer detail, especially in relation to serial holdings. For this same reason, this International Standard is not intended to contain the detail necessary to predict new serial issues and claim missing serial issues. In a similar vein, this International Standard is not designed to populate link resolver databases, although it can be included in information sent to a resolver during a resolution process to declare known locations and ask for alternatives or more information about known locations. Resolvers also can employ this schema in information used to transfer information to another resolver. How data is gathered and assembled to populate the holdings schema is also outside the scope of this International Standard. Data may be dispersed in several locations such as a union catalogue, local catalogue and a policy directory or repository. A variety of standards may be employed for this purpose including NCIP for local holdings, XACML and LDAP for policy, authentication and authorization information and SRU and Z39.50 for all types of searching and retrieval. The holdings reported in this schema can relate to one or more bibliographic resources. As this schema is employed in a query response, the bibliographic resource or resources will be known, therefore detailed resource description is out of scope for this International Standard. This schema can be incorporated as a fragment within other XML bibliographic resource descriptions such as MODS.
+
+ii
+
+IS 15993 : 2012 ISO 20775 : 2009
+
+Indian Standard INFORMATION AND DOCUMENTATION -- SCHEMA FOR HOLDINGS INFORMATION
+1 Scope
+
+This International Standard specifies a schema designed to cover the holdings of all types of resources, physical and electronic, all types of resource format such as printed text, visual images, sound recordings, videos, electronic media and resources published or issued once such as monographs or those published serially or in part. Though it is designed to be used as a schema in query responses, this International Standard does not specify a query and response (such as SRU, Z39.50 or Open Search) including search attributes and index definition. This International Standard facilitates the interactive exchange of a combination of stable and dynamic information. How data is gathered and assembled to populate the schema for holdings is outside the scope of this International Standard. Detailed resource description is outside the scope of this International Standard as is also detailed information on serials designed for claiming missing issues.
+
+2
+
+Normative references
+
+The following referenced documents are indispensable for the application of this document. For dated references, only the edition cited applies. For undated references, the latest edition of the referenced document (including any amendments) applies. ISO 4217, Codes for the representation of currencies and funds ISO 8459, Information and documentation -- Classification of bibliographic data elements for use in data interchange
+
+3
+3.1
+
+Terms, definitions and abbreviated terms
+Terms and definitions
+
+For the purposes of this document, the following terms and definitions apply 3.1.1 access ability to open and view an electronic resource including an electronic document and a database index 3.1.2 bibliographic resource entity, either serial or non-serial, that forms the basis for a single resource description
+
+1
+
+IS 15993 : 2012 ISO 20775 : 2009
+3.1.3 chronology indication of the date of publication or date of issue of a component of a multi-part resource, distinguishing it from other components of the same resource 3.1.4 component unique bibliographic part of a set, such as a volume of a serial or multi-volume work 3.1.5 copy tangible instance of a bibliographic resource or set, whether physical or electronic, comprising one or more pieces 3.1.6 enumeration alpha-numeric identification of a component of a multi-part resource, such as a volume or issue 3.1.7 holdings information that describes, analyses and controls copies associated with a bibliographic resource 3.1.8 piece unit of a copy on which transactions can be made, such as a physical part that can be lent or reserved, or an electronic file that can be downloaded or accessed 3.1.9 set collection of components of a bibliographic resource including multi-volume publications and resources published serially, often received by a subscription purchase
+
+3.2
+
+Abbreviated terms
+Description COPAC Academic and National Library catalogue, U.K. Counting Online Usage of NeTworked Electronic Resources Danish Union Catalogue Direct Consortia Borrowing GBV Common Library Network of the German States Bremen, Hamburg, MecklenburgVorpommern, Niedersachsen, Sachsen-Anhalt, Schleswig-Holstein, Th�ringen and the Foundation of Prussian Cultural Heritage. Inter-library loan Lightweight directory access protocol IETC (Internet Engineering Task Force) RFC 4510 MARC 21 concise format for holdings data, Library of Congress Metadata object description schema, Library of Congress http://copac.ac.uk/ http://www.projectcounter.org/ http://www.danbib.dk/index.php?doc=english -- http://www.gbv.de/en/ URL address
+
+Abbreviated term COPAC COUNTER DanBib DCB GBV
+
+ILL LDAP
+
+-- http://tools.ietf.org/html/rfc4510
+
+MARC 21 Holdings MODS
+
+http://www.loc.gov/marc/holdings/ http://www.loc.gov/standards/mods//
+
+2
+
+IS 15993 : 2012 ISO 20775 : 2009
+Abbreviated term NCIP ONIX Description ANSI/NISO Z39.83-1 Circulation Interchange -- Part 1: Protocol (NCIP) ONIX for Books Product Information Message ONIX for serials in development OPAC Online public access catalogue. A generic term used by libraries and makers of computer software for libraries OpenSearch is a collection of simple formats for the sharing of search results. ANSI/NISO Z39.88 The OpenURL Framework for Context-Sensitive Services OpenURL Request Transfer Message Community Profile http://www.opensearch.org/Specifications/OpenSear ch/1.1#OpenSearch_description_document http://alcme.oclc.org/openurl/servlet/OAIHandler?ver b=ListSets http://www.openurl.info/registry/docs/pro/info:ofi/pro:r tm-2007 URL address http://www.niso.org/standards/ http://www.editeur.org/onix.html
+
+OpenSearch OpenURL
+
+OpenURL Request Transfer Message SRU SUDOC
+
+Search Retrieve via URL, Library of Congress Syst�me universitaire de documentation, ABES (Agence bibliographique de l'enseignement sup�rieur), France eXtensible Access Control Markup Language, OASIS standards organization Extensible Markup Language, W3C World Wide Web Consortium World network of library content and services, OCLC, Online Computer Library Center, Inc.
+
+http://www.loc.gov/standards/sru/ http://www.sudoc.abes.fr/LNG=EN/
+
+XACML XML WorldCat
+
+http://xml.coverpages.org/xacml.html http://www.w3.org/TR/2006/REC-xml11-20060816/ http://www.worldcat.org/
+
+4
+4.1
+
+Detailed requirements
+Discovery to delivery
+General considerations
+
+4.1.1
+
+Resource discovery is nowadays dispersed as metadata about resources are available in multiple locations. It is no longer just via a library's OPAC, but also via internet search engines such as Google Scholar and Yahoo, collective repositories and emerging freely accessible public interfaces of union catalogues, e.g. WorldCat, Libraries Australia, SUDOC, GBV and Danbib just to name a few. Increasingly, not all data is held in any one place; resource description is more widely dispersed than detailed holdings information. Another trend is the increasing number of libraries choosing to make more comprehensive union catalogues the primary entry point offered to their collections. Thus descriptive information is increasingly separated from management information. As a consequence, discovery to delivery systems need a seamless way of gathering holdings information needed for delivery to accompany discovered resource metadata. To do this, there is a fundamental need for a standardized schema to include in a query response, containing holdings delivery and access information. Some of this information is dynamic in that it is likely to be different each time it is delivered. For example, loan policy is likely to be fairly stable whereas availability status is variable and needs to be up-to-date to be valuable. Even policy is not fully stable as the policy can vary for different groups of users, therefore data in relation to policy in a query response can be specific to a single request. In the context of delivery, holdings responses need to provide sufficient, precise information regarding an individual copy or set of copies to indicate whether or not a delivery request would be successful. The
+
+3
+
+IS 15993 : 2012 ISO 20775 : 2009
+holdings schema could provide information so that systems could narrow a result set to works where items were immediately available. Examples of the "motives" for requesting holdings availability information are:      is there any copy available now at any branch? (single bibliographic resource) do you have an available copy in any edition? (group of related bibliographic resources) do you have a copy that is not restricted? (group of related bibliographic resources) can I please make a reservation for the next available copy regardless of edition and what is the queue status? (group of related bibliographic resources) I (requester) live on a different continent; for me, is it possible to borrow or access an electronic copy, or can you digitize it for me, or can you provide a reference look-up service for me?
+
+As previously stated, the query part of discovery is out of scope for this schema. The query might or might not include user attributes that would allow a server to respond with user specific policy and availability information. 4.1.2 Relation to existing standards
+
+This schema is intended as a more comprehensive and better defined alternative to the OPAC schema defined within ISO 23950 and the associated ANSI/NISO Z39.50 holdings schema that has not been widely implemented. There is one other schema in current use that partially fulfils this need, namely NCIP (ANSI/NISO Z39.83-1), however this schema can only provide information for a single copy and not for a group of copies of one or multiple resources. This schema has been derived from the ANSI/NISO Z39.50 holdings schema, updated to:    ensure that the schema is adequately understood by providing detailed element definitions, in accordance with ISO 8459 as much as possible; provide a clear scope statement with use cases; reduce the complexity of the schema by      reducing from seven levels to one (B1-4; C1-3), clearly indicating optional and mandatory elements, removing the distinction between B and C level views. This can be achieved by allowing optional summary level information in all cases, reducing unnecessary hierarchies in the structure, removing elements that are not in common use;
+
+allow the schema to be used as a stand-alone schema with some resource identification and description (minimum information such as an ISBN or other international identifier, a DOI�1) or an URL) or as a fragment within other schemas, e.g. as a MODS extension; simplify the element names, as closely as possible in accordance with ISO 8459.
+
+
+
+This schema is designed to be used as a fragment in other schemas. It is being included as the structure for the "possible suppliers" element of the NISO OpenURL Request Transfer Message.
+
+1) DOI� is a registered trademark of the International DOI Foundation, Inc. This information is given for the convenience of users of this document and does not constitute an endorsement by ISO of the product named.
+
+4
+
+IS 15993 : 2012 ISO 20775 : 2009
+
+4.2
+4.2.1
+NOTE
+
+Respond to holdings usage queries
+General
+This role for the schema is seen as emerging and is included as an option within this International Standard.
+
+Increasingly, discovery systems want to provide evaluative information to their users that can be used in manipulating result sets. This information consists of     historic circulation information, when a copy or group of copies was last borrowed or accessed, how many times in a given period a copy or group of copies has been circulated or accessed, when a physical copy was last located (with RFID systems becoming increasingly used, this kind of stocktake information is more readily available and recent).
+
+Holdings usage information is also useful to managers of collections for acquisitions, digitization, weeding and relocation decisions. It can also provide information on the effect of provision of a digital copy on the usage of physical copies. Examples of the "motives" for requesting holdings usage information are as follows.        Is this copy or group of copies widely used? (If so, I will purchase a copy for my collection.) Has this copy or group of copies been used recently? (If so, I will purchase or digitize it, otherwise not, despite it being popular once.) If this copy or group of copies has not been widely used, or recently used in another collection, I will retire mine to central storage (or discard). To be able to sort my result set by relevance with the most popular items first. To compare my statistics on the use of this electronic resource with the usage of the same resource in other collections. What is the circulation for all copies of a work for a comparable period before and since a digital copy became available? Holdings usage information is all dynamic, in that it can vary each time the information is provided and needs to be current to be valuable.
+
+Note that there are many differences in the practice of collecting historical information about holdings usage. Many libraries avoid collecting the information as their systems only collect information at a transaction level that potentially endangers user confidentiality. They may collect information for selected borrowers only, e.g. housebound users. Some systems collect usage statistics by piece, independent of user or borrower and some systems have a means of neutralizing user identification within historical transactions. 4.2.2 Relation to existing standards
+
+There is no known schema currently in common use that fulfils this requirement to respond to online queries for both physical and electronic resources. Reporting standards exist, such as ANSI/NISO Z39.7 and COUNTER.
+
+5
+
+IS 15993 : 2012 ISO 20775 : 2009
+
+5
+5.1
+
+Schema outline
+General observations
+
+This schema focuses on needs of responses to holdings delivery and usage queries, combining both static and dynamic information. (It is important to re-iterate here that the actual query, its search attributes and indexes are out of scope.) At the top level, there may be multiple holding structures for a resource or group of resources. A new instance of "holding" is made for each different "institutionIdentifier". The schema at the top level is shown in Figure 1.
+
+Figure 1 -- Holdings
+
+5.2
+
+Resource
+
+The "resource" is repeatable so that the associated holdings in "holding" may relate to a single bibliographic resource or to a group of resources. The element of commonality for the group may vary. For example the group could comprise:    a serial representing multiple issues published over a given time period or an open-ended time period; all expressions and manifestations of a work, e.g. all different translations, all different editions; a group of resources retrieved by a search and represented as a result set.
+
+The "resource" is optional as the schema may be embedded within another schema already containing bibliographic information. The "resource" block may simply identify a resource or group of resources with an identifier or pointer such as a URL. It may optionally include information about the "form" of the resource and "partDetail". When "resource" is repeated, representing more than one bibliographic resource, the resources are regarded as interchangeable, i.e. connected by "or", and the "copiesSummary" block collates information for all copies related to all resources.
+
+5.3
+5.3.1
+
+Holding
+General
+
+Figure 2 shows the top level elements of Holding.
+
+6
+
+IS 15993 : 2012 ISO 20775 : 2009
+The "holding" is mandatory and repeatable. For each separate institution a separate "holding" instance is required. "holding" consists of information about the holding institution and its addresses plus three other information blocks:    "holdingSimple" or "holdingStuctured"; "summaryPolicy"; and optionally "summaryHistory".
+
+Figure 2 -- Holding Under "holding", the element "institutionIdentifier" is mandatory together with an instance of either "holdingSimple" or "holdingStructured". The choice of the appropriate rendition of holdings (simple or structured) rests with the server responding to the query. The reason for this is that one resource may be held as a unit at one institution but as multiple parts at another, or a requester may believe a request to be for a single part whereas it is actually a multiple-part resource. By replying with "holdingStructured" a server is indicating that there are multiple parts that are not equivalent and that therefore the copies may not be interchangeable from a particular user's viewpoint. Such a response could be viewed by the querying system as a suggestion to narrow a request. The "holdingSimple", "holdingStructured", "summaryPolicy" and "summaryHistory" all contain information that summarizes copy information for the ensemble of copies and pieces that relate to the resource or resources, or in the case of the schema being a fragment within another schema, the copies relate to bibliographic resources described elsewhere in the larger schema. 5.3.2 The holding institution
+
+This group of elements ("institutionIdentifier", "physicalLocation", "physicalAddress" and "electronicAddress") contains simple identification and address detail about an institution holding one or more copies of the resource or group of resources. Multiple addresses are possible and they may be free format or inherit a structure from another specification, e.g. from NCIP. 5.3.3 Holding simple and holding structured
+
+There are two separate blocks "holdingSimple" and "holdingStructured". One of the two separate blocks is required; more than one block is not allowed. The two blocks summarize holdings in different ways. The
+
+7
+
+IS 15993 : 2012 ISO 20775 : 2009
+simple version is appropriate where the pieces are interchangeable, at least in the context of a particular query. Monographs, monographic works, and fully cited serial articles would typically use the simple version. The structured version is appropriate where there are different components forming a set, each component having different content from other components in the set. Therefore, it is necessary to represent this structure and a summary can only be given at component level. Unlike "holdingSimple", every piece reported is not interchangeable within the context of a particular query. Therefore for "holdingSimple", it is relevant to give an indication of availability of the pieces in general, i.e. "at least one of the group is or is not available", but for "holdingStructured" it is only relevant for each individual component. To summarize holdings at a set level, the reserved set label "all sets" may be used. It is the responding server that determines whether "holdingSimple" or "holdingStructured" is appropriate. This is because data may be held differently on each database. For example, the request may be for Lord of the Rings that is held in multiple parts in one collection, so the response is Structured but as a single volume in another collection, so the response is Simple. If a collection has it both in parts and in a single volume and wants to report on all copies, then Structured is appropriate. 5.3.4 5.3.4.1 Holding -- Simple Top level structure
+
+Figure 3 shows the top level structure of Holding simple and the detail of its child element, Copies summary. For monograph resources, the "holdingSimple" block provides summary information including counts of copies and an indication of the earliest date any one copy can be made available, how many are available and the purposes for which they may be available (loan, copy, reference look-up, etc.). The length of the reservation queue for the ensemble of the copies may be given, accommodating the fact that reservation queues are more frequently held at title level rather than copy level; the first available of a group of identical copies will satisfy the request.
+
+Figure 3 -- Holding -- Simple
+
+8
+
+IS 15993 : 2012 ISO 20775 : 2009
+5.3.4.2 Copy information
+
+Figure 4 illustrates Copy information (child element of Holdings simple) and its child elements with the exception of availability information. The "copyInformation" includes relatively stable information, namely identifiers of the copy and its resource, location information, value and precision information ("form" and "enumerationAndChronology"). The "availabilityInformation" block contains dynamic data. The copy "identifier" is repeatable to accommodate such multiple identifiers as barcodes and accession numbers. The "resourceIdentifier" serves to indicate to which resource of a group of resources the copy belongs. Detail includes "form" (text, microform, video, jpg, etc.), "monetaryValuation", "sublocation", "shelfLocater" (or call number or shelf mark), "electronicLocator" (URI or URL), "note" and "enumerationAndChronology". The "sublocation" is repeatable in the case of electronic copies where multiple locations may share access rights and "electronicLocator" is repeatable to cater for a resource being available in multiple places, e.g. via different aggregators. "enumerationAndChronology" is repeatable to cater for the relatively few cases of multi-part publications having parallel enumeration sequences.
+
+Figure 4 -- Copy information
+
+9
+
+IS 15993 : 2012 ISO 20775 : 2009
+Figure 5 shows Availability information and its detail (child element of Copy information). The "availabilityInformation" includes stable information comprising "policy", "feeInformation" "reservationPolicy". It also includes dynamic information comprising "status" and "reservationQueue". and
+
+Figure 5 -- Copy information availability 5.3.5 Holding -- Structured
+
+Figure 6 illustrates the top level of Holding structured (child of Holding). The "holdingStructured" differs quite importantly from the "holdingSimple" due to the fact that the copies are not interchangeable in the context of a particular query. For example, someone wanting volume 3 of a multi-part work will not be satisfied with volume 2. The discrete copies are grouped into repeatable instances of "set" and there is no summary availability. For example, there is no provision for reservation queue length as reservations are not made at the set level, they are made at the individual copy level. There is a block of information relating to the sets held, including descriptive information comprising "label" (identification of the set), "form", location within an institution ("sublocation" and "shelfLocator"), summaries of any gaps in the set ("completeness") and the enumeration and chronological ranges held ("enumerationAndChronology"), "retention" (how long parts are kept and when they are discarded), "resourceIdentifier" and pointers to available online sets ("electronicLocator" used in combination with "sublocation"). The information about individual copies related to the set is recorded in the "component" block which is repeatable.
+
+10
+
+IS 15993 : 2012 ISO 20775 : 2009
+The value "all sets" is reserved within "label" to enable the indication of a consolidated summary of the holdings of all sets. For example, information for "all sets" could include information on overall completeness, indicating the starting and ending enumeration and chronology. It could indicate summary availability and policy for each component across all sets.
+
+Figure 6 -- Holding -- Stuctured
+
+11
+
+IS 15993 : 2012 ISO 20775 : 2009
+5.3.5.1 Component
+
+Figure 7 illustrates Component (child of Holding structured) and its detail, except Availability information. The structure of "component" ("holdingStructured") is identical to that of "copyInformation" ("holdingSimple"), except that it is lacking "resourceIdentifier" which is held at the higher level, "set". "sublocation", "shelfLocator" and "electronicLocator" are available at this level, but in most cases they will only appear at "set" level. If they are present they will override the values included at "set" level for the particular copy.
+
+Figure 7 -- Component
+
+12
+
+IS 15993 : 2012 ISO 20775 : 2009
+Figure 8 shows Availability information and its detail (child element of Component).
+
+Figure 8 -- Component availability 5.3.5.2 Enumeration and chronology
+
+The "enumerationAndChronology" occurs in three places within the schema, under "holdingSimple" / "copyInformation", under "holdingStructured" / "set" and under "holdingStructured" / "set" / "component". Under "holdingStructured" / "set" it is expressed as a range, with the starting enumeration and chronology being mandatory. Specific enumeration and chronology may be given at the component or piece level, and in the case of "holdingStructured" at this level it gives precise detail for the piece, placing it in context with the range given at the set level. In the case of "holdingSimple", "enumerationAndChronology" at piece level would only be employed in exceptional cases. The "enumerationAndChronology" may be expressed as a text string or it may be broken into separate data elements such that it can be machine parsed and sorted. Example 1 shows how the data elements are used together.
+
+13
+
+IS 15993 : 2012 ISO 20775 : 2009
+EXAMPLE 1 Issue: volume 3, issue 1, January 1983
+
+<enumerationAndChronology> <enumeration level = "1"> <caption> "vol." </caption> <value> "3" </value> </enumeration> <enumeration level = "2"> <caption> "no." </caption> <value> "1" </value> </enumeration> <chronology level = "2"> <value> "January" </value> </chronology> <chronology level = "1"> <value> "1983" </value> </chronology> </enumerationAndChronology>
+
+Note that there are no chronology captions in this example, the captions "month" and "year" are silent.
+EXAMPLE 2 Issue: volume 3, issue 2, February 1983
+
+<enumerationAndChronology> <enumeration level = "1"> <caption> "vol." </caption> <value> "3" </value> </enumeration> <enumeration level = "2"> <caption> "no." </caption> <value> "2" </value> </enumeration> <chronology level = "2"> <value> "February" </value> </chronology> <chronology level = "1"> <value> "1983" </value> </chronology> </enumerationAndChronology>
+
+EXAMPLE 3
+
+Issue: volume 3, issue 3, March 1983
+
+<enumerationAndChronology> <enumeration level = "1"> <caption> "vol." </caption> <value> "3" </value> </enumeration> <enumeration level = "2"> <caption> "no." </caption> <value> "3" </value> </enumeration> <chronology level = "2"> <value> "March" </value> </chronology> <chronology level = "1"> <value> "1983" </value> </chronology> </enumerationAndChronology>
+
+EXAMPLE 4
+
+Issue: No enumeration, only chronology March 1983
+
+<enumerationAndChronology> <chronology level = "2"> <value> "March" </value> </chronology> <chronology level = "1"> <value> "1983" </value> </chronology> </enumerationAndChronology>
+
+EXAMPLE 5
+
+Issue: Partial enumeration, issue 36, March 1983
+
+<enumerationAndChronology> <enumeration level = "1"> <caption> "no." </caption> <value> "36" </value> </enumeration> <chronology level = "2"> <value> "March" </value> </chronology> <chronology level = "1"> <value> "1983" </value> </chronology> </enumerationAndChronology>
+
+14
+
+IS 15993 : 2012 ISO 20775 : 2009
+EXAMPLE 6 Bound volume including 12 issues for volume 3, 1983
+
+<component> <enumerationAndChronology> <enumeration level = "1"> <caption> "vol." </caption> <value> "3" </value> </enumeration> <chronology level = "1"> <value> "1983" </value> </chronology> </enumerationAndChronology> ....... </component>
+
+EXAMPLE 7
+
+Bound volume including 11 out of 12 issues for volume 3, 1983
+
+<component> <note> issue no. 6 June 1983 missing from bound volume </note> <enumerationAndChronology> <enumeration level = "1"> <caption> "vol." </caption> <value> "3" </value> </enumeration> <chronology level = "1"> <value> "1983" </value> </chronology> </enumerationAndChronology> .......</component>
+
+Supplements, tables of contents, indexes, etc. are expressed using the "unitType" attribute of "enumerationAndChronology".
+EXAMPLE 8 Supplement: "statistics 1982", volume 3, March 1983
+
+<enumerationAndChronology unitType = "2"> {"2" means supplement} <enumeration level = "1"> <caption> "v." </caption> <value> "3" </value> </enumeration> <enumeration level = "2"> <value> "statistics 1982" </value> </enumeration> <chronology level = "2"> <value> "March" </value> </chronology> <chronology level = "1"> <value> "1983" </value> </chronology> </enumerationAndChronology>
+
+EXAMPLE 9
+
+Table of contents: volume 2, January to December 1982
+
+<enumerationAndChronology unitType = "3"> {"3" means index} <enumeration level = "1"> <caption> "volume" </caption> <value> "2" </value> </enumeration> <enumeration level = "2"> <value> "Table of Contents" </value> </enumeration> <chronology level = "2"> <value> "January to December" </value> </chronology> <chronology level = "1"> <value> "1982" </value> </chronology> </enumerationAndChronology>
+
+Article pagination can be included as a level, as in Example 10 or Example 11.
+
+15
+
+IS 15993 : 2012 ISO 20775 : 2009
+EXAMPLE 10 Article: volume 3, issue 3, March 1983, pages 14-89
+
+<enumerationAndChronology> <enumeration level = "1"> <caption> "vol." </caption> <value> "3" </value> </enumeration> <enumeration level = "2"> <caption> "issue" </caption> <value> "3" </value> </enumeration> <enumeration level = "3"> <caption> "pages" </caption> <value> "14-89" </value> </enumeration> <chronology level = "2"> <value> "March" </value> </chronology> <chronology level = "1"> <value> "1983" </value> </chronology> </enumerationAndChronology>
+
+Alternative:
+EXAMPLE 11 Article: volume 3, issue 3, March 1983, pages 14-89
+
+<enumerationAndChronology> <enumeration level = "1"> <caption> "vol." </caption> <value> "3" </value> </enumeration> <enumeration level = "2"> <caption> "issue" </caption> <value> "3" </value> </enumeration> <enumeration level = "3"> <caption> "start page" </caption> <value> "14" </value> </enumeration> <enumeration level = "3"> <caption> "end page" </caption> <value> "89" </value> </enumeration> <chronology level = "2"> <value> "March" </value> </chronology> <chronology level = "1"> <value> "1983" </value> </chronology> </enumerationAndChronology>
+
+Level is really a sequencing device and is not used for the display. The principle is that level 1 is the broadest element. The caption is often omitted, especially for chronology. Even when there are seasons in the chronology, they are not preceded by the caption "season".
+
+16
+
+IS 15993 : 2012 ISO 20775 : 2009
+5.3.6 Summary policy
+
+Figure 9 shows Summary policy and its detail (child element of Holding).
+
+Figure 9 -- Summary policy The "summaryPolicy" block is repeatable under "holding" to indicate for each "form" the availability and reservation policies, including the fees associated ("feeInformation"), which can vary by type of fee. The summary applies to all copies in the "copyInformation" ("holdingSimple") or to all components of all sets ("holdingStructured"), whichever is applicable. It is not the intention to repeat the entire policy of the institution in this section but only the parts relevant to the resource or resources to which the holdings relate. For example, if the resource is only available in one form then only the policy for that form would be included. Under "availability" the structure from ISO 2146 for registry services for libraries and related organizations may be inherited.
+
+17
+
+IS 15993 : 2012 ISO 20775 : 2009
+5.3.7 Summary history
+
+Figure 10 shows Summary history and its detail (child element of holding).
+
+Figure 10 -- Summary history The "summaryHistory" block includes counts and last activity information for the ensemble of copies represented in the "copyInformation" block ("holdingSimple") or to all components of all sets ("holdingStructured"), whichever is applicable. Multiple instances of "countPeriod" are possible giving counts of copies in various status groups (held, acquired and discarded) and counts of activity of copies within the relevant period (circulation, access, reservation). "lastActivityInfo" can be repeatable for different types of activity, e.g. last time one of a group of copies was accessed, or lent or returned (checked in).
+
+6
+
+Abstract schema
+
+This clause is in the form of a table (Table 1, below) listing the data elements, their hierarchy and various properties. The level column indicates the number of parent elements of the element, e.g. level 1 is the top level with two elements directly under "holdings", namely "resource" and "holding". In the third column, the parent elements are indicated for each element with a space and a forward slash "/" separating the elements. The M/O/C column indicates whether the element is Mandatory (M), Optional (O) or Conditional (C). Conditional means that one of two elements is mandatory and the details of the condition are included in the notes column, i.e. the related conditional element and whether the two elements may both be included or are mutually exclusive. For example either "holdingSimple" or "holdingStructured" shall be present, but not both. Another example: if "feeInformation" is included then either "feeText" or "feeStructured" shall be present, but not both. Within "enumerationAndChronology" it is mandatory to have either "enumeration" or "chronology" but both may be present. If an element is indicated as mandatory but its parent element is optional, this means that in the case that the parent element is included, the element shall be included, e.g. "form" (parent element "holding" / "holdingSimple" / "copyInformation") is optional; if it is included then its child elements "typeOrSource" and "value" shall be included. If "form" is not included, then the child elements are not included. Rpt Y/N indicates whether or not the element is repeatable (Y) or not repeatable (N). If a parent element is indicated as repeatable then the whole structure of parent plus child elements is repeatable. The notes column includes specific notes about an element and, where applicable, examples and enumerated values. Throughout, enumerated values have been preferred so that the data can be easily translated for display in different languages. The last column includes a definition for the element and, where appropriate, mapping to an equivalent data element in ISO 8459 (in italics) followed by mapping to MARC 21 holdings elements (preceded by "MARC").
+
+18
+
+IS 15993 : 2012 ISO 20775 : 2009
+Table 1 -- Abstract schema
+Data element Level Parent elements M/ O/ C Rpt Y/N Notes, including values ISO 8459 element MARC 21 holdings mapping Definition Data structure describing a bibliographic resource or group of like or similar resources and one or more institution's copies of the resource or resources 1 holdings O Y If more than one resource is present then the holdings relate to any one of those resources: the resources are treated as interchangeable Group of data elements identifying and describing one or more works, created by intellectual effort that may be expressed in physical or digital form Resource identifier Group of data elements identifying a bibliographic resource or its associated metadata record with an indication of a list or source list within which the identifier is unique M N Code, phrase or pointer indicating a source list within which a value is unique Identifier of a bibliographic resource or its metadata record with which a copy is associated May be overridden at set or copy level Form (technical specifications) MARC 007/00-01 and 842 (textual); 008/23 (in BK, MU, SE, MM); 008/29 (in MP, VM) in related bibliographic record Group of data elements concerning physical or digital characteristics of a bibliographic resource that may constrain its use or indicate software that can read and display the resource typeOrSource 3 holdings / resource / form holdings / resource / form M N Code, phrase or pointer indicating a source list within which a value is unique Physical or digital form of a bibliographic resource, often constraining its use or indicating software that can read and display the resource May be overridden by enumerationAndChrono -logy at copy level and set level but not recommended in combination with holdingStructured Part detail MARC bibliographic 773 $g $q in related bibliographic record (if present) Text string identifying a resource in relation to its parent resource
+
+holdings
+
+resource
+
+resourceIdentifier
+
+2
+
+holdings / resource
+
+O
+
+Y
+
+typeOrSource
+
+3
+
+holdings / resource / resourceIdentifier holdings / resource / resourceIdentifier holdings / resource
+
+value
+
+3
+
+M
+
+N
+
+form
+
+2
+
+O
+
+N
+
+value
+
+3
+
+M
+
+N
+
+partDetail
+
+2
+
+holdings / resource
+
+O
+
+N
+
+19
+
+IS 15993 : 2012 ISO 20775 : 2009
+Table 1 (continued)
+Data element Level Parent elements M/ O/ C M Rpt Y/N Y Notes, including values ISO 8459 element MARC 21 holdings mapping Definition Group of data elements describing one institution's copies of a bibliographic resource or group of like or similar bibliographic resources Party identifier MARC 852 $a Group of data elements serving as a brief identifier of an institution typeOrSource 3 holdings / holding / institutionIdentifier holdings / holding / institutionIdentifier holdings / holding M N Examples: ISIL, OCLC identifier, etc. Code, phrase or pointer indicating a source list within which a value is unique Code or phrase serving as a brief identifier of an institution Name of institution MARC 852 $a Name of an institution holding one of more copies of a bibliographic resource physicalAddress 2 holdings / holding O Y Can be free format or inherit structure from another schema, e.g. NCIP Physical address MARC 852 $e (free text) Data element or group of data elements giving location information for an institution Electronic address MARC 852 $u (new in 2006) Unique identifier used to identify a device or location within a communications network or service associated with an institution Holding simple Group of data elements containing information for a resource or group of resources summarizing number of copies, and the number actually available Copies summary Group of data elements summarizing the number of copies of a bibliographic resource or group of resources and their availability M N If unknown set to "1" Copies count MARC 008 / 17-19 Count of the number of physical or digital copies associated with a resource
+
+holding
+
+1
+
+holdings
+
+institutionIdentifier
+
+2
+
+holdings / holding
+
+M
+
+N
+
+value physicalLocation
+
+3 2
+
+M O
+
+N Y
+
+electronicAddress
+
+2
+
+holdings / holding
+
+O
+
+Y
+
+Can be free format or inherit structure from another schema, e.g. NCIP
+
+holdingSimple
+
+2
+
+holdings / holding
+
+C
+
+N
+
+Only one of holdingSimple OR holdingStructured may be present
+
+copiesSummary
+
+3
+
+holdings / holding / holdingSimple
+
+M
+
+N
+
+copiesCount
+
+4
+
+holdings / holding / holdingSimple / copiesSummary
+
+20
+
+IS 15993 : 2012 ISO 20775 : 2009
+Table 1 (continued)
+Data element Level Parent elements M/ O/ C O Rpt Y/N Y Notes, including values ISO 8459 element MARC 21 holdings mapping Definition Group of data elements indicating and predicting actual availability of a group of copies Available count Count of the number of physical or digital copies of a resource that are available for use or delivery in the context of a particular request O N Values: (0) unspecified (1) loan (2) physical copy (3) digital copy (4) online access (5) reference look-up (6) other earliestDispatchDate 5 holdings / holding / holdingSimple / copiesSummary / status O N Date / time item available Date and time on which a resource or any copy of a resource will be ready for delivery O N Reservation queue length Count of the number of people in a reservation queue for a particular resource or group of resources O N On order count Count of the number of physical or digital copies ordered and awaiting receipt, or received and not yet processed O Y Copy information Group of data elements providing details of a specific copy of a physical or digital resource M Y Piece identifier MARC 852 $p Group of data elements that identify a specific instance of a resource typeOrSource 5 holdings / holding / holdingSimple / copyInformation / pieceIdentifier holdings / holding / holdingSimple / copyInformation / pieceIdentifier M N Examples: accession number, barcode number Code, phrase or pointer indicating a source list within which a value is unique Number or phrase that identifies a specific instance of a resource Available for Code indicating the nature of service available in relation to a specific bibliographic resource
+
+status
+
+4
+
+holdings / holding / holdingSimple / copiesSummary holdings / holding / holdingSimple / copiesSummary / status
+
+availableCount
+
+5
+
+O
+
+N
+
+availableFor
+
+5
+
+holdings / holding / holdingSimple / copiesSummary / status
+
+reservationQueueLength
+
+4
+
+holdings / holding / holdingSimple / copiesSummary
+
+onOrderCount
+
+4
+
+holdings / holding / holdingSimple / copiesSummary
+
+copyInformation
+
+3
+
+holdings / holding / holdingSimple
+
+pieceIdentifier
+
+4
+
+holdings / holding / holdingSimple / copyInformation
+
+value
+
+5
+
+M
+
+N
+
+21
+
+IS 15993 : 2012 ISO 20775 : 2009
+Table 1 (continued)
+Data element Level Parent elements M/ O/ C O Rpt Y/N N Notes, including values Used to indicate a specific resource within a group to which a copy relates ISO 8459 element MARC 21 holdings mapping Definition Resource identifier MARC 004 (in same system); 014 (in a network); 016 (of a national bibliographic agency); 035 (of any agency) Group of data elements identifying a bibliographic resource or its metadata record with which a copy is associated typeOrSource 5 holdings / holding / holdingSimple / copyInformation / resourceIdentifier holdings / holding / holdingSimple / copyInformation / resourceIdentifier holdings / holding / holdingSimple / copyInformation M N Code, phrase or pointer indicating a source list within which a value is unique Identifier of a bibliographic resource or its metadata record with which a copy is associated Form (technical specifications) MARC 007/00-01 and 842 (textual); 008/23 (in BK, MU, SE, MM); 008/29 (in MP, VM) in related bibliographic record Group of data elements concerning physical or digital characteristics of a bibliographic resource that may constrain its use or indicate software that can read and display the resource typeOrSource 5 holdings / holding / holdingSimple / copyInformation / form holdings / holding / holdingSimple / copyInformation / form holdings / holding / holdingSimple / copyInformation M N Code, phrase or pointer indicating a source list within which a value is unique Physical or digital form of a bibliographic resource, often constraining its use or indicating software that can read and display the resource Value Estimate of the cost of replacing a copy of a resource or an indication of the value placed on a copy O N Use ISO 4217 Currency code Code indicating the type of currency of a particular sum of money O Y Repeatable in the case of electronic copies that may be accessible from more than one location Permanent location MARC 852 $b $c Name or code of a section and / or collection of a library or other institution that normally stores a copy or set when it is not in use, on loan or on the reservation shelves
+
+resourceIdentifier
+
+4
+
+holdings / holding / holdingSimple / copyInformation
+
+value
+
+5
+
+M
+
+N
+
+form
+
+4
+
+O
+
+N
+
+value
+
+5
+
+M
+
+N
+
+monetaryValuation
+
+4
+
+O
+
+N
+
+currencyCode (attribute)
+
+5
+
+holdings / holding / holdingSimple / copyInformation / monetaryValuation holdings / holding / holdingSimple / copyInformation
+
+sublocation
+
+4
+
+22
+
+IS 15993 : 2012 ISO 20775 : 2009
+Table 1 (continued)
+Data element Level Parent elements M/ O/ C O Rpt Y/N Y Notes, including values Rarely repeated except in the case of parts being at different locations, e.g. inserted CD within a book ISO 8459 element MARC 21 holdings mapping Definition Copy shelf locator MARC 852 $h to $m String of characters that identifies a copy's or a set's shelving scheme within its sublocation in relation to other copies Electronic locator MARC 856 $u (with applicable subfields); may also be in associated bibliographic record Text string or pointer such as a URL indicating availability and location of an electronic resource accessRestrictions (attribute) 5 holdings / holding / holdingSimple / copyInformation / electronicLocator O N Values: (0) unknown (1) unrestricted access (2) access with authorization (3) preview only (4) no online access (5) restrictions unspecified (6) access restricted URL-based note 4 holdings / holding / holdingSimple / copyInformation O Y Free text note MARC 852 $x $z Phrase relating to a copy of a bibliographic resource, carrying additional information
+enumerationAndChronology
+
+shelfLocator
+
+4
+
+holdings / holding / holdingSimple / copyInformation
+
+electronicLocator
+
+4
+
+holdings / holding / holdingSimple / copyInformation
+
+O
+
+Y
+
+Electronic access restrictions MARC 506 $f Code that indicates authentication or other requirements necessary in order to access an electronic resource at a specific address Used in combination with holding / holdingSimple / availabilityInformation
+
+4
+
+holdings / holding / holdingSimple / copyInformation
+
+O
+
+Y
+
+Can be free format or coded as below
+
+Enumeration and chronology
+
+MARC 853-855 and 863-865 Repeatable in the (structured group) case of multiple numbering sequences Text string or a group of data elements identifying a unit of a resource that is published in parts Unit type MARC: Tag-defined: 853/863 or 866 (basic); 854/864 or 867 (supplement); 855/865 or 868 (index) Code qualifying enumeration and chronology to indicate the type of the part being enumerated
+
+unitType (attribute)
+
+5
+
+holdings / holding / holdingSimple / copyInformation / enumerationAndChronology
+
+O
+
+N
+
+Values: (1) basic (default) (2) supplement (3) index
+
+23
+
+IS 15993 : 2012 ISO 20775 : 2009
+Table 1 (continued)
+Data element Level Parent elements M/ O/ C O Rpt Y/N N Notes, including values Boolean ISO 8459 element MARC 21 holdings mapping Definition Alternative numbering MARC: Subfield-defined: 853-855 and 863-865 subfields $g, $h (alternative enumeration) and $m (alternative chronology) Code indicating that an enumeration and chronology is a secondary or parallel sequence note (attribute) 5 holdings / holding / holdingSimple / copyInformation / enumerationAndChronology O N Example: general statement about supplements Free text note MARC 853-855; 863-865; 866-868 $x (Non-public note) and $z (Public note) Text string qualifying elaborating enumeration chronology enumeration 5 holdings / holding / holdingSimple / copyInformation / enumerationAndChronology holdings / holding / holdingSimple / copyInformation / enumerationAndChronology / enumeration C Y Either enumeration or chronology shall be present; both may be present and and
+
+altNumbering (attribute)
+
+5
+
+holdings / holding / holdingSimple / copyInformation / enumerationAndChronology
+
+Group of data elements indicating alpha-numeric identification of a component of a multi-part resource, such as a volume or issue Enumeration level MARC: Subfield-defined: $a - $f in various fields Number indicating the hierarchical sequence of an enumeration element in relation to other similar elements in an enumeration and chronology group with the broadest element having the lowest level
+
+level (attribute)
+
+6
+
+M
+
+N
+
+caption
+
+6
+
+holdings / holding / holdingSimple / copyInformation / enumerationAndChronology / enumeration holdings / holding / holdingSimple / copyInformation / enumerationAndChronology / enumeration
+
+O
+
+N
+
+Enumeration caption MARC 853-855 $a-f Label describing the contents and level of an enumeration element
+
+value
+
+6
+
+M
+
+N
+
+Enumeration MARC 863-865 $a-f Number, letter or word that combined with an enumeration caption identifies a unit of a resource that is published in parts and identifies the relationship of the part to the whole resource
+
+chronology
+
+5
+
+holdings / holding / holdingSimple / copyInformation / enumerationAndChronology
+
+C
+
+Y
+
+Either enumeration or chronology shall be present; both may be present
+
+Group of data elements indicating the date of publication or issue of a part of a multi-part resource and distinguishing it from other parts of the same resource
+
+24
+
+IS 15993 : 2012 ISO 20775 : 2009
+Table 1 (continued)
+Data element Level Parent elements M/ O/ C O Rpt Y/N N Notes, including values ISO 8459 element MARC 21 holdings mapping Definition Chronology level MARC: Subfield-defined: $i - $l in various fields Number indicating the hierarchical sequence of a chronological element in relation to other similar elements in an enumeration and chronology group with the broadest element having the lowest level O N Chronology caption MARC 853-855 $i-l Label describing the contents and level of a chronological element M N Chronology MARC 863-865 $i-l Phrase expressing a time period identifying a unit of a resource which is published in parts and identifying the relationship of the part to the whole resource O N Group of data elements summarizing the availability of a particular physical or digital copy of a resource Group of data elements indicating and predicting actual availability of a copy or group of copies Values: (0) unknown (1) available (2) not available (3) possibly available availableFor 6 holdings / holding / holdingSimple / copyInformation / availabilityInformation / status O N Values: (0) unspecified (1) loan (2) physical copy (3) digital copy (4) online access (5) reference look-up (6) other dateTimeAvailable 6 holdings / holding / holdingSimple / copyInformation / availabilityInformation / status O N Date / time item available Date and time on which a resource or a particular copy of a resource will be ready for delivery or access Circulation status Code that indicates the availability for loan, copy or access of a copy or group of copies in the context of a particular request Available for Code indicating the nature of service available in relation to a specific bibliographic resource
+
+level (attribute)
+
+6
+
+holdings / holding / holdingSimple / copyInformation / enumerationAndChronology / chronology
+
+caption
+
+6
+
+holdings / holding / holdingSimple / copyInformation / enumerationAndChronology / chronology holdings / holding / holdingSimple / copyInformation / enumerationAndChronology / chronology
+
+value
+
+6
+
+availabilityInformation
+
+4
+
+holdings / holding / holdingSimple / copyInformation holdings / holding / holdingSimple / copyInformation / availabilityInformation holdings / holding / holdingSimple / copyInformation / availabilityInformation / status
+
+status
+
+5
+
+O
+
+Y
+
+availabilityStatus
+
+6
+
+O
+
+N
+
+25
+
+IS 15993 : 2012 ISO 20775 : 2009
+Table 1 (continued)
+Data element Level Parent elements M/ O/ C O Rpt Y/N N Notes, including values Examples: not for loan, in-library use only, overnight only, circulation limited by user type, term loan, semester loan, available for supply without return, renewal not permitted Recommended structure from ISO 2146 feeInformation 5 holdings / holding / holdingSimple / copyInformation / availabilityInformation holdings / holding / holdingSimple / copyInformation / availabilityInformation / feeInformation holdings / holding / holdingSimple / copyInformation / availabilityInformation / feeInformation holdings / holding / holdingSimple / copyInformation / availabilityInformation / feeInformation / feeStructured holdings / holding / holdingSimple / copyInformation / availabilityInformation / feeInformation / feeStructured holdings / holding / holdingSimple / copyInformation / availabilityInformation / feeInformation / feeStructured holdings / holding / holdingSimple / copyInformation / availabilityInformation / feeInformation / feeStructured / feeAmount O N Group of data elements or single element indicating charge amounts for various services relating to the delivery of a resource Either feeText or feeStructured shall be present under feeInformation but not both Either feeText or feeStructured shall be present under feeInformation but not both Examples: loan fee, reservation fee, digitization fee, reference look-up fee, etc. Examples: per image, per page, per 10 pages or part thereof Text string indicating charge amounts for various services relating to the delivery of a resource Group of data elements indicating charge amounts for various services relating to the delivery of a resource Fee type Code or phrase representing the reason for a charge such as a service charge or fee ISO 8459 element MARC 21 holdings mapping Definition Availability policy Phrase or structure indicating restrictions which apply in relation to loan, copy or access
+
+policy
+
+5
+
+holdings / holding / holdingSimple / copyInformation / availabilityInformation
+
+feeText
+
+6
+
+C
+
+N
+
+feeStructured
+
+6
+
+C
+
+Y
+
+feeReason
+
+7
+
+O
+
+N
+
+feeUnit
+
+7
+
+O
+
+N
+
+Fee unit Code or phrase indicating the coverage of a fee amount
+
+feeAmount
+
+7
+
+M
+
+N
+
+Amount Sum of money required for a purchase or service
+
+currencyCode (attribute)
+
+8
+
+O
+
+N
+
+Use ISO 4217
+
+Currency code Code indicating the type of currency of a particular sum of money
+
+26
+
+IS 15993 : 2012 ISO 20775 : 2009
+Table 1 (continued)
+Data element Level Parent elements M/ O/ C O Rpt Y/N N Notes, including values Values: (0) unknown (1) will accept (2) will not accept (3) will possibly accept reservationQueue 5 holdings / holding / holdingSimple / copyInformation / availabilityInformation holdings / holding O N Reservation queue length Count of the number of people in a reservation queue for a particular copy of a resource C N Only one of holdingSimple OR holdingStructured may be present Holding structured Group of data elements providing descriptive information and an indication of the coverage, completeness, availability and service policy of a bibliographic resource that is published serially or in multiple parts Set Collection of components of a bibliographic resource including multi-volume publications and resources published serially, often received by a subscription purchase ISO 8459 element MARC 21 holdings mapping Definition Reservation policy Code indicating whether a party owning or managing a resource will accept reservations for the resource
+
+reservationPolicy
+
+5
+
+holdings / holding / holdingSimple / copyInformation / availabilityInformation
+
+holdingStructured
+
+2
+
+set
+
+3
+
+holdings / holding / holdingStructured
+
+M
+
+Y
+
+label
+
+4
+
+holdings / holding / holdingStructured / set
+
+O
+
+N
+
+The "all sets" is a reserved label indicating a consolidated summary for all sets
+
+Set label Number or phrase serving to identify a set of copies such as a subscription for a resource that is published in multiple parts or serially Form (technical specifications) MARC 007/00-01 and 842 (textual); 008/23 (in BK, MU, SE, MM); 008/29 (in MP, VM) in related bibliographic record Group of data elements concerning physical or digital characteristics of a bibliographic resource that may constrain its use or indicate software that can read and display the resource
+
+form
+
+4
+
+holdings / holding / holdingStructured / set
+
+O
+
+N
+
+May be overridden at copy level
+
+typeOrSource
+
+5
+
+holdings / holding / holdingStructured / set / form holdings / holding / holdingStructured / set / form
+
+M
+
+N
+
+Code, phrase or pointer indicating a source list within which a value is unique Physical or digital form of a bibliographic resource, often constraining its use or indicating software that can read and display the resource
+
+value
+
+5
+
+M
+
+N
+
+27
+
+IS 15993 : 2012 ISO 20775 : 2009
+Table 1 (continued)
+Data element Level Parent elements M/ O/ C O Rpt Y/N Y Notes, including values Repeatable in the case of electronic copies that may be accessible from more than one location ISO 8459 element MARC 21 holdings mapping Definition Permanent location MARC 852 $b $c Name or code of a section and / or collection of a library or other institution that normally stores a copy or set when it is not in use, on loan or on the reservation shelves
+
+sublocation
+
+4
+
+holdings / holding / holdingStructured / set
+
+shelfLocator
+
+4
+
+holdings / holding / holdingStructured / set
+
+O
+
+Y
+
+Repeated in the case Copy shelf locator where runs are stored MARC 852 $h to $m at different locations String of characters that identifies a copy's or a set's shelving scheme within a sublocation in relation to other copies Electronic locator MARC 856 $u (with appropriate subfields); may also be in associated bibliographic record Text string or pointer such as a URL indicating availability and location of an electronic resource
+
+electronicLocator
+
+4
+
+holdings / holding / holdingStructured / set
+
+O
+
+Y
+
+accessRestrictions (attribute)
+
+5
+
+holdings / holding / holdingStructured / set / electronicLocator
+
+O
+
+N
+
+Values: (0) unknown (1) unrestricted access (2) access with authorization (3) preview only (4) no online access (5) restrictions unspecified (6) access restricted URL-based
+
+Electronic access restrictions MARC 506 $f Code that indicates authentication or other requirements necessary in order to access an electronic resource at a specific address
+
+completeness
+
+4
+
+holdings / holding / holdingStructured / set
+
+O
+
+N
+
+Values: (0) info not available (1) complete
+
+Completeness MARC 008/16
+
+Code indicating the level of holdings of a copy set ranging (2) incomplete from complete to signaling gaps (3) very incomplete or or substantial gaps scattered enumerationAndChronology 4 holdings / holding / holdingStructured / set O Y Can be free format or coded as below Repeatable in the case of multiple numbering ranges (gaps) and multiple numbering sequences Enumeration and chronology MARC 866-868 853-855 and (structured group) (text) or 863-865
+
+Text string or a group of data elements identifying a unit of a resource that is published in parts
+
+28
+
+IS 15993 : 2012 ISO 20775 : 2009
+Table 1 (continued)
+Data element Level Parent elements M/ O/ C O Rpt Y/N N Notes, including values Values: (1) basic (default) (2) supplement (3) index ISO 8459 element MARC 21 holdings mapping Definition Unit type MARC: Tag-defined: 853/863 or 866 (basic); 854/864 or 867 (supplement); 855/865 or 868 (index) Code qualifying enumeration and chronology to indicate the type of the part being enumerated altNumbering (attribute) 5 holdings / holding / holdingStructured / set / enumerationAndChronology O N Boolean Alternative numbering MARC: Subfield-defined: 853-855 and 863-865 subfields $g, $h (alternative enumeration) and $m (alternative chronology) Code indicating that an enumeration and chronology is a secondary or parallel numbering sequence note (attribute) 5 holdings / holding / holdingStructured / set / enumerationAndChronology O N Example: general statement about supplements Free text note MARC 853-855; 863-865; 866-868 $x (Non-public note) and $z (Public note) Text string qualifying elaborating enumeration chronology
+startingEnumAndChronology
+
+unitType (attribute)
+
+5
+
+holdings / holding / holdingStructured / set / enumerationAndChronology
+
+and and
+
+5
+
+holdings / holding / holdingStructured / set / enumerationAndChronology holdings / holding / holdingStructured / set / enumerationAndChronology / startingEnumAndChronology holdings / holding / holdingStructured / set / enumerationAndChronology / startingEnumAndChronology / enumeration
+
+M
+
+N
+
+Group of data elements indicating the beginning of an enumeration and chronology range Either enumeration or chronology shall be present; both may be present Group of data elements indicating the earliest enumeration, such as a volume or issue number within an enumeration range Enumeration level MARC: Subfield-defined: $a - $f in various fields Number indicating the hierarchical sequence of an enumeration element in relation to other similar elements in an enumeration and chronology group with the broadest element having the lowest level
+
+enumeration
+
+6
+
+C
+
+Y
+
+level (attribute)
+
+7
+
+M
+
+N
+
+caption
+
+7
+
+holdings / holding / holdingStructured / set / enumerationAndChronology / startingEnumAndChronology / enumeration
+
+O
+
+N
+
+Enumeration caption MARC 853-855 $a-f Label describing the contents and level of an enumeration element
+
+29
+
+IS 15993 : 2012 ISO 20775 : 2009
+Table 1 (continued)
+Data element Level Parent elements M/ O/ C M Rpt Y/N N Notes, including values ISO 8459 element MARC 21 holdings mapping Definition Enumeration MARC 863-865 $a-f (may contain starting and ending values and necessitate parsing) Number, letter or word that combined with an enumeration caption identifies a unit of a resource that is published in parts and identifies the relationship of the part to the whole resource C Y Either enumeration or chronology shall be present; both may be present Group of data elements indicating the date of publication or issue of a component of a multi-part resource and distinguishing it from other components of the same resource Chronology level MARC: Subfield-defined: $i - $l in various fields Number indicating the hierarchical sequence of a chronological element in relation to other similar elements in an enumeration and chronology group with the broadest element having the lowest level O N Chronology caption MARC 853-855 $i-l Label describing the contents and level of a chronological element M N Chronology MARC 863-865 $i-l (may contain starting and ending values and necessitate parsing) Phrase expressing a time period identifying a unit of a resource which is published in parts and identifying the relationship of the part to the whole resource O N Group of data elements indicating the end of an enumeration and chronology range Either enumeration or chronology shall be present; both may be present Group of data elements indicating the last enumeration, such as a volume or issue number within an enumeration range
+
+value
+
+7
+
+holdings / holding / holdingStructured / set / enumerationAndChronology / startingEnumAndChronology / enumeration
+
+chronology
+
+6
+
+holdings / holding / holdingStructured / set / enumerationAndChronology / startingEnumAndChronology
+
+level (attribute)
+
+7
+
+holdings / holding / holdingStructured / set / enumerationAndChronology / startingEnumAndChronology / chronology
+
+O
+
+N
+
+caption
+
+7
+
+holdings / holding / holdingStructured / set / enumerationAndChronology / startingEnumAndChronology / chronology holdings / holding / holdingStructured / set / enumerationAndChronology / startingEnumAndChronology / chronology
+
+value
+
+7
+
+endingEnumAndChronology
+
+5
+
+holdings / holding / holdingStructured / set / enumerationAndChronology holdings / holding / holdingStructured / set / enumerationAndChronology / endingEnumAndChronology
+
+enumeration
+
+6
+
+C
+
+Y
+
+30
+
+IS 15993 : 2012 ISO 20775 : 2009
+Table 1 (continued)
+Data element Level Parent elements M/ O/ C M Rpt Y/N N Notes, including values ISO 8459 element MARC 21 holdings mapping Definition Enumeration level MARC: Subfield-defined: $a - $f in various fields Number indicating the hierarchical sequence of an enumeration element in relation to other similar elements in an enumeration and chronology group with the broadest element having the lowest level O N Enumeration caption MARC 853-855 $a-f Label describing the contents and level of an enumeration element M N Enumeration MARC 863-865 $a-f (may contain starting and ending values and necessitate parsing) Number, letter or word that combined with an enumeration caption identifies a unit of a resource that is published in parts and identifies the relationship of the part to the whole resource C Y Either enumeration or chronology shall be present; both may be present Group of data elements indicating the date of publication or issue of a part of a multi-part resource and distinguishing it from other parts of the same resource Chronology level MARC: Subfield-defined: $i - $l in various fields Number indicating the hierarchical sequence of a chronological element in relation to other similar elements in an enumeration and chronology group with the broadest element having the lowest level O N Chronology caption MARC 853-855 $i-l Label describing the contents and level of a chronological element
+
+level (attribute)
+
+7
+
+holdings / holding / holdingStructured / set / enumerationAndChronology / endingEnumAndChronology/ enumeration
+
+caption
+
+7
+
+holdings / holding / holdingStructured / set / enumerationAndChronology / endingEnumAndChronology/ enumeration holdings / holding / holdingStructured / set / enumerationAndChronology / endingEnumAndChronology/ enumeration
+
+value
+
+7
+
+chronology
+
+6
+
+holdings / holding / holdingStructured / set / enumerationAndChronology / endingEnumAndChronology holdings / holding / holdingStructured / set / enumerationAndChronology / endingEnumAndChronology/ chronology
+
+level (attribute)
+
+7
+
+O
+
+N
+
+caption
+
+7
+
+holdings / holding / holdingStructured / set / enumerationAndChronology / endingEnumAndChronology/ chronology
+
+31
+
+IS 15993 : 2012 ISO 20775 : 2009
+Table 1 (continued)
+Data element Level Parent elements M/ O/ C M Rpt Y/N N Notes, including values ISO 8459 element MARC 21 holdings mapping Definition Chronology MARC 863-865 $i-l (may contain starting and ending values and necessitate parsing) Phrase expressing a time period identifying a unit of a resource which is published in parts and identifying the relationship of the part to the whole resource O N Values: (0) unknown (2) replaced by updates (3) sample issue retained (4) replaced by preservation format (5) replaced by cumulation (6) limited retention (7) no retention (8) permanent retention resourceIdentifier 4 holdings / holding / holdingStructured / set O N Resource identifier MARC 004 (if in same system), 014 (in a network); 016 (of a national bibliographic agency); 035 (of any agency) Group of data elements identifying a bibliographic resource or its metadata record with which a copy or set is associated typeOrSource 5 holdings / holding / holdingStructured / set / resourceIdentifier holdings / holding / holdingStructured / set / resourceIdentifier holdings / holding / holdingStructured / set M N Code, phrase or pointer indicating a source list within which a value is unique Identifier of a bibliographic resource or its metadata record with which a copy or set is associated Component Unique bibliographic part of a set, such as a volume of a serial or multi-volume work M Y Piece identifier MARC 852 $p Group of data elements identifying a specific instance of a resource, including for example barcode and accession number Retention policy MARC 008/12 Code that indicates the extent to which individual issues of a serial or multi-part resource are retained and the time period for which they are retained
+
+value
+
+7
+
+holdings / holding / holdingStructured / set / enumerationAndChronology / endingEnumAndChronology / chronology
+
+retention
+
+4
+
+holdings / holding / holdingStructured / set
+
+value
+
+5
+
+M
+
+N
+
+component
+
+4
+
+O
+
+Y
+
+pieceIdentifier
+
+5
+
+holdings / holding / holdingStructured / set / component
+
+32
+
+IS 15993 : 2012 ISO 20775 : 2009
+Table 1 (continued)
+Data element Level Parent elements M/ O/ C M Rpt Y/N N Notes, including values Examples: accession number, barcode number ISO 8459 element MARC 21 holdings mapping Definition Code, phrase or pointer indicating a source list within which a value is unique
+
+typeOrSource
+
+6
+
+holdings / holding / holdingStructured / set / component / pieceIdentifier holdings / holding / holdingStructured / set / component / pieceIdentifier holdings / holding / holdingStructured / set / component
+
+value
+
+6
+
+M
+
+N
+
+Number or phrase that identifies a specific instance of a resource
+
+form
+
+5
+
+O
+
+N
+
+Form (technical specifications) MARC 007/00-01 and 842 (textual); 008/23 (in BK, MU, SE, MM); 008/29 (in MP, VM) in related bibliographic record Group of data elements concerning physical or digital characteristics of a bibliographic resource that may constrain its use or indicate software that can read and display the resource
+
+typeOrSource
+
+6
+
+holdings / holding / holdingStructured / set / component / form holdings / holding / holdingStructured / set / component / form holdings / holding / holdingStructured / set / component holdings / holding / holdingStructured / set / component / monetaryValuation holdings / holding / holdingStructured / set / component
+
+M
+
+N
+
+Code, phrase or pointer indicating a source list within which a value is unique
+
+value
+
+6
+
+M
+
+N
+
+Physical or digital form of a bibliographic resource, often constraining its use or indicating software that can read and display the resource Value Estimate of the cost of replacing a copy of a resource or an indication of the value placed on a copy
+
+monetaryValuation
+
+5
+
+O
+
+N
+
+currencyCode (attribute)
+
+6
+
+O
+
+N
+
+Use ISO 4217
+
+Currency code Code indicating the type of currency of a particular sum of money
+
+sublocation
+
+5
+
+O
+
+Y
+
+Repeatable in the case of electronic copies that may be accessible from more than one location
+
+Permanent location MARC 852 $b $c Name or code of a section and / or collection of a library or other institution that normally stores a copy or set when it is not in use, on loan or on the reservation shelves Copy shelf locator MARC 852 $h to $m String of characters that identifies a copy's or a set's shelving scheme within its sublocation in relation to other copies
+
+shelfLocator
+
+5
+
+holdings / holding / holdingStructured / set / component
+
+O
+
+N
+
+Rarely repeated except in the case where parts are stored at separate locations, e.g. inserted CD within a serial issue
+
+33
+
+IS 15993 : 2012 ISO 20775 : 2009
+Table 1 (continued)
+Data element Level Parent elements M/ O/ C O Rpt Y/N Y Notes, including values ISO 8459 element MARC 21 holdings mapping Definition Electronic locator MARC 856 $u (with applicable subfields); may also be in associated bibliographic record. Text string or pointer such as a URL indicating availability and location of an electronic resource accessRestrictions (attribute) 6 holdings / holding / holdingStructured / set / component / electronicLocator O N Values: (0) unknown (1) unrestricted access (2) access with authorization (3) preview only (4) no online access (5) restrictions unspecified (6) access restricted URL-based note 5 holdings / holding / holdingStructured / set / component O Y Electronic access restrictions MARC 506 $f Code that indicates authentication or other requirements necessary in order to access an electronic resource at a specific address Used in combination with holding / holdingStructured / set / component / availabilityInformation Free text note MARC 852 $x $z Phrase relating to a copy of a bibliographic resource, carrying additional information M Y Can be free format or coded as below. Repeatable in the case of multiple numbering sequences Enumeration and chronology MARC 853-855 and 863-865 (structured group) Text string or a group of data elements identifying a unit of a resource that is published in parts Unit type MARC: Tag-defined: 853/863 or 866 (basic); 854/864 or 867 (supplement); 855/865 or 868 (index) Code qualifying enumeration and chronology to indicate the type of the part being enumerated Alternative numbering MARC: Subfield-defined: 853-855 and 863-865 $g, $h (alternative enumeration) and $m (alternative chronology) Code indicating that an enumeration and chronology is a secondary or parallel numbering sequence
+
+electronicLocator
+
+5
+
+holdings / holding / holdingStructured / set / component
+
+enumerationAndChronology
+
+5
+
+holdings / holding / holdingStructured / set / component
+
+unitType (attribute)
+
+6
+
+holdings / holding / holdingStructured / set / component / enumerationAndChronology
+
+O
+
+N
+
+Values: (1) basic (default) (2) supplement (3) index
+
+altNumbering (attribute)
+
+6
+
+holdings / holding / holdingStructured / set / component / enumerationAndChronology
+
+O
+
+N
+
+Boolean
+
+34
+
+IS 15993 : 2012 ISO 20775 : 2009
+Table 1 (continued)
+Data element Level Parent elements M/ O/ C O Rpt Y/N N Notes, including values Example: general statement about supplements ISO 8459 element MARC 21 holdings mapping Definition Free text note MARC 853-855; 863-865 $x (Non-public note) and $z (Public note) Text string qualifying elaborating enumeration chronology enumeration 6 holdings / holding / holdingStructured / set / component / enumerationAndChronology holdings / holding / holdingStructured / set / component / enumerationAndChronology / enumeration C Y Either enumeration or chronology shall be present; both may be present and and
+
+note (attribute)
+
+6
+
+holdings / holding / holdingStructured / set / component / enumerationAndChronology
+
+Group of data elements indicating the enumeration of a copy of a serial issue, such as a volume or issue number Enumeration level MARC: Subfield-defined: $a - $f in various subfields Number indicating the hierarchical sequence of an enumeration element in relation to other similar elements in an enumeration and chronology group with the broadest element having the lowest level
+
+level (attribute)
+
+7
+
+M
+
+N
+
+caption
+
+7
+
+holdings / holding / holdingStructured / set / component / enumerationAndChronology / enumeration holdings / holding / holdingStructured / set / component / enumerationAndChronology / enumeration
+
+O
+
+N
+
+Enumeration caption MARC 853-855 $a-f Label describing the contents and level of an enumeration element
+
+value
+
+7
+
+M
+
+N
+
+Enumeration MARC 863-865 $a-f Number, letter or word that combined with an enumeration caption identifies a unit of a resource that is published in parts and identifying the relationship of the part to the whole resource
+
+chronology
+
+6
+
+holdings / holding / holdingStructured / set / component / enumerationAndChronology holdings / holding / holdingStructured / set / component / enumerationAndChronology / chronology
+
+C
+
+Y
+
+Either enumeration or chronology shall be present; both may be present
+
+Group of data elements indicating the date of publication or issue of a part of a multi-part resource and distinguishing it from other parts of the same resource Chronology level MARC: Subfield-defined: $i - $l in various subfields Number indicating the hierarchical sequence of a chronological element in relation to other similar elements in an enumeration and chronology group with the broadest element having the lowest level
+
+level (attribute)
+
+7
+
+O
+
+N
+
+35
+
+IS 15993 : 2012 ISO 20775 : 2009
+Table 1 (continued)
+Data element Level Parent elements M/ O/ C O Rpt Y/N N Notes, including values ISO 8459 element MARC 21 holdings mapping Definition Chronology caption MARC 853-855 $i-l Label describing the contents and level of a chronological element M N Chronology MARC 863-865 $i-l Phrase expressing a time period identifying a unit of a resource which is published in parts and identifying the relationship of the part to the whole resource O N Group of data elements summarizing the availability of a particular physical or digital copy set of a bibliographic resource that is published serially or in parts Group of data elements indicating and predicting actual availability of a copy or group of copies Values: (0) unknown (1) available (2) not available (3) possibly available availableFor 7 holdings / holding / holdingStructured / set / component / availabilityInformation / status O N Values: (0) unspecified (1) loan (2) physical copy (3) digital copy (4) online access (5) reference look-up (6) other dateTimeAvailable 7 holdings / holding / holdingStructured / set / component / availabilityInformation / status holdings / holding / holdingStructured / set / component / availabilityInformation holdings / holding / holdingStructured / set / component / availabilityInformation O N Date / time item available Date and time on which a resource or a particular copy of a resource will be ready for access or delivery O N Recommended structure: ISO 2146 Availability policy Phrase or structure that indicates restrictions which apply in relation to loan, copy or access Group of data elements or single element indicating charge amounts for various services relating to the delivery of a resource Circulation status Code that indicates the availability of a copy or group of copies for access, copy or loan in the context of a particular request Available for Code indicating the nature of service available in relation to a specific bibliographic resource
+
+caption
+
+7
+
+holdings / holding / holdingStructured / set / component / enumerationAndChronology / chronology holdings / holding / holdingStructured / set / component / enumerationAndChronology / chronology
+
+value
+
+7
+
+availabilityInformation
+
+5
+
+holdings / holding / holdingStructured / set / component
+
+status
+
+6
+
+holdings / holding / holdingStructured / set / component / availabilityInformation holdings / holding / holdingStructured / set / component / availabilityInformation / status
+
+O
+
+Y
+
+availabilityStatus
+
+7
+
+O
+
+N
+
+policy
+
+6
+
+feeInformation
+
+6
+
+O
+
+N
+
+36
+
+IS 15993 : 2012 ISO 20775 : 2009
+Table 1 (continued)
+Data element Level Parent elements M/ O/ C C Rpt Y/N N Notes, including values Either feeText or feeStructured shall be present under feeInformation but not both Either feeText or feeStructured shall be present under feeInformation but not both Examples: loan fee, reservation fee, digitization fee, reference look-up fee, etc. ISO 8459 element MARC 21 holdings mapping Definition Text string indicating charge amounts for various services relating to the delivery of a resource
+
+feeText
+
+7
+
+holdings / holding / holdingStructured / set / component / availabilityInformation / feeInformation holdings / holding / holdingStructured / set / component / availabilityInformation / feeInformation holdings / holding / holdingStructured / set / component / availabilityInformation / feeInformation / feeStructured holdings / holding / holdingStructured / set / component / availabilityInformation / feeInformation / feeStructured holdings / holding / holdingStructured / set / component / availabilityInformation / feeInformation / feeStructured holdings / holding / holdingStructured / set / component / availabilityInformation / feeInformation / feeStructured / feeAmount holdings / holding / holdingStructured / set / component / availabilityInformation
+
+feeStructured
+
+7
+
+C
+
+Y
+
+Group of data elements indicating charge amounts for various services relating to the delivery of a resource
+
+feeReason
+
+8
+
+M
+
+N
+
+Fee type Code or phrase representing the reason for a charge such as a service charge or fee
+
+feeUnit
+
+8
+
+O
+
+N
+
+Examples: per image, Fee unit per page, per 10 Code or phrase indicating the pages or part thereof coverage of a fee amount
+
+feeAmount
+
+8
+
+M
+
+N
+
+Amount Sum of money required for a purchase or service
+
+currencyCode (attribute)
+
+9
+
+O
+
+N
+
+Use ISO 4217
+
+Currency code Code indicating the type of currency of a particular sum of money
+
+reservationPolicy
+
+6
+
+O
+
+N
+
+Values: (0) unknown (1) will accept (2) will not accept (3) will possibly accept
+
+Reservation policy Code indicating whether a party owning or managing a resource will accept reservations for the resource
+
+reservationQueue
+
+6
+
+holdings / holding / holdingStructured / set / component / availabilityInformation holdings / holding
+
+O
+
+N
+
+Reservation queue length Count of the number of people in a reservation queue for a particular copy, resource or group of copies
+
+summaryPolicy
+
+2
+
+O
+
+Y
+
+Summary policy Group of data elements for a resource or set of resources and their copies summarizing availability policy, conditions and charges
+
+37
+
+IS 15993 : 2012 ISO 20775 : 2009
+Table 1 (continued)
+Data element Level Parent elements M/ O/ C M Rpt Y/N N Notes, including values Examples: jpeg, mpeg, pdf, gauge of a film, reduction ratio of microfilm, microcomputer software version, size of computer disk or cassette, diskette format ISO 8459 element MARC 21 holdings mapping Definition Form (technical specifications) MARC 007/00-01 and 842 (textual); 008/23 (in BK, MU, SE, MM); 008/29 (in MP, VM) in related bibliographic record Group of data elements concerning physical or digital characteristics of a bibliographic resource that may constrain its use or indicate software that can read and display the resource Code, phrase or pointer indicating a source list within which a value is unique Physical or digital form of a bibliographic resource, often constraining its use or indicating software that can read and display the resource Examples: not for loan, in library use only, overnight only, circulation limited by user type, term loan, semester loan, available for supply without return, renewal not permitted Recommended structure from ISO 2146 availableFor 4 holdings / holding / summaryPolicy / availabilityPolicy O N Values: (0) unspecified (1) loan (2) physical copy (3) digital copy (4) online access (5) reference look-up (6) other reservationPolicy 3 holdings / holding / summaryPolicy O N Values: (0) unknown (1) will accept (2) will not accept (3) will possibly accept feeInformation 3 holdings / holding / summaryPolicy O N Group of data elements indicating charge amounts for various services relating to the delivery of a resource Either feeText or feeStructured shall be present under feeInformation but not both Text string indicating charge amounts for various services relating to the delivery of a resource Reservation polocy Code indicating whether a party owning or managing a resource will accept reservations for the resource Available for Code indicating the nature of service available in relation to a specific bibliographic resource Availability policy (MARC has some information in 008/20) Phrase or structure indicating restrictions which apply in relation to loan, copy or access
+
+form
+
+3
+
+holdings / holding / summaryPolicy
+
+typeOrSource
+
+4
+
+holdings / holding / summaryPolicy / form holdings / holding / summaryPolicy / form
+
+M
+
+N
+
+value
+
+4
+
+M
+
+N
+
+availability
+
+3
+
+holdings / holding / summaryPolicy
+
+M
+
+Y
+
+feeText
+
+4
+
+holdings / holding / summaryPolicy / feeInformation
+
+C
+
+N
+
+38
+
+IS 15993 : 2012 ISO 20775 : 2009
+Table 1 (continued)
+Data element Level Parent elements M/ O/ C C Rpt Y/N Y Notes, including values Either feeText or feeStructured shall be present under feeInformation but not both Examples: loan fee, reservation fee, digitization fee, reference look-up fee, etc. ISO 8459 element MARC 21 holdings mapping Definition Group of data elements indicating charge amounts for various services relating to the delivery of a resource Fee type Code or phrase representing the reason for a charge such as a service charge or fee
+
+feeStructured
+
+4
+
+holdings / holding / summaryPolicy / feeInformation
+
+feeReason
+
+5
+
+holdings / holding / summaryPolicy / feeInformation / feeStructured
+
+M
+
+N
+
+feeUnit
+
+5
+
+holdings / holding / summaryPolicy / feeInformation / feeStructured holdings / holding / summaryPolicy / feeInformation / feeStructured holdings / holding / summaryPolicy / feeInformation / feeStructured / feeAmount holdings / holding
+
+O
+
+N
+
+Examples: per image, Fee unit per page, per 10 pages or part thereof Code or phrase indicating the coverage of a fee amount Amount Sum of money required for a purchase or service
+
+feeAmount
+
+5
+
+M
+
+N
+
+currencyCode (attribute)
+
+6
+
+O
+
+N
+
+Use ISO 4217
+
+Currency code Code indicating the type of currency of a particular sum of money
+
+summaryHistory
+
+2
+
+O
+
+N
+
+Group of data elements summarizing circulation and access activity for a resource or group of resources in a given time period Count period Time period used to calculate a statistical total
+
+countPeriod
+
+3
+
+holdings / holding / summaryHistory
+
+O
+
+Y
+
+countPeriodStart
+
+4
+
+holdings / holding / summaryHistory / countPeriod holdings / holding / summaryHistory / countPeriod holdings / holding / summaryHistory / countPeriod holdings / holding / summaryHistory / countPeriod / totalCirculation
+
+M
+
+N
+
+Count period start Earliest date of a period used for counting
+
+countPeriodEnd
+
+4
+
+M
+
+N
+
+Count period end Last date of a period used for counting
+
+totalCirculation
+
+4
+
+O
+
+N
+
+Group of data elements indicating the circulation activity of a resource or group of resources Total circulation count
+
+totalCirculationCount
+
+5
+
+M
+
+N
+
+Number of times that any copy of a resource or group of resources has been lent in a given time period including external loans
+O N Total loans count
+
+totalLoansCount
+
+5
+
+holdings / holding / summaryHistory / countPeriod / totalCirculation
+
+Number of times that any copy of a resource or group of resources has been lent in a given time period not including external loans
+
+39
+
+IS 15993 : 2012 ISO 20775 : 2009
+Table 1 (continued)
+Data element Level Parent elements M/ O/ C O Rpt Y/N N Notes, including values ISO 8459 element MARC 21 holdings mapping Definition Total DCB count Number of times that any copy of a resource or group of resources has been lent directly to an external user (Direct Consortia Borrowing) in a given time period O N Group of data elements indicating the number of interlibrary loan transactions with external libraries in a given period, including incoming and outgoing loans and copies Total inter-library loans count Number of inter-library loan transactions with external libraries in a given period, including incoming and outgoing loans and copies for a resource or group of resources O N Total inter-library loans lent Number of times that any copy of a resource or a group of resources has been lent to another library or copied for another library in a given period O N Total inter-library borrowed loans
+
+totalDCBCount
+
+5
+
+holdings / holding / summaryHistory / countPeriod / totalCirculation
+
+totalILL
+
+5
+
+holdings / holding / summaryHistory / countPeriod / totalCirculationCount
+
+totalILLCount
+
+6
+
+holdings / holding / summaryHistory / countPeriod / totalCirculation / totalILL
+
+M
+
+N
+
+totalILLLent
+
+6
+
+holdings / holding / summaryHistory / countPeriod / totalCirculation/ totalILL
+
+totalILLBorrowed
+
+6
+
+holdings / holding / summaryHistory / countPeriod / totalCirculation / totalILL
+
+Number of times that any copy of a resource or a group of resources has been borrowed from another library or copied from another library in a given period O N Total reservations count Number of times that a resource or group of resources were reserved for use in a given period O N Total access count Number of times that any copy of a resource or group of resources has been accessed in a given time period that implied physical handling or electronic access M N Group of data elements summarizing the total number of copies held, acquired and discarded in a given time period Total copies count Number of copies of a resource or group of resources that were owned, rented or accessible by an institution in a given time period
+
+totalReservationsCount
+
+4
+
+holdings / holding / summaryHistory / countPeriod
+
+totalAccessCount
+
+4
+
+holdings / holding / summaryHistory / countPeriod
+
+copiesCount
+
+4
+
+holdings / holding / summaryHistory / countPeriod holdings / holding / summaryHistory / countPeriod / copiesCount
+
+totalCopiesHeld
+
+5
+
+O
+
+N
+
+40
+
+IS 15993 : 2012 ISO 20775 : 2009
+Table 1 (continued)
+Data element Level Parent elements M/ O/ C O Rpt Y/N N Notes, including values ISO 8459 element MARC 21 holdings mapping Definition Group of data elements concerning number of copies of a resource or group of resources that were acquired by purchase or other means in a given time period Total acquired Number of copies of a resource or group of resources that were acquired by purchase or other means in a given time period O Y Collection Group of data elements that describe and define a group of resources and their associated copies within an institution's bibliographic resources M N Total collection count Number of copies of a resource or group of resources that are included in a collection
+
+totalAcquired
+
+5
+
+holdings / holding / summaryHistory / countPeriod / copiesCount
+
+totalAcquiredCount
+
+6
+
+holdings / holding / summaryHistory / countPeriod / copiesCount / totalAcquired holdings / holding / summaryHistory / countPeriod / copiesCount / totalAcquired
+
+M
+
+N
+
+collection
+
+6
+
+totalCollectionCount
+
+7
+
+holdings / holding / summaryHistory / countPeriod / copiesCount / totalAcquired/ collection holdings / holding / summaryHistory / countPeriod / copiesCount / totalAcquired / collection holdings / holding / summaryHistory / countPeriod / copiesCount / totalAcquired / collection/ collectionProfile holdings / holding / summaryHistory / countPeriod / copiesCount / totalAcquired / collection/ collectionProfile holdings / holding / summaryHistory / countPeriod / copiesCount
+
+collectionProfile
+
+7
+
+O
+
+Y
+
+Collection profile Group of data elements describing and differentiating a collection including location and material type attributes
+
+collectionCode
+
+8
+
+M
+
+N
+
+Collection code Code or text string that identifies an attribute of a collection
+
+collectionDescription
+
+8
+
+M
+
+N
+
+Collection description Description of a property or properties that are common to all copies of a collection
+
+totalDiscardedCount
+
+5
+
+O
+
+N
+
+Total discarded Number of copies of a resource or group of resources that were discarded from a collection in a given time period
+
+lastActivityInfo
+
+3
+
+holdings / holding / summaryHistory
+
+O
+
+Y
+
+Group of data elements indicating when a resource or group of resources was last active and the type of activity involved
+
+41
+
+IS 15993 : 2012 ISO 20775 : 2009
+Table 1 (continued)
+Data element Level Parent elements M/ O/ C M Rpt Y/N N Notes, including values ISO 8459 element MARC 21 holdings mapping Definition Date / time of item's last activity Date and time on which a copy or group of copies was last involved in a circulation or delivery transaction that implied physical handling or electronic access, such as a loan, return, transfer or download O N Last activity type Group of data elements indicating the nature of the last activity of a copy of bibliographic resource M N Code, phrase or pointer indicating a source list within which a value is unique Examples: return, stocktake, transfer Code or phrase indicating the nature of the last activity of a copy of a bibliographic resource
+
+lastActivityDate
+
+4
+
+holdings / holding / summaryHistory / lastActivityInfo
+
+lastActivityType
+
+4
+
+holdings / holding / summaryHistory / lastActivityInfo
+
+typeOrSource
+
+5
+
+holdings / holding / summaryHistory / lastActivityInfo / lastActivityType holdings / holding / summaryHistory / lastActivityInfo / lastActivityType
+
+value
+
+5
+
+M
+
+N
+
+7
+
+XML schema
+
+Information, including the XML encoded version of this schema is located at: http://www.loc.gov/isohold/.
+
+42
+
+IS 15993 : 2012 ISO 20775 : 2009
+
+Annex A (informative) Elaboration of terms and definitions
+
+The following terms and definitions are repeated from Clause 3. The purpose of this annex is to explain these definitions and put them in context with the variants that are in common practice. These variants have different meanings in different contexts bibliographic resource entity, either serial or non-serial, that forms the basis for a single resource description holdings information that describes, analyses and controls copies associated with a bibliographic resource set collection of components of a bibliographic resource including multi-volume publications and resources published serially, often received by a subscription purchase copy tangible instance of a bibliographic resource or set, whether physical or electronic, comprising one or more pieces component unique bibliographic part of a set, such as a volume of a serial or multi-volume work piece unit of a copy on which transactions can be made, such as a physical part that can be lent or reserved, or an electronic file that can be downloaded or accessed chronology indication of the date of publication or date of issue of a component of a multi-part resource, distinguishing it from other components of the same resource enumeration alpha-numeric identification of a component of a multi-part resource, such as a volume or issue The intention of this annex is to clarify the word usage, particularly the word "copy" that has different meanings depending on the context in which is it used. Colloquially, a copy is a physical copy such as "my copy of Gone with the Wind" but it may also be a copy of a multi-part or serial item, such as "my copy of Scientific American". In fact the word "copy" can be used at multiple levels: There can be a copy of a set or of a component and in this usage "copy" can have parts. Figure A.1 attempts to illustrate how these concepts relate to one another as defined in this International Standard. In the case of simple holdings, for example a single volume monograph, the bibliographic resource is a set of one component, so that these levels (set and component) are collapsed and there is only one breakdown, that of piece. For monographs, copies and pieces are equivalent.
+
+43
+
+IS 15993 : 2012 ISO 20775 : 2009
+Figure A.1 illustrates the basic holdings hierarchy as defined in this International Standard.
+
+Figure A.1 -- Basic holding hierarchy
+
+Figure A.2 gives an example of the holding hierarchy of a resource published in multiple parts.
+
+Figure A.2 -- Basic holding hierarchy -- Multi-volume resource
+
+44
+
+IS 15993 : 2012 ISO 20775 : 2009
+Figure A.3 gives an example of the holding hierarchy of a resource published as a single part.
+
+Figure A.3 -- Basic holding hierarchy -- Single-part resource
+
+45
+
+IS 15993 : 2012 ISO 20775 : 2009
+
+Bibliography
+
+[1] [2] [3] [4] [5] [6] [7]
+
+ISO 2146, Information and documentation -- Registry services for libraries and related organizations ISO 23950, Information and documentation -- Information retrieval (Z39.50) -- Application service definition and protocol specification ANSI/NISO Z39.50, Information retrieval: Application service definition and protocol specification ANSI/NISO Z39.7, Information services and use: Metrics & statistics for libraries and information providers Data dictionary ANSI/NISO Z39.83-1, Circulation interchange -- Part 1: Protocol (NCIP) ANSI/NISO Z39.88, The Open URL Framework for Context-Sensitive Services RFC 4510, Lightweight directory access protocol (LDAP): Technical specification road map
+
+46
+
+Bureau of Indian Standards BIS is a statutory institution established under the Bureau of Indian Standards Act, 1986 to promote harmonious development of the activities of standardization, marking and quality certification of goods and attending to connected matters in the country. Copyright BIS has the copyright of all its publications. No part of these publications may be reproduced in any form without the prior permission in writing of BIS. This does not preclude the free use, in course of implementing the standard, of necessary details, such as symbols and sizes, type or grade designations. Enquiries relating to copyright be addressed to the Director (Publications), BIS. Review of Indian Standards Amendments are issued to standards as the need arises on the basis of comments. Standards are also reviewed periodically; a standard along with amendments is reaffirmed when such review indicates that no changes are needed; if the review indicates that changes are needed, it is taken up for revision. Users of Indian Standards should ascertain that they are in possession of the latest amendments or edition by referring to the latest issue of `BIS Catalogue' and `Standards: Monthly Additions'. This Indian Standard has been developed from Doc No.: MSD 5 (395). Amendments Issued Since Publication ______________________________________________________________________________________ Amendment No. Date of Issue Text Affected ______________________________________________________________________________________ ______________________________________________________________________________________ ______________________________________________________________________________________ ______________________________________________________________________________________ ______________________________________________________________________________________ BUREAU OF INDIAN STANDARDS Headquarters: Manak Bhavan, 9 Bahadur Shah Zafar Marg, New Delhi 110002 Telephones: 2323 0131, 2323 3375, 2323 9402 Website: www.bis.org.in Regional Offices: Central : Manak Bhavan, 9 Bahadur Shah Zafar Marg NEW DELHI 110002 Telephones 2323 7617 { 2323 3841
+
+Eastern : 1/14, C.I.T. Scheme VII M, V.I.P. Road, Kankurgachi KOLKATA 700054 Northern : SCO 335-336, Sector 34-A, CHANDIGARH 160022 Southern : C.I.T. Campus, IV Cross Road, CHENNAI 600113 Western : Manakalaya, E9 MIDC, Marol, Andheri (East) MUMBAI 400093
+
+8499, 2337 8561 { 2337 2337 8626, 2337 9120 3843 { 260 260 9285 1216, 2254 1442 { 2254 2254 2519, 2254 2315 9295, 2832 7858 { 2832 2832 7891, 2832 7892
+
+Branches: AHMEDABAD. BANGALORE. BHOPAL. BHUBANESHWAR. COIMBATORE. DEHRADUN. FARIDABAD. GHAZIABAD. GUWAHATI. HYDERABAD. JAIPUR. KANPUR. LUCKNOW. NAGPUR. PARWANOO. PATNA. PUNE. RAJKOT. THIRUVANATHAPURAM. VISAKHAPATNAM.
+Published by BIS, New Delhi
+
+

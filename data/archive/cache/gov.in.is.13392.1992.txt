@@ -1,0 +1,808 @@
+IS 13392 : 1992 IS0 6593 : 1985
+
+( Reaffirmed 2004 )
+
+PROGRAMME FLOW FOR PROCESSING SEQUENTIAL FILES IN TERMS OF RECORD GROUPS FOR INFORMATION PROCESSING
+
+U DC
+
+681'3'066
+
+QBIS
+
+1992
+
+BUREAU
+MANAK
+
+OF
+
+INDIAN
+
+STANDARDS
+ZAFAR MARG . Price Group 4
+
+BHAVAN,
+
+9 BAHADUR SHAH NEW DELHI 110002
+
+April 1992
+
+IS 13392 : 1992 IS0 6593 : 1985
+
+Indian Standard
+PROGRAMME FLOW FOR PROCESSING SEQUENTIAL FILES IN TERMS OF RECORD GROUPS FOR INFORMATION PROCESSING
+NATIONAL FOREWORD
+
+This Indian Standard which is `identical with IS0 6593 : 1985 `Information processing Program flow for processing sequential files in terms of record groups' issued by the International Organization for Standardization ( IS0 ) was adopted by the Bureau of Indian Standards on the recommendation of Information Systems and Software Sectional Committee ( LTD 33 ) and approval of the Electronics and Telecommunication Division Council. In the adopted standard certain terminology and conventions are however not identical to those used in Indian Standards. Attention is particularly drawn to the following: Wherever the words `International should be read as `Indian Standard'. Standard' appear referring to this standard, they
+
+1
+
+As in the Original Standard, this Page is Intentionally Left Blank
+
+IS 13392 : 1992 IS0 6593 : 1985
+
+1 1.1
+
+Scope
+This
+
+and field
+International
+
+of application
+Standard describes two alternative
+
+4)
+
+the actions to be taken when a control break at any
+
+level does, or does not exist; general procedures which logically organized (method A and method B) for any program have been 6) after the complete procedure termination. 5) normal processing, if any;
+
+is required to process sequential
+
+files which
+
+in terms of groups of records.
+
+Method A - Checks the control head condition termination of the appropriate level Method initiation B Checks the control head condition level.
+
+2
+before the
+
+Definitions
+of this International Standard the following
+
+For the purpose definitions apply.
+
+of the appropriate
+
+Both are based upon the recognition is to be processed a change,
+
+that for each record which in the value of
+
+or lack of change,
+
+2.1 complete procedyre : All those activities described within this International Standard which commence with entry to the procedure and conclude with exit from the procedure.
+
+an item in that record may affect the flow of control.
+
+1.2
+
+The procedures any program
+
+described in which
+
+may be used as the basis for
+
+designing a) b)
+
+2.2 main procedure : All those activities, subsequent to the general initiation routine and prior to the general termination routine within the complete logical record procedure.
+
+one or more input files are to be processed sequentially;
+
+2.3
+each input file is accessed in a defined order of logical groups of records: c) the records held in each input file contain specified or se2.4
+
+: The set of data which is processed in a
+
+single iteration of the main procedure. NOTE - It may be pan or the whole of a single physical record or of a number of records.
+
+items of data which not a change quence.
+
+may be used to determine is required
+
+whether
+
+of control
+
+in the processing
+
+first
+
+input
+
+routine
+
+: Those activities required to obtain
+
+the logical record,
+
+if any, to be processed first.
+
+1.3
+
+The procedures
+
+described
+
+in this International
+
+Standard
+
+2.5
+
+input
+
+routine
+
+: Those activities required to obtain the
+next.
+
+are subject to the following a) The items of data
+
+constraints which
+
+:
+determine control
+
+logical record to be processed
+
+may
+
+changes are organized trol at subordinate b)
+
+into a logical sequence of levels such
+
+NOTE - If there are no more logical records to be processed, the end of-input condition becomes true.
+
+that a change of control at one level implies changes of con levels. are described in 2.6 control field
+
+: The field comprising one or more input
+in value, or lack of change,. between
+
+variables whose change Only input files processed sequentially Standard. described do not detail the routines especially: this International c) The main procedure. level
+
+successive logical records affect the flow of control through the
+
+procedures
+
+2.7
+
+: Where a logical record contains more than one
+they are assumed to have a hierarchical a logical grouping. with one another, indicating
+
+that depend
+
+on user problem or installation,
+
+control field element relationship
+
+1) comolete procedure initiation; /
+2) the sequence in which input files are to be accessed, if more than one; 3) the means of assembling a logical record for pro-
+
+The position in the hierarchy by means of a level number.
+
+is termed a level and is indicated
+
+cessing;
+
+NOTE - For the purpose of this International Standard only the level number is assigned such that the most subordinab control field element is assigned level 1, the next is level 2 etc. Where there are n levels the most superior control field element will be at level n.
+
+3
+
+IS 73392 : 1992
+IS0 6593 : 1985
+
+2.8
+
+level 1 control
+
+break
+
+: A situation which occurs when
+in the current previously logical
+
+the unchanged mal processing etc. If there
+
+level 2 (when routines.
+
+used),
+
+level 1 initiation
+
+and nor--
+
+the values
+
+in the control
+
+field elements
+
+Otherwise,
+
+the level 2 termination
+
+record (and at the level specified) are not the same as the values in the same elements logical record. of the immediately processed
+
+routine is entered and a test made for a control break at level 3,
+
+is a control
+
+break at the most superior,
+
+or nth level, levels and
+
+NOTE - The values of the control field elements will be obtained from the current logical record in the intiation routines of the appropriate level. The action of examining the control field should ensure that if
+there is a change in value at a level above 1, a control break is registeied at all levels subordinate to the level at which the change actuallv occurs.
+
+then control breaks are registered level termination and including, input and, mination complete action
+
+at all subordinate
+
+taken for each of those levels up to, is true, performs the general ter-
+
+the nth level. The program then tests for end-ofand leaves the complete termination procedure via the
+
+if that condition routine procedure
+
+routine; otherwise
+
+the level inroutine.
+
+itiation routines are entered in turn from that for the nth level to 2.9 level 1 record group
+
+: Level 1 record group is a set of
+are equal for all levels
+
+that for level 1, before entering the normal processing
+
+records
+
+whose
+
+control
+
+field elements level 1.
+
+superior to and including
+
+2.10
+when
+
+level
+
+1 termination
+
+routine
+
+: Those activities required
+processing all
+
+4
+
+Description
+
+of method
+
+I3
+with figure 2. undertakes
+
+level 1 control
+
+break occurs to conclude
+
+records belonging
+
+to level 1 record group.
+
+This description
+
+should be read in conjunction procedure
+
+2.11
+
+level
+
+i
+
+initiation
+
+routine
+
+: Those activities
+
+Upon entry to the complete required all any necessary initiation
+
+the program
+
+activities
+
+(for example
+
+: obtain and
+there is in fact exits terprocedure
+
+when level 1 control break occurs to commence records belonging to level 1 record group.
+
+processing
+
+open input files, if not previously assigned). some input data to be processed, if none,
+
+The program then the program
+
+enters the first input routine and checks whether from the complete mination Where routine. procedure via the complete
+
+2.12
+
+unchanged
+
+level
+
+: Those activities required when the
+
+level 1 did not.
+
+1 control break did occur but the level 1 control break
+
+there is input data to be processed routines in turn,
+
+the program
+
+enters
+
+the level initiation
+
+commencing
+
+at the most The program
+
+3
+
+Description
+
+of method
+
+A
+with figure 1,
+
+superior level and finishing with level 1 initiation. then enters the normal processing record. On subsequent iterations the program,
+
+routine for the first logical
+
+This description should where "n" is "3".
+
+be read in conjunction
+
+for each logical record, at level 1. As defined in to
+
+Upon entry to the complete any necessary initiation
+
+procedure
+
+the program example:
+
+undertakes obtain and then perthe
+
+tests for control
+
+breaks, commencing
+
+activities
+
+(for
+
+2.8, a control break is also registered at all levels subordinate no control break at level 1 there is no change the program continues
+
+open input files, if not previously assigned). some input data to be processed. forms routine. Where there is input data to be processed the empty files processing complete procedure If none, routine
+
+The program the program and exits from
+
+that at which there is an actual change in value. Thus if there is in value for any control field element; to the normal pro-
+
+enters the first input routine and checks whether
+
+there is in fact
+
+cessing routine for the current logical record. If a control break does occur at level 1 the program enters the level 1 termination routine and then tests for a control break at level 2; if there is no control break at level 2, the flow of control passes in turn routines.
+
+via the complete
+
+procedure
+
+termination
+
+the program
+
+per-
+
+through
+
+the level 1 initiation
+
+and normal
+
+processing
+
+forms the general initiation and finishing wi&h the
+
+routine and then enters the level inat the most superior level The program then 1 initiation.
+
+Otherwise,
+
+the level 2 termination
+
+routine is entered and a test
+
+itiation routines in turn, commencing level enters the normal processing On subsequent tests for control iterations breaks,
+
+made for a control break at level 3, etc.' If there is a control break at the most superior, or nth level, then control breaks are registered at all subordinate levels and level termination cluding, the action taken for each of those levels up to, and inthen tests for end-of-input procedure otherwise via the routine; is true, leaves the complete termination are entered in turn from
+
+routine for the first logical record. for each logical record, at level 1. As defined in to
+
+the program, commencing
+
+the nth level. The program procedure routines
+
+2.8, a control break is also registered at all levels subordinate no control routine break at level 1 there is no change used) and continues
+
+and, if that condition complete level initiation ing routine. If there propriate and/or is any need
+
+that at which there is an actual change in value. Thus if there is in value for any level 1 processing routine control field element; (when the program enters the unchanged to the normal
+
+that for the
+
+nrh lev,el to that for level 1, before entering the normal process-
+
+routine for the current logical record. If a control break does occur at level 1 the program enters the level 1 termination for unchanged Jevel routines in the the apand then tests for a control break at level 2; if there is no control break at level 2, the flow of control passes in turn through activities should routines. be incorporated initiation
+
+termination
+
+IS 13392 : 1992 IS0 6593 : 1985
+
+SW faxntie 11 I--_--___:
+
+--I
+
+I I 1 I
+
+Figure
+
+1 -
+
+Method
+
+A flowchart
+
+1)
+
+If an unchanged
+
+level routine is required,
+
+insert here.
+
+5
+
+IS 13392
+IS0 6593
+
+: 1992
+: 1985
+
+no
+
+-_-.
+
+L
+
+Led2 irtitidm rchne
+
+t
+
+Figure 2 -
+
+Method
+
+B flowchart
+
+6
+
+IS 13392 : 1992 IS0 6593 : 1985
+
+Annex Implementation
+
+A
+
+recommendations
+
+(This annex forms part of the standard.)
+
+A.1
+
+Organization
+
+of control
+field may,
+
+field
+or may not, be con-
+
+A.2
+When
+
+General
+
+termination
+level termination activities condition
+
+The element(s) tiguous.
+
+in a control
+
+all input has been processed, becomes apparent within
+
+There are advantages If practicable
+
+in arranging for such contiguity outlined in figure 3
+
+shall be carried out for all levels.. The end-of-input normally recommended tained through mation when that, in such a situation,
+
+but the layout of the logical record may be subject to other considerations. the arrangement should be obtained; otherwise the logic of the input routine
+
+the `input routine and it is the input routine sets on the input. In inforfor example unless such values are obto finalize by-product
+
+the control field to higher values, many applications it is customary
+
+should place the control field elements in some area of working storage for access in control break testing. Control fields are arranged with the most superior control field element (level n) being the most significant control field element (level followed the by, in least order of significance, subordinate significant. When testing for a control level 1 to for tfie current break at level 1, the control level n in ascending order logical record are compared field of other control field elements with the most 1) being
+
+a high values record appearing
+
+the end of actual input is reached,
+
+pass check sums to an output file or print totals on an analysis.
+
+elements, significance,
+
+from
+
+A.3
+
+Level termination
+be noted that
+
+routines
+a control break may be
+
+with It should registered elements although as a consequence of examining the control field
+
+those of the previously Table be
+
+processed logical record. the levels at which control breaks would of successive logical records,
+
+1 demonstrates
+for
+
+in the current logical record, the information
+
+content
+
+registered
+
+a number
+
+assuming four levels of control.
+
+of that record does not contribute towards processed in level termination routines.
+
+that which may be
+
+CONTROL
+
+FIELD LEVEL n
+
+I I
+I
+I
+
+CONTROL ELEMENT
+
+FIELD LEVEL 2
+
+CONTROL ELEMENT
+
+FIELD LEVEL 1
+
+I
+
+ELEMENT
+
+I
+
+level n level 2
+
+Figure
+
+3 -
+
+Parts
+
+of control
+
+field
+
+used in control
+
+field
+
+testing
+
+Table
+
+1 -
+
+Examples
+
+of control
+
+field
+
+breaks
+
+-___.-.___
+-___ level 4 RIO
+
+Value of control Contents of control field elements
+level 3 78 level 2 11 level 1 30 Control breaks registered at
+
+(first pass1 level 1 and 2 level 1 level 1, 2, 3, 4 level 1, 2, 3
+
+RIO RIO TYO TYO
+
+78 78 78 79
+
+12 12 12 01
+
+15 16 16 02
+
+7
+
+IS 13392 : 1992 IS0 6593 : 1985
+
+Annex Example of application
+
+B
+:
+
+Budget
+
+analysis
+
+(This annex does not form part of the Standard.)
+
+A maintained each grouping
+
+file contains details of expenditure, level.
+
+organized
+
+in groups of budget centres within departments
+
+in operating
+
+divisions. of costs for
+
+There may be more than one record for the same budget centre. An analysis is to be produced
+
+which shows a summary
+
+For the benefit of this example the logic concerned cussed here. The complete procedure initiation
+
+with such errors as input file out of sequence
+
+or invalid control field is not dis-
+
+routine opens the input file and a print stream. with the
+
+The input routine (first input routine) obtains the next (first) record from the input file and provides the control field elements value of level 3 = operating division;
+
+level 2 = department; level 1 = budget centre. The general initiation routine clears final totals. When upon a separate page. the control field of the current input record with that of the previously level routines used in this example. processed record. all input has been processed, the general termination routine prints final totals
+
+Control breaks are registered by comparing Action is than as summarized
+
+in table 2. Note that there are no unchanged
+
+Table Control break level land significance) 1: Budget centre
+
+2 -
+
+Control
+
+break
+
+actions
+
+in budget
+
+analysis
+
+Level termination
+
+routine
+
+Level initiation
+
+routine
+
+Print centre totals. Add budget centre totals to deoartment totals. Print department totals. Add department totals to operating division. Print operating division totals. Add opertiting division totals to final totals.
+
+Clear budget centre totals. Set up control field elements at ali levels from old record. Clear department totals. Start new page if less thar 1 10 lines remain on page. Clear operating division. Start new page.
+
+I I
+
+2 : Department 3 : Operating division
+
+The normal processing The complete procedure
+
+routine will add the detailed termination
+
+costs to the budget
+
+centre totals.
+
+routine prints error messages,
+
+if any, and closes the input file and the print stream.
+
+Reprography
+
+Unit,
+
+BIS, New Delhi, India
+
+8
+
+Bureau of Indian Standard established under the Bureau of Indian Standards Act, 1986 to BIS is a statutory institution promote harmonious development of the activities of standardization, marking and quality certification of goods and attending to connected matters in the country. Copyright BIS has the copyright of all its publications. No part of these publications may be reproduced in any form without the prior permission in writting of BIS. This does not preclude the free use, in the course of implementing the standard, of necessary details, such as symbols and sizes, type Enquiries relating to copyright be addressed to the Drrector or grade designation. ( Publications ), BIS. Revision of Indian Standards Indian Standards are reviewed periodically and revised, when necessary and amendments, if any, are issued from time to time. Users of Indian Standards should ascertain that they are in Comments on this Indian Standard may be possession of the latest amendments or edition. sent to BIS giving the following reference: Dot : No. LTD 33 ( 1540 )
+
+Amendments Issued Since Publication Amend No. Date of Issue Text Affected
+
+BUREAU OF INDIAN Headquarters:
+
+STANDARDS
+
+Manak Bhavan, 9 Bahadur Shah Zafar Marg, New Delhi 110002 Telephones : 331 01 31, 331 13 75
+
+Telegrams : Manaksanstha ( Common to all Offices ) Telephone
+
+Regional Offices :
+Central : Manak Bhavan, 9 Bahadur
+
+Shah Zafar Marg 37 84 99, 37 85 26, I 53 38 43, 53 23 84 j 41 24 42, 41 23 15, I
+
+NEW DELHI
+
+110002
+
+331 01 31 331 13 75 ( 37 85 61, 37 85 62 53 16 40, 41 25 19, 41 29 16
+
+Eastern : l/l4 C. I. T. Scheme VII M, V. I. P. Road, ManiktoIa CALCUTTA 700054 Northern Southern Western Branches : SC0 445-446, Sector 35-C, CHANDIGARH : C. I. T. Campus, IV Cross Road, MADRAS
+: Manakalaya,
+
+160036 600113
+
+632 92 95, 63 27 80, 632 78 92 : AHMADABAD, BANGALORE, BHOPAL, BHUBANESHWAR, COIMBATORE, FARIDABAD, GHAZIABAD, GUWAHATI, HYDERABAD, JAIPUR, KANPUR, LUCKNOW, PATNA, THIRUVANANTHAPURAM. .
+Printed at Printwell Printers, Aligarh, India
+
+E9 MIDC, Marol, Andheri ( East ) BOMBAY 400093
+
+

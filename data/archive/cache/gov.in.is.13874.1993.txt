@@ -1,0 +1,524 @@
+( Reaffirmed 2003 )
+
+Indian Standard
+
+GUIDEFORC-PROGRAMMECODING
+UDC 681.3~06 : 80092 CPROG
+
+Q BIS 1993
+
+BUREAU
+MANAK
+
+OF
+BHAVAN,
+
+INDIAN
+9 BAHADUR
+
+STANDARDS
+SHAH ZAFAR MARG
+
+NEW DELHI 110002 October 1993 Price Group 5
+
+Programming
+
+Languages Sectional Committee,
+
+LTD 34
+
+.
+
+FOREWORD This Indian Standard was adopted by the Bureau of lndian Standards, Programming Languages Sectional Committee had been approved munication Division Council. after the draft finalized by the by the Electronics and Telecomthe presentability of the
+
+The guidelines laid down in this standard are for the purpose of improving software so as to facilitate comprehension and maintainability.
+
+IS 13874: 1993
+
+Indian Standard
+
+GUIDEFORC-PROGRAMMBCODING
+1 SCOPE This standard lays down guidelines of C-programming language. The coding guidelines the followmg: are for the use
+Emnple:
+
+char c - 1; /* For reading a character. */float init - g = INITVAL; /* Initial value. "/
+
+not supposed to do programfor good
+
+e! Initializers
+
+a) Restrict or modify individual ming style and preference. serve as b) To programming. 2 REFERENCES Thefollowing Indian Standard adjunct to this standard: a guideline
+
+of structures, unions. and arrays should be formatted with one roq per line. If row size is greater than the line width then continue the row on the next line with the indent of the first element of the row. static short [YMAX] = ( : 1, 2, 3,4, 51 C 6, 7, 8, 9, `0) 1; int matrix Il a
+
+Example:
+
+inputs - g
+
+[ XMAX 1
+
+is a necessary
+
+IS 1885 ( Part 52/Set 15 ) : 1986 Electrotechnical vocabulary: Part 52 Data processing, Section 15 Programming languages 3 TERMINOLOGY For the purpose of this standard the terms and definitions covered by IS 1885 ( Part 521 See 15 1 : 1986 shall apply. 4 GENERAL The coding guidelines in this standard have been presented in a general format of name. standards/guidelines for writing the name along with examples followed by its justification. In some cases the alternatives for them are given. 5 GUlDELINES DATA 5.1 Name lexvctr lexical rules for variables should be written be distinct in lowerfirst 5.1.1 Startdard.7
+a) All variables
+
+g [ XLEN ] [ YLEN ] =
+
+( 10, 20, 30, 40, 50, 60, 70, 80, SO, 100, 110, 120f ( 23, 32, 6, 435, 44, 42, 75, 43, 34, 55, 43, 45 i
+I7
+
+5.1.2
+
+Justification
+
+FOR VARIABLES
+
+AND
+
+The rules of the standard pinpoint location of declarations, distinguish lower-case names from upper-case names, increase readability and encourage documentation. 5.2 Name varnames 5.2.1 Guidelines a) Meaningful names for variables; constants and functions should be chosen. They should be exact and consistent throughout the program. b) Abbreviations for the names should chosen with a uniform scheme. be choosing names.
+
+case letters; b) Names should 6 characters; within
+
+c) Ail names should be declared explicitly and their sequence of declarations should be as follows: 1. External names, 2. Other names; and d) There should be only one declaration source line. per
+
+cl Names should not be redefined
+blocks.
+
+in inner
+
+d) Variables of all classes should be suffixed
+
+with an underscore, followed by one, two or three characters signifying its class as given below:
+
+1
+
+IS 13874 : 1993 Major suffixes All globalvariables `_ 8'3 All Localvariables `- 1' to be suffixed with: to be suffixed with: to be suffixed with: 5.3.1 Standards
+a) Since
+
+.
+
+All filelevel variables c- f'.
+Example :
+
+implementation of C types is dependent on hardware of machine, clarity regarding the type is important in a project. A standard set of data types must be used to make software portable. These defined types are mapped to raw C types of the compiler on the target machine.
+
+MAPPING: g; /* Maximum value. */ 1; /+ Count of input
+Standards Dejined Types Raw Types Usage
+
+long min - g; /`k Minimum value. *:/ long max -
+
+char count values. "/
+
+Short no. of pages -f = 0; /* Number of pages */ /" to be output. "1
+
+char
+
+char
+
+Text characters. Signed signed. has of and un-
+
+integer 1 char integer 2 short/iut whichever a length 2 bytes longlint whichever a length 4 bytes float double char char short/ int whichever a length 2 bytes long/int whichever a length 4 bytes int has of
+
+e) Formal parameters
+following: All input parameters `- 1'.
+c-
+
+must
+
+be suffixed as
+
+Signed and unsigned numbers.
+
+to be suffixed with: to be suffixed \vith: parameters to be real 4 real 8 boolean bits 1 bits 2 integer 4
+
+All output parameters
+0'.
+
+Siined has of
+
+numbers.
+
+All input and output suffixed with: ` - io'. suffix is to suffixes, be used
+
+f) In addition to the major suffix following
+after the
+
+Signed real numbers. Signed real numbers. (double precision). Boolean values (0 or 1) Bit masks (1 byte). Hit masks (2 bytes).
+
+major
+
+All pointer variables to be suffixed with: `P', All register variables to be suffixed with
+` r',
+
+All static variables `S'.
+Eunmple:
+
+to
+
+be sufixed
+
+\\ith:
+
+node - t "nextnode - lp = Pointer to "/ next node. *j /:?node _ t is of type struct. 5.2.2 JustiJication
+
+NULL; `k/
+
+1'" bits 4
+
+Bit masks (4 bytes). has of Type of a function that does not return any value.
+
+void
+
+These rules help in avoiding misnomers and confusion among different classes of variables and hence maintenance is easier 5.3 Name stdtypes standard defined t:YPes*
+2
+
+It is assumed that on most machines this mapping is appropriate. The data type void is to be used to declare functions that do not return any value.
+
+IS 13874.: 1993
+5.3.2 Justfcatiort
+
+# define BUFFSIZE char buff -
+
+60 /" good *j
+
+indication of size in the names of types of integers, reals and bits clarified their usage which is useful during development of a large software as well as porting to other systems. If programs use raw C types they need to be edited extensively for porting. Since standard defined data types can be mapped to the raq types, depending on their implementation, few changes are enough to make the software work. If type `void' is used, it is easy to check if a function returns any value at all, 5.4 Name types user defined types.
+
+1 [BUFFSTZE]; /* good */ 59 /* bad "/ __. [BUFFSIZE f 11; /"
+
+# define BUFFSIZE char buffbad */
+1
+
+e) If a floating point is to be used, mention
+
+decimal point explicitly in it even though it has an integral value.
+Examp/e:
+
+# define FACTOR
+
+12.0 /* Multiplication
+
+factor $`/ 5.4.1 Guidelirzes
+a) Use suffix 6` -
+
+5.5.2 Justification Programs with hard-coded constants are difficult to modify and debug. If such constant occurence is very high in all files, it is difficult to change each and every occurence. The same value might mean different things in different functions by requirement rather than choice. Confusion might arise at distinguishing these from variables. The fourth rule imposes strict usage of meaning of array bound* consistently throughout all programs and hence easy to maintain. A decimal point in a floating point indicates its nature for readers. 5.6 Name
+
+f" for all names of defined types and write in lower-case letters.
+
+I%nmple: typedef char name /*Name - type. :`j /*Node t [NAMESIZE];
+
+type for storing input values. */
+
+type of struct
+
+integer4 %odeval;
+1 node -- t;
+
+charconst
+
+-
+
+character
+
+constants.
+
+56.1 Standards Numeric values of character constants should not be used directly in programs. Special characters such as TAB, LEWLINE, etc, should be defined as character constants.
+Example: and using constants # define TAB ` \ t' # define NEWLINE ` \ II'
+
+5.4.2 Justificatiorz Allnames of types in a program can be easily from other names and it increases readability.
+distinguished
+
+5.5 Name ConslalIl s - choosing 5.5.1 Stnrzdortls
+3) Constants should not be hard-coded.
+
+5.6.2 Just$cation Value of a character constant depends on the implementation of character set of machine.
+
+b) Upper-case
+E_wmple : #
+
+names should be used.
+
+define LINELENGTH length. `:/
+
+70 /"
+
+Line
+
+Example:
+
+# define MAXNOOFSECTS 15 /" Maximum number */ /`$ of sectors. "1 c`) should file. be placed at the beginning of
+
+Numeric value of `0' is 48 in ASG14 character set. Numeric value of `0' is 240 in EBCDIC character set. 57 Same casting 3 usage of casting
+
+ti) when defining constants for array bounds use the number of elements rather than ~%he index of the last element.
+
+IS13874:1993 5.7.1 Standards
+DO not assume default conversions of C raw types. Explicit mention of casting is needed.
+Example: Example: X = f() -kg 0;
+
+In this statement first. 5.9 Name
+
+either f () or g ( ) is computed
+
+double sum bers. */ short numl short num2 ber. */
+
+1; /*
+
+Sum
+
+of two num"/ num-
+
+synonyms - usage for clarity -of programs. 5.9.1 Guidelines
+
+1; /* The first number.
+1; # /" The
+
+second
+
+a) Use following
+programs.
+
+synonyms
+
+for
+
+clarity
+
+of
+
+sum - 1 = (double) numl num2 - 1; 5.7.2 Justification Code can be easily understood. easily located. 5.8 Name ordereval order of evaluation
+
+1 + (double)
+
+# define begin )
+
+# define end ) # define end # define end if } for ) while ) function switch ) j
+
+Errors
+
+can be
+
+# define end # define end # define then {
+
+of expressions.
+
+# define end -
+
+5i8.1 Standards a) Programs should not be dependent on the order of evaluation of an expression, except as guaranteed by C for the following: expr 1, expr2 exprl? expr2 : expr3 exprl && expr2 exprl
+1 / expr2
+
+# define record struct 1, # define endrec } # define TRUE 1 # define FALSE 0
+5i9.2 Justijication
+
+Identification of body of statement, particularly that of control structure, is easy. These also reduce possible syntax errors. 6 GUIDELINES expression, 6.1 Name lexops lexical rules for operators. 6.1 .l Guidelines FOR OPERATORS
+
+In all these cases the first exprl , is evaluated first.
+
+b) lf specific order is required temporary variables should be used for evaluation of sub-expressions. c) No evaluation order should in arguments of a function.
+Example:
+
+4 Primary operators
+Example1
+
+be assumed
+
+= CL-->" "."and i'[ I" should be written with no space around them.
+
+houserec + + i1, aLi]; studentinfo subject -
+
+-
+
+g -> g [j -
+
+loom = i 1]
+
+I;
+
+printf (&$o/,d,%d/n", /*Bad coding "/ 5.8.2 Jusfijcation
+
+1. grade...
+
+b) No space should be written between func-
+
+is implementation dependent; programs behave differently on different machines. The order of evaluation for assocative and commutative operators such as * and + is compiler dependent.
+4
+
+Order of evaluation
+
+tion name and its opening paranthesis. If an expression is enclosed by parantheses, then no space should be left between opening paranthesis and the expression, and the closing and the expression paranthesis.
+
+IS 138745 1993
+Example: Example:
+
+convertual
+
+(inval -
+
+i, outval -
+
+0);
+
+if(ax= else
+
+1= Y:
+
+= 1)
+
+c) There should not be any space between a unary operator and its operand.
+Example: + finished g - noofpoints - i qhouse - pl, &inval g, size of (integer 4j
+
+printf ( `6. . . . . . ", .._ );
+...
+
+The assignment space around it.
+Example:
+
+operator
+
+must
+
+have
+
+a
+
+1
+switch (c g) ( case a case b 1, g :....__; g : .. . . . . .
+
+maxvalue Commas them.
+Example:
+
+1 = MAXVALUE; have one space after
+
+should
+
+getparameters (filnam - g, noofprmts prmtsarr - g);
+
+Other operators should have one space on either side of them.
+Example:
+
+c) A null statement appearing as t;he bo6y of a loop must be placed, in a separate line. while (a 2
+
+initval - 9 + displacement - 1 number - 1 / MAXNOOFVALUES g) All relational as synonyms.
+E.vample: # define AND && # define OR 1 1 # define BITAND
+
+1 < bi) */
+
+operators
+
+should be defined
+
+/*Null statements.
+
+7.1.2 Justification Enhances readability 7.2 Name & )" Bit AND */ restrictrestrictions use on use of control structures. `goto' statement in acy of code.
+
+6.1.2 Justification Readability of the programs is enhanced. FOR CONTROL
+
+7.2.1 Standards Do not function.
+
+7 GUIDELINES STRUCTURES 7.1 Name
+
+7.2.2 Justification Readability easy. is enhanced and maintenance is
+
+lexctl -- lexical rules for control `7.1.1 Guidelines
+
+statements.
+
+8 GUIDELINES 8.1 Name lexfns -
+
+FOR FUNCTIONS
+
+a) Each line which is a part of the body of a C control structure is indented one tab ~stop (preferably two spaces) from the margin of its controlling line. The same applies to function definitions, rule structure/union definitions. b) Each opening and closing braces should be on a separate line and are indented one tab stop from the controlling keyword of C. Code inside the braces should be indented to the same extent from them. 5
+
+lexical rules for functions.
+
+8.1.1 Standards a) Define a constant below. `FUNCTION' as shown
+
+# define FUNCTION Write this constant function. before declaration of
+
+IS 13874: 1993
+EX~nlple:
+
+DATE WRITTEN first written. integer4 convert (...) void getnames (...)
+
+: Date
+
+of which
+
+it is about
+
+FUNCTION FUNCTION
+
+LOG OF CHANGES changes as follows: Date of change: Contents changed:
+Example : # typedef : :
+
+: Information
+
+b) Jmmediately after declaration of function give the following information (function main-comment) about it as a comment. PURPOSE INPUT ARGUMENTS OUTPUT ARGUMENTS RETURN IMPLICIT IMPLICIT VALUES INPUT VARIABLS OUTPUT VARIABLES
+
+Name of the person:
+
+int integer2.
+
+*/ */ inc.' /*
+
+# typedef long integer4.
+
+# include "./picture/secheader. Common header file. */ # include Q fcntI.h> definitions. *I # define BLOCKSIZE
+"/ # define
+
+IMPLICIT INPUT AND OUTPUT VARIABLES CALLlNG AUTHOR DATE WRlTTEN LOG OF CHANGES PURPOSE
+shodi
+
+/*: File control 512 /*' Buffer size. /<' Debug
+
+FUNCTIONS
+
+CALLED FUN-CTTONS
+
+option.
+
+DEBUG *,I
+
+FALSE
+
+# define READONLY file. *!:/ of the function. in the form It of # define WRITEONLY rnnJ.3 nf filn 1: I ILI"Ut, "I lllb. ,
+#
+
+0 /<: Read mode of 0666 ,J'" Write
+
+: Purpose
+
+expressed "specific objects".
+be
+
+define begin {
+
+RETURN VALUES : Value(s) returned by this function. 1MPLlClT INPUT VARIABLES: All global variables (global to the function) that are used in the functionbut arenot modified either explicitly (by this function) or implicitly (by a called function). 1MPLlClT OUTPUT VARIABLES : All global variables (global to the function) that are used on the left hand side of an assignment of operator or as an actual parameter to a function, which is used to receive a value. Thus these arc modified either explicitly (by this function) or implicitly (by a called function). IMPLICIT INPUT-OUTPUT VARIABLES : All global variables (global to the function) each of which is used as an 1MPLlCIT INPUT VARIABLE as well as an IMPLICIT OUTPUT VARIABLE. The order of usage is not considered. CALLING FUNCTIONS : Names of all functions that are called by the function under consideration. AUTHOR : Name of the author present address. and his
+
+# define end 7, FUNCTION void filecopy (fromfile tofile - i) /*
+i,
+
+PURPOSE
+
+: Copies-contents
+
+of one file (from-file) to anclther-file (to file.).
+
+INPUT ARGUMENTS OUTPUT ARGUMENTS IMPLICIT
+TNPT TT 11.1 v I
+
+* fromfile - i, tofile - i ' / Names of source ant!
+
+destination~filesl :-
+
+VARIABLES IMPLICIT OUTPUT VARIABLES
+
+: -
+
+: errstr 1 -
+
+g
+
+IMPLICIT INPUT AND OUTPUT VARIABL,ES : . RETURN VALUES 6
+: .
+
+

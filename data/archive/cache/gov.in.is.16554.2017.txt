@@ -1,0 +1,1283 @@
+INAI Une IS 16554 : 2017 
+Indian Standard (Reaffirmed 2020) 
+
+
+sp-xerfren werd en fen Ser ch 
+SITGT-UaTA dq AM 
+
+
+Data Exchange Standard for 
+Geospatial Information 
+
+
+ICS 35.240.70 
+
+
+O BIS 2017 
+
+
+ada res em 
+BUREAU OF INDIAN STANDARDS 
+"IW TS, 9 eme WAL Art, ae fereit-110002 
+Mim = MANAK BHAVAN, 9 BAHADUR SHAH ZAFAR MARG 
+
+
+NEW DELHI-110002 
+www.bis.org.in www.standardsbis.in 
+
+
+July 2017 Price Group 7 
+
+
+Geospatial Information Sectional Committee, LITD 22 
+
+
+FOREWORD 
+
+
+This Indian Standard was adopted by the Bureau of Indian Standards, after the draft finalized by the Geospatial 
+Information Sectional Committee had been approved by the Electronics and Information Technology Division 
+Council. 
+
+
+This standard provides a single window mechanism for providing access to the spatial data being generated and 
+managed by various agencies in the country. The consensus amongst the data providers to share their datasets 
+and making them accessible in a standard acceptable form necessitates a Data Exchange Standards for Digital 
+Vector Data (DVD). While the individual domain servers could adopt the database design and implementation 
+approaches based on their specific requirements of Software and Hardware tools, the exchange mechanism has to 
+be open and neutral to specific platform. In this context it is very essential to evolve National Exchange Format. 
+This standard takes into account DVD-1 format and built upon the same to suite the present need and which could, 
+ata later date, port into an open Geographical Information System (GIS) platform. Such standards need continuous 
+evalu-ation to meet the changes in the technologies and the user environment. It is hoped that this standard will 
+pave the way for better utilization of geospatial data in this country and will help reduce the duplicity in spatial 
+data generation. 
+
+
+The ultimate success of this standard will depend upon the ability of individual domain servers to serve the data 
+to user community in a format, which is understood by one and all. 
+
+
+The composition of the Committee responsible for the formulation of this standard is given in Annex A. 
+
+
+IS 16554 : 2017 
+
+
+Indian Standard 
+
+
+DATA EXCHANGE STANDARD FOR 
+GEOSPATIAL INFORMATION 
+
+
+1SCOPE 
+
+
+This standard specifies National Spatial Data Exchange 
+(NSDE) format for catering the need of point, line and 
+polygon topology and Digital Elevation Model (DEM) 
+and coded raster data. This format also accommodates 
+various types of thematic data sets along with the 
+associated attribute data in tabular form. This Standard 
+is to be supplemented by individual domain servers by 
+development of to and fro data converters for supply 
+of data to users and for accepting data from other domain 
+servers describing relationships among spatial features. 
+It has the provision to include digital images acquired 
+by satellites 
+
+
+2 THE NATIONAL SPATIAL DATA EXCHANGE 
+(NSDE) FORMAT 
+
+
+2.1 The data in NSDE Format will be supplied to users as 
+a set of files as shown in Table 1. When supplying the 
+data on media all the files would be copied unlabelled in 
+the same sequence as shown in Table 1 with the End-Of- 
+File (EOF) mark after each file and one extra EOF mark at 
+the end ofall files to indicate the end. In case the dataset 
+cannot be accommodated in one media, the files will be 
+copied sequentially into additional media which will be 
+serially numbered and indicated in first file. 
+
+
+Table 1 Data Organisation Under NSDE 
+(Clause 2.1) 
+
+
+SI No. File No. File Name Description 
+(1) Q) (3) (4) 
+
+
+1) 1 VOLDIR Volume Directory Information 
+ii) 2 GENINFO General Information 
+iii) 3 QUALINFO Data Quality Information 
+iv) 4 TOPOINFO Toposheet specific general 
+information 
+v) 5 DATACAT Data category records for 
+basecategory/layer/spectral 
+band number 1 
+vi) 6 DATAFIL Data records for base 
+category/layer/spectral 
+band number 1 
+vii) J DATACAT Data category records for 
+basecategory/layer/spectral 
+band number 2 
+viii) 8 DATAFIL Data records for base 
+category/layer/spectral 
+bandnumber 2 
+ix) 4+2*p-1 DATACAT Data category records for 
+basecategory/layer/spectral 
+band number p 
+x) 4+2*p DATAFIL Data records for base 
+
+
+category/layer/spectral band 
+number p 
+
+
+As shown in Table 1, there are totally 4+2*p files in general 
+namely VOLDIR, GENINFO, QUALINFO, TOPOINFO, 
+DATACAT and DATAFIL where p is number of base 
+categories for SOI-DVD vector data or number of layers 
+for Domain vector data or number of spectral bands for 
+image/DEM/coded raster data. However, the file 
+TOPOINFO is applicable only for SOIDVD data. VOLDIR 
+file indicates whether these files exist or not. The 
+DATACAT and DATAFIL repeat p times as shown in 
+Table 1. All the files have fixed-length 72 bytes records. 
+The first two records of all the files are identification and 
+control records and are exactly identical in structure. The 
+first record indicates the spatial context with reference to 
+SOI toposheet numbering along with nature, type of data 
+and generating agency. The second record contains file 
+name as per Table 1, Volume code (which is unique for the 
+dataset), serial number of media if applicable, total number 
+of records in the data file and serial number of the base 
+category/layer/multiple files, band number of raster images 
+and the topological nature of the data. The description 
+and format of these two records is given in Table 2. 
+
+
+The description and format of all the files from third 
+record onwards are described below: 
+
+
+a) File Voldir — This file contains volume 
+directory information. It indicates whether 
+data are organized base category wise, layer 
+wise or band wise. The description and serial 
+number of all the base/layer category indicates 
+whether data quality information 
+(QUALINFO), topographic information 
+(TOPOINFO) and attribute data exist or not. It 
+also gives the serial number of the media 
+containing the dataset. The detailed 
+description and format of record number 3 
+onwards of this file is given in Table 3. 
+
+
+b) File Geninfo — This file contains general 
+information like source agency, temporal and 
+spatial framework, geographic incidence, 
+projection information and co-ordinate system. 
+It also describes data management environment 
+at source agency. The detailed description and 
+format of record number 3 onwards of this file 
+is given in Table 4. 
+
+
+c) File Qualinfo — This file is the template for 
+process citation and data accuracy 
+information. The contents of this file will 
+facilitate Quality audit and certification by 
+NSDI. The detailed description and format of 
+
+
+IS 16554 : 2017 
+
+
+d) 
+
+
+e) 
+
+
+record number 3 onwards of this file is given 
+in Table 5. 
+
+
+The process citation will list all the distinct 
+processes/ stages involved in data generation 
+and for each stage the quality parameters have 
+to be indicated by the domain servers. For 
+example, for SOI Topographic data the 
+processes could be control framework, 
+Photogrammetric survey, field verification, fair 
+mapping and digitization. The cumulative 
+RMS accuracy value will be indicated in the 
+Metadata of NSDI server. 
+
+
+This will be an index for the user regarding 
+the quality and reliability ofthe data. 
+
+
+File Topoinfo — This file contains SOI 
+specific information relating to toposheets 
+namely, administrative index, compilation 
+index, special footnotes etc. The detailed 
+description and format of record number 3 
+onwards of this file is given in Table 6. 
+
+
+File Datacat — The main contents of this file 
+are the listing of major categories of data along 
+with category codes contained in the 
+associated data that is RASTER/ NODE, LINE/ 
+AREA/TEXT/ATTRIBUTE records. The 
+information content of this file includes base 
+category/layer/band serial number, number of 
+major categories/layer categories, category 
+code, number of nodes, lines, area features, 
+no. of attribute tables and total number of 
+rows and columns (for raster data), etc. The 
+detailed description and format of record 
+number 3 onwards of this file is given in 
+Table 7. 
+
+
+File Datafil — This file contains the actual 
+data categorized into raster, nodes, lines, 
+areas, text and attributes depending upon the 
+nature ofthe data. The details are given below: 
+
+
+i) Raster data records — This section 
+contains raster grid cell values as per the 
+organization given in GENINFO and 
+DATACAT. The detailed description and 
+format of record number 3 onwards of 
+this file is given in Table 8. 
+
+i) Node data records — This section 
+contains information about nodes, which 
+are intersection of lines or endpoints of 
+lines. The information includes record 
+type (NODE), element internal Id number, 
+co-ordinates of node point and angle. The 
+detailed description and format of record 
+number 3 onwards is given in Table 9. 
+There is one record per node. 
+
+
+i) Line data records — This section 
+
+contains information about point and/or 
+line features. A line that starts and ends 
+at the same node and it has no vertices 
+represents a point feature. 
+The information regarding record type 
+(LINE), element internal Id number, 
+starting and ending node number, height, 
+number of feature codes, object Id. etc. 
+are given in the third record. The next set 
+of records known as co-ordinate records 
+contain X, Y values of vertices followed 
+code records. For each line or point 
+element, third record, co-ordinates record 
+and code records are repeated. The 
+detailed description and format of these 
+records is given in Table 10. 
+
+iv) Area data records (Topologically 
+structured) — This section contains 
+information about the polygon features. 
+The third record contains details like 
+record type (AREA), element internal Id 
+number, co-ordinates of area point 
+(polygon label), number of lines 
+bounding the area, number of feature 
+codes and object Id. Next set of records 
+known as Line Id. records contain 
+information about line Id. codes forming 
+the polygon. After Line Id records, code 
+records are written containing information 
+about major and minor code list or layer 
+category code list. The detailed 
+description and format of these records 
+is given in Table 11. For each area element, 
+third record, Line Id. records and code 
+records are written. 
+
+v) Area data records (Topologically non- 
+structured) — This section contains 
+information about the area features 
+defined by the vertices alongwith the 
+feature code and feature name. The 
+detailed description and format of these 
+records is given in Table 12. 
+
+vi) Text data records — This section 
+contains information about text features. 
+The third record of this file contains 
+information about record type (TEXT), 
+element internal Id., text size, justification, 
+angle, X, Y co-ordinates of reference 
+point, number of attribute codes and 
+characters in the string and object Id. The 
+fourth record contains the character 
+string and the fifth record contains 
+information about major and minor code 
+list or layer category code list. The 
+
+
+detailed description and format of these 
+records is given in Table 13. 
+
+
+vii) Attribute data records — This section 
+
+
+contains information about attribute 
+tables. The third record of this file contains 
+information attribute tables like field 
+definitions, number of records etc. The 
+
+
+IS 16554 : 2017 
+
+
+fourth record contains the actual attribute 
+values. The detailed description and 
+format of these records is given in Table 
+14. For each attribute table, third record 
+and fourth record is repeated for as many 
+number of tables as indicated in 
+DATACAT file. 
+
+
+Table 2 Description and Format of First Two Records Common to All Files 
+(Clause 2.1) 
+
+
+SI No. | Rec | Field Contents Type Format | Starting | End Description 
+No. (Fortran) Byte Byte 
+D | @ |] 6) (4) (5) (6) (7) (8) (9) 
+i T heet N le fi 
+i) 1 [Map Sheet Code} CHARACTER | A40 1 gp. | Pape Sheet Number as per Seale tor 
+example 56G/12 
+ii) Filler — — 51 52 2 Spaces 
+iii) Version of the exchange format in which 
+2 |NSDE Version | CHARACTER A6 53 58 |data is organized. For example 1.0.1 
+organized e.g. 1.01 
+1 
+iv) Filler — — 59 60 2 Spaces 
+v) 2 NSDI Main Layer, for example Topography- 
+64 
+3 NSDI Layer INTEGER *2 I4 61 001, Geology/Mining-002 etc 
+vi) 4 NSDI Sub- INTEGER *2 u 65 68 Sub-layer Classification for example Coastal 
+Layer Geomorphology etc 
+vii) 3 Agency Code INTEGER *2 14 69 72 Unique Code of Data Generating Agency 
+viii) 1 File Name CHARACTER A7 1 7 7- Digit file name as per Table 1 
+ix) 2 Filler — = 8 9 2 Spaces 
+x) 6- Digit Code, Unique for Data Set. 
+3 Volume Code | INTEGER*4 16 10 15 | Provided for future use 
+future use. 
+xi) Indicates type of Spatial Data 
+a) If data is base category wise (Vector 
+Format) 
+4 Data Type INTEGER*2 D 16 17 b) If data is Layer Wise ( Vector Format) 
+c) Ifraster multiband image ( band wise) 
+d) If Single band raster image values 
+e) If Single band coded raster image 
+xii) 2 Filler = — 18 18 1 Space 
+xiii) 5 Serial Number INTEGER *2 16 19 24 F or data on Multiple Media only. Otherwise 
+of Media this value is zero 
+xiv) Total Number — 
+6 of Records in INTEGER *4 I12 25 36 
+the file 
+xv) Corresponds to field 1 of Record number 4 
+Base Category / to 3+p of VOLDIR. Applicable only for files 
+INTEGER*2 16 37 42 
+? Layer serial No. M DATACAT and DATAFIL. FOR Other files 
+this value is Zero. 
+xvi) Filler — = 43 44 2 Spaces 
+xvii 0 Topologically Non-structured 
+) 8 pon INTEGER*2 D 45 46 RA 
+Classification 1 Topologically Structured 
+xviii) Filler = = 47 72 26 Spaces 
+
+
+IS 16554 : 2017 
+
+
+Table 3 Volume Directory (VOLDIR) Records 
+[Clause 2. 1(a)] 
+
+
+SI No. | Rec | Field Contents Type Format | Starting| End Description 
+No. (Fortran) Byte Byte 
+gd | @] @ (4) (5) (6) (7) (8) (9) 
+i) 3 1 | Availability of | INTEGER*2 16 1 6 This value is zero for single file and non-zero 
+Data as One (p) for multiple files, where p is the total 
+Single file or number of base categories/ Layers mentioned i 
+Multiple Files the volumes. Record no. 4 onwards will appear 
+
+
+only if this value is non-zero. Also the next 
+field of this record is meaningful only if this 
+Or No. of Bands value is non-zero. In case of Raster data, each 
+(p) file will contain data for a particular band. In 
+case of Layer data, the file will contain data 
+pertaining to a layer. 
+
+
+Or No. of layers 
+
+
+2 |Whether data is | INTEGER*2 I6 7 12 | This value is 
+base category If data is base category wise (Vector 
+wise/layer wise/ Format). 
+Image band If data is Layer Wise ( Vector Format) 
+wise If raster multiband image ( band wise) 
+If Single band raster image values 
+If Single band coded raster image 
+3 | Whether File I NTEGER*2 D 13 14  |Relevant only for Topographic data 
+TOPOINFO 1 for yes 
+exists 
+4 |Whether File INTEGER*2 D 15 16 | Flag for existence of file containing Quality 
+QUALINFO processes and parameters; 1 for yes 0 for no 
+exists 
+Filler mE — 17 72 
+1 |Base Category/ | INTEGER*2 I6 1 6 
+Layer/Band 
+Serial Number 
+— |Filler = = 7 7 
+Whether INTEGER*2 D 8 9 0 indicates no attribute data attached in 
+Attribute DATAFIL, ELSE number of attribute tables 
+table Exist associated 
+i Filler = = 10 10 |1 Space 
+x) 3 |Description of | CHARACTER] A50 11 60 |As per Section 3. 
+xi) Description of Base Categories, in case of 
+Base — vector topographic data Description of Layers, 
+Categories/ — in case of user domain Layers in vector or 
+Layers/Bands raster format Description of Spectral Bands in 
+case of multiple band image data ( raster ) 
+xii) 4 |Whether Base INTEGER*2 I6 61 66 |1, if includes 
+Category/ Otherwise 0 
+Layer/Band 
+included in the 
+volume 
+xiii) 5 | Serial Number INTEGER*2 I6 67 72 | Applicable for data on Media only 
+of Media in 
+which the Base 
+Category/Layer/ 
+Band is 
+contained 
+
+
+IS 16554 : 2017 
+
+
+Table 4 General Information (GENINFO) Records 
+
+
+SI No. A Field Contents Tom Format S ie Description 
+@ o| ® (4) © (6) o | ® ©) 
+i) 3 1 |Agency CHARACTER | A10 1 10 |Allotted by NSDI (ref NSDI metadata document 
+Acronym 1.1.1.1) 
+ii) 2 |Layer Name CHARACTER | A30 11 40 |Allotted by NSDI (ref NSDI metadata document 
+4 1.1.1.2) 
+iii) 3 | Layer Type CHARACTER | A20 41 60 |Allotted by NSDI (ref NSDI metadata document 
+1.1.1.2) 
+iv) Filler = = 61 61 | 1 Space 
+v E n oi NTEGER 5 6s M As per Central Heading. Mostly applicable for SOI 
+topographic data 
+UT = (m) 
+vi) 3 Source Type INTEGER*2 I9 64 65 |0 — Original 
+1 — Compiled or Aggregated ..(Add new table) 
+vii) Filler — = 66 72 |7 Spaces 
+viii) 1 [Scale INTEGER*4 I9 1 9 |Scale of the map 
+ix) Filler = = 10 11 |2 Space 
+x) 2 2 a INTEGER*2 14 12 16 | Edition of the source material 
+xi) Filler = — 17 18 |2 Space 
+xii) 3 | Edition Year INTEGER*2 I8 19 26 |Edition year for example 2001 
+xiii) Filler — E 27 72 |46 Spaces 
+xiv) 1 | State Name CHARACTER | A68 1 64 | One state per record (ref NSDI metadata 
+document 1.1.1.4) 
+xv) 2 |Number of INTEGER*2 I4 65 68 |No. of Districts in the State 
+5+m Districts 
+to (n) 
+xvi) |5*m| 3 | Number of INTEGER*2 14 69 72 |No. of unique reference locations 
++n Location 
+points (0) 
+xvii) 1 |Dist Name CHARACTER | A72 1 72 |Districts will be listed One District per record (ref 
+NSDI metadata document 1.1.1.5) 
+xvii) |5+m| 1 |LocPt Name CHARACTER | A72 1 72 
++n 
+to One Location name per record (ref NSDI 
+5+m metadata document 1.1.1.6) 
+Tnt 
+o 
+xix) |6+m| 1 |Surveyed CHARACTER | A60 1 60 | Year(s) of Survey of the source material 
+Tnt Year/ Date of for example1968-69 Date of Acquisition in case of 
+o acquisition Satellite raster image 
+xx) Filler = — 6l 68 |8 Spaces 
+xxi) 2 | Security INTEGER*2 14 69 72 |0 Not Classified 
+classification of 1 Classified 
+dataset 
+Xxii) 7*m| 1 |Data Type INTEGER*2 I2 1 2 |a) Ifdatais base category wise (Topographic 
+Tnt Code Vector). 
+M b) Ifdata is Layer Wise ( Vector Format) 
+C) Ifraster multiband image ( band wise) 
+d) IfSingle band raster image values 
+e) IfSingle band coded raster image 
+xxiii) — [Filler — E 3 8 |6 Spaces 
+xxiv) 2 |Map Projection | CHARACTER A4 9 12 | POLY- Polyconic, UTM 
+LAMB - Lambert Conical Orthomorphic 
+SOM - Space Oblique Mercater Any Other 
+xxv) Filler = pss 13 14 |2 Spaces 
+
+
+IS 16554 : 2017 
+
+
+Rec | ,.. Type Starting | End "SE 
+SI No. No. Field Contents (Fortran) Format Byte Byte Description 
+(0 100 (4) (5) (6) (7) (8) (9) 
+xxvi) 3 | Units CHARACTER A6 15 20 | Units of measure for ground planimetric 
+co-ordinates. Its Value is METERS 
+xxvii) Filler E = 21 22 |2 Spaces 
+xxviii) 4 |Grid Size REAL*4 F8.2 23 30 |The true ground distance in meters 
+(Resolution) 
+xxix) 5 | Number of INTEGER*2 I6 31 36 | Usually 4 comers of the sheet for Topographic 
+Control data. Could be more for User Domain data. 
+(Tick) Points 
+(9) 
+xxx) —  |Filler = a 37 72 |36 Spaces 
+xxxi) 8-m| 1] |Central REAL*4 F12.5 1 12 | Projection Parameters 
+Tnt Longitude 
+xxxii) D 2 | Central REAL*4 F12.5 13 24 | Projection Parameters 
+Latitude 
+xxxiii) 3 | Standard REAL*4 F12.5 25 36 | Projection Parameters 
+Parallel 1 
+xxxiv) 4 | Standard REAL *4 F12.5 37 48 | Projection Parameters 
+Parallel 2 
+XXXV) 5  |Scale Factor REAL*4 F6.4 49 54 | Projection Parameters 
+xxxvi) Filler = mE 55 56 |2 Spaces 
+xxxvii) 6  |Spheroid CHARACTER A8 ST 64 | EVEREST, WGS84, WGS72 etc. 
+xxxviii) Filler = = 65 72 |8 Spaces 
+xxxix) |9+m| 1 | Origin Latitude | REAL*4 F12.5 1 12 | Projection Parameters 
+xl) ak 2 | Origin REAL*4 F12.5 13 24 | Projection Parameters 
+3 Longitude 
+xli) Origin Easting | REAL*4 F12.2 25 36 |Projection Parameters 
+xlii) 4 |Origin REAL*4 F12.2 37 48 | Projection Parameters 
+Northing 
+xliii) Filler = = 49 72 |24 Spaces 
+xliv) 10+ 1 |Control (Tick) | INTEGER*2 14 1 4 |1=SW/LL, 2 = SE/LR, 3 = NE/UR, 4 = NW/UL 
+m+n point 999 = Reserved for Identifying the origin of Raster 
+s Label Image (For Raster data) 
+to 5 to 998 can be used for identifying other 
+10+ control(Tick) points within the sheet/ dataset 
+m+n 
+xlv) +o 2 |RasterImage | CHARACTER A2 5 6 Relevant for Control (Tick) Point Label = 999 (i.e. 
++q Orientation raster data) 
+BL = Indicates raster image origin at Bottom left 
+and rasterization is bottom up (row! scan lines)and 
+Left-right ( Columns/ Pixels) 
+TL =Indicates raster image origin at Top left and 
+rasterization is Top-down ( row/ scan lines) and 
+Left-right ( Columns/ Pixels) 
+xlvi) Latitude REAL*4 F12.6 7 18 |In Degrees nf Tick Points 
+xlvii) 4 | Longitude REAL*4 F12.6 19 30 |In Degrees of Tick Points 
+xlviii) — [Filler — zd 31 36 |6 Spaces 
+xlix) 5 |X Co-ordinate | REAL*4 F12.6 37 48 | Projected in ground terms in meters 
+D 6 |Y Co-ordinate | REAL*4 F12.6 49 60 | Projected in ground terms in meters 
+li) 7 |User TickLabel | CHARACTER | A10 61 70 | User defined label for Tick point 
+lii) — |Filler — n 71 72 |2 Spaces 
+liii) iq 1] |O.S.Name CHARACTER | AI8 1 18 | Specifies name of source Operating System 
+liv) mtn| 2 | GIS Package CHARACTER | A18 19 36 |Specifies name of source GIS Software 
+lv) 2 3 |DBMS Name |CHARACTER | A18 37 54 | Specifies name of source Database 
+01 
+Ivi) kie Filler — — 55 72 |18 Spaces 
+
+
+IS 16554 : 2017 
+
+
+Table 5 Quality Information (QUALINFO) Records 
+(Clause 2.1(c)) 
+
+
+SI Rec, Field Contents Type Format| Startin| End Description 
+No. | No (Fortran) gByte| Byte 
+ag) j 6) (4) (5) (6) (7) (8) (9) 
+i) 3 Process Citation CHARACTE A69 | 1 69 General statement on data generation 
+R processes 
+ii) No. of Process INTEGER*2 13 70 72 Number of distinct process stages 
+stages (m) 
+iii) 4 to Process CHARACTE A62 |1 62 Processes description 
+4+2* Description R 
+m 
+iv) Filler = — | 63 64 2 Spaces 
+v) Process Year INTEGER*4 18 65 72 Process/ Source Data Year 
+vi) PAccHorX REAL F12.2 | 1 12 Positional accuracy in X direction 
+vii) PAccHorY REAL F12.2 | 13 24 Positional accuracy in Y direction 
+viii) PAccVer REAL F12.2 | 25 36 Positional accuracy in Z direction 
+ix) TAcc REAL F12.2 | 37 48 Thematic accuracy in % 
+x) TAccConf REAL F12.2 | 49 60 Confidence level for thematic accuracy 
+xi) TAccArea REAL F12.2 | 61 72 Thematic Area accuracy in % 
+xi) | 54+2 PACCLayer* REAL4 F12.2 | 1 12 Cumulative RMS Horizontal Positional 
+*m (horizontal) accuracy 
+(ref. NSDI metadata document 1.1.1.9) 
+xiii) PACCLayer*(vertical) | REAL4 F12.2 | 13 24 Cumulative RMS vertical Positional 
+accuracy 
+(ref. NSDI metadata document 1.1.1.9) 
+xiv) TACCLayer* REAL4 F12.2 | 25 36 Final % thematic accuracy 
+(ref. NSDI metadata document 1.1.1.9) 
+xv) TACCLayer (area) REAL4 F12.2 | 37 48 Final thematic area accuracy 
+xvi) Filler — — |49 72 24 spaces 
+Table 6 General Topographic Information (TOPOINFO) Records 
+(Clause 2.1(d)) 
+R T i End 
+SI No. s Field Contents ype Format Starting | =m Description 
+No (Fortran) Byte | Byte 
+(0 | 2} 6) (4) (5) (6) (7) (8) (9) 
+i) | 3 1 Whether COMPIND | INTEGER*2 I2 1 2 | 1 for yes, 0 for NO 
+Data Exists 
+ii) 2 Whether ADMIND | INTEGER*2 I2 3 4 | 1 for yes, 0 for NO 
+Exists 
+iii) 3 Number of SPECIAL | INTEGER*2 D 5 6 — 
+FOOTNOTES lines 
+(m) 
+iv) 4 Magnetic Variation | CHARACTER A2 7 8 | E= East of True North 
+Eor W of True North W = West of True North 
+v) 5 Annual Change in INTEGER*2 14 9 12 | + for increasing, - for decreasing 
+Magnetic Variation 
+with sign 
+
+
+IS 16554 : 2017 
+
+
+R T i End 
+SI No. 2 Field Contents ype Format Starting | =" Description 
+No (Fortran) Byte | Byte 
+gd [0| Q9 (4) (5) (6) (7) (8) (9) 
+vi) — | Filler = I 13 14 | 2 Spaces 
+vii) 6 Year of Magnetic INTEGER*2 I6 15 20 — 
+Variation 
+viii) 7 Copyright CHARACTER A24 21 44 | Example : Govt of India Copyright 
+ix) 8 Year of Copyright INTEGER*2 I6 45 50 | Example : 1975 
+x) 9 Contour Interval INTEGER*2 I6 51 56 | Contour interval in metres 
+xi) 8 Mean Grid North INTEGER*2 2(13) 57 62 | In degrees and minutes. For un-gridded 
+Alignment sheets this field and the next are blank 
+xii) — | Filler — — 63 64 | 2 Spaces 
+xiii) 9 East and West of CHARACTER Al 65 65 | E = East of True North 
+True North W = West of True North 
+xiv) — | Filler — — 66 67 | 2 Spaces 
+xv) 10 | Name of Grid CHARACTER AS 68 72 | User Defined 
+xvi) | 4 1 Authority CHARACTER A64 1 64 | Name of Authority under whose Direction 
+the data is published/ generated 
+xvii) 2 Admn. Boundary INTEGER*2 12 65 66 | 1 = Adm. Boundaries are Verified 
+Verification Remark 0 = Adm. Boundaries are not verified 
+from 
+appropriate Authority 
+xviii) — | Filler — = 67 68 | 2 Spaces 
+xix) 3 Triangulated CHARACTER Al 69 69 | Y = Adjusted 
+heights and N = Not Adjusted 
+contours adjusted 
+with spirit-leveled 
+heights 
+xx) — | Filler — — 70 71 | 2 Spaces 
+xxi) 4 Territorial water CHARACTER Al 72 72 | Y in case of data having coastline; 
+upto 12 Nautical N in case of data not having coastline. 
+miles from the 
+coastline 
+xxii) | 5 to 1 SPECIAL CHARACTER A72 1 12 — 
+5+m FOOTNOTES 
+RECORDS 
+Table 7 Data Category (DATACAT) Records 
+(Clause 2.1(e)) 
+SI No. | Rec No| Field Contents Type Forma| Starting) End Description 
+(Fortran) t Byte | Byte 
+0| @ | ® 4) © 6 | (0 | (9 (9) 
+i) Base Category INTEGER* I Order of listing of Base Categories, Layers, 
+Layer/ Band Serial Bands (Corresponds to field 1 of records 4 to 
+Number 3+p ob Table 2) 
+ii) 2 Number of major | INTEGER*2 16 7 12 | a) Number of Base categories in case of 
+categories / Layer Topographic data 
+Categories (m) b) Number of Layer Categories in case of 
+user Domain thematic data in vector or raster 
+
+
+IS 16554 : 2017 
+
+
+SI No. | Rec No| Field Contents Type Forma| Starting| End Description 
+(Fortran) t Byte | Byte 
+© | @ | ®@ 4) © 6 | | (9 (9) 
+form 
+c) Not relevant in case of Image data 
+iii) 3 Number of tables | INTEGER*2 I6 13 18 | a) Number of attribute tables attached to the 
+(nt) Layer 
+iv) — Filler = ES 19 72 | 54 Spaces 
+v) 4 to 1 Category Code INTEGER*2 D 1 2 | Major Category/ Layer Category Code 
+vi) TD — Filler = = 3 8 | 6 Spaces 
+vii) 2 Category Name CHARACTER A64 9 72 | Full category name as per Appendix A 
+Major Category/ Layer category Name/ 
+Bandwidth 
+viii) 4+m 1 Number of Nodes | INTEGER*4 I8 1 8 | Set to Zero for Raster Data 
+(nn) 
+ix) 2 No. of Lines (nl) | INTEGER*4 18 9 16 | Set to Zero for Raster Data 
+x) 3 Number of Areas | INTEGER*4 I8 17 24 | Set to Zero for Raster Data 
+(na) 
+xi) 4 No. of Texts (nx) | INTEGER*4 I8 25 32 | Set to Zero for Raster Data 
+xii) 5 No. of Rows (nR) | INTEGER*4 I6 33 38 | Setto Zero for Vector data 
+xiii) 6 No. of Columns INTEGER*4 16 39 44 | Set to Zero for Vector data 
+(nC) 
+xiv) 7 No. of Pixel Bytes | INTEGER*2 12 45 46 | Set to Zero for Vector data, relevant to 
+(nBytes) Image, Grid data 
+l- Single byte, binary for images 
+2- Two byte, binary for images/ coded grids 
+4- Four byte, binary for DEM 
+xv) 8 Byte Order CHARACTER A2 47 48 | Ill MM for more than one Byte data 
+(depending upon II indicates Intel, Big Endian architecture 
+architecture) MM indicates Motorola, Little Endian 
+Architecture 
+xvi) 9 Record Type CHARACTER! A6 49 54 | RASTER or VECTOR 
+xvii) 10 Format of Value | CHARACTER! A 10 55 64 | Content would be 
+Records LOGICAL*1 for Single byte, binary images 
+INTEGER=*2 for two byte, binary images/ 
+coded grids REAL*4 for four byte, binary 
+DEM data (as per the details in field 7 above) 
+xviii) — | filler — — 65 72 | 8 spaces 
+Table 8 Raster (GRID) Data Records 
+(Clause 2.1(f)(1)) 
+Type i End 
+SI No. | Rec No | Field Contents A Format Starting Description 
+(Fortran) Byte Byte 
+a) 2) (3) (4) (5) (6) (7) (8) (9) 
+i) Value 1 Raster Values LOGICAL*1 Binary 1 NR*Nc _ | Order of Grid cell locations for 
+Records * Reflectance or INTEGER*2 *nByte Values 
+3 to ears or REAL*4 Row-1 :Col-1, col-2, ...col-nC 
+image data 
+(nR*nC Ei = j (As per record Row2.....eeeeeeeee 
+* Elevation 
+* Values for 44m, field 7 in TUWEDE, ca eeu 
+nBytes)/ DEM table 6) 
+1233 * Coded Values 
+for Coded 
+Raster Layer 
+
+
+IS 16554 : 2017 
+
+
+Table 9 Node Records 
+(Clause 2.1(£)(ii)) 
+SI No. | Rec No | Field Contents Type Format | Starting | End Description 
+(Fortran) Byte Byte 
+a) (2) (3) (4) (5) (6) (7) (8) (9) 
+i) 3 1] |Record Type CHARACTER A4 1 4  |NODE 
+ii) 2 | Element Internal INTEGER*4 I8 5 12 | This is Unique value for each Node 
+Id No. 
+iii) 3 | Co-ordinates of REAL*4 2F12.2 13 36 | X,Y co-ordinate in ground meters 
+Node Point 
+iv) 4 | Angle REAL*4 F12.4 37 48 | Orientation of point feature with X-axis 
+in degrees(Relevant for Topographic 
+Data) 
+v) — |Filler = = 49 72 |24 Space 
+Table 10 Line Records 
+(Clause 2.1(£)(iii)) 
+SI No. Rec No | Field Contents Type Forma | Starting | End Description 
+(Fortran) Byte Byte 
+(1) (2) (3) (4) (5) (6) (7) (8) (9) 
+i) 3 1 | Record Type CHARACTER A4 1 4 |LINE 
+ii) 2 Element Internal | INTEGER*4 18 5 12 | This is Unique value for each Line 
+Id 
+iii) 3 Starting Node INTEGER*4 I8 13 20 |Internal ID Number. 
+This refers to data element 2 of the 
+Node records 
+iv) 4  |Ending Node INTEGER*4 I8 21 28 |-do- 
+v) 5. Number of points | INTEGER*4 I8 29 36 |Number of x-y Co-ordinate pairs 
+in the line (p) (excluding the endpoints) 
+vi) 6 | Height REAL*4 F8.2 37 44 | Height in Meters 
+vii) 7 Number of INTEGER*2 14 45 48 = 
+Feature Codes or 
+Levels (q) 
+viii) 8 | Object ID INTEGER*4 I8 49 56 — 
+ix) —  |Filler =; = 57 72 |16 Spaces 
+x) Co- l to |x,y co-ordinate |REAL*4 3(2F 12.2) 1 Ending byte number is as per the 
+ordinate | 2p string number of points in the line 
+records 
+xi) Code lto |Major& Minor INTEGER*4 6(216) 1 a) Major and Minor Codes for 
+records 2q CodeList or topographic data 
+b) Will extend to next line as per the 
+number offeature codes 
+xii) Layer Category |INTEGER*4 2(136) 1 a) Layer category Codes for User 
+Code List Domain Thematic data 
+b) Will extend to next line as per the 
+number of feature codes 
+NOTE: All POINT features included in LINE type records. A POINT feature is distinguished from a LINE feature as follows: 
+1 A POINT feature has the same start and end node ID (Data elements 3 and 4) and 
+2 The number of points (Data element 5) for a POINT feature is zero (0) 
+
+
+The key for linking with the text in the file can also be used for linking with non-graphic data outside the file. 
+
+
+10 
+
+
+IS 16554 : 2017 
+
+
+Table 11 Area Records (Topologically Structured) 
+(Clause 2.1(f)(iv)) 
+
+
+SI Rec | Field Contents Type Format | Starting | End Description 
+No. No (Fortran) Byte Byte 
+ORSO (4) G) (6) 0 6 (9) 
+i) 3 1 Record Type CHARACTER A4 1 4 |AREA 
+ii) 2 Element Internal Id | INTEGER*4 I8 5 12 |This is Unique value within all areas 
+No. (polygons) 
+iii) 3 Co-ordinates of REAL*4 2F( 12.2) 13 36 | The area point (polygon label) is 
+: always within the polyg on it 
+Area Point represents 
+iv) 5 Number of lines INTEGER*2 I4 37 40 Number of x-y Co-ordinate pairs 
+bounding the area (b) 
+v) 6 Number of Feature INTEGER*2 I4 41 44 
+Codes (1) 
+vi) INTEGER*4 I8 45 52 | The key for linking with the text in the 
+7 Object ID file, can also be used for linking with 
+non-graphic data outside the file 
+vii) Filler — = 53 72 |20 Spaces 
+viii) Line Internal ID number of lines 
+ID 1 tob |List of Line ID's INTEGER*4 9(I8) 1 bounding the area. Ending byte 
+record number is as per the number of lines 
+s in the area (polygon) 
+ix) Code lto 2r | Major & Minor Code | INTEGER*4 216 1 12 |a) Major and Minor Codes in pairs 
+record List for topographic data 
+s b) Will extend to next line as per 
+the number of feature codes 
+x) Filler -— — 13 18 |6 spaces 
+xi) Feature Name Character A54 19 72 — 
+xii) OR — 
+xiii) Layer category INTEGER*4 2(136) 1 a) Layer category Codes for User 
+Code List Domain Thematic data 
+b) Will extend to next line as per the 
+number of feature codes 
+Table 12 Area Records (Topologically Non- Structured) 
+(Clause 2.1(f)(v)) 
+SI Rec No | Field Contents Type Format | Starting | End Description 
+No. (Fortran) Byte | Byte 
+a | @ | ® (4) (5) © | 0 | @ ©) 
+D 3 1 Record Type CHARACTER| A4 1 4 |AREA 
+ii) 2 Major Code INTEGER*4 I6 5 10 | Major Code of the Feature 
+iii) 3 Minor Code INTEGER*4 I6 11 16 |Minor Code of the Feature 
+iv) 6 Feature Type CHARACTER, A32 17 68 = 
+
+
+11 
+
+
+IS 16554 : 2017 
+
+
+v) 5 Number of vertices(p) INTEGER*4 I4 69 72 Number of vertices 
+excluding end points 
+vi) Co- lto [x,y coordinates of Area REAL*4 3(F12.2) 1 Ending byte as per the number of 
+ordinate |2p Points — _ | vertices in the area feature 
+records 
+Table 13 Text Records 
+(Clause 2.1(f)(vi)) 
+SI Rec, Field Contents Type Format | Starting | End Description 
+No. No (Fortran) Byte Byte 
+a) 2) (3) (4) (5) (6) (7) (8) (9) 
+i) 3 1 |Record Type CHARACTER A4 1 4 | TEXT 
+ii) 2  |Element Internal | INTEGER*4 I8 5 12 |This is Unique value for all text 
+Id records 
+iii) 3 | Text Size INTEGER*2 14 13 16 | In one hundredth of an inch 
+iv) 4 Text Justification | INTEGER*2 14 17 20 |0 for left, 1 for right, 2 for centre 
+justification 
+v) 5 Angle REAL*4 F12.4 21 32 | Angle of Text in Degrees 
+vi) 6 |x,y Co-ordinates |REAL*4 2F(12.2) 33 56 — 
+of 
+reference Point 
+vii) 7  |Number(r) of INTEGER*2 I4 57 60 | Number of x-y Co-ordinate pairs 
+attribute codes 
+viii) 8 | Number Text INTEGER*2 14 61 64 — 
+Character strings 
+ix) 9 | Object ID INTEGER*4 I8 65 72 |The key for linking with the object 
+in the LINE or Area Records 
+x) —  |Filler — = 53 72 |20 Spaces 
+xi) Second 1 Text Characters CHARACTER A72 1 72 | This record contains the text data 
+describing Object ID 
+xii) Third 1-2r |Major& Minor INTEGER*4 216 1 12 |a) Major and Minor Codes for 
+Code List topographic data 
+b) Will extend to next line as per 
+the number of feature codes 
+xiii) Filler — — 13 18 |6 spaces 
+xiv) Feature Name Character A54 19 72 — 
+xv) OR — 
+xvi) Layer category INTEGER*4 2(136) 1 — |a) Layer category Codes for User 
+Code List Domain Thematic data 
+b) Will extend to next line as per 
+the number of feature codes 
+Table 14 Attribute Records 
+(Clause 2.1(f)(vii)) 
+SL Rec Field Contents Type Format | Starting | End Description 
+No. No. (Fortran) Byte Byte 
+mM | o | ® (4) (5) € | | O) 
+i) 3 1 |Type CHARACTER| A4 1 4 Indicates attribute table type (ATTR) 
+ii) 2  |Attribute Table | Integer I6 5 10 ‘| Attribute table Id. 
+Id. 
+iii) 3 | Name of CHARACTER| A12 1 24 | Indicates name of the attribute table as per 
+Attribute source specification. 
+
+
+12 
+
+
+IS 16554 : 2017 
+
+
+SL Rec Field Contents Type Format | Starting | End Description 
+No. No. (Fortran) Byte Byte 
+mM | o | ® (4) (5) € | % | ® O) 
+Table specification. 
+iv) 4  |No.of fields INTEGER I6 11 16  |Indicates number of columns in attribute 
+(af) table 
+v) 5  |No.ofrecords | INTEGER I6 17 22  |Indicates number of records in attribute 
+Car) table 
+vi) — [Filler = = 23 72 |50 Spaces 
+vii) 4 to 1 | Field name CHARACTER| A12 1 12 | Represents Field Item name 
+vii) 4f 2 |Fieldtypel ^ |CHARACTER| A12 13 24 Definition of Field giving Width, Output, 
+Type, number of decimal places separated 
+by comma. 
+ix) 3 Field type 2 CHARACTER | A8 25 32  |Represents ANSI standard format 
+x) 4  |Key-Field CHARACTER D 33 34 | Indicates 1 if the field is Key-indexed, 
+ELSE 0 
+xi) = El = E 35 36 |2 Spaces 
+xii) 5 | Remarks CHARACTER | A36 37 72  |Description/Remarks of the Field 
+xiii) Data\ l-af | List of field CHARACTER 2(A3 6) 1 a) List of field data values 
+values 
+Records b) Will extend to next line as per the 
+5+af to number of filed values in attribute 
+5+aftar records 
+xiv) Records numbered 3 onwards ... will be repeated as many times as the number of attribute tables indicated by number not in 
+
+
+data cat file. 
+
+
+13 
+
+
+IS 16554 : 2017 
+
+
+ANNEXA 
+(Foreword) 
+COMMITTEE COMPOSITION 
+
+
+Geospatial Information Sectional Committee, LITD 22 
+
+
+Organization 
+
+
+National Spatial Data Infrastructure (NSDI) Division, 
+New Delhi 
+
+
+Central Ground Water Board, Faridabad 
+
+
+Census of India, Delhi 
+
+
+Central Pollution Control Board, Delhi 
+
+
+Central Statistical Organisaton, New Delhi 
+Central Water Commission, New Delhi 
+
+
+Earth Resources Data Analysis Systems, Gurgaon 
+
+
+ESRI, New Delhi 
+
+
+Forest Survey of India, Dehradun 
+
+
+Geological Survey of India, New Delhi 
+
+
+Indian Institute of Remote Sensing, Dehradun 
+
+
+Indian Institute of Technogoy, Bombay 
+
+
+Indian Institute of Technogoy, Kharagpur 
+
+
+Indian Meterological Department, New Delhi 
+
+
+Indian Naval Hydrographic Department, New Delhi 
+
+
+Karnataka State Council, Bangalore 
+Ministry of Defence 
+
+
+National Atlas and Thematic Mapping Organization, Kolkata 
+
+
+National Bureau of Soil Survey and Land use, Nagpur 
+
+
+National Council for Applied Economics Research, New Delhi 
+National Disaster Management Authority, New Delhi 
+
+
+National Informatics Centre (NIC), New Delhi 
+
+
+National Remote Sensing Centre, Hyderabad 
+Navyuga Spatial Technology, New Delhi 
+Rolta, Hyderabad 
+
+Space Applications Centre, ISRO, Hyderabad 
+
+
+Survey of India, Hyderabad 
+
+
+14 
+
+
+Representative(s) 
+
+
+Maj. GEN (Dn.) R. Siva Kumar Chairman 
+
+
+Suet P.S. ACHARYA 
+SHRI NIRMALENDU Kumar (Alternate) 
+Dr. DEVENDRA SINGH (Alternate) 
+
+
+Suri S. K. SINHA 
+Dn. N. VARADARAJ (Alternate) 
+
+
+Suri A. P. SINGH 
+Suri R. Josepu (Alternate) 
+
+
+SHRI ANAND KUMAR 
+Ms. Sunrri K. UrApuvav (Alternate) 
+
+
+Suri P. C. MOHANAN 
+Dr. YOGESH PAITHANKAR 
+
+
+SHRI KAUSHIK CHAKRAVARTY 
+Wa Cor A.K. Jua (Alternate) 
+
+
+DR RAJESH MATHUR 
+
+
+Suri M. L. SHRIVASTAVA 
+Suet RaiBiR SINGH (Alternate) 
+
+
+Suri S. K. BOHRA 
+SarmMarTı Pusup Lara (Alternate) 
+
+
+Dr P. S. Roy 
+Dn PLN Raju (Alternate) 
+
+
+ProF N. L. SARDA 
+Dn Smita SENGUPTA (Alternate) 
+
+
+Dn S. K. Gosu 
+
+
+SHRI RAHUL SAXENA 
+Sarı N. K. Pancasa (Alternate) 
+
+
+CoR K. M. Nair 
+Sarı B. K. RAMPRAsAD (Alternate) 
+
+
+SHRI HEMANT KUMAR 
+May GEN S. V. CHINAWAR 
+
+
+ProF (Dn) V. C. JHA 
+Dr C. M. Rao (Alternate) 
+
+
+Dr DIPAK SARKAR 
+Dn G. P. Osi Reppy (Alternate) 
+
+
+SHRI RAKESH KUMAR SRIVASTAVA 
+Cor B. B. SINGH 
+
+
+DR VANDANA SHARMA 
+Suri VisHU CHANDRA (Alternate) 
+
+
+Dn Venu GopaL Rao 
+Dr ANIRUDHA Roy 
+Dr C. R. BANUR 
+
+
+DR SHASHIKANT 
+A. SHARMA (Alternate) 
+
+
+Suri R. N. NANDA 
+Suri Nitin Josu (Alternate) 
+
+
+Organization 
+
+
+BIS Directorate General 
+
+
+IS 16554 : 2017 
+
+
+Representative(s) 
+
+
+Suri D. Goswami, Scientist ‘F’ and Head (LITD) 
+[Representing Director General (Ex-officio)] 
+
+
+Member Secretary 
+SHRI AsHIsH TIWARI 
+Scientist *B'(LITD), BIS 
+
+
+Composition of Working Group for Data Exchange Standard under LITD 22 
+
+
+Organization 
+
+
+National Spatial Data Infrastructure (NSDI) Division, 
+New Delhi 
+
+
+Census of India, Delhi 
+Geological Survey of India, New Delhi 
+
+
+National Bureau of Soil Survey and Land use Planning, 
+Nagpur 
+
+
+Space Applications Centre, ISRO, Hyderabad 
+
+
+15 
+
+
+Representative(s) 
+
+
+Suri P. S. AcuanvA (Convener) 
+Suri NIRMALENDU (Alternate) 
+
+
+Suri A. P. SINGH 
+Suri S. K. BOHRA 
+Dr G. P. Opi REDDY 
+
+
+SHRI SHASHIKANT A. SHARMA 
+
+
+Bureau of Indian Standards 
+
+BIS is a statutory institution established under the Bureau of Indian Standards Act, 1986 to promote 
+harmonious development of the activities of standardization, marking and quality certification of goods 
+and attending to connected matters in the country. 
+
+Copyright 
+
+BIS has the copyright of all its publications. No part of these publications may be reproduced in any form 
+without the prior permission in writing of BIS. This does not preclude the free use, in the course of 
+implementing the standard, of necessary details, such as symbols and sizes, type or grade designations. 
+Enquiries relating to copyright be addressed to the Director (Publications), BIS. 
+
+Review of Indian Standards 
+
+Amendments are issued to standards as the need arises on the basis of comments. Standards are also reviewed 
+periodically; a standard along with amendments is reaffirmed when such review indicates that no changes are 
+needed; if the review indicates that changes are needed, it is taken up for revision. Users of Indian Standards 
+should ascertain that they are in possession of the latest amendments or edition by referring to the latest issue of 
+
+
+‘BIS Catalogue’ and ‘Standards : Monthly Additions’. 
+
+
+This Indian Standard has been developed from Doc No.: LITD 22 (3334). 
+
+
+Amendments Issued Since Publication 
+
+
+Amend No. Date of Issue Text Affected 
+
+
+BUREAU OF INDIAN STANDARDS 
+
+
+Headquarters: 
+Manak Bhavan, 9 Bahadur Shah Zafar Marg, New Delhi 110002 
+Telephones : 2323 0131, 2323 3375, 2323 9402 Website: www.bis.org.in 
+Regional Offices: Telephones 
+Central |: Manak Bhavan, 9 Bahadur Shah Zafar Marg 2323 7617 
+NEW DELHI 110002 2323 3841 
+Eastern : 1/14 C.1.T. Scheme VII M, V. I. P. Road, Kankurgachi 2337 8499, 2337 8561 
+KOLKATA 700054 2337 8626, 2337 9120 
+Northern : Plot No. 4-A, Sector 27-B, Madhya Marg, CHANDIGARH 160019 26 50206 
+265 0290 
+Southern : C.I.T. Campus, IV Cross Road, CHENNAI 600113 2254 1216, 2254 1442 
+2254 2519, 2254 2315 
+Western : Manakalaya, E9 MIDC, Marol, Andheri (East) 2832 9295, 2832 7858 
+MUMBAI 400093 2832 7891, 2832 7892 
+
+
+Branches: AHMEDABAD. BENGALURU. BHOPAL. BHUBANESHWAR. COIMBATORE. 
+DEHRADUN. DURGAPUR. FARIDABAD. GHAZIABAD. GUWAHATI. 
+HYDERABAD. JAIPUR. JAMMU. JAMSHEDPUR. KOCHI. LUCKNOW. NAGPUR. 
+PARWANOO. PATNA. PUNE. RAIPUR. RAJKOT. VISAKHAPATNAM. 
+
+
+Published by BIS, New Delhi 
+
+

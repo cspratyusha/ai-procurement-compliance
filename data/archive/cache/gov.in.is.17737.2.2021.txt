@@ -1,0 +1,1986 @@
+RAT AAF IS 17737 (Part 2) : 2021 
+Indian Standard 
+
+
+maga {Затен чап 
+
+
+STET 2 Чет alae 
+
+
+Mobile Device Security 
+
+
+Part 2 Security Requirements 
+
+
+ICS 33.050.10, 35.030 
+
+
+© BIS 2021 
+
+
+anda HIS SAN 
+BUREAU OF INDIAN STANDARDS 
+HAR MAA, 9 serere TH AMT, ay Redi 110002 
+
+
+Vee МАМАК BHAVAN, 9 BAHADUR SHAH ZAFAR MARG 
+NEW DELHI-110002 
+www.bis.gov.in www.standardsbis.in 
+
+
+December 2021 Price Group 7 
+
+
+Information Systems Security and Privacy Sectional Committee, LITD 17 
+
+
+FOREWORD 
+
+
+This Indian Standard (Part 2) was adopted by the Bureau of Indian Standards, after the draft finalized by 
+Information Systems Security and Privacy Sectional committee had been approved by the Electronics and 
+Information Technology Divisional council. 
+
+
+There is no ISO/IEC Standard on this subject. 
+This standard is one of the series of Indian Standards on Mobile device security. Other parts in this series are: 
+Part 1 Overview 
+Part 3 Security levels 
+Part 4 Assessment and evaluation 
+As mobile based services especially, financial services are gaining popularity, focus on the security of data and 
+content on mobile devices is obvious. Mobile devices need additional protection because their extensive mobility 
+(portability) and always on connectivity (generally using untrusted public network) places them at higher exposure 
+
+
+to threats than other client devices, such as desktop and laptop devices which are normally used only within the 
+organization's facilities and on the organization's networks 
+
+
+It requires a totally different approach and strategy to address security of mobile devices as compared to normal 
+computer based systems and applications. Mobile devices uses mobile ecosystem that involves various subsystems 
+and components to provide an environment to enable the operations and connectivity of mobile devices and 
+information systems. Therefore, security of mobile needs to be addressed at different layers (subsystems and 
+components) of the mobile ecosystem covering mobile device technology stack (including Firmware, Embedded 
+components, Operating System, Pre-installed Applications like Mobile Browser, Device Management Software 
+Agent, VPN Client, Email Client, etc.), Third party mobile applications, networks and communication interfaces 
+(including cellular, Wi-Fi, Bluetooth, NFC), mobile infrastructure (including mobile app store and services) and 
+enterprise mobile support/monitoring services (Enterprise Mobility Management [EMM]/ Device Management 
+Software and Mobile Application Management [MAM]). All these components of the mobile ecosystem 
+shall be considered for defining and assessing the security of mobile devices to meet the common security 
+objectives-confidentiality, integrity and availability. 
+
+
+This series of standards is applicable to the following: 
+a) Organizations designing, developing, and manufacturing mobile devices; 
+b) Customers seeking confidence in the security of mobile devices used by them; 
+c) Organizations seeking confidence in the security of mobile devices used by them; and 
+d) Organizations performing security assessment of mobile devices 
+In the formulation of this standard, assistance has been derived from the following standards: 
+
+
+NIST Special Publication 1800-4b (Draft) — Mobile Device Security, Approach, Architecture, and Security 
+Characteristics Cloud and Hybrid Builds 
+
+
+NIST Special Publication 800-124 Revision 1; Guidelines for Managing the Security of Mobile Devices in 
+the Enterprise, June 2013 
+
+
+The composition of the Committee, responsible for the formulation of this standard is given at Annex A. 
+
+
+CONTENTS 
+
+
+0 INTRODUCTION 
+
+1 SCOPE 
+
+2 REFERENCES 
+
+3 TERMINOLOGY 
+
+4 USE CASE SCENARIOS 
+
+
+5 MOBILE SECURITY MAP FROM SECURITY RISK TO 
+SECURITY CONTROL REQUIREMENTS 
+
+
+5.1 Mobile Device — High Level Security Risks 
+
+
+6 RELATIONSHIP AMONG SECURITY RISKS, SECURITY 
+THREATS AND SECURITY CHARACTERISTICS 
+
+
+ANNEX A COMMITTEE COMPOSITION 
+
+
+LIST OF FIGURES 
+Fig. 1 Mobile Security Map 
+
+
+LIST OF TABLES 
+
+
+Table 1 High Level Security Risks - Security Threats — Characteristics 
+Table 2. Security Characteristics and Security Controls to Mitigate Threats 
+Table 3з Security Control — Details and Explanation 
+
+
+iii 
+
+
+IS 17737 (Part 2) : 2021 
+
+
+Page No. 
+
+
+12 
+
+
+This page has been intentionally left blank 
+
+
+IS 17737 (Part 2) : 2021 
+
+
+0 INTRODUCTION 
+
+
+Mobile devices are subjected to a unique set of security threats affecting the users which could be an individual or an 
+enterprise. Typical mobile device protections against security threats, addressing mobile apps, malware, physical 
+access, etc. may fail to fully mitigate the security challenges associated with the complex mobile ecosystem. 
+Hence, a set of security controls and countermeasures that address mobile threats in a holistic manner shall be 
+identified, necessitating a broader view of the entire mobile security ecosystem. This shall go beyond mobile 
+devices to include, as an example, the mobile networks, and infrastructure used to support mobile applications 
+and native mobile services. 
+
+
+In this part of the standard, high level security risks and related security threats are identified and described. 
+Further, to mitigate these threats, Security characteristics and associated security control requirements are 
+defined for the mobile devices. It also identifies the minimum set of security requirements pertaining to Mobile 
+OS and pre-installed Apps. This covers security threats associated with mobile device; mobile network; mobile 
+user behavior; and untrusted third party applications and malicious systems. 
+
+
+This page has been intentionally left blank 
+
+
+IS 17737 (Part 2): 2021 
+
+
+Indian Standard 
+
+
+MOBILE DEVICE SECURITY 
+PART 2 SECURITY REQUIREMENTS 
+
+
+1SCOPE 
+
+
+This standard (Part 2) identifies high level security 
+risks, related security threats, and define security 
+characteristics with security control requirements to 
+mitigate threats to mobile device technology stack 
+consisting of mobile hardware, firmware, operating 
+system, and pre-installed apps from the mobile 
+ecosystem. 
+
+
+The security threats to mobile device for personal and 
+enterprise use covered in this standard are: 
+
+
+a) Direct security threats by mobile device; and 
+
+
+b) Indirect security threats from other components 
+of mobile ecosystem like network, user and 
+malicious apps. 
+
+
+The security threats to other core components of the 
+mobile ecosystem such as third party mobile apps, 
+mobile network, and infrastructure are out of scope as 
+independent entities. 
+
+
+2 REFERENCES 
+
+
+The standards/documents given below contains 
+provisions, which through reference in this text 
+constitute provisions of this standard. At the time of 
+publication, the editions indicated were valid. AII 
+standards/documents are subject to revision, and parties 
+to agreement based on this standard are encouraged to 
+investigate the possibility of applying the most recent 
+editions of the standards listed as follows: 
+
+
+IS No./Other Title 
+Publication 
+17737 (Part 1) : Mobile device security: Part 1 
+2021 Overview 
+17737 (Part 4) : Mobile device security: Part 4 
+2021 Assessment and evaluation 
+IS 15256 (Part 1) Banking — Key management 
+: 2011 (retail): Part 1 Principles 
+(first revision) 
+ISO/IEC 19790: Information technology — 
+
+
+2012 Security techniques — Security 
+
+
+requirements for cryptographic 
+modules 
+
+CIS Benchmarks (Android and iOS) 
+
+OWASP Top 10 Mobile Security Risks, 2016 
+
+
+OWASP Mobile Application Security Verification 
+Standard (MASVS), Version 1.1 
+
+
+SANS Mobile Device Checklist 
+
+
+3 TERMINOLOGY 
+
+
+For the purpose of this standard (Part 2) the definitions 
+given in IS 17737 (Part 1) shall apply. 
+
+
+4 USE CASE SCENARIOS 
+
+
+The mobile device may be used for various situations. 
+The typical uses cases for mobile device are described 
+below: 
+
+
+a) Use Case-1 — Mobile device for personal use; 
+and 
+
+
+b) Use Case-2 — Mobile device for enterprise use 
+and personal use. 
+
+
+Depending up on the use case, a mobile device shall 
+be evaluated against one of the two security levels as 
+defined in Part 3 of this standard. 
+
+
+The applicable security to these use cases may 
+be different and has to be determined by the 
+users/organizations using the mobile device. The 
+security levels are defined in 4 of Part 3 of this standard 
+and security control requirements are specified in 6. 
+
+
+5 MOBILE SECURITY MAP FROM 
+SECURITY RISK TO SECURITY CONTROL 
+REQUIREMENTS 
+
+
+The high level security risks, related security threats, 
+security characteristics and security controls pertaining 
+to mobile devices are described in this clause. 
+
+
+The approach for defining security control requirements 
+Is based on identifying security threats from high level 
+security risk. 
+
+
+5.1 Mobile Device — High Level Security Risks 
+
+
+The high level security risks to mobile device (mobile 
+hardware, firmware, mobile OS, and pre-installed apps) 
+are grouped into following 4-different categories which 
+covers CIA (Confidentiality, Integrity and Availability) 
+objectives: 
+
+
+a) Mobile device based security risks (untrusted 
+mobile device); 
+
+b) Mobile network based security risks (untrusted 
+network); 
+
+
+IS 17737 (Part 2) : 2021 
+
+
+High Level Security Threats 
+
+
+Security Risks 
+
+
+Security Control 
+requirements to 
+Mitigate Threats 
+
+
+Security 
+Characteristics 
+
+
+Fic. 1 MOBILE SECURITY MAP 
+
+
+c) Mobile user behavior based security risks (user 
+behavior and awareness); and 
+
+
+d) Malicious apps and malware based security risks 
+(untrusted third party applications and malicious 
+systems). 
+
+The first category of security risks (that 1s, mobile 
+device security risks) is the direct security risks to the 
+mobile devices whereas the remaining three categories 
+of risks are indirect and operational security risks to the 
+mobile device. These 4-categories of high level security 
+risks are decomposed into specific security threats. To 
+address these security threats; security characteristics 
+are defined, which are elaborated into security control 
+requirements as in 6. 
+
+
+Security risks are briefly described below: 
+
+
+5.1.1 Mobile Device Based Security Risks (Untrusted 
+Mobile Device) 
+
+
+Mobile devices are used by end-users to perform a 
+variety of business-related tasks and store a significant 
+amount of sensitive data. This data can be compromised 
+due to vulnerabilities in the insecurely designed mobile 
+device leading to breach of device integrity and data 
+security; the always-on connectivity of the mobile 
+devices allowing opportunities to unauthorized parties 
+to access data; and portable form-factor devices making 
+them susceptible to theft and misplacement leading to 
+misuse. 
+
+
+5.1.2 Mobile Network Based Security Risks (Untrusted 
+Network) 
+
+
+The mobile devices in general are constantly connected 
+to the internet. The end-users might use untrusted 
+public networks enabling malicious parties to access 
+and intercept transmitted data through rogue access 
+points; the Wi-Fi sniffing; eavesdropping; skimming; 
+and sophisticated Man-in-the-Middle (MitM) attacks. 
+
+
+5.1.3 Mobile User Behavior based Security Risks (User 
+Behavior and Awareness) 
+
+
+Mobile empowers end-users and provides various 
+features for their personal and business purposes. 
+However, end-users often indulge in risky behaviors 
+primarily due to lack of awareness that could 
+compromise business data. The risky behaviors of end 
+users include Jail breaking/rooting devices to bypass 
+security controls; using un-approved cloud-based apps 
+to share and sync data; Using un-approved productivity 
+apps that maintain copies of corporate data; Using 
+malicious apps from un-approved app-stores; and 
+Exposing business data with malicious intent. 
+
+
+5.1.4 Malicious Apps and Malware Based Security 
+Risks (Untrusted Third Party Applications and 
+Malicious Systems) 
+
+
+Malicious apps and mobile malware can steal sensitive 
+data and collect user data. In addition, mobile malware 
+can be used to mount targeted attacks against mobile 
+device users. Smartphones and tablets are susceptible 
+to worms, viruses, Trojans and spyware similarly to 
+desktops. 
+
+
+6 RELATIONSHIP AMONG SECURITY RISKS, 
+SECURITY THREATS AND SECURITY 
+CHARACTERISTICS 
+
+
+6.1 The security characteristics are related to the 
+security risks and are given in Table 1 
+
+
+6.2 Security characteristics are further associated with 
+security controls and are given in Table 2. 
+
+
+6.3 Explanation of each of the security controls and 
+inputs required to check the implemented control is 
+given in Table 3. The security control requirements 
+mentioned below address the security of mobile device 
+technology stack consisting of 4-layers (hardware, 
+firmware, OS and pre-installed applications). 
+
+
+IS 17737 (Part 2) : 2021 
+
+
+Table 1 High Level Security Risks - Security Threats — Characteristics 
+
+
+( Clause 6.1) 
+
+
+High Level Security Risks 
+
+
+Security Threats 
+
+
+Security Characteristics 
+
+
+a 
+
+
+— 
+
+
+Device based security risks (hardware, 
+firmware, OS and pre-installed apps related 
+attacks) 
+
+
+Loss of mobile device integrity; 
+Device physical access (lost, stolen, disposal); 
+
+
+Unauthorized access. 
+
+
+b 
+
+
+— 
+
+
+Network based security risks (network 
+based attacks on device) 
+
+
+Eavesdropping; 
+Skimming; 
+
+Relay attack; 
+Man-in-the-middle; 
+Denial of Service; 
+Sniffing. 
+
+
+с 
+
+
+) 
+
+
+User based security risks (user behavior 
+and awareness Issues) 
+
+
+Social engineering; 
+
+
+Loss of sensitive data. 
+
+
+d 
+
+
+YS 
+
+
+Application based security risks (malicious 
+apps, malware and other systems based 
+attacks on device) 
+
+
+Mobile malicious apps, spyware and malware; 
+Un-approved cloud-based apps; 
+Un-approved productivity apps. 
+
+
+i) Device protection; 
+
+ii) Data protection; 
+
+Data isolation; 
+
+Identity and authorization; 
+v) Monitoring; 
+
+
+Privacy protection. 
+
+
+Table 2 Security Characteristics and Security Controls to Mitigate Threats 
+
+
+( Clause 6.2 ) 
+
+
+Security Characteristics 
+
+
+Security Controls 
+
+
+a 
+
+
+) 
+
+
+Device protection (device integrity) 
+
+
+Baseband integrity checks, 
+Application black/whitelisting, 
+Device integrity checks: 
+
+i) Boot validation, 
+Application verification, 
+
+
+Verified application and OS updates. 
+
+
+b 
+
+
+— 
+
+
+Data protection 
+
+
+2) 
+
+
+3) 
+
+
+Protected storage: 
+
+i) Device encryption, 
+ii) Secure containers, 
+iii) Trusted key storage, 
+iv) Remote wipe. 
+
+Protected communications: 
+
+i) Virtual private network (VPN), 
+ii) To include per-App VPN. 
+
+Data protection in process: 
+
+i) Encrypted memory, 
+
+
+ii) Trusted execution environment. 
+
+
+с 
+
+
+— 
+
+
+Data isolation 
+
+
+Sandboxing, 
+
+Memory isolation, 
+
+Trusted execution environment, 
+Device resource management, 
+
+
+Baseband isolation. 
+
+
+d 
+
+
+— 
+
+
+Identity and authorization 
+
+
+Local user authentication to applications, 
+Local user authentication to device, 
+
+
+Remote user authentication, 
+
+
+Credential and token in storage and while in use 
+
+
+е 
+
+
+м 
+
+
+Monitoring 
+
+
+Privacy protection 
+
+
+Auditing and logging, 
+Root and jailbreak detection. 
+Informed consent of user, 
+
+
+Privacy notification provided to user. 
+
+
+NOTE — Not all of these security controls may be applicable for a mobile device. Applicable security controls are selected and used to 
+
+
+address the security of mobile device. 
+
+
+IS 17737 (Part 2): 2021 
+
+
+Table 3 Security Control – Details and Explanation 
+
+
+( Clause 6.3 ) 
+
+
+Security Characteristics 
+
+
+Security Controls 
+
+
+Details and Explanation of Security Controls 
+
+
+Security Threats Addressed 
+
+
+a) Device protection 
+(device integrity) 
+
+
+1) Baseband integrity 
+checks 
+
+
+The baseband is the subsystem of the mobile 
+that controls radio communications - basically 
+a chipset on the phone that directly controls 
+cellular hardware and communications with cell 
+towers. 
+
+
+Each mobile platform has integrity checking 
+mechanisms. 
+
+
+Check what integrity checking mechanisms 
+are used to verify software, firmware, and 
+information files integrity. 
+
+
+i) Loss of Mobile 
+Device Integrity 
+
+
+2) Application 
+black/whitelisting 
+
+
+Only mission appropriate content may be 
+uploaded within the application. 
+
+
+The application should employ functionality to 
+restrict upload of file types to those expressly 
+required for operations (for example, TIFF, 
+JPEG, and PDF). 
+
+
+Blacklist unauthorized apps 
+authorized apps 
+
+
+and Whitelist 
+
+
+Using device management software апа/ 
+or antivirus software this feature may be 
+demonstrated. 
+
+
+i) Mobile malicious 
+apps and malware; 
+
+ii) Un-approved 
+cloud-based apps; 
+
+iii) Un-approved 
+productivity apps. 
+
+
+3) Device integrity 
+checks: 
+
+
+i) Boot validation 
+
+
+Boot validation: Validation that the device is in 
+a known working state and unmodified at boot 
+
+
+(for example, basic input output system (BIOS) 
+integrity checks). 
+
+Device-specific implementations of boot 
+validation, verified application and OS updates. 
+
+
+Each of the mobile platforms has integrity 
+checking mechanisms - examine the native file 
+integrity mechanisms as well as malicious code 
+protection. 
+
+
+i) Loss of Mobile 
+Device Integrity 
+
+
+4) Application 
+verification 
+
+
+Application verification: Ensures that 
+applications being installed come from a valid 
+source. 
+
+
+OS-level capability provided by each mobile OS 
+to verify the digital signature of applications. 
+
+
+Each platform requires application developer 
+to digitally sign applications before they are 
+available for users — providing application 
+verification capability. 
+
+
+i) Mobile malicious 
+apps and malware; 
+
+ii) Un-approved 
+cloud-based apps; 
+
+ii) Un-approved 
+productivity apps. 
+
+
+5) Verified application 
+and OS updates 
+
+
+Verified application and OS updates: Ensure 
+that OS and application updates being installed 
+come from a valid source. 
+
+
+OS-level capability provided by each mobile OS 
+to verify the digital signature of applications and 
+OS updates. 
+
+
+i) Mobile malicious 
+apps and malware; 
+
+
+ii)  Un-approved 
+cloud-based apps; 
+
+
+ii) Un-approved 
+productivity apps; 
+
+
+iv) Loss of mobile 
+device integrity; 
+
+
+v) Unauthorized access; 
+
+
+Table 3 ( Continued) 
+
+
+IS 17737 (Part 2) : 2021 
+
+
+Security Characteristics 
+
+
+Security Controls 
+
+
+Details and Explanation of Security Controls 
+
+
+Security Threats Addressed 
+
+
+b) Data protection 
+
+
+1) Protected storage 
+
+
+Device encryption, application-level 
+encryption, and remote wipe capabilities. 
+
+
+i) Device Device encryption: Cryptographic protection i) Device physical 
+encryption of all or portions of a device’s data storage access (lost, stolen, 
+locations - primarily flash memory locations. disposal); 
+OS-level capability provided by each mobile ii) Unauthorized access; 
+OS iii) Loss of sensitive 
+ISO/IEC 19790 compliant mechanism may be data. 
+used to secure data in storage. 
+ii) Secure Data is accessible only to authorized users and i) Unauthorized access; 
+containers services. 
+
+
+iii) Trusted key 
+storage 
+
+
+Data is protected during storage and processing. 
+
+
+Application isolation solution, such as a secure 
+container provides application level encryption. 
+
+
+Trusted key storage: Protected locations in 
+software, firmware or hardware in which long- 
+term cryptographic keys can be held. 
+
+
+il) Loss of sensitive 
+data. 
+
+
+i) Loss of mobile 
+device integrity; 
+unauthorized access; 
+
+ii) Loss of sensitive 
+data. 
+
+
+iv) Remote wipe 
+
+
+Remote wipe: Renders access to enterprise data 
+stored on the device infeasible, but may only 
+wipe a portion of flash memory. 
+
+
+Security incident remediation - The organization 
+can perform remote remediation when a security 
+incident is detected on the device. 
+
+
+Options include disabling access to 
+email/contacts/calendar from the server side or 
+remotely wiping the mobile device. 
+
+
+Using device management software , this feature 
+may be demonstrated. 
+
+
+i) Device physical 
+access (lost, stolen, 
+disposal); 
+
+ii) Loss of sensitive 
+data. 
+
+
+2) Protected 
+communications: 
+
+
+All network communication channels in the 
+architecture use transport layer security (TLS). 
+
+
+i) Virtual private 
+network (VPN) 
+
+
+The confidentiality and integrity of information 
+is protected while in transit using a cryptographic 
+mechanism. 
+
+ISO/IEC 19790 compliant mechanism shall be 
+used to secure data in transit. 
+
+
+i) Eavesdropping; 
+
+ii) Skimming; 
+
+iii) Relay attack; 
+
+iv) Man-in-the-middle; 
+
+
+V) Loss of sensitive 
+data 
+
+
+ii) To include per- 
+App VPN 
+
+
+Data in transit protection: Use of a VPN 
+communication to cloud services is protected 
+by TLS. 
+
+
+i) Eavesdropping; 
+
+ii) Skimming; 
+
+iii) Relay attack; 
+
+iv) Man-in-the-middle; 
+
+
+v) Loss of sensitive 
+data 
+
+
+3) Data protection in 
+process: 
+
+
+Encrypted memory and trusted execution 
+
+
+environment. 
+
+
+i) Encrypted 
+memory 
+
+
+Encrypted memory to store information, such as 
+sensitive data, passwords, or secret keys. 
+
+
+ISO/IEC 19790 compliant mechanism may be 
+used to secure data in process. 
+
+
+i) Unauthorized access; 
+
+
+ii) Loss of sensitive data 
+
+
+IS 17737 (Part 2) : 2021 
+
+
+Table 3 ( Continued) 
+
+
+Security Characteristics 
+
+
+Security Controls 
+
+
+Details and Explanation of Security Controls 
+
+
+Security Threats Addressed 
+
+
+ii) Execution 
+environment 
+
+
+Trusted execution environment is a protected 
+environment that runs a secure operating system 
+in the main processor of a mobile device. 
+
+
+The protected/secure execution environment 
+includes — key-storage and management 
+functionalities conforming to IS 15256 (Part 1). 
+
+
+It also includes secure storage, which can be 
+used to store transaction logs and authentication 
+credentials in a private area. 
+
+
+Protected/secure execution environment that runs 
+independently from the main operating system 
+(for example, Android or iOS). 
+
+
+1) 
+ii) 
+
+
+Unauthorized access; 
+
+
+Loss of sensitive data 
+
+
+c) Data isolation 
+
+
+1) Sandboxing 
+
+
+Sandboxing: OS or  application-level 
+mechanisms utilizing multiple protection, 
+isolation, and integrity capabilities to achieve 
+higher levels of overall isolation. 
+
+
+OS-level capability provided by each mobile OS 
+
+
+OS mechanisms that isolate user-level 
+applications from each other to prevent data 
+leakage between applications. 
+
+
+ii) 
+
+
+Unauthorized access; 
+
+
+Loss of sensitive 
+data 
+
+
+2) Memory isolation 
+
+
+Memory isolation: Processes should not be able 
+to access or modify another process's memory 
+
+
+OS-level capability provided by each mobile 
+OS. 
+
+
+Unauthorized access; 
+
+
+Loss of sensitive 
+data 
+
+
+3) Trusted execution 
+
+
+Trusted execution: A process is created and 
+runs in a trustworthy and isolated execution 
+environment leveraging distinct memory spaces 
+and controlled interfaces. 
+
+
+OS-level capability provided by each mobile 
+OS. 
+
+
+Unauthorized access; 
+
+
+Loss of sensitive 
+data 
+
+
+4) Device 
+management 
+
+
+resource 
+
+
+Device resource management: Ability to enable/ 
+
+
+disable device peripherals. 
+Automatic, regular device 
+
+
+compliance checks 
+
+
+integrity and 
+
+
+Using device management software this feature 
+may be demonstrated. 
+
+
+The device management software and mobile 
+Threat protection (MTP) clients periodically 
+scan the device for threats and compliance. 
+
+
+Results are accessible to system administrators. 
+
+
+Unauthorized access; 
+
+
+Loss of sensitive 
+data; 
+
+
+Denial of service 
+
+
+5) Baseband isolation 
+
+
+Baseband activities to manage network 
+connections which include the cellular and 
+Wi-Fi baseband, the NFC subsystem and others 
+are isolated from main processor that runs the 
+device’s primary operating system and SIM. 
+
+
+Unauthorized access; 
+
+
+Table 3 (Continued) 
+
+
+IS 17737 (Part 2) : 2021 
+
+
+Security Characteristics 
+
+
+Security Controls 
+
+
+Details and Explanation of Security Controls 
+
+
+Security Threats Addressed 
+
+
+d) Identity and 
+authorization 
+
+
+e) Monitoring 
+
+
+1) Local user 
+authentication to 
+applications 
+
+
+Local authentication of user to applications 
+
+
+Verify that only users authorized for local 
+access via mobile devices are able to exercise 
+the access. 
+
+
+Using device management software this feature 
+may be demonstrated -Users who are not 
+members of the appropriate group attempt to 
+access their email on an enrolled mobile device, 
+and those attempts fail. 
+
+
+i) Unauthorized access; 
+
+
+2) Local user 
+authentication to 
+device 
+
+
+Local user authentication to device 
+Provided by all mobile OSs 
+
+
+Using device management software this feature 
+may be demonstrated: 
+
+
+Verify device authorization - To ensure that only 
+enrolled devices could access organizational 
+resources. 
+
+
+Verification includes users not enrolled and 
+devices enrolled. 
+
+
+Authentication of device owner - The device 
+management software service enforces 
+authentication of the device owner using their 
+enterprise credentials. 
+
+
+i) Unauthorized access; 
+
+
+ii) Device physical 
+access (lost, stolen, 
+disposal) 
+
+
+3) Remote user 
+authentication 
+
+
+Remote user authentication 
+
+
+Using device management software this feature 
+may be demonstrated: 
+
+
+Verify that only users authorized for remote 
+access via mobile devices are able to exercise 
+the access. 
+
+
+i) Unauthorized access 
+
+
+4) Credential and token 
+
+
+storage and use 
+
+
+1) Auditing and 
+logging 
+
+
+Security of credentials and tokens in storage and 
+while in use. 
+
+
+Auditing and logging: Capture and store device 
+and application information. 
+
+
+Using device management software this feature 
+may be demonstrated: 
+
+
+Device, mobile operating system, and 
+application information is available through 
+an on-premises configuration manager (hybrid 
+build) or a device management administration 
+portal (cloud build). 
+
+
+i) Unauthorized access; 
+
+
+il) Loss of sensitive 
+data 
+
+
+i) Unauthorized access; 
+
+
+ii) Denial of Service; 
+
+
+2) Root and jailbreak 
+detection 
+
+
+Root and jailbreak detection: Ensures that the 
+security architecture for a mobile device has not 
+been compromised. 
+
+
+i) Loss of mobile 
+device integrity 
+
+
+IS 17737 (Part 2) : 2021 
+
+
+Table 3 ( Concluded) 
+
+
+Security Characteristics Security Controls 
+
+
+Details and Explanation of Security Controls 
+
+
+Security Threats Addressed 
+
+
+1) Informed consent of 
+user 
+
+
+Permission model used for consent to use user 
+data. 
+
+
+i) 
+ii) 
+
+
+iii) 
+
+
+Unauthorized access; 
+Social engineering; 
+
+
+Loss of sensitive 
+data 
+
+
+2) Privacy notification 
+provided to user 
+
+
+f) Privacy protection 
+
+
+Notifications provided to users about the privacy 
+implications of certain device and application 
+functionality. 
+
+
+Implemented via privacy policy presented to 
+users. 
+
+
+Privacy  notifications-Device owners аге 
+informed of privacy implications of certain 
+device and application functionality during 
+device management enrollment. 
+
+
+The ability to display a warning banner that a 
+user shall accept before gaining access. As an 
+alternative, redirect users to an organizational 
+
+
+i) 
+ii) 
+
+
+Social engineering; 
+
+
+Loss of sensitive 
+data 
+
+
+website containing a sample privacy policy. 
+
+
+6.4 The mobile operating system security requirements 
+and Pre-installed application security requirements are 
+defined in this sub-clause. 
+
+
+6.4.1 Mobile Operating System Security Requirements 
+
+
+The security of the mobile operating system shall be 
+verified by checking the configuration settings. This 
+shall be based on the checklist with focus on security 
+configuration issues that are unique to the mobile 
+platform. The checklist shall be based on the following 
+security principles: 
+
+
+a) Dataatrest protection (protection of confidentiality 
+and integrity of stored data); 
+
+
+b) Data in transit protection (protection of 
+confidentiality and integrity of data as it is 
+transmitted from and to the mobile device); 
+
+
+c) Access control (access to assets are authorized and 
+restricted as per security requirements); 
+
+
+d) Application updates (ensuring that updates of 
+firmware, OS and Apps are only from legitimate 
+and authentic source); 
+
+
+e) Security updates (ensuring that security updates of 
+firmware, OS and Apps are only from legitimate 
+and authentic source); 
+
+
+f) Integrity violation checking (ensuring that files, 
+OS and Apps are not tampered); and 
+
+
+g) Verified boot mechanism (ensuring that 
+unauthorized entity is not able to modify the boot 
+process of a device, and any attempt to do so is 
+detected. 
+
+
+10 
+
+
+The evaluator may design a checklist covering above 
+security principles or following checklists may be used: 
+
+
+a) SANS checklist, 
+b) CIS checklist for Android; and 
+c) CIS checklist for iOS. 
+
+
+A checklist for mobile operating system based on 
+SANS and CIS checklists is given in Annex A of Part 
+4 this standard. 
+
+
+6.4.2 Mobile 
+
+
+Requirements 
+
+
+The app testing as per latest OWASP Top 10 mobile 
+security risks and OWASP mobile application security 
+verification Standard (MASVS) L1 shall be undertaken: 
+
+
+a) Following tests shall be carried out as per OWASP 
+Top 10 Mobile Security Risks: 
+
+
+1) MI: 
+2) M2: 
+3) M3: 
+4) M4: 
+5) MS: 
+6) M6: 
+7) M7: 
+8) М8: 
+9) M9: 
+10) 
+
+
+Pre-installed Application Security 
+
+
+Improper Platform Usage 
+Insecure Data Storage 
+Insecure Communication 
+Insecure Authentication 
+Insufficient Cryptography 
+Insecure Authorization 
+Client Code Quality 
+Code Tampering 
+
+Reverse Engineering 
+
+
+M10: Extraneous Functionality 
+
+
+IS 17737 (Part 2) : 2021 
+
+
+b) Following tests shall be carried out as per OWASP 5) V5: Network Communication Requirements 
+Mobile Application Security Verification Standard 6) V6: Platform Interaction Requirements 
+MASVS) LI: ; А А 
+аи . . . 7) V7: Code Quality and Build Setting 
+1) VI: Architecture, Design and Threat Modeling Requirements 
+Requirements 
+
+
+. . MASVS based checklist is given in Annex B of Part 4 
+2) V2: Data Storage and Privacy Requirements of this standard. 
+
+
+3) V3: Cryptography Requirements 
+4) V4: Authentication and Session Management 
+Requirements 
+
+
+11 
+
+
+IS 17737 (Part 2) : 2021 
+
+
+ANNEX A 
+( Foreword ) 
+COMMITTEE COMPOSITION 
+
+
+Information System Security and Privacy Sectional Committee, LITD 17 
+
+
+Organization 
+
+
+Ministry of Electronics and Information Technology, 
+New Delhi 
+
+
+Bharat Electronics Limited, Bengaluru 
+
+
+Centre for Development of Advanced Computing, 
+Pune 
+
+
+Centre for Internet and Society, Bengaluru 
+
+
+Confederation of Indian Industry, New Delhi 
+
+
+Data Security Council of India, Noida 
+
+
+Defence Research Development Organization, 
+Ministry of Defence, New Delhi 
+
+
+HCL, Noida 
+ISI Calcutta 
+
+
+Indian Cellular and Electronics Association, 
+New Delhi 
+
+
+Indian Institute of Technology Madras, Chennai 
+
+
+Infosys Technologies Limited, Bengaluru 
+
+
+KCPL 
+Lady Shri Ram College for Women, New Delhi 
+
+
+Larsen and Toubro Limited, Mumbai 
+
+
+Ministry of Electronics and Information Technology, 
+New Delhi 
+
+
+Ministry of Science and Technology, Department of 
+Science & Technology, New Delhi 
+
+
+Narnix Technolabs Private Limited, New Delhi 
+
+
+National Accreditation Board for Certification 
+Bodies, New Delhi 
+
+
+National Payments Corporation of India, Mumbai 
+
+
+Oxygen Consulting Services Private Limited, Pune 
+
+
+Patanjali Associates Private Limited, New Delhi 
+
+
+Representative (s) 
+SHRI ARVIND KUMAR (Chariman) 
+
+
+Ms SANGEETHA MANGAL 
+SHRI DEvEsH KUMAR SINGH (Alternate) 
+
+
+DR M. SASI KUMAR 
+SHRIMATI P. R. LAKSHMI ESWARI (Alternate) 
+
+
+SHRI SUNIL ABRAHAM 
+SHRI AMBER SINHA (Alternate 1) 
+SHRI GURSHABHAD GROVER (Alternate II) 
+
+
+CoL SUHAIL ZAIDI 
+SHRI RAMESH KARWANI (Alternate) 
+
+
+SHRI ADITYA 
+
+
+Ms NOOPUR SHROTRIYA 
+SHRI G. ANIL (Alternate) 
+
+
+SHRI SANJEEV CHHABRA 
+PROF BIMAL Roy 
+
+
+SHRI RAJESH SHARMA 
+Ms Arpita DE (Alternate) 
+
+
+PROF ANIL PRABHAKAR 
+
+
+SHRI SRINIVAS POOSARLA 
+SHRI RAJEEV THYKATT (Alternate I) 
+Ms AswarHYy ASOK (Alternate ЇЇ) 
+
+
+Dr V. K. KANHERE 
+Ms SUSHILA MADAN 
+
+
+SHRI М. SATHYAN 
+SHRI TIRUMALA КАО К. (Alternate) 
+
+
+SHRI S. К. NEHRA 
+SHRI RAKESH MAHESHWARI (Alternate I) 
+SHRI SANTOSH SONI (Alternate II) 
+DR SOMNATH CHANDRA (Alternate IIT) 
+SHRI TARUN PANDEY (Alternate IV) 
+
+
+SHRI SUJIT BANERJEE 
+Dr RAJEEV SHARMA (Alternate) 
+
+
+SHRI KISHOR N. NARANG 
+
+
+Suri A. S. BHATNAGAR 
+Ms ANAJNA JAIN (Alternate) 
+
+
+MR SATYA KANUNGO 
+SHRI SATEESH PALAGIRI (Alternate) 
+
+
+SHRI SANJIV KUMAR AGARWALA 
+SHRI SACHIN PRAKASH JADHAV (Alternate) 
+
+
+SHRI KANTI MOHAN RUSTOGI 
+
+
+12 
+
+
+IS 17737 (Part 2) : 2021 
+
+
+Organization Representative (s) 
+Qualcomm India Private Limited, Bengaluru DR VINOSH BABU JAMES 
+Reserve Bank Information Technology Private SHRI PRASHANT LOTLIKAR 
+Limited, Mumbai SHRI DEEPNARAYAN TIWARI (Alternate) 
+Smart Chip Private Limited, Noida Ms NISHA CHAUHAN 
+
+
+SHRI PANKAJ AGARWAL (Alternate 1) 
+SHRI ANKIT GUPTA (Alternate П) 
+
+
+Standardization Testing and Quality Certification SHRI А. K. SHARMA 
+(STQC) SHRI А. K. UPADHYAYA (Alternate I) 
+SHRI NAKUL AGGRWAL (Alternate II) 
+
+
+Tata Consultancy Services Limited, Mumbai SHRI SATEESH SRINIWSAIAH 
+SHRI NATARAJAN SWAMINATHAN (Alternate 1) 
+SHRI ABHIK CHAUDHURI (Alternate II) 
+SHRI ANUPAM AGRAWAL (Alternate III) 
+
+
+Telecommunication Engineering Center, New Delhi SHRI S. SRIDHAR 
+SHRI ARVIND CHAWLA (Alternate) 
+
+
+The Perspective, New Delhi SHRI RAHUL SHARMA 
+
+WYSE Biometrics System Private Limited, Pune SHRI YOGENDRA D. WADASKAR 
+
+In personal capacity SHRIMATI AMUTHA ARUNACHALAM 
+
+In personal capacity, Kolkata DR GARGI KEENI 
+
+BIS Directorate General SHRIMATI REENA GARG, SCIENTIST ‘F’ AND HEAD (LITD) 
+
+
+[ REPRESENTING DIRECTOR GENERAL ( Ex-officio ) | 
+Member Secretary 
+
+
+SHRI KSHITIJ BATHLA 
+SCIENTIST ‘C’ (LITD), BIS 
+
+
+13 
+
+
+IS 17737 (Part 2) : 2021 
+
+
+Mobile Security Standards Panel, LITD 17 P4 
+
+
+Organization 
+
+
+Standardization Testing and Quality Certification 
+
+
+(STQC) 
+
+
+Telecommunication Engineering Center, New Delhi 
+
+
+Apple India Private Limited, Bengaluru 
+
+
+Cellular Operators Association of India, New Delhi 
+
+
+Fime India, Bengaluru 
+
+
+Google India, Bengaluru 
+HCL, Noida 
+
+
+Indian Cellular and Electronics Association, 
+New Delhi 
+
+
+KCPL 
+Pavone Technologies, New Delhi 
+
+
+Samsung India, Gurugram 
+
+
+Sony India, Mathura 
+
+
+Transsion India Limited, Noida 
+UL India Private Limited, Bengaluru 
+
+
+VIVO Mobile India Private Limited, Delhi 
+
+
+Vincular Testing Labs India Private Limited, 
+Bengaluru 
+
+
+Xiaomi Corporation, Bengaluru 
+
+
+14 
+
+
+Representative(s) 
+Suri A. K. UPADHYAYA (Convener) 
+
+
+SHRI P. К. SINGH (Co-Convener) 
+Mr JUNAID A. SIDDIQUEE 
+SHRI ROHIT SINGH 
+
+
+SHRI ANGAJ BHANDARI 
+SHRI HARDIK MIRANI (Alternate) 
+
+
+Ms TUHINA JOSHI 
+SHRI SANJEEV CHHABRA 
+
+
+SHRI RAJESH SHARMA 
+SHRI TARON MOHAN (Alternate) 
+
+
+DR V. К. KANHERE 
+SHRI ABHINAV SHARMA 
+
+
+SHRI ВАРРА MONDAL 
+SHRIMATI NOOR KHAN (Alternate) 
+
+
+SHRI MANOJ KUMAR GUPTA 
+
+
+SHRI RAHUL GAUR 
+SHRI VINOD KUNDRA (Alternate) 
+
+
+SHRI ASHISH MATHUR 
+SHRI AJAY JAIDKA (Alternate) 
+
+
+SHRI PAIGHAM DANISH 
+
+
+SHRI VISHAL TOMAR 
+SHRI SACHIN Юник (Alternate) 
+
+
+Ms SuRBHI JAIN 
+SHRI MANISH JAIN (Alternate) 
+
+
+This page has been intentionally left blank 
+
+
+Bureau of Indian Standards 
+
+
+BIS is a statutory institution established under the Bureau of Indian Standards Act, 2016 to promote harmonious 
+development of the activities of standardization, marking and quality certification of goods and attending to 
+connected matters in the country. 
+
+
+Copyright 
+
+
+BIS has the copyright of all its publications. No part of these publications may be reproduced in any form without 
+the prior permission in writing of BIS. This does not preclude the free use, in the course of implementing the 
+standard, of necessary details, such as symbols and sizes, type or grade designations. Enquiries relating to 
+copyright be addressed to the Director (Publications), BIS. 
+
+
+Review of Indian Standards 
+
+
+Amendments are issued to standards as the need arises on the basis of comments. Standards are also reviewed 
+periodically; a standard along with amendments is reaffirmed when such review indicates that no changes are 
+needed; if the review indicates that changes are needed, it is taken up for revision. Users of Indian Standards 
+should ascertain that they are in possession of the latest amendments or edition by referring to the latest issue of 
+“BIS Catalogue’ and ‘Standards: Monthly Additions’. 
+
+
+This Indian Standard has been developed from Doc No.: LITD 17 (14997). 
+
+
+Amendments Issued Since Publication 
+
+
+Amend No. Date of Issue Text Affected 
+
+
+BUREAU OF INDIAN STANDARDS 
+
+
+Headquarters: 
+
+Manak Bhavan, 9 Bahadur Shah Zafar Marg, New Delhi 110002 
+
+Telephones: 2323 0131, 2323 3375, 2323 9402 Website: www.bis.gov.in 
+
+Regional Offices: Telephones 
+
+Central : Manak Bhavan, 9 Bahadur Shah Zafar Marg | 2323 7617 
+NEW DELHI 110002 2323 3841 
+
+Eastern: 1/14 СІТ. Scheme VII M, V.I.P. Road, Kankurgachi | 2337 8499, 2337 8561 
+КОГКАТА 700054 2337 8626, 2337 9120 
+
+Northern : Plot No. 4-A, Sector 27-B, Madhya Marg | 265 0206 
+CHANDIGARH 160019 265 0290 
+
+Southern : C.I.T. Campus, IV Cross Road, CHENNAI 600113 | 2254 1216, 2254 1442 
+
+2254 2519, 2254 2315 
+
+Western : Manakalaya, E9 MIDC, Marol, Andheri (East) | 2832 9295, 2832 7858 
+
+MUMBAI 400093 2832 7891, 2832 7892 
+
+
+Branches: AHMEDABAD. BENGALURU. BHOPAL. BHUBANESHWAR. COIMBATORE. 
+DEHRADUN. DURGAPUR. FARIDABAD. GHAZIABAD. GUWAHATI. 
+HYDERABAD. JAIPUR. JAMMU. JAMSHEDPUR. KOCHI. LUCKNOW. 
+NAGPUR. PARWANOO. PATNA. PUNE. RAIPUR. RAJKOT. VISAKHAPATNAM. 
+
+
+Published by BIS, New Delhi 
+
+

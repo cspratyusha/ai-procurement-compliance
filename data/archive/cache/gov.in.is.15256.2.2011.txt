@@ -1,0 +1,681 @@
+IS 15256 (Part 2) : 2011 ISO 11568-2 : 2005
+
+Hkkjrh; ekud
+
+cSfa dax dqt a h izc/ a ku �[kqnjk�
+Hkkx 2 lefer fodqV] mudk dqath izca/ku vkSj thoup�
+
+Indian Standard BANKING -- KEY MANAGEMENT (RETAIL)
+PART 2 SYMMETRIC CIPHERS, THEIR KEY MANAGEMENT AND LIFE CYCLE
+
+ICS 35.240.40
+
+� BIS 2011
+
+B U R E A U O F I N D I A N S TA N D A R D S
+MANAK BHAVAN, 9 BAHADUR SHAH ZAFAR MARG NEW DELHI 110002 December 2011 Price Group 11
+
+IS 15256 (Part 2) : 2011 ISO 11568-2 : 2005 Banking and Financial Services Sectional Committee, MSD 7
+
+NATIONAL FOREWORD This Indian Standard (Part 2) which is identical with ISO 11568-2 : 2005 `Banking -- Key management (retail) -- Part 2: Symmetric ciphers, their key management and life cycle' issued by the International Organization for Standardization (ISO) was adopted by the Bureau of Indian Standards on the recommendation of the Banking and Financial Services Sectional Committee and approval of the Management and Systems Division Council. This standard is published in various parts. Other parts in this series are: Part 1 Part 4 Principles Key management techniques using public key cryptography
+
+The text of ISO Standard has been approved as suitable for publication as an Indian Standard without deviations. Certain conventions are, however, not identical to those used in Indian Standards. Attention is particularly drawn to the following: a) Wherever the words `International Standard' appear referring to this standard, they should be read as `Indian Standard'. b) Comma (,) has been used as a decimal marker while in Indian Standards, the current practice is to use a point (.) as the decimal marker. In this adopted standard, reference appears to certain International Standards for which Indian Standards also exist. The corresponding Indian Standards which are to be substituted in their respective places are listed below along with their degree of equivalence for the editions indicated:
+
+International Standard ISO 9564-1 : 2002 Banking -- Personal Identification Number (PIN) management and security -- Part 1: Basic principles and requirements for online PIN handling in ATM and POS systems ISO/IEC 10116 : 1997 Information technology -- Security techniques -- Modes of operation for an n-bit block cipher ISO 11568-1 : 2005 Banking -- Key management (retail) -- Par t 1: Principles ISO 16609 : 2004 Banking -- Requirements for message authentication using symmetric techniques
+
+Corresponding Indian Standard IS 15042 (Part 1) : 2006 Banking -- Personal Identification Number (PIN) management and security: Part 1 Basic principles and requirements for online PIN handling in ATM and POS systems (first revision) IS 15116 : 2002 Information technology -- Security techniques -- Modes of operation for an n-bit block cipher
+
+Degree of Equivalence Identical
+
+do
+
+IS 15256 (Part 1) : 2011 Banking -- Key management (retail): Part 1 Principles (first revision) IS 15899 : 2011 Banking -- Requirements for message authentication using symmetric techniques
+
+do
+
+do
+
+i
+
+IS 15256 (Part 2) : 2011 ISO 11568-2 : 2005 The technical committee has reviewed the provisions of the following International Standards and standards of other National Standards bodies referred in this adopted standard and has decided that they are acceptable for use in conjunction with this standard: International/Other National Standard ISO 13491-1 Title Banking -- Secure cryptographic devices (retail) -- Part 1: Concepts, requirements and evaluation methods Banking -- Secure cryptographic devices (retail) -- Part 2: Security compliance checklists for devices used in magnetic stripe card systems Information technology -- Security techniques -- Encryption algorithms -- Part 1: General Banking and related financial services -- Triple DEA -- Modes of operation -- Implementation guidelines Retail financial services symmetric key management -- Part 1: Using symmetric techniques Triple data encryption algorithm (TDEA), implementation standard
+
+ISO 13491-2 : 2000
+
+ISO/IEC 18033-1
+
+ISO/TR 19038
+
+ANSI X9.24 Part 1-2004
+
+ANSI X9.65
+
+ii
+
+IS 15256 (Part 2) : 2011 ISO 11568-2 : 2005
+
+Introduction
+ISO 11568-2 is one of a series of standards describing procedures for the secure management of cryptographic keys used to protect messages in a retail financial services environment, for instance, messages between an acquirer and a card acceptor, or an acquirer and a card issuer. This part of ISO 11568 addresses the key management requirements that are applicable in the domain of retail financial services. Typical of such services are point-of-sale/point-of-service (POS) debit and credit authorizations and automated teller machine (ATM) transactions. This part of ISO 11568 describes key management techniques which, when used in combination, provide the key management services identified in ISO 11568-1. These services are:        key separation; key substitution prevention; key identification; key synchronization; key integrity; key confidentiality; key compromise detection.
+
+The key management services and the corresponding key management techniques are cross-referenced in Clause 7. This part of ISO 11568 also describes the key life cycle in the context of secure management of cryptographic keys for symmetric ciphers. It states both requirements and implementation methods for each step in the life of such a key, utilizing the key management principles, services and techniques described herein and in ISO 11568-1. This part of ISO 11568 does not cover the management or key life cycle for keys used in asymmetric ciphers, which are covered in ISO 11568-4. In the development of the ISO 11568 series due consideration was given to ISO/IEC 11770; the mechanisms adopted and described in this part of ISO 11568 are those required to satisfy the needs of the financial services industry.
+
+iii
+
+IS 15256 (Part 2) : 2011 ISO 11568-2 : 2005
+
+Indian Standard BANKING -- KEY MANAGEMENT (RETAIL)
+PART 2 SYMMETRIC CIPHERS, THEIR KEY MANAGEMENT AND LIFE CYCLE
+
+1
+
+Scope
+
+This part of ISO 11568 specifies techniques for the protection of symmetric and asymmetric cryptographic keys in a retail banking environment using symmetric ciphers and the life-cycle management of the associated symmetric keys. The techniques described enable compliance with the principles described in ISO 11568-1. The techniques described are applicable to any symmetric key management operation. The notation used in this part of ISO 11568 is given in Annex A. Algorithms approved for use with the techniques described in this part of ISO 11568 are given in Annex B.
+
+2
+
+Normative references
+
+The following referenced documents are indispensable for the application of this document. For dated references, only the edition cited applies. For undated references, the latest edition of the referenced document (including any amendments) applies. ISO 9564-1:2002, Banking -- Personal Identification Number (PIN) management and security -- Part 1: Basic principles and requirements for online PIN handling in ATM and POS systems ISO/IEC 10116, Information Technology -- Security techniques -- Modes of operation for an n-bit block cipher ISO 11568-1:2005, Banking -- Key management (retail) -- Part 1: Principles ISO 13491-1, Banking -- Secure cryptographic devices (retail) -- Part 1: Concepts, requirements and evaluation methods ISO 13491-2:2000, Banking -- Secure cryptographic devices (retail) -- Part 2: Security compliance checklists for devices used in magnetic stripe card systems ISO 16609:2004, Banking -- Requirements for message authentication using symmetric techniques ISO/IEC 18033-1, Information technology -- Security techniques -- Encryption algorithms -- Part 1: General ISO/TR 19038 1 ), Banking and related financial services -- Triple DEA -- Modes of operation -- Implementation guidelines ANSI X9.24 Part 1-2004, Retail Financial Services Symmetric Key Management Part 1: Using Symmetric Techniques ANSI X9.65, Triple Data Encryption Algorithm (TDEA), Implementation Standard
+
+1)
+
+To be published
+
+1
+
+IS 15256 (Part 2) : 2011 ISO 11568-2 : 2005
+
+3
+
+Terms and definitions
+
+For the purposes of this document, the following terms and definitions apply. 3.1 cipher pair of operations that effect transformations between plaintext and ciphertext under the control of a parameter called a key
+NOTE The encipherment operation transforms data (plaintext) into an unintelligible form (ciphertext). The decipherment operation restores the original text.
+
+3.2 counter incrementing count used between two parties, e.g. to control successive key distributions under a particular key encipherment key 3.3 data integrity property that data has not been altered or destroyed in an unauthorized manner 3.4 data key randomly or pseudo-randomly generated cryptographic key used for the encipherment, decipherment or authentication of data 3.5 dual control process of utilizing two or more separate entities (usually persons), operating in concert to protect sensitive functions or information whereby no single entity is able to access or utilize the materials, e.g. cryptographic key 3.6 exclusive-or see modulo-2 addition 3.7 hexadecimal digit single character in the range 0-9, A-F (upper case), representing a four-bit string 3.8 key component one of at least two randomly or pseudo-randomly generated parameters having the characteristics (e.g. format, randomness) of a cryptographic key that is combined with one or more like parameters, e.g. by means of modulo-2 addition, to form a cryptographic key 3.9 key mailer tamper evident envelope that has been designed to convey a key component to an authorized person 3.10 key offset result of adding a counter to a cryptographic key using modulo-2 addition 3.11 key space set of all possible keys used within a cipher
+
+2
+
+IS 15256 (Part 2) : 2011 ISO 11568-2 : 2005
+3.12 key transfer device secure cryptographic device that provides key import, storage and export functionalities [ISO 13491-2:2000, Annex F] 3.13 key transformation derivation of a new key from an existing key using a non-reversible process 3.14 message authentication code MAC code in a message between an originator and a recipient, used to validate the source and part or all of the text of a message
+NOTE The code is the result of an agreed calculation.
+
+3.15 modulo-2 addition exclusive-or XOR binary addition with no carry, giving the following values: 0+0=0 0+1=1 1+0=1 1+1=0 3.16 n-bit block cipher block cipher algorithm with the property that plaintext blocks and ciphertext blocks are n-bits in length 3.17 notarization method of modifying a key encipherment key in order to authenticate the identities of the originator and the ultimate recipient 3.18 offset see key offset 3.19 originator party that is responsible for originating a cryptographic message 3.20 pseudo-random process that is statistically random and essentially unpredictable although generated by an algorithmic process 3.21 recipient party that is responsible for receiving a cryptographic message
+
+3
+
+IS 15256 (Part 2) : 2011 ISO 11568-2 : 2005
+3.22 secure cryptographic device device that provides security storage for secret information such as keys and provides security services based on this secret information [ISO 13491-2] 3.23 split knowledge condition under which two or more parties separately and confidentially have custody of the constituent part of a single cryptographic key which, individually, conveys no knowledge of the resultant cryptographic key
+
+4
+4.1
+
+General environment for key management techniques
+General
+
+The techniques that may be used to provide the key management services are described in Clause 5 and the key life cycle in Clause 6. This clause describes the environment within which those techniques operate and introduces some fundamental concepts and operations, which are common to several techniques.
+
+4.2
+4.2.1
+
+Functionality of a secure cryptographic device
+General
+
+The most fundamental cryptographic operations for a symmetric block cipher are to encipher and decipher a block of data using a supplied secret key. For multiple blocks of data, these operations might use a mode of operation of the cipher as described in ISO/IEC 10116. At this level, no meaning is given to the data, and no particular significance is given to the keys. Typically, in order to provide the required protection for keys and other sensitive information, a secure cryptographic device must provide a higher level functional interface, whereby each operation includes several of the fundamental cryptographic operations using some combination of keys and data obtained from the interface or from an intermediate result. These complex cryptographic operations are known as functions, and each one operates only on data and keys of the appropriate type. 4.2.2 Data types
+
+Application level cryptography assigns meaning to data, and data with differing meanings need to be manipulated and protected in different ways by the secure cryptographic device. Data with a specific meaning constitutes a data type. The secure cryptographic device ensures that it is not possible to manipulate a data type in an inappropriate manner; e.g. a PIN is a data type which must remain secret, whereas other transaction data may constitute a data type which requires authentication but not secrecy. A cryptographic key may be regarded as a special data type. A secure cryptographic device ensures that a key can exist only in the permitted forms given in 4.7.2. 4.2.3 Key types
+
+A key is categorized according to the type of data on which it operates and the manner in which it operates. The secure cryptographic device ensures that key separation is maintained, so that a key cannot be used with an inappropriate data type or in an inappropriate manner; e.g. a PIN encipherment key is a key type that is used only to encipher PINs, whereas a key encipherment key (KEK) is a key type that is used only to encipher other keys. Also a KEK may require categorization such that it operates only on one type of key, e.g. one type of KEK may encipher a PIN encipherment key, while another may encipher a message authentication code (MAC) key.
+
+4
+
+IS 15256 (Part 2) : 2011 ISO 11568-2 : 2005
+4.2.4 Cryptographic functions
+
+The set of functions supported by the secure cryptographic device directly reflects the cryptographic requirements of the application. It might include such functions as:     enciphering a PIN; verifying an enciphered PIN; generating a MAC; generating an enciphered random key.
+
+The design of the secure cryptographic device is such that no individual function may be used to obtain unauthorized sensitive information. Additionally, no combination of functions exists which may result in such data being obtained. Such a design is referred to as being logically secure. A secure cryptographic device may be required to manage keys of several types. Cryptographic keys used in such a system may be held securely outside of the cryptographic device by being stored in an enciphered form by using KEKs which either exist only within the cryptographic device, or are enciphered under a higher level KEK. One technique of providing key separation is to use a different KEK type for the encipherment of each type of key. When this technique is used, and an enciphered key is passed to the secure cryptographic device, the key is deciphered using the KEK type appropriate for the expected key type. If this key is an incorrect type, and thus is enciphered under some other KEK type associated with some other key type, the decipherment produces a meaningless key value.
+
+4.3
+4.3.1
+
+Key generation
+General
+
+The key management principles given in ISO 11568-1 require that keys be generated using a process that ensures that it is not possible to predict any key or determine that certain keys within the key space are more probable than others. In order to conform with this principle, keys and key components shall be generated using a random or pseudo-random process. The pseudo-random key generation process may be either non-repeatable or repeatable. The random or pseudo-random process used, shall be such that it is not feasible to predict any key or to determine that certain keys are more probable than other keys from the set of all possible keys. Except for the variants of a key, the non-reversible transformations of a key, and keys enciphered under a key or derived from a key, compromise of one secret key shall not feasibly provide useful information about any other secret key. 4.3.2 Non repeatable key generation
+
+This process may involve a non-deterministic value such as the output of a random number generator, or may be a pseudo-random process. An example of a pseudo-random process for generating a key, Kx, is as follows, where K is a secret cryptographic key reserved for key generation, V is a secret seed value and DT is a date-time vector updated on each key generation: Kx = eK[eK (DT)  V] and generate a new V as follows: V = eK[Kx  eK (DT)]
+NOTE This method, among others, may be found in ISO 18031.
+
+5
+
+IS 15256 (Part 2) : 2011 ISO 11568-2 : 2005
+4.3.3 Repeatable key generation
+
+It is sometimes convenient to generate one or more keys, perhaps thousands, from a single key using a repeatable process. Such a process allows for any of the resultant keys to be regenerated, as required, in any location that possesses the seed key and appropriate generation data, and facilitates significant reductions in the number of keys which require manual management, storage or distribution. The generation process shall be such that if the initial key is unpredictable within the key space (as required by the key management principles), then so is each resultant key. The procedure may be used iteratively, as a key generated from one initial key may subsequently be used as an initial key to generate others. The generation process shall be non-reversible, such that disclosure of a generated key discloses neither the initial key nor any other generated key. An example of such a process is the encipherment of a non-secret value using the initial key.
+
+4.4
+
+Key calculation (variants)
+
+It is possible to obtain a number of keys from a single key using a reversible process. An example of such a process is the modulo-2 addition of the key and a non-secret value. Key calculation has the qualities of speed and simplicity, but disclosure of one key calculated in this manner discloses the original key and all other keys calculated from it.
+
+4.5
+
+Key hierarchies
+
+A key hierarchy is a conceptual structure in which the confidentiality of certain keys is dependent upon the confidentiality of other keys. By definition, disclosure of a key at one level of the key hierarchy shall not disclose any key at a higher level. Key encipherment introduces a key hierarchy whereby a key encipherment key (KEK) is considered to be at a higher level than the key that it enciphers. The simplest is a two-level hierarchy, whereby the working keys are enciphered by KEKs which are themselves stored in a cryptographic device. In a three-level hierarchy, these KEKs are also managed in an enciphered form using a higher-level KEK. The concept may be extended to four or more layers. Similarly, when an initial key or key generating key (KGK) participates in the generation of other keys using a deterministic process, a hierarchy may result whereby the KGK is considered to be at a higher level than the generated keys. Keys at the higher levels of the key hierarchy shall be of equal or greater strength than the keys they are protecting. Due consideration shall be paid to known attacks when assessing the equivalent strength of various cryptographic algorithms. Generally an algorithm can be said to provide s bits of strength where the bestknown attack would take, on average, 2s-1T to attack, where T is the amount of time that is required to perform one encryption of a plaintext value and comparison of the result against the corresponding ciphertext value. E.g., in reference 2, an attack against 112-bit TDEA is presented that requires O(k) space and 2120-log k operations, where k is the number of known plaintext-ciphertext pairs. As discussed in reference 3, given 240 known plaintext-ciphertext pairs, this reduces the strength of two-key (112-bit) TDEA to 280. Recommended equivalent key sizes at the time of publication are given in Table 1. In assessing these numbers consideration Shall be paid to any further developments in cryptanalysis, factoring and computing generally.
+
+6
+
+IS 15256 (Part 2) : 2011 ISO 11568-2 : 2005
+Table 1 -- Encryption algorithms -- Equivalent strengths
+Effective Strength 80 Symmetric 112-bit TDEA (with 240 known pairs) 112-bit TDEA (with no known pairs) 112 168-bit TDEA
+NOTE At the time of publication, in the retail banking environment, where TDEA keys are used for protecting other keys, and are changed such that the collection of quantities of plaintext/ciphertext pairs sufficient to significantly weaken the underlying cipher is improbable, 112-bit TDEA can be considered to offer sufficient security for the protection of 168-bit TDEA and 2 048-bit RSA keys.
+
+RSA 1 024
+
+Elliptic Curve 160
+
+2 048
+
+224
+
+4.6
+
+Key Life Cycle
+
+The states that make up a key's lifetime are collectively referred to as the key's life cycle. Keys shall be protected at all stages throughout their life cycle. An operation that changes a key's state is referred to as a life cycle operation. This subclause specifies the requirements for attaining a given state or performing a given operation. The key life cycle consists of three phases as follows. a) b) Pre-use: during which the key is generated and optionally stored prior to its use. Use: during which the key is distributed amongst communicating parties for operational use.
+
+In a process where both communicating parties contribute to the generation of a new key, key generation and distribution are closely integrated. Some key management schemes are designed for transforming keys automatically during operational use. c) Post-use: during which a key is archived or terminated. Figure 1 gives a schematic overview of the key life cycle. It shows how a given operation on a key changes its state. A key is considered to be a single object of which multiple instances can exist at different locations and in different forms. A clear distinction is made between the following operations:    destruction of a single key instance; deletion of a key from a given location, which implies destruction of all instances of this key at that location; termination of a key, which implies deletion of the key from all locations.
+
+7
+
+IS 15256 (Part 2) : 2011 ISO 11568-2 : 2005
+
+Figure 1 -- Key life cycle schematic
+
+8
+
+IS 15256 (Part 2) : 2011 ISO 11568-2 : 2005
+
+4.7
+4.7.1
+
+Key storage
+General
+
+The objective of secure key storage is to protect keys against unauthorized disclosure, modification and/or substitution and to provide key separation. 4.7.2 4.7.2.1 Permissible forms General
+
+A key shall exist only in the following forms:    plaintext key; key components; enciphered key. Plaintext key
+
+4.7.2.2
+
+Plaintext secret key(s) whose compromise would affect multiple parties shall exist only within a secure cryptographic device. Plaintext secret key(s) whose compromise would affect only one party shall exist only within a secure cryptographic device or a physically secure environment operated by or on behalf of that party. 4.7.2.3 Key components
+
+A key existing in the form of at least two or more separate key components shall be protected by the techniques of split knowledge and dual control. For host-based systems it is recommended that a key is comprised of a minimum of three components. A key component shall be accessible only to that person or group of persons to whom it has been entrusted for the minimum duration required. If a key component is in human comprehensible form (e.g., printed in plaintext inside a key mailer) it shall be known to only one authorized person at only one point in time, and only for as long as required for the component to be entered into a secure cryptographic device. No person with access to one component of the key shall have access to any other component of that key. Key components shall be stored in such a way that unauthorized access has a high probability of being detected. If key components are stored in enciphered form, all requirements for enciphered keys shall apply. 4.7.2.4 Enciphered key
+
+Encipherment of a key using a key encipherment key shall take place within a secure cryptographic device. 4.7.3 Key integrity
+
+The integrity of a key shall be protected using techniques such as: a) b) c) digital signatures; MACs; key block binding methods.
+
+9
+
+IS 15256 (Part 2) : 2011 ISO 11568-2 : 2005
+4.7.4 Protection against substitution
+
+The unauthorized substitution of stored keys shall be prevented by one or more of the following means: a) b) c) physically and procedurally preventing unauthorized access to the key-storage area; storing a key enciphered as a function of its intended use; ensuring that it is not possible to know both a plaintext value and its corresponding ciphertext enciphered under a key encipherment key. Provisions for key separation
+
+4.7.5
+
+In order to ensure that a stored key is useable only for its intended purpose, key separation for stored keys shall be provided by one or more of the following: a) b) c) physically segregating stored keys as a function of their intended purpose; storing a key enciphered under a key encipherment key dedicated to encipherment of a specific type of key; modifying or appending information to a key as a function of its intended purpose, prior to encipherment of the key for storage.
+
+4.8
+
+Key restoration from back up
+
+Key back up is storage of a copy for the purpose of reinstating a key that is accidentally destroyed, but the compromise of which is not suspected. The requirements for key restoration from back up are the same as for key distribution and loading described in 4.9.
+
+4.9
+4.9.1
+
+Key distribution and loading
+General
+
+A secure cryptographic device should remain in a physically secure environment until loaded with one or more keys. Keys shall be protected during their distribution and loading by one of more the following forms: a) b) c) plaintext within a cryptographic device; in component form; enciphered. Plaintext keys
+
+4.9.2
+
+The minimum requirements for the distribution and loading of plaintext keys are as follows. a) b) The key distribution process shall not disclose any portion of a plaintext key. A plaintext key shall be loaded into a cryptographic device only when it can be assured that the device has not been subject to prior tampering which might lead to the disclosure of keys or sensitive data.
+
+10
+
+IS 15256 (Part 2) : 2011 ISO 11568-2 : 2005
+c) d) e) A plaintext key shall be transferred between secure cryptographic devices only when it can be ensured that there is no tap at the interface that might disclose the transferred key. A secure cryptographic device shall transfer a plaintext key only when at least two authorized persons are authenticated by the device, e.g. by means of passwords. When a device is used to transfer keys between the cryptographic device that generated the key and the cryptographic device that will use the key, it shall be a secure cryptographic device. After loading of the key into the target device the key transfer device shall not retain any information that might disclose that key. Key components
+
+4.9.3
+
+The minimum requirements for the distribution and loading of a key component are: a) b) c) d) the key component distribution process shall not disclose any portion of a key component to an unauthorized person; a key component shall be loaded into a cryptographic device only when it can be ensured that the device has not been subject to prior tampering that might lead to the disclosure of keys or sensitive data; a key component shall be transferred to a cryptographic device only when it can be ensured that there is no tap at the interface that might disclose the transferred component; the key distribution and loading process shall be performed according to the principles of dual control and split knowledge. Enciphered keys
+
+4.9.4
+
+An enciphered key may be distributed and loaded electronically via a communications channel. The distribution process of an enciphered key shall protect against key substitution and modification.
+NOTE Methods for achieving the above requirements can be found in ISO/IEC 11770-2.
+
+4.10
+
+Key use
+
+Unauthorized key use shall be prevented. A key shall be used for its intended function and only in its intended location, however a variant of a key may be used for a different function from that of the original key. A key shall be used for a single function only. Any key shall exist in the minimum number of locations consistent with effective system operation. Any key that exists in a transaction-originating device shall not exist in any other such device. A key shall cease to be used when its compromise is known or suspected.
+
+4.11
+
+Key replacement
+
+A key and its variants shall be replaced when compromise or substitution of the key is known or suspected. If the key under suspicion is a key encipherment key or a key from which other keys are derived, then all keys that are hierarchically under it shall also be replaced. A key shall be replaced within the least time deemed feasible to perform a dictionary or key exhaustion attack. This time will depend upon the specific implementation and the technology available at the time of the attack. Replacement of a key shall take place in all operational locations where the key exists.
+
+11
+
+IS 15256 (Part 2) : 2011 ISO 11568-2 : 2005
+Replaced keys shall not be returned to active use. There are two ways of replacing keys:   by distributing a new key; by non-reversibly transforming the current key.
+
+When the compromise of a key is known or suspected the key shall be replaced by distribution of a new key and not by the non-reversible transformation of the original key. Key replacement requires destruction of the old key. Transformation of a key prevents backtracking; i.e., compromise of the current key does not compromise previously used keys.
+
+4.12
+
+Key destruction
+
+An instance of a key shall be destroyed when it is no longer required for active use. Electronic instances of a key can be destroyed by erasure. However, information may still reside in other forms so that the key may subsequently be restored for active use. When a secure cryptographic device is to be permanently removed from service, all keys stored within the device shall be destroyed.
+
+4.13
+
+Key deletion
+
+When a key is no longer required at an operational location it shall be deleted. Key deletion occurs when all instances of the key have been destroyed at a given location.
+
+4.14
+
+Key archive
+
+An archived key shall only be used to verify the legitimacy of transactions that occurred prior to archiving. After such verification, the instance of the key necessary to perform the verification shall be destroyed. An archived key shall not be returned to operational use. Archived keys shall be securely stored for the life of all data or keys enciphered under such keys. A key shall be archived in such a way that the risk of exposure of keys that are still in operational use is not increased. An archived key shall be retained for no longer than is necessary to meet regulatory, legal and/or business obligations.
+
+4.15
+
+Key termination
+
+Key termination occurs when the key has been deleted from all locations where it has ever occurred. Subsequent to key termination, no information shall exist from which the key can feasibly be reconstructed.
+
+12
+
+IS 15256 (Part 2) : 2011 ISO 11568-2 : 2005
+
+5
+5.1
+
+Techniques for the provision of key management services
+Introduction
+
+This clause describes the techniques that shall be used, individually or in combination, to provide the key management services introduced in ISO 11568-1. Some techniques provide multiple key management services. A cross reference between the key management services and the techniques is given in Clause 7. The selected techniques shall be implemented in a secure cryptographic device (see ISO 13491-1 and -2) that ensures the intended purpose of the technique and its security objectives are achieved.
+
+5.2
+
+Key encipherment
+
+Key encipherment is a technique whereby one key is enciphered using another key. The resulting enciphered key may then be managed securely outside of the protected environment of a secure cryptographic device. A key used to perform such encipherment is called a key encipherment key (KEK). Although key encipherment ensures key confidentiality is maintained, other techniques may need to be employed in association with the key encipherment in order to ensure adequate key separation and to prevent key substitution and to ensure key integrity. Where the length of the enciphered key exceeds the block size of the key encrypting cipher, the individual blocks of the enciphered key shall: a) b) c) d) have integrity whereby each block in the key has not been altered in an unauthorized manner since the time it was generated, transmitted or stored by an authorized source; be used in the appropriate order as specified by the particular mode; be considered a fixed quantity in which an individual block cannot be manipulated whilst leaving the other block(s) unchanged; be such that they cannot be unbundled for any unauthorized purpose.
+
+5.3
+
+Key variants
+
+Key variants is a technique for obtaining a set of keys from a single key, with each resulting key having a different key type. This technique provides key separation while eliminating the need to manage a separate, unrelated key of each required type. Each variant key is calculated from the original key and one constant from a set of non-secret constants using a repeatable process (f), as illustrated in Figure 2. The process of repeatable key calculation is described in 4.3.3. A constant having a unique value in the set of constants shall be allocated to each key type to be calculated from the original key using the key variants technique.
+
+Figure 2 -- Variant key calculation
+
+13
+
+IS 15256 (Part 2) : 2011 ISO 11568-2 : 2005
+A variant key calculated using a reversible process shall exist only in the cryptographic device which contains the original key. The key variants technique is applicable at all levels of a key hierarchy. A single key may be used to calculate a set of KEKs of different types, i.e., each KEK is to be used to encipher a different key type. Alternatively, a single key may generate a set of working keys of different types.
+
+5.4
+
+Key derivation
+
+Key derivation is a technique by which a (potentially large) number of keys is generated ("derived") from a single initial key and non-secret variable data, with each resulting key being the initial key for a different secure cryptographic device � typically the PIN pad of a POS terminal. The initial key is called a "derivation key" and each key generated from it is called a "derived key". Key derivation provides key separation by generating a (statistically) unique key for each cryptographic device without the need to manage a large number of separate, unrelated keys. This eliminates the need to store the ciphertext of each initial key at the acquirer or receiving node, as when a key is needed for subsequent use it is derived again from the derivation key and appropriate derivation data. The derived key generation procedure utilizes a non-reversible process, as illustrated in Figure 3, using the derivation key and data that uniquely identifies the target cryptographic device.
+
+Figure 3 -- Generation of a derived key The use of a non-reversible process ensures that the compromise of a derived key does not disclose the derivation key or any other derived keys. However, compromise of a derivation key discloses all keys derived from it. Key calculation (see 4.4) through its use of a reversible process is not suitable for use as a key derivation method.
+
+5.5
+
+Key transformation
+
+Key transformation is a technique whereby a secure cryptographic device � typically the PIN pad of a POS terminal � effects key replacement by generating one or more future keys from its current key and then erasing all trace of the current key. Key transformation lessens the impact of key compromise by enabling the cryptographic device to replace its key(s) at frequent intervals (e.g., after every transaction) without the need for a key distribution process. Key transformation is accomplished by using the current key as the initial key for a non-reversible key generation process, as illustrated in Figure 4. The process also involves other data relevant to the implementation that may be device- or transaction-related data, or may be a key replacement counter.
+
+14
+
+IS 15256 (Part 2) : 2011 ISO 11568-2 : 2005
+
+Figure 4 -- Generation of future keys The use of a non-reversible function ensures that the compromise of a cryptographic device using transformed keys does not disclose any key previously used by the device, even given the knowledge of all relevant data, which has ever existed outside of the device other than within another cryptographic device. Equipment in cryptographic communication with a device which utilizes key transformation determines the key in use by the device at any time by either: a) b) replicating the key transformation process in synchronization with the device, and storing the resultant key(s) for subsequent use or receiving the current value of the key replacement counter, which is included in the transaction data transmitted from the device, and generating the current key from the counter and the initial key. This procedure involves performing all those key transformations which lead directly from the initial key to the current key. Typically, the number of transformations required is small (e.g.,10), even though the key replacement counter increments to a large value (e.g., 1 million, see ANSI X9.24 Part 1-2004, Annex A).
+
+5.6
+
+Key offsetting
+
+Key offsetting is a technique for calculating a new KEK from an initial key each time a new enciphered key is to be transmitted to a receiving node. The technique prevents the substitution of a previous (but replaced) key for the current key exchanged between communicating parties. A counter, which is incremented each time a replacement key is required, is combined with the initial KEK using a repeatable process, (e.g., modulo-2 addition). The resulting key is the KEK with which the replacement key is enciphered, as illustrated in Figure 5. Typically, the current value of the counter is transmitted to the receiving node along with the enciphered key.
+
+15
+
+IS 15256 (Part 2) : 2011 ISO 11568-2 : 2005
+
+Figure 5 -- Calculation of a KEK offset (KEKo)
+
+5.7
+5.7.1
+
+Key notarization
+Description
+
+Key notarization is a technique whereby the identities of the communicating parties are incorporated in the KEK(s) before key encipherment occurs. Key notarization prevents key substitution. Should an enciphered key intended for use between other parties be substituted for the correct enciphered key, the decipherment of the substituted key would produce a garbled result. Key notarization is a method for sealing keys with the identities of the communication pair. It is achieved by creating a notary seal (NS). Once notarized, using the method described below, keys can only be recovered with knowledge of the key used to perform the notarization (KP) and the identities of the communication pair. Key enciphering keys (KEK) or data enciphering keys (KD) may be notarized by encipherment using a notarizing key (KN) formed by taking the modulo-2 sum of the KP with the notary seal (NS). 5.7.2 Method
+
+A unique identifier shall be used to identify each party to the notarization process. If necessary an identifier may be replicated to form the requisite 16bytes. Suppose that Party A wishes to send a key to Party B. Let FM1 be the first eight bytes of Party A's identifier and let FM2 be the second eight bytes. Similarly let TO1 and TO2 represent the first and second halves of Party B's identifier. Each party has prior knowledge of the shared secret key (KP) used to perform the notarization. An intermediate key (KI) is formed by the modulo-2 addition of KP and the concatenation of TO1 and FM1. KI = KP/(TO1 || FM1) Then the notary seal (NS) is formed from the concatenation of the results of encrypting TO2 and FM2 with the intermediate key (KI). NS = eKI(TO2) || eKI(FM2) The notarization key (KN) is formed by the modulo-2 addition of KP with NS KN = KP/NS KN is then used to notarize (by encipherment) either a KD or KEK.
+
+16
+
+IS 15256 (Part 2) : 2011 ISO 11568-2 : 2005
+
+5.8
+
+Key tagging
+
+Key tagging is a technique whereby a key existing outside of a cryptographic device has an associated tag that identifies the key type. A key and its tag are bound together in a manner that prevents undetectable modification of the key tag. Key tagging provides key separation. It is used in combination with key encipherment, and allows multiple key types to be enciphered using a single KEK. A key tag consists of a distinct but otherwise arbitrary constant. A different key tag shall be allocated to each key type to be tagged. When a key is generated in the secure cryptographic device, it is bound together with the tag appropriate to the key type as part of the key encipherment process, as illustrated in Figure 6. The tagged key may then be stored or distributed outside of a cryptographic device.
+
+Figure 6 -- Tagged key generation When a tagged key is passed into a secure cryptographic device for use in a specific function, it is deciphered and the key tag is recovered and checked within the device, as illustrated in Figure 7. If the key tag reveals that the type is not appropriate to the requested function, the function shall be aborted.
+
+Figure 7 -- Tagged key use The manner in which the key and its tag are bound is dependent on whether or not their combined length exceeds the block length of the cipher used for key encipherment. If the block length is not exceeded, the key
+
+17
+
+IS 15256 (Part 2) : 2011 ISO 11568-2 : 2005
+bits and tag bits may be concatenated or interleaved and the resultant block enciphered. If the block length is exceeded, the key and tag occupy separate blocks for encipherment. In this case, a chaining mode of encipherment (see ISO/IEC 10116), together with integrity protection techniques shall be used in order to bind the key and its tag together.
+
+5.9
+
+Key verification
+
+A key verification code (KVC) is a value cryptographically related to the key and some additional non-secret information. When used in conjunction with appropriate integrity-assurance mechanisms the KVC provides assurance that one or more of the following conditions has been met: a) b) c) d) a key has been correctly entered into a cryptographic device; a key has been correctly received over a communications channel; a key has not been altered; an instance of a key transformation or derivation remains in synchronization.
+
+A common use of KVCs is to find where keys have been altered or corrupted in a network. Any key failing the KVC test shall be suspected of having been corrupted or compromised. An example of a KVC implementation is to encipher a fixed commonly known, non-secret constant (e.g., a 16-digit hexadecimal value), under the key in question (see Figure 8), then truncate the resulting ciphertext (e.g., six digits).
+
+Figure 8 -- Example of KVC function The KVC is transported via an integrity assured channel (either electronically or by other means), to the location where verification will take place and is entered into the cryptographic processor. The key that it is verifying may be sent to this location by the same or by a different route. The same cryptographic function is then performed on the received key and the output of this is compared to the key verification code. The known, non-secret value should be supplied by the cryptographic device that generates the KVC, and the KVC should be substantially truncated (e.g., to six digits). Otherwise the KVC-produced capability could be misused to encipher known plaintext. The KVC shall only be calculated over the entire key.
+
+188
+
+IS 15256 (Part 2) : 2011 ISO 11568-2 : 2005
+
+5.10
+
+Key identification
+
+Key identification enables the transaction recipient to determine the appropriate key(s) associated with the transaction. Two methods are available, explicit and implicit. Explicit key identification is the inclusion in a transaction message of information that identifies the key(s) used to encipher or authenticate data in that message. The technique is especially useful when many cryptographic devices, all with unique keys, communicate with a single facility. This is because it enables this facility to determine the key(s) to be used with any given message it receives. With implicit key identification, the key used with a message is determined from other message-related information such as the terminal identifier or the communications line over which the message is received.
+
+5.11
+
+Controls and audit
+
+It is not always possible or feasible to prevent security compromises. However, the effects of a compromise can often be averted if the compromise is detected. It is especially important:   to detect the disclosure of a key and to detect the substitution of a disclosed key for a legitimate key.
+
+Key disclosure can be detected by:   audits and controls imposed on those individuals who manage keys and/or cryptographic devices, to detect possible collusion between such people, which might have resulted in key disclosure; periodic inspection of and control over interfaces through which unenciphered keys or key components are transferred, to detect "bugs" or "taps" that might have resulted in the disclosure of transferred keying material; control and auditing of cryptographic devices that contain keys, to detect any lost or stolen devices.
+
+
+
+If it is known or suspected that a cryptographic device has been lost or stolen, the keys contained in the device are considered to have been disclosed. Key substitution (of a disclosed key) can be detected by:   when explicit key identification is used, verifying that a just-received key identifier has the expected value; maintaining a "negative file" of keys whose disclosure is known or suspected, and at appropriate occasions performing audits of presumed valid keys to ensure that none is listed on the negative file; when explicit key identification is used, the key identifier of the disclosed key can be used to identify the key in the "negative file" entry, otherwise the enciphered version of the key itself can be used to identify the disclosed key in the "negative file" entry; performing periodic audits of presumed-valid keys to ensure that no key is associated with more than one cryptographic device (the audit can use enciphered keys, or key identifiers). This detects the replication of a disclosed key.
+
+
+
+Unauthorized key modification, deletion and insertion, as well as some instances of key substitution, which have occurred in association with a cryptographic device (e.g., a device that enciphers) are detected when the corresponding cryptographic device that performs the inverse operation (e.g., deciphers) produces a garbled or otherwise invalid result. The above audits and controls also serve to deter, and thus prevent, some security compromises. Furthermore, an audit of a cryptographic device's functionality can prevent key misuse, by ensuring that the device is capable of performing only authorized functions.
+
+19
+
+IS 15256 (Part 2) : 2011 ISO 11568-2 : 2005
+
+5.12
+
+Key integrity
+
+Techniques shall be used that cryptographically link all bits of the key in order to address the key integrity requirements listed in 5.2. Examples of methods for ensuring the integrity of enciphered keys include those specified in ISO/TR 19038. Other methods are permissible provided the requirements of 5.2 are achieved.
+
+6
+6.1
+
+Symmetric key life cycle
+General
+
+Throughout the key life cycle, equipment and procedures used to store and manage keys shall be subject to controls and audits so as to prevent or detect key compromise and to ensure integrity. Requirements applying to specific life cycle stages are specified in the following sub clauses.
+
+6.2
+
+Key generation
+
+Keys and key components shall be generated by one of the following methods described in 4.3. a) non repeatable key generation using; 1) 2) b) a random process or a pseudo-random process;
+
+repeatable key generation using; 1) 2) key transformation or key derivation.
+
+6.3
+6.3.1
+
+Key storage
+General
+
+Keys are protected against unauthorized disclosure and substitution by implementation of one of the secure key storage forms described in 4.7.2. Replacement of a key for which substitution is known, suspected or anticipated requires execution of the procedures described in 6.3.3. 6.3.2 6.3.2.1 Permissible forms General
+
+This subclause describes the methods of secure key storage for each of the permissible forms. 6.3.2.2 Plaintext key
+
+A plaintext key shall only be stored in a secure cryptographic device that complies with the requirements as stated in ISO 13491-1 and -2.
+
+200
+
+IS 15256 (Part 2) : 2011 ISO 11568-2 : 2005
+6.3.2.3 Key components
+
+A key component shall be conveyed to authorized persons by means of a uniquely identifiable, e.g. serialized, key mailer or a key transfer device. A key mailer shall be printed in such a way that the key component cannot be observed until the envelope is opened. The envelope shall display the minimum data necessary to deliver the key mailer to the authorized person. A key mailer shall be constructed such that it is highly likely that accidental or fraudulent opening will be obvious to the recipient, in which case the key component shall not be used. After the key component has been entered into a secure cryptographic device, the key mailer shall be destroyed or sealed in a new tamper-evident key mailer for possible future use. Key components when stored in a key transfer device shall be protected by adequate access controls such as passwords. 6.3.2.4 Enciphered key
+
+Key encipherment shall be as specified in 5.2. 6.3.3 Key substitution -- Remediation
+
+If unauthorized key substitution is known, suspected or anticipated based on information that an adversary has already obtained, the following procedure to replace the key shall be followed: a) b) c) erase the enciphered version of any stored key for which substitution is known; verify that all currently stored enciphered keys are legitimate � if any are not legitimate, they shall be deleted; translate the legitimate stored enciphered keys to encipherment under a new key encipherment key; delete the old key encipherment key at all operational locations.
+
+6.4
+
+Key restoration from back up
+
+Restoration of keys from back up shall be implemented by one of the methods described for loading and distribution.
+
+6.5
+6.5.1
+
+Key distribution and loading
+General
+
+This subclause describes the implementation of key distribution and loading techniques for each of the permissible key forms satisfying the requirements described in 4.9. The distribution and loading of keys into a secure cryptographic device shall be performed using one of following techniques: a) b) c) manual, e.g. key component entry via a key pad; electronic direct loading, e.g. direct key injection via a cable from the originating device or a key transfer device; network distribution and loading, e.g. remote key transport via a network.
+
+The permissible techniques to load keys into a secure cryptographic device as a function of the different key forms are indicated by a check mark in Table 2.
+
+21
+
+IS 15256 (Part 2) : 2011 ISO 11568-2 : 2005
+Table 2 -- Permissible key distribution and loading techniques
+Techniques Electronic Key forms Plaintext keys Key components Enciphered   Manual Direct Network
+
+   
+
+6.5.2
+
+Plaintext keys
+
+When a plaintext key is directly and electronically transferred between two secure cryptographic devices, it shall be ensured that those devices are directly connected to each other (without an intervening tap) and operated under continuous dual control. When explicit key identification is used, the (non-secret) key identifier should be transferred at the same time that the (secret) key is transferred. When a key transfer device is used, the key (and its identifier, if explicit key identification is used) is transferred from the source secure cryptographic device into the key transfer device. This portable device is then physically transported to the secure cryptographic device that will actually use the key. The key (and its identifier) is then transferred from the key transfer device into the key-using device. If the key-using device is a transaction originating device then the key shall be immediately erased from the key transfer device. The transfer of plaintext keys shall take place as specified for direct electronic key loading. A key transfer device may be given a number of unique keys (each with its identifier, if appropriate), and thus may be used to provide initial keys to a number of remote cryptographic devices. An alternative version of a key transfer device uses a key generation mechanism to establish unique cryptographic relationships between a number of remote cryptographic devices communicating with a single central cryptographic device. During the initialization process the key transfer device is attached to the central cryptographic device to receive an initial key. The key transfer device shall then use non-reversible derivations of this key to generate unique keys for the remote cryptographic devices, to which it is physically transported. The key generation device shall not retain any information that could disclose any key after generation and loading. If available the key verification code should be verified after key loading. 6.5.3 Key components
+
+When this technique is used the components that form the key are manually entered into the device. When key components are distributed in human-comprehensible form each such component shall be distributed in a key mailer that does not disclose the value of the component until opened. Prior to entering the key component the key mailer shall be checked for signs of tampering. If tampering of one of the components is detected the set of components shall not be used and shall be destroyed following the procedures outlined in ISO 9564-1. The key components shall be entered individually by each holder of a key component. The key verification methods described in 5.9 shall be used to verify correct key component entry. When the last component has been entered, the cryptographic device shall perform the action required to construct the key. If provided, a key verification code generated over the resultant key by one of the methods described in 5.9 shall be used to verify correct key construction.
+
+22
+
+IS 15256 (Part 2) : 2011 ISO 11568-2 : 2005
+6.5.4 Enciphered keys
+
+The distribution of enciphered keys over a network may require the transmission of special cryptographic service messages, by which the party initiating the key change so informs the other party. Care shall be taken to avoid cryptographic synchronization problems. A key encipherment key shall be at least of equal or greater strength than the key that it is protecting.
+NOTE As noted in 4.5, at the time of publication, in the retail banking environment, where TDEA keys are used for protecting other keys, and are changed such that the collection of quantities of plaintext/ciphertext pairs sufficient to significantly weaken the underlying cipher is improbable, 112-bit TDEA can be considered to offer sufficient security for the protection of 168-bit TDEA and 2048-bit RSA keys. See Table 1.
+
+Protection against misuse of keys during their operational use requires the application of one of the techniques described in this part of ISO 11568 in order to protect against substitution and modification. Keys used for encipherment of other keys need to be known to both the originator and the recipient of the enciphered keys.
+
+6.6
+
+Key use
+
+Subclause 4.7.4 contains a list of techniques that should be used to obtain proper key separation. A key should be shared by at most two communicating parties. Subsequent operational use of a key suspected of compromise shall be prevented. This may require: a) b) deleting the key from all operational locations; blocking the means used to derive the key.
+
+6.7
+
+Key replacement
+
+Key replacement shall be implemented by one of the following methods: a) b) c) repeating the appropriate key generation, distribution and loading procedure; transmitting to a secure cryptographic device a working key enciphered under a key encipherment key which has previously been placed in the device using the initial key distribution procedure; generating a new transaction key within the device as the non-reversible transformation of a previous key; examples of this technique are described in 5.5; 1) One possible objective is to obtain a unique key per transaction in an automatic way. The transaction key or the data needed to produce the transaction key exists only for the duration of a single transaction or the time between two consecutive transactions. When such a unique-key-per-transaction technique is used it shall not be possible to determine any previous transaction key from the information contained in a secure cryptographic device after a transaction has been completed.
+
+2)
+
+d)
+
+implicitly distributing a new key by computing a new transaction key within the device as a function of a fixed key and transaction data.
+
+If key replacement is being performed to prevent a dictionary attack on the enciphered data, any of the four methods shall be used. If key replacement is being performed to limit the effect of a future physical compromise of the secure cryptographic device, only methods a) or c) shall be used. If key replacement is being performed because of known or suspected compromise, method a) or b) shall be used.
+
+23
+
+IS 15256 (Part 2) : 2011 ISO 11568-2 : 2005
+
+6.8
+6.8.1
+
+Key destruction, deletion, archive and termination
+Key erasure techniques
+
+Key erasure shall be implemented either by completely overwriting the subject key storage with either a new key value or a value that may be non-secret such that no information about the erased key is retained, or by destroying the key storage media following the procedures outlined in ISO 9564-1. When a key component available in human comprehensible form is to be deleted, the media on which the key component is recorded shall be destroyed by burning or an equivalently effective process or as outlined in ISO 9564-1. 6.8.2 Key destruction
+
+Key destruction shall be performed in accordance with 6.8.1 on a single instance of a key. 6.8.3 Key deletion
+
+Key deletion shall be performed in accordance with 6.8.1 on all instances of a key in a given location. 6.8.4 6.8.4.1 Key archive General
+
+An archived key shall be in one of the permissible storage forms described in 4.7 i.e.: a) b) c) in plaintext form within a secure cryptographic device; in the form of at least two separate key components; enciphered using a key encipherment key. Plaintext keys
+
+6.8.4.2
+
+A secure cryptographic device loaded with archived keys shall permit such keys to be used only for purposes of legitimacy verification of transactions that occurred prior to archive. Separation between archived keys and active keys or protection against substitution of active keys by archived keys can be obtained by using one of the appropriate techniques as described in 4.7.4. 6.8.4.3 Key components
+
+A procedure shall be established for adequate access control to archived key components. Archived keying material shall be stored separately from operational keying material. 6.8.4.4 Enciphered keys
+
+The hierarchy of the key management scheme shall be respected during archiving. This implies that the key used for archiving a key encipherment key shall not be used to archive any plaintext key on any other level. The key encipherment key used for the archival process shall not intentionally be the same as any of the key encipherment keys used to encipher active keys. Archived keying material shall be stored separately from operational keying material.
+
+24
+
+IS 15256 (Part 2) : 2011 ISO 11568-2 : 2005
+6.8.5 Key termination
+
+Key termination shall be performed in accordance with 6.8.1 on all instances of a key in all locations.
+
+7
+
+Key management services cross reference
+
+The purpose of the matrix given in Table 3, is to provide a quick cross reference between the security services defined in ISO 11568-1 and the techniques as detailed in Clause 5. It should be noted however, that the validity of the service/technique would ultimately depend upon the specific user implementation.
+
+Table 3 -- Key management services cross reference
+Service techniques Encipherment Variants Key derivation Key transformation Offsetting Notarization Tagging Key verification Key identification Audit/control Key Integrity 5.12 5.8 5.9 5.10 5.9 5.9 5.10 5.11 5.3 5.4 5.5 5.4 5.5 5.6 5.7 5.4 5.5 Separation Substitution prevention Identification Synchronization (availability) Integrity Confidentiality 5.2 Compromise detection
+
+25
+
+IS 15256 (Part 2) : 2011 ISO 11568-2 : 2005
+
+Annex A (normative) Notation used in this part of ISO 11568
+
+A.1 Operators
+Operators are represented by the following: e d ||  encipherment decipherment concatenation modulo-2 addition
+
+A.2 Suffix letters for keys
+Suffix letters are defined as follows: o S R key has been key offset keys being sent keys being received
+
+Otherwise, the letter is unassigned and may be used for any purpose.
+
+26
+
+IS 15256 (Part 2) : 2011 ISO 11568-2 : 2005
+
+Annex B (normative) Approved algorithms for symmetric key management
+
+The techniques for key management described in this part of ISO 11568 involve cryptographic operations. The following algorithm(s) and modes of operation have been approved for use in conjunction with these techniques. The procedure for algorithm approval is described in ISO 11568-1:2005, Annex A. TDEA is defined in ISO/IEC 18033, ISO/IEC 10116, ISO/IEC 9797, ISO/IEC 16609.
+
+27
+
+IS 15256 (Part 2) : 2011 ISO 11568-2 : 2005
+
+Annex C (normative) Abbreviations
+
+The abbreviations listed in Table C.1 are used in this part of ISO 11568.
+
+Table C.1 -- List of abbreviations
+Abbreviation DEA f Meaning Data encryption algorithm Function see ANSI X9.65 The interaction of data, cryptographic key, and a cipher operation Parameter used, in conjunction with an algorithm, for the purposes of validation, authentication, encipherment or decipherment A key used to encipher/decipher data A cryptographic key used for the encipherment and decipherment of cryptographic keys A cryptographic key used to ensure an unpredictable bit stream when generating other cryptographic keys, (also known as a "initial key") A code produced by enciphering a value for later comparison to verify a key As defined in ISO 16609 A secret number used, in conjunction with the primary account number (PAN) or card number, as the validation parameter for cardholder authentication A time parameter used as a variable input to a process or function As defined in ISO/IEC 18033-1 Binary addition without carry Description
+
+K KD KEK
+
+Cryptographic key Data key Key encipherment key
+
+KGK
+
+Key generating key
+
+KVC MAC PIN
+
+Key verification code Message authentication code Personal identification number
+
+T TDEA XOR
+
+Time Triple DEA Modulo-2 addition
+
+28
+
+IS 15256 (Part 2) : 2011 ISO 11568-2 : 2005
+
+Bibliography
+
+[1] [2] [3] [4] [5] [6] [7] [8] [9] [10] [11]
+
+ISO 8732:1988, Banking -- Key management (wholesale) ISO 9564-2:2005, Banking -- Personal Identification Number management and security -- Part 2: Approved algorithms for PIN encipherment ISO 9564-3:2003, Banking -- Personal Identification Number management and security -- Part 3: Requirements for offline PIN handling in ATM and POS systems ISO/TR 9564-4:2004, Banking -- Personal Identification Number (PIN) management and security -- Part 4: Guidelines for PIN handling in open networks ISO 10202, (all parts), Financial transaction cards -- Security architecture of financial transaction systems using integrated circuit cards ISO/IEC 11770-2, Information technology -- Security techniques -- Key management -- Part 2: Mechanisms using symmetric techniques ISO 15668, Banking -- Secure file transfer (retail) ISO/IEC 18031, Information technology -- Security techniques -- Random number generation ANSI X9.31, Digital Signatures Using Reversible Public Key Cryptography for the Financial Services Industry MENEZES, A., VAN OORSCHOT, P. and VANSTONE, S., Handbook of Applied Cryptography, CRC Press, 1996 Special Publication 800-57, Recommendation for Key Management -- Part 1: National Institute for Standards and Technology
+
+29
+
+Bureau of Indian Standards BIS is a statutory institution established under the Bureau of Indian Standards Act, 1986 to promote harmonious development of the activities of standardization, marking and quality certification of goods and attending to connected matters in the country. Copyright BIS has the copyright of all its publications. No part of the these publications may be reproduced in any form without the prior permission in writing of BIS. This does not preclude the free use, in the course of implementing the standard, of necessary details, such as symbols and sizes, type or grade designations. Enquiries relating to copyright be addressed to the Director (Publications), BIS. Review of Indian Standards Amendments are issued to standards as the need arises on the basis of comments. Standards are also reviewed periodically; a standard alongwith amendments is reaffirmed when such review indicates that no changes are needed; if the review indicates that changes are needed, it is taken up for revision. Users of Indian Standards should ascertain that they are in possession of the latest amendments or edition by referring to the latest issue of `BIS Catalogue' and `Standards: Monthly Additions'. This Indian Standard has been developed from Doc No.: MSD 7 (342). Amendments Issued Since Publication Amend No. Date of Issue Text Affected
+
+BUREAU OF INDIAN STANDARDS Headquarters: Manak Bhavan, 9 Bahadur Shah Zafar Marg, New Delhi 110002 Telephones: 2323 0131, 2323 3375, 2323 9402 Website: www.bis.org.in Regional Offices: Central : Manak Bhavan, 9 Bahadur Shah Zafar Marg NEW DELHI 110002 1/14 C.I.T. Scheme VII M, V.I.P. Road, Kankurgachi KOLKATA 700054 SCO 335-336, Sector 34-A, CHANDIGARH 160022 Telephones 2323 7617 2323 3841 2337 8499, 2337 8561 2337 8626, 2337 9120 260 3843 260 9285 2254 1216, 2254 1442 2254 2519, 2254 2315 2832 9295, 2832 7858 2832 7891, 2832 7892
+
+Eastern
+
+:
+
+Northern
+
+:
+
+Southern
+
+:
+
+C.I.T. Campus, IV Cross Road, CHENNAI 600113
+
+Western
+
+:
+
+Manakalaya, E9 MIDC, Marol, Andheri (East) MUMBAI 400093
+
+Branches
+
+:
+
+AHMEDABAD. BANGALORE. BHOPAL. BHUBANESHWAR. COIMBATORE. DEHRADUN. FARIDABAD. GHAZIABAD. GUWAHATI. HYDERABAD. JAIPUR. KANPUR. LUCKNOW. NAGPUR. PARWANOO. PATNA. PUNE. RAJKOT. THIRUVANANTHAPURAM. VISAKHAPATNAM.
+Published by BIS, New Delhi
+
+

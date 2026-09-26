@@ -1,0 +1,724 @@
+lS 15116 :2002 lSO/lEC 10116:1997
+
+~k-m
+Indian Standard
+INFORMATION TECHNOLOGY -- SECURITY TECHNIQUES - MODES OF OPERATION FOR AN n-BIT BLOCK CIPHER
+
+Ics 35.040
+
+0 BIS 2002
+
+BUREAU
+
+OF
+
+INDIAN
+
+STANDARDS
+SHAH ZAFAR MARG
+
+MANAK BHAVAN, 9 BAHADUR
+
+NEW DELHI 110002
+April 2002 Price Group 6
+
+Information System Security Sectional Committee, LTD 38
+
+NATIONAL FOREWORD This Indian Standard which is identical with ISO/IEC 10116 : 1997 `Information technology -- Security techniques -- Modes of operation for an n-bit block cipher' issued by the International Organization for Standardization ( 1S0 ) and International Electrotechnical Commission ( IEC ) jointly was adopted by the Bureau of Indian Standards on the recommendation of Information System Security Sectional Committee and approval of the Electronics and Telecommunication Division Council. The text of the ISO/lEC Standard has been approved as suitable for publication as Indian Standard without deviations. Certain conventions are, however, not identical to those used in Indian Standards. Attention is particularly drawn to the following: Wherever the words `International `Indian Standard'. Standard' appear referring to this standard, they should be read as
+
+IS 15116:2002 lSO/lEC 10116:1997
+
+Indian Standard
+INFORMATION TECHNOLOGY -- SECURITY TECHNIQUES -- MODES OF OPERATION FOR AN n-BIT BLOCK CIPHER
+1 Scope
+This International Standard describes operation for an n-bit block cipher. four modes of
+2.11 starting variable (iS'V): Variable defining the starting
+
+point of the mode of operation. NOTE - The method of deriving the starting variable from the initializing value is not defined in this International Standard. It needsto be describedin any applicationof the modesof operation,
+
+NOTE - Amex A (informative) contains comments on the propertiesof each mode. This International Standard establishes four defined modes of operation so that in applications of an n-bit block cipher (e.g. protection of data transmission, data storage, authentication) this International Standard will provide a useful reference for, for example, the specification of the mode of operation and the values of parameters (as appropriate).
+
+3 Notation
+3.1 encipherment:
+
+Standard the fictional written C = eK(P)
+
+For the purposes of this International relation defined by the block cipher is
+
+2
+
+Definitions
+
+where
+P is the plaintext block;
+
+For the purposes of this International Standard, the following definitions apply. 2.1 block chaining: The encipherment of information such that each block of ciphertext is cryptographically dependent upon the preceding ciphertext block. 2.2 ciphertext: Data which has been transformed to hide its information content. 2.3 cryptographic synchronization: The co-ordination of the encipherment and decipherment processes. 2.4 decipherment: encipherment. The reversal of a corresponding
+
+C is the ciphertext block;
+K is the key.
+
+The expression eK is the operation of encipherment using the key K.
+3.2 decipherment:
+
+The corresponding decipherment function
+
+is written
+P = dK(C)
+
+The expression dK is the operation of decipherment using the key K.
+3.3 array of bits: A variable denoted by a capital letter, such as P and C above, represents a one-dimensional array of bits.
+
+2.5 encipherment: The (reversible) transformation of data by a cryptographic algorithm to produce ciphertext, i.e. to hide the data. 2.6 feedback buffer (FB): Variable used to store input data for the encipherment process. At the starting point FB has the value of SV. 2.7 initializing value: Value used in defining the starting point of an encipherment process. 2.8 key: A sequence of symbols that controls the operation of a cryptographic transformation (e.g. encipherment, decipherment) 2.9 n-bit block cipher: A block cipher with the property that plaintext blocks and ciphertext blocks are n bits in length. 2.10 plaintext: Unenciphered information.
+
+For example,
+A = (al, al, .... ad and B = (b), bl, .... b~ are arrays of m bits, numbered from 1 to m. All arrays of bits are written with the bit with index 1 in the leftmost position.
+
+3.4 addition modulo 2: The operation of addition, modulo 2, also known as the "exclusive or" fimction, is shown by the symbol @. The operation applied to arrays such as A and B is defined as
+A@ B=(al@bl, 3.5 al ED bl, ....a~@bJ
+
+selection of bits: The operation of selecting the j Ietlmost bits of A to generate aj-bit array is written A -j = (al, a2, ... a)
+
+This operation is defined only when 1 S j < m where m is the number of bits in A.
+
+1
+
+15116:2002 lSO/lEC 10116:1997
+IS 3.6 shift operation:
+
+A "shifi tlmction" & is defined as
+
+follows: Given an m-bit variable X and a k-bit variable F where I 5 k 5 m, the effect of a shift function &(~F) is to produce the m-bit variable
+&(~F) = (x~,l, x~,~, ,.., xm f,,~, Sk(AIF) = (1, f~ .... f~ (k ~ m) (k= m)
+
+6 Cipher Block Chaining (CBC) Mode
+6.1 The variables employed for the CBC mode of encipherment are
+
+The effect is to shift the bits of array X Ietl by k places, discarding xl .,. Xkand to place the array F in the rightmost k places of X. When k = m the effect is to totally replace X by
+F.
+
+a) A sequence of q plaintext blocks P], P2, .... Pq each of n bits. b) A key K. c) A starting variable SV of n bits. d) A sequence of q ciphertext blocks Cl, C2, .... C~,each of n bits.
+6.2
+
+The CBC mode of encipherment is described as follows:
+
+A special case of this fi.mctionbegins with the m-bit variable l(m) of successive "1" bits and shifts the variable F of k bits into it. The result is
+Sk(](m)/F) = (1, ], .... ],~,~, &(I(m)~F) = fl,, f2, .... f~
+
+Encipherment of the first plaintext block,
+
+subsequently,
+
+....f~
+
+(k< m)
+(k= m)
+
+Ci = eK(Pi @ Ci.l) fori =2, 3, ..,, q
+
+(4)
+
+where the m - k leftmost bits are "1".
+
+This procedure is shown in the upper part of figure 1. The starting variable SV is used in the generation of the first ciphertext output. Subsequently the ciphertext is added, modulo 2, to the next plaintext before encipherment. 6.3 The CBC mode of decipherment is described as follows: Decipherment of the first ciphertext block,
+P, = dK(C/) EBSV (5)
+
+4 Requirements
+For some of the described modes padding of the plaintext variables may be required. Padding techniques are not within the scope of this International Standard. For the Cipher Feedback (CFB) Mode of operation (see clause 7), three parameters r, j and k are defined. For the Output Feedback (OFB) Mode of operation (see clause 8), one parameter j is defined. When one of these modes of operation is used the same parameter value(s) need(s) to be chosen and used by all communicating parties.
+
+subsequently,
+Pi= dK(CJ @ Ci.l for i =2,3,
+
+.... q
+
+(6)
+
+This procedure is shown in the lower part of figure 1.
+
+5 Electronic Codebook (ECB) Mode
+The variables encipherment are
+5.1
+
+7 Cipher Feedback (CFB) Mode
+of 7.1 Three parameters define a CFB mode of operation: - the size of feedback buffer, r, where ns r < 2n - the size of feedback variable, k, where 1< k 5 n - the size of plaintext variable,j, where 1<j < k NOTES 1 r - k may be smaller than n, Figure 2 shows the special casewherer - k > n. If r = n then this mode is compatiblewith the CFB Mode 2 describedin the previouseditionof this InternationalStandard. The variables employed for the CFB mode of operation are a) The input variables
+
+employed
+
+for the ECB mode
+
+a) A sequence of q plaintext blocks PI, P2, .... Pq each of n bits. b) A key K. c) The resultant sequence of q ciphertext blocks Cl, C2, .... Cq, each of n bits.
+
+5.2 The ECB mode of encipherment is described as follows: (1) Ci = eK(P~ fori = 1, 2, .... q 5.3 The ECB mode of decipherment is described as follows: Pi= dK(C~ for i = 1, 2, .... q (2)
+
+1) A sequence of q plaintext variables PI, P2, .... P~, each of j bits. 2) A key K. 3) A starting variable SV of r bits.
+
+IS 15116:2002 lSO/lEC 10116:1997 b) The intermediate results 1) A sequence of q block cipher input blocks Xl, X2, ....Xq. eachofn bits. 2) A sequence of q block cipher output blocks YAY-z.... Yq,each of n bits. 3) A sequence of q variables EI, Ez, .... Eq, each ofj bits. 4) A sequence of q-1 feedback variables Fit Fz, .... FTI, each of k bits. 5) A sequence of q - I feedback buffer contents FB1, FB2,.. ..FBq.l, each of r bits. c) The output variables, i.e. a sequence of q ciphertext variables Cl, C2, .... C'q, each ofj bits.
+7.2 The feedback buffer FB is set to its initial value FBI = SV (7)
+
+These steps are repeated for i = 1, 2, .... q, ending with equation (18) on the last cycle. The procedure is shown in the right side of figure 2. The leftmost j bits of the output block Y of the block cipher are used to decipher the j-bit ciphertext variable by modulo 2 addition. The' remaining bits of Y are discarded. The plaintext and ciphertext variables have bits numbered from 1 toj. The ciphertext variable is augmented by placing k-j "1" bits in its Ief%nost bit positions to become the k-bit feedback variable F. Then the bits of the feedback buffer FB are shifted left by k places and F is inserted in the rightmost k places to produce the new value of FB. In this shift operation, the leftmost k bits of FB are discarded. The new n leftmost bits of FB are used as the next input X of the encipherment process. 7.4 It is recommended that CFB should be used with equal values of j and k. In this recommended form (j' = k) the equations (12) and (19) can be written
+Fi = Ci (casej = k)
+
+The operation of enciphering each plaintext variable employs the following six steps: a) b) c) d) e) f)
+Xi= FB, -n ~8)
+
+Use of block cipher, Y,= eK(XJ Selection of leftmost j bits, Ei = Yi -j Generation of ciphertext variable, Ci = Pi @ Q Generation of feedback variable, F',= Si(I(k) IC) Shift fimction on FB, FB,,, = Sk(FB,lFJ
+
+(9) (lo) (11) (12)
+(13)
+
+8 Output Feedback (OFB) Mode
+8.1 The OFB mode of operation is defined by one parameter, i.e. the size of plaintext variable j where 1<. j S n. The variables employed for the OFB mode of operation are a) The input variables 1) A sequence of q plaintext variables P], P2, each ofj bits. 2) A key K. 3) A starting variable SV of n bits. b) The intermediate results 1) A sequence of q block cipher input blocks Xl, Xz, .... Xq, each of n bits. 2) A sequence ofq block cipher output blocks Y), Y?,.... Y,,,each of n bits. 3) A-sequence'of q variables El, E2, .... Eq, each ofj bits. c) The output variables, i.e. a sequence of q ciphertext variables Cl, C2, .... Cq, each ofj bits. 8.2 The input block X is set to its initial value
+Pq,
+
+These steps are repeated for i = 1, 2, .... q, ending with equation (11) on the last cycle. The procedure is shown in the Iefi side of figure 2. The Ietlmost j bits of the output block Y of the block cipher are used to encipher the j-bit plaintext variable by modulo 2 addition. The remaining bits of Y are discarded. The plaintext and ciphertext variables have bits numbered from 1 toj. The ciphertext variable is augmented by placing k-j " 1" bits in its leftmost bit positions to become the k-bit feedback variable F. Then the bits of the feedback buffer FB are shifted letl by k places and F is inserted in the rightmost k places, to produce the new value of the feedback buffer FB. In this shift operation, the leftmost k bits of FB are discarded, The new n leftmost bits of FB are used as the next input X of the encipherment process. 7.3 The variables employed for decipherment are the same as those employed for encipherment. The feedback buffer FB is set to its initial value
+FBI = SV (14)
+
+x, =Sv
+
+(21)
+
+The operation of deciphering each ciphertext variab]e employs the following six-steps:a) b) c) d) e) 0
+Xl= FBi-n
+
+The operation of enciphering each plaintext variable employs the following four steps: a) b) c) d) Use of block cipher, Y,= eK(X) Selection of leftmost j bits, E, = Yi -j Generation of ciphertext variable, Ci = P, @E, Feedback operation, Xi+] = Y, (22) (23) (24) (25)
+
+Use of block cipher, Yi= eK(XJ Selection of leftmost j bits, Ei = Yi-j Generation of plaintext variable, Pi = Ci @ Ei Generation of feedback variable, Fi = Si (l(k)lCJ Shift function on FB, FBi+l = S~FBilFJ
+
+(15) (16) (17) (18) (19)
+(20)
+
+These steps are repeated for i = 1, 2, ..,, q, ending with equation (24) on the last cycle. The procedure is shown on the left side of figure 3. The result of each use of the block
+
+3
+
+IS 15116:2002 lSO/lEC 10116:
+
+1997
+
+cipher, which is Yi,is used to feed back and become the next vaIueofX, namely Xj+l . The leftmost jbitsof Yi are used to encipher the input variable.
+8.3 The variables employed for decipherment are the same as those employed for encipherment. Theinput block Xis set to itsinitialvalue Xl =SV.
+
+a) Use of block cipher, U = eK(XJ b) Selection of leftmostj bits, Ei = Yi -j C) Generation of plaintext variable, Pi = Ci @ Ei d) Feedback operation, Xi+l = Yi
+
+(26) (27) (28) (29)
+
+The operation of deciphering each ciphertext variable employs the following four steps:
+
+These steps are repeated for i = 1,2, .... q, ending with equation (28) on the last cycle. The procedure is shown in the right side of figure 3. The values Xi and Yi are the same as those used for encipherment; only equation (28) is different.
+
+P ,1
+
+P ,2
+--.
+
+Pq
+
+I Sv
+Encipherment
+q
+
+c q-1 +$
++
+
+I
+
+eK
+
+c1
+
+Q $'
+eK
+
+eK
+
+C2
+
+Cq
+
+Encipherment algorithm
+
+c1
+Decipherment
+
+dK
+
+LI
+
+Sv
+
+& 4
+C2 Cq
+dK dK
+--.
+
+Decipherment algorithm
+
+c q-l
+
++
+
+-+ Pq
+
+Figure 1- The cipher block chaining (CBC) mode of operation
+
+4
+
+IS 15116:2002 lSO/lEC 10116:1997
+
+Encipherment
+
+Decipherment
+
+FB I
+
+1..... Ik bit
+n
+
+4
+m I
+
++
+
+~
+.
+
+EflC@hSMR311t(jK
+slgciithm
+
+"h
+Y
+
+x
+
+k-j bws
+
+k-j cmes
+
+F~
+v~x
+
+1
+
+1
+eK
+
+n
+
+"-""" kr
+
+lb+
+
+I
+
+select left j bits
+
+T+
+Y
+
+Endphemlent algorithm
+
+*
+
+1
+
+1
+
+I
+
+Select
+
+leftibits
+
+E
+----
+
+1
+
+1
+j
+
+E c
+
+1
+
+j
+
+1
+
+j
+
+Figure 2- The cipher feedback (CFB) mode of operation
+
+Encipherment ~ .------
+
+Decipherment
+
+1
+
+x
+Enciphet?nent algorithm
+
+A
+eK
+j E P
+
+n
+
+n
+
+x , L 1
+Y
+
+Encipherment algorithm
+
+-P
+1
+
+select left ` bits
+
+I
+j 1 j Figure 3- The output feedback (OFB) mode of operation
+
+1
+
+5
+
+IS 15116:2002 lSO/lEC 10116:1997
+
+Annex A
+(informative)
+
+Properties of the modes of operation
+
+A.1 Properties of the Electronic (ECB) mode of operation
+A.1.l Environment
+
+Codebook
+
+A.2 Properties of the Cipher Block Chaining (CBC) mode of operation
+A.2.1 Environment
+
+Binary data exchanged beWeen computers, or people, may have repetitions or commonly used sequences. In ECB mode, identical plaintext blocks produce (for the same key) identical ciphertext blocks.
+A.1.2 Properties
+
+Properties of the ECB mode are encipherment or decipherment of a block can be carried out independently of the other blocks; b) reordering of the ciphertext blocks will result in the corresponding reordering of the plaintext blocks; c) the same plaintext block always produces the same ciphertext block (for the same key) making it vulnerable to a "dictionary attack, where a dictionary is built up with corresponding plaintext and ciphertext blocks.
+a)
+
+The CBC mode produces the same ciphertext whenever the same plaintext is enciphered using the same key and starting variable. Users who are concerned about this characteristic need to adopt some ploy to change the start of the plaintext, the key, or the starting variable. One possibility is to incorporate a unique identifier (e.g. an incremented counter) at the beginning of each CBC message. Another, which may be used when enciphering records whose size should not be increased, is to use some value such as the starting variable which can be computed tlom the record without knowing its contents (e.g. its address in random access storage). A.2.2 Properties Properties of the CBC mode are a) the chaining operation makes the ciphertext blocks dependent on the current and all preceding plaintext blocks and therefore rearranging ciphertext blocks does not result in a rearranging of the corresponding plaintext blocks; b) the use of different SV values prevents the same plaintext enciphering to the same ciphertext.
+A.2.3 Padding requirements
+
+The ECB mode is in general not recommended for messages longer than one block. The use of ECB may be specified in fbture International Standards for those special purposes where the repetition characteristic is acceptable or blocks have to be accessed individually.
+A.1.3 Padding requirements
+
+Only multiples of n bits can be enciphered or deciphered. Other lengths need to be padded to a n-bit boundary.
+A.1.4 Error propagation
+
+Only multiples of n bits can be enciphered or deciphered. Other lengths need to be padded to a n-bit boundary. If this is not acceptable, the last variable can be treated in a special way. Two examples of a special treatment are given below. A first possibility to treat an incomplete last variable (i.e. a variable Pq ofj < n bits where q should be greater than 1) is to encipher it in OFB mode as described below: a) encipherment C.= P,@ (eK(CQ.~ -j) b) decipherment
+Pg = C. @ (eK(C+~ -j) (31) (30)
+
+In the ECB mode, one or more bit errors within a single ciphertext block will only affect the decipherment of the block in which the error(s) occur(s). Decipherment of a ciphertext block with one or more error bits will result in a 50 `?4. error probability of each plaintext bit in the corresponding plaintext block.
+A.L5 Block boundaries
+
+If block boundaries are lost between encipherment and decipherment (e.g. due to a bit slip), synchronization between the encipherment and decipherment operations will be lost until the correct block boundaries are re-established. The result of all decipherment operations will be incorrect while the block boundaries are lost.
+
+However, this last variable is vulnerable to a "chosen plaintext attack" if the W is not secret or if it is used more than once with the same key (see clause A.4).
+
+6
+
+IS 15116:2002 lSO/lEC 10116:1997 A second possibility is known as "ciphertext-stea]ing". Suppose that the last two plaintext variables are P%f and Pq, where Pyl is an n-bit block and Pq is a variable ofj < n bits and q s~uld be greater than 1. a) encipherment Let CYI be the ciphertext block derived from P&I using the method described in 5.2. Then set Cq = eK(Si (Cu.l / PJ) (32) inco~orate a unique identifier (e.g. an incremented counter) at the beginning of each CFB message. Another, which may be used when enciphering records whose size should not be increased, is to use some value such as the starting variable which can be computed tlom the record without knowing its contents (e.g. its address in random access storage).
+A.3.2 Properties
+
+The last two ciphertext variables are then C& - j and Cq b) decipherment Cq needs to be deciphered first, resulting in the variable Pq and the right-most n-j bits of CT1 Si (CWI~PJ = dK(C~
+(33)
+
+The complete block CT, is now available and Pyl can be derived using the method described in 5.3. The two trailing ciphertext variables are deciphered in reverse order which makes this solution less suited for hardware implementations. A.2.4 Error propagaticm
+In the CBC mode, one or more bit errors within a single ciphertext block will affect the decipherment of two blocks (the block in which the error occurs and the succeeding block). An error in the i-th ciphertext block has the following effect on the resulting plaintext: the i-th plaintext block will have a 50 % error probability for each bit. The i+ l-th plaintext block will have an error pattern equal to that in the i-th ciphertext block, If errors occur in a variable of less than n bits, error propagation depends on the chosen method of special treatment. In "thefirst example the deciphered short block will have those bits in error that correspond directly to the ciphertext bits in error.
+
+Properties of the CFB mode are a) the chaining operation makes the ciphertext variables dependent on the current and all but a certain number of immediately preceding plaintext variables. This number depends on the selection of r, k, and j (see figure 2). Therefore rearranging j-bit ciphertext variables does not result in a rearranging of the corresponding j-bit plaintext variables. b) the use of different W values prevents the same plaintext enciphering ta$e same ciphertext; c) the encipherment and decipherment processes in the CFB mode both use the encipherment operation of the block cipher; d) the strength of the CFIj mode depends on the size of k (maximal ifj = k) and the relative sizes ofj, k, n and r; !, NOTE -j < k will result in an increasedprobability of repeating
+occurrences of values of the input blocks. Such repeated occurrences will reveal linear relations between plaintext bits.
+
+e) selection of a small value ofj will require more cycles through the block cipher operation per unit of plaintext and thus cause greater processing overheads. f) selection of r > n + k enables the pipelining and the continuous operation of the block cipher.
+A.3.3 Padding requirements
+
+Only multiples of j bits can be enciphered or deciphered. Other lengths need to be padded to a j-bit boundary. However, tlequently j will be chosen equal to such a size, that no padding will be required, e.g. j can be modified for the last portion of the plaintext.
+A.3.4 Error propagation
+
+A.2.5 Block boundaries If block boundaries are lost between encipherment and decipherment (e.g. due to a bit slip), synchronization between the encipherment and decipherment operations will be lost until the correct block boundaries are re-established. The result of all decipherment operations will be incorrect while the block boundaries are lost.
+
+A.3 Properties of the Cipher Feedback mode of operation
+A.3.1 Environment
+
+(CFB)
+
+In the CFB mode, errors in any j-bit unit of ciphertext will affect the decipherment of succeeding ciphertext until the bits in error have been shitled out of the CFB feedback buffer. An error in the i-th ciphertext variable has the following effect on the resulting plaintefi the i-th plaintext variable will have an error pattern equal to that in the i-th ciphertext variable. The succeeding plaintext variables will have a 50 0/0 error probability for each bit until all incorrectly received bits have been shifted out of the feedback buffer. A.3.5 Synchronization If j-bit boundaries are lost between encipherment and decipherment (e.g. due to a bit slip), cryptographic synchronization will be re-established r bits after j-bit boundaries are re-established. If a multiple of j bits are lost synchronization will be re-established automatically after r bits.
+
+The CFB mode produces the same ciphertext whenever the same plaintext is enciphered using the same key and starting variable. Users who are concerned about this characteristic need to adopt some ploy to change the start of the plaintext, the key, or the starting variable. One possibility is to
+
+7
+
+IS 15116:2002 lSO/lEC 10116:1997
+
+A.4 Properties of the Output Feedback (OFB) mode of operation
+A.4.1 Environment
+
+A.4.3 Padding requirements Only multiples of j bits can be enciphered or deciphered. Other lengths need to be padded to a j-bit boundary. However, frequently j will be chosen equal to such a size, that no padding will be required, e.g. j can be modified for the last portion of the plaintext. A.4.4 Error propagation The OFB mode does not extend ciphertext errors in the resultant plaintext output. Every bit in error in the ciphertext causes only one bit to be in error in the deciphered plaintext. A.4.5 Synchronization The OFB mode is not self-synchronizing. If the two operations of encipherment and decipherment get out of synchronism, the system needs to be re-initialized. Such a loss of synchronism might be caused by any number of inserted or lost ciphertext bits. Each re-initialization should use a value of SV different from the SV values used before with the same key. The reason for this is that an identical bit stream would be produced each time for the same parameters. This would be susceptible to a "known plaintext attack".
+
+The OFB mode produces the same ciphertext whenever the same plaintext is enciphered using the same key and starting variable. Moreover, inthe OFB mode thesame key stream is produced when the s~me key and SV are used. Consequently, for security reasons a specific SV should be used only once for a given key. A.4.2 Properties
+Properties of the OFB mode are
+
+a) the absence of chaining makes the OFB more vulnerable to active attacks; b) the use of different SV' values prevents the same plaintext enciphering to the same ciphertext, by producing different key streams; c) the encipherment and decipherment processes in the OFB mode both use the encipherment operation of the block ciphe~ d) the OFB mode does not depend on the plaintext to generate the key stream used to add modulo 2 to the plaintext; e) selection of a small value ofj will require more cycles through the block cipher per unit of plaintext and thus cause greater processing overheads.
+
+IS 15116:.2002 lSO/lEC 10116:1997
+
+Annex B
+(informative)
+
+Information about patents
+
+During the preparation of this International Standard, information was gathered concerning relevant patents upon which application of this International Standard might depend. Relevant patents were identified as belonging to International Business Machines Corporation (IBM) and UNISYS. However, 1S0 cannot give authoritative or comprehensive information about evidence, validity or scope of patent or like rights. The patent-holders have stated that licences will be granted in appropriate terms to enable application of this International Standard, provided that those who seek licences agree to reciprocate. Further information is available from Director of Commercial Relations International Business Machines Corporation 2000 Purchase Street PURCHASE, N.Y. 10577 U.S.A. Director, Industry Relations UNISYS PO Box 500 Blue Bell, PA 19424 U.S.A.
+
+9
+
+IS 15116:2002 lSO/lEC 10116:1997
+
+Annex C
+(informative)
+
+Examples for the modes of operation
+
+C.1 General
+This annex gives examples for the encipherment and decipherment of a message using the modes of operation specified in this International Standard. The examples use the following parameters: a) The block cipher used is the Data Encryption Algorithm (DEA) (see Annex D). The value of n is 64. b) The cryptographic key is 0123456789ABCDEF. c) The starting variable is 1234567890ABCDEF. d) The daintext is the 7-bit ASCII code for `Now is the time for all ` (in hexadecimal notation 4E6F772069732074 6865207h696D6520 666F722061 6C6C20). For CFB mode the plaintext is the 7-bit ASCII code for `Now' (in hexadecimal notation 4E6F77).
+
+C.2 ECB Mode
+Examples for the ECB mode of encipherment and decipherment are given in tables C. 1 and C.2, respectively.
+Table C.1 - ECB mode, encipherment
+
+i 1 2 3
+
+plaintext Pi
+
+block cipher input block
+
+block cipher output block
+
+ciphertext
+
+Ci
+
+4E6F772069732074 686520746%D6520 666F7220616C6C20
+
+4E6F772069732074 68652074696D6520 666F7220616C6C20
+
+3FA40E8A984D4815 6A271787AB8883F9 893D51EC4B563B53
+
+3FA40E8A984D4815 6A27 1787AB8883F9 893D51EC4B563B53
+
+Table C,2 - ECB mode, decipherment i 1 ciphertext Ci block cipher input block block cipher output block
+
+plaintext Pi 4E6F772069732074 68652074696D6520 666F72206 16C6C20
+
+2 3
+
+3FA40E8A984D4815 6A271787AB8883F9 893D51EC4B563B53
+
+3FA40E8A984D4815 6A271787AB8883F9 893D51EC4B563B53
+
+4E6F772069732074 68652074696D6520 666F7220616C6C20
+
+C.3 CBC Mode
+Examples for the CBC mode of encipherment and decipherment are given in tables C.3 and C.4, respectively.
+Table C.3 - CBC mode, encipherment i plaintext Pi block cipher input block block cipher output block ciphertext Ci
+
+1 2 3
+
+4E6F772069732074 68652074696D6520 666F7220616C6C20
+
+5C5B2158SD8ED9B 8DA2EDAAEE46975C 25864620ED54F02F
+
+E5C7CDDE872BF27C 43E934008C389COF 683788499A7C05F6
+
+E5C7CDDE872BF27C 43E934008C389COF 683788499A7C05F6
+
+10
+
+IS 15116:2002 lSO/lEC 10116:1997
+Table C.4 - CBC mode, decipherment
+
+I
+
+i
+
+ciphertext Ci
+
+block cipher input block
+
+block cipher output block
+
+plaintext Pi I
+
+1 2 3
+
+E5C7CDDE872BF27C 43E934008C389COF 683788499A7C05F6
+
+E5C7CDDE872BF27C 43E934008C389COF 683788499A7C05F6
+
+5C5B2 158t9D8ED9B 8DA2EDAAEE46975C 25864620ED54F02F
+
+4E6F772069732074 68652074696D6520 666F7220616C6C20
+
+C.4 CFB Mode
+Examples for the CFB mode of encipherment and decipherment are given in tables C.5 and C.6, respectively. For this example the parametersj=k= 8andr=n have been chosen. Thekbits feedback areshown in italics.
+TableC.5-CFB i s
+;
+
+mode,encipherment block cipher output block ciphertext Ci
+
+plaintext Pi
+Al? 412
+
+block cipher input block
+199AC.C-00~
+
+1LJ4JU
+
+/07
+
+A DPll17T7 WfiDL1/12C
+
+3
+
+6F 77
+
+34567890ABCDEFF3 567890ABCDEFF31F
+
+`69AE874E25 1 ` J( A #ll?Z59h Imtl 7039546r Ynuro>~v AD1B78BOBB371 BE7
+DWUU "n"
+
+F3 I
+lC
+
+Table C.6 - CFB mode, decipherment
+
+I
+I F
+
+i
+
+ciphertext Ci
+
+block cipher input block
+
+block cipher output block
+
+plaintext Pi I
+
+1 7 3
+
+F3
+I
+
+1234567890ABCDEF
+1
+
+BD66 1569AE874E25
+7039546F9AOF6330
+
+4E
+6F
+
+IF . .
+
+34567 -. --,-R90AFJ(JDEFF3 -
+
+DA
+
+567890~iBCDEFF3 IF
+
+AD1B78BOBB371BE7
+
+77
+
+C.5 OFB Mode
+Examples for the OFB mode of encipherment and decipherment are given in tables C.7 and C.8, respectively. For this example the parameter = 64 has been chosen.
+
+Table C.7 - OFB mode, encipherment i 1 plaintext Pi block cipher input block block cipher output block ciphertext Ci
+
+2 3
+
+4E6F772069732074 68652074696D6520 666F72206 16C6C20
+
+1234567890ABCDEF BD66 1569AE874E25 5D976A504786581F
+
+BD66 1569AE874E25 5D976A504786581F 5B0229C3443694E3
+
+F3096249C7F46E51 35F24A242EEB3D3F 3D6D5BE3255AF8C3
+
+Table C.8 - OFB mode, decipherment
+
+I
+b
+
+i
+
+ciphertext Ci
+
+block cipher input block
+
+block cipher output block
+
+plaintext Pi
+
+I
+
+1 2 3
+
+F3096249C7F46E51 35F24A242EEB3D3F 3D6D5BE3255AF8C3
+
+1234567890ABCDEF BD66 1569AE874E25 5D976A504786581 F
+
+BD66 1569AE874E25 5D976A504786581F 5B0229C3443694E3
+
+4E6F772069732074 68652074696D6520 666F72206 16C6C20
+
+11
+
+IS 15116:2002 lSO/lEC 10116:1997
+
+Annex D
+(informative)
+
+Bibliography
+
+[1] ANSI X3.92 (1981):
+
+American National Standard for Information Systems Data Encryption Algorithm.
+
+,,
+
+12
+
+Bureau of Indian Standards
+
+BIS is a statutory institution established under the Bureau oflndian Standards Act, 1986 to promote harmonious development of the activities of standardization, marking and quality certification of goods and attending to connected matters in the country. Copyright BIS has the copyright of all its publications. No part of these publications maybe reproduced in any form without the prior permission in writing of BIS. This does not preclude the free use, in the course of implementing the standard, of necessary details, such as symbols and sizes, type or grade designations. Enquiries relating to copyright be addressed to the Director (Publications), BIS. Review of Indian Standards Amendments are issued to standards as the need arises cmthe basis of comments. Standards are also reviewed periodically; a standard along with amendments is reaffirmed when such review indicates that no changes are needed; if the review indicates that changes are needed, it is taken Up for revision. Users of Indian Standards should ascertain that they are in possession of the latest amendments or edition by referring to the latest issue of `BIS Catalogue' and `Standards : Monthly Additions'. This Indian Standard has been developed from DOC : No. LTD 38 ( 1944 ). Amendments Amend No. Issued Since Publication Text Affected
+
+Date of Issue
+
+BUREAU OF INDIAN STANDARDS
+Headquarters: Manak Bhavan, 9 Bahadur Shah Zafar Marg, New Delhi 110002 Telephones: 3230131,3233375,3239402 Regional Offices: Central: Manak Bhavan, 9 Bahadur Shah Zafar Marg NEW DELHI 110002 Eastern: 1/14 C. 1.T. Scheme VII M, V. 1.P. Road, Kankurgachi KOLKATA700 054 Telegrams: Manaksanstha ( Common to all offices) Telephone 3237617
+{ 3233841
+
+3378499,3378561
+{ 3378626,3379120
+
+Northern: SCO 335-336, Sector 34-A, CHANDIGARH 160022
+Southern: C.
+
+I. T. Campus, IV Cross Road, CHENNAI 600113
+
+Western : Manakalaya, E9 MIDC, Marol, Andheri (East) MUMBA1400 093
+
+603843 { 602025 2541216,2541442 { 2542519,2541315 8329295,8327858 { 8327891,8327892
+
+Branches : AHMADABAD. BANGALORE. BHOPAL. BHUBANESHWAR. COIMBATORE. FARIDABAD. GHAZIABAD. (3UWAHATI. HYDERABAD. JAIPUR. KANPUR. LUCKNOW. NAGPUR. NALAGARH.PATNA. PUNE. RAJKOT. THIRWANANTHAPURAM.
+Printed at New India Printing Press, Khurja, India
+
+

@@ -1,0 +1,1950 @@
+WAT Wad IS 16336 (Part 1) : 2015 
+Indian Standard ener ere 
+
+
+feria gam + dest Y get 
+& AMARA ¿q ARA ET 
+mea (für) 
+
+
+am 1 we feme 
+
+
+Common Information Model (CIM) 
+for Information Exchange in the 
+Context of Electrical Utilities 
+
+
+Part 1 Companion Specification 
+
+
+ICS 33.200 
+
+
+© BIS 2015 
+
+
+Rds AMA equ 
+BUREAU OF INDIAN STANDARDS 
+AM Te, 9 SRAM Set ni, ae faeei-110002 
+lim MANAK BHAVAN, 9 BAHADUR SHAH ZAFAR MARG 
+
+
+NEW DELHI-110002 
+www.bis.org.in www.standardsbis.in 
+
+
+December 2015 Price Group 7 
+
+
+Power System Control and Associated Communications Sectional Committee, LITD 10 
+
+
+FOREWORD 
+
+
+This Indian Standard (Part 1) was adopted by the Bureau of Indian Standards, after the draft finalized by the 
+Power System Control and Associated Communications Sectional Committee had been approved by the Electronics 
+and Information Technology Division Council. 
+
+
+Utilities are having a wide deployment of various software systems for real-time monitoring and optimized 
+operations, also for achieving various business functions. There is a large number of information exchange 
+scenario’s and use cases that exists within inter utility environment as well as in intra utility environment. There 
+are multiple software systems and components involved in these information exchange scenarios, and they are 
+procured from different vendors at different point in time. Often these information exchanges demands very 
+complex integration projects with high cost of execution, which either results in a case to case custom integration 
+using ad-hoc methods or a no integration scenario creating information silos. With a case to case custom integration 
+the number of integration adapters which are needed will increase drastically especially when additional integration 
+requirement increases. Intention of this standard is to bring in a Common Information Model and a set of interface 
+specification thus by enabling the vendors for providing standardized interfaces in various applications and 
+application components which requires an exchange of real-time and non-real-time information. 
+
+
+International Standards published by IEC, namely IEC 61970 (series), IEC 61968 (series) and IEC 62325 (series) 
+for intra application and inter application integration of systems is considered as the base standard for adopting 
+a Common Information Model and Common Interface Specifications. Common Information Model provides a 
+standard semantic model for a model based information exchanges in the context of Electrical utilities. Common 
+Interface Specifications provides a standard set of services which defines how information is exchanged using 
+the context of the standard model. 
+
+
+IS 16336 (Part 1) : 2015 
+
+
+Indian Standard 
+
+
+COMMON INFORMATION MODEL FOR 
+INFORMATION EXCHANGE IN THE CONTEXT OF 
+ELECTRICAL UTILITIES 
+PART 1 COMPANION SPECIFICATION 
+
+
+1 SCOPE 
+
+
+1.1 This standard (Part 1) specifies the interfaces that 
+exist within a power utility which is into Transmission, 
+Distribution or Generation, and also to a System 
+Operator, Market Operator which directly interact with 
+such utilities. The recommendations in this standard 
+is meant for achieving standardized interfaces for 
+information exchange between two or more software 
+components as well as for information exchange 
+between two or more software applications. 
+Communication between software components is more 
+relevant in the case of various sub components within 
+the same Energy Management Systems as well as 
+Generation Management Systems need to exchange 
+information between each other. Communication 
+between software applications is more relevant in case 
+of different applications for Distribution Management 
+or two Energy Management/Generation Management 
+Systems needs to exchange information. This 
+companion standard and recommended other standards 
+does not address how information is managed 
+internally in a software application or component, 
+rather it specifies only how information is represented 
+and exchanged in the interface of the application. 
+
+
+1.2 The scope of this series of standards limits to the 
+following: 
+
+
+a) Identifying various information exchange use 
+cases which are very specific to the country. 
+
+b) Provide a guideline for implementation of 
+systems based on international practices with 
+respect to the identified use cases. 
+
+c) Providing a number of standard model 
+exchange profiles for specific information 
+exchange scenario’s which demands model 
+exchange between two utilities or utility and 
+system operator or utility and market operator. 
+
+
+d) Provide extensions to the models specified in 
+adopted IEC standards to cater country 
+specific requirements which are not covered 
+in the associated international standards. 
+
+
+1.3 This standard covers the aspects given in 
+1.2 (a and b), while the 1.2(c) is covered by IS 16336 
+
+
+(Part 2) and aspect given in 1.2(d) is covered 
+in IS 16336 (Part 3). 
+
+
+2 REFERENCES 
+
+
+The standards listed in Annex A contain provisions 
+which, through reference in this text constitute 
+provisions of this standard. At the time of publication, 
+the editions indicated were valid. All standards are 
+subject to revision, and parties to agreements based 
+on this standard are encouraged to investigate the 
+possibility of applying the most recent editions of the 
+standards listed in Annex A. 
+
+
+3 TERMINOLOGY 
+
+
+For the purpose of this standard the abbreviations used 
+are given in Annex B. 
+
+
+4 OVERVIEW OF APPLICABLE 
+STANDARDS 
+
+
+4.1 IEC 61970, IEC 61968 and IEC 62325 have been 
+used as basic reference standards for developing this 
+particular standard. IEC 61970 is considered as the 
+foundational standard amongst the three standards. A 
+layout for component integration for application 
+information exchange and data access software is given 
+in Fig. 1. 
+
+
+IEC 
+
+
+4.2 IEC 61970 deals mostly with Energy Management 
+Systems, IEC 61970 services are for information 
+exchange within and between different SCADA/EMS 
+systems. These services can also be used for intra 
+application integration of different components of an 
+EMS system. While IEC 61968 deals with Distribution 
+Management, integration of a number of software 
+applications in an inter application integration scenario. 
+IEC 61970 services are more oriented towards a tightly 
+coupled integration, also has support for real time data 
+exchanges. 
+
+
+4.3 IEC 61968 has comparatively loosely coupled 
+exchange using simple messages as services. 
+IEC 61968 is relevant to applications with more 
+heterogeneity in languages, operating systems, 
+protocols and management tools. IEC 61968 is 
+intended to support applications that need to exchange 
+
+
+IS 16336 (Part 1) : 2015 
+
+
+Application information exchange 
+and data access software 
+
+
+Applications 
+
+
+and components 
+
+
+Component adapter 
+
+
+| Common Information Model | 
+(CIM) 
+61970-3XX Seres 
+
+
+Component Interface Specs | 
+| (cis) 619704XX Series | 
+
+
+Component adapter 
+
+
+Component container AP] 
+Component container Component execution services 
+ponent Middleware services 5 m 
+execution -Evi 
+qn Resor 
+Communication profiles Bebe 
+
+
+Persistent storage 
+
+
+Fic. 1 Use or IEC-61970 FOR COMPONENT INTEGRATION 
+
+
+data on an event driven basis. IEC 61968 is intended 
+to be implemented with middleware services that 
+broker messages among applications, and will 
+complement, but not replace utility data warehouses, 
+database gateways, and operational stores. An example 
+integration scenario for IEC 61968 is by using an 
+Enterprise Service Bus for exchanging IEC 61968 
+messages is given in Fig. 2. 
+
+
+4.4 IEC 62325 deals with market interactions for power 
+system which includes interactions with power 
+exchanges as well as system operators. Supported 
+services in IEC 62325 are for exchanging business 
+information in the context of power markets. 
+
+
+4.5 IEC 61970-1 provides guidelines and general 
+requirements for all related IEC 61970 standards. 
+IEC 61970-2 provides a glossary of references. 
+IEC 61968-1 defines the interface architecture and 
+general requirements for interfaces. Identifies and 
+establishes requirements for standard interfaces based 
+on an Interface Reference Model. These set of 
+standards is limited to the definition of interfaces and 
+is implementation independent; it provides for 
+interoperability among different computer systems, 
+platforms, and languages. IEC/TS 61968-2 provides 
+glossary of references. IEC/TR 62325-101 Framework 
+
+
+for energy market communications — Part 101: 
+General guidelines gives technology independent 
+general guidelines applicable for e-business in energy 
+markets based on internet technologies providing: 
+
+
+a) a description of the energy market specific 
+environment, 
+
+b) a description of the energy market specify 
+requirements for e-business, 
+
+c) an example of the energy market structure; 
+an introduction to the modelling 
+methodology, 
+
+d) network configuration examples, and 
+
+e) a general assessment of communication 
+security. 
+
+
+General guidelines and glossary is represented in 
+Fig. 3. 
+
+
+4.6 Common information model is defined under 
+IEC 61970 and IEC 61968 with major and minor 
+version numbers for individual standards and is 
+represented in Fig. 4. 
+
+
+4.7 IEC 61970-301 defines the Common Information 
+Model (CIM) base set of packages which provide a 
+logical view of the physical aspects of an energy 
+
+
+IS 16336 (Part 1) : 2015 
+
+
+Distribution Management 
+Business Funtions 
+
+
+Business functions external 
+to distribution Management 
+
+
+EA 
+(RET) 
+Retail — 
+Paria — | 
+a e 
+
+
+Interface * Interface * Interface * Interface * Interfaco * Interface * Interface * 
+Standard: Part 3 | | Standard: Part 4 Standard: Part S| | Standard: Part 6 | Y Standard: Part 10 | | Standard: Part 10 | | Standard: Part 10 
+I 
+
+
+m e a A mmc E E cm 
+
+
+m 
+m s | E " ODORE ieri 
+ears. on — 
+
+
+Electric E Distribution NUR. Generation and Transmission Management, 
+planning, constructing, Enterprise Resource Planning, Supply Chain 
+maintaining and operating and general Corporate Services 
+
+
+Fic. 2 TYPICAL APPLICATIONS MAPPED TO INTERFACE SERVICE OF IEC 61968 
+
+
+IEC-61970-301 
+Other Subparts 
+
+
+IEC-61970 Standards IEC-61968 Standards 
+
+
+IEC-62325-101 
+
+
+Other Subparts 
+
+
+FiG. 3 GENERAL GUIDELINES AND GLOSSARY 
+
+
+IS 16336 (Part 1) : 2015 
+
+
+IEC-51970-301 
+
+
+IEC-61970 Standards 
+
+
+IEC-651968-11 
+| Other Subpart 
+
+
+IEC-62325-301 
+
+
+61970-30 
+Other Subparts 
+
+
+IEC-62325 Standards 
+
+
+Fic. 4 FOUNDATIONAL STANDARDS DEFINING COMMON INFORMATION MODEL AND THEIR DEPENDENCIES 
+
+
+management system including SCADA (Supervisory 
+Control and Data Acquisition). Whilst there are 
+multiple IEC standards dealing with different parts of 
+the CIM, there is a single, unified normalized 
+information model comprising the CIM behind all these 
+individual standards documents. IEC-61970-301 is the 
+fundamental standard which defines Common 
+Information Model as a Platform Independent Model 
+represented using UML class diagrams. 
+
+
+4.8 IEC 61968-1 1specifies the distribution extensions 
+of the Common Information Model (CIM) specified 
+in IEC 61970-301. The scope of this standard is the 
+
+
+IEC-61970-401 
+IEC-61970-402 
+1£C-61970-403 
+
+
+IEC-61970-404 
+IEC-61970-405 
+
+
+IEC-61970-407 
+
+
+IEC-61970-301 
+Other Subparts 
+
+
+IEC-61970 Standards 
+
+
+information model that extends the base CIM for the 
+needs of distribution networks, as well as for 
+integration with enterprise-wide information systems 
+typically used within electrical utilities. The 
+information model is defined in UML which is 
+platform-independent and electronically processable 
+language that is then used to create message payload 
+definitions in different required formats. Standards 
+defining services independent of platform is 
+represented in Fig. 5. 
+
+
+4.9 IEC 62325-301 defines Market Extension packages 
+for CIM. These extension CIM package support the 
+
+
+1EC-61968-3 
+
+
+1EC-61968-4 
+
+
+IEC-61968-5 
+
+
+IEC-61968-5 
+
+
+~ 
+
+
+` 
+JEC-61968-10 
+
+
+Other Subparts 
+
+
+1EC-61968 Standards 
+
+
+Fic. 5 STANDARDS DEFINING SERVICES INDEPENDENT OF PLATFORM 
+
+
+requirements of Market Management System. These 
+extended CIM classes are applicable for capacity 
+allocation, scheduling energy, ancillary or other 
+services, real-time operations and settlements. 
+
+
+4.10 IEC 61970-4XX series covers the syntactic part 
+of model based information exchanges, which is a set 
+of services which are commonly known as Component 
+Interface Specifications (CIS) or Generic Interface 
+Descriptors (GID). It consists of generic services, 
+services for high speed data access, services for historic 
+data access and services for Events and Alarms. 
+TEC 61970-401, 402, 403 and 404 defines services 
+in a Platform Independent way so that it can be mapped 
+to an existing or future component technology. 
+
+
+Following are the details of each relevant standard for 
+CIS which specifies a Platform Independent Model 
+definition in UML. 
+
+
+a) IEC/TS 61970-401 — Energy management 
+system application programme interface 
+(EMS-API) — Part 401: Component interface 
+specification (CIS) framework. Contains the 
+framework for the specification of 
+Component Interface Specifications (CIS) for 
+Energy Management System Application 
+Programme Interfaces. A CIS specifies the 
+interfaces that a component (or application) 
+should implement to be able to exchange 
+information with other components (or 
+applications) and/or to access publicly 
+available data in a standard way. 
+
+b) IEC 61970-402 — Energy management 
+system application programme interface 
+(EMS-API) — Part 402: Common services 
+IEC 61970-402 provides the base 
+functionality considered necessary and 
+common that is provided by neither the 
+normative standards incorporated by 
+reference nor the new APIs specified in the 
+IEC 61970-403 to IEC 61970-449 generic 
+interface standards. An application is 
+expected to use the Common Services in 
+conjunction with the generic interfaces. 
+
+c) IEC 61970-403 — Energy management 
+system application programme interface 
+(EMS-API) — Part 403: Generic data access 
+IEC 61970-403 provides a generic request/ 
+reply-oriented data access mechanism for 
+applications from independent suppliers to 
+access CIM data in combination with 
+IEC 61970-402. An application is expected 
+to use the Generic Data Access (GDA) service 
+as part of an initialisation process or an 
+occasional information synchronization step. 
+
+
+d) IEC 61970-404 — Energy management 
+
+
+e) 
+
+
+g) 
+
+
+h) 
+
+
+IS 16336 (Part 1) : 2015 
+
+
+system application programme interface 
+(EMS-API) — Part 404: High Speed Data 
+Access (HSDA) specifies a generalized 
+interface for efficient exchange of data. Takes 
+into account the latencies caused by a local 
+area network providing efficient data 
+exchange also over local area networks. 
+IEC 61970-404 — Energy management 
+system application programme interface 
+(EMS-API) — Part 404: High Speed Data 
+Access (HSDA) specifies a generalized 
+interface for efficient exchange of data. Takes 
+into account the latencies caused by a local 
+area network providing efficient data 
+exchange also over local area networks. 
+IEC 61970-405 — Energy management 
+system application programme interface 
+(EMS-API) — Part 405: Generic Eventing 
+and Subscription (GES) specifies a 
+generalized interface for efficient exchange 
+of messages. Takes into account the latencies 
+caused by a Local Area Network (LAN) 
+providing efficient data exchange also over 
+Local Area Networks. The Generic Eventing 
+and Subscription API is expected to provide 
+one of the primary means for accomplishing 
+application integration. 
+
+IEC 61970-407 — Energy management 
+system application programme interface 
+(EMS-API) — Part 407: Time Series Data 
+Access (TSDA). Specifies a generalized 
+interface for efficient exchange of data. Takes 
+into account the latencies caused by a local 
+area network providing efficient data 
+exchange also over local area networks. 
+IEC 61968-3 — System interfaces for 
+distribution management programme — Part 
+3: Interface for network operations specifies 
+the information content of a set of message 
+types that can be used to support many of the 
+business functions related to network 
+operations. Typical uses of the message types 
+defined in this part include data acquisition 
+by external systems, fault isolation, fault 
+restoration, trouble management, 
+maintenance of the plant, and the 
+commissioning of the plant. 
+
+IEC 61968-4 — System interfaces for 
+distribution management — Part 4: Interfaces 
+for records and asset management specifies 
+the information content of a set of message 
+types that can be used to support many of the 
+business functions related to records and asset 
+management. Typical uses of the message 
+types include network extension planning, 
+
+
+IS 16336 (Part 1) : 2015 
+
+
+k) 
+
+
+m) 
+
+
+n) 
+
+
+copying feeder or other network data between 
+systems, network or diagram edits and asset 
+inspection. 
+IEC 61968-9 — System interfaces for 
+distribution management — Part 9: Interfaces 
+for meter reading and control specifies the 
+information content of a set of message types 
+can be used to support many of the business 
+functions related to meter reading and control. 
+Typical uses of the message types include 
+meter reading, meter control, meter events, 
+customer data synchronization and customer 
+switching. Although intended for electrical 
+distribution networks, IEC 61968-9 can be 
+used for other metering applications, 
+including non-electrical metered quantities 
+necessary to support gas and networks. 
+Following are the parts of the IEC 61968 
+interface. Standards defining technology 
+specific mapping is represented in Fig. 6. 
+1) IEC 61968-5 Operational Planning and 
+Optimization, 
+2) IEC 61968-6 Maintenance 
+Construction, 
+3) IEC 61968-7 Network Extension 
+Planning, and 
+
+
+4) IEC 61968-8 Customer Support. 
+
+
+IEC 61970-501 — Common Information 
+Model Resource Description Framework 
+(CIM RDF) schema specifies the format and 
+rules for producing a machine readable form 
+of the Common Information Model (CIM) as 
+specified in the IEC 61970-301 standard. 
+Describes a CIM vocabulary to support the 
+
+
+and 
+
+
+= 
+
+
+IEC-61970-501 
+Other Subparts 
+
+
+1EC-61970-502-8 
+
+
+IEC-61970 Standards 
+
+
+p) 
+
+
+q) 
+
+
+r) 
+
+
+s) 
+
+
+data access facility and associated CIM 
+semantics. Standards defining model 
+exchange and graphics exchange is 
+represented in Fig. 7. 
+
+IEC 61970-502- — Web Services Profile for 
+61970-4 Abstract Services. It uses OPC UA/ 
+IEC 62541 based web services as the 
+implementation profile IEC-61968-1-1: ESB 
+Implementation Profile for IEC-61968 
+interfaces, this standard is under development. 
+IEC 61968- 1-2: Web Service Implementation 
+Profile for IEC 61968 interfaces, this standard 
+is under development. 
+
+IEC 61970-452 — Energy Management 
+System Application Programme Interface 
+(EMS-API) — Part 452: CIM Static 
+Transmission Network Model Profile. This 
+standard is under development. 
+
+
+IEC 61970-552 — CIM XML Model 
+Exchange Format. This standard is under 
+development. 
+
+IEC 61970-453 — CIM based graphics 
+exchange IEC 61970-453 : 2008(E) defines, 
+at an abstract level, the content and exchange 
+mechanisms used for data transmitted 
+between control center components. Includes 
+the general use cases for exchange of graphic 
+schematic display definitions, and guidelines 
+for linking the schematic definitions with 
+Common Information Model (CIM) data. 
+Also gives guidelines for management of 
+schematic definitions through multiple 
+revisions. 
+
+
+= —— 
+
+
+= 
+
+
+IEC-51968-1-1 
+Other Subparts 
+
+
+IEC-61968-1-2 
+
+
+IEC-61968 Standards 
+
+
+Fic. 6 STANDARDS DEFINING TECHNOLOGY SPECIFIC MAPPING 
+
+
+6 
+
+
+IEC-61970-452 
+
+
+— CRIMEN 
+IEC-61970-552 
+
+
+IEC-61970 Standards 
+
+
+Other Subparts 
+
+
+IS 16336 (Part 1) : 2015 
+
+
+IEC-61968-13 
+| Other Subparts 
+
+
+IEC-61968 Standards 
+
+
+Fic. 7 STANDARDS DEFINING MODEL EXCHANGE AND GRAPHICS EXCHANGE 
+
+
+t) IEC 61968-13 — CIM RDF Model exchange 
+format for distribution specifies the format 
+and rules for exchanging modelling 
+information based upon the Common 
+Information Model (“CIM”) and related to 
+distribution network data. Allows the 
+exchange of instance data in bulk. Thus, the 
+imported network model data should be 
+sufficient to allow performing network 
+connectivity analysis, including network 
+tracing, outage analysis, load flow 
+calculations, etc. This standard could be used 
+for synchronizing geographical information 
+system databases with remote control system 
+databases. 
+
+
+5 OVERVIEW OF APPLICATION USE CASES 
+
+
+5.1 This companion standard identifies a number of 
+application uses cases with respect to the national 
+scenario where CIM based integration standards 
+IEC 61970, IEC 61968 and IEC 62325 is applied. Since 
+there are enormous possibilities of using CIM based 
+exchanges the application use cases identified through 
+companion documents is only a sub set of what is 
+possible. There is a wide range of application 
+integration requirements for which CIM is widely 
+adopted internationally. These requirements are very 
+well dealt in the associated IEC standards. The purpose 
+of these BIS companion standard is not to revisit the 
+applicability of those standards rather enhance the 
+application of these IEC standards in integration 
+scenarios that are very specific to the country. So the 
+scope defined by the companion standards is only a 
+subset of overall scope of application of the IEC 
+standards. Companion documents only complements 
+and does not any way impact or modify the usage of 
+the IEC standards for its original scope. 
+
+
+5.2 Evaluating various business processes of power 
+system domain through information exchange use 
+
+
+cases offers a quick and easy way of identifying the 
+modelling requirements while application integration. 
+These use cases helps to identify the suitability of CIM 
+as a semantic model catering information exchange 
+needs of the process. After identifying the gaps if any, 
+the existing CIM model is extended through the 
+companion specifications. Since there can be more than 
+one business process which demands an extension, 
+each of these dealt separately considering any 
+dependencies that exists. Application use case 
+evaluation acts as the most important criteria in 
+determining extensibility of CIM through national 
+companion standards. 
+
+
+5.3 In the context of information exchange power 
+system operations business process is one of the key 
+processes of the power system domain due to very high 
+reliability requirements of electric supply. The structure 
+and role of various organizations and entities 
+participate in power system operations; regulatory 
+framework that governs the system operations 
+influences many information exchanges. This factor 
+imposes certain uniqueness which demands certain 
+extensions to the CIM model specified by IEC 
+standards referred in section 4. This uniqueness is 
+applicable in a national level and can be emphasised 
+through the application use cases. For many identified 
+use cases which are considered, there exists either no 
+integration in the present case or there is point to point 
+ad-hoc integration. The scope of application uses that 
+are covered by the companion standard at present are 
+limited to the below mentioned business functions. 
+
+
+a) System planning, 
+b) Energy scheduling, 
+1) ABT scheduling, 
+2) Short-term open access scheduling, 
+3) Preparation of day ahead Schedule, 
+c) Real-time system operation, 
+d) Revision of schedules, 
+
+
+IS 16336 (Part 1) : 2015 
+
+
+e) Commercial settlement for ABT and STOA 
+transactions. 
+
+
+6 CIM EXTENSIONS 
+
+
+6.1 There are two extension scenarios regarding 
+extension of CIM. They are: 
+
+
+6.1.1 Internal — Internal extensions cover extensions 
+to model data that would not be considered suitable 
+for inclusion in future revisions of the standard. These 
+extensions remain internal to an organization where 
+its requirement in a global scenario is very limited. 
+
+
+6.1.2 Global — Global extensions are extensions that 
+would be considered relevant to the majority of utilities 
+and thus suitable for inclusion in the standard. In this 
+case the changes would be considered by the concerned 
+technical committee for inclusion in future. 
+
+
+6.2 The scope of extensions covered under this 
+companion standard is the Global extensions which 
+are identified as a general requirement by majority of 
+utilities in the country. There two major extensions 
+that are identified and additional companion documents 
+are prepared to address these requirements. 
+
+
+a) Extensions for ABT Based Regulated Markets 
+— The goal of this extension is to ensure that 
+the current CIM model is extended to the 
+extent that it makes possible for constituents 
+of an ABT based scheduling, accounting , 
+balancing & settlement mechanism can use 
+CIM based exchange for achieving a standard 
+based integration and interoperability 
+
+b) Extensions for Load Management — The goal 
+of this extension is to ensure that the Load 
+Shedding or Load Management applications 
+used by a distribution utility can be integrated 
+with SCADA EMS/DMS over a standard set 
+of interfaces. The Load Management 
+extension is takes the maximum advantage 
+of the existing Load model available in CIM 
+which is mainly for Load Forecasting. 
+
+
+6.3 CIM extension for particular business process shall 
+be defined by three companion documents : 
+
+
+a) First document defines the scope of the 
+extensions, mainly the associated business 
+process, and various business functions within 
+
+
+the process and identified set of information 
+exchange use cases. 
+b) Second document provides details of the 
+existing CIM classes, and defines extended 
+or newly added CIM classes in the context of 
+the business process of interest which will 
+enable semantic modelling. 
+Third document defines information 
+exchange profile which is required for the 
+syntactic part of the information exchange. 
+
+
+c) 
+
+
+7 IMPLEMENTATION OF APPLICABLE IEC 
+STANDARDS 
+
+
+7.1 While implementing IEC Standards two approaches 
+may be followed considering perceived clarity or 
+limitation while applying them in the national context. 
+The first approach is an as is adoption approach where 
+corresponding documents offers enough clarity for 
+usage and no or negligible gaps for its application. The 
+second approach is adoption with companion 
+documents where the role of the companion documents 
+is to bring in enough clarity for the usage of applicable 
+standards and fill any gaps that are identified while 
+applying it in a national context. Also companion 
+standards may offer a mechanism of additional 
+restrictions for implementation so that there is 
+uniformity in application integration and ensure better 
+interoperability. 
+
+
+7.2 The evaluation of the relevant IEC Standards and 
+its various sub-parts for adoption is performed in the 
+context of three major aspects. The first factor is 
+relevance of standard in the national context, which 
+identifies the importance of the standard in fulfilling 
+the requirements and needs of the application 
+integration that exists in country's power system 
+domain. The second major factor of evaluation is based 
+on the maturity of the standard, where the standard 
+document is evaluated based on their stability and 
+readiness for use. The third major factor used for 
+evaluation is availability of existing implementation 
+technologies which ensures the standards can be easily 
+implementable. The technologies of interest in this 
+context are software technologies. 
+
+
+7.3 Applying above evaluation criteria the below 
+mentioned IEC standard documents are being adopted 
+as national standard. 
+
+
+IEC Document Indian Standard Reference Relevance Maturity Implementation 
+Reference 
+IEC 61970-1 Under development High High Not Applicable 
+IEC/TS 61970-2 = Not Applicable Not Applicable Not Applicable 
+IEC 61970-301 Under development High High Available 
+IEC 61970-501 Under development High High Available 
+IEC 61968-11 Under development High High Available 
+
+
+8 
+
+
+7.4 Rating Evaluation Criteria 
+7.4.1 Relevance 
+
+
+High Level indicates possible exhaustive use of the 
+standard for fulfilling application integration 
+requirements in wide range of business processes. 
+Medium level indicates use of standard in fulfilling 
+integration requirements limited to a subset of business 
+processes. Low level indicates no or rare possibility of 
+use for the standard towards application integration. 
+
+
+7.4.2 Maturity 
+
+
+High Level indicates that the standard has a stable 
+release and maintenance plan in place, exist wide usage 
+or a possibility of wide level of acceptance. Medium 
+Level indicates there is a stable release and 
+maintenance plan but a limited level of usage or the 
+possibility of wider acceptance not identifiable. Low 
+Level indicates the standard is either not mature 
+enough, obsolete or due for obsolete with no 
+maintenance plan in place, also rare possibility of wide 
+acceptance of the standard. 
+
+
+7.4.3 Implementation 
+
+
+Available indicates existing set of proven and 
+established technology specific implementation profile 
+which ensures that the standard can be easily 
+implemented. Applicable technologies are explicitly 
+mapped in the standard with no ambiguity. Not 
+available indicates that either there exists no 
+implementation profile or there is either no mapping 
+or available technology. 
+
+
+8 MAINTENANCE OF CIM BASE MODEL AND 
+EXTENSIONS 
+
+
+8.1 CIM Base models defined by above adopted 
+standards are maintained by IEC CIM is defined and 
+represented using UML. IEC standards documents 
+defining CIM provides the UML documentation of the 
+model. The CIM UML Model as a UML repository is 
+available from CIM Users Group Association, which 
+is an association of utilities and vendors actively 
+involved in the usage and development of CIM. This 
+CIM UML repository is maintained using Enterprise 
+Architect Tool and also available as an XMI file in a 
+vendor independent format. Considering very 
+exhaustive modelling scope of CIM, there are frequent 
+revisions of the model with new edition of the standard. 
+These revisions are mostly due to additional classes to 
+expand the scope of CIM for new use cases. Also it 
+might contain limited change to existing classes and 
+fixes for identified flaws or limitation of the model. 
+Each revision of CIM is identified using a Major 
+version and Minor version number. 
+
+
+IS 16336 (Part 1) : 2015 
+
+
+Implementers and users of CIM should acknowledge 
+this dynamic nature of CIM, and the fact that the 
+interoperability of CIM to an extent depends on the 
+use of common version. Considering the future 
+revisions and its usability it is not possible to restrict 
+the uniform use of CIM to any particular version. 
+Identification of appropriate version is left to the user 
+and shall be done through consultation with vendors. 
+
+
+CIM extensions carried out through companion 
+standards are also versioned in a similar manner. 
+Companion standard document provide the 
+documented format of the UML model. These model 
+extensions shall be managed by the concerned technical 
+committee. 
+
+
+9 NETWORK CONNECTIVITY IN CIM 
+
+
+9.1 Inter-Connectivity of Power 
+Components 
+
+
+System 
+
+
+The CIM uses Terminals and Connectivity nodes for 
+representing inter-connectivity information of power 
+system components. 
+
+
+To understand the concept of using Terminals and 
+Connectivity nodes, consider a very simple circuit 
+shown in Fig. 8. 
+
+
+Breaker 1 Generator 1 
+
+
+W Load 1 
+
+
+FiG. 8 CONNECTIVITY CIRCUIT 
+
+
+This circuit contains three power system components, 
+namely Breaker, Load, and Generator. For representing 
+the pieces of physical conducting equipment the CIM 
+would require three concerned classes, namely (a) An 
+Energy Consumer (to represent the load), (b) a Breaker, 
+and (c) a Generator or Energy Source for representing 
+a generating unit. 
+
+
+If the CIM models the interconnections by associating 
+each component with the other components, for 
+instance, the Breaker 1 associates directly to Load 1 
+and Generator 1, the Load 1 associates directly to 
+Generator 1 and Breaker 1, and the Generator 1 
+associates directly to Breaker 1 and Load 1 would result 
+in the interconnections as shown in Fig. 9. 
+
+
+IS 16336 (Part 1) : 2015 
+
+
+Breaker 1 Generator 1 
+
+
+Load 1 
+
+
+Fic. 9 CONNECTIVITY CIRCUIT WITH DIRECT 
+ASSOCIATIONS 
+
+
+Instead of associations the CIM uses a connectivity 
+node to connect equipments, so that whenever three 
+or more power system components form T or Star 
+junctions, the connectivity can be accurately 
+represented in CIM as shown in Fig. 10. 
+
+
+Breaker 1 Generator 1 
+
+
+ConnectivityNode 1 
+
+
+Fic. 10 CONNECTIVITY CIRCUIT WITH CONNECTIVITY 
+NoDE 
+
+
+In CIM, however, conducting equipments are not 
+directly associated with Connectivity Nodes. A 
+conducting equipment will have one or more terminals 
+associated to it, and the Terminals can in turn associated 
+with a single connectivity node. 
+
+
+The inter-connectivity relationship between the 
+terminals, conducting equipment and connectivity 
+nodes is illustrated in Fig. 11. 
+
+
+Breaker 1 
+ConnectivityNode 2 
+
+
+ConnectivityNode 1 
+
+
+us 
+
+
+Generator 1 
+
+
+Breaker 1 ConnectivityNode 1 
+
+
+Terminals 
+
+
+Load 1 
+
+
+Fic. 11 CONNECTIVITY CIRCUIT WITH CONNECTIVITY 
+NODE AND TERMINALS 
+
+
+The inclusion of the Terminals may initially seem 
+unnecessary, but as well as defining connectivity, 
+Terminals are also used for defining points of 
+connectivity-related measurement in the network such 
+as current flows and voltages. 
+
+
+In Fig. 12, the Breaker 1 has two Terminals associated 
+with it to represent the two distinct network connection 
+points. If the Breaker is open then the voltage 
+measurement for the Breaker will be different at these 
+two points. This would result in an ambiguity if 
+measurement were only defined as being on a particular 
+component without having specific information about 
+which point of connection the measurement is belongs 
+to. 
+
+
+9.2 Translating a Simple Power System Network 
+into CIM 
+
+
+The previous section has described a concept of 
+representing the inter-connectivity of power system 
+components in the CIM using terminals and 
+connectivity nodes. This section will use a more 
+illustrative example to show how substation, busbar 
+sections, breaker and disconnectors, loads and ac line 
+segments by converting a standard line diagram into 
+CIM objects. 
+
+
+Generator 1 
+
+
+Fic. 12 CONNECTIVITY CIRCUIT WITH ADDITIONAL BREAKER TERMINAL 
+
+
+10 
+
+
+BusbarSection1 
+
+
+"a3 
+d Y & 
+
+
+B1 B2 
+
+
+LineSegmenti Load1 
+
+
+a R 
+Single Line 
+Representation 
+
+
+Fic. 13 EXAMPLE CIRCUIT AS A SINGLE LINE 
+DIAGRAM 
+
+
+The circuit shown in Fig. 13 shows a circuit containing 
+an energy consumer (load) connected to the busbar 
+through switches (breaker and disconnector) as well 
+as an ac line segment connected to the busbar section. 
+
+
+The load, line, breakers, and disconnectors map to the 
+CIM Energy Consumer, AC Line Segment, Breaker, 
+and Disconnector classes respectively while the busbar 
+maps to the BusbarSection class. The connectivity 
+information of these components are being captured 
+with classes terminals and connectivity nodes. These 
+mappings are depicted in Fig. 14. 
+
+
+9.3 Equipment Containment 
+
+
+As well as having component interconnections defined 
+using the ConductingEquipment-Terminal- 
+Connectivity Node associations, the CIM has an 
+EquipmentContainer class that provides a means of 
+grouping pieces of Equipment together to represent 
+both electrical and non-electrical containment. The 
+Fig.15 shows the class diagram of connectivity nodes, 
+
+
+BusbarSection1 
+
+
+IS 16336 (Part 1) : 2015 
+
+
+terminals and equipment hierarchy. A brief description 
+on few of equipment containers are as follows. 
+
+
+9.3.1 Substations 
+
+
+The Substation class is a subclass of Equipment 
+Container that can contain multiple VoltageLevels. 
+This class is used to define a collection of equipment 
+“through which electric energy in bulk is passed for 
+the purposes of switching or modifying its 
+characteristics” in the CIM. In Fig. 14, the substation 
+represented by the dashed boundary rectangle is 
+mapped to an instance of substation class, which 
+contains a Voltage Level instance. 
+
+
+9.3.2 Voltage Levels 
+
+
+Pieces of conducting equipment are associated with a 
+VoltageLevel instead of defining a voltage attribute to 
+it with a specific value. A Voltage Level is a subclass 
+of Equipment Container. Each instance of the Voltage 
+Level class has an association to an instance of 
+BaseVoltage that contains a single attribute to define 
+the nominal voltage of that particular group of 
+components. A single BaseVoltage instance exists for 
+all of the standard nominal voltages used within the 
+data. As such they may be associated with more than 
+one Voltage Level since standard voltage levels (e.g. 
+33, 66, 132, 400, 765kV) will exist throughout the 
+network. Each VoltageLevel instance, however, 
+contains only the inter-connected pieces of equipment 
+at the same voltage level. This is an example of using 
+a subclass of EquipmentContainer to represent 
+electrical containment. 
+
+
+In the example network shown in Fig 13, the different 
+voltage level is mapped to an instance of the 
+VoltageLevel and contained within a single Substation 
+instance. Each VoltageLevel object also has an 
+associated Base Voltage object with a nominal voltage. 
+
+
+Legend 
+Terminal 
+
+
+1 
+
+
+È CN ComnectivityNode 
+
+
+D1 D2 T2 
+? d je X b i Pa D2 B Breaker 
+13 TB D  Disconnector 
+CN2 e e CNA4 Substation 
+T9 
+B1 B2 = T4 Boundary 
+Mapping B1 O O B2 
+To T5 T10 
+. Objects T6 Tu 
+LineSegmenti Loadi 
+LineSegmentl | IVA 
+Single Line CIM 
+Representation Representation 
+
+
+Fic. 14 MAPPING OF SINGLE LINE DIAGRAM INTO CIM OBJECTS 
+
+
+11 
+
+
+IS 16336 (Part 1) : 2015 
+
+
+IdentifiedObject 
+
+
+mRID:String 
+name: String 
+
+
+i 
+
+
+PowerSytemResource 
+
+
+i 
+
+
+Equipment 
+
+
+ConductingEquipment 
+
+
+Switch 
+
+
+T 
+
+
+ProtectedSwitch | 
+
+
+EnergyConsumer | 
+
+
+Breaker 
+
+
+LoadBreakSwitch 
+
+
+Equipment and Connectivity Class Diagram 
+
+
+0,.* | Terminals 
+1 
+
+
+¡ConductingEquipment 
+
+
+ConnectivityNode 
+
+
+ConnectivityNode 
+
+
+0.,* 
+
+
+Terminal | 
+| Terminals 
+
+
+Conductor PowerTransformer | 
+
+
+AcLineSegment | 
+
+
+DcLineSegment 
+
+
+Fic. 15 CONNECTIVITY CLASS DIAGRAM 
+
+
+9.3.3 Lines 
+
+
+The AC Line Segment is contained within an instance 
+of the Line class and is not contained within a 
+VoltageLevel. The Line class in CIM is used to define 
+a "component part of a system extending between 
+adjacent substations or from a substation to an adjacent 
+interconnection point". A Line may contain multiple 
+line segments of either the AC or DC variety, but does 
+not itself represent a piece of physical conducting 
+equipment. The AC and DCLineSegment classes 
+contain a direct association to the BaseVoltage class 
+to define their nominal voltage level. In transmission 
+models the Line class generally contains only 
+ACLineSegments and ConnectivityNodes however 
+when used in the distribution networks it may contain 
+
+
+12 
+
+
+all equipment considered to be within a feeder such as 
+switches and transformers. 
+
+
+9.4 Profile 
+
+
+As shown in Fig 14, the identified classes and its 
+attributes can be chosen form the CIM model. This 
+task can be performed by using any open source tools 
+that are developed, for instance, CIMTool (An eclipse 
+java plug-in). From the tool XML schema file can be 
+generated and which can be used for CIM compliance 
+and validation purpose. According the specified XML 
+schema, an XML messages which includes CIM 
+complained XML tags and thereby accommodating the 
+power system data. A snapshot of CIM/RDF/XML 
+messages are as follows. 
+
+
+IS 16336 (Part 1) : 2015 
+
+
+9.5 CIM/RDF/XML instances 
+
+
+<?xml version="1.0" encoding-"ISO-8859-1"?» 
+
+
+<rdf:RDF xmlns="http://www.w3.org/1999/02/22-rdf-syntax-nst” 
+xmlns:s-"http://description.org/schema/" xmlns:cim-"http://iec.ch/TC57/ 
+2006/CIM-schema-cim104" xmlns:rdf-"http://www.w3.0rg/1999/02/22-rdf- 
+syntax-nsi"» 
+
+
+«!—substation element-> 
+
+
+<cim:Substation rdf:ID-"Substation 1"» 
+«cim:Substation.MemberOf SubControlArea rdf:resource="#ControlArea-1"/> 
+<cim:Naming.name>abc</cim:Naming.name> 
+
+
+</cim:Substation> 
+
+
+«!—BusbarSection element—> 
+
+
+<cim:BusbarSection rdf:ID-"BusbarSection 1"> 
+<cim:IdentifiedObject.name>abc main bus 
+
+
+1</cim:IdentifiedObject.name> <cim:ConductingEquipment.Terminals 
+
+
+rdf:resource="#Terminal 1"/> <cim:Equipment.MemberOf EquipmentContainer 
+rdf:resource="#Substation_1"/> </cim:BusbarSection> 
+
+
+«!—ConnectivityNode element—> 
+
+
+<cim:ConnectivityNode rdf:ID-"ConnectivityNode 1"» 
+Xcim:IdentifiedObject.name»CN1«/cim:IdentifiedObject.name» 
+«cim:IdentifiedObject.description»CN«/cim:IdentifiedObject.description» 
+«cim:ConductingEquipment.Terminals rdf:resource="#Terminal 1"/> 
+<cim:ConductingEquipment.Terminals rdf:resource="#Terminal 2"/> 
+<cim:Equipment.MemberOf EquipmentContainer rdf:resource="#Vol Level 1"/» 
+</cim:ConnectivityNode> 
+
+
+<!—Terminal element-> 
+
+
+<cim: Terminal rdf:ID-"Terminal 2"» <cim:IdentifiedObject.name>T2</ 
+cim:IdentifiedObject.name> <cim:Terminal.ConductingEquipment 
+rdf:resource="#Disconnector 1"/» <cim:Terminal.ConnectivityNode 
+rdf:resource="#ConnectivityNode 1"/> </cim:Terminal> 
+
+
+<!—Disconnector element-> 
+
+
+<cim:Disconnector rdf:ID-"Disconnector 1"> 
+<cim:IdentifiedObject.name>Disconnector</cim:IdentifiedObject.name> 
+<cim:Switch.normalOpen>FALSE</cim:Switch.normalOpen> 
+<cim:ConductingEquipment.Terminals rdf:resource="#Terminal 2"/> 
+<cim:ConductingEquipment.Terminals rdf:resource="#Terminal 3"/» 
+<cim:ConductingEquipment.BaseVoltage rdf:resource="#Base voll"/» 
+<cim:Equipment.MemberOf EquipmentContainer rdf:resource="#Vol Level 1"/» 
+<cim:Equipment.MemberOf EquipmentContainer rdf:resource="#Substation_1"/> 
+</cim:Disconnector> 
+
+
+<!—Terminal element-> 
+
+
+<cim:Terminal rdf:ID-"Terminal 3"> <cim:IdentifiedObject.name>T3</ 
+cim:IdentifiedObject.name» <cim:Terminal.ConductingEquipment 
+rdf:resource="#Disconnector 1"/» <cim:Terminal.ConnectivityNode 
+rdf:resource="#ConnectivityNode 2"/> </cim:Terminal> 
+
+
+<!—ConnectivityNode element—> 
+
+
+13 
+
+
+IS 16336 (Part 1) : 2015 
+
+
+<cim: 
+<cim: 
+<cim 
+<cim: 
+<cim: 
+<eim: 
+
+
+</cim:ConnectivityNode> 
+
+
+<!—Terminal 
+
+
+<cim: Terminal 
+
+
+element—> 
+
+
+rdf:resource-" 
+
+rdf:resource-" 
+
+«I—Breaker element—> 
+
+<cim:] 
+
+cim 
+
+cim: 
+
+cim:Switch.normalOpen» <cim:Conducting] 
+rdf:resource="#Terminal 
+rdf:resource="#1 
+rdf:resource="#Base voll"/» «cim:l 
+rdf:resource-" 
+
+rdf:resourc 
+
+«!—Generator el 
+
+rdf 
+
+
+ConductingEquipment.] 
+
+
+Terminal 
+
+
+ConductingEquipment.1 
+Equipment .MemberOf . 
+
+
+Terminal 
+
+
+LS 
+LS 
+
+
+ConnectivityNode rdf:ID-"ConnectivityNode 2"» 
+IdentifiedObject.name»CN1«/cim:IdentifiedObject.name» 
+:IdentifiedObject.description»CN«/cim:IdentifiedObject.description» 
+
+
+rdf:resource="#Terminal 3"/> 
+rdf:resource="#Terminal 4"/> 
+EquipmentContainer rdf:resource=" 
+
+
+Vol Level 1"/» 
+
+
+| rdf:ID-"Terminal 4"» <cim:IdentifiedObject.name>T4</ 
+cim:IdentifiedObject.name» <cim:Terminal.Conducting]l 
+Breaker 1"/» <cim:Terminal.ConnectivityNode 
+ConnectivityNode 2"/» </cim:Terminal> 
+
+
+Equipment 
+
+
+Breaker rdf:ID-"Breaker 1"> «cim:IdentifiedObject.name»BREAKER«/ 
+
+
+:IdentifiedObject.name» <cim:Breaker.ampRating>100</ 
+
+
+Breaker.ampRating> «cim:Switch.normalOpen»FALSI 
+Equipment.Terminals 
+| 4"/» <cim:ConductingEquipmen 
+[Terminal 5"/» <cim:ConductingEquipmen 
+Equipment .MemberOf . 
+
+
+Vol Level 1"/> <cim:Equipment .MemberO 
+"$Substation 1"/» </cim:Breaker> 
+
+
+ement-> <cim:Generator 
+
+
+E</ 
+
+
+t.Terminals 
+t.BaseVoltage 
+
+
+EquipmentContainer 
+f EquipmentContainer 
+
+
+:ID-"Generator 1"> <cim:IdentifiedObject.name>abc-def 
+
+
+1</cim:IdentifiedObject.name> <cim:Conductor.r>0.0403</cim:Conductor.r> 
+
+
+<cim:Conductor.x>0.0234</cim:Conductor.x> <ci 
+:Conductor.bch» <cim:Conducting] 
+
+
+cim 
+rdf 
+rdf 
+rdf 
+rdf 
+
+
+:resource=" 
+:resource=" 
+:resource=" 
+
+
+resource 
+
+
+Base voll"/» <cim:] 
+“FLINE1"/> </cim:Generator> 
+
+
+= 
+
+
+Terminal 6"/> <cim:ConductingEquipmen 
+Terminal 12"/> <cim:ConductingEquipment.BaseVoltage 
+Equipment .MemberOf . 
+
+
+14 
+
+
+m:Conductor.bch>0</ 
+Equipment.Terminals 
+t.Terminals 
+
+
+EquipmentContainer 
+
+
+International 
+
+Standards 
+
+IEC-61970-1 : 
+2005 
+
+
+IEC-61970-2 : 
+
+
+2004 
+
+
+IEC 61970-301 : 
+
+
+2013 
+
+
+IEC-61968-1 : 
+2012 
+
+
+IS 16336 (Part 1) : 2015 
+
+
+Title 
+
+
+Framework for energy market 
+
+
+ANNEX A 
+(Clause 2) 
+LIST OF REFERRED INTERNATIONAL STANDARDS 
+Title International 
+Standards 
+Energy management system IEC/TR 62325- 
+application program interface (EMS- 101 : 2005 
+
+
+API) — Part 1: Guidelines and 
+general requirements 
+
+Energy management system 
+application program interface (EMS- 
+API) — Part 2: Glossary 
+
+Energy management system 
+application program interface (EMS- 
+API) Part 301: Common 
+information model (CIM) base 
+Application integration at electric 
+utilities — System interfaces for 
+distribution management — Part 1: 
+Interface architecture and general 
+recommendations 
+
+
+IEC 62325 series Framework for energy market 
+
+
+communications 
+
+
+IEC/TS 61968-2 : 
+2011 
+
+
+IEC 61968-11 : 
+2013 
+
+
+IEC 62325-301 : 
+2014 
+
+
+IEC 61970 series 
+
+
+ANNEX B 
+(Clause 3) 
+LIST OF ABBREVIATIONS AND SYMBOLS 
+
+
+« Description? 
+
+
+Unified Modelling Language 
+
+
+Common Information Model 
+
+
+Availability Based Tariff 
+
+
+Short Term Open Access 
+
+
+Extensible Mark-up Language 
+
+
+15 
+
+
+communications — Part 101 : 
+General guidelines 
+
+Application integration at electric 
+utilities — System interfaces for 
+distribution management — Part 2: 
+Glossary 
+
+Application integration at electric 
+utilities — System interfaces for 
+distribution management — Part 11: 
+Common information model (CIM) 
+extensions for distribution 
+Framework for energy market 
+communications — Part 301: 
+Common information model (CIM) 
+extensions for markets 
+
+Energy management system 
+application program interface (EMS- 
+API) 
+
+
+«Abbreviations ^ 
+UML 
+CIM 
+ABT 
+STOA 
+XML 
+
+
+Bureau of Indian Standards 
+
+BIS is a statutory institution established under the Bureau of Indian Standards Act, 1986 to promote 
+harmonious development of the activities of standardization, marking and quality certification of goods 
+and attending to connected matters in the country. 
+
+Copyright 
+
+BIS has the copyright of all its publications. No part of these publications may be reproduced in any form 
+without the prior permission in writing of BIS. This does not preclude the free use, in the course of 
+implementing the standard, of necessary details, such as symbols and sizes, type or grade designations. 
+Enquiries relating to copyright be addressed to the Director (Publications), BIS. 
+
+Review of Indian Standards 
+
+Amendments are issued to standards as the need arises on the basis of comments. Standards are also reviewed 
+periodically; a standard along with amendments is reaffirmed when such review indicates that no changes are 
+needed; if the review indicates that changes are needed, it is taken up for revision. Users of Indian Standards 
+should ascertain that they are in possession of the latest amendments or edition by referring to the latest issue of 
+
+
+‘BIS Catalogue’ and ‘Standards : Monthly Additions’. 
+
+
+This Indian Standard has been developed from Doc No.: LITD 10 (3296). 
+
+
+Amendments Issued Since Publication 
+
+
+Amend No. Date of Issue Text Affected 
+
+
+BUREAU OF INDIAN STANDARDS 
+
+
+Headquarters: 
+Manak Bhavan, 9 Bahadur Shah Zafar Marg, New Delhi 110002 
+Telephones : 2323 0131, 2323 3375, 2323 9402 Website: www.bis.org.in 
+Regional Offices: Telephones 
+Central |: Manak Bhavan, 9 Bahadur Shah Zafar Marg 2323 7617 
+NEW DELHI 110002 2323 3841 
+Eastern : 1/14C.I.T. Scheme VII M, V. I. P. Road, Kankurgachi 2337 8499, 2337 8561 
+KOLKATA 700054 2337 8626, 2337 9120 
+Northern : SCO 335-336, Sector 34-A, CHANDIGARH 160022 260 3843 
+260 9285 
+Southern : C.I.T. Campus, IV Cross Road, CHENNAI 600113 2254 1216, 2254 1442 
+2254 2519, 2254 2315 
+Western : Manakalaya, E9 MIDC, Marol, Andheri (East) 2832 9295, 2832 7858 
+MUMBAI 400093 2832 7891, 2832 7892 
+
+
+Branches: AHMEDABAD. BENGALURU. BHOPAL. BHUBANESHWAR. COIMBATORE. DEHRADUN. 
+FARIDABAD. GHAZIABAD. GUWAHATI. HYDERABAD. JAIPUR. KOCHI. LUCKNOW. 
+NAGPUR. PARWANOO. PATNA. PUNE. RAJKOT. VISAKHAPATNAM. 
+
+
+Published by BIS, New Delhi 
+
+

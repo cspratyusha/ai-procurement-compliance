@@ -1,0 +1,807 @@
+IS 16005 (Part 2) : 2013 ISO 13491-2 : 2005
+
+Hkkjrh; ekud
+
+cSafoaQx -- lqjf{kr f�iVksxkz fiQd ;a=k ([kqnjk)
+Hkkx 2 fo�kh; ysu nsu esa �;qDr ;a=kksa gsrq lqj{kk vuqikyu osQ fy, tk�p lwph
+
+Indian Standard BANKING -- SECURE CRYPTOGRAPHIC DEVICES (RETAIL)
+PART 2 SECURITY COMPLIANCE CHECKLISTS FOR DEVICES USED IN FINANCIAL TRANSACTIONS
+
+ICS 35.240.40
+
+� BIS 2013
+
+BUREAU OF INDIAN STANDARDS
+MANAK BHAVAN, 9 BAHADUR SHAH ZAFAR MARG NEW DELHI 110002 January 2013 Price Group 11
+
+Banking and Financial Services Sectional Committee, MSD 7
+
+NATIONAL FOREWORD This Indian Standard (Part 2) which is identical with ISO 13491-2 : 2005 `Banking -- Secure cryptographic devices (retail) -- Part 2: Security compliance checklists for devices used in financial transactions' issued by the International Organization for Standardization (ISO) was adopted by the Bureau of Indian Standards on the recommendation of the Banking and Financial Services Sectional Committee and approval of the Management and Systems Division Council. This standard is published in two parts. Other part of this standard is: Part 1 Concepts, requirements and evaluation methods The text of ISO Standard has been approved as suitable for publication as an Indian Standard without deviations. Certain conventions are, however, not identical to those used in Indian Standards. Attention is particularly drawn to the following: Wherever the words `International Standard' appear referring to this standard, they should be read as `Indian Standard'. In this adopted standard, reference appears to certain International Standards for which Indian Standards also exist. The corresponding Indian Standards which are to be substituted in their respective places are listed below along with their degree of equivalence for the editions indicated: International Standard ISO 9564-1 : 2002 Banking -- Personal Identification Number (PIN) management and security -- Part 1: Basic principles and requirements for online PIN handling in ATM and POS systems ISO 9564-2 : 2005 Banking -- Personal Identification Number (PIN) management and security -- Part 2: Approved algorithm(s) for PIN encipherment ISO 11568-1 : 2005 Banking -- Key management (retail) -- Part 1: Principles ISO 11568-2 : 2005 Banking -- Key management (retail) -- Part 2: Symmetric ciphers, their key management and life cycle ISO 11568-4 : 2007 Banking -- Key management (retail) -- Part 4: Asymmetric cryptosystems -- Key management and life cycle Corresponding Indian Standard Degree of Equivalence Identical
+
+IS 15042 (Part 1) : 2006 Banking -- Personal Identification Number (PIN) management and security: Part 1 Basic principles and requirements for online PIN handling in ATM and POS systems (first revision ) IS 15042 (Part 2) : 2007 Banking -- Personal Identification Number (PIN) management and security: Part 2 Approved algorithm(s) for PIN encipherment (first revision) IS 15256 (Part 1) : 2011 Banking -- Key management (retail): Part 1 Principles (first revision ) IS 15256 (Part 2) : 2011 Banking -- Key management (retail): Part 2 Symmetric ciphers, their key management and life cycle IS 15256 (Part 4) : 2013 Banking -- Key management (retail): Part 4 Asymmetric cryptosystems -- Key management and life cycle ( first revision) ISO 13491-1 : 2007 Banking -- IS 16005 (Part 1) : 2013 Banking -- Secure cryptographic devices (retail) Secure cryptographic devices (retail): -- Part 1: Concepts, requirements Part 1 Concepts, requirements and and evaluation methods evaluation methods
+
+do
+
+do
+
+do
+
+do
+
+do
+
+(Continued on third cover)
+
+IS 16005 (Part 2) : 2013 ISO 13491-2 : 2005
+
+Introduction
+This part of ISO 13491 specifies both the physical and logical characteristics and the management of the secure cryptographic devices (SCDs) used to protect messages, cryptographic keys and other sensitive information used in a retail financial services environment. The security of retail financial services is largely dependent upon the security of these cryptographic devices. Security requirements are based upon the premise that computer files can be accessed and manipulated, communication lines can be "tapped" and authorized data or control inputs in a system device can be replaced with unauthorized inputs. While certain cryptographic devices (e.g. host security modules) reside in relatively high-security processing centres, a large proportion of cryptographic devices used in retail financial services (e.g., PIN entry devices etc.) now reside in non-secure environments. Therefore when PINs, MACs, cryptographic keys and other sensitive data are processed in these devices, there is a risk that the devices may be tampered with or otherwise compromised to disclose or modify such data. It must be ensured that the risk of financial loss is reduced through the appropriate use of cryptographic devices that have proper physical and logical security characteristics and are properly managed. To ensure that SCDs have the proper physical and logical security, they require evaluation. This part of ISO 13491 provides the security compliance checklists for evaluating SCDs used in financial services systems in accordance with ISO 13491-1. Other evaluation frameworks exist and may be appropriate for formal security evaluations e.g. parts 1 to 3 of ISO/IEC 15408 and ISO/IEC 19790, and are outside the scope of this part of ISO 13491. Appropriate device characteristics are necessary to ensure that the device has the proper operational capabilities and provides adequate protection for the data it contains. Appropriate device management is necessary to ensure that the device is legitimate, that it has not been modified in an unauthorized manner, e.g. by "bugging", and that any sensitive data placed within the device (e.g. cryptographic keys) have not been subject to disclosure or change. Absolute security is not practically achievable. Cryptographic security depends upon each life cycle phase of the SCD and the complementary combination of appropriate device management procedures and secure cryptographic characteristics. These management procedures implement preventive measures to reduce the opportunity for a breach of cryptographic device security. These measures aim for a high probability of detection of any illicit access to sensitive or confidential data in the event that device characteristics fail to prevent or detect the security compromise.
+
+i
+
+IS 16005 (Part 2) : 2013 ISO 13491-2 : 2005
+
+Indian Standard BANKING -- SECURE CRYPTOGRAPHIC DEVICES (RETAIL)
+PART 2 SECURITY COMPLIANCE CHECKLISTS FOR DEVICES USED IN FINANCIAL TRANSACTIONS
+
+1
+
+Scope
+
+This part of ISO 13491 specifies checklists to be used to evaluate secure cryptographic devices (SCDs) incorporating cryptographic processes, as specified in parts 1 and 2 of ISO 9564, ISO 16609 and parts 1 to 6 of ISO 11568, in the financial services environment. IC payment cards are subject to the requirements identified in this part of ISO 13491 up until the time of issue, after which they are to be regarded as a "personal" device and outside of the scope of this document. This part of ISO 13491 does not address issues arising from the denial of service of an SCD. In the checklists given in annexes A to H, the term "not feasible" is intended to convey the notion that although a particular attack might be technically possible it would not be economically viable, since carrying out the attack would cost more than any benefits obtained from a successful attack. In addition to attacks for purely economic gain, malicious attacks directed toward loss of reputation need to be considered.
+
+2
+
+Normative references
+
+The following referenced documents are indispensable for the application of this document. For dated references, only the edition cited applies. For undated references, the latest edition of the referenced document (including any amendments) applies. ISO 9564-1:2002, Banking -- Personal Identification Number (PIN) management and security -- Part 1: Basic principles and requirements for online PIN handling in ATM and POS systems ISO 9564-2, Banking -- Personal Identification Number management and security -- Part 2: Approved algorithms for PIN encipherment ISO 11568 (all parts), Banking -- Key management (retail) ISO 13491-1, Banking -- Secure cryptographic devices (retail) -- Part 1: Concepts, requirements and evaluation methods ISO 16609, Banking -- Requirements for message authentication using symmetric techniques ISO 18031, Information technology -- Random number generation
+
+3
+
+Terms and definitions
+
+For the purposes of this document, the terms and definitions given in ISO 13491-1 and the following apply. 3.1 auditor one who has the appropriate skills to check, assess, review and evaluate compliance with an informal evaluation on behalf of the sponsor or audit review body
+
+1
+
+IS 16005 (Part 2) : 2013 ISO 13491-2 : 2005
+3.2 data integrity property that data has not been altered or destroyed in an unauthorized manner 3.3 dual control process of utilizing two or more entities (usually persons) operating in concert to protect sensitive functions or information whereby no single entity is able to access or use the materials
+NOTE A cryptographic key is an example of the type of material to be accessed or utilized.
+
+3.4 exclusive or bit-by-bit modulo two addition of binary vectors of equal length 3.5 security compliance checklist list of auditable claims, organized by device type, as specified in this document 3.6 sensitive state device condition that provides access to the secure operator interface such that it can only be entered when the device is under dual or multiple control
+
+4
+4.1
+
+Use of security compliance checklists
+General
+
+These checklists shall be used by the sponsor who wishes to assess the acceptability of cryptographic equipment upon which the security of the system depends. It is the responsibility of any sponsor that adopts some or all of these checklists to a) approve evaluating agencies for use by suppliers to or participants in the system and b) set up an audit review body to review the completed audit checklists. Annexes A to H provide checklists defining the minimum evaluation to be performed to assess the acceptability of cryptographic equipment. Additional tests may be performed to reflect the state-of-the-art at the time of the evaluation. The evaluation may be either "informal" or "semi-formal", as specified in ISO 13491-1, depending upon the nature of the evaluating agencies approved by the sponsor. Should the sponsor decide on a "formal" evaluation, these audit checklists shall not be used as presented here, but shall rather be used as input to assist in the preparation of the "formal claims" that such an evaluation requires.
+NOTE These formal claims themselves are outside of the scope of this part of ISO 13491.
+
+A cryptographic device achieves security both through its inherent characteristics and the characteristics of the environment in which the device is located. When completing these audit checklists, the environment in which the device is located must be considered; e.g. a device intended for use in a public location could require greater inherent security than the equivalent device operating in a controlled environment. So that an evaluating agency need not investigate the specific environment where an evaluated device may reside, this part of ISO 13491 provides a suggested categorization of environments in Annex H. Thus an evaluating agency may be asked to evaluate a given device for operation in a specific environment. Such a device can be deployed in a given facility only if this facility itself has been audited to ensure that it provides the assured environment. However, these audit checklists may be used with categorizations of the environment other than those suggested in Annex H. The three evaluation methods specified in ISO 13491-1 are described in 4.2, 4.3 and 4.4.
+
+2
+
+IS 16005 (Part 2) : 2013 ISO 13491-2 : 2005
+
+4.2
+
+Informal evaluation
+
+As part of an informal evaluation, an independent auditor shall complete the appropriate checklist(s) for the device being evaluated.
+
+4.3
+
+Semi-formal evaluation
+
+In the semi-formal method, the manufacturer or sponsor shall submit a device to an evaluation agency for testing against the appropriate checklist(s).
+
+4.4
+
+Formal evaluation
+
+In the formal method, the manufacturer or sponsor shall submit a device to an accredited evaluation authority for testing against the formal claims where the appropriate checklist(s) were used as input.
+
+3
+
+IS 16005 (Part 2) : 2013 ISO 13491-2 : 2005
+
+Annex A (normative) Physical, logical and device management characteristics common to all secure cryptographic devices
+
+A.1 General
+This annex is intended for use with all evaluations and shall be completed prior to any device-specific security compliance checklists. The following statements in this security compliance checklist are required to be specified by the auditor as "true (T)", "false (F)" or "not applicable (N/A)". A "false" indication does not necessarily indicate unacceptable practice, but shall be explained in writing. Those statements that are indicated as "N/A" shall also be explained in writing.
+
+A.2 Device characteristics
+A.2.1 Physical security characteristics
+A.2.1.1 General
+
+All devices shall meet the criteria given in A.2.1.2 for general security characteristics and in A.2.1.3 for tamper-evident characteristics. Many devices shall additionally meet either the criteria given in A.2.1.4 for tamper-resistant characteristics or the criteria given in A.2.1.5 for tamper-responsive characteristics. However some devices need meet only the criteria for general security characteristics and tamper-evident characteristics. Such devices meet the following requirements: a) the device retains no secret key that has ever been used to encipher any secret data, nor does it retain any information from which such a key could feasibly be determined, even with knowledge of any data that have ever been available in plaintext form; the device is managed in such a way that there is a high probability of noting and reporting on a timely basis either the extended absence of the device from its authorized location, or any obvious damage to the device; means exist at all facilities capable of direct cryptographic communication with the device to not process any enciphered data received from the device after it has been reported absent or damaged. General security characteristics
+
+b)
+
+c)
+
+A.2.1.2
+
+An evaluation agency has evaluated the device bearing in mind susceptibility to physical and logical attack techniques known at the time of the evaluation, such as (but not limited to) the following:     chemical attacks (solvents); scanning attacks (scanning electron microscope); mechanical attacks (drilling, cutting, probing, etc.); thermal attacks (high and low temperature extremes); radiation attacks (X-rays);
+
+
+
+4
+
+IS 16005 (Part 2) : 2013 ISO 13491-2 : 2005
+ information leakage through covert (side) channels (power supply, timing, etc.); failure attacks;
+
+
+
+and has concluded that:
+No. A1 Security Compliance Statement It is not feasible to determine a PIN, a key, or other secret information by monitoring (e.g. the electro-magnetic emissions from the device, with or without the cooperation of the device operator), when the device is operating in its intended environment. Any ventilation and other openings in the module are positioned and protected so that it is not feasible to use such an opening to probe any component of the module such that plaintext PINs, access codes or cryptographic keys might be disclosed; or to disable any of the protection mechanisms of the device. All sensitive data and cryptographic keys, including residues, are stored in the security module. All transfer mechanisms within the device are implemented in such a way that it is not feasible to monitor the device to obtain unauthorized disclosure of any such information. Any access entry point into the device's internal circuitry is locked in the closed position when the device is operative, by means of one or more pick-resistant locks or similar security mechanisms. The design of the device is such that it is not practical to construct a duplicate device from commercially available components; e.g. the casing used to house the device's electronic components is not commonly available. True False N/A
+
+A2
+
+A3 A4
+
+A5
+
+A5A
+
+A.2.1.3
+
+Tamper-evident characteristics
+
+The evaluating agency has concluded that:
+No. A6  Security compliance statement The device is designed and constructed so that it is not feasible to penetrate the device in order to: make any additions, substitutions, or modifications (e.g. the installation of a bug) to the hardware or software of the device or determine or modify any sensitive information (e.g. PINs, access codes and cryptographic keys) True False N/A
+
+
+
+and then subsequently re-install the device, without requiring specialized skills and equipment not generally available, and: a) b) without damaging the device so severely that the damage would have a high probability of detection, or requiring that the device be absent from its intended location for a sufficiently long time that its absence, or reappearance, would have a high probability of being detected.
+
+5
+
+IS 16005 (Part 2) : 2013 ISO 13491-2 : 2005
+A.2.1.4 Tamper-resistant characteristics
+
+The evaluating agency has concluded that:
+No. A7 A8 Security compliance statement The device is protected against penetration by employing physical protection to such a degree that penetration is not feasible. Even after having gained unlimited, undisturbed access to the device, discovery of secret information in the target device is not feasible. True False N/A
+
+A.2.1.5
+
+Tamper-responsive characteristics
+
+The evaluating agency has concluded that:
+No. A9 Security compliance statement The device is protected against penetration by including features that detect any feasible attempts to tamper with the device and cause immediate erasure of all cryptographic keys and sensitive data when such an attempt is detected. Removal of the case or the opening, whether authorized or unauthorized, of any access entry to the device's internal components causes the automatic and immediate erasure of the cryptographic keys stored within the device. There is a defined method for ensuring that secret data, or any cryptographic key that has been used to encrypt secret data, is erased from the unit when permanently removing the unit from service (decommissioning). There is also a defined method for ensuring, when permanently decommissioned, that any cryptographic key contained in the unit that might be usable in the future is either erased from the unit or is invalidated at all facilities with which the unit is capable of performing cryptographically protected communications. Any tamper detection/key erasure mechanisms function even in the absence of applied power. If the device has no mechanism for detection of removal from its operational environment, then defeating the tamper detection mechanisms, or discovery of secret information in the target device is not feasible, even when removed from its operational environment. Compromise of the device requires equipment and skill sets that are not readily available.
+NOTE As a possible example, discovery of such information requires a significant time, such as one month of preparation, including analysis of other devices, and at least one week of effort to compromise the device after having gained unlimited, undisturbed access to the target device.
+
+True
+
+False
+
+N/A
+
+A10
+
+A11
+
+A12 A13
+
+A14
+
+If the device has a mechanism for detection of removal from its operational environment, then defeating the tamper-detection mechanisms, or discovery of secret information in the target device is not feasible. Compromise of the device shall require skill sets that are not readily available; and equipment that is not readily available at the device site nor can be feasibly transported to the device site.
+NOTE As a possible example, discovery of such information requires a significant time, such as one month of preparation, including analysis of other devices, and at least twelve hours of unlimited, undisturbed access to the target device.
+
+6
+
+IS 16005 (Part 2) : 2013 ISO 13491-2 : 2005
+
+A.2.2 Logical security characteristics
+The evaluating agency has concluded that:
+No. A15 Security compliance statement The device includes self-test capabilities, capable of manual or automatic initiation, to ensure that its basic functions are operating properly. The device only performs its designed functions. The device is designed in such a way that it cannot be put into operational service until the device initialization process has been completed. This will include all necessary keys and other relevant material needed to be loaded into it. It is not feasible to determine a key or other secret information by the use of diagnostic or special test modes. The cryptographic algorithms, modes of operation, and lengths of cryptographic keys used by the device comply with parts 1 to 6 of ISO 11568. The device key management complies with parts 1 to 6 of ISO 11568, using each key for only one cryptographic purpose (although a variant of a key may be used for a different purpose). The functionality implemented within the device is such that there is no feasible way in which plaintext secret information, (e.g. PINs or cryptographic keys) or secret information enciphered under other than the legitimate key, can be obtained from the device, except in an authorized manner (e.g. PIN mailers). If the device is composed of several components, it is not possible to move a cryptographic key within the device from a component of higher security to a component providing lower security. The loading of keys is performed when:   the device is in a sensitive state or the action of loading a key puts the device into a mode that activates all the tamper protection mechanisms within the device. True False N/A
+
+A16 A17
+
+A18 A19
+
+A20
+
+A21
+
+A22
+
+A23
+
+A24
+
+The following operator functions that may influence the security of a device are only permitted when the device is in a sensitive state, i.e. under dual or multiple control:   disabling or enabling of device functions; change of passwords or data that enable the device to enter the sensitive state.
+
+A25
+
+The secure operator interface is so designed that entry of more than one password (or some equivalent mechanism for dual or multiple control) is required in order to enter this sensitive state. The secure operator interface is so designed that it is highly unlikely that the device can inadvertently be left in the sensitive state. If sensitive state is established with multiple limits (e.g. on the number of function calls and a time limit) the device returns to normal state, when the first of these limits is reached. Where passwords or other plaintext data are used to control transition to a sensitive state, then these are protected in the same manner as other secret or sensitive information. If cryptographic keys are lost for any reason, e.g. long-term absence of applied power, the device will enter a non-operational state. The only function calls and sensitive operator functions that exist in the device are functions approved by the sponsor, or the system in which the device is to operate. Keys are never translated from encipherment under one variant to encipherment under another variant of the same key.
+
+A26 A27
+
+A28
+
+A29 A30
+
+A31
+
+7
+
+IS 16005 (Part 2) : 2013 ISO 13491-2 : 2005
+
+A.3 Device management
+A.3.1 General consideration
+For each life cycle stage, the entity responsible for completing the audit checklist for that stage has provided assurance, acceptable to the audit review body, that:
+No. A32 Security compliance statement For audit and control purposes, the identity of the device (e.g. its serial number) can be determined, either by external tamper-evident marking or labelling, or by a command that causes the device to return its identity via the interface or via the display. When the device is in a life cycle stage such that it contains cryptographic keys, the identity of these keys can be easily determined from the identity of the device [so that the key(s) can be invalidated if the device is reported lost or stolen]. Any physical keys used to unlock or operate the device are carefully controlled, and available only to authorized persons. If a device contains a secret cryptographic key and there is an attack on a device, or a device is stolen, then procedures are in place to notify the party responsible for the security of the device immediately after detection. If a device does not yet contain a secret cryptographic key and there is an attack on a device, or a device is stolen, then procedures are in place to prevent the substitution of the attacked or stolen device for a legitimate device that does not yet contain a secret cryptographic key. If no sensitive state exists in the device, the loading of plaintext keys is performed under dual control. True False N/A
+
+A33
+
+A34 A35
+
+A36
+
+A37
+
+A.3.2 Device protection by manufacturer
+The device manufacturer or an independent auditor has provided assurance, acceptable to the audit review body, that:
+No. A38 Security compliance statement The hardware and software design of the device has been carefully evaluated to ensure that the functional capabilities provided with the device are all legitimate, documented functions, and that no unauthorized function (e.g. a "Trojan Horse") resides in the device. The device, including software, is produced and stored in a controlled environment under the control of qualified personnel to prevent unauthorized modifications to the physical or functional characteristics of the device. True False N/A
+
+A39
+
+8
+
+IS 16005 (Part 2) : 2013 ISO 13491-2 : 2005
+
+A.3.3 Device protection between manufacturer and pre-use
+The device manufacturer and those responsible for the transport, repair and storage of the device prior to initial key loading or to the repeat of initial key loading, or else an independent auditor, have provided assurance, acceptable to the audit review body, that:
+No. A40 Security compliance statement The transfer mechanisms by which plaintext keys, key components or passwords are entered into the device are protected and/or inspected so as to prevent any type of monitoring that could result in the unauthorized disclosure of any key, component or password. Subsequent to manufacturing and prior to shipment, the device is stored in a protected area or sealed within tamper-evident packaging to prevent undetected unauthorized access to it. The device is shipped in tamper-evident packaging, and inspected to detect unauthorized access to it; or  before a device is loaded with cryptographic keys, it is closely inspected by qualified staff to ensure that it has not been subject to any physical or functional modification; or the device is delivered with secret information that is erased if tampering is detected, to enable the user to ascertain that the device is genuine and not compromised. True False N/A
+
+A41
+
+A42
+
+
+
+NOTE One example of such information is the private key of an asymmetric key pair, with the public key of the device signed by a private key known only to the supplier.
+
+A43
+
+The device is loaded with initial key(s) in a controlled manner only when there is reasonable assurance that the device has not been subject to unauthorized physical or functional modification.
+
+A.3.4 Device protection during pre-use and prior to installation
+Those responsible for device storage and transport subsequent to initial key loading, or else an independent auditor, have provided assurance, acceptable to the audit-review body, that:
+No. A44 Security compliance statement Any uninstalled device is controlled so as to prevent or detect unauthorized access to it, and records are kept and audited so as to detect and report theft or loss. True False N/A
+
+9
+
+IS 16005 (Part 2) : 2013 ISO 13491-2 : 2005
+
+A.3.5 Device protection subsequent to installation
+The acquirer or an independent auditor have provided assurance, acceptable to the audit review body, that controls and procedures are in place to ensure that:
+No. A45  Security compliance statement If for any reason a device ceases to hold valid keys:   the device is removed from service as soon as possible and transactions from the device are rejected and the device is not loaded with new keys until it has been carefully inspected and tested by at least two knowledgeable and qualified individuals who have determined that the device has not been subject to any physical or functional modification. True False N/A
+
+A46
+
+If a device is lost or stolen and then recovered, or if unauthorized modification of the device is suspected for any reason, all cryptographic keys contained in the unit are erased, and new keys are not loaded until the unit has been inspected and tested as indicated in A.3.3. Manual and/or automated auditing and control procedures have been implemented to detect the unauthorized reinstallation of a previously used device, or of a device containing the key(s) of a previously used device. Such instances are investigated, and if potentially fraudulent activity is suspected, the device is removed from service as soon as possible. When each transaction identifies the key(s) used in the transaction, host software can be used to automatically detect: 1) 2) the removal of a device from service and the subsequent installation of a device containing the key(s) of a device previously removed from service.
+
+A47
+
+A48
+
+When the device is being serviced or installed, procedures are in place to ensure that the device cannot be compromised by the staff performing these functions. When the secure operator interface is to be used, the data entry device and cables connected to the device are carefully inspected to ensure that no unauthorized hardware has been inserted.
+
+A49
+
+A.3.6 Device protection after removal from service
+Those responsible for device removal, or else an independent auditor, have provided assurance, acceptable to the audit review body, that:
+No. A50 Security compliance statement If the device is to be reinstalled, then it is controlled so as to prevent unauthorized access to it, and is audited so as to detect and report its theft or loss. If the device is being permanently removed from service, then any key contained within the device which has been used for any cryptographic purpose is erased from the device. If the device case is intended to provide tamper-evident characteristics and the device is being permanently removed from service, then the case is destroyed. The storage of the case is controlled and audited until its destruction. True False N/A
+
+A51
+
+A52
+
+10
+
+IS 16005 (Part 2) : 2013 ISO 13491-2 : 2005
+
+Annex B (normative) Devices with PIN entry functionality
+
+B.1 General
+The procedure for evaluating PIN entry devices is as follows:   complete the checklists given in Annex A; complete the checklists given in this annex.
+
+The following statements in this security compliance checklist are required to be specified by the auditor as "true (T)", "false (F)" or "not applicable (N/A)". A "false" indication does not necessarily indicate unacceptable practice, but shall be explained in writing. Those statements that are indicated as "N/A" shall also be explained in writing.
+
+B.2 Device characteristics
+B.2.1 Physical security characteristics
+The evaluating agency has concluded that:
+No. B1 Security compliance statement The path from the keypad to the cryptographic processing unit is physically protected, such that there is no feasible method of ascertaining the data passed between the two without:   triggering the erasure of the device's cryptographic keys (reference A.2.1.5) or causing sufficient damage to preclude its continued use (reference A.2.1.3); True False N/A
+
+or meeting the requirements of B21. B2 If the PIN entry device can be used to enter data that will not be enciphered, then the path to the display is physically protected; or the requirements of B16 are met. B3 The path from the magnetic stripe card reader to the cryptographic processing unit is physically protected, such that there is no feasible method of accessing and/or altering the data passed between the two without triggering the erasure of the secret or private cryptographic keys; or the requirements of B22 are met. B4 If PIN entry is accompanied by an audible tone, the tone for each entered PIN digit is indistinguishable from the tone for any other entered PIN digit. If the PIN entry device has a display, this display does not disclose any entered PIN digit but may display a string of non-significant symbols, such as asterisks, to denote the number of PIN digits entered.
+
+B5
+
+11
+
+IS 16005 (Part 2) : 2013 ISO 13491-2 : 2005
+No. B6 Security compliance statement The PIN entry device is equipped with a privacy shield, or is designed so that the cardholder can shield it with his/her body to protect against observation of the PIN during PIN entry. Any residues of PINs, or cryptographic keys used during a transaction are either stored in a tamper-resistant or tamper-responsive module, or are overwritten immediately after the completion of the transaction.
+NOTE Plaintext PINs are always overwritten immediately after being enciphered.
+
+True
+
+False
+
+N/A
+
+B7
+
+B8
+
+The slot of the IC reader into which the IC card is inserted does not have sufficient space to hold a PIN-disclosing "bug" when a card is inserted, nor can it feasibly be enlarged to provide space for a PIN-disclosing "bug." It is not possible for both an IC card and any other foreign object to reside within the card insertion slot. The opening for the insertion of the IC card is in full view of the cardholder so that any untoward obstructions or suspicious objects at the opening are detectable.
+NOTE A PIN entry device need not comply with this requirement if the PINs are only transferred to the IC card with logical (cryptographic) protection.
+
+B9
+
+The IC reader is constructed so that wires running out of the slot of the IC reader to a recorder or a transmitter (an external bug) can be observed by the cardholder.
+NOTE A PIN entry device need not comply with this requirement if the PINs are only transferred to the IC card with logical (cryptographic) protection.
+
+B10
+
+The PIN pad and the IC reader are either integrated in a single tamper-evident (as defined in ISO 13491-1) device or exist as two separate tamper-evident devices.
+NOTE A non-integrated IC reader need not comply with this requirement if the PINs are only transferred to the IC card with logical (cryptographic) protection.
+
+12
+
+IS 16005 (Part 2) : 2013 ISO 13491-2 : 2005
+
+B.2.2 Logical security characteristics
+The PIN entry device manufacturer or an independent evaluating agency has provided assurance, acceptable to the audit review body, that:
+No. B11 Security compliance statement PIN protection during (at least one must apply): transmission within the terminal True False N/A
+
+�
+
+�
+
+If the PED and the IC reader are not integrated and the cardholder verification method required by the IC card is an enciphered PIN, then the PIN block is enciphered between the PED and the IC reader using either an authenticated encipherment key of the IC card, or in accordance with ISO 9564-1, the PIN block is submitted to the IC card enciphered using an authenticated encipherment key of the IC card OR If the PED and the IC reader are not integrated and the cardholder verification method is determined to be a plaintext PIN, then the PIN block is enciphered from the PED to the IC reader (the IC reader will then decipher the PIN for transmission in plaintext to the IC card) in accordance with ISO 9564-1 OR If the PED and the IC reader are integrated and the cardholder verification method is determined to be an enciphered PIN, then the PIN block is enciphered using an authenticated encipherment key of the IC card OR If the PED and the IC reader are integrated and the cardholder verification method is determined to be a plaintext PIN, then encipherment is not required if the PIN block is transmitted wholly through a protected environment (as defined in 6.3.3 of ISO 9564-1:2002). If the plain text PIN is transmitted to the IC reader through an unprotected environment, then the PIN block is enciphered in accordance with ISO 9564-1.
+
+�
+
+�
+
+B12 B13
+
+PIN encipherment only occurs using a PIN block format and an encipherment algorithm specified in ISO 9564-1. If the PIN entry device offers functionality for downloading of software, then any such software downloaded is rejected by the device (the device's cryptographic keys may also be automatically erased) unless the device has successfully cryptographically authenticated the downloaded code. If the PIN entry device is designed to cater for more than one acquirer, then any downloaded changes to the table controlling the choice of the acquirer key set are accepted by the device only if it has successfully cryptographically authenticated the downloaded data. The PED has characteristics that prevent or significantly deter exhaustive PIN determination (e.g. use a unique-key-pertransaction technique to prevent the attack or limit the number of permitted PIN entries per minute to deter the attack or by use of a PIN block format containing random data). Where the keypad is used for PIN entry as well as other data, the display is under the control of the device such that an "enter PIN" or an equivalent message cannot be displayed when data will be output in the clear or the requirements of B2 are met. The PIN entry device only accepts PINs that are between four and 12 digits in length.
+
+B14
+
+B15
+
+B16
+
+B17
+
+13
+
+IS 16005 (Part 2) : 2013 ISO 13491-2 : 2005
+No. B18 B19 Security compliance statement The mapping of numeric values of the entered PIN to the internal coding is in accordance with ISO 9564-1. The PIN entry device uses different key slots for different acquirers, and there is no feasible way in which any acquirer's personnel can ascertain or modify another acquirer's key. The PIN entry device uses different keys for different acquirers, and the means to select the key to be used for a given transaction are controlled (e.g. by an internal table look-up) so that there is no feasible way to deliberately or accidentally select the key of another acquirer. The path from the keypad to the cryptographic processing unit is logically protected (e.g. enciphered) or the requirements of B1 are met. The path from the magnetic stripe card reader to the cryptographic processing unit is logically protected, or the requirements of B3 are met. True False N/A
+
+B20
+
+B21
+
+B22
+
+B.3 Device management
+B.3.1 PIN entry device protection during initial key loading
+Those responsible for initial key loading, or an independent auditor, have provided assurance, acceptable to the sponsor, that:
+No. B23 B24 Security compliance statement A repaired PIN entry device is not reloaded with the original key (except by chance). Automated techniques are used, or manual procedures are in place and are followed to ensure each PIN entry device is given at least one statistically unique key unknown to any person and never previously given (except by chance) to any other PIN entry device. True False N/A
+
+B.3.2 PIN entry device protection after installation
+The acquirer or an independent auditor has provided assurance, acceptable to the audit review body that controls and procedures are in place to ensure that:
+No. B25 B26 Security compliance statement The PIN entry device is placed where PIN entry cannot be viewed by surveillance cameras nor readily observed by bystanders. Location and/or the device management practices of the PIN entry device are such that its absence or an unauthorized access (attack) would be detected within 24 hours. True False N/A
+
+14
+
+IS 16005 (Part 2) : 2013 ISO 13491-2 : 2005
+
+Annex C (normative) Devices with PIN management functionality
+C.1 General
+PIN management functions include:    PIN issuance; PIN verification; PIN translation.
+PIN entry is addressed in Annex B.
+
+NOTE 1
+
+NOTE 2 The requirements of this annex do not apply to POS and ATM devices that perform PIN translation for transmission of PINs to an IC card.
+
+The procedure for evaluating devices containing PIN management functionality is as follows:    complete the checklists given in Annex A; complete the checklists given in this annex; submit both sets of results to the audit review body.
+
+The following statements in this security compliance checklist are required to be specified by the auditor as "true (T)", "false (F)" or "not applicable (N/A)". A "false" indication does not necessarily indicate unacceptable practice, but shall be explained in writing. Those statements that are indicated as "N/A" shall also be explained in writing.
+
+C.2 Device characteristics
+C.2.1 Physical security characteristics
+The PIN management device manufacturer or an independent evaluating agency has provided assurance, acceptable to the audit review body, that:
+No. C1 Security compliance statement Unauthorized removal of the device from its operational location is deterred by one or more of the following mechanisms:  the device weighs more than 40 kg or else locks into a structure weighing more than 40 kg using a pick-resistant lock or similar measure, such that the device cannot feasibly be removed from this surface without unlocking the lock or the device includes mechanisms such that the removal of the device from its operational location will cause the automatic erasure of the cryptographic keys contained within the device or removal of the device would be of no benefit because its tamper-resistance or tamper-responsive characteristics ensure that the extraction of cryptographic keys or other secret data is not feasible. True False N/A
+
+
+
+
+
+15
+
+IS 16005 (Part 2) : 2013 ISO 13491-2 : 2005
+
+C.2.2 Logical security characteristics
+The PIN management device manufacturer or an independent evaluating agency has provided assurance, acceptable to the audit review body, that:
+No. C2 Security compliance statement Any residues of PINs, or cryptographic keys used during a transaction are either stored in a tamper-resistant or tamper-responsive module, or are overwritten as soon as they are no longer needed.
+NOTE Plaintext PINs are always overwritten immediately after being enciphered.
+
+True
+
+False
+
+N/A
+
+C3 C4 C5
+
+When a PIN is derived from an account number or other data, the keys used in this process are not used for any other purpose. When a PIN verification reference is calculated, the keys used in this process are not used for any other purpose. Where the intended operating environment does not provide protection against exhaustive PIN searches, internal monitoring of statistics is made so that only some given proportion of incorrect PIN verifications are permitted. Multiple function calls containing the same correct PIN/PAN pair are not counted when computing the proportion of incorrect PIN verification calls. It is not feasible to determine any PIN verification keys given knowledge of PIN reference values, the corresponding PINs and other non-secret relevant data. PIN translation functionality complies with ISO 9564-1. The process of PIN translation protects the PINs from disclosure. All keys under which input PIN blocks are enciphered cannot be used for any other purpose, in particular there is no way of using this key to encipher a chosen plaintext quantity and: all keys under which PIN blocks are deciphered cannot be used for any other purpose, in particular there is no way of using this key to decipher a chosen quantity.
+
+C6
+
+C7 C8
+
+C9 C10
+
+There is no translation of input PIN block formats to another PIN block format that is not described in ISO 9564-1. To deter misuse of the PIN translation capability for exhaustive PIN determination, either:   the operational environment prevents this misuse or all PIN translations are between formats that encrypt the PIN as a function of a significant portion of the account number, and the PIN translation capability requires that the account number digits in the input PIN block match the corresponding account number digits in the output PIN block.
+
+C11
+
+The PIN generation device can only be enabled for the purpose of plaintext PIN issuance under dual control.
+
+C.3 Device management
+The requirements for device management are the same as those presented in Annex E.
+
+16
+
+IS 16005 (Part 2) : 2013 ISO 13491-2 : 2005
+
+Annex D (normative) Devices with message authentication functionality
+
+D.1 General
+Message authentication devices calculate a message authentication code (MAC) for the purpose of providing data integrity and verification of an alleged origin. There are three types of input:   cryptographic keys; messages to be authenticated (followed by a MAC for MAC verification devices); operator input (e.g. choice of message authentication key).
+
+
+
+For MAC generation devices, there are two types of output: key verification code of the cryptographic key that has been input or used and the computed message authentication code (MAC). For MAC verification devices, there are two types of output: key verification code of the cryptographic key that has been input or used, and a yes/no response indicating whether the MAC of the message, using the indicated key, was correct. Some devices use different MAC keys for verification and generation, i.e. unidirectional keys. The procedure for evaluating message authentication devices is as follows:    complete the checklists given in Annex A; complete the checklist given in this annex; submit both sets of results to the audit review body.
+
+The following statements in this security compliance checklist are required to be specified by the auditor as "true (T)", "false (F)" or "not applicable (N/A)". A "false" indication does not necessarily indicate unacceptable practice, but shall be explained in writing. Those statements that are indicated as "N/A" shall also be explained in writing.
+
+D.2 Logical security device characteristics
+The message authentication device manufacturer or an independent evaluating agency has provided assurance, acceptable to the audit review body, that:
+No. D1 Security compliance statement If the message authentication device can be manually activated and can contain different MAC keys, then the identity of the key used is displayed by the device. The length of the MAC being generated or verified is in accordance with ISO 16609. The MAC is generated using an approved algorithm in accordance with ISO 16609, as agreed to by the sender and receiver. The device only outputs a confirmation or denial of a MAC provided for verification, never the plaintext-computed MAC. If the device uses two keys for MAC generation or verification, the technique utilized is in accordance with ISO 16609. If the message authentication device is designed to use unidirectional MAC keys, then a MAC key is only used for one type of MAC function, i.e. verify the MAC of received text or generate and output a MAC for a text being transmitted. True False N/A
+
+D2 D3 D4 D5 D6
+
+17
+
+IS 16005 (Part 2) : 2013 ISO 13491-2 : 2005
+
+Annex E (normative) Devices with key generation functionality
+
+E.1 General
+Key generation functions include:    a random or pseudo-random number generator for the purpose of generating a symmetric key or a symmetric key component; a random or pseudo-random prime number generator for the purpose of generating the private key and public key of an asymmetric key pair; function(s) to calculate a secret value for public key distribution systems.
+
+There are two types of device that can be used to generate and inject keys. One type of device requires "compromise prevention" because a compromise of the device could disclose keys previously generated or injected by the device prior to the compromise. The other type of device requires only "compromise detection" because the device retains no information that, if disclosed, could disclose any key that had been injected into a cryptographic device prior to the compromise. The procedure for evaluating key generation devices is as follows:    complete the checklists given in Annex A; complete the checklists given in this annex; submit both sets of results to the audit review body.
+
+The following statements in this security compliance checklist are required to be specified by the auditor as "true (T)", "false (F)" or "not applicable (N/A)". A "false" indication does not necessarily indicate unacceptable practice, but shall be explained in writing. Those statements that are indicated as "N/A" shall also be explained in writing.
+
+18
+
+IS 16005 (Part 2) : 2013 ISO 13491-2 : 2005
+
+E.2 Device characteristics
+E.2.1 Physical security characteristics
+The key generation device manufacturer or an independent evaluating agency has provided assurance, acceptable to the audit review body, that:
+No. E1 Security compliance statement Unauthorized removal of the device from its operational location is deterred by one or more of the following mechanisms:  the device weighs more than 40 kg or else locks into a structure weighing more than 40 kg using a pick-resistant lock or similar measure, such that the device cannot feasibly be removed from this surface without unlocking the lock or the device includes mechanisms such that the removal of the device from its operational location will cause the automatic erasure of the cryptographic keys contained within the device or removal of the device would be of no benefit because its tamper-resistance or tamper-responsive characteristics ensure that the extraction of cryptographic keys or other secret data is not feasible. True False N/A
+
+
+
+
+
+E.2.2 Logical security characteristics
+The key generation device manufacturer or an independent evaluating agency has provided assurance, acceptable to the audit review body, that:
+No. E2 Security compliance statement The device's key management functions are designed so that no disclosure of any key is possible without collusion between trusted individuals. Specifically:   the device's highest-level keys are manually loaded as at least two components under dual control; any function used to input or output key components does not operate until at least two different passwords have been entered. True False N/A
+
+E3
+
+The device decomposes an actual key into key components in such a way that no "active" bit of the key could be determined without the knowledge of all required components (e.g. the components are exclusive-or'ed together to form the key, or a secret sharing technique is used.) Key generation methods comply with ISO 11568. Each call to obtain a generated key statistically-unique key (except by chance). yields a different,
+
+E4 E5 E6
+
+If the device is capable of generating asymmetric key pairs, then the private key will not be visible in comprehensible form at any time during the generation process. If the device is capable of generating asymmetric key pairs that are not used by the device, then the key pair and all related secret seed elements are deleted immediately after the transfer process.
+
+E7
+
+19
+
+IS 16005 (Part 2) : 2013 ISO 13491-2 : 2005
+No. E8 Security compliance statement The device will not output any plaintext key except under dual control. Such dual control is enforced by means such as the following:   the device requires that at least two passwords be correctly entered within a period of no more than five minutes, before the device will output a key; the device requires that at least two different, physical keys (marked "not to be commercially reproduced") be concurrently inserted in the unit before it will output a key. True False N/A
+
+E9
+
+The following operator functions (if available) require the use of special "sensitive" states:   manual input of control data (e.g. key verification code) to enable export, import or use of a key; permitting movement of the device without activating a key erasure mechanism.
+
+E10
+
+Any proprietary functions are either:   totally equivalent to a series of standard and approved functions or limited to use only keys that, by virtue of key separation, cannot be used with keys, or modified keys, of non-proprietary functions.
+
+E11
+
+Random numbers and pseudo random numbers comply with ISO 18031.
+
+E.3 Device management
+The key generation device manufacturer or the organization in which the device is to be used or an independent evaluating agency has provided assurance, acceptable to the audit review body, that:
+No. E12 Security compliance statement Unauthorized use of the device is prevented or detected by means such as the following:  the device has functional or physical characteristics (e.g. passwords or physical high-security keys) that prevent use of the device except under dual control, and when in a state in which it is useable, the device is under the continuous supervision of at least two such people who ensure that any unauthorized use of the device would be detected; the device is at all times either locked or sealed in a tamper-evident cabinet or else is under the continuous supervision of at least two authorized people who ensure that any unauthorized use of the device would be detected. True False N/A
+
+
+
+E13
+
+
+
+When the device is in or ready for active use, unauthorized access to its internal circuitry is prevented by means such as the following: the facility where the device operates has sufficient supervision and controls to prevent any such unauthorized access to the device that could successfully disclose any cryptographic key or any other secret data; the device is under the continuous supervision of at least two trusted people who are qualified to detect and able to observe any attempted unauthorized access, and able also to prevent such access before it is successful.
+
+
+
+20
+
+IS 16005 (Part 2) : 2013 ISO 13491-2 : 2005
+No. E14 Security compliance statement Controls are in place to prevent the removal of the security device from the facility where it has been in service without first ensuring that no information remains within the device which could disclose any cryptographic key that ever existed within the device. When the device is not in active use, any unauthorized access to its internal circuitry is prevented by means such as the following: the facility where the device operates has sufficient supervision and controls to prevent any unauthorized access to the device; the device is stored, under dual control, in a safe that cannot feasibly be penetrated, and each incident of opening or closing the safe is recorded under dual control. True False N/A
+
+E15
+
+ 
+
+E16
+
+When the device is not in active use, undetected access to its internal circuitry is prevented by means such as the following:  the facility where the device operates has sufficient supervision and controls to detect any such unauthorized access to the device before the device is subsequently put into active use; the device is stored under dual control, in a tamper-evident cabinet for which each incident of opening and closing is recorded under dual control.
+
+
+
+E17
+
+
+
+When the device is in or ready for active use, undetected access to its internal circuitry is prevented by means such as the following: the facility where the device operates has sufficient supervision and controls to detect any such unauthorized access to the device before the device is subsequently used for any cryptographic function; the device is under the continuous supervision of at least two trusted people who are qualified to detect and able to observe any such access.
+
+
+
+E18
+
+Controls are in place to detect the unauthorized reinstallation of a device previously removed from a facility.
+
+21
+
+IS 16005 (Part 2) : 2013 ISO 13491-2 : 2005
+
+Annex F (normative) Devices with key transfer and loading functionality
+F.1 General
+Key transfer and loading functions include:    export of a key from one secure cryptographic device (SCD) to another SCD in plaintext, component, or enciphered form; export of a key component from an SCD into a tamper-evident package (e.g., blind mailer); import of key components into an SCD from a tamper-evident package; temporary storage of the key in plaintext, component, or enciphered form within an SCD during transfer.
+
+
+
+There are two types of device that can be used to transport keys in this manner. One type transfers only a single component (from a set of at least two components) of the key. The other type transfers the entire key in plaintext form. This audit considers both types of device. The procedures for evaluating key transfer and loading devices is as follows:    complete the checklists given in Annex A; complete the checklists given in this annex; submit both sets of results to the audit review body.
+
+The following statements in this security compliance checklist are required to be specified by the auditor as "true (T)", "false (F)" or "not applicable (N/A)". A "false" indication does not necessarily indicate unacceptable practice, but shall be explained in writing. Those statements that are indicated as "N/A" shall also be explained in writing.
+
+F.2 Device characteristics
+F.2.1 Physical security characteristics
+The key transfer and loading device manufacturer or an independent evaluating agency has provided assurance, acceptable to the audit review body, that:
+No. F1 Security compliance statement Unauthorized removal of the device from its operational location will be deterred by one or more of the following mechanisms:  the device includes tamper-responsive mechanisms such that the removal of the device from its operational location will cause the automatic erasure of the cryptographic keys contained within the device or the device's tamper-resistance or tamper-responsive characteristics ensure that the extraction of cryptographic keys or other secret data is not feasible. True False N/A
+
+
+
+22
+
+IS 16005 (Part 2) : 2013 ISO 13491-2 : 2005
+
+F.2.2 Logical security characteristics
+The key transfer and loading device manufacturer or an independent evaluating agency has provided assurance, acceptable to the audit review body, that:
+No. F2 F3 Security compliance statement Keys are protected against substitution and modification. The device's key management functions are designed so that no disclosure of any key is possible without collusion between trusted individuals. Specifically:   F4 the device's highest-level keys, if symmetric, are manually loaded as at least two components; any function used to input or output key components does not operate until authorized under dual control. True False N/A
+
+The device will not output any key except when under dual control. Such dual control is enforced by means such as the following:  the device requires that at least two passwords be correctly entered within a period of no more than five minutes, before the device will output a key; the device requires that at least two different, non-reproducible physical keys be concurrently inserted into the unit before it will output a key.
+
+
+
+F5
+
+The following operator functions require use of the sensitive state:    production of control data (e.g. key verification code) to enable export, import or use of a key; permitting movement of the device without activating a key erasure mechanism; change of passwords or data that enable the device to enter the sensitive state.
+
+F6
+
+The only function calls and sensitive operator functions that exist in the device are functions approved by the sponsor, or the system in which the device is to operate. Any additional (proprietary) functions are either:   totally equivalent to the series of standard and approved functions or limited to use-only keys that, by virtue of key separation, cannot be used with keys, modified keys or sensitive data of non-proprietary functions.
+
+F7
+
+Once the device has been loaded with cryptographic keys, there is no feasible way in which the functional capabilities of the device can be modified without causing the automatic and immediate erasure of the cryptographic keys stored within the device, or causing the modification to be otherwise detected before the device is next used to load a key. The device retains no information that could disclose any key that the device has already transferred into another cryptographic device.
+NOTE  This is not intended to preclude the following uses:
+
+F8
+
+
+
+the use of the KLD for loading multiple HSMs with the same master file key (e.g. when the HSMs are used for load sharing with a single key database); the use of the KLD to generate unique keys per device, load them into a PED and later transfer the file of keys to an HSM.
+
+23
+
+IS 16005 (Part 2) : 2013 ISO 13491-2 : 2005
+
+F.3 Device management
+The key transfer and loading device manufacturer or the organization in which the device is to be used or an independent evaluating agency has provided assurance, acceptable to the audit review body, that:
+No. F9 Security compliance statement The transfer mechanisms by which keys, components or passwords are transferred into or out of the device are protected and/or inspected so as to prevent any type of monitoring that could result in the unauthorized disclosure of any keys, components or passwords. If the device requires "compromise prevention" then, when the device is not in active use, any unauthorized access to its internal circuitry is prevented by means such as the following:   the facility where the device operates has sufficient supervision and controls to prevent any such unauthorized access to the device; the device is stored, under dual control, in a safe that cannot feasibly be penetrated, and each incident of opening or closing the safe is recorded under dual control. True False N/A
+
+F10
+
+F11
+
+If the device requires "compromise prevention" then, when the device is in or ready for active use, unauthorized access to its internal circuitry is prevented by means such as the following:   the facility where the device operates has sufficient supervision and controls to prevent any such unauthorized access to the device; the device is under the continuous supervision of at least two trusted people who are qualified to detect and able to observe any such attempted access, and able also to prevent such access before it is successful.
+
+F12
+
+If the device only requires "compromise detection" then, when the device is not in active use, undetected access to its internal circuitry is prevented by means such as the following:  the facility where the device operates has sufficient supervision and controls to detect any such unauthorized access to the device before the device is subsequently put into active use; the device is stored under dual control, in a tamper-evident cabinet for which each incident of opening and closing is controlled and recorded, under dual control; the tamper-evident cabinet, if used, is regularly monitored by at least two trusted people who are qualified to detect and able to observe any unauthorized access.
+
+ 
+
+F13
+
+If the device only requires "compromise detection" then, when the device is in or ready for active use, undetected access to its internal circuitry is prevented by means such as the following:  the facility where the device operates has sufficient supervision and controls to detect any such unauthorized access to the device before the device is subsequently used for any cryptographic function; the device is under the continuous supervision of at least two trusted people who are qualified to detect and able to observe any such access.
+
+
+
+F14
+
+Controls are in place to detect the unauthorized removal of the device from, and its unauthorized replacement back into, its authorized location.
+
+24
+
+IS 16005 (Part 2) : 2013 ISO 13491-2 : 2005
+No. F15 Security compliance statement The device is loaded with a key component under the direct supervision of a person who is allowed access to this component, and only when there is reasonable assurance that there is no "bug" or other disclosing mechanism on the path that the key component traverses from the key generation device to the transport device itself. If the device contains a plaintext key component, the device is either under the continuous supervision of a person who is allowed access to this component (and who is aware of his/her responsibilities to ensure the secrecy of this component), or else is locked or sealed in a security container that cannot feasibly be opened without detection by anyone other than those who are allowed access to the component. The device is used to inject a component into a cryptographic device only under the direct supervision of a person who is allowed access to this component, and only when there is reasonable assurance that there is no "bug" or other disclosing mechanism on the path that the key component traverses from the key transport device to the cryptographic device.     F19 The transfer of a key to another secure cryptographic device: uses a secure communications path or uses a key transfer device or uses a secure cryptographic path or is carried out in a secure environment. True False N/A
+
+F16
+
+F17
+
+F18
+
+No person with knowledge of or access to one of the passwords or physical keys required to output a key from the device has knowledge of or access to any other such password or physical key of this device. The device is loaded with a plaintext key only under the direct supervision of at least two authorized people, both of whom ensure that there is no "bug" or other disclosing mechanism on the path that the key traverses from the key generation device to the key transport device itself. The device is used to inject a plaintext key into a cryptographic device only under the direct supervision of at least two authorized people, both of whom ensure that there is no "bug" or other disclosing mechanism on the path that the key traverses from the key transport device to the cryptographic device. Functionality needed to import, export or transfer cryptographic keys from external sources ensures that the keys are in one or more of the following forms:    enciphered under the proper variant of a symmetric key encipherment key; enciphered under the asymmetric public key of the recipient; enciphered with an import key being specifically enabled for a limited time and limited number of function calls; input under dual or multiple control through the secure operator interface, in components such that full knowledge of all but one component gives no usable information on any bit of the cryptographic key; public keys are entered under dual control or enciphered under the appropriate key or signed as required to ensure authenticity.
+
+F20
+
+F21
+
+F22
+
+
+
+
+
+25
+
+IS 16005 (Part 2) : 2013 ISO 13491-2 : 2005
+
+Annex G (normative) Devices with digital signature functionality
+
+G.1 General
+Digital signature devices generate or verify a digital signature for the purpose of providing data integrity and authenticity. In some cases, under strict control, the digital signature may also provide non-repudiation. For generation, inputs consist of the message and the private cryptographic key. For verification, inputs consist of the message and the public cryptographic key. For either function, the calculation is performed within the confines of a secure cryptographic device (SCD). The public key used to verify the digital signature is not considered to be secret data, nor are the data being protected by the digital signature. However, the integrity of the public key must be ensured. The procedure for evaluating digital signature devices is as follows:     complete the checklists given in Annex A; complete the checklists given in Annex E, if the device has key generation functionality; complete the checklists given in this annex; submit all sets of results to the audit review body.
+
+The following statements in this security compliance checklist are required to be specified by the auditor as "true (T)", "false (F)" or "not applicable (N/A)". A "false" indication does not necessarily indicate unacceptable practice, but shall be explained in writing. Those statements that are indicated as "N/A" shall also be explained in writing.
+
+G.2 Device management
+G.2.1 General considerations
+The security device manufacturer and user, or one or more individuals or organizations in which the device is to be used, have provided assurance, acceptable to the audit review body, that the following requirements are fulfilled:
+No. G1    Security compliance statement If non-repudiation is claimed then: the asymmetric private and public key pair is generated within the digital signature device and the asymmetric private key is not exported outside the original digital signature device for any reason, including backup and archival purposes and mechanisms for the control of the use of the private key are provided. True False N/A
+
+26
+
+IS 16005 (Part 2) : 2013 ISO 13491-2 : 2005
+
+G.2.2 Device management for digital signature verification
+An independent agency, internal or external, has evaluated management of the digital signature device, and has concluded that:
+No. G2 Security compliance statement For audit and control purposes, the binding between the public key and the identity of the owner of the private key is readily determined by:  use of public key certificates, where the public key certificate was obtained from an authorized certificate authority or use of public key certificates and appropriate certificate management procedures or other equivalent mechanisms to irrefutably determine the identity of the owner of the corresponding private key. True False N/A
+
+  G3
+
+The device key management functions complies with ISO 11568, specifically preventing the use of the signing key for any other purpose.
+
+27
+
+IS 16005 (Part 2) : 2013 ISO 13491-2 : 2005
+
+Annex H (normative) Categorization of environments
+
+H.1 General
+The environments are determined by a risk assessment undertaken by the sponsor in accordance with ISO 13491-1.
+
+H.2 Uncontrolled environments
+There are no security requirements for uncontrolled environments.
+
+H.3 Minimally controlled environments
+These requirements aim to detect an attack or theft, within a given maximum period of time.
+No. H1 Security compliance statement Authorized access is restricted by physical locks or supervised access points to authorized staff, and persons accompanied by authorized staff. The environment provides facilities for secure fastening of devices with lockable fastening mechanisms, if such devices are to be installed. The minimally controlled environment remains intact until all keys and other secret data stored in devices within the environment are destroyed or until all such devices are removed from the environment. True False N/A
+
+H2
+
+H3
+
+H.4 Controlled environments
+A controlled environment is similar to normal computer rooms where there are access controls, allowing access only to authorized personnel. A controlled environment, however, has more stringent access controls and both its interior and the entrances are under surveillance. The objective of a controlled environment is to limit the types of attack that can be made on a device (e.g. by making it impossible to use certain kinds of equipment), and the time available for (some kinds of) attack. All organizational security procedures are well documented and installed. Periodic reviews of those procedures are performed by an auditor and the audit results submitted to the audit review body.
+
+28
+
+IS 16005 (Part 2) : 2013 ISO 13491-2 : 2005
+No. H4 Security compliance statement Access is restricted by physical locks and continually supervised access points, to authorized and trusted staff and persons accompanied by authorized and trusted staff. Any access by other than authorized and trusted staff is logged, and the log securely kept and periodically audited. The devices are either:  at all times in full view of at least two staff members who have been instructed to check the devices for signs of attack or presence of any other persons at the devices or in view of a video camera (through a secure video system) being monitored at least once every X/2 min, or whenever movement close to the devices is automatically detected; by persons who have been specifically tasked with checking the devices for signs of attacks. True False N/A
+
+H5 H6
+
+
+
+NOTE The time "X/2 min" is half the time "X min" which is the time estimated to successfully penetrate the device in order to:  make any additions, substitutions, or modifications (e.g. the installation of a bug) to the hardware or software of the device or determine or modify any sensitive information (e.g. PINs, access codes, and cryptographic keys) and then subsequently reinstall the device, without requiring specialized skills and equipment not generally available and without damaging the device so severely that the damage would have a high probability of detection.
+
+
+
+Care shall be taken with the installation of the video system to ensure that opportunities for shoulder surfing are not created. H7 There are no entry or exit points for people or equipment except for continually supervised access points, e.g. watched by guards who have been instructed not to permit any import or export of equipment without written authorization identifying the equipment, signed by an authorized person other than the person moving the equipment. It is not feasible to gain unauthorized access to the controlled environment, or import or export equipment, from under the floor or from above the ceiling.
+
+H8
+
+H.5 Secure environments
+A secure environment provides an outer shell of protection around an insecure device and must be significantly more secure than a controlled environment. It can be a room designed and built for this specific purpose or it could be a safe or a secure cabinet. Whatever form the secure environment takes, only persons with authorized access to the device shall have access to the secure environment. A secure environment is often located within a controlled environment. All organizational security procedures are well documented and installed. Periodic reviews of those procedures are performed by an auditor and the audit results submitted to the audit review body.
+
+29
+
+IS 16005 (Part 2) : 2013 ISO 13491-2 : 2005
+No. H9    Security compliance statement Access is restricted: by physical locks and continually supervised access points; to pairs of authorized and trusted staff; to persons accompanied by pairs of authorized and trusted staff. True False N/A
+
+Access points that are not supervised are locked and alarmed, so that any entry or exit causes intervention by guards. H10 Any non-authorized person(s) requiring access to the secure environment will be supervised at all times by at least two authorized and trusted staff whilst in the secure environment. All accesses to the secure environment are logged, and the log securely kept and periodically audited. All possible access points to the secure environment are either:   at all times in full view of at least two authorized and trusted staff members who have been instructed to check the devices for signs of attack or in view of a video camera (through a secure video system) coupled with circuitry that automatically raises an alarm whenever movement close to the devices is detected or tamper detection circuitry is activated. Even when no alarm is raised, the camera is monitored at least once every 10 min. The images are watched by persons who have been specifically tasked with checking the secure environment for signs of attack.
+
+H11 H12
+
+H13
+
+There are no entry or exit points for people or equipment except for continually supervised access points, watched by guards who have been instructed not to permit any import or export of equipment without written authorization identifying the equipment, signed by an authorized person other than the person moving the equipment. If the secure environment is implemented as a secured room, then the device(s) in the secure environment are in view of a video camera (through a secure video system) coupled with circuitry that automatically raises an alarm whenever movement close to the devices is detected or tamper detection circuitry is activated. Even when no alarm is raised, the camera is monitored at least once every 10 min. The images are watched by persons who have been specifically tasked with checking the secure environment for signs of attack. The secure environment provides at most, limited opportunity for concealment of activity and for the storage of tools and other equipment. A secure environment remains such until all keys and other secret data stored in devices within the environment are destroyed or until all such devices are removed from the environment. The secure environment contains either:  both the device and its host, and there are controls on the environment which prevent the device from being connected to any unauthorized device, and on the host to ensure that exhaustive attacks (on PINs), using legitimate function calls, are not feasible or the device alone, which contains security mechanisms that protect against exhaustive attacks.
+
+H14
+
+H15
+
+H16
+
+H17
+
+
+
+30
+
+IS 16005 (Part 2) : 2013 ISO 13491-2 : 2005
+
+Bibliography
+
+[1] [2]
+
+ISO/IEC 15408 (all parts), IT Security techniques -- Evaluation criteria for IT security ISO/IEC 19790, Information technology  cryptographic modules Security techniques  Security requirements for
+
+31
+
+(Continued from second cover) International Standard ISO 16609 : 2004 Banking -- Requirements for message authentication using symmetric techniques Corresponding Indian Standard IS 15899 : 2011 Banking -- Requirements for message authentication using symmetric techniques Degree of Equivalence Identical
+
+The technical committee has reviewed the provision of the following International Standard referred in this adopted standard and has decided that it is acceptable for use in conjunction with this standard: International Standard ISO 18031 Title Information technology -- Random number generation
+
+Bureau of Indian Standards BIS is a statutory institution established under the Bureau of Indian Standards Act, 1986 to promote harmonious development of the activities of standardization, marking and quality certification of goods and attending to connected matters in the country. Copyright BIS has the copyright of all its publications. No part of these publications may be reproduced in any form without the prior permission in writing of BIS. This does not preclude the free use, in course of implementing the standard, of necessary details, such as symbols and sizes, type or grade designations. Enquiries relating to copyright be addressed to the Director (Publications), BIS. Review of Indian Standards Amendments are issued to standards as the need arises on the basis of comments. Standards are also reviewed periodically; a standard along with amendments is reaffirmed when such review indicates that no changes are needed; if the review indicates that changes are needed, it is taken up for revision. Users of Indian Standards should ascertain that they are in possession of the latest amendments or edition by referring to the latest issue of `BIS Catalogue' and `Standards: Monthly Additions'. This Indian Standard has been developed from Doc No.: MSD 7 (379). Amendments Issued Since Publication ______________________________________________________________________________________ Amendment No. Date of Issue Text Affected ______________________________________________________________________________________ ______________________________________________________________________________________ ______________________________________________________________________________________ ______________________________________________________________________________________ ______________________________________________________________________________________ BUREAU OF INDIAN STANDARDS Headquarters: Manak Bhavan, 9 Bahadur Shah Zafar Marg, New Delhi 110002 Telephones: 2323 0131, 2323 3375, 2323 9402 Website: www.bis.org.in Regional Offices: Central : Manak Bhavan, 9 Bahadur Shah Zafar Marg NEW DELHI 110002 Telephones 2323 7617 { 2323 3841
+
+Eastern : 1/14, C.I.T. Scheme VII M, V.I.P. Road, Kankurgachi KOLKATA 700054 Northern : SCO 335-336, Sector 34-A, CHANDIGARH 160022 Southern : C.I.T. Campus, IV Cross Road, CHENNAI 600113 Western : Manakalaya, E9 MIDC, Marol, Andheri (East) MUMBAI 400093
+
+8499, 2337 8561 { 2337 2337 8626, 2337 9120 3843 {260 260 9285 1216, 2254 1442 { 2254 2254 2519, 2254 2315 9295, 2832 7858 { 2832 2832 7891, 2832 7892
+
+Branches: AHMEDABAD. BANGALORE. BHOPAL. BHUBANESHWAR. COIMBATORE. DEHRADUN. FARIDABAD. GHAZIABAD. GUWAHATI. HYDERABAD. JAIPUR. KANPUR. LUCKNOW. NAGPUR. PARWANOO. PATNA. PUNE. RAJKOT. THIRUVANATHAPURAM. VISAKHAPATNAM.
+Published by BIS, New Delhi
+
+

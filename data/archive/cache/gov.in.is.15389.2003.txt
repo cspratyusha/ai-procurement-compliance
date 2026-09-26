@@ -1,0 +1,2453 @@
+IS 15389:2003 1s01 7933:2000
+
+Indian Standard GEDI -- GENERIC ELECTRONIC INTERCHANGE DOCUMENT
+
+ICS 35.240.30
+
+/-
+
+O 61S 2003
+
+BUREAU
+MANAK
+
+OF
+
+INDIAN
+9 BAHADUR
+
+STANDARDS
+SHAH ZAFAR MARG
+
+BHAVAN,
+
+NEW DELHI 110002 September 2003 Price Group 13
+
+Documentation
+
+and Information
+
+Sectional
+
+Committee,
+
+MSD 5
+
+NATIONAL
+
+FOREWORD is identical with ISO 17933:2000 `GEDI -- Generic Electronic Document International Organization for Standardization ( ISO ) was adopted by the on the recommendations of the Documentation and `Information Sectional the Management and Systems Division Council.
+
+This Indian Standard which Interchange' issued by the Bureau of Indian Standards Committee and approval of
+
+The text of the ISO Standard has been approved as suitable for publication as an Indian Standard without deviations. Certain ccmventions are, however, not identical to those used in Indian Standards. Attention is particularly drawn to the following: Wherever the words'international as `Indian Standard'. Standard' appear referring to this standard, they should be read
+
+In the adopted standard, normative references appear to International Standards for which Indian Standards also exist. The corresponding Indian Standards which are to be substituted in their-place are listed below along with their degree of equivalence for the editions indicated International ISO21O8 Standard Corresponding Indian Standard Degree of Equivalence Identical
+
+:1992
+
+IS 8310: 2003/lSO 2108:1992 Information and documentation -- International standard book numbering ( ISBN ) IS 14836( Part 1 ): 2000/1S0 3166-1:1997 Codes for representation of names of countries and their subdivisions : Part 1 Country codes IS 10101 : 2003/1S0 3297:1998 Information and documentation -- International standard serial number ( ISSN ) IS 7900: 1999/1S0 8601:1988 Data elements and interchange formats -- Information interchange -- Representation of dates and times
+
+ISO 3166-1:1997
+
+do
+
+ISO 3297:1998
+
+do
+
+ISO 8601:1988
+
+do
+
+In the adopted standard, normative reference has been made to ISO 8601 :1988 `Data elements and interchange formats -- Information interchange -- Representation of dates and times'. This standard has been superseded by ISO 8601:2000 for which an identical Indian Standard IS 7900:2000 exists. In the adopted standard, normative reference Standards for which there are no Indian Standards: /nternationa/ Standard has also been made to following International
+
+Title Information and documentation -- Open Systems Interconnection -- Interlibrary Loan Application Protocol Specification -- Part 1 : Protocol specification Information and documentation -- Open Systems Interconnection -- Interlibrary Loan Application Protocol Specification -- Part 2: Protocol implementation conformance statement ( PICS ) proforma
+
+ISO 10161-1:1997
+
+ISO 10161-2:1997
+
+( Continued
+
+on third cover)
+
+IS ISO
+
+15389:2003 17933:2000
+
+lndian Standard GEDI -- GENERIC ELECTRONIC INTERCHANGE DOCUMENT
+
+1
+
+Scope
+
+This International Standard specifies a format for exchange of electronic document copies b-etween computer systems. The format includes the definition of a GEDI Header containing information about the requester, Supplier, and format of the document and relevant bibliographic information. This International Standard Transmission applications. is applicable to computer systems supporting Interlibrary Loan and Document
+
+2
+
+Normative references
+
+The following normative documents contain provisions which, through reference in this text, constitute provisions of this International Standard. For dated references, subsequent amendments to, or revisions of, any of these publications do not apply. However, parties to agreements based on this International Standard are encouraged to investigate the possibility of applying the most recent editions of the normative documents indicated below. For undated references, the latest edition of the normative document referred to applies. Members of ISO and IEC maintain registers of currently valid International Standards. ISO 2108:1992, ISO 3166-1:1997, codes. 1S0 3297:1998, ISO 8601:1988, times. /nfom?ation and documentation Codes for the representation -- /ntemationa/ of names standard book numbering (/SBV). -- Part 1: Country
+
+of countries
+
+and their subdivisions
+
+Information
+
+and documentation
+
+-- International
+
+standard serial number (ISSN). interchange -- Representation of dates and
+
+Data e/ements and interchange
+
+formats -- /formation
+
+ISO 10161-1:1997, /formation Application Protocol Specification LSO 10161-2:1997, Information Application Protocol Specification
+
+and documentation -- Open -- Part 1: Protocol specification.
+
+Systems
+
+Interconnection
+
+--
+
+Interlibrary
+
+Loan
+
+and documentation -- Open Systems Interconnection -- Part 2: Protocol implementation conformance statement 1985.
+
+-- Interlibrary Loan (PICS) proforma.
+
+RFC 959, File Transfer Protocol (FTP), October
+
+3
+
+Terms and definitions
+Standard, the following terms and definitions apply.
+
+For the purposes of this International
+
+3.1 consumer application process that receives the GEDI record, Electronic Document Copy available to the end user
+
+processes
+
+the GEDI Header
+
+information,
+
+and makes
+
+one
+
+1
+
+IS ISO
+
+15389:2003 17933:2000
+
+3.2 domain group of one or more Suppliers and one or more Consumers capable of engaging in Electronic Document Interchange Transactions between them, where a common agreement exists for 1) electronic document interchange format and compression algorithm, 2) electronic document transfer mechanism, and 3) network technology 3.3 Electronic Document Copy the part of the GEDI Record that contains the electronic copy of the document 3.4 Electronic Document Interchange Transaction complete cycle for the interchange of an Electronic Document Copy, starting with an electronic at the Supplier and terminating with the completed delivery of that document to the Consumer 3.5 GECI Domain Domain in which the common agreements
+
+document
+
+residing
+
+conform to this International
+
+Standard
+
+3.6 GEDI Header GEDI Cover the first part of the GEDI Record containing information about 1) the format and version of the parts of the GEDI Record, 2) Electronic Document Exchange Transaction, 3) the bibliographic description of the electronic document, and 4) the format of the Electronic Document Copy 3.7 GEDI Record complete G EDI message, containing
+
+both the G ED I Header and Electronic
+
+Document
+
+Copy
+
+3.8 Relay application process that receives a GEDI Record from a Supplier another Relay or Consumer in a second Domain
+
+or Relay in one Domain
+
+and transmits
+
+it to
+
+3.9 Supplier application process that captures an Electronic Document Copy, creates a GEDI Record, and transmits that Record to a Consumer, perhaps via one or more Relays
+
+4
+
+Symbols and abbreviated terms
+Protocol
+
+FrP File Transfer
+
+JFIF JPEG File Interchange JPEG Joint Photographic MIME Multipurpose PDF Portable
+
+Format
+
+Experts Group
+
+Internet Mail Extensions
+
+Document
+
+Format
+
+2
+
+IS ISO
+
+15389:2003 17933:2000
+
+POP Post Office Protocol RFC Request for Comment; SMTP Simple Mail Transfer
+
+and Internet standard or proposal
+
+Protocol
+
+TIFF Tagged Image File Format
+
+5
+5.1
+
+Service model and topology
+Introduction of
+
+As the name indicates, the Generic Electronic Document Interchange (GEDI) is concerned with the interchange documents in electronic form. From this concern, the emphasis of this International Standard lies in two areas: a) b) the definition of an Electronic the description Document Format;
+
+of the Interchange
+
+mechanism.
+
+This concern is less wide in scope than that necessary to provide an Electronic Document Delivery service. Interchange is only a part of the whole process. To provide a complete delivery service, several other issues have to be addressed besides the two covered by GEDI. The following elements are relevant to the complete delivery cycle of electronic a) documents.
+
+Identifying and locating -- where the document is identified and the source location is established. This can be done through the use of on-line union catalogue access (for example using the ISO 23950 standard), or through off-line services such as CD-ROMs or paper catalogues. Ordering -- where the required document is requested for delivery. This is functionally identical with issuing an Interlibrary Loan request. The GEDI Header information described in clause 7 takes the ISO ILL standard (ISO 10160) as a guideline for the document identification. is transformed into an electronic image. This will be done
+
+b)
+
+c)
+
+Digitization -- where a hard-copy through a scanning device. Interchange
+
+document
+
+d) e)
+
+-- where the actual transfer of the electronic
+
+copy takes place. back to paper or other media. This will
+
+Hard-copy reproduction -- where the document's be done through a printing device. Billing, accounting and other administrative
+
+image is converted
+
+f)
+
+procedures. some might not be relevant in specific cases. movement of a copy of a document. Other
+
+All these elements can occur in several forms in practical situations; Interchange is a key element in this list as it effectuates elements from the list could be absent in specific cases: -- -- identification
+
+the physical
+
+and locating could be based upon common knowledge; delivery
+
+ordering is not relevant in case of unsolicited
+
+3
+
+IS ISO
+
+15389:2003 17933:2000
+
+--
+
+digitalization is not necessary when documents publishing or through scanning and storing; reproduction can be skipped when an electronic are not relevant
+
+have already been digitized,
+
+either through
+
+direct electronic
+
+-- --
+
+copy is to be kept on a storage medium; services where participants share load and costs
+
+billing and accounting between them.
+
+in cooperative
+
+Therefore, the agreements reached in GED1 development of electronic document delivery services would have the characteristics to easily of the other elements constituting a fulldelivery part.
+
+concentrate on interchange to provide common ground for the services. On this basis, different electronic document delivery enable development of links between them. Also, the development service will benefit from international agreement on the interchange
+
+The overall model that forms the basis of the International Standard within the scope of the interchange element of document delivery services is a global model. The source information tha? GEDI is concerned with, document images, is located around the world in various places. Likewise, the target clients of document delivery services are widely distributed. The model accommodates all sources and targets. Furthermore, the model should recognize the responsibilities of a wide variety of organizations involved in document delivery to implement private solutions. In general, private solutions reflect agreements that exist between groups of organizations to optimize services between them. The GED1 model does not limit the possibilities and freedom of such agreements. In the end, the overall model aims at establishing common ground and direction guidelines for further development, to provide the possibility of interworking between such different groups. 5.2 General model document delivery is represented in Figure 1. The
+
+The general model for the interchange process for electronic main characteristics of the model can be described as follows: a) b) the interchange
+
+involves two parties, the Supplier and the Consume~ are linked through a facility enabling the transfer of an electronic document from
+
+the Supplier and Consumer Supplier to Consumer;
+
+c)
+
+the transfer handles one document at a time. SUPPLIER CONSUMER
+
+M'Transaction' ~ --
+
+m TRANSFER interchange
+
+Figure 1 -- General model for electronic-document
+
+The complete cycle of interchange, starting with an electronic document residing with the Supplier and terminating with the completed delivery of that document to the Consumer is called a Generic Electronic Document Interchange Transaction. It is important to note that the input and output functions as shown in Figure 1 do not participate in the transaction. The exact nature of these functions is outside the scope of this International Standard. Of course, in practical situations, some form of input and output will be available: .-- input can come from hard-copy documents through scanning (the most probable form in the short term), from files with stored document images, or from electronically published documents;
+
+4
+
+IS ISO
+
+15389:2003 17933:2000
+
+--
+
+output can take the form of inserting an electronic document into a storage file, or printing. The implementation of some of these possibilities may be dependent on legal and copyright regulations.
+
+5.3
+
+The Domain concept
+
+The model can be broken down into smaller parts by introducing the concept of Domains. This concept allows the solutions under private responsibilities in private Domains to be distinguished and made more or less independent of the solution on the common, international, GEDI domain. Common agreement is only required within the GEDI domain; GEDI might or might not be followed in private Domains. The various private Domains will be interconnected through the services in the GEDI domain. Generally, private services are available on the basis of a variety of functional and network models reflecting the organizational structure within the private domain. From the definition of this International Standard, `the Relay functions to be provided on the boundary between private and GEDI Domain can be specified. A Domain is defined as a group of one or more Suppliers and one or more Consumers capable of engaging in Electronic Document Interchange Transactions between them, where a common agreement exists in the following areas: a) b) c) electronic electronic document document interchange format and compression algorithm;
+
+transfer mechanism;
+
+network technology.
+
+The Domain agreements not on~y specify which mechanism or standard to use, but also select the appropriate options to be used by the Domain members. In this sense, the Domain members agree on a common profile. This reduces the complexity of the development of systems that form part of the domain. In practice, the Domain agreements cover all communication layers, whether they conform to International Standards and the OSI model or not. For example, the agreements in a particular Domain might specify communication on the basis of FTP over TCP/lP; another Domain might use MIME over TCP/lP. In the application layer, agreements on the document format are as important for the Domain as the communication profile. In such a context, Suppliers and Consumers share the same view of an electronic document, and do not need functions for converting and reformatting. Using this Domain concept, it follows that a Supplier and a Consumer within the same Domain are capable of interconnecting directly. Conversely, if they form part of different Domains, they might not be able to do so, depending on whether the two Domains share the same agreements or not. Note that two Domains that are administratively separate may still share a common profile. If the two Domains do not share the same agreements, the interconnection will be realized through an Application Relay function. The Application Relay will receive a GEDI Record using transfer mechanisms under the agreements of the first domain, and will transfer the record to the second Domain under the agreements of the second domain. Figure 2 sketches out the role of the Application Relay.
+
+SUPPLIER INPUT SUPPLY TRANSMIT RECEIVE F
+TRANSFERd
+
+RELAY < -----------------Transaction FORWARD I ---------------------------- >
+
+CONSUMER OUTPUT CONSUME RECEIVE
+
+I
+
+TRANSMIT
+
+.F TRANSFER
+DOMAIN No. 2
+
+DOMAIN No. 1 Figure 2 -- Interchange across two Domains
+
+5
+
+IS 15389:2003
+
+1s0 17933:2000
+Still, in the model of Figure 2, the Generic Electronic Document and Consumer, with the Relay playing a supporting role 5.4 Interchange Transaction exists between Supplier
+
+Functional
+
+elements
+
+In Figure 2, all the model elements where Domain boundaries have to be crossed are shown. This model can be extended even further in cases where two Domains do not share a common Relay, but both have a Relay to a third domain. Subclause 5.5 will put this in context in the GEDI environment. In this subclause, an overview of the functional characteristics of these elements. a) elements shown in Figure 2 is given, together with the following
+
+.
+
+Input This function is responsible for making an Electronic Document Copy available to the Supplier. The Supplier will only handle Electronic Document Copies in the agreed image format, so the input function produces Electronic Document Copies within the Domain agreements on Electronic Dument Copy format. Examples of the input function are: scanning a hard-copy document; and reading an electronic document from a storage device. supply This function takes the result of the input function, the Electronic Document Copy, and produces a data structure to be transferred by adding information relevant to the transaction. This additional information is referred to as GEDI Header information, including the identification of the transaction, possibly a reference to an ILL transaction, the identification of the Electronic Document Copy, and information about the Supplier and Consumer. The supply function can also store the Electronic Document Copy temporarily before it is actually transferred, for example in situations where batches of Electronic Document Copies are being prepared for overnight transfer. Transmit This function takes care of the actual sending of the Electronic Document Copy and the G"EDI Header information through a network. The transfer function includes the complete communications stack, with all the applications and lower layer protocol services in the initiator or originator role. Receive This function is the counterpart of the transmit function, and enables the receiving of the GEDI Record from the network. It is implemented using the same communication profile as the corresponding transmit function; it acts in the target or responder role. Consume This function receives the GEDI Record, and analyses the content of the GEDI Header information to determine what actions should be taken. Generally, it will present the Electronic Document Copy to an appropriate output function. At the same time, the GEDI Header information can be passed to other applications, for example for administrative purposes, output This Mrwtion takes care of the final reproduction or electronic filing of the received Electronic Document Copy. Examples are: printing of the Electronic Document Copy on a laser or other printer; permanent storage for later use. Forward This function provides the possibility of communicating between two Domains. It has the capabilities to convert between the agreements of two Domains. In effect, it is located on the boundary of the two Domains, taking in GEDI Records from the one Domain and sending out GEDI Records in the other. elements described above combine within the model into the main model entities as follows: SUPPLIER can be thought of as an application process with the functions: input, supply and
+
+b)
+
+c)
+
+d)
+
+.e)
+
+f)
+
+9)
+
+The functional -- The entity transmit.
+
+--
+
+The entity CONSUMER
+
+is the application
+
+process with the functions:
+
+receive, consume and output.
+
+6
+
+IS 15389:2003 ISO 17933:2000
+
+--
+
+The entity RELAY "is the application (in another domain).
+
+process with the functions:
+
+receive (in one domain), forward and transmit
+
+5.5
+
+GEDI topology
+
+In the GEDI environment, a number of private Domains will exist. These private Domains can be further subdivided into sub-Domains, for example where regional services Iink up to form a national service. Relays between Standard. the private Domains and the GEDI Domain can be developed on the basis of this International
+
+Figure 3 depicts the communication between Domains, using the services of two Relays. SUPPLIER RELAY
+
+a Supplier
+
+and a Consumer
+
+that belong
+
+to two different
+
+private
+
+RELAY
+
+CONSUMER
+
+3-GH
+LTRANSFE+I PRIVATE DOMAIN No. 1 Figure 3 -- Communication
+
+l--TRAfVSFE&
+GEDI DOMAIN
+
+LTRAAjsFE~
+PRIVATE DOMAIN No. 2
+
+through the GEDI domain elements involved through programs
+
+The abstract model definition in the previous subclauses describes all the entities and functional in Electronic Document Interchange. In a practical situation, these elements will be implemented on computer systems, communicating through physical network links.
+
+6
+
+GEDI Record format structure
+will be exchanged in a GEDI Record, the format of which consists of two parts:
+
+Documents a) b)
+
+the GEDI Header (cover information); the Electronic Document Copy.
+
+By separating the GEDI Header from the Electronic Document Copy, Relay systems are relieved of the requirement to be able to read the document image format. This approach also makes it easier to accommodate new document-formats in the future. See Figure 4: GEDI HEADER: Document Interchange Format Information (Type 1) Destination and Storage Information (Type 2) Electronic Document Delivery Transaction Information (Type 3) Document Description (Type 4) Padding if necessary (Type 5) ~ Electronic Document Copy Figure 4 -- GEDI Record Interchange Format
+
+IS 15389:2003 1s0 17933:2000
+
+The GEDI Record may be transferred by a number of different mechanisms in different Domains, such as file transfer protocols (e.g. FTP) or email protocols (e.g. MIME). The existence of Relays between different Domains means that a single GEDI Record may be transferred by several different mechanisms in passing from Supplier (in one Domain) to Consumer (in another). Therefore, the format of the GEDI Record is independent of the transfer mechanism and makes no assumptions about the transfer mechanisms (other than that they can handle 8-bit data and have error detection).
+
+7 7.1
+
+The GEDI Header General
+is classified into five types. about the Document Interchange Format itself.
+
+The GEDI Header Information -- -- -- --
+--
+
+Type 1: identifying
+
+information
+
+Type 2: naming, time, destination, Type 3: other information Type 4: information
+Type 5: padding
+
+and storage information
+
+for the Transfer Mechanism. Delivery Transaction. description. changing the GEDI Header
+
+about the particular Electronic
+
+Document
+
+specific to the document, to allow for subsequent
+
+including a brief bibliographic
+
+changes
+
+to the GEDI Header without
+
+length (optional).
+NOTE 1 The GEDI Header data elements, whether mandatory or optional, are singly occurring and cannot be repeated.
+
+NOTE 2 The Supplier always has the option to include an actual cover page as part of an Electronic Document Copy, in addkion to supplying the GEDI Header data elements.
+
+7.2 7.2.1
+
+GEDI
+
+Header
+
+data elements
+
+-- semantics
+
+Introduction
+
+The following data elements make up the GEDI Header for transmission; the Consumer system may print them on a cover sheet for the GEDI Record as appropriate. In order to facilitate operation of this Electronic Document Delivery service with Interlibrary Loan applications, the data elements below are aligned with those defined in the ILL protocol standard, ISO 10161, wherever possible. Details of the mapping of lLL-Request Data Elements to GEDI tags are given for information in annex A. The occurrence of "10161" at the end of a definition indicates that the data element is aligned with the data element of the same name in the ILL protocol standard. The "Structure" -- -- -- field specifies the data type for a data element. The following data types are used:
+
+-character-string: numeric: alphanumeric:
+
+ASCII 20 ... 7E; i.e. all the ASCII graphic characters ASCII 30,..
+39; i.e. O ...9 5A61 ... 7A; i.e. O ...9 A ... Z a ... z
+
+ASCII 30 ...3941...
+
+NOTE
+
+Service-string-advice, SSAD, reserves some characters for special use in structured tags.
+
+IS 15389:2003 ISO 17933:2000
+
+7.2.2
+
+TYPE 1 -- Document
+
+interchange
+
+format information
+
+Name: Tag: Semantics: Structure: Status: Max. length: Example: Name: Tag: Semantics: Structure: Status: Max. length: Example: Name: Tag: Semantics:
+
+interchange-f ormat-id IFID an unambiguous identifier of the document interchange format; it identifies both the abstract syntax and the encoding character-string mandatory
+
+20
+GEDI interchange-f ormat-version
+
+IFVR a version number for the Interchange Format Id
+character-string mandatory 20 3.0 cover-information-length CILN the length of the GEDI Cover information (including the IFID and fhe IFVR); serves as an offset to the beginning of the Electronic Document Copy from the beginning of the GEDI Record; this ia a character
+
+Structure: Status: Max. length: Example: Name: Tag: Semantics: Structure: Status: Max. length: Examples:
+
+representation of a decimal number specifying the byte count of ALL of the GEDI Cover information numeric mandatory 10 (padding fields included if present) 123
+document-format-id
+
+DFID an unambiguous identifier of the format of the Electronic Document Copy in this GEDI Record; possible values include OIDS and-MIME types. See.annex B for a current registry of identifiers character-string mandatory 20 TIFF-5.0, TIFF-6.0, PDF-1 .1
+
+Name: Tag: Semantics:
+
+service-string-advice SSAD a selection of characters for use as delimiters and indicators in Type 2, Type 3, and Type 4 data elements; used to provide information about the structure of elements. Each character must be set on a specified place in the string; use the following order: release indicator First character: delimiter/separator between items prefix of new subsegment. A one-positibn predefined alphanumeric character always precedes the "="symbol opening bracket to starl a nested structure Fourth character: closing bracket to end a nested structure Fifth character Four characters are used for subsegmenting and must be set in the service string: ('.!> as delimiter between items in a structured tag ~f=j~ as a one-position predefine of new subsegment; prefix Second character: Third character:
+
+alphanumeric
+
+character always precedes the "="
+
+NOTE
+
+"(" as opening bracket to start a nested.structure ")" as closing bracket to end a nestad structure This was inherited from the `EDIFACT encoding
+
+9
+
+IS 15389:2003 ISO 17933:2000
+
+Structure: Status: Max. length: Example:
+
+character-string mandatory 50 ?;=()
+
+7.2.3
+
+TYPE2
+
+--
+
+Destination and storage information relevant to the transfer mechanism
+
+Name: Tag: Semantics:
+
+Consumer-name CNSN
+an unambiguous ind~cation of the destination of the GEDI Record. Its preferred transfer mechanism and the system address are also included; this is an ordered list of preferred destinations. At least one value is required. alphanumeric, structured. Name (N=); Email (E=); FTP address/directory (F=); Faxnr (X=). FTP must be substructure into Address (A=) and Directory (D=); multiple-occurrences of Consumer-name are represented by repetitions of this sequence of subtags. mandatory 250 F=(A=1291 1004352;D=LGR.DOC);N=PICA record-name
+
+Structure:
+
+Status: Max. length: Example: Name: Tag: Semantics: Structure: Status: Max. length: Example: `Name: Tag: Semantics: Structure: Status: Max. length: Example:
+
+RCNM
+The name of the GEDI Record. The name is assigned by the Supplier so as to be unambiguous. It must follow the rules for Filenames as described in 9.2. character-string mandatory 32 RUGOPC2232 supplier-name
+
+SPLN
+The unambiguous indication of the source of the GEDI Record. At least one value is required. alphanumeric, structured. Name (N=); Email (E=); FTP address/directory (F=); Faxnr (X=). FTP must be substructure into Address (A=) and Directory (D=) mandatoty 250 F=(A=l 291 1004352;D=LGR.DOC);N=RLG service-date-time SVDT the local date and time that the Supplier created this GEDI Record for transmission numeric YYYYMMDDHHMMSS (conforms to ISO 8601) mandatory 14 19930204122436 system-service-id SYID delivery system identification of the Electronic Document Copy character-string, unstructured optional 50 DIS 12.12
+
+Name: Tag: Semantics: Structure: Status: Max. length: Example: Name: Tag: Semantics: Structure: Status: Max. length: Example:
+
+10
+
+IS 15389:2003 ISO 17933:2000
+
+Name: Tag: Semantics: Structure:
+
+system-service-address
+
+SYAD
+in
+
+delivery system address of the GEDI Record; 10161 system-address character-string, structured; Email (E=); Printlocation (P=); Faxnr (X=); Print location is substructwed Department (D=), Room (R=), Printer name (P=) optional Status: Max. length: 100 E=Devries @lubg.nl;P=(D=development; R=l 23; P=oakprntr) Example: [1 0161 Definition: no equivalent 10161-1 definition found] Name: Tag: Semantics:
+
+delivery-service DLVS a name or code for the delivery service or method to be used in transporting the Electronic Document Copy; 10161 Structure: character-string, structured; Name (N=); Email (E=); FTP address/directory (F=); Faxnr (X=). FTP must be substructure into Address (A=) and Directory (D=) Status: optional Max. length: 50 F=(A=1291 1004352;D=LGR.DOC) Example: [10161 Definition: A name or code for the delivery service or method to be used in transpotfing the item (no change).] Name: Tag: Semantics: Structure: Status: Max. length: Example: confirmation-address CNFA an address for the confirmation of the transfer of a GEDI Record between two delivery systems character-string, structured; Name (N=); Email (E=); FTP address/directory (F=); Faxnr (X=). FTP must be substructure into Address (A=) and Directory (D=) optional 50 F=(A=l 291 1004352;D=LGR.DOC)
+
+7.2.4
+
+TYPE 3 -- Transaction
+
+information
+
+Name: Tag: Semantics: Structure: Status Max. length: Example: Name: Tag: Semantics: Structure: Status: Max. length: Example: Name: Tag: Semantics: Structure: Status: Max. length: Example:
+
+priority PRTY the priority to be given to this Electronic Document Delivery Transaction; O is the lowest priority, 9 is the highest numeric; number O-9 optional 1 0
+
+general-note GNLN
+a free text message from the Supplier to the Consumer character-string; unstructured optional 600 End-page of article not sure client-name CLNT the name of the reader for whom the Electronic Document Copy is intended; 10161 character-string, structured; Email (E=); Name (N=) optional 50 E=devries@pica. nl;N=De Vries Name of the person or institution for which the item has been requested.]
+
+[10161 Definition:
+
+11
+
+IS 15389:2003 ISO 17933:2000
+
+Name: Tag: Semantics: Structure: Status: Max. length: Example:
+
+client-id CLID the identifier of the reader for whom the Electronic Document Copy is intended (e.g. library patron number); 10161 character-string, unstructured optional 25 LIB1234567 Number or code used to identify the client uniquely.]
+
+[10161 Definition: Name: Tag: Semantics: Structure: Status: Max. length: Example:
+
+client-status CLST the status of the reader for whom the Electronic Document Copy is intended; 10161 character-string, structured. Country code conforms to ISO 3166-1: Code for the representation of names of countries and their subdivisions (L=); Status (S=) optional 25 L=NL;S=lng Professional level or position of the client.]
+
+[10 161 Definition: Name: Tag: Semantics: Structure: Status: Max. length: Example:
+
+name-of-person-or-institution NPOI the name component of the postal address to which the Electronic Document Copy is to be delivered; 10161 character-string, unstructured optional 150 Royal Library
+
+[10161 Definition(s): name-of-institution: A word, phrase or abbreviation which identifies a library, institution or coloration; name-of-person: A word or combination of words and/or initials by which an individual is regularly known or designated and which identifies the person participating in the lLL-transaction.] Name: Tag: Semantics: Structure: Status: Max. length: Example: Name: Tag: Semantics: Structure: Status: Max. length: Example: extended-postal-delivery-address XPDA the miscellaneous component of the postal address to which the item is to be delivered character-string, unstructured optional 100 ILL Department street-and-number STNM the street and number component of the postal address to which the item is to be delivered; 10161 character-string, unstructured optional 128 Schipholweg 99 used to identify the location of a building within a city or a rural area:]
+
+[10161 Definition: A number antiorphrase
+
+12
+
+IS 15389:2003 1S0 17933:2000
+
+Name: Tag: Semantics: Structure: Status: Max. length: Example:
+
+post-office-box POBX the post office box component of the postal address to which the item isto be delivered: 10161 character-string, unstructured optional 40 Postbus 67 A box number assigned by the post office.]
+
+[10161 Definition:
+
+Name: Tag: Semantics: Structure: Status: Max. length: Example:
+
+city CITY the city component of the postal address to which the item is to be delivered; 10161 character-string, unstructured optional 128 Maastricht A phrase used to identify a city, town or village.]
+
+[10161 Definition: Name: Tag: Semantics: Structure: Status: Max. length: Example:
+
+region REGN the region component of the postal address to which the item is to be delivered; 10161 character-string, unstructured optional 128 Limburg
+
+[10161 Definition: A phrase used to identify a province, state, region or locale.] Name: Tag: Semantics: Structure: Status: Max. length: Example: country CNTR the country component of the postal address to which the item is to be delivered; 10161 character-st ring, unstructured optional 50 The Netherlands
+
+[10161 Definition: A phrase used to identify a country,] Name: Tag: Semantics: Structure: Status: Max. length: Example: postal-code POCD the.postal code component of the postal address to which the item is to be delivered; 10161 character-string, unstructured optional 40 2634AC area.]
+
+[10161 Definition: A code which identifies a given area within a city or other geographical
+
+Name: Tag: Semantics: Structure: Status: Max. length: Example:
+
+requester-id RQID information identifying the library (system) which generated the ILL request, typically an ILL office; 10161 character-string, unstructured optional 25 001 9/0000 Identification information of the lLL-transaction requester. Note: the requester will not always be a library!]
+
+[10161 Definition:
+
+13
+
+IS 15389:2003 ISO 17933:2000
+
+Name: Tag: Semantics: Structure: Status: Max. length: Example:
+
+requester-name RQNM name of the library (system) which generated the request for the document 10161 character-string, structured; Name (N=); Email (E=); FTP address/directory (F=); Faxnr (X=). HP substructure into Address (A=) and Directory (D=) optional 150 N= RUU;E=OPC@ruu.n requester-id: Identification information of the /LL-transaction requester.]
+
+must be
+
+[10161 Definition: Name: Tag: Semantics: Structure: Status: Max. length: Example:
+
+responder-id RSID information identifying the library (system) which satisfies the request for the document; 10161 character-string, unstructured optional 25
+
+001 9/0000
+Identification information of the lLL-transaction responder.]
+
+[10161 Definition: Name: Tag: Semantics: Structure: Status: Max. length: Example:
+
+responder-name RSNM name of the library (system) which satisfies the request for the document 10161 character-string, structured; Name (N=); Email (E=); FTP address/directory (F=); Faxnr (X=). ITP substructure into Address (A=) and Directory (D=) optional 150 F=(A=12900045;D= KGH.DOC) responder-id: Identification information of the lLL-transaction responder.]
+
+must be
+
+[10 161 Definition: Name: Tag: Semantics: Structure: Status: Max. length: Example:
+
+copyright-compliance CPRT requester notation indicating the applicable copyright regulations or laws to which the requester is adhering; 10161 character-string, structured; Code (C=); Note (N=) optional 150 C=l ;N=Only private use Requester notation indicating the applicable copyright regulations or law to which the requester is adhering.]
+
+[10161 Definition: Name: Tag: Semantics: Structure: Status: Max. length: Example:
+
+lLL-transaction-id ILTI information which uniquely identifies an ILL transaction related to this Electronic Document Delivery Transaction; 10161 character-string, structured; Symbol (S=); Name (N=); Group qualifier (G=); Qualifier (Q=); Subqualifier (B=) optional 25+1 50+25+25+25+(5'4)=270 S=1 200/OOOO;N=RUU;G=lON;Q=l 234;B=1
+
+[10161 Definition: transaction-qualifier: An alphanumeric string identifying all services and messages associated with a single Note that this is .a unique string assigned by the initial requester of the lLL-transaction and applied by the ILL /LL-transaction. partners to all subsequent services and messages associated with the lLL-transaction. In combination with the requesters id and the transaction-group-quali fier, this provides a universally unique identification for the /LL-transaction.]
+
+14
+
+IS 15389:2003 ISO 17933:2000
+
+Name: responder-note RSNT Tag: Semantics: a free text message from the party which is responding to the ILL request; 10161 Structure: character-string, unstructured Status: optional Max. length: 600 Example: Last page missing [10161 Definition: Note provided by the lLL-transaction responder.] Name: Tag: Semantics: Structure: Status: Max. Length Example: receive-control RCON information which controls the actions that the receiver is allowed to perform on the received item. character-string, structured: D (print and delete only), F (forwarding NOT allowed), P (print only), V (view only), X (delete if forwarded) Optional for Supplier, if present mandatory for receiver 1 D
+
+7.2.5
+
+TYPE 4 -- Document
+
+description
+
+Name: Tag: Semantics: Structure: Status: Max. length: Example:
+
+author ATHR 10161 character-string, unstructured optional 125 James, E.R. for the intellectual or artistic content of an item, including
+
+[10 161 Definition: Name of the person or corporate body responsible composers, creators or originators of an item.] Name: Tag: Semantics: Structure: Status: Max. length: Example:
+
+title TTLE This is the title of the serial, monograph, or whatever, from which the document is extracted. character-string, unstructured optional 250 Journal of the American Chemical Society
+
+[10 161 Definition: Name of an item consisting of a word or group of words intended toidentify it.] Name: Tag: Semantics: Structure: Status: Max. length: Example:
+
+volume-issue VLIS 10161 character-string, structured; Volume (V=); Issue (l=); Combined (B=) optional 25 V=l .2 monograph/number, letter or word identifying a unit of
+
+[10161 Definition: Identifier of a physical unit of a serial or multi-volume an item which is, or the volumes which are, published in parts.]
+
+15
+
+IS 15389:2003 ISO 17933:2000
+
+Name: Tag: Semantics: Structure: Status: Max. length: Example:
+
+author-of-article AART 10161 character-string, unstructured optional 125 Jones, Q.X. Author of an item which is a component part of another item.]
+
+[10161 Definition: Name: Tag: Semantics: Structure: Status: Max. length: Example:
+
+title-of-article TART the title of the document being transmitted character-string, unstructured optional 250 From Babel to EDIL - the evolution of a standard part of another item.]
+
+[10161 Definition: Title of an item which is a component Name: Tag: Semantics: Structure: Status: Max. length: Example:
+
+ISBN ISBN International standard book number, as defined in ISO 2108:1992 Standard book numbering (ISBN); 10161. alpha-numeric optional 10 1234567890 The International
+
+Documentation
+
+-- /ntemationa/
+
+[10161 Definition: Name: Tag: Semantics: Structure: Status: Max. length: Example:
+
+Standard Book Number assigned to a monograph
+
+as prescribed
+
+by 1S0 .2108: 1992.]
+
+ISSN
+
+ISSN
+an unambiguous identification code for serial publications, as defined in ISO 3297:1998 Documentation - International Standard serial numbering (ISSN); 10161 alpha-numeric optional 8 12345678 The International Standard Serial Number assigned to a serial title as prescribed by ISO 3297- 1998.]
+
+[10161 Definition:
+
+Name:
+Tag: Semantics: Structure: Status: Max. length: Example: Name: Tag: Semantics: Structure: Status: Max. length: Example:
+
+page-numbers
+PGNS the range(s) of page numbers in the original document that are contained in the-electronic copy of the document character-string, unstructured optional 100 1-23, 36 date-scanned DTSC the date that the electronic copy of the document was made; this is not necessarily the same as the date that the electronic copy was placed within this Document Interchange Format Record numeric; YYYYMMDDHHMMSS (conforms to tSO 8601) optional 14 19930101123554
+
+16
+
+IS 15389:2003 ISO 17933:2000
+
+Name: Tag: Semantics: Structure: Status: Max. iength: Example: Name: Tag: Semantics: Structure: Status: Max. length: Example: Name: Tag: Semantics: Structure: Status: Max. length: Example: Name: Tag: Semantics: Structure: Status: Max. length: Example: Name: Tag: Semantics: Structure: Status: Max. length: Example: Name: Tag: Semantics: Structure: Status: Max, length: Example: Name: Tag: Semantics: Structure: S3atus: Max. length: Example:
+
+number-of-pages NMPG the total number of pages represented in the electronic document copy numeric optional 5 123 call-number CLNO see ILL-REQUEST under item-id (call number) character-string, structured; Journal (J=); Book (B=); Report (R=) and Unknown (U=) optional 50 J=12.9 publication-date-of-component
+
+PDOC see ILL-REQUEST under item-id (publication date of component) character-string, unstructured optional 25 1992 publication-date PUBD see ILL-REQUEST under item-id (publication date) character-string, unstructured optional 25 2-03-93 place-of-publication PLPB see ILL-REQUEST under item-id (place of publication) character-string, unstructured optional 128 London publisher PUBL see ILL-REQUEST under item-id (publisher) character-string, unstructured optional 50 Harvard University Press
+edition EDIT see lLL-REQUEST under item-id (edition) character-string, unstructured optional 25 12A
+
+17
+
+IS 15389:2003 ISO 17933:2000
+
+Name: Tag: Semantics: Structure: Status: Max. length: Example: Name: Tag: Semantics: Structure: Status: Max. Length: Example:
+
+request-as-quoted RQAQ details of the requested item as quoted by the requester character-string, unstructured optional 600 Jnl Am Chem Sot. 1993642 (3) 3412-3417 Smith and Jones copyright-statement STAT a free text message from the Supplier which details any restrictions on the use of the delivered item for copyright reasons. character-string, unstructured Optional, but, if included, it is mandatory for the statement to be printed out with the item or, if displayed on a screen, it is mandatory for the statement to be displayed on the screen 600 Further copying of this document (including storage in any medium by electronic means), other than that allowed under copyright law, is not permitted without the permission of the copyright owner or an authorized licensing body. Item Id ITID a standard identifier for the item, such as BICI, DOI, SICI, URN character-string, type of identifier (T=); value of identifier (V=); optional 200 T=SIC}; V=OO02-8231 (199412)45:1 0<737:T1 0DlM>2.3.tX2-M
+
+Name: Tag: Semantics: Structure: Status: Max. Length Example:
+
+7.2.6
+
+TYPE 5 -- Padding zpadding ZPAD
+the length of this field reserves space for reformatting the GEDI Headec this is done to allow systems to change the length of individual data elements in the GEDI Header without changing the total length of the GEDI Header; the length of ZPAD can be changed by the amount necessary to compensate for the sum of the changes in the length of individual data elements. The contents of the value of ZPAD have no significance none optional 8k
+
+Name:
+Tag: Semantics:
+
+Structure: Status: Max. tength: Example:
+
+7.3
+
+GEDI Headerdata elements--syntax
+
+Each data element is represented in a -dag>clength><value> structure. Tags are mnemonic alphabetic 8-bit ASCII character strings, fixed length of four 8-bit characters, case insensitive. Lengths are decimal integers, represented by four ASCII numeric characters, fixed length. Values are string of 8-bit ASCII graphic characters. There are no intervening characters, or "white space" of any kind between the <tag> and the <length>, the <length> and the <value>, or the <value> and the next <tag>. The different types are shown in Tables 1 to 5
+
+38
+
+IS 15389:2003 ISO 17933:2000
+
+Tableau
+Tag Name
+
+1 -- TYPE 1--Document
+Mandatory/ Optional Max. length
+
+interchange
+Structure
+
+format information
+
+IFID
+
+interchangeformat-id interchangeformat-version
+
+M
+
+20
+
+character-string
+
+IFVR
+
+M
+
+20
+
+character-string
+
+CILN
+
+coverinformationIength
+
+M
+
+10
+
+numeric
+
+DFID
+
+documentformat-id
+
+M
+
+20
+
+character-string
+
+SSAD
+
+service-stringadvice
+
+M
+
+50
+
+cha ratter-stnng
+
+Tableau 2 -- TYPE 2--Destination
+Tag Name Mandatory/ Optional Max. length
+
+and storage information
+
+Structura
+
+CNSN
+
+Consumer-name
+
+M
+
+250
+
+character-string, structured. Name (N=); Email (E=); HP address/dkectory (F=); Faxnr (X=).FTP must substructure into Address (A=) and Directory (D=) be
+
+RCNM SPLN
+
+record-name Supplier-name
+
+M M
+
+32 250
+
+character-string character-string, structured. Name (N=); Emaii (E=); HP addrestidlrectory (F=): Faxnr (X=). HP must be substructure into Address (A=) and Directory (D=)
+
+SVDT SYID SYAD
+
+service-date-time system-service-id system-sewiceaddress
+
+M
+
+14 50 100
+
+numeric WYYMMDDHHMMSS character-string, unstructured
+
+conforms to kjO 8601
+
+opt. Opt.
+
+character-string, structured, Email (E=); Print location (P=); Faxnr (X=); Print location must be substructure into Department (D=); Room (R=); Printer name (P=)
+
+DLVS
+
+delivery-sentice
+
+opt.
+
+50
+
+structurw Email character-string, (E=); FTP address/directory (F=): Faxnr (X=); ISDN address and code (1=); FTP must be substructure Directory (D=) into Address (A=) and
+
+CNFA
+
+confirmationaddress
+
+Opt.
+
+50
+
+characier-stnng, addressktirectory
+
+structured (F=); Faxnr
+
+Email (X=);
+
+(E=); FTP f7P must be
+
+substructure into Address (A=) and Dhectory (D=)
+
+19
+
+IS 15389:2003 ISO 17933:2000
+
+Tableau 3 -- TYPE 3--Electronic
+`a9 Name Mandatory/ Optional
+
+document
+
+delivery transaction
+Structura
+
+information
+
+Max. Iangth
+
+`RTY iNLN :LNT
+
+priority general-note client-name
+
+opt. opt. opt.
+
+1 600 50
+
+numeric; number 0-9 character-string, unstructured character-string, Name (N=) structured; Email (E=);
+
+:LID ;LST
+
+client-id client-status
+
+opt. opt.
+
+25 25
+
+character-string, unstructured character-string, structured Country code conforms to ISO 3166-1, Codes for the representation of names of countries and their subdivisions -- Part 1: Country codes. (L=); Status (S=)
+
+JPOI
+
+name-of-person-orinstitution extended-postal-deliveryaddress street-and-number post-office-box city region country postal-code requester-id requester-name
+
+Opt. opt.
+
+150
+
+character-string, unstructured
+
+(PDA
+
+100
+
+character-string, unstructured
+
+ITNM `OBX ;ITY ?EGN >NTR `OCD KID W2NM
+
+opt. opt.
+
+128 40
+
+character-string, unstructured character-string, unstructured character-string, unstructured character-string, unstructured character-string, unstructured character-string, unstructured character-string, unstructured character-string, structured; Name (N=); Email (E=); FTP address/directofy (F=); Faxnr (X=) FTP must be substructure into Address (A=) and Directory (D=)
+
+opt.
+opt. opt. opt. opt.
+
+128
+128 50 40 25
+
+opt.
+
+150
+
+RSID RSNM
+
+responder-id responder-name
+
+opt. opt.
+
+25 150
+
+character-string, unstructured character-string, structured Name Email (E=); f7P addresa/directory Faxnr (X=) FTP must be substructure Address (A=) and Directory D=) (N=); (F=); into
+
+CPRT
+
+copyright-compliance
+
+opt.
+
+150
+
+character-string, structur~, (N=)
+
+Code (C=); Note
+
+ILTI
+
+lLL-transaction-id
+
+opt.
+
+270
+
+character-string, structured Symbol (S=); Name (N=); Group qualifier (G=); Qualifier (Q=); Subqualif~r (B=)
+
+RSNT RCON
+
+responder-note receive-control
+
+opt.
+opt.
+
+600 1
+
+character-string, unstructured character-string, structured: print and delete only (D); do NOT forward (F); print only (P); view only (V); delete if forwarded (X)
+
+IS `ISO
+
+15389:2003 17933:2000
+
+Tableau 4 -- TYPE 4--Document
+Tag Name Mandatory/ Optional Max. length
+
+description
+Structure
+
+ATHR TTLE VLIS
+
+author title volume-issue
+
+opt.
+
+125 250 25
+
+character-string, unstructured character-string, unstructured character-string, structured; Volume (V=),
+
+opt. opt.
+
+Issue (l=); Combined (B=) AART TART ISBN ISSN PGNS DTSC author-of -a flicle title-of-article ISBN ISSN page-numbers date-scanned opt. opt. opt. opt opt. opt. 125 250 10 8 100 14 character-string, unstructured character-string, unstructured alpha-numeric alpha-numeric character-string, unstructured numeric; YYYYMMDDHHMMSS, ISO 8601 NMPG CLNO PDOC number-of-pages call-number publication-date-ofcomponent publication-date place-of-publication publisher edition request-as-quoted copyright-statement item id opt 5 50 25 numeric, unstructured character-string, unstructured character-string, unstructured conforms to
+
+opt.
+opt
+
+PUBD PLPB PUBL EDIT RQAQ STAT ; ITID I
+
+opt. opt. opt opt. opt. opt. opt.
+
+25 128 50 25 600 600 200
+
+character-string, unstructured character-string, unstructured character-string, unstructured character-string, unstructured character-string, unstructured character string, unstructured character string, structured: type of identifier (T=); value of identifier (V=);
+
+Tableau 5 -- TYPE 5--Padding
+MNEM Name Mandatory/ Optional Max. length Structure
+
+ZPAD
+
+zpadding
+
+.Opt.
+
+8k
+
+none
+
+21
+
+IS
+
+15389:2003
+
+1s0 17933:2000
+
+7.4
+
+Taglist
+tyJxJ 4 4 1 3 4 3 3 3 2 2 3 3 1 2 4 4 3 1 1 3 4 4 4 4 3 4 4 4 3 3 4 4 3 2 3 3 4 3 3 3 3 3 2 1 4 3 2 2 2 4 4 4 3 5
+
+in alphabetical
+
+order
+
+TAG ET ATHR CILN CITY CLNO CLID CLNT CLST CNFA CNSN CNTR CPRT DFID DLVS DTSC EDIT GNLN IFID IFVR ILTI ISBN ISSN ITID NMPG NPOI PDOC PGNS PLPB POBX POCD PUBD PUBL PRTY RCNM RCON REGN RQAQ RQID RQNM RSID RSNM RSNT SPLN SSA!2 STAT STNM SVDT SYAD SYID TART TTLE VLIS XP12A ZPAD
+
+Name author-of-article author cover-information-length city call-number client-id client-name client-status confirmation-address Consumer-name country copyright-compliance document-format-id delivery-service date-scanned edition general-note interchange-format-id interchange-format-version lLL-transaction-id ISBN ISSN Item-id number-of-pages name-of- person-of-institution publication-date-of -component page-numbers place-of-publication post-office-box postal-code publication-date publisher priority record-name receive-control region request-as-quoted requester-id requester-name responder-id responder-name responder-note Supplier-name service-string-advice copyright-statement street-and-number service-date-time system-service-address system-service-id title-of-article title volume-issue extended-postal-deliv.ery-address zpadding
+
+22
+
+IS 15389:2003 ISO 17933:2000
+
+7.5
+
+Sample
+
+GEDI
+
+Header
+DFlDOO08TlFF6.0SSADOQ05 ?;=()CNSNOO06N= PlCARCNMOOO8RLGO
+
+IFI DOO04GEDI
+
+IFVSOO032.0ClLNOO042048
+
+0001 SPLNOO05N=RLGSVDTO01 SomersonTARTO031 tag Ien value tag Ien value tag Ien value tag Ien value tag km value tag Ien value tag Ien value tag Ien value tag Ien value tag Ien value tag Ien value tag ten value tag Ien value IFID 0004 GEDI IFVS 0003 3.0 CILN 0004 2048 DFID 0008 TIFF-6.O SSAD 0005 7;=() CNSN 0006 N=PICA RCNM 0008 RLGOOOOI SPLN 0005 N=RLG SVDT 0014 19910802140600 TTLE 0012 FKXhnputing AART 0013 Paul Somerson
+
+41 9910802140600TTLEO01
+
+2PC/ComputingAARTOOl
+
+3Paul
+
+The DOS you've been waiting forZPADl
+
+860
+
+TART 0031 The DOS you've been waiting for ZPAD 1860 [blanks]
+
+23
+
+IS
+
+15389:2003 17933:2000
+
+K30
+
+8
+8.1
+
+Electronic document format
+General
+various formats for the representation of documents in electronic form, such as TIFF, PDF and
+
+GEDI supports JPEG.
+
+As indicated in clause 6, the structure of the GEDI Record is designed for representation of documents, such as ODA or SGML, in the future. 8.2 Document format identification
+
+to accommodate
+
+easily additional
+
+formats
+
+The Document Format Identification (DFID) field in the GEDI Header specifies the format of the electronic document copy in any given GEDI record. See annex B for registration of document formats and corresponding values of DFID.
+
+9
+9.1
+
+File transfer mechanism
+Introduction
+
+This International Standard is defined with the intention that it should be possible for a document to be exchanged as a single file (the "GEDI record") between transmitter and receiver. For this purpose, GEDI attempts to support existing standaFds, protocols and profiles selected by existing International Standardization groups for simple file transfers. The choice of file transfer mechanism is the Internet FTP protocol.
+
+While the general intention is to make this International Standard as independent as possible of the specific transfer mechanism adopted, it is recognized that the choice of mechanism requires that certain additional features be specified. This amounts to defining a profile for the protocol in question. Subclauses 9.2 to 9.6 specify such a profile for FTP
+
+9.2
+
+Filenames
+
+In order to avoid potential conflicts, documents have to be exchanged with unique filenames. These filenames will be used all the way from Supplier to Consumer. Therefore, they must be usable on a large number of computers. A filename will have to conform to the following rules: long, followed optionally by a "." separator and a three character extension;
+
+8 characters -- -- contains consists
+
+only uppercase
+
+(A, B, C, .... Z) and digits (O, 1, .... 9), except for the separator; number. within a time interval that will .. must conform to the
+
+of a unique system ID, followed by a sequence
+
+The serial number is chosen by the Supplier in order to be unique (for this Supplier) avoid ambiguous reuse of the serial number. One of the acceptable following rules: 12 characters --
+
+forms of filename is one based on an 1P address. This type of filename
+
+long; are a hexadecimal representation of the 1P address;
+
+the first eight characters
+
+24
+
+IS 15389:2003 ISO 17933:2000
+
+the ninth character -- the last 3 characters
+
+is a "." separato~ are a serial number,
+
+9.3
+
+FTP introduction
+
+The transmitter will act as the client, initiating the control connection and sending the files. The receiver will act as the server, listening for incoming control connections, including receipt of the Store (STOR) command, and receive files from the client.
+
+9.4
+
+FTP implementation
+
+profile
+
+Aspects indicated
+
+in bold face type are essential to the GEDI application.
+
+USE RFC 959 File Transfer Protocol minimum implementation (Clause 5.1) plus Image-Data Type (Clause 3.1.1 .3) and the Password (PASS) and Allocate (ALLO) commands. GEDI files will always be sent in the IMAGE Representation Type, the STREAM Transfer Mode, and the FILE Structure. TYPE - ASCII Non-print MODE - Stream Structure - File, Record and IMAGE'
+
+Commands
+
+User Name (USER) Logout (QUIT) Data Port (PORT) Representation Transfer Type (TYPE) for ASCII Non-print and Image
+
+Mode (MODE) (STRU) for File and Record
+
+File Structure RETRIEVE
+
+(RETR)
+
+STORE (STOR)
+
+NOOP Password (PASS)
+
+Allocate (ALLO) NOTE The elements marked with an asterisk (*) are in addition to the minimum implementation speoified in
+
+RFC 959, Clause 5.1
+
+9.5
+
+Supporting
+
+protocol stack for FTP
+
+FTP will run over TCP/lP.
+
+25
+
+IS 15389:2003
+
+1s0
+9.6
+
+17933:2000
+
+FTP naming and addressing
+ports" for FTP, Port 21 for commands and Port 20 for data, at the host
+
+FTP will be accessible at the "well-known address for each system.
+
+10
+
+Mail transfer
+
+mechanism
+
+10.1 Introduction
+When a GEDI record is sent via email, the entire GEDI reqord is contained within a single email message. Within that single message, the machine-readable GEDI Header is carried in a separate body part from the body part used for the optional human-readable GEDI Header or from the body part used for the document copy. Body part A
+Body part A`
+
+GEDI Header (req~red )
+human-readable GELYJHeader (optional)
+
+Body part B
+
+document copy (requked)
+
+The proposed format allows the primary Content-Type GEDI Header of the ,message to specify explicitly that this is a GEDI record. This has the advantage that specialized GED1-viewing software may be employed by the user agent to display/print/handle the document. Where an application does not recognize the new GEDI MIME type, it should treat the message as a multipart/mixed message; where it does not understand any of the constituent parts, it should allow the user to specify a file to store them in. 10.2
+
+MIME implementation
+
+profile
+GEDI Header is:
+
+The overall message content-type Content-Type: No parameters 10.2.1
+
+multipart/gedi-record
+
+are defined.
+
+The GEDI Header Body part-required
+
+The first body part is the n'rachirre-readab/e GEDI Header, that is the GEDI Header in the syntax defined in clause 6 and 7. The machine-readable form is a new `Ml ME content type, app/ication\gedi-headeC this will allow GEDlspecific software to use it, and to specify that this is in GEDI Header syntax. The Content-Transfer-Encoding: quotecLprir?tab/e k used for this body part since the GEDI Header syntax does not use new line characters and therefore can generate lines longer than 76 characters. The Content-Type line for this body part may have a parameter charset=; this is mandatory if the body contains characters outside the US-ASCII character set. When the optional Human-Readable .GEDI Header (see below) is NOT present, the form of the MIME message is
+
+as shown in Table 6.
+
+26
+
+IS 15389:2003 ISO 17933:2000
+
+Table 6 -- GED1-Record
+
+MIME Structure
+multiPart/
+
+without the Human-Readable
+gedi-record;
+
+GEDI Header
+
+Content-type:
+
+boundary=" <unique- boundaryl >" ��<unique�boundaryl> GEDI Header Body Part
+<gedi header> Content-type:
+
+application/gedi�header Content-transfer-encoding: quoted-printable
+I
+
+I -�<unique�boundaryl>
+Electronic Document Body Part(s)
+
+I
+I
+
+Content-type: document>
+
+image/tiff Content-transfer-encoding:
+base64
+
+<the
+
+I
+I
+
+��<unique�boundaryI>�-
+
+10.2.2 The Human-Readable
+
+GEDI Header Bodypart-optional
+
+The human-readable part, ifpresent, uses aMIME media type appropriate forthe contents, i.e. determined bythe originator of the messages. This is most Iikely tobe text@a;nwith an appropriate character set, and tex@ainis used here as anexample. This part is optional. If the human-readable form uses non-US-ASCll charactersand/or has lines longer than 76 characters, it should be encoded using quoted-printable rather than hase64, to allow maximum opportunity for itto redisplayed in human-readableform. Unlike the GEDI Header, the content and formatof the Human-Readable GED! Header international Standard. Thecontent and format of this GEDl Header isleftto thediscretion No assumptions can be made about the content and format of this GEDI Header. is not defined by this of the implementation.
+
+When the optional l-tuman-Readable GEDI Header is present, both the GEDI Header and the Human-Readable GEDI Header will be contained in a body part of content-type: multipart/mixed as shown in Table 7.
+
+Table 7 -- GED1-Record
+Cent ent -type:
+
+MIME Structure
+
+with the Human-Readable
+
+Header
+
+multipart/ gedi�record; boundary= "<unique-boundaryl>" --<unique -boundaryl> multipart/mixed; boundary=" <unique -boundary2 >" ��<unique�boundary2>
+-type:
+
+Content-type:
+
+GEDI Header Body part
+
+Content
+
+appl icat ion/ gedi� GEDI Header Content-transfer-encoding: quoted-printable
+
+<GEDI Human-Readable Body Part
+
+Header>
+
+-�<unique-boundary2> text/plain .<human readable GEDI Header> ��<unique�boundary ��<unique�boundaryl> Electronic Document Body Part(s)
+Content-type: Content-type:
+
+2>-�
+
+image/tiff Content-transfer-encoding: base64
+
+<the
+
+document>
+
+��<unique�boundaryl>�-
+
+27
+
+IS 15389:2003 ISO 17933:2000
+
+10.2.3
+
+The Electronic
+
+Document
+
+Copy Body part(s) -- required the electronic document copy. are contained in
+
+One or more body parts complete the message, transmitting Either the whole document multiple body parts. is transmitted
+
+in a single body part, or the pieces of the document
+
+Note that some formats, e.g. multi-page require a page per body part approach. The Content-Type pdf.
+
+TIFF, have page identification
+
+and organization
+
+built in, so would
+
+not
+
+and Content-Transfer-Encoding
+
+will be appropriate
+
+for the format of the document,
+
+e.g. tiff, jpeg,
+
+There is no requirement case. EXAMPLE including
+
+for all pages to have the same Content-Type,
+
+although
+
+this will probably
+
+usually be the
+
+Human-Readable
+
+GEDI Header:
+
+Content�Type: multipart/ gedi-record; boundary=" unique -boundaryl" --unique- boundar yl Content-type: multipart/mixed; boundary= "uniqueboundary2" --boundary2 Content�Type: application/ gedi-GEDI Header Content-Transfer-Encoding: quoted-printable IFIDO004GEDIIFVS0 O033 .0cILNO0042048DFID0O08TIFF6 .0SSADOO05?= ()CNSN0006N== PICARC~OO08RLG0 0001SPLNOO05N=RLGSVDT0 0141991 0802140600TTLEOO12 PC/Comput= ingAARTOO13Paul SomersonTART0031 The DOS you've been waiting forZPADl B60 �-unique�boundary2 Content-Type: text/plain interchange�formatid interchange-f ormat version document-format-id Consumer�name record-name Supplier-name service�date-time title author-of�article title-of-article --unique-boundary2 �--unique-boundaryl Content-Type: image/tiff Content�Transfer-Encoding: <multi-page TIFF image> --unique-boundaryl-GEDI 3.0 TIFF-6.O PICA RLGOOOO1 RLG 1991/08/02 14:06:00 PC/Computing Paul Somerson The DOS you've been waiting for
+
+base64
+
+10.3 Supporting
+The SMTPprotocol overTCP/lP.
+
+protocol stackforMIME
+is used for sending. Either SMTPorthe POP3 protocol is used for receiving. These are run
+
+28
+
+IS 15389:2003 ISO 17933:2000
+
+11 Conformance 11.1 Sending/receiving role(s)
+as either
+
+A system may claim conformance a) b) c) 11.2 a sending system (Supplier), a receiving system (Consumer), both a sending (Supplier)
+
+or system.
+
+and receiving (Consumer)
+
+GEDI Header data element conformance
+
+A system claiming conformance as a sending system (Supplier) must be able to send all of the mandatory data elements, as defined in 7.2. This includes all Type 1 data elements, as defined in 7.2.2, since all of these are mandatory, and the mandatory Type 2 data elements as defined in 7.2.3. A system claiming conformance as a receiving system (Consumer) must be able to receive all of the GEDI Header data elements, both mandatory and optional, as defined in clause 8. For extensibility, a receiving system (Consumer) must also be able to receive a GEDI Header data element that it does not recognize; the presumption is that the system will ignore any unrecognized data elements. 11.2.1 In order to claim conformance to the GEDI Document Interchange Format Record GEDI-3.O as a Supplier, a system must be able to transmit all of the mandatory GEDI Header elements as defined in this International Standard. NOTE 1
+NOTE 2
+
+No ordering of tags is advised, except IFID as the first and ZPAD as the last tag.
+Tags are not repeatable.
+
+11.2.2 In order to claim Consumer, a system must a) b)
+
+conformance
+
+to the GEDI .Document
+
+Interchange
+
+Format
+
+Record
+
+GEDI-3.O
+
+as a
+
+be able to receive and process all of the optional elements
+
+as defined in this International
+
+Standard, and
+
+be able to receive and process TIFF Version 6.0 images, as specified in annex B.
+
+For purposes of extensibility, a Consumer system must also be able to ignore any unknown elements it receives, as long as those elements conform to the structure of <4 character tag><4 character Iength>cvalue> as specified in 7.3. 11.2.3 In order to claim conformance system must a) b) 11.3 to the GEDI Document Interchange Format Record GEDI-3.O as -a Relay, a
+
+be able to receive and transmit the GEDI record transparently,
+
+without change, and
+
+be able to create and transmit TIFF Version 6.0 images, as specified in annex B.
+
+Electronic document
+
+copy conformance
+must be able to send electronic document copies
+
+A system claiming conformance as a sending system (Supplier) in the TIFF image format as defined in annex B.1.
+
+A system claiming conformance as a receiving system (Consumer) copies in the TIFF image format as defined in annex B.1.
+
+must be able to receive electronic
+
+document
+
+29
+
+IS 15389:2003
+
+1s0 17933:2000
+11.4 Protocol conformance
+A system may claim conformance
+a) b) c) an FTP system, a MIME system, or as either:
+
+both an FTP system and MIME system.
+
+11.4.1
+
+FTP conformance conformance as an FTP system must be according to clause 9.
+
+A system claiming 11.4.2
+
+MIME conformance conformance as a MIME system must be according to clause 10.
+
+A system claiming
+
+30
+
+IS 15389:2003 ISO 17933:2000
+
+Annex A (informative) Mapping of the lLL-Request
+
+APDU to GEDI
+
+_L Data Elements lComnonents/elements .-- .,rotocol-version-num ansaction-id initial-requester-id -person-or-institution-symbol -name-of-person-or-institution transaction-group-qualif ier transaction-qualifier sub-transaction-qualifier ervice-date-time date-time-of-this-service -date -time date-time-of -original-service -date -time equester-id esponder-id ansaction-type elivery-address postal-address -name-of -person-or-institution -extended-postal-delivery-addres -street-and-number -post-office-box city region country postal-code electronic-address -telecom-sewice-identifier -telecom-service-address person-or-institution-sy mbol name-of-person-or-institution person-or-institution-symbol name-of-person-or-institution
+
+IGEDi Tacf
+
+I Notes
+
+ILTI (S=) ILTI (N=) ILTI (G=) ILTI (Q=) ILTI (B=)
+
+RQID RQNM (N=) RSID RSNM (N=)
+
+NPOI s XPDA STNM POBX CITY REGN CNTR POCD SYID SYAD
+
+31
+
+IS 15389:2003 ISO 17933:2000
+
+L Data Elements lComponents/elements
+:Iivery-service physical-delivery electronic-delivery -e-delivery-service -- e-delivery-mode -- e-delivery-parameters -document-type -- document-type-id --document-type-parameters -e-delivery-details --e-delivery-address ---telecom-service-identifier --- telecom-service-address --e-delivety-id --- person-or-institution-symbol --- name-of-person-or-institution -name-or-code -delivery-time Iling-address postal-address -name -extended-postal-delive ry-address -street-and-number -post-office-box -city -region -country -postal-code elect ronic-address -telecom-service-identifier -telecom-service-address. l-service-type esponder-specificiervice
+
+IGEDI Tag
+
+I Notes
+
+CNSN
+
+CNSN
+
+One of e-delivery-address or edelivery-id will be present
+
+-
+
+32
+
+IS 15389:2003 ISO 17933:2000
+
+-L Data Elements >quester-optionallessages
+
+Components/elements
+
+GEDI Tag
+
+Notes Not appropriatefortransfer to GEDI cover but may be used by some GEDI applications.
+
+can-send-RECEIVED requester-CHECK-lN can-send-RETURNED requester-SHIPPED -requires -desires -neither earth type level-of-service need-before-date expiry-flag expiry-date upply-medium-info- supply-medium-type tpe medium-characteristics lace-on-hold Iient-id client-name client-status client-identifier em-id item-type held-medium-type call-number author title subtitle sponsoring-body place-of-publication publisher series-title-number
+volume-issue edition publication-date publication-date-of-component author-of-article title-of-article pagination national-bibliography-no ISBN ISSN system-number additional-no-letters verification-reference-source ~upplemental-itemIescription ISBN ISSN
+
+CLNT CLST CLID
+
+CLNO ATHR TTLE TTLE ATHR PLPB PUBL
+VLIS VLIS EDIT PUBD PDOC AART TART PGNS & NMPG *Append
+
+`Append to title *? Append to author
+
+33
+
+IS 15389:2003 ISO 17933:2000
+
+.L Data Elements Com~onents/elements
+rest-info-type ~ccount-number naximum-cost `eciprocal-agreement Mill-pay-fee )avment-r)rovided Dpyright-compliance lird-party-info-type )ermission-to-forward ]ermission-to-chain Permission-to-partition permission-to-change-send-to-list nitial-requester-address .telecom-service-identif ier .telecom-service-address. preference send-to-list -system-id .-person-or-institution-symbol --name-of-person-or-institution -account-number -system-address --telecom-service-identifier .-telecom-setvice-address. already-tried-list --person-or-institution-symbol .-name-of-person-or-institution [retry-flag
+
+;EDI Tag
+
+CPRT
+
+I
+RSNT
+
+E%%=
+
+May need be defined in implementor agreements or profiles
+
+34
+
+IS 15389:2003 ISO 17933:2000
+
+Annex B (informative) Electronic Document Copy Format Registrations
+
+6.1 6.1.1
+
+TIFF registration General TIFF
+
+The scanned
+
+image of the document will be transmitted in the Tag Image File Format (TIFF) using TIFF Class B. All requirements stated in Tag Image File Format Specification Revision 6.0 for Bilevel and Grayscale images apply. The entire image is contained in a single, multi-page TIFF file.
+
+The following
+
+values for DFID maybe
+
+used to identify TIFF:
+
+TIFF-5.O TIFF-6.O The following MIME media types will be used to identify TIFF:
+
+image/TIFF; image/HFF;
+
+class=B class=G
+
+B.1.2 TIFF image file GEDI Header Tableau B.1 i
+Byte o-1 2-3 4-7 Description Byte Order TIFF Offset of the ImageFileDirectory WRITE 11 42 .READ nor 42 any < MM
+
+The following key is used in Tables 6.1 to 6.5. BOLD BOLD Field requiredfor all TIFF Classes
+it~/iC
+
+Half shaded M
+
+Additional fields required for TIFF INFORMATIONAL FIELDS Mandatory
+
+o
+v
+
+Optional variable content not applicable
+
+35
+
+IS 15389:2003 ISO 17933:2000
+
+Table B.2
+HFF BASELINE 21ELDS Tag Artist BitsPerSample 2ellLength CellWidth ColorMap Compression 13B.H 102.H 109.H 108.H 140.H 103.H Type ASCII SHORT SHORT SHORT SHORT SHORT 1 1,2 or 32773 default=l Copyright 828.H m & DateTime ExtraSamples 132.H 152.H ASCII SHORT 0,1 or2 default=no field FileOrder FreeByteCounts FreeOffsets Gray ResponseCurve Gray ResponseUnit HostComputer Image Description /nrageLengt/r IOA.H 121 H 120.H 123,H 122. H 13C.H IOE.H 101.H SHORT LONG LONG SHORT SHORT ASCII ASCII 1...5 default=2 1 or2default=l SHORT LONG LONG SHORT SHORT ASCII ASCII ? ? ? ? ? ? ? ? ? 7 o o ? `? ? ? ? receive receive ASCII SHORT ? 0 ? receive ? ASCII ASCII Value GEDI REQUIREMENTS
+
+Type ASCII SHORT SHORT SHORT SHORT SHORT
+
+Value
+
+Write o
+
+Read receive
+
+1 1,2,4 or 32773a --
+
+M
+? ? ?
+
+M
+? ? `?
+
+M
+
+M
+
+?
+
+?
+
+SHORT, LONGb SHORT,
+LONGb
+
+v
+
+SHORT, LONGb SHORT, LONGb
+ASCII
+
+v
+
+M
+
+M
+
+/mageWidt/t
+
+100.H
+
+v
+
+v
+
+M
+
+M
+
+Make MaxSample Value MinSample Value Model NewSubfi/e Orientation Photometric Interpretation PlanarConfiguration Type
+
+10F.H 119.H
+
+ASCII SHORT default= 2"' (BitsPerSample)-l default=O
+
+?
+
+0
+?
+
+receive ?
+
+SHORT
+
+118,H
+
+SHORT
+
+SHORT
+
+?
+
+?
+
+?
+
+110.H OFE.H 112. H 106.H
+
+ASCII LONG SHORT SHORT default=O 1...6 default=l 0...4
+
+ASCII LONG SHORT SHORT
+
+7 v' ? 0...4
+
+0 M ?
+
+receive
+
+M
+?
+
+M"
+
+M
+
+1lC.H
+
+SHORT
+
+1 or2default=l
+
+SHORT
+
+lor2 default=l
+
+M
+
+M
+
+Reso/utionUnit
+
+128.H
+
+SHORT
+
+1..3 default=2
+
+SHORT
+
+1...3 default=2
+
+M
+
+M
+
+36
+
+IS 15389:2003 ISO 17933:2000
+
+Table B.2 (continueu)
+TIFF BASELINE FIELDS
+Tag Type
+
+GEDI REQUIREMENTS
+
+Value
+
+Type
+
+Value
+
+Write
+
+Read
+
+RowsPerStrip
+
+116.H
+
+SHORT, LONGd
+
+default=2*"32-1
+
+SHORT, LONGd
+
+?
+
+M
+
+M
+
+SamplesPar Pixel Software
+
+115.H
+
+SHORT
+
+default= 1
+
+SHORT
+
+default= 1
+
+M
+
+M
+
+131.H
+
+ASCII
+
+ASCII
+
+o
+
+receive
+
+StripByte counts
+
+117.H
+
+SHORT, LONGd
+
+v
+
+SHORT, LONGd
+
+v
+
+M
+
+M
+
+StripOffsets
+Subfile Type (discontinued) Thresholding
+
+111.H
+
+SHORT, LONGd
+
+v
+
+SHORT, LONGd
+
+v
+
+M
+
+M
+
+OFF.H
+
+SHORT
+
+1..3 no default
+
+SHORT
+
+?
+
+DON'T USE ?
+
+?
+
+107.H
+
+SHORT
+
+1..3 default=l
+
+SHORT
+
+?
+
+?
+
+XReso\ution YResolution
+a
+
+llA.H
+
+RATIONAL
+
+v
+
+RATION AL RATION AL
+
+v
+
+M
+
+M
+
+llB.H
+
+RATIONAL
+
+v
+
+v
+
+M
+
+M
+
+field values of CompressIon 1 = no compression
+
+2. CCIT7 Group31 -Dlmenslonal Modtf!ed Huffman run length encoding 4 = Facs!mde-compatible CCITT Group 4
+32773 = PackBds b c LONG preferr@ values of NewSubfiled Type held Blt o Btt 1 Bit 2 d SHORT preferred
+
+37
+
+IS 15389:2003
+
+1s0 17933:2000
+
+Table B.3
+TIFF BILEVEL IMAGE Required FIELDS REQUIREMENTS FOR BILEVEL IMAGES GEDI REQUIREMENTS
+
+Tag Compression 103.H
+
+Type SHORT
+
+Value 1,2 or 32773 default=l
+
+Type SHORT
+
+Value 1,2,4 32773a or
+
+Write M
+
+Read M
+
+ImageLength /magekVktth
+Photometric
+
+101.H
+
+SHORT, LONGb
+
+v
+
+SHORT,LONGb
+
+v
+
+M
+
+M
+
+100.H
+
+SHORT, LONGb
+
+v
+
+SHORT,LONGb
+
+v
+
+M
+
+M
+
+106.H
+
+SHORT
+
+0...4
+
+SHORT
+
+0...4
+
+M
+
+M
+
+Interpretation RowsPerStrip StripBytecounts StripOffaets
+XResolution YResolution
+NOTE The Consumer received.
+a
+
+116.H 117.H
+111.H
+
+SHORT, LONGC SHORT, LONGC SHORT, LONGC
+
+default=2* q 32-1 v
+
+SHORT, LONGC
+
+v
+
+M
+
+M
+
+SHORT, LONGC
+
+v
+
+M
+
+M
+
+v
+
+SHORT, LONGC
+
+v'
+
+M
+
+M
+
+llA.H
+
+RATIONAL RATIONAL
+
+v v
+these
+
+RATIONAL RATIONAL
+fields,
+
+v v
+
+M M
+to discard
+
+M M
+the values
+
+11B.H
+application
+
+must be able to receive
+
+but it is permissible
+
+values of Compression f!eld 1 = no compression 2. CCITT Group 31 -Oimensmnal Modified Huffman run length encoding 4 = Facsimile-compatible CCIT7 Group 4 32773 = PackBKs LONG preferred SHORT preferred
+
+b c
+
+Table B.4
+TIFF FACSIMILE FIELDS
+
+CLASS B REQUIREMENTS FOR CCITT BILEVEL ENCODINGS
+
+GEDI REQUIREMENTS I
+
+Compression w
+T40pfions (CCllT Group 3) T60ptions (CCllT Group 4)
+a values of Compression 1 = no compression
+
+124.H
+
+I LONG
+
+I default=O
+
+do not write these fields; be prepsred to receive them; it is permissible to discard the values received
+
+125.H I
+eld
+
+LONG
+
+I
+
+default=O
+
+I
+I
+
+2 = CCITI Group 3 1-Dimensional Modified Huff man run length encoding 4 = Facsimile-compahble CCITT Group 4 32773 = PackBits
+
+38
+
+IS 15389:2003 ISO 17933:2000
+
+Table B.5
+TIFF DOCUMENT STORAGE AND
+RETRIEVAL FIELDS REQUIREMENTS FOR STORAGE AND RETRIEVAL GEDI REQUIREMENTS
+
+I
+DocumentName PageName PageNumbe$
+
+Tag
+
+I Type ]ASCII I ASCII
+
+lValue I I
+v I
+
+lType IASCII I ASCII SHORT, SHORT
+
+lValue I I
+v I
+
+lWrite 10 I O
+
+lRead I receive I receive
+
+I I I
+
+I 10D.H I llD,H
+
+I
+I
+
+129.H
+
+I
+I
+
+SHORT, SHORT
+
+o
+I
+
+I
+
+I
+
+receive I 1
+
+XResolution YResolution NOTE received.
+a
+
+I llA.H llB.H application
+
+I RATIONAL RATIONAL
+
+IV v receive
+
+I RATIONAL RATIONAL
+
+IV v I pemissible
+
+I M M. todiscard
+
+I receive rec~ve thevalues
+
+The Consumer
+
+must beableto
+
+these fields, butitis
+
+I
+
+lhIs field IS usad to specify page numbers of a multiple-paga document (e.g. facsimile). PageNumber[O] is the page numbec PegeNumber[l ] IS the total number of pagea in the document. If PageNumber[l ] is O, the total number of pages m the document is not available. The first page is numbered O.
+
+I
+
+B.1.3 TIFF compression
+
+algorithms
+compression algorithms, as specified in the Tag Image File Format Specification,
+
+GEDI will support the foIlowing Revision 6.0.
+
+Table B.6
+COMPRESSION ALGORITHM no compression VALUE 1 WRITE optional READ mandatory
+
+I
+CCllT Group CLASS B
+
+CCITT
+
+Group 3 1-Dimensional-Modified
+
+Huffman run length encoding" Facsimile-compatible CCllT Group 4 PackSits 4 32773
+
+I
+run length
+
+optional
+
+I
+
+optional I mandatory mandatory
+
+optional optional
+
+3 1-Dimensional
+
+Modified
+
+Huffman
+
+encoding
+
+is included
+
+for compatibility
+
+with TIFF
+
+B.2 PDF registration
+The specification of PDF is available in the Portable Systerns.incorporated, March 11, 1999. The specification is copyrighted by Adobe Systems Inc. Document Format Reference Manual Version 1.3, Adobe
+
+Note that GEDI does not specify how a PDF files is created, nor which Adobe Acrobat product is used to view and print PDF documents. PDF is registered by IANA as a MIME body part. The registration is available at:
+
+39
+
+IS 15389:2003 ISO 17933:2000
+
+ftp://ftp.isi.eduhn-notesfiandassignments/media-types/application/pdf The following PDF The following MIME media type will be used to identify PDF: value for DFID maybe used to identify PDF:
+
+application/pdf
+
+6.3 JFIF/JPEG registration
+In addition to TIFF, GEDI recognizes JFIF (JPEG File Interchange Format), a "low-end' format that transports pixels. JFIF is what is most commonly meant by references to a "JPEG file." This format is usually supported by WWW browsers, This is not to be confused with TIFF/JPEG, which is not incl~ded in the GEDI specification. Information about JFIF can be found at: edu/hypeRextifaq/useneVjpet-faq/pafil used to identify JFIF/JPEG: /faq-doc-l 4.html
+
+ww.cis.ohio-state. The following JFIF The foIlowing JPEG
+
+values for DFID maybe
+
+MIME media type will be used to identify JFIF/JPEG:
+
+40
+
+IS 15389:2003 ISO 17933:2000
+
+Bibliography
+
+[1]
+
+lSO/lEC
+
+8859-1:1998,
+
+/nformatjon
+
+technology
+
+-- 8-bjt sjng/e-byte
+
+coded graphic
+
+character
+
+sets -- Part 1:
+
+Latin-alphabet [2]
+
+No. 1.
+
+Electronic data interchange for admjnjstration, commerce and transpoti (EDIFACT) -- ISO 9735-1:1998, Appljcatjon level syntax rules (Syntax versjon number: 4) -- Part 1: Syntax rules common to all parts, together wjth syntax servjce djrectorjes for each of the parts.
+ISO 10160:1997,
+
+[3]
+
+Application
+[4]
+
+lnformatjon Servjce De fjnjtjon.
+
+and documentation
+
+-- Open Systems
+
+Interconnection
+
+-- Interlibrary
+
+Loan
+
+ISO 23950:1998, /nformatjon and documentation definition and protoco/ specjfjcation. RFC 822, Standard RFC 1512,
+
+-- Information
+
+retrjeval
+
+(Z39.50)
+
+-- Apphcatjon
+
+servjce
+
+[5] [6]
+[7]
+
+for the format of ARPA /nternet text messages, Information Base, September 1993.
+
+August
+
+13, 1982.
+
+FDDI Management
+
+RFC 1522 (obsoleted
+
+by RFC 2045).
+
+18]
+
+RFC 1524, A User Agent Con fjguratjon September 9, 1993. RFC 1939,
+
+Mechanjsm
+
+For Multimedia
+
+Mal Format Information.
+
+N. Borenstein,
+
+[9] [10]
+
+Post Offjce Protoco/ - Version 3. J. Myers & M. Rose, May 14, 1996. @l/ME) -- Part 1: Format of /nternet Message Bodjes.
+
+RFC 2045, I14ultjpurpose Internet Mad Extensions N. Freed & N. Borenstein, November 1996. RFC 2046,
+
+[11]
+
+Borenstein, [12]
+
+Multipurpose /nternet November 1996.
+
+Mai/ Extensions
+
+(hIiME)
+
+-- Part 2: Medja
+
+Types.
+
+N. Freed
+
+& N.
+
+RFC 2047, Multipurpose Internet Majl Extensions ASC// Text. K. Moore, November 1996. RFC 2048, Multipurpose Internet Majl Extensions J. Klensin &J. Postei, November 1996.
+
+(MIME) -- Part 3: Message
+
+Header Extensions
+
+for Non-
+
+[13]
+
+(MIME) -- Part 4: Regjstratjon
+
+Procedures.
+
+N. Freed,
+
+[14]
+
+Internet Mal Extensions RFC 2049, Multipurpose N. Freed & N. Borenstein, November 1996. Portable Document Format Reference
+
+(MIME) -- Part 5: Conformance
+
+Crjterja and Examples.
+
+[15]
+[16] [17]
+
+Manua/, Versjon 1.3, Adobe Systems Incorporated,
+September 1, 1992.
+
+"March 11, 1999.
+
+JPEG Fde h?terchange Format, Version 1.02. Eric Hamiljon, TIFF, Revi+on
+
+6.0, fktal -- Aldus Developer's .Desk, Aldus Corporation
+
+-- June 3, 1992 -- Seattle, WA.
+
+41
+
+( Continued
+
+from second cover") reference has also been made to the following document for which there is
+
+In this adopted standard, no Indian Standard: Document RFC 959 No.
+
+Description File Transfer Protocol ( FTP ), October 1985
+
+The Sectional Committee responsible for the preparation of the above referred International Standards/document, use in conjunction with this standard. Annexes A and B of this Indian Standard are for information
+
+of this standard has reviewed the provisions and has decided that they are acceptable for
+
+only and do not forma
+
+part of the standard.
+
+Bureau
+
+of Indian
+
+Standards
+
+B I S is a statutory institution established under the Bureau of Indian Standards Act, 1986 to promote harmoniousdevelopmentoftheactivities of standardization, markingand quality certification ofgoods and in the country. attending to connectedmatters
+
+Copyright B1S has the copyright of all its publications. No part of these publications may be reproduced in any form without the prior permission in writing of BIS. This does not preclude the free use, in the course of implementing the standard, of necessary details, such as symbols and sizes, type or grade designations. Enquiries relating to copyright be addressed to the Director (Publications), 131S. Review of Indian Standards
+
+Amendments are issued to standards as the need arises on the basis of comments. Standards are also-review?d periodically; a standard along with amendments is reaffirmed when such review indicates thatnochanges are needed; if the review indicates that changes are needed, it is taken up for revision. Users of Indian Standards should ascertain that they are in possession of the latest amendments or edition by referring to the latest issue of -B1S Catalogue' and `Standards : Monthly Additions'. This Indian Standard has been developed from Doc : No. MSD 5 ( 236 ). Amendments Amend No. Issued Since Publication
+/
+
+Date of Issue
+
+Text Affected
+
+BUREAU
+Headquarters:
+
+OF INDIAN STANDARDS
+Telegrams: Manaksanstha ( Common to all offices) Telephone 23237617 { 23233841 23378499,23378561 { 23378626,23379120 603843 { 609285 22541216,22541442 { 22542519,22542315 28329295,28327858 { 28327891,28327892
+
+Manak Bhavan, 9 Bahadur Shah Zafar Marg, New Delhi 110002 Telephones: 23230131,23233375,2323 9402 Regional Offices : Central : Manak Bhavan, 9 Bahadur Shah Zafar Marg NEW DELHI 110002 Eastern : 1/14 C. I. T. Scheme VIl M, V. I. P. Road, Kankurgachi KOLKATA 700054 Northern: SCO 335-336, Sector 34-A, CHANDIGARH 160022 Southern : C. 1.T. Campus, IV Cross Road, CHENNAI 600113 Western : Manakalaya, E9 MIDC, Marol, Andheri (East) MUMBAI 400093
+
+Branches : AHMEDABAD. BANGALORE. BHOPAL. BHUBANESHWAR. COIMBATORE. FARIDABAD. GHAZIABAD. GUWAHATI. HYDERABAD. JAIPUR. KANPUR. LUCKNOW. NAGPUR. NALAGARH. PATNA. PUNE. RAJKOT. THIRUVANANTHAPURAM. VISAKHAPATNAM.
+Printed at New India Printing Press, Khurja, India
+
+

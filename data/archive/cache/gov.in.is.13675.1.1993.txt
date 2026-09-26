@@ -1,0 +1,2370 @@
+IS 13675( Part1 ).1993 ISO/IEC 9072-l : 1989
+
+( Reaffirmed 2003 )
+
+Indian
+
+Standard
+
+REMOTE OPERATIONS IN TEXT COMMUNICATION FOR INFORMATION PROCESSING SYSTEMS PART 1
+MODEL, NOTATION AND SERVICE DEFINITION
+
+UDC
+
+681'327'8'01
+
+@ BIS 1993
+
+BUREAU OF MANAK BHAVAN,
+
+INDIAN
+9 NEW BAHADUR DELHI
+
+STANDARDS
+SHAH 110002 Price Group 12 ZAFAR MARG
+
+May
+
+1993
+
+Computer
+
+Systems and Interconnection
+
+Sectional
+
+Committee,
+
+LTD 36
+
+NATIONAL
+
+FOREWORD
+
+This Indian Standard which is identical with lSO/IEC 9072-I : 1989 `Information processing systems - Text communication - Remote operations - Part 1 : Model, notation and service definition', issued by the International Organization for Standardization ( IS0 ), was adopted by the Bureau of Indian Standards on the recommendation of the Computer Systems and Interconnection Sectional Committee ( LTD 36 ) and approval of the Electronics and Telecommunication Division Council. ln the adopted standard, certain terminology and conventions are however not identical those used in Indian Standards. Attention is particularly drawn to the following: Wherever the words `International should be read as `Indian Standard'. In this Indian Standard, the following respective place the following:
+International Standard
+
+to they
+
+Standard'
+
+appear standards
+
+referring
+
+to
+
+this standard, to.
+
+international
+
+are referred
+Standard
+
+Read in their
+
+Indian
+
+IS0 7498 : 1984 Information processing systems - Open systems interconnection - Basic reference model IS0 8649 : 1988 Information processing systems - Open systems interconnection - Service definition for the association control service element IS0 8650 : 1988 Information processing systems - Open systems rnterconnection - Protocol specification for the asscciation control service element IS0 8822 : 1988 Information processing systems - Open systems interconnection - Connection oriented presentation service definition ISO/IEC 9066-l : 1989 Information processing systems - Text communication Reliable transfer - Part 1 : Model and s~r,~ice definition : 1989 ing systems - Text transfer Reliable specification fSO/IEC 9072-2 : 1989 ing systems - Text Remote operations specification
+ISO/IEC 9066-2
+
+IS 12373 ( Part 1 ) : 1987 Basic reference model of open systems interconnection for information processing systems, Part 1 ( Identical ) IS 13615 : 1993 Service definition for the association control service element in open systems interconnection for information processing systems ( Identical ) IS 13706 : 1993 Protocol specification for the association control service element in open sgstems interconnetion for information processing systems ( Identical ) Dot LTD 36. ( 1636 ) PI Connection oriented presentation service definition in open systems interconnection for information processing systems ( under preparation ) ( Identical) IS 13707 ( Part 1 ) : 1993 Reliable transfer in text communication for information processing systems : Part 1 Model and service defintion ( identical ) IS 13707 ( Part 2 ) : 1993 Reliable transfer in text communication for information processing systems : Part 2 Protocol specification ( Identical ) IS 13675 ( Part 2 ) : 1993 Remote operations in text communication for information processing : Part 2 Protocol systems specification ( Identical ) of this standard has reviewed the that they are acceptable for use in Open systems interconnection -
+
+Information processcommunication - Part 2 : Protocol Information processcommunication - Part 2 : Protocol
+
+The technical committee responsible for the preparation provisions of the following IS0 Standards and has decided conjunction with this standard: ISO/TR 8509 : 1987 information Service conventions lSO 8824 : 1987 Information fication of abstract syntax ISO 8825 : 1987 Information fication of basic encoding Only the English language it in this standard. processing system -
+
+processing systems - Open systems interconnection notation one ( ASN. 1 ) processing systems - Open systems interconnection rules for abstract syntax notation one ( ASN. 1 ) Standard has been retained while
+
+Speci. Speci-
+
+text in the International
+
+adopting
+
+IS 13675 (Part 1) : 1993 ISO/lEC 9072-l : 1989
+
+Indian
+
+Standard
+
+REMOTE OPERATIONS IN TEXT COMMUNICATION FOR INFORMATION PROCESSING SYSTEMS
+PART 1 MODEL, NOTATlON AND SERVICE DEFINITION
+
+1
+
+Scope
+
+This part of ISO/IEC 9072 defines a Remote Operation (RO-1 notation for defining the services provided to interactive applications. This part of ISO/IEC 9072 also defines the services provided by the Remote Operation Service Element (ROSE) services. The ROSE services are provided by the use of the ROSE protocol (part 2 of ISO/IEC 9072) in conjunction with the Association Control Service Element (ACSE) services (IS0 8649) and the ACSE protocol US0 86501, optionally the Reliable Transfer Service Element (RTSE) services (ISO/IEC 9066-l) and the RTSI: protocol (ISO/IEC 9066-21, and the presentation-service (IS0 8822). No requirement part of ISO/IEC is made 9072. for conformance to this
+
+IS0 8650: 1988, Information processing systems Open Systems Interconnection - Protocol specification for the Association Control Service Element. IS0 8822. 1988, Information processing systems Open Systems Interconnection - Connection oriented presentation service definition. -
+
+IS0 8824: 1987, Information processing systems Open Systems Interconnection - Speciftcatton of Abstract Syntax Notation One (ASN.1). IS0 8825: 1987, Information processing systems Open Systems Interconnection - Specification of basic encoding rules for Abstract Syntax Notution One (ASN.1). ISO/IEC 9066-l: 1989, Information processing systems - Text communication - Reliable Transfer - Part 1: Model and service definition. ISO/IEC 9066-2: 1989, Information processing systems - Text communication - Reliable Transfer - Part 2: Protocol specification. ISO/IEC 9072-2: 1989, Information processing communication - Remote systems - Text Operations 7Part 2: Protocol specification.
+
+2
+
+Normative
+
+references
+
+The following standards contain provisions which, through reference in this text, constitute provisions of t.his part of ISO/IEC 9072. At the time of publication, the editions were valid. All Standards at-e subject to revision, and parties to agreement based on this part of ISO/IEC 9072 are encouraged to investigate the possibility of applying the most recent editions of the standards listed below. Members of IS0 and IEC maintain Registers of currently valid International Standards. IS0 7498: 1984, Information processing systems Open Systems Interconnection - Basic Reference Model. ISO/TR 8509: 1987, Information processing systems - Open Systems Interconnection - Service Conventions. IS0 8649: 1988, Information processing systems Open Systems Interconnection - Service definition for the Association Control Service Element.
+
+3
+3.1
+
+Definitions
+Reference Model definitions
+
+This part of ISO/IEC 9072 is based on the concepts developed in IS0 7498 and makes use of the following terms defined in it: a) b) c) d) e) f) g) Application Layer;
+
+application-process; application-entity; application-service-element; application-protocol-data-unit; application-protocol-control-information; Presentation Layer;
+
+1.
+
+IS rssm ( Part 1) : 1993 ISO/lEC 9072-l : 1999
+
+h) i) - j) k) 1) m) 3.2
+
+presentation-service; presentation-connection; session-service; session-connection transfer syntax; and
+
+3.5
+
+Reliable Transfer
+
+definitions
+
+This part of ISO/IEC 9072 makes use of the following terms defined in ISO/IEC 9066-l:
+a)
+
+Reliable Transfer ROSE definitions
+
+Service Element.
+
+3.6
+
+user-element.
+
+Service conventions
+
+definitions
+
+For the purpose of this part of ISO/IEC 9072 the following definitions apply:
+3.6.1
+
+This part of ISO/IEC 9072, makes use of the Mowing terms defined in ISO/TR 8509:
+
+a)
+b)
+Cl 4 e) 0 B) h)
+
+service-provider; service-user; confirmed service; service; service; primitive;
+
+association-initiating-applicationentity; associatiqn-initiator: The applicationentity that initiates the application-association. 3.6.2 association-responding-applicationentity; association-responder: The applicationentity that responds to the initiation of an application-association by another AE. 3.6.3 invoking-application-entity; The application-entity that invokes Operation. invoker: the Remote
+
+non-confirmed provider-initiated service-primitive;
+
+request (primitive); indication (primitive); and
+
+i1 j) 93
+
+response (primitive); co&rm (primitive).
+
+3.6.4 per,forming-application-entity; performer: The application-entity that performs a Remote -Operation invoked by the other application-entity. 316.5 requestor: The part of an applicationentity that issues a request primitive for a particular ROSE service. 3.6.6 acceptor: The part of an applicationentity that receives the indication primitive for a particular ROSE service. 3.6.7 linked-operations: `A set of operations formed by one parent-operation and one or more child-operations. use of the 3.6.8 parent-operation: An operation during the execution of which the performer may invoke linked child-operations to be performed by the invoker of the parent-operation. 3.6.9 child-operation: An operation might be invoked by the performer of the parent-operation during the execution parent-operation, and which is performed invoker of the parent-operation. which linked of the by the
+
+Prasentation
+
+service definitions use of the
+
+This part of ISO/IEC 9072 makes following terms defined in IS0 8822: , a). abstract syntax; by
+Cl
+
+abstract syntax name; transfer sptax'name; presentation context. Association control definitions
+
+d) 3.4
+
+This part of ISO/IEC 9072 makes following terms defined in IS0 8649: a) b) CJ application-association; application `Association context;
+
+association;
+
+Control Service Element.
+
+IS 13675 ( Part 1) : 1993 ISO/lEC 9072-l : 1969
+
+3.6.10
+
+Remote
+
+Operations:
+
+services element
+
+(Remote Operations) in RO-notation.
+
+available
+
+to the user
+
+(1) A concept and notation supporting the specification of interactive communication between application-entities. This includes the Remote'Operation Service Element and the mapping of the notation onto the service primitives of used application-service-elements. (2) The set of bind-operations, and operations. unbind-operations
+
+4
+AE ACSE
+
+Abbreviations
+application-entity Association Element Control Service
+
+ASE APDU
+
+application-service-element application-protocol-data-unit Open Systems Remote Remote Element Reliable Reliable Interconnection
+
+3.6.11 RO-notation: The notation specification of Remote Operations, part of ISO/IEC 9072.
+
+used for the defined in this
+
+OS1 RO (or ROS) ROSE
+
+Operations Operations Service
+
+3.6.12 ACSE-user: The application-specific function that performs the mapping of the bindoperation and unbind-operation of the ROnotation onto ACSE. 3.6.13 Remote Operation The application-service-element part of ISO/IEC 9072. 3.6.14 Remote ServiFe Element: defined in this
+
+RT (or RTS) RTSE
+
+Transfer Transfer Service Element
+
+5
+
+Conventions
+
+ROSE-provider: The provider of the Operations Serb-ice Element services.
+
+3.6.15 ROSE-user: The application-specific function that performs the mapping of the operations and errors of the RO-notation onto ROSE. 3.6.16 RTSE-user: The application-specific function that performs the mapping of the bindoperation and unbind-operation of the ROnotation onto RTSE. 3.6.17 operation-interface: within an application entity element and the application defined as a set of application The interface between the user service elements, service element
+
+This part of ISO/IEC 9072 defines services for the ROSE following the descriptive conventions defined in ISO/TR 8509. In clause 10, the definition of each ROSE service includes a table that lists the parameters of its primitives. For a given primitive, the presence of each parameter is described by one of the following values. blank M U C 0 not applicable mandatory user option conditional presence option is an ROSE service-provider
+
+In addition, the notation (=) parameter value is semantically value to its left in the table.
+
+indicates equal
+
+that a to the
+
+3
+
+IS 13675 (Part 1 ) : 1993 lSO/lEC 9072-l : 1969
+
+6
+
+Remote Operations
+
+Model
+-
+
+reply is returned unsuccessful);
+or not at all (neither
+
+if the
+
+operation
+
+is
+
+In the OS1 environment, communication between application processes is represented in terms of communication between a pair of application entities (AEs) using the presentation service. Communication between some applicationentities are inherently interactive. Typically, one entity requests that a particular operation be performed; the other entity attempts to perform the operation and then reports the outcome of the attempt. This clause introduces the concept of Remote Operations as a vehicle for supporting interactive applications. The generic structure of an operation is an elementary requestireply interaction. Operations are carried out within the context of an application-association. Figure 1 models this view.
+
+a result nor an error reply is returned, whether the operation was successful or not).
+
+Operations may also be classified according to two possible operation modes: synchronous, in which the invoker requires a reply from the performer before invoking another operation; and asynchronous, in which t.he invoker may continue to invoke further operations without awaiting a reply. The following Operation Classes are defined: reporting
+
+OperationClass 1: Synchronous, success or failure (result or error). Operation Class 2: Asynchronous, success or failure (result or error). Operation Class 3: Asynchronous, failure (error) only, if any. Operation Class 4: Asynchronous, success (result) only Operation Class not reported. 5: Asynchronous,
+
+reporting
+
+reporting
+
+Operations invoked by one AE (the invoker) are performed by the other AE (the performer). Operations may be classified according to `.: hether the performer of an operation is expected to report its outcome: in case of success or failure (a result reply is returned if the operation is successful, an error reply is returned if the operation is unsuccessful); in case of failure only (no reply is returned if the operation is successful, an error reply is returned if the operation is unsuccessful); in case returned of success only it' the operation (a result reply is is successful, no
+
+reporting
+
+outcome
+
+The Operation Class of each operation has to be agreed between application entities (e.g in an Application Protocol International Standard). In some cases it is useful to group operations into a set of linked-operations which is formed by one and one or more childparent-operat.ion operations. The performer of the parent operation may invoke none, one, or more child-operations
+
+-
+
+-
+
+I
+
+I
+I I
+
+application-association
+
+request
+
+I
+I
+
+I
+
+I
+
+I
+
+c
+AE
+4
+
+AE
+
+reply --,---A
+Figure 1 . Remote Operations Model
+
+LI---~lr_-~-__------------
+
+I I I I I I I I
+
+IS 13675 ( Part 1) : 1993 ISO/lEC 9072-l : 198
+
+during the execution of the parent-operation. The invoker of the parent-operation is the performer of the child-operations. A child-operation may be a parent-operation of another set of linkedoperations in a recursive manner. Figure 2 models this concept. An application-association defines the relationship between a pair of AEs, and is formed by the exchange of application-protocol-controlinformation through the use of presentationservices. The AE that initiates an applicationassociation is called the association-initiating AE, or the association-initiator, while the AE that responds to the initiation of an applicationassociation by another AE is called the association-responding AE, or the associationresponder. Only the association-initiating AE may release an established applicationassociation. Application-associations are classified by tihich application-entity is allowed to invoke operations: Association initiating operations. Association responding operations. Association initiating application Class 1: application Only the associationentity can invoke
+
+Linked-operations
+
+require
+
+Association
+
+Class
+
+g
+
+The Association Class has to be agreed between application-entities (e.g. in an Application Protocol International Standard). The functionality of an AE is factored into one user-element and a set of application-serviceelements (ASEs). Each ASE may itself be factored into a set of (more primitive) ASEs. The interaction between AEs is described in terms of their use of AS&. The specific combination of a user-element the set of ASEs which comprise an AE defines applicat.ion-context. and the
+
+Class 2, application
+
+Only the entity
+
+associationcan invoke
+
+Class 3. Both the associationand the association-responding entities can invoke operations.
+
+Figure 3 illustrates an example of an application-context involving the Remote Operations Service Element (ROSE). Note that this figure-is not meant to imply that the applicatiotGs~ymme.tric. Interactive applications are often inherently asymmetric, that is, either one or both AEs may be permitted to invoke operations, and the operations that either AE may invoke may be different. The rules governing which AE may invoke operations, and which operations an AE may invoke, is defined using the RO-notation in an Application Protocol International Standard, and determines the application-context. The set of ASEs available to the user element of the AE at the operation-interface is defined using
+
+r
+I I I I I I I
+
+-~~-----1---------11-----~-~--~~
+
+1
+
+application-association invocation of parent-operation invocation of child-operation
+l
+
+I ; I :1 I I I li performer of parent-operation b execution parentoperation AE
+
+I
+
+AE
+
+t-
+
+of
+
+I
+I I 4 performer of linked child-operations
+-~-~1------11~~-------~~---~~
+
+* . invocation of child-operation
+
+i
+I I
+L--m-
+
+I I I I I I I I I I I I I
+
+Figure 2 -Linked-operations
+
+IS13675(Part1):1993 lSO/lEC9072-1:196
+
+the Remote Operations (RO-1 notation. The ROnotation is based on the macro concept defined in IS0 8824. The complexity of a particular set of ASEs is dependent upon the needs of the application, and is not limited by the Remote Operations concept. An important characteristic of Remote Operations is that they provide applications with independence from OS1 communication services. Since the notation is based on established objectoriented programming principles, automatic tools can be developed to bind Remote Operations into the execution environment of applications. The ASEs available to the user-element require communication over an application-association. The control of that application-association (establishment, release, abort) is performed either by the Association Control Service Element (ACSE) defined in IS0 8649, or the Reliable Transfer Service Element defined in ISO/IEC 9066-l and the Association Control Service Element (ACSE). Communication over the application-association is performed by the
+
+Remote. Operations Service Element defined in this part of ISO/IEC 9072.
+
+(ROSE)
+
+An application-specific function performs the mapping of the operations available to the user-element onto either the ACSE services, or the RTSE services; and the ROSE services. The mapping is defined in this part of ISO/IEC 9072. The function that performs the mapping of the operations onto the ACSE services, or the RTSE services, and the ROSE services is said to be the user of ACSE, RTSE and ROSE, or the ACSEuser, the RTSE-user, and the ROSE-user. the If the RTSE is included in application-context, the mapping function is an RTSE-user and a ROSE-user, the ROSE is an RTSE-user, the RTSE is an ACSE-user and a presentation service-user, and the ACSE is a presentation service-user. If the RTSE is excluded from the application-context, the mapping function is an ACSE-user and a ROSE-user, the ROSE is a presentation service-user, and the ACSE is a presentation service-user.
+
+6
+
+Application Layer application-entity operation-interface _______ (defined as a set of ASEs using the RO-notation)
+I
+
+application-entity user-element
+
+user-element
+
+application-service-element and mapping onto ROSE, and eventually onto ACSE or RTSE Application Protocol over application-association
+
+-
+
+application-service-element and mapping onto ROSE, and eventually onto ACSE or RTSE
+
+m[;E;/r;;r
+
+.
+
+Presentation Layer
+Figure 3 - Model of an rppkicath
+
+preeentation-connection
+
+contextinvolving
+
+Remoh
+
+Opwatione
+
+IS13675(Part1):1993 ISO/lEC 9072-1:196
+
+7
+7.1
+
+Overview
+Notation
+
+of notation
+
+and service
+
+Overview
+
+This part of ISO/IEC 9072 defines the RO-notation for the specification of an application-context and the related abstract syntax component of the presentation context. The functionality of an application-context is provided to the user-element by means of Remote Operations and errors which form the operation-interface. The following types of Remote operation interface: a bind-operation application-association; Operations form an
+
+The type notation of the OPERATION macro enables the specification of an operation and user data types to be exchanged for a request and a positive reply. In addition , the type notation enables the specification of a list of valid negative reply situations. If the operation is a parentoperation, the type notation enables the specification of the list of linked child-operations. The value notation of the OPERATION macro enables the specification of the identifier of an operation. The type notation of the ERROR macro enables the specification of user data types exchanged in a negative reply situation. The' value notation of the ERROR macro enables the specification of the identifier of an error. Additional specification application 7.2 macros supporting the notation of application-service-elemen contexts are defined in annex A. overview 9072 defines the following
+
+to
+
+establish
+
+an
+
+-
+
+a set of operations and, operation, a list of error reply) situations; an unbind-operation application-association.
+
+for each (negative
+
+-
+
+to release
+
+an
+
+Service
+
+The abstract syntax notation of IS0 8824 for the definition of the following macros: al b) cl dl BIND; UNBIND; OPERATION; ERROR. and
+
+is used
+
+This part of ISO/IEC ROSE services: a) bl cl dl e) RO-INVOKE RO-RESU RO-ERROR
+
+LT
+
+RO-REJECT-U RO-REdECT-P
+
+These macros value notation
+
+provide both a type notation and a for Remote Operations and errors.
+
+The RO-INVOKE: service enables an invoking AE to request an operation to be performed by the performing AE. The RO-RESULT service enables the performmg AE to return the positive reply of a successfully performed operation to the invoking AE. The RO-ERROR AE to return unsuccessfully invoking AE. service enables the performing the negative reply of an performed operation to the
+
+The type notation of the BIND macro enables the specification of a bind-operation type and the types for user data values (if any) to be exchanged in the establishment phase of an applicationassociation. The value notation of the BIND macro enables the specification of user data values (if any) to be exchanged in the establishment phase of an application-association. The type notation of the UNBIND macro enables the specification of an unbind-operation type and types for user data values (if any) to be exchanged in the release phase of an application-associaticn. The value notation of the UNBIND macro enables the, specification of user data values (if any) to be exchanged in the release phase of an applicationassociation.
+
+The RO-REJECT-U service enables one AE to reject the request or reply of the other AE if the ROSE-user has detected a problem. The RO-REJECT-P user to be informed the ROSE-provider. service enables about a problem the ROSEdetected by
+
+8
+
+IS 13675 ( Part 1) : 1993 lSO/iEC 9074-l : 196
+
+7.3
+
+Mapping
+
+of notation
+
+on to services
+
+Note that the function that performs the mapping of the OPERATION macros and ERROR macros of the RO-notation onto ROSE services is said to be the ROSE-user. While the function that performs the mapping of the BIND and UKBISD macros of the RO-notation onto ACSE services or RTSE services respectively is said to be the ACSE-user or RTSE-user respectively. The specification of the mapping of the ROnotation onto the used services of ACSE, RTSE, and ROSE is given in clause 11. Therefore International Standards using the RO-notation for the protocol specification need not to specify the mapping onto these used services. 8
+
+syntax. defined APDUs syntax.
+
+If multiple named abstract syntaxes are for operations and errors, the ROSE are included in each named abstract
+
+If a named abstract syntax specifies a bindoperation, the APDUs specified by the value notation of the BIND macro are included in that named abstract syntax. If the RTSE is included in the application context, the APDUs for the bindoperation share a single named abstract syntax with the RTSE APDUs defined in ISO/IEC 9066-2. If a named operation, notation of that named abstract syntax specifies an unbindthe APDUs specified by the value the UXBIXD macro are included in abstract syntax.
+
+Relationship with other and lower layer services
+Other applicatiod-service-elements
+
+ASEs
+
+8.1
+
+The APDUs resulting from the specification of a bind-operation, an unbind-operation, operations and errors and the RTSE APDUs may share a single named abstract syntax. 8.2 Presentation-servide context including RTSE and ROSE services do not use the
+
+The ROSE is intended to be used with other ASEs in order to support specific interactive information processing tasks. Therefore it is expected that the ROSE will be included in a large number of application-context specifications. The collection of the ROSE and other ASEs included in an application context are required to use the facilities of the presentation-service in a co-ordinated manner among themselves. The ROSE requires association controlled an existing by ACSE. application-
+
+If an application ROSE is defined, presentation-service.
+
+If an application context including ROSE but excluding RTSE is defined, the ROSE services require access to the P-DATA service and require the use of the duplex functional unit of the presentation-service. The ROSE services neither use, nor constrain the use of, any other presentation service. A named compatible Presentation context. The object
+encoding(l)}
+
+For some application context specifications Reliable Transfer Service Element (RTSE) included.
+
+a is
+
+abstract transfer Layer)
+
+syntax associated with a syntax (negotiated by the constitutes a presentation
+
+An ROSE-user protocol specification uses the ROnotation. It defines one or more abstract syntaxes and provides unique abstract syntax names of type object identifier for each abstract syntax. If a named abstract syntax specifies operations and'errors, the ROSE APDUs defined in ISO/IEC 9072-2 are included in that named abstract
+
+identifier value fioint-iso-ccitt awl(l) basicspecified in IS0 8825 may be used as a transfer syntax name. In this case the ROSE-user protocol specification need not to name and specify a transfer syntax.
+
+9
+
+IS 13675 ( Part 1 ) : 1993 tSO/lEC 9072-l : 196
+
+9
+9.1
+
+Remote Operations
+General
+
+notation
+
+The notation used in this part of ISO/IEC 9072 defined as follows: the data syntax no_tation and notation are defined in IS0 8824;
+
+is
+
+to it are specified. If the bind-operation reports failure, the keyword BIND-ERROR and the type of the error-information it reports and the reference name optionally assigned to it are specified. The value notation for a bind-operation is either an argument value, or a result value or an error value. The value notation for an argument value (if any) is the key word ARGUMENT followed by a value of the argument type. The value notation for a result value (if any) is the key work RESULT followed by a value of the result type. The value notation for an error value (if any) is the key word ERROR followed by a value of the error type. 9.3 Specification of unbind-operations
+
+macro
+
+the Remote Operation macros are defined in 9.2 of this part of ISO/IEC 9072.
+
+A bind-operation defines where an object binding (establishment of an application-association) begins. If such a binding is established, operations may be invoked. An unbind-operation defines where an object binding is released. An interactive protocol is specified using the Remote Operation and error data types. This clause defines those types. It also explains the notational definitions of a particular Remote Operation, and of the particular errors it can report. The notation is defined by means of the macro facility defined in IS0 8824. This macro definition allows a generalized specification of the mapping onto various execution environments. The macros enabling the specification of bindoperations, unbind-operations, operations and errors are listed in figure 4. 9.2 Specification of bind-operations
+
+A single data value, the argument of the unbindoperation, may accompany the request to release the application-a-ssociation. Some unbindoperations report their outcome, whether success (i.e the normal outcome) or failure (i.e. the exceptional outcome). Other unbind-operations report their outcome only if they fail, and still others never at all. A single data value, the result of the unbind-operation, or a single data value, the unbind-error of the unbind-operation, may accompany the response. The notation for an unbind-operation type is the keyword UNBIND, optionally followed by the keyword ARGUMENT and the type of the unbindoperation's tirgument, the reference name optionally assigned to it, `and the nature of the unbind-operation's outcome reporting (if any). If the unbind-operation reports success, the keyword RESULT and the type of its result and the reference name optionally assigned to it are specified. If the Unbind-operation reports ~failure, the keyword UNBIND-ERROR and the type of the error-information it reports and the, reference name optionally assigned to it are specified. The value notation for an unbind-operation is either an argument value, or a result value or an error value. The value notation for an argument value (if any) is the keyword ARGUMENT followed by a value of the argument type. The value notation for a result value (if any) is the keyword RESULT followed by a value of the result type. The value notation for an error value (if any) is the keyword ERROR followed by a value of the error type.
+
+A single data value, the argument of the bindoperation, may accompany the request to establish the application-association. Some bindoperations report their outcome, whether success (i.e the normal outcome) or failure (i.e. the exceptional outcome). Other bind-operations report their outcome only if they fail, and still others never at all. A single data value, the result of the bind-operation, may accompany the positive response. A single data value, the bind-error of the bind-operation, may accompany the negative response. The notation for a bind-operation type is the keyword BIND, optionally followed -by the keyword ARGUMENT and the type of the bind-operation's argument, the reference name optionally assigned to it, and the nature of the operation's outcome tieporting (if any). If the bind-operation reports success, the keyword RESULT and the typeof its result and the reference name optionally assigned
+
+10
+
+IS 13675 ( Part 1 ) : 1993 ISO/lEC 9072-l : 1989
+
+Remote-Operation-Notation OEFINITIONS :: = BEGIN
+
+( joint-iso-ccitt remote-operations(4)
+
+notation (0))
+
+EXPORTS BIND, UNBIND, OPERATION, ERROR; --
+
+macro definition for bind-operations
+:: =
+
+BIND MACRO BEGIN
+
+TYPE NOTATION VALUE NOTATION Argument
+
+: : = Argument Result Error :: = Argument-value 1 Result-value 1Error-value
+:: = empty
+
+1"ARGUMENT" Name type (Argument-type)
+--
+
+Expects any ASN.1 type and assigns it to the variable Argument
+
+-- type
+Result :: I empty
+
+1"RESULT" Name type (Result-type)
+--
+
+Expects any AS,XL' I ty,oe andussigr~s it to the variable Result-type
+
+Error
+
+:: = empty
+
+1"BIND-ERROR" Name type (Error-type)
+--
+
+Expects any AS,%`. I type and assigns it to the variable Error-type 1identifier
+
+Name Argument-value
+
+:: = empty
+
+:: = empty 1"ARGUMENT" value (Arg-value Argument-type)
+--Expects
+
+a valw for the type in Argument-type,
+
+and assigns it to the
+
+_- variable Arg-~w1u.c~
+<VALUE [16] EXPLICIT Argumentetype -Result-value :: = empty :: = Arg-value>
+
+Returns the final value as explicitly tagged lype
+
+1"RESULT" value (Res-value Result-type)
+--Expects
+
+a value for the type in Result-type
+
+andassigns
+
+it to the
+
+__ variable Res-ualue
+<VALUE -Error-value :: = empty [17] EXPLICITResult-type :: = Res-value>
+
+Returns the final value as explicitly lagged type
+
+1"ERROR" value (Err-value Error-type)
+--Expects
+
+a value for the type in Error-type,
+
+and assigns it lo the
+
+__ variable Err-value
+<VALUE --Returns END __ [la] EXPLICIT Error-type :: = Err-value>
+
+Ihe final value as explicitly tagged type
+
+Remote Operations
+
+Notation continued
+
+Figure 4 (Part
+
+1 of 3)
+
+- Formal definition
+
+of Remote
+
+Operations
+
+data types
+
+IS 13675 ( Part 1) : 1993 ISO/lEC 9072-l : 198
+
+-- Remote Operations Notation continued __ macro definition for unbind-operations
+UNBIND MACRO BEGIN TYPE NOTATION VALUE NOTATION Argument :: = Argument Result Errors :: =
+
+:: = Argument-value :: = empty
+
+1Result-value \ Error-value
+
+1"ARGUMENT" Name type (Argument-type)
+--
+
+Expects any ASN.l
+
+type and assigns it to the variable Argument-
+
+-- type
+Result :: = empty -Error :: = empty -Name Argument-value
+
+1"RESULT" Name type (Result-type) Expects any ASN .l type and assigns it to the variable Result-type ( "UNBIND-ERROR" Name type (Error-type) Expects any ASN.1 type and assigns it to the variable Error-type
+
+: : = empty (identifier
+:: = empty
+
+1"ARGUMENT" value (Arg-value Argument-type)
+__ Expects
+
+a value for the type.in Argument-type,
+
+and assigns it to the
+
+__ variable Arg-value
+<VALUE [19] EXPLICiT Argument-type -Result-value :: = empty :: = Arg-value>
+
+Returns the final value as explicitly tagged type
+
+1"RESULT" value.(Res-value Result-type)
+--Expects
+
+a value for the type in Result-type
+
+and assigns it to the
+
+__ variable Res-value
+<VALUE -Error-value :: = empty [20] EXPLICIT Result-type
+
+: : = Res-value >
+
+Returns the final value as explicitly tagged type
+Error-type)
+
+1"ERROR" value(Err-value
+--
+
+Expects a value for the type in Error-type,
+
+and assigns it to the
+
+__ variable Err-value
+`<VALUE -END -[21] EXPLICIT Error-type :: = Err-value>
+
+Returns the final value as explicitly tagged type
+
+Remote Operations
+
+Notation continued
+
+Figure 4 (Part 2 of 3) -~Formal definition
+
+of Remote Operations
+
+data types
+
+12
+
+. IS 13675 (Part 1) : 1993 ISO/lEC 9072-l : 1969
+
+9.4
+
+Specification
+
+of operations
+
+A data value of type operation represents the identifier for an operation that a ROSE-user in one open system may request to be performed by a peer ROSE-user in another open system. A single data value, the argument of the operation, may accompany the request. Some operations report their outcome, whether success (i.e the normal outcome) or failure (i.e. the exceptional outcome). Other operations report their outcome only if they fail, and still others never at all. A single data value, the result of the operation, accompanies a report of success; a report of failure identifies the exceptional condition that was encountered. for an operation type is the keyword optionally followed by the keyword ARGUMENT and the type of the operation's argument, the reference name optionally assigned to it, and the nature of the operation's outcome reporting (if any). If the operation reports success, the keyword RESULT and optionally the type of its result and the reference name optionally assigned to it are specified. If the operation reports failure, the keyword ERRORS and the reference names of the error values or error types it reports are specified. If the operation is the parent-operation of a set of linked-operations, the keyword LINKEDOPERATIONS and the reference names of the linked child-operation values or child-operation types are specified. The reference to error values or childoperation values is preferred, however the references to types shall be used if the values are defined elsewhere (see 9.61.
+OPERATION,
+
+local values. restricted.
+9.5
+
+The
+
+use of global
+
+values
+
+is not
+
+Specification
+
+of errors
+
+Adata value of type error represents the identifier for an exception condition that a ROSE-user in one open system may report to a peer ROSE-user in another open system, where the exception condition is reporting an exceptional outcome of a previously requested operation. A single data value, the parameter of the error, may accompany the report. The notation for an error type is the keyword ERROR, optionally followed by the keyword PARAMETER and the type of the error's parameter and the reference name optionally assigned to it. The notation for an error value is the error's identifier. If a locally unique identifier (local value) is sufficient, the identifier is of type INTEGER. If a globally unique identifier (global value) is required to allow the unique identification of errors used in several abstract syntaxes, the identifier is of type OBJECTIDENTIFIER.
+9.6 Export errors and import of operations and
+
+The notation
+
+Operation values and error values have to be unique within a named abstract syntax. If operations and errors are specified in several ASS.1 modules and are imported to a module specifying a specific named abstract syntax, one of the following rules apply: a) If local values are used and exported, it is in the responsibi1it.y of the designer of the importing module to ensure uniqueness. A module may specify and export operation types and error types. The operation values and error values are assigned in the module importing the types. A single value shall be assigned for each operation type or error type. If global values are assigned and exported, uniqueness is ensured. might
+
+The notation for an operation value is the operation's identifier. If a locally unique identifier (local value) is sufficient, the identifier is of type INTEGER. If a globally unique identifier (global value) is required to allow the unique identification of operations used in several abstract syntaxes, the identifier is of type OBJECT
+IDENTIFIER.
+
+bl
+
+Child-operations and errors referenced by a specific operation shall share a single named abstract syntax (see 8.1) with that operation, if the child-operations or errors are identified by
+
+c)
+
+However different named abstract syntaxes be used for conflicting local values.
+
+13
+
+l
+
+IS 13675 ( Part 1) : 1993 ISO/lEC 9072-l : 196
+
+__ Remote Operations Notation continued _- macro definition for operations
+OPERATION MACRO BEGIN TYPE NOTATION VALUE NOTATION :: z Argument Result Errors LinkedOperations :: = value (VALUE CHOICE( localvalue globalValue INTEGER, OBJECT IDENTIFIER}) :: =
+
+Argument Result Resultfype Errors LinkedOperations ErrorNamer ErrorList Error
+
+:: re "ARGUMENT"
+
+NamedType
+
+1empty
+
+:: = "RESULT"ResultType :: I NamedType
+
+] empty
+
+1empty 1empty
+`I)"
+
+:: = "ERRORS" "1" ErrorNames "}"
+
+::
+
+s
+
+"LINKED"
+
+u(" LinkedOperationNames
+
+1empty
+
+:: =
+
+ErrorList) empty Error value
+
+:: =
+
+1ErrorList "," Error ( ERROR ) -- shall reference an error value -- shall reference an error type if no error value is specified 1empty
+
+:: =
+
+ltyw
+LinkedOperationNames OperationList Operation
+:: =
+
+OperationList Operation
+
+:: =
+
+JOperationList "," Operation ) -- shall reference an operation value -- shall reference an operation lype if no operation value is __ specified 1type
+
+:: =
+
+value (OPERATION
+
+lwe
+
+NamedType END
+
+:: = identifier type
+
+__macro definition for operations errors
+ERROR MACRO BEGiN TYPE NOTATION VALUE NOTATION :: = Parameter :: = value(VALUE CHOICE( localValue globalvalue Parameter NamedType END :: = "PARAMETER " NamedType :: = identifier type INTEGER, OBJECT IDENTIFIER}) :: =
+
+1empty
+
+I type
+
+END
+
+--
+
+end of Remote Operations
+
+Notation
+
+Figure
+
+4 (Part 3 of 3) - Formal
+
+definition
+
+of Remote
+
+Operations
+
+data
+
+types
+
+14
+
+IS 13675 ( Part 1) : 1993 ISO/lEC 9072-l : 1969
+
+10
+
+,Service definition
+
+The ROSE services are listed in table 1.
+
+This parameter is the identifier of the operation to be invoked. The value has to be agreed between the ROSE-users. This parameter has to be supplied by the requestor of the service.
+
+Table
+
+1 - ROSE services Table 2
+
+- RO-INVOKE
+
+parameters
+
+I Service
+RO-INVOKE RO-RESULT RO-ERROR RO-REJECT-U RO-REJECT-P
+
+I Type
+Non-confirmed Non-confirmed Non-confirmed Non-confirmed Provider-initiated
+
+Parameter
+
+name
+
+I Req
+
+Ind &I(=)
+
+Operation-value `Operation-class Argument Invoke-ID Linked-ID Priority
+
+M U u M U u
+
+C(=) M(=) C(=)
+
+Identification of the named abstract syntax in use is assumed for all ROSE services, however this is a local matter and outside the scope of this part of JSO/IEC 9072.
+10.1 RO-INVOKE service
+
+10.1.1.2
+
+Operation-class
+
+The RO-INVOKE service is used by one ROSEuser (the invoker) to cause the invocation of an operation to be performed by the other ROSE-user (the performer). This service is an non-confirmed service. The related service structure service-primitiv-es, as illustrated consists of two in figure 5.
+ROSE-user
+
+This parameter defines whether a synchronous or an asynchronous reply is expected and the nature of the expected reply, i.e. result and/or error or none (see clause 6). This parameter has to be supplied by the requestor of the service. This parameter is used solely to optimize the turn management (see 8.1.1 of part 2 of ISO/IEC 9072).
+10.1.1.3 Argument
+
+ROSE-user
+
+!
+
+ROSEprovider
+
+This parameter is the argument of the invoked operation. The type has to be agreed between the ROSE-users. This parameter has to be supplied by the requestor of the service.
+10.1.1.4 Invoke-ID
+
+RO-INVOKE
+
+request *
+RO-INVOKE
+
+This parameter identifies the request of a ROINVOKE service and is used to correlate this request with the corresponding replies (RORESULT, RO-ERROR, RO-REJECT-U, and ROREJECT-P services) or the invocation of linked child-operations (RO-INVOKE). This parameter has to be supplied by the requestor of the service. This parameter distinguishes several requests of the service the requestor may have in progress (asynchronous operations). The, requestor may begin to reuse Invoke-ID values whenever it chooses, subject to the constraint that it may not reuse an Invoke-ID value that WT.S previously assigned to a request of the service for which it expects, but has not yet received, a reply or the invocation of a linked child-operation.
+
+Figure
+
+5
+
+- RO-INVOKE
+
+service-primitives
+
+10.1.1
+
+RO-INVOKE
+
+parameters
+
+Table 2 lists the RO-INVOKE
+10.1.1.1 Operation-value
+
+service parameters.
+
+15
+
+IS 13675 (Part 1) : 1993 ISO/lEC 9072-l : 198
+
+The ROSE-user to which an RO-INVOKE indication is issued, assumes that an Invoke-ID value violating the above rule is a duplicate; and therefore, it does not perform the invoked operation. Instead, it rejects the duplicate invocation. If'Operation Classes 3, 4 or 5 are requestor of this service may reuse an value after a reasonably long period of the reply is carried by other means (e.g. have-you-finished operation). used, the Invoke-ID time, or if result of a
+
+10.2
+
+RO-RESULT service
+
+The RO-RESULT service is used by a ROSE-user to reply to a previous RO-INVOKE indication in the case of a successfully performed operation. This service is an non-confirmed service. The related service structure service-primitives, as illustrated consists of two in figure 6.
+
+ROSE-user
+
+ROSEprovider
+
+HOSE-user
+
+In some application contexts peer ROSE-users may communicate Invoke-ID values. To support this the type of the Invoke-ID parameter is exported by the module defining the abstract syntax of Remote Operations in clause 9 of part 2 of ISO/IEC 9072. 10.1.1.5 Linked-ID
+
+RO-RESULT request *
+
+If this parameter is present, the invoked operation is a child-operation and the parameter identifies the invocation of the linked parent-operation. This parameter has to be supplied !~y the requestor of the service. The value is that of the invoke-ID parameter of the RO-INVOKE indication primitive of the parent-operation. 10.1.1.6 Priority
+
+Figure
+
+6. RO-RESULT
+
+ser\-ice-primitives
+
+10.2.1
+
+RO-RESULT parameters service parameters.
+
+Table 3 lists the RO-RESULT
+
+Table
+
+3
+
+- RO-RESULT
+
+parameter5
+
+This parameter defines the priority assigned to the transfer of the corresponding APDC with respect to the other APDUs to be exchanged between the AEs. The lower the value, the higher the priority. If several APDUs with the same priority are awaiting transfer, they are transferred "first in, first out"
+NOTES
+
+Parameter name Operation-value Result Invoke-ID Priority
+
+Req U U ?uI U
+
+Ind CC=) C(=l &I(=)
+
+10.2.1.1
+parameter association has an effect in the case of a twoin that it prioritizes the sending
+
+Operation-value
+
+1
+
+The Priority way alternate
+
+of APDKJs, and may be used to determine the Turn also have to send a local APDUs. effect The Priority in the case
+
+when to request parameter may
+
+of a two-way
+
+simultaneous
+
+association.
+
+This parameter is the identifier of an invoked and successfully performed operation. This parameter has to be supplied by the requestor of the service. The value is that of the corresponding ROINVOKE indication primitive. This parameter shall be present only if the Result parameter is present.
+
+2
+
+The Priority
+
+of a reply should
+
+(RO-RESULT, normally
+
+RO-ERROR, (lower
+
+and in
+
+RO-REJECT-UJ value)
+
+be higher
+
+than the priority
+
+of the corresponding
+
+invocation.
+
+16
+
+IS13675(Partl):l993 ISO/lEC 9072-l : 1989
+
+10.2.1.2
+
+Result
+
+10.3-l Table
+
+RO-ERROR
+
+parameters service parameters
+
+This parameter is the result of an invoked and successfully performed operation. The type has to be agreed between the ROSE users. This parameter has to be supplied by the requestor of the service. 10.2.1.3 Invoke-ID
+
+4 lists the RO-ERROR
+
+Table 4
+
+_RO-ERROR
+
+parameters
+
+IParameter
+Error-value Error-parameter Invoke-ID Priority
+
+name
+
+I Req I M U M U
+
+Ind M(=) C(=) &I(=)
+
+This parameter identifies the corresponding invocation (see 10.1.1.4). `l'his parameter has to be supplied by the requestor of the service. The value is that of the corresponding RO-INVOKE indication primitive. 10.2.1.4 Priority assigned to APDU (see
+
+10.3.1.1
+
+Error-value
+
+This parameter defines the priority the transfer of the corresponding 10.1.1.6). 10.3 RO-ERROR service
+
+This parameter identifies the error that occurred during execution of the operation. The value has to be agreed between the ROSE-users. This parameter has to be supplied by the requestor of the service. 10.3.1.2 Error-parameter
+
+The RO-ERROR service is used by a ROSE-user to reply to a previous RO-INVOKE indication in the case of an unsuccessfully performed operation. This service is an non-confirmed service. The related service structure service-primitives as illustrated consists
+in Figure
+
+of two 7.
+
+This parameter provides additional information about the error. The type (if any) has to be agreed between the ROSE-users. This parameter has to be supplied by the requestor of the service. 10.3.1.3 Invoke-ID
+
+ROSE-user
+
+ROSEprovider
+
+ROSE-user
+
+RO-ERROR
+
+request *
+RO-EKROR
+
+This parameter identifies the corresponding invocation (see 10.1.1.4). This parameter has io be supplied by the requestor of the service. The value is that of the corresponding RO-INVOKE indication primitive. 10.3.1.4 Priority assigned to APDU (see
+
+indication b
+
+This parameter defines the priority the transfer of the corresponding 10 1.1'.6).
+
+Figure 7
+
+- RO-ERROR
+
+sewice-primitives
+
+17
+
+IS 13675 ( Part 1) : 1993 lSO/IEC 9072-l : 1989
+
+10.4
+
+RO-REJECT-U
+
+The RO-REJECT-U service is used by a ROSEuser to reject a request (RO-INVOKE indication) of the other ROSE-user if it has detected a problem. The RO-REJECT-U service may also be used by a ROSE-user to reject a reply (RORESULT indication, RO-ERROR indication) from the other ROSE-user. However, to avoid violating the sequencing rules of other ASEs in some application contexts, a ROSE-user may choose not to use the RO-REJECT-U service to reject replies. This service is an non-confirmed service. The related service structure service-primitives, as illustrated consists of two in figure 8.
+
+This parameter as follows: a)
+
+specifies
+
+the reason for rejection
+
+Invoke-problem: user-reject of an ROINVOKE indication primitive with values: duplicate-invocation: signifies that the invoke-ID parameter violates the assignment rules of 10.1.1.4; unrecognized-operation: signifies operation is not one of those between the ROSE-users; that the agreed
+
+-
+
+-
+
+mistyped-argument: signifies that the type of the operation argument supplied is not that agreed between the ROSE-users resource-limitation: the performing ROSE-user is not able to perform the invoked operation du-e to resource limitation; initiator-releasing: the initiator is not willing to invoked operation because attempt to release the association; associationperform the it is about to application-
+
+-
+
+ROSE-user
+
+ROSE-user
+
+RO-REJECT-U request * RO-REJECT-U indication
+
+-
+
+unrecognized-linked-ID: signifies that there is no operation in progress with an invoke-ID equal to the specified linked-ID; linked-response-unexpected: signifies that the invoked operation referred to by the linked-ID is not a parent-operation unexpected-child-operation. signifies that the invoked child-operation is not one that the invoked parent-operation referred to by the linked-ID allows. indication user-reject primitive of an with
+
+Figure 8
+
+- RO-REJECT-L'
+
+service-primitives
+
+10.4.1
+
+RO-REJECT-U th-e
+
+parameters service
+
+-
+
+Table 5 lists parameters.
+
+RO-REJECT-U
+
+b) Return-result-problem:
+Table 5
+
+- RO-REJECT-L
+
+parameters
+
+RO-RESULT values: -
+
+unrecognized-invocation: signifies that no operation with the specified invoke-ID is in progress; result-response-unexpected: signifies that the invoked.operation does not report a result; mistyped-result: signifies that the type of the result parameter supplied is not that agreed between the ROSE-users.
+
+-
+
+10.4.1.1
+
+Reject-reason
+
+-
+
+18
+
+IS13676(Part1):1993
+
+lSO/IEC 9072-1:1989
+
+cl
+
+Return-error-problem. user-reject of an ROERROR indication primitive with values: unrecognized-invocation: signifies that no operation with the specified Invoke-ID is in progress; error-response-unexpected: the invoked operation failure; signifies that does not report
+ROSE-user ROSEprovider ROSE. user
+
+-
+
+RO-REJECT-P indication
+
+-
+
+unrecognized-error: signifies that the reported error is not one of those agreed between the ROSE-users; unexpected-error: signifies that the reported error is not one that the invoked operation may report; mistyped-parameter: signifies that the type of the error parameter supplied is not that agreed between the ROSE-user. to be supplied by the
+
+Figure
+
+9. RO-REJECT-P
+
+service-primitive
+
+-
+
+10.5.1
+
+RO-REJECT-P the
+
+parameters RO-REJECT-P service
+
+Table 6 lists parameters.
+
+-
+
+Table 6 - RO-REJECT-P
+
+parameters
+
+This parameter has requestor of the service.
+10.4.1.2
+
+Invoke-ID
+
+This parameter identifies the corresponding invocation (see 10.1.1.4). This parameter has to be supplied by the requestor of the service. The value is that of the rejected RO-INVOKE indication, RO-RESULT indication, or RO-ERROR indication primitive. 10.4.1.3 Priority assigned to APDU (see
+
+10.5.1.1
+
+Invoke-ID
+
+This parameter defines the priority the transfer of the corresponding 10.1.1.6). 10.5 RO-REJECT-P
+
+This ,parameter identifies the corresponding invocation (see 10.1.1.4). This parameter is supplied by the ROSE-provider. The value is that ROof the rejected RO-INVOKE request, RESULT request, RO-EKROR request or ROREJECT-U request primitives. This parameter may be omitted if an invoke-ID is not available. 10.5.1.2 Returned-parameters
+
+The RO-REJECT-P service is used to advise a ROSE-user of a problem detected by the ROSEprovider. This service is a provider-initiated service. The related service structure consists of a single service-primitive, as illustrated in figure 9.
+
+This parameter contains the parameters of the RO-ISVOKE request, RO-RESULT request, ROERROR request or RO-REJECT-U request primitives, if the corresponding APDC could not be transferred by the ROSE-provider. This parameter and the parameter reject-reason are mutually exclusive.
+
+19
+
+IS 13675 ( Part 1 ) : 1993 ISO/IEC 9072-l : 1989
+
+10.5.1.3
+
+Reject-reason specifies the reason for rejection
+
+-
+
+This parameter as follows: d)
+
+mistyped-APDU: signifies that the structure of the APDU does not conform to ISO/IEC 9072-2; badly-structured-APDU: signifies that the structure of the APDU does not conform to the standard notation and encoding, defined in IS0 8824 and IS0 8825.
+
+General-problem: with values: -
+
+provider-reject
+
+of an APIIU
+
+-
+
+unrecognized-APDU: signifies that the type of the APDC, as evidenced by it.s type identifier, is not one of the four dtxfint:d by ISO/IEC 9072-2;
+
+This parameter is supplied by the ROSE-provider. This parameter and the parameter returnedparameters are mutually exclusive.
+
+20
+
+IS13675(Part1):1993
+
+lSO/lEC
+
+9072-l : 1989
+
+11
+11.1
+
+Mapping
+Application
+
+of notation
+context
+
+on service
+
+11.2.1.1.1
+
+Invocation
+
+of a bind-operation is mapped on A-ASSOCIATE
+
+and operations
+
+This clause describes how an application-context is specified by means of the notation provided the macros defined in clause 9. Such an application-context of a) b) c) d) specification
+
+The invocation of a bind-operation the A-ASSOCIATE request and indication service primitives. by The argument value of the mapped on the user information service primitives.
+11.2.1.1.2Reply
+
+bind-operation parameter
+
+is of the
+
+consists
+
+a bind-operation specified BIND macro, and an unbind-operation the UNBIND macro,
+
+by means
+
+of the
+
+of a bind-operation
+
+specified and
+
+by means
+
+of
+
+The reply of a bind-operation is mapped on the AASSOCIATE response and A-ASSOCIATE confirm service primitives. If the bind-operation was successfully performed, the result parameter of the service primitives is and the result value of the bind"accepted", operation is mapped on the user information parameter of the service primitives. If the bind-operation was not successfully performed, the result parameter value of the service primitives is "rejected (permanent)", and the error value of the bind-operation is mapped on the user information parameter of the service primitives.
+11.2.1.2
+
+a set of operations specified the OPEKATION macro, and
+
+by means
+
+of
+
+a set of errors related to operations and specified by mean& of the ERROR macro. bind-operation, may be invoked
+
+The Remote Operations (i.e. unbind-operation and operations) by the user-element.
+
+An association-initiating user-element establishes an application-association by invoking a bind-operation If the application-association is established, operations may be invoked by the user-element. When the association-initiating release user-element wishes to the application-association, it invokes an unbindoperation. 11.2 Mapping of Remote Operations ACSE services. RTSE services, ROSE services on and
+
+Mapping
+
+of an unbind-operation is mapped on the A-
+
+An unbind-dperation RELEASE: serxice.
+11.2.1.2.1 Invocation
+
+of an unbind-operation
+
+The bind-operation and, the unbind-operation are mapped either on ACSE services, or the RTSE services. The operations
+11.2.1
+
+The invocation of an unbind-operation is mapped on the A-RELEASE request and the A-RELEASE indication service primitives. The argument value of the unbind-operation is mapped on the user information parameter of the service primitives. The reason parameter value of the service primitives is "normal" 11.2.1.2.2 Reply of an unbind-operation
+
+are mapped
+
+on the ROSE services. services A-
+
+Mapping
+
+on ACSE
+
+The bind-operation is ASSOCIATE service and mapped on the A-RELEASE
+11.2.1.1
+
+mapped on the the unbind-operation service.
+
+The reply of an unbind-operation is mapped on the A-RELEASE response and A-RELEASE confirm service primitives. If the unbind-operation was successfully performed, the reason parameter value of the service primitives is "normal", the result value of the unbind-operation is mapped on the user information parameter of the service primitives, and the result parameter of the service primitives
+
+Mapping
+
+of a bind-operation is mapped on the A-
+
+A bind-operation ASSOCIATE service.
+
+21
+
+IS13675 (Partl): 1993 ISO/lEC9072-1:1989
+
+is "affirmative", If the unbind-operation was not successfully performed, the reason parameter value of the service primitives is "not finished," the error value of the unbind-operation is mapped on the user information parameter of the service primitives, and the result parameter of the service primitives is "affirmative".
+11.2.2
+
+11.2.2.2.1 Invocation
+
+of an unbind-operation
+
+The invocation of an unbind-operation is mapped on the RT-CLOSE request and the RT-CLOSE indication service primitives. The argument value of the unbind-operation is mapped on the user-data parameter of the service primitives. The reason parameter value of the service primitives is "normal" 11.2.2.2.2 Reply ofan unbind-operation The reply of an unbind-operation is mapped on the RT-CLOSE response and RT-CLOSE confirm service primitives. If the unbind-operation was successfully performed, the reason parameter value of the service primitives is "normal", and the result value of the unbind-operation is mapped on the user-data parameter of the service primitives. If the unbind-operation was not successfully performed, the reason parameter value of the service, primitives is "not finished", and the error value of the unbind-operation is mapped on the user-data parameter of the service primitives. 11.2.3 Mapping on ROSE services
+
+Mapping
+
+on RTSE services
+
+The bind-operation is mapped on the RT-OPEN service and the unbind-operation mapped on the RT-CLOSE service. 11.2.2.1 Mapping of a bind-operation is mapped on the RT-OPEN
+
+A bind-operation service.
+
+11.2.2.1.1 Invocation
+
+of a bind-operation
+
+The invocation of a bind-operation is mapped on the RT-OPEN request and RT-OPEN indication service primitives. The argument value of the bind-operation is mapped on the user-data parameter of the service primitives. The.dialogue-mode parameter value is "two-way-alternate". 11.2.2.1.2 Reply of a bind-operation The reply of a bind-operation is mapped on the RT-OPEN response and RT-OPEN confirm service primitives. If the bind-operation was successfully performed, the result parameter of the service primitives is "accepted", and the result value of the bindoperation is mapped on the user-data parameter of the service primitives. If the bind-operation was not successfully performed, the result parameter value of the service primitives is "rejected (permanent)", and the error value of the bind-operation is mapped on the user-data parameter of the service primitives. 11.2.2.2 Mapping of an unbind-operation is mapped on the RT-CLOSE
+
+An operation
+
+is mapped on the ROSE services. of an operation is mapped on the
+
+I 1.2.3.1 Invocation
+
+The invocation af an operation RO-INVOKE service.
+
+The value assigned to the operation is mapped on the operation-value parameter of that service. The value of the Named-Type in the ARGUMENT clause of the OPERATION macro is mapped on the argument parameter of that service.. 11.2.3.2 Reply of an operation the
+
+If an operation was successfully performed, reply is mapped on the RO-RESULT service.
+
+The value of the Named-Type in the RESULT clause of the OPERATION macro is mapped on the result parameter of that service. If an operation .was not successfully performed, the reply is mapped on the RO-ERROR service. In this case one of the errors in the Identifier List of Error Names in the ERROR clause of the
+
+An unbind-operation service.
+
+IS 13675 ( Part 1) : 1993 ISO/lE;C 9072-l : 196
+
+OPERATION macro may be applied, The value assigned to the applied error is mapped on the error-value parameter of that service. The value of the Named-Type in the PARAMETER clause of the ERROR macro of the applied error is mapped on the error-parameter parameter of that service.
+
+12.1.2.2
+
+Disrupted
+
+Remote
+
+Operations
+
+An unbind-operation does not disrupt Remote Operations in the case of Association Class 1 and Operation Class 1 or 2 operations. In all other cases an unbind-operation may disrupt, operations. However if in a specific application-context Operation Classes 3, 4 or 5 &&or Association Class 2 or 3 are used, it is assumed that either the disruption is acceptable or the application-context provides operations to avoid the disruption. 12.1.2.3 Disrupting Remote Operations Remote Operations.
+
+12
+
+Sequencing
+
+information
+
+This clause defines the interaction among the Remote Operations, and the i~nteraction among the ACSE services and the ROSE -services. 12.1 12.1.1 12.1.1.1 Sequencing Onerations * information for Remote
+
+Bind-operation Usage restrictions
+
+There are no disrupting 12.1.2.4 Collisions
+
+A bind-operation is not used on an establ,ished application-association. A successfully performed bind-operation establishes an applicationassociation. 12,1.1.2 Disrupted Remote Operation does not disrupt any Remote
+
+Because only the association-initiator release the application-association, there collision. 12.1.3 12.1.3.1 Operations Usage restrictions used
+
+may is no
+
+The bind-operation Operation. 12.L.1.3 Disrupting
+
+Operations are only application-association. 12.1.3.2 Disrupted
+
+on an established
+
+Remote Operations
+
+Remote Operations
+
+There are no disrupting Remote Operations. 12.1.1.4 Collisions
+
+Operations do not disrupt any Remote Operations. 12.1.3.3 Disrupting Remote Operations by an unbind-
+
+A bind-operation collision results when the user-elements in both AI% simultaneously invoke a bind-operation on each other. In this case two independent application-associations are established. 12.1.2 12.1.2.1 Unbind-operatian Usage restrictions
+
+Operations may be disrupted operation (see 12.1.2.2). 12.1.3.4 Collisions
+
+There are no collisions of operations. 12.1.4 Further sequencing information at the may be
+
+-An u~nbind-operation is only used on an established application-association. It is only used by the user-element which invoked the bindoperation, It is only used when no replies from Operation Class 1 or 2 operations are outstanding. The application-association ceases to be established no matter whether the unbitidoperation is performed successfully or not,
+
+Pisrupting services are not visible operation-interface. However operations disrupted by services (see 12.2).
+
+Bind-operations and unbind-operations are disrupted by the A-ABORT, A-P-ABORT, RT-U-ABORT and RT-P-ABORT services. Operations are disrupted by the A-ABORT, A-PRT-U-ABORT, RT-P-ABORT, ABORT, RO-REJWT-U and RO-REJECT-P services.
+
+IS 13675 (Part 1) : 1993 lSO/lEC 9072-l : 1969
+
+In addition an operation may be disrupted by the A-RELEASE service. But this reflects only the disruption of an operation by an unbindoperation.The disrupted operations are not considered in the disrupted services of 12.2. Because all Remote Operations are mapped on services, and disrupting Remote Operations (unbind-operation) are'represented by services, no disrupting Remote Operations are considered in the disrupting services subclauses of 12.2. 12.2 12.2.1 Sequencing information for services
+
+12.2.3.1
+
+RO-INVOKE
+
+service
+
+12.2.3.1.1 Type of Service
+
+The RO-INVOKE service.
+
+service
+
+is an non-confirmed
+
+12.2.3.1.2 Usage restriction The RO-INVOKE service is only established application-association. 12.2.3.1.3 Disrupted The RO-INVOKE services. services does not disrupt any used on an
+
+service
+
+ACSE services is is
+
+The sequencing information for ACSE services described in IS0 8649. Additional information provided in this subclause. 12.2.1.1 Disrupted ROSE services
+
+12.2.3.1.4 Disrupting
+
+services by the RO-
+
+Tbe RO-INVOKE service is disrupted REJECT-P service. 12.2.3.1.5 Collision There are service. 12.2.3.2 no collisions of the
+
+.In addition to the disrupted services defined in IS0 8649 all ROSE services except the ROREJECT-P service are disrupted by the A-ABORT and A-P-ABORT services and may be disrupted by the A-RELEASE service (see 12.2.3 6). 12.2.1.2 Disrupting ROSE services ROSE services.
+
+RO-INVOKE
+
+RO-RESULT
+
+12.2.3.2.1 Type of service There are no disrupting 12.2.2 RTSE services The RO-RESULT service. service is an non-confirmed
+
+12.2.3.2.2 Usage restriction The RO-RESULT service is only used on an established application-association and in reply to an RO-INVOKE service.
+12.2.3.2.3 Disrupted services
+
+The sequencing information for RTSE services is described in ISO/IEC 9066-l. Additional information is provided in this subclause. 12.2.2.1 Disrupted ROSE services
+
+In addition to the disrupted services defined in ISO/IEC 90661 all ROSE services except the ROREJECT-P service are disrupted by the RT-UABORT, RT-P-ABORT and the negative RT-TRANSFER confirm services. 12.2.2.2 Disrupting ROSE services ROSE services.
+
+The RO-RESULT services.
+
+service
+
+does not disrupt
+
+any
+
+12.2.3.2.4Disrupting
+
+services by the RO-
+
+The RO-RESULT service is disrupted REJECT-P service. 12.2.3.2.5 Collisions There are service. 12.2.3.3 no collisions of the
+
+There are no disrupting 12.2.3
+
+ROSE services
+
+RO-RESULT
+
+This subclause describes the interaction ,among the ROSE services. Interactions with ACSE services are described in 12.2.1, and interactions with RTSE services are described in subclause 12.2.2.
+
+RO-ERROR
+
+12.2.3.3.1 Type of service The RO-ERROR service. service is an non-confirmed
+
+24
+
+IS 13675 (Part 1): 1993 ISO/lEC 9072-l : 1969
+
+12.2.3.3.2
+
+Usage restriction
+
+The RO-ERROR service is only used on an established application-association and in reply to an RO-INVOKE service. 12.2.3.3.3 Disrupted The RO-ERROR service. 12.2.3.3,4 services does not disrupt any
+
+There are no collisions service. 12.2.3.5 HO-REJECT-P
+
+of the RO-REJECT-U
+
+12.2.3.5.1 Type of service service The RO-REJECT-P service. 12.2.3.5.2 Disrupting services is disrupted by the RO12.2.3.5.3 Disrupted services service disrupts all other The RO-REJECT-P ROSE services. of the RO-ERROR service. 12.2.3.5.4 12.2.3.4 RO-REJECT-U 12.2.3.4.1 Type of service The RO-REJECT-U service. 12.2.3.4.2 service is an non-confirmed Disrupting services by any The RO-REJECT-P other service. 12.2.3.5.5 Collision If the ACSt? service or an RTSE service causes an abort or the release of an applicationassociation, it is a local matter to inform the service-user about outstanding RO-REJECT-P services for Returned~parameters. 12.2.3.6 Additional Sequencing Information service is not disrupted The RO-ERROR service REJECT-P service. 12.2.3.3.5 Collisions There are no collisions service is a provider initiated
+
+Usage restriction
+
+Not applicable.
+
+Usage restriction
+
+The RO-REJECT-U service is only used on an established application-association and in reply to RO-INVOKE, RO-RESULT and RO-ERROR services. 12.2.3.4.3 Disrupted services service does not disrupt any
+
+The RO-REJECT-U service. 12.2.3.4.4 Disrupting
+
+services is disrupted by the
+
+The usage restrictions for unbind-operations (12.1.2.1) and the mapping of unbind-operation on to the A-RELEASE service prevent the disruption of ROSE services, if only Association Class 1 and Operation Classes 1 and 2 are used. If Association Classes 2 or 3, or Operation Class 3, 4 or 5 are used, the A-RELEASE service may disrupt ROSE services. In this case it is the responsibility of the application-context designer, either to accept this disruption or to provide means (e.g. operations) to prepare for the release of an application-association.
+
+The RO-REJECT-U service RO-REJECT-P service. 12.2.3.4.5 Collisions
+
+25
+
+IS 13675 (Part 1) : 1993 ISO/IEC 9072-l : 198
+
+Annex A
+(normative)
+
+Notation supporting the specification of application-service-elements and application-contexts
+This annex provides a notation supporting the specification of application-service-elements and application contexts which are specified by means of the RO-notation. The RO-notation may be used to specify the bind-operation and the unbindoperation of an application context. Additionally the RO-notation may be used to specify operation types and error types of several applicationservice-elements (ROSE-user ASEsL If the ROnotation is combined with other notations, other specification tools defined elsewhere might be used. This annex defines two macros supporting the specification of application-service-elements and application contexts. The formal Jefinition of these macros is shown in figure A. 1. bl invoked by the supplier functionality
+of the terms intuitive. One "supplier" might and
+
+of the information-processing
+NOTE A particular "consumer" consider its user however, arbitrary. allocation is often a file system, to be called the
+
+naturally and
+
+e.g. to be called a consumer.
+
+a supplier
+
+Strictly two
+
+speaking, terms is
+
+assignment
+
+of the
+
+A.1
+
+Application-service-elements
+supports th.e unique identification of
+
+If an ASE uses the concept of linked-operations, a specific operation type may be invoked as a childoperation. The invoker of the child-operation is the performer of the linked parent-operation. Operation types solely invoked as child-operations shall not be included in the ASE specification, they are listed in the type specification of their parent-operations. The error types the operations may report are not included in the ASE specification, they are listed in the type specification of the operations. The set of the remaining operations (operations not solely invoked as child-operations), and who is allowed to invoke this operations may be reflected by a formal notation specifying the ROSE-user ASE.
+A-1.1 Specification service-element of an application-
+
+The notation an ASE.
+
+If an ASE is an ROSE-user, the notation additionally supports the specification of the characteristics of the ASE. The operationinterface and the protocol of an ROSE-user ASE are specified by a set of operation types and a set of error types. The protocol inherently: a) b) specified or for a specific ASE may be
+
+symmetric, asymmetric
+
+An ASE may be specified by a formal notation APPLICATION-SERVICE-ELEMENT supported by the macro (see figure A. 1). may invoke The type
+ELEMENT
+
+In the symmetric case both ASE-users the same set of operation types.
+
+In the ~asymmetric case one ASE-user (called supplier in the context. of this annex) provides some information-processing functionality which is used by the peer ASE-user (called consumer in the context cif this annex). In this case a specific _operationmtype may be a) invoked by the consumer, and/or
+
+notation of the APPLICATION-SERVICEmac~ro enables the specification of an ASE. The value notation of the APPLICATION-SERVICEELEMENT macro enables the specification of an unique identifier for the ASE. for an ASE type is the keyword optionally followed by the specification of operations.
+APPLICATION-SERVICE-ELEMENT
+
+The notation
+
+26
+
+IS13675( Part 1):1993 ISO/IEC 9072.1:1989
+
+Remote-Operations-Notation-extension DEFINITIONS BEGIN EXPORTS IMPORTS :: =
+
+( joint-iso-ccitt remote-operationr(4)
+
+notation-extension
+
+(2) }
+
+APPLICATION-SERVICE-ELEMENT, OPERATION, BIND, UNBIND FROM
+
+APPLICATION-CONTEXT,
+
+aCSE;
+
+Remote-Operation-Notation
+
+( joint-iso-ccitt remote-operations(4)
+__
+
+notation(O)};
+
+macro definition for ASEs
+MACRO :: P
+
+APPLICATION-SERVICE-ELEMENT BEGIN TYPE NOTATION VALUE NOTATION SymmetricAse Consumerlnvokes Supplierlnvokes OperationList Operation END
+
+:: = SymmetricAse
+
+1Consumerlnvokes
+"{" OperationList
+
+Supplierlnvokes
+
+1empty
+
+:: = value (VALUE OBJECT IDENTIFIER) :: = "OPERATIONS" :: = "CONSUMER :: = "SUPPLIER `}" ")" ")"
+
+INVOKES " "(" OperationList "(" OperationList ",I' Operation
+
+1empty 1empty
+
+INVOKES"
+
+: : = Operation / OperationList
+:: = vahe(OPERATION)
+
+0
+:: = ( joint-iso-ccitt remote-operations(4) areID-ACSE (4))
+
+aCSE APPLICATION-SERVICE-ELEMENT __
+
+Remote Operations Notation
+
+extension continued
+
+Figure
+
+A.l.(Part
+
+1 of 2)
+
+- Formal definition
+
+of ASE and'appliration-context
+
+data types
+
+If the protocol specified for the ASE is symmetric, the keyword OPERATIONS and the reference names of the operations are specified. If the protocol specified asymmetric, the keywords for
+CONSUMER
+
+the reference names of the operations the consumer may invoke, and/or the keywords SUPPLIER INVOKES and the reference names of the operations the supplier may invoke, are specified.
+
+the
+
+ASE
+
+INVOKES
+
+is and
+
+27
+
+IS 13675 ( Part 1) : 1993 ISO/lEC 9072-l : 1989
+
+A.2
+
+Application
+
+contexts
+an application context
+
+In the context of this annex explicitly identifies: a) b) c) a bind-operation, an unbind-operation,
+
+and
+
+a set of application-service-elements one or more identified abstract-
+
+and requires syntaxes.
+
+The notation for an application context type is the keyword APPLICATION-CONTEXT, followed by the keywords APPLICATION SERVICE ELEMENTS and the reference names of ASEs not using the ROnotation, followed by the keyword BIND and the reference name of the bind-operation type, followed by the keyword UNBIND and the reference name of the unbind-operation type, optionally followed by the specification of ASEs using operations, followed by the keywords ABSTRACT SYNTAXES and the reference names of the abstract syntaxes. If the application context contains ROSE-user ASEs, the keywords REMOTE OPERATIONS and the reference name of the ROSE, followed by the specification of ASEs with a symmetrical protocol, and/or the specification of ASEs with an asymmetrical protocol are used. The specification of ASEs with a symmetrical protocol is the keywords OPERATIONS OF and the reference names of that ASEs. The specification of ASEs with an asymmetrical protocol is the keywords INITIATOR CONSUMER OF and the reference names of ASEs the consumer of which is the association-initiator, and/or the keywords RESPONDER CONSUMER OF and the reference names of ASEs the consumer of which is the association-responder. A.2.2 Mapping of notation on to service
+
+The set of application-service-elements __ a)
+
+contains
+
+ASEs not using the RO-notation, i.e the ACSE, optionally the RTSE, and optionally others; and optionally ASEs . the ROSE and ROSE-user
+
+b)
+
+If the application context contains ROSE-user ASEs with an asymmetrical protocol, the notation supports the specification whether the association-initiator or the association-responder is the consumer of such an ASE. The identification of the bind-operation, the unbind-operation, the application-serviceelements, and the abstract-syntaxes may be reflected by a formal notation specifying the application context. A.2.1 Specification context of an application
+
+The application abstract syntax
+
+An application context may be specified by a formal notation supported by the APPLICATIONCONTEXT macro (see figure A. 1 1. The type notation of the APPLICATION-CONTEXT macro enables the specification of the application context. The value notation of the APPLICATIONCONTEXT macro enables the specification of an unique identifier for the application context.
+
+context identifier and the list of names specified by means of the APPLICATION-CONTEXT macro are mapped either on the RT-OPEN services of RTSE, if RTSE is included in the application context; or else on the A-ASSOCIATE services of ACSE. The application context value is mapped on to the Application Context Name parameter of the RTOPEK or A-ASSOCIATE services. The abstract syntax names are mapped on to the Presentation Context Definition List parameter and the Presentation Context Definition Result List of the RT-OPEN or A-ASSOCIATE services.
+
+28
+
+IS 13675 (Part 1) : 1993 lSO/lEC 9072-l : 1999
+
+\ __ Remote Operations Notation extension continued _- macro definition for application contexts
+APPLICATION-CONTEXT BEGIN TYPE NOTATION VALUE NOTATION NonROelements Binding :: = NonROelements Binding ROelements AbstractSyntaxes MACRO :: =
+
+:: I value (VALUE OBJECT IDENTIFIER) :: = "APPLICATION :: = "BIND" "UNBIND" SERVICE ELEMENTS" type type OPERATIONS" --"{" AseList ")"
+
+shall reference a bind-operation type shall reference an unbind-operation type
+--
+
+ROelements
+
+:: = "REMOTE
+
+"(" AselD "}"
+
+identifying
+
+ROSE
+
+SymmetricAses SymmetricAses AsymmetricAses InitiatorConsumerOf ResponderConsumerOf AbstractSyntaxes AseList AselD AbstractSyntaxList AbstractSyntax END END __ end :: = "OPERATIONS
+
+AsymmetricAses OF " "1" AseList ")"
+
+1empty 1empty
+
+:: = InitiatorConsumerOf :: z "INITIATOR
+
+ResponderConsumerOf OF" "(" AseList "1" OF" "(" AseLirt
+
+CONSUMER CONSUMER
+
+1empty 1empty
+"}"
+
+: : = "RESPONDER
+:: = "ABSTRACT :: = AselD
+
+"1"
+
+SYNTAXES""{"
+
+AbstractSyntaxList
+
+1 AseList "," AselD
+
+:: = value ( APPLICATION-SERVICE-ELEMENT) :: = AbstractSyntax
+
+1AbstractSyntaxList
+
+"," AbstractSyntax
+
+:: = value (OBJECT IDENTIFIER)--
+
+identifying
+
+abstract syntax
+
+of Remote Operations Notation
+
+extension
+
+Figure
+
+A.1 (Part
+
+2 of 2)
+
+- Formal
+
+definition
+
+of ASE and application-context
+
+data types
+
+29
+
+IS 13675 1 Part 1) : 1993 lSO/lEC 9072-l : 1989
+
+Annex B
+(informative)
+
+Guidelines for application protocol designers on the use of ROSE
+This annex application provides protocol examples designers and guidelines for on the use of ROSE.
+operationExample ARGUMENT RESULT :: 3 3 OPERATION ArgumentType ResultType
+
+B.l
+
+Examples errors
+
+for operations
+
+and
+for the
+
+This subclause provides examples definition ofoperations and errors. B.l.l Operation classes
+
+This subclause provides definition of operationsof 5.
+
+examples for Operation classes
+
+the 1 to
+
+and operationExample The operat'ions operationExample of Operation Class 5 (see example below) reports no outcome. The argument of the operation operationExample is of operation the ArgumentTypel, type
+operationExample the operation has no argument. The value value of of operationExample operationExample is 4, the is 5.
+
+the operation
+
+The operation operationExample classes 1 or 2 (see example below) (reSUk of type ArgumentTypel2) or errorExample or errorExample2). The operation operationExamplel2 ArgumentType12. The value of
+operationExamplel2 is 1,
+
+of Operation reports success failure (errors argument of the is of type the operation
+
+operationExample ARGUMENT :: = 4
+
+OPERATION ArgumentType
+
+operationExample :: = 5
+
+OPERATION
+
+operationExamplel2 ARGUMENT RESULT ERROR :: r 1
+
+OPERATION ArgumentType ~ResultTypel2 (errorExample1. errorExample2)
+
+B.1.2
+
+Linked-operations.
+
+The example'below shows the definition of a set of linked-operations consisting of the parentoperation parent-opl2 and the child-operations
+operationExample5l_and operationExample
+
+The operation operationExample of Operation 3 (see example below) reports failure errorExample1) only, if any. The argument
+OperatiOn operationExample iS Of type
+
+Class
+(error
+
+parent-opt2
+
+OPERATION ArgumentType ResultType 12 {errorExamplel,errorExample2) { operationExample51, operationExample )
+
+ARGUMENT RESULT ERROR LINKED :: = 6
+
+of the is 2.
+
+ArgumentType3.
+
+The value
+
+of the operation
+
+operationExample
+
+operationExample ARGUMENT TERROR :: = 2
+
+OPERATION ArgumentType {errorExamplel}
+
+B-1.3 Errors reports
+
+Errors
+
+The operationExample operation of Operation Class 4 (see example below) reports success (result of type ResultType4) only. The argument of the Operation operationExample is of type ArgumentType4. The value of the operation operationExample is 3.
+
+(see errorExample and errorExample below) failure. The parameter of the error errorExample is of type ParameterTypel, the error errorExample has no parameter. The value of the error errorExample is 1, the value of the error
+errorExample is 2.
+
+30
+
+IS 13675 ( Part 1) : 1903
+
+ISO/lEC 9072-l : 1999
+
+errorExample
+
+ERROR ParameterType
+
+PARAMETER
+
+:: r 1
+errorExample :: = 2 ERROR
+
+of the bind-operation BindExample to establish an application-association nor the response to the application-association establishment are accompanied by any user data.
+BindExample :: = BIND
+
+B.2
+
+Examples for bind-operations and unbind-operations
+for the unbind-
+
+B.2.2
+
+Unbina-operations
+
+Unbind-operations application-association. The request
+
+are
+
+used
+
+to release
+
+an
+
+This subclause provides examples definition of bind-operations and operations. B.2.1 Bind-operations used
+
+Bind-operations are application-association'.
+
+to establish
+
+an
+
+of the unbind-operation to release an applicationassociation is accompanied by the argument of type UnbindArgumentTypel. The response to the application-association release is accompanied either by the result of type UnbindResultTypel or by the unbind-error of type UnbindErrorTypel.
+UnbiodExamplel UnbindExample :: = UNBIND UnbindArgumentTypel UnbindResultTypel UnbindErrorTypel
+
+The request of the bind-operation BindExample to establish an application-association is accompanied by the argument of type BindArgumentTypel. The positive response to the application-association establishment is accompanied by the result of type BindResultTypel. The negative response to the applicationassociation establishment is accompanied by the bind-error of type BindErrorTypel.
+BindExample :: = BIND BindArgumentTypel BindResultTypel BindErrorTypel
+
+ARGUMENT RESULT UNBIND-ERROR
+
+'
+
+ARGUMENT RESULT BIND-ERROR
+
+the unbind-oper.ation release an applicationassociation is accompanied by the argument of type UhbindArgumentTypel. The response to the application-association release is optionally accompanied by the unbi,nd-error of type UnbindErrorTypel. The request
+UnbindExample to UnbindExample :: = UNBIND UnbindArgumentTypel UnbindErrorTypel
+
+of
+
+The request of the bind-operation BindExample to establish an application-association is accompanied by the argument of type BindArgumentTypel. The positive response. to the application-association establishment is not accompanied by any user data. The negative response to the application-association establishment is accompanied by the bind-error of type BindErrorTypel
+BindExample :: = BIND EindArgumentTypel BindErrorTypel
+
+ARGUMENT UNBIND-ERROR
+
+Note that argument, result and unbind-error of an unbind-operation are optional. Neither the request of the bind-operation UnbindExample to release an application-association nor the response to the application-association release are accompanied by any user data.
+UnbindExample
+
+:: =
+
+UNBIND
+
+ARGUMENT BIND-ERROR
+
+Note that argument, result bind-operation are optional.
+
+and bind-error of a Neither the request
+
+31
+
+IS 13675 ( Part 1) : 1993 ISO/lEC 9072-l : 1969
+
+B.3
+
+Export ahd import of operations and errors
+examples of how to export and errors. shows how The operation10
+and
+
+This clause gives import operations The example operations and
+have local values.
+
+and
+
+below errors.
+
+to
+and
+
+export
+error10 are
+
+OperationTypeA
+
+ErrorTypeA
+
+types, and specific values have to be assigned in the importing modules. The operation1 1 and error1 1
+have globally unique values.
+
+The example below shows how to import operations and errors. The operation10 and error10 have local values defined in the exporting module. The designer of the importing module is responsible for the uniqueness of these values within the abstract syntax. The operation operation13 is of type OperationTypeA and has the value 13 assigned. The errqr error13 is of type ErrorTypeA and has the value 13 assigned. The operation11 and error11 have globally unique values defined in the exporting module.
+ImportingModule { objectidentifier ) DEFINITIONS
+
+:: =
+1,
+
+ExportingModule BEGIN
+
+(objectidentifierl
+
+} DEFINITIONS :: =
+
+BEGIN IMPORTS operationlo, OperationTypeA, operation1
+
+EXPORTSoperationlO,
+
+OperationTypeA, error1 1;
+
+operation1 1,
+
+errorlo, FROM
+
+ErrorTypeA. error1 1 ExportingModule objectidentifierl { };
+
+errorlO, ErrorTypeA,
+
+IMPORTS OPERATION, ERROR,BIND,UNBIND FROM Remote-Operation-Notation
+
+( joint-iso-ccitt remoteoperations(d) operation10 OPERATION ArgumentType ResultType (errorlo} notation(O)}; END
+
+opera tion13 error13
+
+OperationTypeA
+
+: : = 13
+:: = 13
+
+ErrorTypeA
+
+ARGUMENT RESULT ERROR ::= 10 :: =
+
+H.4
+
+Definition of Applicationservice-elements
+
+OperationTypeA
+
+OPERATION ARGUMENT RESULT ArgumentTypeA ResultTypeA
+
+This clause gives examples on how to define application-service-elements. The examples refer to the operations and errors defined in the examples of clause B. 1. The application--service-element element1 includes operationExamplel2 the operations and operationExample and the errors errorExample and errorExample2. Note, the errors are included indirectly by the definition of the operations. The application-service-element element1 is symmetric, i.e. both user-elements may invoke the operations
+operationExamplel2 and operationExampk3.
+
+operation1 1
+
+OPERATION ArgumentType ResultType (error1 1) 11 I 1 1
+
+ARGUMENT RESULT ERROR
+
+:: = ( objectidentifier2component
+
+error1 0
+
+ERROR PARAMETER :: = 10 ParameterType
+
+elementl APPLICATlON-SERVICE-ELEMENT ErrorTypeA ERROR PARAMETER ParameterTypeA :: = OPERATIONS [operdtionExample12, operationExample3) :: = { objectidentifierOfElement1 }
+
+error1 1
+
+ERROR PARAMETER ParameterType 1 12) :: = (objectidentifier2component
+
+END
+
+32
+
+IS 13675
+
+lSO/lEC
+
+(Part 1) : 1993 9072-l : 1989
+
+The application-service-element element2 includes operations operationExample and the operaiionExample4 and the error errorExample1. The application-service-element element2 is asymmetric, i.e. only one user-element (that in the consumer role) may invoke the operations operationExample and operationExample4.
+element2APPLlCATION-SERVICE-ELEMENT CONSUMER INVOKES (operationExample3, operationExample4) :: = ( objectidentifierOfElement2 )
+
+as a child-operation, or outside operations (as a non-child-operation).
+elementSAPPLICATION-SERVICEYELEMENT
+
+a set
+
+of linked-
+
+CONSUMER INVOKES (parent-opl2
+
+)
+
+SUPPLIER INVOKES (operationExample52) :: = { objectidentifierOfElement5)
+
+8.5
+
+Definition contexts
+
+of application
+
+The the
+
+application-service-eleulent operations
+
+element3
+
+includes and
+
+operationExamplel2
+
+operationExample errorExample2. element3 (that in operations The
+
+and
+
+the errors
+i.e. only
+
+errorExample one may user7!lemcnt invoke
+
+and
+
+application-service-element
+
+This clause gives examples of how to define application contexts for several Association Classes. The examples refer to the applicationservice-elements defined in the examples of clause H.4, and the bind-operations and unbindoperations defined in the examples of clause R.2. The application context context1 includes the application-service-elements ACSE, RTSE, ROSE, and element2; the bind-operation and the unbind-operation BindExample UnbindExample3. The association-initiator may invoke the operations operationExample and operationExample The association-responder is not allowed to invoke any operation (Association Class 1).
+context1 APPLICATION-CONTEXT BindExample UnbindExample (rOSE} (element2)
+
+is asymmetric, the supplier
+
+role)
+
+the
+
+operationExamplel2
+
+and operationExample51.
+
+element3APPLICATION-SERVICE-ELEMENT SUPPLIER INVOKES {operationExamplel2, operationExample } )
+
+:: = ( objectidentifierOfElement3
+
+The application-service-element element4 includes the operations parent-opl2, operationExample and operationExample and the errors errorExample and errorExample2. Note, the child-operations operationExample and operationExample are included indirectly by the definition of the parentoperation parent-opl2 The application-serviceelement element4 is asymmetric, i.e. only one userelement (that in the consumer role) may invoke the operation parent-opi2 and only the other userelement (that in the supplier role) may invoke the and of the child-operations operationExample parent-operation operationExample during parent-op12 the execution
+
+APPLICATION SERVICE ELEMENTS (aCSE, rTSE) BIND UNBIND REMOTE OPERATIONS INITIATOR CONSUMER OF ABSTRACT SYNTAXES {{joint-iso-ccitt abstractSyntax(1) associatiorwontrol(2) apdur(0) versioni(l )
+
+objectidentifierOfAbstractSyntax1) :: = (objectidentifierOfContext1
+
+element4APPLICATION-SERVICE-ELEMENT CONSUMERINVOKES (parent-opl2)
+
+:: = { objectidentifierOfElement4)
+
+The application context context2 includes the application-service-elements ACSE, ROSE, and elements; the bind-aperation element2, and the unbind-operation BindExamplel;
+UnbindExample
+
+invoke The application-service-element element5 includes the same operations and errors as the applicationservice-element element4. The only difference being, that the user-element in the supplier role may invoke the operation operationExample either
+
+the
+
+The association-responder operations operationExample3,
+operationExamplel2
+
+may
+and
+
+operationExample4, operationExample51.
+
+allowed Class 2).
+
+The association-initiator is not to invoke any operation (Association
+
+33
+
+lSO/lEC 9072-l
+
+IS 13675 ( Part 1) : 1993 : 1959
+
+context2 APPLICATION-CONTEXT APPLICATION BIND UNBIND REMOTE INITIATOR RESPONDER ABSTRACT OPERATIONS CONSUMER CONSUMER SYNTAXES association-control(2) apdus(0) versionlC1)). } OF OF SERVICE ELEMENTS {aCSE) BindExample UnbindExample {rOSE) lelement3) {elementZ}
+
+context4 APPLICATION-CONTEXT APPLICATION BIND UNBIND REMOTE ABSTRACT OPERATIONS OF SYNTAXES OPERATIONS SERVICE ELEMENTS {aCSE} BindExample UnbindExampke3 {rOSE) {elementl)
+
+{objectidentifierOfAbstractSyntaxO) :: = (objectidekifierOfContext4)
+
+((joint-iso-cciti
+
+abstractSyntax(1)
+
+objectidentifierOfAbstractSyntax2) :: = { objectidentifierOfContext2
+
+The last two examples abstract syntax.
+
+assume
+
+a single
+
+named
+
+The application context context3 includes the application-service-elements ACSE, RTSE, ROSE, and eIement2; the bind-operation BindExamplel; and the unbind-operation UnbindExample3. The association-responder may invoke the operations operationExample and operationExample4. The association-initiator is not. allowed to invoke any operation (Association Class 2).
+context3 APPLICATION-CONTEXT APPLICATION BIND UNBIND REMOTE ABSTRACT OPERATIONS CONSUMER SYNTAXES ) OF RESPONDER SL'RVICE ELEMENTS (aCSE, rTSE} BindExample UnbindExample (rOSE) {element2)
+
+B.6
+B.6.1
+
+Releasing applicationassociations In an orderly
+Introduction
+
+way
+
+This part of ISO/IEC 9072 defines five Operation Classes based upon the outcome they report, and three Association Classes based upon whether the association-initiator, the association-responder, or both may invoke operations. This subclause defines the rules that ensure orderly release of application-associations and the, Operation Classes invoked over it. B.6.2 Objectives
+
+(objectidentifierOfAbstractSyntax3) :: 3 { objectidentifierOfContext3
+
+The rules of this subclause are intended to achieve one of the following two objectives, depending upon the situation:
+
+a) The Exactly-Once
+
+The application context context4 includes the application-service-elements ACSE, ROSE, and element2; the bind-operation BindExample3; and the unbind-operation UnbindExample3. The application context context3 is symmetric, i.e. both the association-initiator and the associationinvoke the operations responder may operationExample operationExamplel2 and (Association Class 3).
+
+Objective: Ideally an application entity should be able to count on the invocation of an operation causing that operation to be performed only once. Objective: In some circumstances the Exactly-Once Objective cannot be achieved. A lesser but still useful'objective is that invoking an operation which will cause that operation to be performed once or not at all.
+
+b) The At-Most-Once
+
+34
+
+IS 13675 ( Part 1) : 1993 ISO/lEC 9072-l : 198
+
+B.6.3
+
+Definition
+
+of rules rules apply in all
+
+bl
+
+The fillowing circumstances:
+
+general
+
+Application-associations classes 2 and 3: For
+
+of Association
+
+Gl.The performer shall report the result or error of each confirmed operation over the same application-association by means of which the operation was invoked. G2The initiator shall not application-association operations it invoked confirmed. The following circumstances: specific rules release until have the all been
+
+operations of Operation Classes 1 and 2, specific rules S3 and S4 apply. (Any invocation issued by the association-responder after the association-initiator has issued a release are lost. Response-rejects may be lost as well). For operations of Operation classes 3,4, and 5, specific rules Sl; S2, S3 and S4 apply.
+
+apply
+
+in certain
+
+For protocols containing only operations of Operation Classes 1 or 2, the only constraint upon the values of the Invoke-IDs the invoker supplies to the RO-INVOKE- service is that they be distinct over the life of the application-association. Application-entities make Invoke-IDS unique to an invoker and across consecutive applicationassociations by exchanging presentationaddresses at applicatlsn-association establishment time and, for each presentationaddress, making Invoke-IDS integers that increase monotonically over some reasonable long period of time. To ensure that an operation of Operation Classes 3, 4, or 5 has been performed exactly once, an application-entity shall elicit the duplicateinvocation Reject-reason by invoking the operation twice (or more) with the same InvokeID. Other&e, the At-Most-Once Objective is all that is assured, suggesting that, on average, the invoker does not care whether an non-confirmed operation is performed. B.6.5 Observations Classes 1 or 2 is
+
+Sl. Each time it exercises the RO-INVOKE the invoker shall supply a service, different Invoke-ID (unless reattempting an invocation1 even across a succession of application-associations. This enables the performer to achieve the At-Most-Once Objective by suppressing duplicates. a duplicate s2. If the performer encounters Invoke-ID in the RO-INVOKE service, it shall exercise the HO-REJECT-U service with duplicate-invocation as the Rejectreason. This helps to achieve the ExactlyOnce Objective. shall reject any s3. The association-initiator invocations it has not performed before releasing the application-association. shall respond to s4. The association-initiator any invocations it has performed before releasing the application-association. B.6.4 .Application of rules
+
+The general rules always apply. The specific rules govern application-associations of particular Association Classes, and operations (invoked by means of such associations) of particular Operation Classes, as follotis: a)
+Application-associations Class I: For operations of Association
+
+Every operation of Operation performed exactly once.
+
+of Operation Classes 1 and 2, no specific rules apply. For operations of Operation classes 3, 4, and 5, specific rules Sl and 52 apply.
+
+The usefulness of non-confirmed operations or conditionally confirmed operations may depend on the specific application. Protocol designers are recommendetto define only operations of Operation Classes 1 or 2 unless some very specialized requirements exist.
+
+35
+
+Rimed
+
+at Jhe Kay Phen.
+
+kw
+
+Delhi, India
+
+Standard Mark The use of the Standard Mark is governed by the provisions of the Bureau of Indian Standards Act, 1986 and the Rules and Regulations made thereunder. The Standard Marl, on products covered by an Indian Standard conveys the assurance that they have been produced to comply with the requirements of that standard under a well defined system of inspection, testing and quality control which is devised and supervised by BIS anC operated by the producer, Standard marked products are also continuously cheked b) BIS for conformity to that standard as a further safeguard. Details of conditions under which a licence for the use of the Standard Mark may be granted to manufacturers 01 producers may be obtained from the Bureau of Indian Standards.
+
+Bureau of Indian Standards BIS is a statutory institution established under the Lhreau of Indian Standards Act, 1986 to promote harmonious development of the activities of standardization, marking and quality certification of goods and attending to connected matters in the country. Copyright BIS has the copyright of all its publications. No part of these publications may be reproduced in any form without the prior permission in writing of BIS. This does not preclude the free use, in the course of implementing the standard, of necessary details, such as symbols and sizes, type or grade designations. Enquiries relating to copyright be addressed to the Director ( Publications ), BIS. Revision of Indian Standards Amendments are issued to standards as the need arises on the basis of comments. Standards are also reviewed periodically; a standard along with amendments is reaffirmed when such review indicates that no changes are needed; if the review indicates that changes are needed, it is taken up for revision. Users of Indin Standards should ascertain that they are in possession of the latest amendments or edition by referring to the latest issue of `BIS Handbook' and `Standards Monthly Additions'. Comments on this lndian Standard may be sent to BIS giving the following reference: Dot : No. LTD 36 ( 1563 ) Amendments Issued Since Pablication Amend No. Date of Issue Text Affected
+
+BUREAU OF INDIAN Headquarters:
+
+STANDARDS
+
+Manak Bhavan, 9 Bahadur Shah Zafar Marg, New Delhi 11002 Telephones : 331 01 31, 331 13 75 Regional Ofices Central Eastern
+:
+
+Telegrams Common
+
+: Manaksanstha
+
+to
+
+all
+
+Offices )
+
+Telephone { 331 01 31 331 13 75 f37 84 99, 1 37 56 26, f53 33 43, 153 23 84 37 85 61 37 86 62 53 16 40
+
+: Manak Bhavan,
+
+9 Bahadur Shah Zafar Marg NEW DELHI 110002 CALCUTTA 700054 160036
+
+: l/14 C. I. T. Scheme VII M, V. I. P. Road, Maniktola
+
+Northern Southern Western
+
+: SC0 445-446, Sector 35-C, CHANDIGARH
+
+: C. I. T. Campus, IV Cross Road, MADRAS 600113
+: Manakalaya,
+
+235 02 16, 235 04 42 235 15 19, 235 23 15 632 92 95, 632 78,91, 632 78 58 632 78 92
+
+E9 MIDC, Marol, Andheri ( East ) BOMBAY 400093
+
+Branch : AHMADABAD. BANGALORE. BHOPAL. BHUBANESHWAR. COIMBATORE. FAKIDABAD. GHAZIABAD, GUWAHATI. HYDERABAD. JAIPUR. KANPUR LUCKNOW. PATNA. THIRUVANANTHAPURAM.
+Printed at Printwell Printers, Ahgarh,
+lndla
+
+

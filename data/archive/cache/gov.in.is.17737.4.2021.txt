@@ -1,0 +1,1951 @@
+Inda AAF IS 17737 (Part 4) : 2021 
+Indian Standard 
+
+
+maga fase ma 
+
+
+ATT 4 Aten AR Hare 
+
+
+Mobile Device Security 
+
+
+Part 4 Assessment and Evaluation 
+
+
+ICS 33.050.10, 35.030 
+
+
+© BIS 2021 
+
+
+anda Ara aa 
+BUREAU OF INDIAN STANDARDS 
+HAR WH, 9 SENAR TH Ari, ay freh — 110002 
+
+
+ea ana af MANAK BHAVAN, 9 BAHADUR SHAH ZAFAR MARG 
+NEW DELHI-110002 
+www.bis.gov.in www.standardsbis.in 
+
+
+December 2021 Price Group 7 
+
+
+Information Systems Security and Privacy Sectional committee, LITD 17 
+
+
+FOREWORD 
+
+
+This Indian Standard (Part 4) was adopted by the Bureau of Indian Standards, after the draft finalized by 
+Information Systems Security and Privacy Sectional committee had been approved by the Electronics and 
+Information Technology Divisional council. 
+
+
+There is no ISO/IEC Standard on this subject. 
+This standard is one of the series of Indian Standards on Mobile device security. Other parts in this series are: 
+Part 1 Overview 
+Part 2 Security requirements 
+Part 3 Security levels 
+As mobile based services especially, financial services are gaming popularity, focus on the security of data and 
+content on mobile devices is obvious. Mobile devices need additional protection because their extensive mobility 
+(portability) and always on connectivity (generally using untrusted public network) places them at higher exposure 
+
+
+to threats than other client devices such as desktop and laptop devices which are normally used only within the 
+organization’s facilities and on the organization’s networks. 
+
+
+It requires a totally different approach and strategy to address security of mobile devices as compared to normal 
+computer based systems and applications. Mobile devices uses mobile ecosystem that involves various subsystems 
+and components to provide an environment to enable the operations and connectivity of mobile devices and 
+information systems. Therefore, security of mobile needs to be addressed at different layers (subsystems and 
+components) of the mobile ecosystem covering mobile device technology stack (including firmware, embedded 
+components, operating system, pre-installed applications like mobile browser, device management software 
+agent, VPN client, Email client, etc.), Third party mobile applications, networks and communication interfaces 
+(including cellular, Wi-Fi, Bluetooth, NFC), mobile infrastructure (including mobile app store and services) and 
+enterprise mobile support/monitoring services (enterprise mobility management [EMM]/device management 
+software and mobile application management [MAM]). All these components of the mobile ecosystem 
+shall be considered for defining and assessing the security of mobile devices to meet the common security 
+objectives-confidentiality, integrity and availability. 
+
+
+This series of standards is applicable to the following: 
+a) Organizations designing, developing, and manufacturing mobile devices; 
+b) Customers seeking confidence in the security of mobile devices used by them; 
+c) Organizations seeking confidence in the security of mobile devices used by them; and 
+d) Organizations performing security assessment of mobile devices. 
+In the formulation of this standard, assistance has been derived from the following documents: 
+
+
+NIST Special Publication 1800-4b (Draft) — Mobile Device Security, Approach, Architecture, and Security 
+Characteristics Cloud and Hybrid Builds 
+
+
+NIST Special Publication 800-124 Revision 1; Guidelines for Managing the Security of Mobile Devices in the 
+Enterprise, June 2013 
+
+
+The composition of the Committee and Panel, responsible for the formulation of this standard is given at Annex D. 
+
+
+IS 17737 (Part 4) : 2021 
+
+
+CONTENTS 
+Page No. 
+0 INTRODUCTION re 1 
+1 SCOPE fe 3 
+2 REFERENCES ise 3 
+3 TERMINOLGY el 3 
+4 APPROACH, METHODOLOGY AND INPUTS REQUIRED FOR 
+SECURITY ASSESSMENT AND EVALUATION 3 
+41 General 3 
+4.2 Approach and Methodology 5 
+43 Inputs Required 6 
+ANNEXA CHECKLISTS FOR MOBILE OPERATING SYSTEM SECURITY 7 
+ANNEX B CHECKLIST FOR MOBILE PRE-INSTALLED APPLICATION SECURITY re 9 
+ANNEX C MOBILE DEVICE SECURITY CONTROL VERIFICATION = 11 
+ANNEX D COMMITTEE COMPOSITION byg 13 
+BIBLIOGRAPHY ae 16 
+LIST OF TABLES 
+Table 1 Limited Mobile Device Security Control Requirements for Security Level 1 se 4 
+Table 2 Mobile Device Security Control Requirements for Security Level 2 ay 4 
+Table3 Checklist for Mobile Operating System Based on SANS Mobile Device 
+Security Checklist s 7 
+Table 4 Checklist for Mobile Operating System based on CIS Google Android Benchmark, 
+v1.2.0-08-06-2018 wee 7 
+Table 5 Checklist for Mobile Operating System based on CIS Apple iOS 12 Benchmark, 
+v1.0.0 - 10-19-2018 2 8 
+Table 6 Checklist for Mobile Pre-installed Application Security se 9 
+
+
+Table 7 Mobile Device Security Control Verification m 11 
+
+
+iii 
+
+
+This page has been intentionally left blank 
+
+
+IS 17737 (Part 4) : 2021 
+
+
+0 INTRODUCTION 
+
+
+Mobile device consists of a set of components of the mobile technology stack covering mobile device hardware 
+(processor, storage, execution environment); mobile firmware; mobile operating system; and pre-installed 
+(bundled) apps. 
+
+
+A mobile ecosystem is an interconnected, interdependent set of various systems and core components which 
+include mobile device technology stack, mobile network, mobile applications, and vendor mobile infrastructure. 
+
+
+For overall security of mobile device, the security of the mobile device technology stack as well as the security of 
+the mobile device due to mobile ecosystem need to be addressed. 
+
+
+In addition to the security requirements, the mobile devices used for personal and enterprise in different scenario 
+are defined through security levels which need to be assed and evaluated. 
+
+
+This page has been intentionally left blank 
+
+
+IS 17737 (Part 4) : 2021 
+
+
+Indian Standard 
+
+
+MOBILE DEVICE SECURITY 
+PART 4 ASSESSMENT AND EVALUATION 
+
+
+1SCOPE 
+
+
+This standard (Part 4) describes approach and 
+methodology for assessment and evaluation of mobile 
+device security for security levels defined in Part 3 
+“Security levels” of this standard. 
+
+
+Security assessment and evaluation for two security 
+levels cover mobile OS security; mobile pre-installed 
+application security; and mobile device security 
+controls. 
+
+
+2 REFERENCES 
+
+
+The standards/documents given below contains 
+provisions, which through reference in this text 
+constitute provisions of this standard. At the time of 
+publication, the editions indicated were valid. All 
+standards/documents are subject to revision, and parties 
+to agreement based on this standard are encouraged to 
+investigate the possibility of applying the most recent 
+editions of the standards listed as follows: 
+
+
+IS No./Other Publication Title 
+
+
+IS 17737 (Part 1): 2021 Mobile device security: 
+
+
+Part 1 Overview 
+
+
+IS 17737 (Part 2): 2021 Mobile device security: 
+
+
+Part 2 Security 
+requirements 
+
+
+IS 17737 (Part 3): 2021 Mobile device security: 
+
+
+Part 3 Security levels 
+CIS Benchmarks (Android and iOS) 
+OWASP Top 10 Mobile Security Risks, 2016 
+
+
+OWASP MASVS, Version 1.1 
+SANS Mobile Device Checklist 
+
+
+3 TERMINOLGY 
+
+
+For the purpose of this standard (Part 4) the definitions 
+given in IS 17737 (Part 1) : 2021 shall apply. 
+
+
+4APPROACH, METHODOLOGY AND INPUTS 
+REOUIRED FOR SECURITY ASSESSMENT 
+AND EVALUATION 
+
+
+4.1 General 
+
+
+There are two levels of security defined for mobile 
+device in the Part 3 of this standard. These levels are 
+as follows: 
+
+
+a) Security Level 1: Baseline Security 
+b) Security Level 2: Comprehensive Security 
+
+
+4.1.1 Security Assessment and Evaluation - Security 
+Level 1 
+
+
+The security level 1 defines the basic security 
+requirements of mobile device. It covers: 
+
+
+a) Mobile OS security requirements as given in 6.4.1 
+of Part 2 of this standard; 
+
+
+b) Mobile pre-installed application security 
+requirements as given in 6.4.2 of Part 2 of this 
+standard; and 
+
+
+c) Limited mobile device security control 
+
+
+requirements as given in Table 1. 
+
+
+Mobile device security controls requirements as given 
+in Table 1 shall be verified 
+
+
+4.1.2 Security Assessment and Evaluation - Security 
+Level 2 
+
+
+The security level 2 is comprehensive security of 
+mobile device. It covers: 
+
+a) Mobile OS security requirements as given in 6.4.1 
+of Part 2 of this standard; 
+
+b) Mobile pre-installed application security 
+requirements as given in 6.4.2 of Part 2 of this 
+standard; and 
+
+c) Mobile device security control requirements as 
+given in Table 2. 
+
+
+Mobile device security controls requirements as given 
+in Table 2 shall be verified. 
+
+
+IS 17737 (Part 4) : 2021 
+
+
+Table 1 Limited Mobile Device Security Control Requirements for Security Level 1 
+( Clause 4.1.1 ) 
+
+
+Security Characteristics Security Controls 
+
+
+a) Device protection (device integrity) 1) Application black/whitelisting, 
+2) Application verification, 
+3) Verified application and OS updates 
+b) Data protection 1) Protected storage: 
+i) Device encryption, 
+ii) Remote wipe 
+2) Protected communications: 
+i) Virtual private network (VPN) 
+c) Data isolation 3) Device resource management 
+d) Identity and authorization 1) Local user authentication to applications, 
+2) Local user authentication to device 
+e) Monitoring 1) Root and jailbreak detection 
+f) Privacy protection 1) Informed consent of user, 
+
+
+2) Privacy notification provided to user 
+
+
+Table 2 Mobile Device Security Control Requirements for Security Level 2 
+( Clause 4.1.2 ) 
+
+
+Security Characteristics Security Controls 
+
+
+a) Device protection (device integrity) 1) Baseband integrity checks, 
+2) Application black/whitelisting, 
+3) Device integrity checks: 
+i) Boot validation, 
+4) Application verification, and 
+5) Verified application and OS updates 
+b) Data protection 1) Protected storage: 
+i) Device encryption, 
+ii) Secure containers, 
+iii) Trusted key storage, and 
+iv) Remote wipe. 
+2) Protected communications: 
+i) Virtual private network (VPN), and 
+ii) To include per-App VPN. 
+3) Data protection in process: 
+i) Encrypted memory, and 
+ii) Trusted execution environment. 
+c) Data isolation 1) Sandboxing, 
+2) Memory isolation, 
+3) Trusted execution environment, 
+4) Device resource management, and 
+5) Baseband isolation. 
+d) Identity and authorization 1) Local user authentication to applications, 
+2) Local user authentication to device, 
+3) Remote user authentication, and 
+4) Credential and token storage and use. 
+e) Monitoring 1) Auditing and logging, and 
+2) Root and jailbreak detection. 
+f) Privacy protection 1) Informed consent of user, and 
+
+
+2) Privacy notification provided to user. 
+
+
+4 
+
+
+4.2 Approach and Methodology 
+
+
+The mobile OS security requirements and mobile 
+pre-installed application security requirements for 
+security level 1 and 2 are the same. But the mobile 
+device security control requirements are different; at 
+security level 1 only limited mobile device security 
+control requirements are applicable whereas at security 
+level 2 all mobile device security control requirements 
+are applicable. 
+
+
+The assessment and evaluation of these security 
+requirements at security level 1 and 2 are described 
+below: 
+
+
+4.2.1 Mobile Operating System Security Requirements 
+Verification 
+
+A mobile operating system is a software, which runs 
+at the highest, privilege level and can directly control 
+hardware resources. The OS handles most user 
+interaction and provides the execution environment 
+for apps. Most mobile operating systems are tied to 
+specific hardware, with little flexibility. A mobile OS is 
+responsible for identifying and defining mobile device 
+features and functions, including application sandbox, 
+Kernel, Media Services, Runtime Environment, etc. 
+
+A new mobile device comes with operating system 
+having default configuration setting. In order to make it 
+secure, the default operating system setting needs to be 
+configured with secure settings before use. 
+
+
+The security of the mobile operating system shall be 
+verified by checking its configuration settings using a 
+checklist with focus on security configuration issues 
+that are unique to the mobile platform. 
+
+
+The checklist shall be based on the following security 
+principles (see 6.4.1 of Part 2 of this standard): 
+
+
+a) Data at rest; 
+
+b) Data in transit protection; 
+
+c) Access control; 
+
+d) Application updates; 
+
+e) Integrity violation checking; 
+f) Security updates; and 
+
+g) Verified boot mechanism. 
+
+
+A checklist covering above security principles or 
+following checklists may be used: 
+
+
+1) SANS checklist, 
+
+2) CIS checklist for Android, and 
+
+3) CIS checklist for iOS. 
+A checklist for mobile operating system based on 
+SANS & CIS checklists is given in Annex A. 
+
+
+42.2 Mobile Pre-installed Application Security 
+Requirements Testing 
+
+
+Pre-installed Application is a software already 
+installed and licensed on a mobile device bought from 
+
+
+IS 17737 (Part 4) : 2021 
+
+
+an original equipment manufacturer (OEM). The 
+examples include, calendar, calculator, mobile browser, 
+device management software agent, VPN client, Email 
+client, etc. 
+
+
+These pre-installed apps shall be tested as per latest 
+OWASP Top 10 mobile security risks and OWASP 
+Mobile Application Security Verification Standard 
+(MASVS) LI: 
+
+
+a) Following tests shall be carried out as per OWASP 
+Top 10 mobile security risks: 
+
+
+1) Ml: 
+2) M2: 
+3) M3: 
+4) Må: 
+5) MS: 
+6) M6: 
+7) M7: 
+8) M8: 
+9) M9: 
+10) M10: Extraneous Functionality. 
+
+
+b) Following tests shall be carried out as per OWASP 
+Mobile Application Security Verification Standard 
+(MASVS) LI: 
+
+
+1) VI: Architecture, Design and Threat Modeling 
+Requirements; 
+
+
+Improper Platform Usage; 
+Insecure Data Storage; 
+Insecure Communication; 
+Insecure Authentication; 
+Insufficient Cryptography; 
+Insecure Authorization; 
+Client Code Quality; 
+Code Tampering; 
+
+Reverse Engineering; and 
+
+
+2) V2: Data Storage and Privacy Requirements; 
+
+3) V3: Cryptography Requirements; 
+
+4) V4: Authentication and Session Management 
+Requirements; 
+
+5) V5: Network Communication Requirements; 
+
+6) V6: Platform Interaction Requirements; and 
+
+
+7) V7: Code Quality and Build Setting 
+Requirements. 
+
+
+MASVS based checklist is given in Annex B. 
+
+
+4.2.3 Mobile Device Security Control Requirements 
+Verification 
+The high level security risks and security threats posed 
+to a mobile device (mobile hardware, firmware, mobile 
+OS, and pre- installed Apps) comes from: 
+
+a) Mobile Device based Security Risks (Untrusted 
+Mobile Device); 
+b) Mobile Network based Security Risks (Untrusted 
+Network); 
+
+
+c) Mobile User Behavior based Security Risks (User 
+Behavior and Awareness); and 
+
+
+d) Malicious Apps and Malware based Security 
+Risks (Untrusted Third Party Applications and 
+malicious Systems). 
+
+
+These security risks and& threats to a mobile device can 
+be addressed through a set of Security Characteristics 
+which can be associated with Security Controls. 
+
+
+IS 17737 (Part 4) : 2021 
+
+
+The methodology for aassessment of these security 
+control requirements is based on: 
+
+
+1) Verifying the security control mechanisms 
+defined; and 
+
+
+2) Implementation of defined security controls in 
+a mobile device. 
+
+
+Verification of the security control mechanisms defined 
+shall be done for its adequacy. This shall be carried out 
+by reviewing the security documentation provided by 
+the device manufacturer. 
+
+
+After verifying the adequacy of security controls 
+defined, implementation of the security control shall be 
+undertaken. This shall be carried out by testing/audit of 
+the security controls. 
+
+
+The testing/audit shall be done using the combination 
+of followings: 
+
+
+i. Independent testing/audit carried out by 
+independent test lab. 
+
+
+ii. Demonstration of testing by manufacturer 
+to independent test lab and verification of 
+internal test reports of the mobile device. 
+
+
+iii. Verification of third party test/audit reports 
+and certificates of the mobile device. 
+
+iv. Verification of the details of components 
+used with part numbers along with sources 
+of supply. 
+
+The assessment and evaluation checkpoints for security 
+controls are given in Annex C. 
+
+
+4.3 Inputs Required 
+
+
+4.3.1 Inputs Required for Security Level 1 
+
+
+The following documentation shall be provided by the 
+device manufacturer: 
+
+
+a) Device details (providing make, model, serial 
+number, operating system, mobile pre-installed 
+applications, location of manufacturing, etc.) 
+submitted for assessment and evaluation. 
+
+
+b) Mobile device detailed 
+capabilities and features. 
+
+
+specifications with 
+
+
+c) Security policies and practices used for the mobile 
+device. 
+
+
+d) Implementation details of the security controls 
+identified in Table 1. 
+
+
+e) Any other document(s) that will provide more 
+insight over the implementation of security. 
+
+
+4.3.2 Inputs Required for Security Level 2 
+
+
+The following documentation shall be provided by the 
+device manufacturer: 
+
+
+a) Device details (providing make, model, serial 
+number, operating system, mobile pre-installed 
+applications, location of manufacturing, etc.) 
+submitted for assessment and evaluation. 
+
+
+b) Mobile device detailed 
+capabilities and features. 
+
+
+specifications with 
+
+
+c) Security architecture document covering security 
+design details. 
+
+
+d) Security policies and practices used for the mobile 
+device. 
+
+
+e) Implementation details of the security controls 
+identified in Table 2. 
+
+
+f) Details of components used with part numbers 
+along with sources of supply. 
+
+
+g) Internal test reports of the mobile device. 
+
+
+h) Third party test/audit reports and certifications 
+obtained for the mobile device. 
+
+
+j) Any other document(s) that will provide more 
+insight over the implementation of security. 
+
+
+NOTE — It is expected that the security documentation 
+will specify the implementations required by the Standard. 
+Documentation can be provided in three ways. First option 
+is to provide full comprehensive document explaining the 
+controls completely. Second option is to provide the limited 
+documentation sufficient to provide confidence to the 
+Evaluator regarding the implementation. Third option is to 
+visit the vendor/developer/manufacturer’s premises and show 
+the documents pertaining to the controls so that the team of 
+Evaluators gains confidence in the implementation of security 
+controls. 
+
+
+ANNEX A 
+
+
+IS 17737 (Part 4) : 2021 
+
+
+( Clause 4.2.1 ) 
+CHECKLISTS FOR MOBILE OPERATING SYSTEM SECURITY 
+
+
+Table 3 Checklist for Mobile Operating System 
+Based on SANS Mobile Device Security Checklist 
+
+
+A. Android OS Security Settings 
+
+
+SI. Description 
+
+
+a) Ability to encrypt information at rest 
+
+
+b) Supports locks after timeout 
+
+
+c) Supports unlocking mobile with biometrics or longer 
+passwords (> 4). 
+
+
+d) Lock or secure security settings so users cannot delete or 
+change mandatory settings 
+
+
+e) Supports disabling developer access. 
+
+
+f) Supports disabling third party app store access. 
+
+
+g) Supports tools to evaluate and uninstall apps with 
+excessive permissions. 
+
+
+h) Supports installation of OS platform updates. 
+
+
+j) Supports checking OS versions installed and checking 
+latest available security & patch level. 
+
+
+k) Supports feature for remote location services for lost. 
+
+
+1) Supports erasing network settings to forget old networks 
+not in use. 
+
+
+m) Supports prompting “trust this computer” when plugging 
+mobile to another device/computer. 
+
+
+11) | Do not root your device 
+
+12) | Ensure ‘Smart Lock’ is set to ‘Disabled’ 
+
+13) | Ensure ‘Lock SIM card’ is set to ‘Enabled’ 
+
+14) | Ensure ‘Find My Device’ is set to ‘Enabled’ 
+
+15) Ensure ‘Automatic date & time’ and ‘Automatic time 
+zone’ are set to ‘Enabled’ 
+
+16) | Ensure ‘Remotely locate this device’ is set to ‘Enabled’ 
+
+17) | Ensure ‘Allow remote lock and erase’ is set to ‘Enabled’ 
+
+18) | Ensure ‘Scan device for security threats’ is set to ‘Enabled’ 
+
+19) | Ensure ‘Improve harmful app detection’ is set to ‘Enabled’ 
+
+20) Ensure ‘Ask for unlock pattern/PIN/password before 
+unpinning’ is set to ‘Enabled’ 
+
+21) | Ensure ‘Sleep’ is set to “1 minute or less’ 
+
+22) | Ensure ‘Wi-Fi assistant’ is set to ‘Disabled’ 
+
+23) | Keep device Apps up to date 
+
+24) | Ensure ‘Add users from lock screen’ is set to ‘Disabled’ 
+
+25) | Ensure ‘Guest profiles’ do not exist 
+
+26) | Review app permissions periodically 
+
+27) | Ensure ‘Instant apps’ is set to ‘Disabled’ 
+
+
+n) Supports strong password or two-factor authentication. 
+
+
+p) Supports disabling auto connect to WiFi networks. 
+
+
+B. Android OS Privacy Settings 
+
+
+NOTE — It is recommended that latest versions of SANS 
+checklist be referred. 
+
+
+Table 4 Checklist for Mobile Operating System 
+based on CIS Google Android Benchmark, 
+
+
+v1.2.0-08-06-2018 
+A. Android OS Security Settings 
+1 Ensure device firmware is up to date 
+2) Ensure “Screen Lock’ is set to ‘Enabled’ 
+
+
+3) Ensure ‘Make pattern visible’ is set to ‘Disabled’ 
+(if using a pattern as device lock mechanism) 
+
+
+4) Ensure ‘Automatically Lock’ is set to ‘Immediately’ 
+
+5) Ensure ‘Power button instantly locks’ is set to ‘Enabled’ 
+6) Ensure ‘Lock Screen Message’ is configured 
+
+7) Do not connect to untrusted Wi-Fi networks 
+
+8) Ensure ‘Show passwords’ is set to ‘Disabled’ 
+
+
+9) Ensure ‘Developer Options’ is set to ‘Disabled’ 
+
+
+10) | Ensure ‘Install unknown apps’ is set to ‘Disabled’ 
+
+
+1) Ensure ‘Notifications on the lock screen’ is set to 
+‘Disabled’ 
+
+2) Ensure ‘Location Services’ is set to ‘Disabled’ 
+
+3) Ensure ‘Back up to Google Drive’ is ‘Disabled’ 
+
+4) Ensure ‘Web and App Activity’ is set to ‘Disabled’ 
+
+5j Ensure ‘Device Information’ is set to ‘Disabled’ 
+
+6) Ensure ‘Voice and Audio Activity’ is set to ‘Disabled’ 
+
+7) Ensure ‘YouTube Search History” is set to ‘Disabled’ 
+
+8) Ensure "YouTube Watch History’ is set to ‘Disabled’ 
+
+9) Ensure “Google Location History’ is set to ‘Disabled’ 
+
+10) | Ensure ‘Opt out of Ads Personalization’ is set to ‘Enabled’ 
+
+
+C. Android OS Chrome Browser Settings 
+
+
+1) Ensure ‘Microphone’ is set to ‘Enabled’ 
+
+2) Ensure ‘Location’ is set to ‘Enabled’ 
+
+3) Ensure ‘Allow third-party cookies’ is set to ‘Disabled’ 
+4) Ensure “Safe Browsing’ is set to ‘Enabled’ 
+
+5) Ensure ‘Search and site suggestions’ is set to ‘Disabled’ 
+6) Ensure ‘Do Not Track’ is set to ‘Enabled’ 
+
+
+IS 17737 (Part 4) : 2021 
+
+
+Table 5 Checklist for Mobile Operating System 
+based on CIS Apple iOS 12 Benchmark, 
+v1.0.0 - 10-19-2018 
+
+
+7) Notifications 
+
+
+a) Ensure ‘Notification Settings’ are configured for all 
+‘Managed Apps’ 
+
+
+A. Benchmark Guidance 
+
+
+B. Configuration Profile Recommendations for End-User 
+
+
+C. Configuration Profile Recommendations for Institutionally 
+Owned Devices 
+
+
+Owned Devices 1) General 
+1) General a) Ensure ‘Controls when the profile can be removed’ is set 
+a) Ensure a ‘Consent Message’ has been ‘Configured’ 1o Never 
+
+
+b) Ensure ‘Controls when the profile can be removed” is set 
+to ‘Always’ 
+
+
+2) Restrictions 
+
+
+2) Restrictions 
+
+
+a) Functionality 
+
+
+a) Functionality 
+
+
+i) Ensure ‘Allow screenshots and screen recording’ is set 
+to ‘Disabled’ 
+
+
+1, Ensure ‘Allow voice dialing while device is locked’ is set 
+to ‘Disabled’ 
+
+
+li) Ensure ‘Allow voice dialing while device is locked’ is set 
+to ‘Disabled’ 
+
+
+ii. Ensure ‘Allow Siri while device is locked’ is set to 
+‘Disabled’ 
+iii. Ensure ‘Allow managed apps to store data in iCloud” is 
+
+
+set to ‘Disabled’ 
+
+
+iii) Ensure "Allow Siri while device is locked” is set to 
+‘Disabled’ 
+
+
+iv) | Ensure ‘Allow iCloud backup’ is set to ‘Disabled’ 
+
+
+iv. Ensure ‘Force encrypted backups’ is set to ‘Enabled’ 
+
+
+v. Ensure ‘Allow users to accept untrusted TLS certificates’ 
+is set to ‘Disabled’ 
+
+
+v. Ensure ‘Allow iCloud documents and data? is set to 
+‘Disabled’ 
+
+
+vi. Ensure ‘Allow iCloud Keychain’ is set to ‘Disabled’ 
+
+
+vi. Ensure ‘Allow documents from managed sources in 
+unmanaged destinations’ is set to ‘Disabled’ 
+
+
+vii. | Ensure ‘Allow managed apps to store data in iCloud’ is 
+set to ‘Disabled’ 
+
+
+viii. | Ensure ‘Force encrypted backups’ is set to ‘Enabled’ 
+
+
+vii. | Ensure ‘Allow documents from unmanaged sources in ix. Ensure "Allow Erase All Content and Settings” is set to 
+managed destinations” is set to “Disabled” ‘Disabled’ 
+viii. | Ensure ‘Treat AirDrop as unmanaged destination’ is set X Ensure ‘Allow users to accept untrusted TLS certificates? 
+
+
+to ‘Enabled’ 
+
+
+is set to ‘Disabled’ 
+
+
+ix, Ensure ‘Allow Handoff' is set to ‘Disabled’ 
+
+
+xi. Ensure “Allow installing configuration profiles” is set to 
+‘Disabled’ 
+
+
+Xx: Ensure “Force Apple Watch wrist detection” is set to 
+‘Enabled’ 
+
+Xi. Ensure ‘Show Control Center in Lock screen’ is set to 
+‘Disabled’ 
+
+
+xii. Ensure “Show Notification Center in Lock screen' is set 
+to ‘Disabled’ 
+
+
+xii. | Ensure ‘Allow adding VPN configurations’ is set to 
+‘Disabled’ 
+
+
+xiii. | Ensure ‘Allow modifying cellular data app settings’ is set 
+to ‘Disabled’ 
+
+
+b) Apps 
+
+
+1: Ensure “Force fraud warning’ is set to ‘Enabled’ 
+
+
+ii. Ensure "Accept cookies” is set to “From websites I visit” 
+or From current website only' 
+
+
+xiv. | Ensure “Allow USB accessories while the device is 
+locked’ is set to ‘Disabled’ 
+
+
+xv. | Ensure ‘Allow pairing with non-Configurator hosts’ is set 
+to ‘Disabled’ 
+
+
+3) Domains 
+
+
+xvi. | Ensure ‘Allow documents from managed sources in 
+unmanaged destinations’ is set to ‘Disabled’ 
+
+
+a) Ensure ‘Managed Safari Web Domains’ is ‘Configured* 
+
+
+xvii. | Ensure ‘Allow documents from unmanaged sources in 
+managed destinations’ is set to ‘Disabled’ 
+
+
+4) Passcode 
+
+
+a) Ensure ‘Allow simple value’ is set to ‘Disabled’ 
+
+
+xviii. | Ensure ‘Treat AirDrop as unmanaged destination’ is set 
+to ‘Enabled’ 
+
+
+b) Ensure ‘Minimum passcode length’ is set to ‘6’ or greater 
+
+
+xix. | Ensure ‘Allow Handoff is set to ‘Disabled’ 
+
+
+c) Ensure ‘Maximum Auto-Lock’ is set to ‘2 minute’ or less 
+
+
+d) Ensure ‘Maximum grace period for device lock’ is set to 
+‘Immediately’ 
+
+
+xx. | Ensure ‘Force Apple Watch wrist detection’ is set to 
+‘Enabled’ 
+
+
+e) Ensure ‘Maximum number of failed attempts’ is set to ‘6’ 
+
+
+xxi. | Ensure ‘Allow setting up new nearby devices’ is set to 
+‘Disabled’ 
+
+
+5) VPN 
+
+
+a) Ensure ‘VPN’ is ‘Configured’ 
+
+
+xxii. | Ensure ‘Show Control Center in Lock screen’ is set to 
+‘Disabled’ 
+
+
+6) Mail 
+
+
+xxiii. | Ensure ‘Show Notification Center in Lock screen’ is set 
+to ‘Disabled’ 
+
+
+a) Ensure ‘Allow user to move messages from this account’ 
+is set to ‘Disabled’ 
+
+
+IS 17737 (Part 4) : 2021 
+
+
+b) Apps 7) Notifications 
+re Ensure ‘Force fraud warning’ is set to ‘Enabled’ a) Ensure ‘Notification Settings’ are configured for all 
+ii. Ensure "Accept cookies” is set to 'From websites I visit” ‘Managed Apps’ 
+or From current website only" 8) Lock Screen Message 
+3) Domains a) Ensure ‘If Lost, Return to... Message” is ‘Configured’ 
+
+
+a) Ensure ‘Managed Safari Web Domains’ is Configured 
+
+
+D. Additional Recommendations 
+
+
+4) Passcode 
+
+
+1) Ensure device is not obviously jailbroken 
+
+
+a) Ensure ‘Allow simple value’ is set to ‘Disabled’ 
+
+
+b) Ensure ‘Minimum passcode length’ is set to ‘6’ or greater 
+
+
+c) Ensure ‘Maximum Auto-Lock’ is set to ‘2 minutes’ or less 
+
+
+d) Ensure ‘Maximum grace period for device lock’ is set to 
+
+
+2) Ensure ‘Software Update’ returns "Your software is up to 
+date.’ 
+
+
+3) Ensure ‘Automatic Downloads’ of ‘App Updates’ is set 
+to ‘Enabled’ 
+
+
+4) Ensure ‘Find My iPhone/iPad’ is set to ‘Enabled’ on 
+
+
+seep end-user owned devices 
+e) Ma Maximum numberof filed attempts 15 setter 5) Ensure the latest iOS device architecture is used by 
+5) VPN high-value targets 
+a) Ensure ‘VPN’ is ‘Configured’ 
+6) Mail 
+a) Ensure ‘Allow user to move messages from this account’ 
+
+
+is set to ‘Disabled’ 
+
+
+b) Ensure ‘Allow Mail Drop’ is set to ‘Disabled’ 
+
+
+ANNEX B 
+( Clause 4.2.2 ) 
+CHECKLIST FOR MOBILE PRE-INSTALLED APPLICATION SECURITY 
+
+
+Following checklist is adopted from OWASP MASVS, 
+Version 1.1. 
+
+
+Table 6 Checklist for Mobile Pre-installed 
+Application Security 
+
+
+SI. No. Description 
+
+
+4) No sensitive data is shared with third parties unless it is 
+a necessary part of the architecture. 
+
+
+3) The keyboard cache is disabled on text inputs that 
+process sensitive data. 
+
+
+6) No sensitive data is exposed via IPC mechanisms. 
+
+
+7) No sensitive data, such as passwords or pins, is exposed 
+through the user interface. 
+
+
+SI. No. Description 
+A.Architecture, Design and Threat Modeling Requirements 
+1) All app components are identified and known to be 
+needed 
+2) Security controls are enforced on the client side and the 
+
+
+respective remote endpoints 
+
+
+C. Cryptography Requirements 
+
+
+3) A high-level architecture for the mobile app and 
+all connected remote services has been defined and 
+security has been addressed in that architecture 
+
+
+4) Data considered sensitive in the context of the mobile 
+app is clearly identified 
+
+
+B. Data Storage and Privacy Requirements 
+
+
+1) The app does not rely on symmetric cryptography with 
+hardcoded keys as a sole method of encryption. 
+
+2) The app uses proven implementations of cryptographic 
+primitives. 
+
+3) The app uses cryptographic primitives that are 
+
+
+appropriate for the particular use-case, configured with 
+parameters that adhere to industry best practices. 
+
+
+1) System credential storage facilities are used 
+appropriately to store sensitive data, such as PII, user 
+credentials or cryptographic keys. 
+
+
+4) The app does not use cryptographic protocols or 
+algorithms that are widely considered depreciated for 
+security purposes. 
+
+
+2) No sensitive data should be stored outside of the app 
+container or system credential storage facilities. 
+
+
+5) The app doesn’t re-use the same cryptographic key for 
+multiple purposes. 
+
+
+3) No sensitive data is written to application logs. 
+
+
+6) All random values are generated using a sufficiently 
+secure random number generator. 
+
+
+IS 17737 (Part 4) : 2021 
+
+
+SI. No. | Description SI. No. Description 
+
+D. Authentication and Session Management Reguirements 4) The app does not export sensitive functionality through 
+
+1) If the app provides users access to a remote service, IPC facilities, unless these mechanisms are properly 
+
+ange protected. 
+some form of authentication, such as username/ 
+password authentication, is performed at the remote 5) Java Script is disabled in Web Views unless explicitly 
+endpoint. required. 
+
+2) If stateful session management is used, the remote 6) Web Views are configured to allow only the minimum 
+endpoint uses randomly generated session identifiers to set of protocol handlers required (ideally, only https is 
+authenticate client requests without sending the user’s supported). Potentially dangerous handlers, such as file, 
+credentials. tel and app-id, are disabled. 
+
+3) If stateless token-based authentication is used, the 7) Ifnative methods of the app are exposed to a WebView, 
+server provides a token that has been signed using a verify that the WebView only renders JavaScript 
+secure algorithm. contained within the app package. 
+
+4) The remote endpoint terminates the existing session 8) Object deserialization, if any, is implemented using 
+when the user logs out. safe serialization APIs. 
+
+5) A password policy exists and is enforced at the remote G. Code Quality and Build Setting Requirements 
+endpoint. 1) The app is signed and provisioned with a valid 
+
+6) The remote endpoint implements a mechanism to certificate, of which the private key is properly 
+protect against the submission of credentials an protected. 
+
+BESES sive Mher Or Hines 2) The app has been built in release mode, with settings 
+
+E. Network Communication Requirements appropriate for a release build (for example, non- 
+
+1) Data is encrypted on the network using TLS. The debuggable). 
+secure channel is used consistently throughout the app. 3) Debugging symbols have been removed from native 
+
+2) The TLS settings are in line with current best practices, Minang 
+or as close as possible if the mobile operating system 4) Debugging code has been removed, and the app does 
+does not support the recommended standards. not log verbose errors or debugging messages. 
+
+3) The app verifies the X.509 certificate of the remote 5) All third-party components used by the mobile app, 
+endpoint when the secure channel is established. Only such as libraries and frameworks, are identified, and 
+certificates signed by a trusted CA are accepted. checked for known vulnerabilities. 
+
+F. Platform Interaction Requirements 6) The app catches and handles possible exceptions. 
+
+1) The app only requests the minimum set of permissions 7) Error handling logic in security controls denies access 
+necessary. by default. 
+
+2) All inputs from external sources and the user are 8) In unmanaged code, memory is allocated, freed and 
+validated and if necessary sanitized. This includes data used securely. 
+received via the UI, IPC mechanisms such as intents, : : 
+
+tom URLS. andnetwork sourdes 9) Free security features offered by the toolchain, such as 
+PONT ? > ik byte-code minification, stack protection, PIE support 
+3) The app does not export sensitive functionality via and automatic reference counting, are activated. 
+
+
+custom URL schemes, unless these mechanisms are 
+properly protected. 
+
+
+10 
+
+
+ANNEX C 
+( Clause 4.2.3 ) 
+
+
+IS 17737 (Part 4) : 2021 
+
+
+MOBILE DEVICE SECURITY CONTROL VERIFICATION 
+Table 7 Mobile Device Security Control Verification 
+
+
+Security Security Controls Inputs Required Assessment and Evaluation Checkpoints 
+Characteristics Requirements 
+a) Device protection 1) Baseband integrity | Details of chip set/baseband | Check the part number of the chip 
+(device integrity) checks processor used in the mobile | set/processor used and its specifications from OEM’s 
+device. Specification Sheet/Website. 
+Verify that the chip set/ processor is used by the mobile 
+device and has integrity checking feature — manufacturer 
+to demonstrate. 
+2) Application Details of application | Check the availability of the App 
+black/whitelisting black/whitelisting mechanism | black/whitelisting feature in the mobile device. 
+used in the mobile device. Assess the feature — manufacturer to demonstrate. 
+3) Device integrity checks: | Device integrity checks - | Check whether mobile device has this feature and it is 
+Boot validation Boot process details of the | functioning — manufacturer to demonstrate. 
+mobile device. 
+
+4) Application verification | Details of application | Check that the capability to verify application source 
+verification mechanism used | before it is installed exists and verify the same — 
+in the mobile device. manufacturer to demonstrate. 
+
+5) Verified application and | Details of application and | Check that the capability to verify application and OS 
+
+OS updates OS update verification | update source before it is installed exists and verify the 
+mechanism used in the | same — manufacturer to demonstrate. 
+mobile device. 
+
+b) Data protection 1) Protected storage: --- Check if device has capability to protect data in storage. 
+
+i) Device encryption | What type of encryption is | Check what encryption is used by the device and it is 
+used by device and its details | adequate and certified. 
+along with certification, if | Verify that the data in storage on device is actually 
+any; encrypted — manufacturer to demonstrate. 
+
+ii) Secure containers Details of containerization | Check that device has containerization capability. Verify 
+feature used by the device. that containerization is used by the device and is secure 
+
+— manufacturer to demonstrate. 
+
+iii) Trusted Key Details of storing the trusted | Check that device securely stores the trusted keys and it 
+
+Storage keys is effective — manufacturer to demonstrate. 
+
+iv) Remote wipe Details of remote wipe | Check the mechanism used for remote protection of 
+feature or any other safe | data such as remote wipe. 
+guards used for protecting the | Verify that the same has been implemented and it is 
+data remotely. effective — manufacturer to demonstrate. 
+
+2) Protected --- Check if device has capability to protect data in transit. 
+
+communications: 
+i) Virtual private Details of protecting | Check the mechanism used protecting confidentiality 
+network (VPN) confidentiality and integrity | and integrity of information in transit such as 
+of information in transit using | VPN/ cryptography. 
+VPN/ cryptography. Verify that the same has been implemented and it is 
+effective - manufacturer to demonstrate. 
+ii) To include per-App | Details of per App VPN used | Check per App VPN mechanism defined. 
+VPN in the device Verify that the same has been implemented and it is 
+effective — manufacturer to demonstrate. 
+3) Data protection in = Check if device has capability to protect data in 
+
+
+Process: 
+
+
+i) Encrypted memory 
+
+
+Details of encrypted memory 
+used in the device 
+
+
+processing. 
+Check mechanism used for encrypted memory. 
+
+
+Verify that the same has been implemented and it is 
+effective — manufacturer to demonstrate. 
+
+
+ii) Trusted execution 
+environment 
+
+
+Details of the trusted 
+execution environment used 
+in the device. 
+
+
+Check mechanism used for protecting execution 
+environment. 
+
+
+Verify that the same has been implemented and it is 
+effective — manufacturer to demonstrate. 
+
+
+Device manufacturer to write APIs to communicate 
+with TEE as per requirements. 
+
+
+11 
+
+
+IS 17737 (Part 4) : 2021 
+
+
+Security Security Controls Inputs Required Assessment and Evaluation Checkpoints 
+Characteristics Requirements 
+c) Data isolation 1) Sandboxing Details of sandboxing feature | Check that device has sandboxing capability. 
+used by the device. Verify that sandboxing is used by the device and is 
+effective — manufacturer to demonstrate. 
+2) Memory isolation Details of memory isolation | Check that device has memory isolation capability. 
+feature used by the device. Verify that memory isolation is used by the device and 
+is secure — manufacturer to demonstrate. 
+3) Trusted execution | Details of the trusted | Check mechanism used for trusted execution 
+environment execution Environment used | environment. 
+by the device. Verify that the same has been implemented and it is 
+effective — manufacturer to demonstrate. 
+4) Device resource | Details of the device resource | Check mechanism used for device resource management 
+management management feature used by | and features. 
+the device. Verify that the same has been implemented — 
+manufacturer to demonstrate. 
+5) Baseband isolation Details of baseband isolation | Check mechanism used for baseband isolation. 
+used in the mobile device. Verify that the same has been implemented and it is 
+effective — manufacturer to demonstrate. 
+d) Identity and 1) Local user authentication | Details of local user | Check mechanism used for local user authentication to 
+authorization to applications authentication to applications | applications. 
+feature used in the mobile | Verify that the same has been implemented & it is 
+device. effective — manufacturer to demonstrate. 
+2) Local user authentication | Details of local user | Check mechanism used for local user authentication to 
+to device authentication to device | device. 
+feature used in the mobile | Verify that the same has been implemented and it is 
+device. effective — manufacturer to demonstrate. 
+3) Remote user | Details of remote user | Check mechanism used for remote user authentication. 
+authentication authentication feature used in Verify that the same has been implemented and it is 
+the mobile device. effective — manufacturer to demonstrate. 
+4) Credential and token | Details of credential and | Check mechanism used for credential and token storage 
+storage and use token storage and its usage in | and use. 
+the mobile device. Verify that the same has been implemented and it is 
+effective — manufacturer to demonstrate. 
+
+e) Monitoring 1) Auditing and logging Details of auditing and | Check mechanism used for auditing and logging. 
+logging feature used in the | Verify that the same has been implemented — 
+mobile device. manufacturer to demonstrate. 
+
+2) Root and jailbreak | Details of root and jailbreak | Check mechanism used for root and jailbreak detection. 
+detection detection feature used in the | Verify that the same has been implemented and it is 
+mobile device. effective — manufacturer to demonstrate. 
+
+f) Privacy 1) Informed consent of user | Details of informed consent | Check mechanism used for informed consent of user. 
+
+protection of user feature used in the | Verify that the same has been implemented and it is 
+mobile device. effective — manufacturer to demonstrate. 
+2) Privacy notification | Details of privacy notification | Check mechanism used for privacy notification 
+
+
+provided to user 
+
+
+provided to user feature used 
+in the mobile device. 
+
+
+provided to user. 
+
+
+Verify that the same has been implemented and it is 
+effective — manufacturer to demonstrate. 
+
+
+12 
+
+
+IS 17737 (Part 4) : 2021 
+
+
+ANNEX D 
+(Foreword ) 
+COMMITTEE COMPOSITION 
+
+
+Information System Security and Privacy Sectional Committee, LITD 17 
+
+
+Organization 
+
+
+Ministry of Electronics and Information Technology, 
+New Delhi 
+
+
+Bharat Electronics Limited, Bengaluru 
+
+
+Centre for Development of Advanced Computing, 
+Pune 
+
+
+Centre for Internet and Society, Bengaluru 
+
+
+Confederation of Indian Industry, New Delhi 
+
+
+Data Security Council of India, Noida 
+
+
+Defence Research Development Organization, 
+Ministry of Defence, New Delhi 
+
+
+HCL, Noida 
+ISI Calcutta 
+
+
+Indian Cellular and Electronics Association, 
+New Delhi 
+
+
+Indian Institute of Technology Madras, Chennai 
+
+
+Infosys Technologies Limited, Bengaluru 
+
+
+KCPL 
+Lady Shri Ram College for Women, New Delhi 
+
+
+Larsen and Toubro Limited, Mumbai 
+
+
+Ministry of Electronics and Information Technology, 
+New Delhi 
+
+
+Ministry of Science and Technology, Department of 
+Science & Technology, New Delhi 
+
+
+Narnix Technolabs Private Limited, New Delhi 
+
+
+National Accreditation Board for Certification 
+Bodies, New Delhi 
+
+
+National Payments Corporation of India, Mumbai 
+
+
+Oxygen Consulting Services Private Limited, Pune 
+
+
+Patanjali Associates Private Limited, New Delhi 
+
+
+Representative (s) 
+SHRI ARVIND KUMAR (Chariman) 
+
+
+MS SANGEETHA MANGAL 
+SHRI DEVESH KUMAR SINGH (Alternate) 
+
+
+Dr M. Sasi KUMAR 
+SHRIMATI P. R. LAKSHMI ESWARI (Alternate) 
+
+
+SHRI SUNIL ABRAHAM 
+SHRI AMBER SINHA (Alternate I) 
+SHRI GURSHABHAD GROVER (Alternate II) 
+
+
+Cor SUHAIL ZAIDI 
+SHRI RAMESH KARWANI (A/ternate) 
+
+
+SHRI ADITYA 
+
+
+Ms NOOPUR SHROTRIYA 
+SHRI G. ANIL (Alternate) 
+
+
+SHRI SANJEEV CHHABRA 
+PROF BIMAL Roy 
+
+
+SHRI RAJESH SHARMA 
+Ms Arpita DE (Alternate) 
+
+
+PROF ANIL PRABHAKAR 
+
+
+SHRI SRINIVAS POOSARLA 
+SHRI RAJEEV THYKATT (Alternate I) 
+Ms Aswatny ASOK (Alternate IT) 
+
+
+DR V. K. KANHERE 
+Ms SUSHILA MADAN 
+
+
+Suri N. SATHYAN 
+SHRI TIRUMALA Rao K. (Alternate) 
+
+
+SHRI S. K. NEHRA 
+SHRI RAKESH MAHESHWARI (Alternate I) 
+SHRI SANTOSH SONI (Alternate ID) 
+DR SOMNATH CHANDRA (Alternate III) 
+SHRI TARUN PANDEY (Alternate IV) 
+
+
+SHRI SUJIT BANERJEE 
+Dr RAJEEV SHARMA (Alternate) 
+
+
+SHRI KISHOR N. NARANG 
+
+
+Suri A. S. BHATNAGAR 
+Ms ANAJNA JAIN (Alternate) 
+
+
+MR SATYA KANUNGO 
+SHRI SATEESH PALAGIRI (Alternate) 
+
+
+SHRI SANJIV KUMAR AGARWALA 
+SHRI SACHIN PRAKASH JADHAV (Alternate) 
+
+
+SHRI KANTI MOHAN RUSTOGI 
+
+
+13 
+
+
+IS 17737 (Part 4) : 2021 
+
+
+Organization 
+
+
+Qualcomm India Private Limited, Bengaluru 
+
+
+Reserve Bank Information Technology Private 
+Limited, Mumbai 
+
+
+Smart Chip Private Limited, Noida 
+
+
+Standardization Testing and Quality Certification 
+(STQC) 
+
+
+Tata Consultancy Services Limited, Mumbai 
+
+
+Telecommunication Engineering Center, New Delhi 
+
+
+The Perspective, New Delhi 
+
+WYSE Biometrics System Private Limited, Pune 
+In personal capacity 
+
+In personal capacity, Kolkata 
+
+BIS Directorate General 
+
+
+Representative (s) 
+
+
+Dr VINOSH BABU JAMES 
+SHRI PRASHANT LOTLIKAR 
+SHRI DEEPNARAYAN TIWARI (Alternate) 
+
+
+Ms NISHA CHAUHAN 
+SHRI PANKAJ AGARWAL (Alternate I) 
+SHRI ANKIT GUPTA (Alternate ID) 
+
+
+SHRI A. K. SHARMA 
+SHRI A. K. UPADHYAYA (Alternate I) 
+SHRI NAKUL AGGRWAL (Alternate II) 
+
+
+SHRI SATEESH SRINIWSAIAH 
+SHRI NATARAJAN SWAMINATHAN (Alternate I) 
+SHRI ABHIK CHAUDHURI (Alternate II) 
+SHRI ANUPAM AGRAWAL (Alternate III) 
+
+
+SHRI S. SRIDHAR 
+SHRI ARVIND CHAWLA (Alternate) 
+
+
+SHRI RAHUL SHARMA 
+
+SHRI YOGENDRA D. WADASKAR 
+SHRIMATI AMUTHA ÅRUNACHALAM 
+Dr GARGI KEENI 
+
+
+SHRIMATI REENA GARG, SCIENTIST ‘F’ AND HEAD (LITD) 
+
+
+[ REPRESENTING DIRECTOR GENERAL (Ex-officio ) | 
+
+
+Member Secretary 
+
+
+SHRI KSHITIJ BATHLA 
+Scientist ‘C’ (LITD), BIS 
+
+
+14 
+
+
+IS 17737 (Part 4) : 2021 
+
+
+Mobile Security Standards Panel, LITD 17 P4 
+
+
+Organization 
+
+
+Standardization Testing and Quality Certification 
+(STQC) 
+
+
+Telecommunication Engineering Center, New Delhi 
+Apple India Private Limited, Bengaluru 
+Cellular Operators Association of India, New Delhi 
+
+
+Fime India, Bengaluru 
+
+
+Google India, Bengaluru 
+HCL, Noida 
+
+
+Indian Cellular and Electronics Association, 
+New Delhi 
+
+
+KCPL 
+Pavone Technologies, New Delhi 
+
+
+Samsung India, Gurugram 
+
+
+Sony India, Mathura 
+
+
+Transsion India Limited, Noida 
+UL India Private Limited, Bengaluru 
+
+
+VIVO Mobile India Private Limited, Delhi 
+
+
+Vincular Testing Labs India Private Limited, 
+Bengaluru 
+
+
+Xiaomi Corporation, Bengaluru 
+
+
+Representative(s) 
+Suri A. K. UPADHYAYA (Convener) 
+
+
+Suri P. K. SINGH (Co-Convener) 
+Mr JUNAID A. SIDDIQUEE 
+SHRI ROHIT SINGH 
+
+
+SHRI ANGAJ BHANDARI 
+SHRI HARDIK MIRANI (Alternate) 
+
+
+Ms TUHINA JOSHI 
+SHRI SANJEEV CHHABRA 
+
+
+SHRI RAJESH SHARMA 
+SHRI TARON MOHAN (Alternate) 
+
+
+DR V. K. KANHERE 
+SHRI ABHINAV SHARMA 
+
+
+SHRI BAPPA MONDAL 
+SHRIMATI Noor KHAN (Alternate) 
+
+
+SHRI MANOJ KUMAR GUPTA 
+
+
+SHRI RAHUL GAUR 
+SHRI VINOD KUNDRA (Alternate) 
+
+
+SHRI ASHISH MATHUR 
+Suri AJAY JAIDKA (Alternate) 
+
+
+SHRI PAIGHAM DANISH 
+
+
+SHRI VISHAL TOMAR 
+SHRI SACHIN Duir (Alternate) 
+
+
+Ms SuRBHI JAIN 
+SHRI MANISH JAIN (Alternate) 
+
+
+15 
+
+
+IS 17737 (Part 4) : 2021 
+
+
+BIBLIOGRAPHY 
+1) https://www.cisecurity.org/benchmark/google android/ for Android OS 
+
+
+2) https://www.cisecurity.org/benchmark/apple_ios/ for iOS 
+3) https://www.sans.org/score/checklists/mobile-device 
+
+
+16 
+
+
+This page has been intentionally left blank 
+
+
+Bureau of Indian Standards 
+
+
+BIS is a statutory institution established under the Bureau of Indian Standards Act, 2016 to promote harmonious 
+development of the activities of standardization, marking and quality certification of goods and attending to 
+connected matters in the country. 
+
+
+Copyright 
+
+
+BIS has the copyright of all its publications. No part of these publications may be reproduced in any form without 
+the prior permission in writing of BIS. This does not preclude the free use, in the course of implementing the 
+standard, of necessary details, such as symbols and sizes, type or grade designations. Enquiries relating to 
+copyright be addressed to the Director (Publications), BIS. 
+
+
+Review of Indian Standards 
+
+
+Amendments are issued to standards as the need arises on the basis of comments. Standards are also reviewed 
+periodically; a standard along with amendments is reaffirmed when such review indicates that no changes are 
+needed; if the review indicates that changes are needed, it is taken up for revision. Users of Indian Standards 
+should ascertain that they are in possession of the latest amendments or edition by referring to the latest issue of 
+‘BIS Catalogue’ and ‘Standards: Monthly Additions’. 
+
+
+This Indian Standard has been developed from Doc No.: LITD 17 (14999). 
+
+
+Amendments Issued Since Publication 
+
+
+Amend No. Date of Issue Text Affected 
+
+
+BUREAU OF INDIAN STANDARDS 
+
+
+Headquarters: 
+
+Manak Bhavan, 9 Bahadur Shah Zafar Marg, New Delhi 110002 
+
+Telephones: 2323 0131, 2323 3375, 2323 9402 Website: www.bis.gov.in 
+
+Regional Offices: Telephones 
+
+Central : Manak Bhavan, 9 Bahadur Shah Zafar Marg | 2323 7617 
+NEW DELHI 110002 2323 3841 
+
+Eastern : 1/14 C.I.T. Scheme VII M, V.I.P. Road, Kankurgachi | 2337 8499, 2337 8561 
+KOLKATA 700054 2337 8626, 2337 9120 
+
+Northern : Plot No. 4-A, Sector 27-B, Madhya Marg | 265 0206 
+CHANDIGARH 160019 265 0290 
+
+Southern : C.I.T, Campus, IV Cross Road, CHENNAI 600113 | 2254 1216, 2254 1442 
+
+2254 2519, 2254 2315 
+
+Western : Manakalaya, E9 MIDC, Marol, Andheri (East) | 2832 9295, 2832 7858 
+
+MUMBAI 400093 2832 7891, 2832 7892 
+
+
+Branches : AHMEDABAD. BENGALURU. BHOPAL. BHUBANESHWAR. COIMBATORE. 
+DEHRADUN. DURGAPUR. FARIDABAD. GHAZIABAD. GUWAHATI. 
+HYDERABAD. JAIPUR. JAMMU. JAMSHEDPUR. KOCHI. LUCKNOW. 
+NAGPUR. PARWANOO. PATNA. PUNE. RAIPUR. RAJKOT. VISAKHAPATNAM. 
+
+
+Published by BIS, New Delhi 
+
+

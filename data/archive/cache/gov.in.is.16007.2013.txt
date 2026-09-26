@@ -1,0 +1,344 @@
+IS 16007 : 2013 ISO 13492 : 2007
+
+Hkkjrh; ekud
+
+fo�kh; lsok,� -- oqaQth �ca�ku laca�kh vk�dM+k rRo -- vkbZ,lvks 8583 vk�dM+k rRo 53 ,oa 96 gsrq vuq�;ksx ,oa �;ksx
+Indian Standard FINANCIAL SERVICES -- KEY MANAGEMENT RELATED DATA ELEMENT -- APPLICATION AND USAGE OF ISO 8583 DATA ELEMENTS 53 AND 96
+
+ICS 35.240.40
+
+� BIS 2013
+
+BUREAU OF INDIAN STANDARDS
+MANAK BHAVAN, 9 BAHADUR SHAH ZAFAR MARG NEW DELHI 110002 February 2013 Price Group 5
+
+IS 16007 : 2013 ISO 13492 : 2007
+Banking and Financial Services Sectional Committee, MSD 7
+
+NATIONAL FOREWORD This Indian Standard which is identical with ISO 13492 : 2007 `Financial services -- Key management related data element -- Application and usage of ISO 8583 data elements 53 and 96' issued by the International Organization for Standardization (ISO) was adopted by the Bureau of Indian Standards on the recommendation of the Banking and Financial Services Sectional Committee and approval of the Management and Systems Division Council. The text of ISO Standard has been approved as suitable for publication as an Indian Standard without deviations. Certain conventions are, however, not identical to those used in Indian Standards. Attention is particularly drawn to the following: Wherever the words `International Standard' appear referring to this standard, they should be read as `Indian Standard'. In this adopted standard, reference appears to certain International Standards for which Indian Standards also exist. The corresponding Indian Standards which are to be substituted in their respective places are listed below along with their degree of equivalence for the editions indicated: International Standard Corresponding Indian Standard Degree of Equivalence Identical
+
+ISO/IEC 7812-1 : 2000 Identification IS 14173 (Part 1) : 2003 Identification cards -- Identification of issuers -- cards -- Identification of issuers: Part 1: Numbering system Part 1 Numbering system ( first revision) ISO/IEC 7812-2 : 2000 Identification cards -- Identification of issuers -- Part 2: Application and registration procedures IS 14173 (Part 2) : 2003 Identification cards -- Identification of issuers: Part 2 Application and registration procedures (first revision)
+
+do
+
+The technical committee has reviewed the provision of the following International Standard referred in this adopted standard and has decided that it is acceptable for use in conjunction with this standard: International Standard ISO 8583-1 : 2003
+1)
+
+Title Financial transaction card originated messages -- Interchange message specifications -- Part 1: Messages, data elements and code values
+
+1)
+
+ISO 8583-1 : 2003 is under consideration for adoption as an Indian Standard.
+
+i
+
+IS 16007 : 2013 ISO 13492 : 2007
+
+Introduction
+This International Standard describes the structure and contents of a key management related data element that can be conveyed in electronically transmitted messages within the financial services environment to support the secure management of cryptographic keys, where the financial services environment involves the communications between a card-accepting device and an acquirer, and between an acquirer and a card issuer. Key management of keys used in an Integrated Circuit Card (ICC) and the related data elements are not covered in this International Standard. This International Standard provides compatibility with the existing ISO standard on bank card originated messages (see ISO 8583).
+
+ii
+
+IS 16007 : 2013 ISO 13492 : 2007
+
+Indian Standard FINANCIAL SERVICES -- KEY MANAGEMENT RELATED DATA ELEMENT -- APPLICATION AND USAGE OF ISO 8583 DATA ELEMENTS 53 AND 96
+1 Scope
+
+This International Standard describes a key management related data element that can be transmitted either in transaction messages to convey information about cryptographic keys used to secure the current transaction, or in cryptographic service messages to convey information about cryptographic keys to be used to secure future transactions. This International Standard addresses the requirements for the use of the key management related data element within ISO 8583, using the following two ISO 8583 data elements:   security related control information (data element 53), or key management data (data element 96).
+
+However, these data elements can be usefully employed in other messaging formats, given that the transportation of key management related data is not limited to ISO 8583. This International Standard is applicable to either symmetric or asymmetric cipher systems. Key management procedures for the secure management of the cryptographic keys within the financial services environment are described in ISO 11568. Security related data, such as PIN data and MACs, are described in ISO 9564 and ISO 16609, respectively.
+
+2
+
+Normative references
+
+The following referenced documents are indispensable for the application of this document. For dated references, only the edition cited applies. For undated references, the latest edition of the referenced document (including any amendments) applies. ISO/IEC 7812-1, Identification cards -- Identification of issuers -- Part 1: Numbering system ISO/IEC 7812-2, Identification cards -- Identification of issuers -- Part 2: Application and registration procedures ISO 8583-1, Financial transaction card originated messages -- Interchange message specifications -- Part 1: Messages, data elements and code values
+
+3
+
+Terms and definitions
+
+For the purposes of this document, the terms and definitions given in ISO 8583-1 and the following apply. 3.1 asymmetric cipher cipher in which the encipherment key and the decipherment key are different and it is computationally infeasible to deduce the (private) decipherment key from the (public) encipherment key
+
+1
+
+IS 16007 : 2013 ISO 13492 : 2007
+3.2 cipher pair of operations that effect transformations between plaintext and ciphertext under the control of a parameter called a key
+NOTE The encipherment operation transforms data (plaintext) into an unintelligible form (ciphertext). The decipherment operation restores the original text.
+
+3.3 cryptographic algorithm set of rules for the transformation of data using a cryptographic key
+EXAMPLE The transformation of plaintext to ciphertext and vice versa (i.e. a cipher); generation of keying material; digital signature computation or validation.
+
+3.4 cryptographic key key parameter that determines the operation of a cryptographic algorithm 3.5 cryptographic service message message for transporting cryptographic keys or related information used to control a keying relationship 3.6 derived unique key per transaction key management method which uses a unique key for each transaction and prevents the disclosure of any past key used by the transaction-originating TRSM
+NOTE The unique Transaction Keys are derived from a base derivation key using only non-secret data transmitted as part of each transaction.
+
+3.7 primary key key for a transaction from which other keys for the transaction are produced
+NOTE This can be done by means of variants or transformations.
+
+3.8 symmetric cipher cryptographic algorithm using the same secret cryptographic key for both encipherment and decipherment 3.9 transaction message message used to convey information related to a financial transaction
+
+4
+
+Abbreviated terms
+AES BCD CAID CBC DEA Advanced Encryption Standard Binary Coded Decimal Card Acceptor Identifier Cipher Block Chaining Data Encryption Algorithm
+
+2
+
+IS 16007 : 2013 ISO 13492 : 2007
+DID Device Identifier
+
+DUKPT Derived Unique Key per Transaction ECB ECIES GID IIC IIN KSN MAC PIN RSA TC TDEA TRSM Electronic Code Book Elliptic Curve Integrated Encryption Scheme Group Identifier Institution Identification Code Issuer Identification Number Key Serial Number Message Authentication Code Personal Identification Number The Rivest, Shamir and Adleman Public Key Cryptosystem Transaction Counter Triple Data Encryption Algorithm Tamper Resistant Security Module
+
+5
+
+Data representation
+
+Data fields described in this International Standard are represented as shown in Table 1. Table 1 -- Data representation
+Abbreviation a an ans b LL LLL Definition Alphabetic data elements contain a single character per byte. The permitted characters are alphabetic only (a to z and A to Z, upper and lower case). Alphanumeric data elements contain a single character per byte. The permitted characters are alphabetic (a to z and A to Z, upper and lowercase) and numeric (0 to 9). Alphanumeric special data elements contain a single character per byte. These data elements consist of either unsigned binary numbers or bit combinations that are defined elsewhere in the specification. Example: a field defined as "b 2" has a length of two bytes such that a value of 19 is stored as Hex '00 13'. Length of variable data element that follows, 01 through 99. Length of variable data element that follows, 001 through 999. Numeric data elements consist of two numeric digits (having values in the range Hex '0' � '9') per byte. These digits are right justified and padded with leading hexadecimal zeroes. Other specifications sometimes refer to this data format as Binary Coded Decimal ("BCD") or unsigned packed. Example: a field defined as "n 12" has a length of six bytes such that a value of 12345 is stored as Hex '00 00 00 01 23 45'.
+
+n
+
+3
+
+IS 16007 : 2013 ISO 13492 : 2007
+
+6
+6.1
+
+Requirements for key management related data element
+Introduction
+
+The key management related data element is constructed from the concatenation of two ISO 8583-1 message elements, data element 53 -- Security related control information, and data element 96 -- Key management data. It conveys information about the associated transaction's cryptographic key(s) and is divided into subfields including a control field, a key-set identifier and additional optional information. The control field identifies the key management scheme and associated structure of the remainder of the data element. The use of key-set identifiers provides a standardized way to uniquely identify the institution and keyset for a given operation. For key management messages, the key-set identifier specifies the key-set that will be affected by the current operation (e.g. load key-set 2 with key contained in data element 96). For financial transaction messages containing encrypted data, the key-set identifier specifies the key-set that was used. Key management related information that does not change from one transaction to the next need not be conveyed with every transaction. Rather, it may be implicitly known, or it may be installed concurrent with, and stored in association with, the corresponding key. Examples of information that need not be explicitly identified in the key management related data element include the following:     key management technique used for the transaction's keys (e.g. static key, unique key per transaction); format of enciphered or authenticated data (e.g. PIN block format); encipherment algorithm used; number of different keys used with the transaction and the purpose of each such key.
+
+6.2
+
+Data element structure
+
+The key management related data element has two possible forms, as illustrated in Figure 1:   Form 1, e.g. key change [see Figure 1 a)]; Form 2, e.g. key selection [see Figure 1 b)]. LL Data element 53 Security related control information a) Form 1 Data element 53 Security related control information b) Form 2 Figure 1 -- Possible forms of data element structure In the construction in Figure 1 a), data element 53 is used to convey control information for the key data contained in data element 96. In the construction in Figure 1 b), data element 53 is used to convey selection information regarding the keys used to protect the current financial transaction message (of which this data element forms a part). LLL Data element 96 Key Management data
+
+LL
+
+4
+
+IS 16007 : 2013 ISO 13492 : 2007
+
+6.3
+
+Key-set identifier concepts
+
+A key-set identifier is a number that uniquely identifies a key-set, where a key-set is a group of related keys that are all different but have certain characteristics in common, most notably those listed below.    All are managed using the same key management method. The same high level key is used to encipher (for database storage) or derive all keys of the set. The remainder of the key management related data element (beyond the key-set identifier) is identically structured for all keys of the set, and is interpreted using the same logic.
+
+Associated with any given key-set is logic (e.g. computer software) at the acquiring host that may interpret the key management related data element to determine what key(s) is (are) to be used with that transaction, and how each such key is to be used.
+
+7
+7.1
+
+Security related control information usage (data element 53)
+Format
+General
+
+7.1.1
+
+Data Element 53 is used to indicate which of the possible key-sets are to be used or affected by the key management message. As an option, this field may also include information concerning the algorithm and mode of operation used in the encryption of the associated key management data field. The defined values for these subfields are shown in the following tables. The construction of this data element is dependant upon the key management scheme in which the data element is used. Two formats are illustrated:   in Table 2, format A as used for fixed and master/session key, and in Table 3, format B for Derived Unique Key Per Transaction (DUKPT) key management scheme, as defined in ANSI X9.24-1.
+
+5
+
+IS 16007 : 2013 ISO 13492 : 2007
+Table 2 -- Data element 53 -- Structure format A
+Length bytes Identifies the key management scheme and associated structure of the remainder of the data element as defined in 7.1.2. Key-set identifier as defined in 7.1.3. Selects the encryption algorithm used to encipher the keys contained in the associated key management data element as defined in 7.1.5. Key length of the enciphered key as defined in 7.1.6. Mechanism used to provide key confidentiality and integrity as defined in 7.1.7. Reserved for national use. Reserved for private use. Field name Description Encoding Required
+
+1
+
+Control
+
+b1
+
+mandatory
+
+4
+
+Key-set identifier
+
+n8
+
+mandatory
+
+1
+
+Algorithm
+
+n2
+
+optional
+
+2
+
+Key length
+
+n4
+
+optional
+
+1 2 1
+
+Protection Reserved national Reserved private
+
+n2 n4 n2
+
+optional optional optional
+
+Table 3 -- Data element 53 -- Structure format B
+Length bytes Identifies the key management scheme and associated structure of the remainder of the data element as defined in 7.1.2. Key-set identifier as defined in 7.1.4. Contains the 19-bit device ID and the 21-bit transaction counter as defined in 7.1.4.5 and 7.1.4.6. Field name Description Encoding Required
+
+1
+
+Control
+
+b1
+
+mandatory
+
+5 5
+
+Key-set identifier Device ID and Transaction Counter
+
+n 10 b5
+
+mandatory mandatory
+
+7.1.2
+
+Control field format
+
+Table 4 shows the control field values for the two structure formats. Table 4 -- Control field values
+Value 0 1 2 3 4 5 Field contents 00 01 02 03 04 05 Default Fixed key Master/session Reserved DEA, DUKPT TDEA, DUKPT Definition Structure A A A undefined B B
+
+6
+
+IS 16007 : 2013 ISO 13492 : 2007
+7.1.3 Key-set identifiers, format A
+
+Table 5 shows the key-set identifier for format A values. Table 5 -- Key-set identifier -- Format A values
+Value 0 nnnnnn01 nnnnnn02 ... nnnnnn99
+a
+
+Field contents 00000000' nnnnnn01' nnnnnn02 Use default key-set
+
+Definition
+
+Use key-set 1 associated with institution nnnnnna Use key-set 2 associated with institution nnnnnna
+
+nnnnnn99
+
+Use key-set 99 associated with institution nnnnnna
+
+Where nnnnnn is the IIN or IIC as specified in 7.1.4.3.
+
+7.1.4 7.1.4.1
+
+Key-set identifiers, format B General
+
+Format B key-set identifiers as defined herein are used with DUKPT key management exclusively. The keyset identifier uniquely identifies the device and transaction as shown in Figure 2.
+NOTE Key. Some implementations replace the IIN/IIC and CAID fields with a single field to identify the Base Derivation
+
+Figure 2 -- Format B key-set identifier and related fields 7.1.4.2 Key Serial Number (KSN)
+
+The key serial number uniquely identifies a DUKPT transaction. It is comprised of the 3-byte IIN/IIC, the 1-byte Merchant ID, the 1-byte Group ID, the 19-bit Device ID and the 21-bit transaction counter. The KSN is illustrated in Figure 2. 7.1.4.3 Issuer Identification Number (IIN)/Institution Identification Code (IIC) -- 3 Bytes
+
+The IIN/IIC is a unique 6-digit number, which can be obtained as described in 7.2. Use of this number will ensure the uniqueness of the KSN.
+
+7
+
+IS 16007 : 2013 ISO 13492 : 2007
+7.1.4.4 Card Acceptor ID (CAID) -- 2 Byte
+
+The CAID can be used by an acquirer or their agent to segregate merchants from each other, e.g. an acquirer might have a chain of hardware stores (e.g. Smith's Hardware Stores) and perhaps a chain of clothing stores (e.g. Wide Body Men's shops). The acquirer might assign CAID=0014 to devices issued to Wide Body Men's Shops and CAID=0026 to devices deployed to Smith's Hardware Stores. The CAID can provide a method to quickly and easily determine to which merchant a device had been issued. 7.1.4.5 Device ID (DID) -- 19 Bits
+
+The right-most 5 bytes of the KSN is divided into two fields. The left-most 19 bits constitute the Device ID field and the right-most 21 bits constitute the Transaction Counter field described below. The DID is used to designate an individual device identification within a specific GID. 7.1.4.6 Transaction Counter (TC) -- 21 Bits
+
+The right-most 21 bits of the KSN define a transaction counter under the control of the secure DUKPT firmware. The value of the counter is controlled by the firmware and changes to the value of the counter as supplied by the firmware will produce inconsistent and meaningless results. 7.1.5 Algorithm field
+
+The algorithm field (see Table 6) defines the algorithm used to encipher the keys being transported in data element 96. Table 6 -- Algorithm
+Value 0 1 2 3 4 5 6-99
+NOTE
+
+Field contents 00 01 02 03 04 05 default DEA RSA TDEA ECIES AES
+
+Definition
+
+as defined by the key management scheme
+For definitions of the algorithms listed in this table, see ISO/IEC 18033.
+
+7.1.6
+
+Key length (in bytes) field
+
+The key length field specifies the length of the keys being transported in data element 96. Table 7 gives examples of key length.
+NOTE The key length field does not specify the length of the key used to provide the encryption of data element 96.
+
+8
+
+IS 16007 : 2013 ISO 13492 : 2007
+Table 7 -- Key length examples
+Value 0 8 16 Field contents 0000 0008 0016 default 56 bit key with parity (i.e. DEA key) 112-bit key with parity (i.e. a 2-key TDEA key) or 128-bit AES key Definition
+
+7.1.7
+
+Key protection field
+
+Table 8 gives examples of key protection. Table 8 -- Key protection
+Value 0 1 3 4
+a
+
+Field contents 00 01 03 04 default ECB enciphered key(s)a CBC enciphered key(s)a ANSI XR TR-31 key block
+
+Definition
+
+Key integrity to be provided by other means.
+
+7.2
+
+Assignment of key-set identifiers
+
+To prevent institutions from assigning duplicate key-set identifiers, the leading digits of the key-set identifiers shall be assigned using either the six-digit Issuer Identification Numbers (IINs) as defined in ISO/IEC 7812, or the six-digit Institution Identification Codes (IICs) as defined in ISO 8583. The ISO Registration Authority assigns IINs to institutions that issue cards and IICs to institutions that do not issue cards. Since IINs and IICs are unique to the institution to which they are assigned and these two sets of numbers do not overlap, this ensures that, if two cryptographic environments are combined, key-set identifiers that were unique in each separate environment will be unique in the combined environment. An organization that wishes to obtain a key-set identifier but has not been assigned an IIN or IIC may also obtain such an identifier from an institution that has been assigned an IIN or IIC. Such an institution shall ensure that it never assigns duplicate key-set identifiers.
+
+8
+
+Key management data (data element 96)
+
+This data element is used to transport the enciphered keys, typically in a key-change operation. As the number of keys is key management scheme dependant, so is the format of this field (see Figure 3). Examples of possible structures include single or multiple enciphered keys that may be contained in integrity-protected key blocks, such as that specified in ANSI X9 TR-31. LLL Data element 96 Key 1, Key 2, . . . Key n
+
+Figure 3 -- Key management data -- Data element 96
+
+9
+
+IS 16007 : 2013 ISO 13492 : 2007
+
+Bibliography
+
+[1]
+
+ISO 9564-1, Banking -- Personal Identification Number (PIN) management and security -- Part 1: Basic principles and requirements for online PIN handling in ATM and POS systems ISO 9564-3, Banking -- Personal Identification Number management and security -- Part 3: Requirements for offline PIN handling in ATM and POS systems ISO 11568-1, Banking -- Key management (retail) -- Part 1: Principles ISO 11568-2, Banking -- Key management (retail) -- Part 2: Symmetric ciphers, their key management and life cycle ISO 11568-4, Banking -- Key management (retail) -- Part 4: Asymmetric cryptosystems -- Key management and life cycle ISO 16609, Banking -- Requirements for message authentication using symmetric techniques ISO/IEC 18033 (all parts), Information technology -- Security techniques -- Encryption algorithms ANSI X9 TR-31:2005, Interoperable Secure Key Exchange Key Block Specification for Symmetric Algorithms ANSI X9.24-1:2004, Retail Financial Services Symmetric Key Management -- Part 1: Using Symmetric Techniques
+
+[2]
+
+[3] [4]
+
+[5]
+
+[6] [7] [8]
+
+[9]
+
+10
+
+Bureau of Indian Standards BIS is a statutory institution established under the Bureau of Indian Standards Act, 1986 to promote harmonious development of the activities of standardization, marking and quality certification of goods and attending to connected matters in the country. Copyright BIS has the copyright of all its publications. No part of these publications may be reproduced in any form without the prior permission in writing of BIS. This does not preclude the free use, in course of implementing the standard, of necessary details, such as symbols and sizes, type or grade designations. Enquiries relating to copyright be addressed to the Director (Publications), BIS. Review of Indian Standards Amendments are issued to standards as the need arises on the basis of comments. Standards are also reviewed periodically; a standard along with amendments is reaffirmed when such review indicates that no changes are needed; if the review indicates that changes are needed, it is taken up for revision. Users of Indian Standards should ascertain that they are in possession of the latest amendments or edition by referring to the latest issue of `BIS Catalogue' and `Standards: Monthly Additions'. This Indian Standard has been developed from Doc No.: MSD 7 (380). Amendments Issued Since Publication ______________________________________________________________________________________ Amendment No. Date of Issue Text Affected ______________________________________________________________________________________ ______________________________________________________________________________________ ______________________________________________________________________________________ ______________________________________________________________________________________ ______________________________________________________________________________________ BUREAU OF INDIAN STANDARDS Headquarters: Manak Bhavan, 9 Bahadur Shah Zafar Marg, New Delhi 110002 Telephones: 2323 0131, 2323 3375, 2323 9402 Website: www.bis.org.in Regional Offices: Central : Manak Bhavan, 9 Bahadur Shah Zafar Marg NEW DELHI 110002 Telephones 2323 7617 { 2323 3841
+
+Eastern : 1/14, C.I.T. Scheme VII M, V.I.P. Road, Kankurgachi KOLKATA 700054 Northern : SCO 335-336, Sector 34-A, CHANDIGARH 160022 Southern : C.I.T. Campus, IV Cross Road, CHENNAI 600113 Western : Manakalaya, E9 MIDC, Marol, Andheri (East) MUMBAI 400093
+
+8499, 2337 8561 { 2337 2337 8626, 2337 9120 3843 { 260 260 9285 1216, 2254 1442 { 2254 2254 2519, 2254 2315 9295, 2832 7858 { 2832 2832 7891, 2832 7892
+
+Branches: AHMEDABAD. BANGALORE. BHOPAL. BHUBANESHWAR. COIMBATORE. DEHRADUN. FARIDABAD. GHAZIABAD. GUWAHATI. HYDERABAD. JAIPUR. KANPUR. LUCKNOW. NAGPUR. PARWANOO. PATNA. PUNE. RAJKOT. THIRUVANATHAPURAM. VISAKHAPATNAM.
+Published by BIS, New Delhi
+
+

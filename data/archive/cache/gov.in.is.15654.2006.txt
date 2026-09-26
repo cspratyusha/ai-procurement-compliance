@@ -1,0 +1,1015 @@
+IS 15654:2006
+
+WV(7%T qllm
+* *
+
+h fi & raq Wi*f%mJT *&l-imq*(wmT)m
+W+-kll{
+
+Indian Standard SUPERVISORY CONTROL AND DATA ACQUISITION (SCADA) SYSTEM FOR OIL AND GAS PIPELmE
+
+ICS 33.200; 75.200
+
+0 BIS 2006
+
+BUREAU
+MANAK
+
+OF
+BHAVAN,
+
+INDIAN
+
+STANDARDS
+ZAFAR MARG
+
+9 BAHADUR SHAH NEW DELHI 110002
+
+April 2006
+
+Price Group 11
+
+Power System Control and Associated Communications Sectional Committee, LTD 25
+
+FOREWORD This Indian Standard was adopted by the Bureau of Indian Standards, after the draft finalized by the Power System Control and Associated Communications Sectional Cornrnittee had been approved by the Electronics and Information Technology Division Council. This standard on SCADA system (Supervisory Control and Data Acquisition) provides guidelines for the performance analysis and application systems used for supervisory control and data acquisition for oil and gas pipelines covering natural gas, LPG, crude oil, multiproduct, etc, in attended or unattended stations like terminals, sectionalizing valve stations, compressor and pump stations. The system covered by this standard typically use servers, workstations, front end processors in the master stations and in Remote Terminal Units (RTUs)/Intelligent Electronic Devices (IEDs) at the remote stations. The SCADA provides facilities for incorporating monitoring and control finctions in the system installed. For the purpose of deciding whether a particular requirement of this standard is complied with, the final value, observed or calculated, expressing the result of a test or analysis, shall be rounded off in accordance with IS 2:1960 `Rules for the rounding off numerical values (revisec$'. Tbmunber of significant places retained in the rounded off value should be the same as that of the specified value in this standard.
+
+IS 15654:2006
+
+Indian Standard SUPERVISORY CONTROL AND DATA ACQUISITION (SCADA) SYSTEM FOR OIL AND GAS PIPELINE
+1 SCOPE 1.1 This standard provides guidelines for the definition, specification, performance analysis, and application of systems used for supervisory control and data acquisition for oil and gas pipe lines, in attended or unattended stations like terminals, sectionalizing valve stations, including those associated with compressor stations/pump stations. Systems covered by this standard typically use servers, workstations, front end processor in the master station and RTU (Remote Terminal Unit), IEDs (Intelligent Electronic Devices) at the remote stations. Such a system provide facilities for incorporating monitoring and control functions, after the system is installed. 1.2 The oil and gas pipe line include pipelines for natural gas, LPG, crude oil, multiproduct, etc. 2 REFERENCES The standards listed in Annex A are necessary adjuncts to this standard. 3 TERMINOLOGY The definitions of various terms used in this standard shall be as given in IS 12746 (Part l/See 3), IS 1885 (Part 50) and all sections of IS 1885 (Part 52). 4 FUNCTIONAL CHARACTERISTICS The control and data acquisition equipment governed by this standard maybe arranged in various configurations, and may perform some or all of the functions identified in this clause. Typically, control and data acquisition equipment compose a system with at least one master station and one or more Remote Terminal Units/intelligent Electronic Devices (RTUs/IEDs). Figure 1 illustrates the possible data and control flow between a master station and one or more RTUs/JEDs. 4.1 Typical Equipment Functional Diagrams be OFC (Optical Fibre Cable) based dedicated communication system. In case the OFC based dedicated system is not practical then lease line communication network or any other communication network such as satellite based communication, -radio communication, etc, are recommended to be used for control functionality. However if only monitoring of data is envisaged at intervals (not in real time) and no real time control operation is to be performed in that case dial-up line can also be used. The communication protocol typically used requires a master station to initiate message transactions. In some cases the RTU can initiate the communication messages. For additional communications protocol information, see IEC 60870-5-101, IEC 60870-5-104 or DNP 3.0, etc. The functional components of a master station are illustrated in Fig. 2. A dual server with hot standby master station is illustrated in Fig. 2, however, a single server master station may be adequate for some applications. In case of a cross-country pipeline it is recommended to .go for dual master stations with emergency master station at some different location to cater to emecgency like fire, etc. However, user may decide requirement of dual master station depending upon complexity and criticality of the pipeline network. There may be different master stations (regional) collecting data from different pipeline network and a central master station which is updated with data from all the other regional master stations so that the entire data is available at a central place as illustrated in Fig. 3. If the data is required to be viewed from different sites it is preferable to have WEB enabled system so that data can be viewed using intranet. The WEB enabled system should have the information security features like firewalls, intrusion detection system, etc. Also if the control functions need to be executed from different sites provision should be there for extending remote workstations. Separate historyserver may be used for historical data recording. Separate application server may be kept for running different pipeline applications. Auxiliary storage devices may be kept for routine backup of the system. If required, a network time server (GPS) can be installed to synchronize entire network.
+
+Functional diagrams of typical RTU and master station equipment and configurations are described below: The links between the master station(s) and RTUS, and between the sub-m-aster RTU and its slave RTUS, can be any suitable communication media but in case of a cross-country pipeline the same is recommended to
+
+IS 15654:2006
+~.-.-.----1 1 1
+
+--------------,
+1
+
+# ! I 1 Computer Servers and Work Stations
+
+1 1 1 1
+: : ,
+
+Supervisory Controls Trip/Close Raise/Lower Open/Close
+
+1 1 1 I I I
+
+1
+
+stop/start
+q
+
+I
+1
+
+c o
+
+I
+1 I 1
+
+M
+M
+
+(31 ;t me
+ur
+
+n -+
+
+:
+
+See Fig. 2
+
+nf ia cc ae t i o n
+
+I # 1 : I
+
+q
+
+q
+
+Setpoint Values Parameter Download Control Programmed Instructions Download Database Changes Download AlarmParameters Download
+
+u
+N
+
+-+ 1 1 1 1 1 t 1 I I 1 1 + 1 I I I I 8 I 1 1 I 1 1 1 1 1 1 !
+
+I
+c
+
++
+
+A
+T I
+
+CI on mt me ur nf ia cc ae
+
+REMOTE TERMINAL UNIT
+
+See Fig. 4 for Typical I/O
+
+I
+I 1 1 1 . Standard Time Signal
+
+0
+N
+
+t
+
+i o n
+
+s
+Y
+
+4
+
+I I
+
+I t
+
+1 1 1 1 1 : ,--------------------_--M~ter Station t'q
+
+# 8 t
+
+1
+
+Analog Data Accumulator Data Digital Data Status Alarm Sequence of Events Serial Data Abnormalities
+
+1
+
+s
+
+A
+
+T E M
+
+~
+
+Com&$ion --i
+
+Optional feature
+
+FIG. 1 MASTER/RTUFUNCTIONAL DATA/CONTROL FLOW
+
+F I
+#
+Primary Server Hot Standby Server
+
+in'rmet
+# Network Time Server (GPS) # Remote Work Stations
+
+#
+History Server
+
+#
+Application Server
+
+#
+WEB Server
+
+--
+
+* Local Area Network , ~ User
+j # * Comm. Controller
+I I I
+
+A
+
+*bxK-1
+
+Interface
+v
+
+Comm. Interface # Comm. Interfaces
+
+I
+
+Work Stations
+
+I I
+
+I RTUS
+
+# Optional feature q Can be redundant
+
+FIG. 2 MASTER STATION FUNCTIONAL BLOCK DIAGRAM 2
+
+IS 15654:2006
+
+I
+I
+
+* Central Master Station
+
+I
+
+A
+
+J
+
+~ I
+
+Local R'~US/IEDS
+
+v
+b
+Communication Network 4 1
+
+Local
+
+0
+
+Regional Master
+STN 1
+
+--.--. -- ._ ._. _ ._ ._. _ ._ ._. _ ._ ._. _
+
+Regional Master STN n # Optional feature * Can be redundant
+
+Q
+
+RTUs/lEDs FIG. 3 (%wwwzm
+
+LocalRTUsflEDs
+
+STATIONS MASTER STATION wml OTHER REGIONAL MASTER BLOCK DIAGRAM -f) Communication error reporting, failure criteria, and recovery; @ Channel quality monitoring (normal and backup); h) Channel diagnosticltest provisions; j) Equipment interfaces; k) Report-by-exception pollrng; and m) Point scan/RTU scan on demand.
+
+The functional components of an RTU are illustrated in Fig. 4. Various interconnections of master station(s) and RTU(S) are illustrated in Annex B. 4.2 System Functional Characteristics This clause provides guidance for helping both users and suppliers jointly define the fi.mctional capabilities that may be in a system. Each generic function is described in terms of the minimum features or characteristics that shall be addressed to adequately define the function. When the feature or characteristic is fixed by the design of the equipment, the burden of definition rests on the supplier (for example, number of inputs/outputs per card). However, variable features (for example, scaling resistors, switch settings, and software) shall be jointly defined by the user and the supplier. 4.2.1 Communication
+Management
+
+4.2.2 Data Acquisition The characteristics for each data type shall be defined. Ranges of data input, scale factors, rates, and accuracy shall be defined for the data types to be supported such as: a) b) Analog inputs,
+Status inputs -- two state Status inputs -- more than two state (more
+
+The requirements to commrmicate between the master station(s) and the RTUS shall be -welldefined. See IEC 60870-5-101, IEC 60870-5-104 or DNP 3.0 for an example of the definition of a communication protocol. The topics to be defined include: a) b) c) d) e) Message protocol; Number of channels; Channel considerations; Channel switching; Number of RTUs per channel and/or channels per RTU; 3
+
+c) d) e) 9
+
+than two state status inputs are accomplished by using multiple two state status inputs), Status inputs -- with memory, Accumulator pulse inputs, Sequence-of-events inputs, and BCD inputs-multi-bit.
+
+The data acquisition capability for each data type shall be defined in terms of the following characteristics: a)
+Scan groups -- Number of scan groups size of each group, points in each group. b) Scan cycle -- Time to complete the acquisition of a scan group from all remotes on the
+
+IS 15654:2006 Slave RTUS
+
+Master Station Links
+
+* Communication Interface & # User Interface (Local) Data Processing mm Self Diagnostics # Local 9 orage
+
+I
+PTs, TTs
+
+I
+Pulse
+Inputs
+
+I
+Contact
+from Switches etc.
+
++
+Controllers
+
++
+Contactto
+Switches/Control devices etc.
+
+*
+IEDs
+
+# Optional feature * Can be redundaot BLOCKDIAGRAM FIG. 4 REMOTE TERMINAL UNITFUNCTIONAL
+
+communication channel. The communication hardware related performance capabilities used
+
+is, pressure, temperature, flow density, specific gravity, etc) that normally varies in a continuous manner. The analog data processing options to be supported at both the master station and the RTU shall be defined. This is the responsibility of both the user and supplier. Particular attention shall be given to input data validity processing (for example, the validity of the data) and to the interface between the supervisory control function and the analog data processing fi.mction. a) Data input scaling shall give adequate consideration to off-normal operation of the system (for example, pressure out of range). b) Data change detection may be a function included as an alternative to processing every input on every scan. Data change detection is accomplished by testing to see if the new value for each input is within N digital counts (for example, dead band) of the last stored value for that input. The new value shall replace the last stored value only if the dead band was exceeded and then the input will be flwther processed as defined below. When the data change detection function is included, the following characteristics shall be defined: Location of processing, RTU or master station, .or both.
+
+in the calculation of scan cycle shall be defined.
+4.2.2.1 RTU data
+
+The capacity (total inputs) and rate of acquisition (inputs per second) for field data interfaced to the RTU equipment shall be defined for all applicable data types (see 5.4). The modularity (for example, minimum number of inputs per card) of each data type shall also be specified. 4.2.2.2 Master station data The capacity (total inputs) and rate of acquisition (inputs per second) for local or RTU data interfaced to master station equipment shall be defined for all applicable data types (see 5.4).'
+4.2.3 Data Processing
+
+Data processing capabilities shall be defined for each equipment item and all applicable data types. Systems with report-by-exception functions shall have the capability to report all data for initialization and periodic update purposes.
+4.2.3.1 Analog data
+
+Analog data is used to describe a physical quantity (that
+
+IS 15654:2006 c) Data filtering may be required to smooth data before it is used by other fimctions. When this fimction is included, the equation used shall be defined and the time delay, introduced by the filtering, specified. d) Data limit checking is typically included to determine if other downstream functions, such as alarm detection, or fin-therprocessing are required. The number of high or low limits accommodated and associated return-tonorrnal dead band processing shall be defined. Specific attention shall be given to the procedure for user specification and revision of limit and dead band values. e) The data r~port-by-exception fimction is used to eliminate communication of unchanged data from the RTU(S) to the master station. Its input is received from the change detection fhnction. When the analog data report-byexception fiction is included the fo}lowing characteristics shall be defined: 1) Percent of analog changes per scan that results in the channel load associated with reporting all analog points horn the RTU. 2) Description of logic in the master station that can be used to select between using the analog data report-by-exception function or report-all-analog data functions when acquiring analog data from each RTU. f) Data conversion to engineering units is typically required before analog data is used by other software, printed, or displayed as output. The mathematical equation(s) used to convert analog values represented by digital counts into the corresponding engineering units shall be defined. Specific attention shall be given to sensor and transducer scale factors that may be provided by the user. g) Bad data techniques shall be defined that are used to: 1) Detect an open input to an analog channel, 2) Identi@ reasonable values, 3) Detect a drifted or faulty AiD converter, and 4) Automatically calibrate an analog channel. of the signal such as the presence or absence of a voltage, current, or a contact in the open or closed position. The status data processing options to be supported at the master station and the RTU shall be defined. This is the responsibility of both the user and supplier. Particular attention shall be given to input data validity processing, and to the interface between the supervisory control function and the status data processing fiction: a) Data change detection may be a function included as an alternative to processing every input on every scan. Data change detection is performed by testing to see if the current state is the same as the last stored state for that input. Changed data shall replace the last stored value and the point, or group of inputs, shall be routed to other fhnctions such as data report-by-exception, alarm processing, or both. When the data change detection function is included, the following characteristics shall be defined: 1) Location of processing (RTU or master station), 2) Quantity of data reported when a single input changes, 3) Minimum signal duration to be considered a change, and 4) Security agarnst loss of change data.
+
+b)
+
+4.2.3.2 Status data Status data is used to describe a physical quantity (for example, device position) that has various possible combinations of discrete states. The information content of a digital signal is expressed by discrete states 5
+
+Data report-by-exception fhnction is used to eliminate unnecessary communication of unchanged data fi-omthe RTU(S) to the master station. Its input is received from the change detection furrction. When the status data report-by-exception function is included, the following characteristics shall be defined: 1) Percent of status point changes per scan that result in the channel load associated with reporting all status points fi-om the RTU. 2) Description of logic in the master station or RTU that can be used to select between using the status report-by-exception or the report all status data function when acquiring status data fi-om each RTU. c) Statu# with memory may be a function implemented in the RTU. When this function is included, the number of status changes accommodated and legal bit combinations supported by the design shall be defined.
+
+4.2.3.3 Accumulator data The following characteristics shall be defined when
+
+IS 15654:2006
+
+pulse accumulation and/or accumulator data processing is included: Input circuit (two or three terminal arid how input circuit operates); b) Sources of freeze comand, if any (intemati external); c) Ranges of values (RTU and master station); d) Nominal and maximum counting rates; e) Source of memory power; f) Input voltage, if externally powered; and g) Reset command (if any). 4.2.3.4 Sequence-of-events
+{SOE) data
+
+c)
+
+a)
+
+d) e) f.) !3) h)
+
+Methods of highlighting alarms (for example, flash, tone, etc); Information in alarm messages; Hierarchy of alarms (priority level); Size of alarm queue(s} Queue management (for example, time ordered} and Alarm lfiit(s).
+
+4.2.3.7 Digital fault data
+The RTU(S) and their micmcompu&rs are sop~lsticatd
+
+The following characteristics shall be defined when SOE data acquisition capability is included: a) Time resolution at RTUS; b) Method of system time s~ckonization; c) Time accuracy between any two RTUS; d) Number of SOE inputs per RTU; e) Size of buffers (number of SOE events that can be stored) per RTU; between o Time (minimum/maximum) successive change(s) of an input g) Method of indicating that SOE data is available at the RTU; h) Data filter time constant and accuracy (for example, contact de-bounce); ~) Data time skew (introduced by de-bounce filters); and k) Number of SOE events that can be transferred to the master station in one communications transaction.
+
+enough that they can monitor variations in data at such a rate as to be able to record data for pre-fault, fault, and post-fault analysis. The following characteristics shall be defined when the capability to process and report digital fault data is inchided a) Samples, b) Number of data points per fault, c) Maximum buffer size (total samples to be stored), d) Sample triggers, e) Number of faults to be reported and stored, and f) Means of reporting digital fault data. 4.2.4 Supervisory Contro[ Characteristics When the capability to remotely control external devices and processes is provided, the characteristics of such a control capability shall be defined (see 5.4). Definition of characteristics common to all control' interfaces shall include following and a time out alarm also in case control is not executed: a) b) Control sequence description, Type of checklsack message (echo or reencoded), c) Security of control sequences, d) Immediate operate controls, e) Broadcast controls, and f.) Time out alarm.
+
+4.2.3.5 Computed data The followhg characteristics shall be defined when the capability of computing data (which are not directly measured) is included: a) b) c) d) Location (RTU or master station); Equations supported; Resulting data types (numeric or logical, or both); and Downstream functions (for example, limit checking).
+
+4.2.4.1 Equipment control with relay interface Control using a relay output shall be defined as follows: a) b) Dwell time of relay contacts; and Number of relays that can be simultaneously energized in each type of"RTU processing actions (for example, logging and alarm suppression),
+
+4.2.3.6 Alarm data The following characteristics shall be defined when the capability to process and report alarm conditions is included: a) b) Conditions reported as alarms; Methods of acknowledgment groups); (single or
+
+4.2.4.2 Equipment control with setpoint interface ControI using a setpoint output shall be defined as follows: 6
+
+IS 15654:2006 a) b) c) d) Resolution of setpoint value; Duration of output value; Processing actions (for example, limit check, equation, and alarms); and Electrical interface.
+control with electronic
+
+5) c) 1) 2) 3) 4) 5) 6) d)
+
+Assignhe-assign data to a group. Setting date and time, Setting input change limits, Defining formats, Defining conversion data, Defining operator override values, and Defining normal/abnormal status/data quality status. Enable/disable individual alarms, Enter/edit alarm limit value(s), Enter/edit alarm dead band value(s), Enter/edit return-to-normal criteria, Enter/edit alarm assignment to area of responsibility, Enter/edit alarm priority, Acknowledge alarms ["individual/ page), Silence audible alarm, Inhibit alarms, and Override invalid alarms.
+checks
+
+Control of data processing
+
+4.2.4.3 Equipment/Process
+interface
+
+Control using an electronic interface shall be defined as follows: a) b) c) d) Timing diagram of signals; Interface communication protocol; Processing actions associated with control; and Physical interface.
+
+Control of alarm processing
+
+1) 2) 3) 4) 5) 6) 7) 8) 9)
+10) e)
+
+4.2.5 Automatic Control Functions When the capability to automatically control external devices provided the characteristics of such control capabilities shall be defined as follows: a) b) c) d) e) f) g) Location of automatic control logic (RTU or master station); Control equation(s); Feedback value and accuracy, if closed loop, Frequency of execution; User alterable control parameters; Associated logging or alarming; and Method of altering control logic.
+
+Control offunction
+
+1) Enable/disable, and 2) Change fi-equency.
+i) Control ofautomatic control functions
+
+1) Enable/disable, 2) Modify criteria, 3) 4) Ad&delete control fimctions, and Reset to reference level or position.
+
+4.2.6 User Interface Characteristics User interface functions shall be defined when the capability to support operating or maintenance personnel at the master station. The interface fictions shall be defined-in 4.2.6.1 to 4.2.6.4. 4.2.6.1 Control of equipment fimctions When operator controllable functions are included the applicable characteristics shall be defined for the included fimctions, such as: a)
+Control output options
+
+4.2.6.2 Display functions The applicable characteristics shall be defined when the following formats are included: a)
+Generation of display formats
+
+1) 2) 3) 4) b) 1) 2) 3) 4)
+
+Enable/disable, Tagging (types and uses), Local/remote, and Open (off)/.c1ose (on). Enable/disable scan (inputs or stations), Enable/disable processing, Manual entry of data, Change scan frequency by group, and 7
+
+1) Format definition capabilities, 2) Use of colours, 3) Use of special features (flash, reverse video, etc), 4) Control level of detail (declutter), 5) Display call-up time, and 6) Use of features (pan, zoom, windowing, etc). b)
+Standard formats
+
+Control of data acquisition
+
+1) 2) 3) 4) 5)
+
+Index formats, System formats, Communication channel format, Summary of inhibited alarms, Input point profile formats,
+
+IS 15654:2006 6) Alarm SUIIUIWJJ, 7) Tag summary, 8) Abnormal summary, 9) "Override summary, and 10) Station notes format. c)
+Control of cursor
+
+4.2.7 Sub-master RTU An RTU can act as a master station with respect to other slave RTU(S) and Intelligent Electronic Device(s) [IED(s)]. The master station functions allocated to such sub-master RTU shall be defined using the applicable preceding subclauses. This is the responsibility of both the user and supplier. The user shall define the applicable characteristics as follows: a) Database, b) Communication protocol, c) Point configuration, d) Scan interval, e) Downloading characteristics, and f.) Other characteristics defined in this standard that may be applicable. 4.2.8 Backup and Failover It is common practice today to failoyer a system by switching peripherals or the total computer subsystem in order to recover from a peripheral or computer failure. In a distributed computer implementation, functions may be re-allocated to recover from a hardware failure. The applicable characteristics shall be defined when both primary and backup facilities are provided as follows: a)
+Database 1) backup
+
+1) 2) 3) 4) 5) 6)
+
+Cursor operation, Selection of formats, Response time, Update cycle (from database), Paging of multi-page formats, and Selection of declutter (zoom) levels.
+
+4.2.6.3 Digital and analog display functions When such display devices are supported the applicable characteristics shall be defined as follows: a)
+Digital displays 1)
+
+2) b)
+
+Numeric range with decimal, and Update frequency.
+
+Analog displays
+
+1) Ranges, and 2) Update frequency. 4.2.6.4 Hard copyjimctions When support of hard copy devices is required such as logger-s, video copiers, etc, the applicable characteristics shall be defined as follows: a)
+Device assignments
+
+2) 3) b)
+
+Data residency (bulk or main memory), Frequency of backup (by data type), and Other uses of backup facilitie-s.
+update
+
+1) Initial, 2) Automatic re-assignment, and 3) Manual re-assignment. b)
+Generation of log formats
+
+Database
+
+1) Data residency (bulk or main memory), 2) Frequency of update (by data type), and 3) Other uses of update facilities. c)
+Failure monitoring
+
+1) On-line/batch capabilities, 2) Symbols supported, and 3) Spooling capabilities. c)
+Demand logs
+
+1) Standard/Customised formats, and 2) Time for response. d)
+Logged activities
+
+1) Method of failure detection, 2) Response time for detection, and 3) Effect on a programme or task in progress when fail over occurs. d)
+Failover
+
+1) Alarms; 2) Standard events (for example, user and device actions); 3) 4) e) System events (for example, equipment failover and communication failure); and Output ii-em diagnostic routines.
+
+1) Method of failover, 2) Time required for failover, 3) User interface response following failover, 4) User actions following failover, and 5) Effect on a programme or task in progress when failover occurs. 4.2.9 Historical Data The appropriate characteristics shall be define when the capability for historical data archiving and retrieval is included as follows: 8
+
+Device performance
+
+1) Print speed (characters/second), 2) Print quality (dots/inch), and 3) Colour requirements.
+
+IS 15654:2006 a) b) c) d) e) o g) Data quantities, Data intervals, Number of data intervals, Method of file management, Method of data archiving, Method of data retrieval, and Data usage (for example, displays, reports, applications, etc). 5 INTERFACES The control and data acquisition equipment shall have interfaces as described in this clause. The interfaces described crmsist of those illustrated in Fig. 5. 5.1 Mechanical 5.1.1 Enclosures Equipment enclosures shall be suitable for the proposed . . environment. Enclosures should therefore conform to the relevant "1PClassification tests as per IS 13947 (Part 1). 5.1.2 Electromagnetic Special Requirements
+Compatibility (EA4C) and
+
+4.2.10 Local Networks Local area networks may be used to provide data exchange capability between the different fimctions at a site (for example, IEDs, RTUS, etc), When the capability of a local area network is included, the characteristics of such communication capability shall be defined as follows: a) b) c) d) e) o g) Bit rate, Electrical interface (for examule. 10/100 Base T, RS-232, RS-485; etc), ` ` Equipment to be interconnected, Transfer rate (bytes per second), Protocols (for example, Ethernet, TCP/IP, etc), Redundancy, and Reliability (for example, sectionalizing for isolating failures).
+
+The location of access doors, enclosure mounting requirements, temperature/ventilation requirements, terminal-block type and location, cable entry locations, and special cabling and connector requirements should be specified for individual applications. Electromagnetic Interference (EMI) and Radio Frequency Interference (RFI) characteristics of enclosures should be determined in conformance with IEC 60870-2-1 (1995) for minimum level 2 requirements. 5.2 Grounding Control and data acquisition equipment shall not ground a floating power source. Care shall be exercised to ensure ground compatibility when grounded power sources are used. The code of practice for earthing may be referred as given in IS 3043 and IEEE Green Book Standard 142:1991.
+
+4.2.11 Third Party Interface The system should be compliant with user defined open interface like ODBC (Open Data Base Connect), -etc for the integration of third party softwarehrdware.
+
+Grounding Interfaces(see 5.2)
+
+ElectricalPower Interfaces(see 5.3) CONTROL AND DATA ACQUISITION EQUIPMENT User Interfaces (see 5.6)
+
+Communication Interfaces(see 5.5)
+
+1
+Data.andControl Interfaces(see 5.4)
+
+19
+
+Mechanical Interfaces(see 5.1)
+
+FIG. 5 MANUAL ANDSUPERVIS13RY CONTROL EQUIPMENT INTERFACE BLOCK DIAGRAM
+
+IS 15654:2006 5.2.1 Safety or Equipment Ground The safety or equipment ground protects personnel from injuries caused by live or hot conductors coming in contact with the equipment cabinet or enclosure. The ground conductor shall be bundled with the power conductors, but be insulated from the power conductors and from other equipment and conduit. The ground conductor is usually terminated in the cabinet enclosure, and grounded only at the same point that the electrical service or UPS neutral is grounded. All cabinets andlor enclosures comprising any control or data acquisition equipment shall be grounded together by means of a ground cable or strap. Any buildings or allied structures for keeping all cabinets and/or enclosures comprising any control or data acquisition equipment shall be protected fi-om lightening and code of practice for protection against lightening may be referred as given in IS 2309. Additionally, metal decking or other electrical paths should be grounded only at the same point that the electrical service or UPS is grounded. Safety or equipment grounds shall be established in accordance with SP 30. 5.2.2 Signal or Instrumentation
+Circuit Ground
+
+acquisition equipment requirements: a)
+
+shall meet the following
+
+b)
+
+The alternating current source defined below may originate directly from the station source or from a regulatinghminterruptible power supply. Equipment operating on direct current shall not sustain damage if the input voltage declines below the lower limit specified-or is reversed in polarity.
+
+5.3.1 Master Station Master station equipment shall be capable of operating without error or damage with one or more of the following source voltage ranges: a) b) c) 230 V ac single phase or three phase +10 percent at 50 Hz +3 percent, 21 to 29 V dc (24 V dc nominal), and 42 to 58 V dc (48 V dc nominal).
+
+5.3.2 Remote Station Remote station equipment shall be capable of operating without error or damage with one or more of the following source voltage ranges: a) b) c) d) 230 V ac single phase +0 percent at 50 Hz *3 percent, 21 to 29 V dc (24 V dc nominal), 42 to 58 V dc (48 V dc nominal), and 10to 16 V dc (12 V dcnominal).
+
+The signal or instrumentation circuit ground shall be connected to an external ground at a single point so that ground loop conditions are minimized. The shielded wire, drain wire, and/or ground wire of input/ output cables shall be terminated at one ground point in each cabinet. These ground points shall be connected together and connected to the facility ground. Caution shall be used to prevent inadvertent ground paths from devices such as convenience out lets, conduit, structural metal, test equipment, and external interfaces. A special caution on filtering is worth noting. If the noise is shunted to the signal ground, then it becomes another source of signal reference corruption. Sometimes separate power, noise, digital, and analog ground buses are necessary. However, the NEC requirement for a single point safety grounding source shall always be met. Avery important design rule isto keep all signal reference voltages, at all frequencies of operation, as close to zero as possible (that is, at zero voltage signal reference): 5.2.3 Electrical Ground The station power source accordance with the NEC. 5.3 Electrical Power The electric power interfaces to control and data
+10
+
+5.3.3 Power Quali~ Station power shall be of such quality (freefkom noise, spikes, etc) to be suitable for use as a source to electronic equipment. The user and supplier shall both be responsible for conditioning (as required) the electric power for use by SCADA equipment. The one end of ac power supply to master station for SCADA system should be grounded with isolating transformer. 5.3.4 Internal Noise The control and data acquisition dquipment internally generated electrical noise, ffom 1000 to 10.000 Hz, appearing on the power source terminals shall be less than 1.5 percent (peak to peak) of the external power source voltage. This is measured into an external power source impedance of 0.1 cominimum. 5.4 Data and Control Interfaces
+
+shall be grounded
+
+in
+
+Data and control interfaces consist of electrical interconnections between control and data acquisition equipment and the device being monitored and controlled. Two types of signal paths are defined as follows:
+
+IS 15654:2006 a) b)
+Data paths -- Inputs to data acquisition or
+
+supervisory control equipment, and Control paths -- Outputs from data acquisition or supervisory control equipment.
+
+Signal interfaces between the control and data acquisition equipment and a communication channel are illustrated in Fig. 7. Subsequent clause define specific signal characteristics for these mentioned interfaces. However, one of the characteristics is common to both types of interfaces and shall be measured regardless of the configuration utilized. This characteristics is; Channel bit error rate is measured between data communication equipment and control and data acquisition equipment. Due to the variety of channel and modem qualities available and in use, an average value of 1 bit error in 10s bit is recommended for design and analysis purposes. 5.5.2 Sub-master/Slave
+RTU Links
+
+For each input (data) or output (control) path, various signal characteristics shall be defined to speci~ the interfaces between equipment. Data and control signal cabling, which are external to control and data acquisition equipment, are not specified. 5.5 Communication 5.5.1 Master StatiotiRTU
+Links
+
+Communication interfaces consist of functional, mechanical, and electrical interconnections between control and data acquisition equipment and the communication apparatus. Any specific application requires one of the two following types of general signal interfaces. Signal interfaces between the control and data acquisition equipment and the data communication equipment (for example, a data modem) occur whenever the data communication equipment is not packaged as an integral part of the control and data acquisition equipment, as illustrated in Fig. 6.
+
+The sub-master/slave RTU links shall consist of at least one communication link to a master station as well as at least one additional link to slave RTUS, or a link to a distributed RTU module of the same RTU, or a link to an Intelligent Electronic Device (IED). 5.5.2.1 Sub-master RTUS The communications link(s) to the master station(s) ., is identical to that described' in 5.5.1.
+
+CONTROL AND DATA ACQUISITION EQUIPMENT (1)
+
+DATA COMMUNICATION EQUIPMENT (2) (data modem)
+
+COMMUNICATION CHANNEL (3)
+
+NOTES I This equipment is called data terminal equipment (DTE) in the standards referenced.
+2 This equipment is commonly called a data modem, but called data communication equipment (DCE) in referenced standards. 3 Channel includes microwave, radio, cable, fiber optic types, etc.
+
+FIG. 6 SIGNAL INTERFACES BETWEEN CONTROL ANDDATAACQUISITION EQUIPMENT
+AND DATA COMMUNICATION EQUIPMENT
+
+CONTROL AND DATA ACQUISITION EQUIPMENT (1) NOTES
+1 Data modem is packaged as an integral part of this equipment. 2 Channel includes microwave, radio, cable, fiber optic types etc.
+
+COMMUNICATION CHANNEL (2)
+
+FIG. 7 SIGNAL INTERFACES BETWEENCONTROLAND DATA ACQUISITIONEQUIPMENT AND COMMUNICATION CHANNEL
+
+11
+
+IS 15654:2006 5.5.2.2 Remote terminal units
+
+The communication links to slave RTUS is similar to that described in 5.5.1, except that the role of the master station is assumed by the sub-master RTU. 5.5.2.3 IEDs The interface described in 5.5.1 is typical. These interfaces vary among IED suppliers and therefore coordination and specific definitions may be required when interfacing with IEDs. Further, the user is cautioned that the master station RTU protocol may not-support the-acquisition-of datr.fiom,and the control of, the IEDs. 5.6 User Interface (UI) The user interface is defined as the user contact with the control and data acquisition equipment. The user interface for operation concerns standards and recommendations for information displays, control capabilities, colours, and user interaction with the equipment and is given below. 5.6.1 Information Displays Characters used by printers, loggers, and illuminated displays shall have unique codes so that their display may be electrically initiated. The alphanumeric characters and their corresponding codes as defined in IS 10315 shall be used to represent alphanumeric data at the user interface. A set of graphic symbols shall be part of the system. The capability to create additional graphic symbol and graphics by the user is to be provided. 5.6.2 Control Capabilities The capabilities provided for operator inputs at the user interface are defhed as the control capabilities. The control capabilities may include a combination of the following: a) b) c) d) e) Keys and switches (alphanumeric or fimction, or both); Cursor (mouse, trackball, joy stick, or key controlled); Light pen; Poke points (defined monitor displayed control selection fields); and Pull down or pop upmenus.
+
+control and data acquisition equipment, the labels shall be legible from a distanceof approximately 1 m in the user specified environment. When lighted push buttons are included, the significance of the state of the light (on, off, blinking) shall be clearly defined and shall be consistent throughout the system. Control push buttons (for example raise, lower, trip, open, and close) shall be within convenient viewing distance of the information display that will be used during the control operation. 5.6.3 Colour Codes The standard meanings for colours (for example, monitor displays, status lights) used at the UI to highlight the condition of device monitored and controlled through control and data acquisition equipment shall be defined by users. The significance of colours shall be consistent throughout the system. The color status of a device under operator control shall only change to its new state (may include attributes such as CO1OW and shape change, flashing, etc) afler the status of the device has changed. 5.6.4 Interactive Dialogue The activity at the UI during operational use of control and data acquisition equipment shall be clearly described and shall be consistent throughout the system. 5.6.5 Alarms When alarm conditions detected by control and data acquisition equipment are first interfaced to the user, both an audible (voice, tone, or bell) -and visual (flashing light or symbol) annunciation shall be presented. It shall be possible to silence the audible alarm without affecting the visual annunciation. The visual indication of each alarm condition shall remain as long as the alarm condition exists. 5.6.6 Dialogue During Control The selection of a point for a user control action shall result in a visual feedback at the user interface. This positive feedback to the user shall signifi that the control and data acquisition equipment is ready to accept a control action. The results of the control action (check-before-operate or direct operate) shall be displayed only after a status change has been received from the RTU equipment. 6 ENVIRONMENTAL CONDITIONS
+
+The user's input to the UI equipment shall be recognized and acknowledged (valid or invalid) to the operator within 0.5s. The UI equipment shall confirm control actions using the reencoded checkback message from the RTU within 2 s. When labelled fbnction push buttons are included in 12
+
+This clause contains a definition of the environment in which control and data acquisition equipment is required to operate.
+
+IS 15654:2006 There are unusual conditions that, where they exist, shall receive special consideration. Such conditions shall be brought to the attention of those responsible for the application, manufacture, and operation of the equipment. Devices for use in such cases may require special construction or protection. The user should speci& those special physical requirements that apply to specific locations. Examples are: a) Damaging fumes or vapours, excessive or abrasive dust, explosive mixtures of dust or gases, steam, salt spray, excessive moisture, or dripping water; Abnormal vibration, shocks, or tilting; Radiant or conducted heat sources; For temperature and humidity parameters by operating location, see Table 1. This table is a guideline to establish five equipment classification groups. Equipment designated to "be in a specific group shall meet all conditions set forth in that group. Equipment subjected to temperature and humidity variations outside of the first four group classifications listed in Table 1 will require special consideration. Methods to resolve these problems include the following: a)
+Low temperature -- A thermostatically controlled heater strip should be used in the cabinet enclosure or use wide temperature range equipment. High temperature -- A sun shield, some other
+
+b) c) d) e)
+
+Special transportation or storage conditions; Unusual space limitations; o Unusual power limitations; i%) Unusual communication limitations; h) Unusual operating duty, frequency of operation, difficulty in maintenance; Altitude of the operating locations in excess j) of 1000 m, k) Abnormal electromagnetic interference; and m) Abnormal exposure to ultraviolet light.
+
+b)
+
+6.1 Environment 6. L 1 Ambient Temperature and Humidi~ Conditions Ambient temperature and humidity are defined as the conditions of the air surrounding the enclosure of the equipment (or the equipment itself, if it uses open rack construction) even if this enclosure is contained in another enclosure or room. Tabte 1 Operating Temperature
+
+cooling method, or wide temperature range equipment should be used. c) High hurnidi~ -- Heater strips or special shelters should be used. d) Low humidip -- A humidifier should be used to maintain acceptable humidity levels. e) "Temperature.restrictions -- If it is necessary to use heating/cooling equipment to meet the parameters set forth in Table 1, the equipment should be so marked by a warning sign and a warning statement in the associated documentation. 6.1.2 Dust, Chemical Gas and Moisture Suppliers shall be made aware of the presence of atmospheric pollutants so that special provisions for protection can be made where necessary. and Humidity by Location
+
+(Clause 6.1. 1)
+
+S1 Equipment No. Group
+(1) O ii) iii) (2) (l)(a) (1)(b) (2)
+
+TypicalLocationofthe Equipment
+(3)
+
+HumidityOperating Range(percent RelativeHumidity)
+(4)
+
+Temperature OperatingRange
+`JC
+
+Allowable Rateof ChangeofTemperature
+Ocnr
+
+(5)
+
+(6)
+
+Ina building withair-conditioned areas
+In a building with air-conditioned areas In a building with heating or cooling but without full airconditioning In a building or other sheltered area without special environmental control Outdoors or location with wide temperature variations Extremes outside the above
+
+40-60
+30-70
+
++20to +23
++15to +30
++5 to +40
+
+5
+10 10
+
+10-90 without condensation 10-95 without condensation 10-95 without condensation User to specify (see 6.1.1)
+
+iv)
+
+(3)
+
+0 to +55
+
+20
+
+v) vi)
+
+(4) (5)
+
+-25 to +60 User to specifi (see 6.1.1)
+
+20
+
+User to specifj (see 6.1.1)
+
+13
+
+IS 15654:2006 In groups(l), (2), and(3) of Table l, all equipment cabinets that are vented shall have dust filters. In groups (3) and (4), equipment that is exposed to moisture, corrosive and explosive gases, or other unusual environmental conditions shall have a special enclosure. Available types of enclosures for various conditions are specified in IS 13947 (Part 1). Consideration should be given to possible contamination inside the enclosure during storage and transit, and also when the enclosure is opened for maintenance or repairs. 6.1.3 Altitude The equipment shall be suitable for operation at altitudes up to at least 1000 m. 6.1.4 Ultraviolet
+(UV) Light Exposure
+
+6.2.2 Installation Criteria The basic installation goal for achieving protection from lightning and switching surges shall be to minimize the exposure of all connecting wires and cables. 6.2.2.1 Power, signal and communication
+circuits
+
+Power, signal, and communication circuits provide a path through which lightning and switching surges enter equipment. Circuits totally within a protected building can generally be installed without regard to these external effects. These circuits may still be subjected to transients generated by the operation of solenoids and control relays. Circuits that are connected to, or are part o~ circuits not within a protected building should be installed in a manner that will minimize exposure. 6.2.2.2 Installation constraints When installation constraints result "ina high degree of exposure to lightning or switching surges, supplernentaryprotection such as spark gaps orsurge limiters should be considered. 6.3 Electromagnetic Interference (EMI) Electromagnetic Compatibility (EMC) and
+
+Suppliers shall be made aware of the expected level of exposure to ultraviolet radiation attributable to sunlight where equipment is to be installed outdoors. Equipment cabinets, paint finishes, and jacket material of any exposed cabling shall be sufficiently treated to resist damage or degradation due to UV exposure. The user shall supply information pertaining to altitude above mean sea level and the anticipated average daily hours of direct exposure to sunlight. 6.2 Lightning and Switching Surge Protection The purpose of this subclause is to describe design criteria and recommend practices that will minimize the adverse consequences of exposure to lightning discharges and switching surges. Effective protection can only be accomplished through a combination of adequate design and proper installation and should be in conformance with IEC 60870-2-1 for minimum level 2 requirements. 6.2.1 Design Criteria The basic design goal for achieving protection fi-om lightning and switching surges shall be that of keeping any abnormal voltage or current, or both, out of the equipment cabinets. 6.2.1.1 Voltage surges Voltage surges can enter the cabinet and cause damage. Equipment failures resulting fkom such damage should be fail-safe. Logic designs should be such as to minimize the possibility of false or improper operation of field devices. Partial failures that do not disable the equipment but can reduce or eliminate security features, such as error checking in communication circuits, shall be detected and cause the blocking of control outputs to prevent false operations of field devices. 14
+
+Manufacturers shall design and test their equipment to ensure that EMI limits are not exceeded, and users shall design and test locations (environments) to ensure that EMC limits are not exceeded and should be in conformance with IEC 60870-2-1 for minimum level 2 requirements. Computer and microcomputer-based equipment are expected to perform their intended functions in substations even when exposed to transient electromagnetic interference. The user should be aware of EMI in control rooms/substations, metering stations, etc and either specify the EMI level for guaranteeing proper operation or accept the risk of misoperation in the presence of EMI. 6.3.1 EMI Limits Control and data acquisition equipment shall not generate radiated emissions-in excess of (1 V/m)/MHz as measured 1 m from the enclosure. Manufacturers shall mechanically and electrically design equipments for emission limits by employing attenuation techniques such as isolation, shielding, grounding, gasketing, filtering, and bonding. 6.3.2 EMC Limits Control and data acquisition equipment shall be capable of operating in radiated fields as specified by the user. Information available to date indicates that
+
+IS 15654:2006 the average field strength may run in the order of (1 V/m)/MH~. The specified value of (1 V/M)/MHz refers to broadband radiated fields due to station environment, resulting from such things as corona and switching transients. This requirement is not intended to cover narrowband radiated field sources such as electronic test equipment or portable radio transmitters (walkie-talkies). Where such equipment may be used, the field strength is properly expressed as volts per meter at a specified frequency, and different EMC limits may be required. 7 CHARACTERISTICS This clause defines and discusses general characteristic-s that are required of the control and data acquisition equipment. These characteristics include reliability, maintainability, availability, security, expandability, and changeability. 7.1 Reliability Mathematically, reliability is the probability that a unit or system will perform its intended function under specified conditions during a specified period of time. For complex equipment, failures will occur on the average at a constant rate throughout the usefid life of the equipment. This allows the manufacturer to characterize equipment reliability with a simple figure of merit called mean-time-between-failure (MTBF). The exceptions to this constant failure rate area higher, decreasing failure rate, early in the equipment's life, called `infant mortality', and a higher, increasing failure rate, thatsignals the onset of `end-of-life'. These phenomena give a typical plot of failure rate versus time, a shape known as a `bathtub curve'. The failure modes of equipment, andthe effects of these failures shall be formally analyzed by the supplier. The results of these failure modes and effect analysis (FMEA) shall be available for review upon request. Failure distribution versus time data for equipment while in the possession of the supplier, and for those field units for which data are available from the users, shall be documented and available upon request. 7.2 Maintainability Control and data acquisition equipment shall be maintainable on-site by trained personnel according to the maintenance strategy specified by the user. Requirements for training, documentation, spares, etc, shall take the user's organization and geography into account. The most common repair strategy is for the supplier to train the user's personnel to identi~ and replace failed modules on-site.from the user's stock of spare modules. 15 These may then be either returned to the supplier for repakor repaired to the component level at the user's maintenance facility. If on-site service by the supplier is necessary, it is most likely to be required for failures of complex com_puterequipment. The supplier shall, upon request, be required to provide as part of the system proposal, a list of test equipment and quantities of spare parts calculated to.be necessary to meet the specified availability and maintainability requirements. In establishing the quantities of spare parts, the supplier shall consider the time required to return a failed component (field and/or factory service) to a serviceable condition. The maintainability of equipment is reflected in a figure of merit called mean-time-to-repair "(MTTR). The MTTR values used in the supplier's availability computations shall be based to the maximum extent possible upon maintenance experience. MTTR is the sum of .administrative, transport, and repair time. Administrative time is the time interval between detection of a failure and a call for service. Transport time is the time interval between the call for service and on-site arrival of a technician and the necessary replacement parts. Repair time is the time required by a trained technician, having the replacement parts and the recommended test equipment on-site, to restore nominal operation of the failed equipment. Unless otherwise specified by the user, the following values shall be used in availability calculations: Administrative time Transport time 7.3 Availability Availability is defined in the following as the ratio of uptime to total time (uptime + downtime):
+A = uptime/(uptime + downtime)
+
+0.0 h 0.5 h
+
+and is normally expressed as a percent (of total time). Downtime normally includes corrective and preventive maintenance. When system expansion activities compromise the user's ability to operate device via the system, this may also be included in downtime. Typical availabilities achievable by non-redundant commercial grade equipment range from 99.99 percent, for simple devices, to approximately 97 percent for complex, computer-based sub-systems. Proper use of redundant configurations with automatic fail over can provide an overall availability of primary system functions of 99.9 percent. The availability level required, and the planned maintenance strategy, shall be specified by the user,
+
+1S 15654:2006 requiring suppliers to provide supporting predicted availability calculations in their proposals. An availability test of from 30 to 90 days is often specified prior to acceptance of a system. Operating and maintenance records shall be kept and used to prove the predicted, and to support the achieved availability computations (see 9.6). For design analysis, and to determine the prediction of availability for sub-assemblies and units, the following equation utilizing MTBF and MTTR shall be used: /4, = MTBF/(MTBF + MTTR) where AP is predicted availability. Equations for modeling complex designs shall be formulated by the supplier. Use of the equations associated with parallel redundant components (or subsystems) are valid under the following conditions: a) Failure of parallel elements are independent. Component failures do not propagate failures of other components. Sufficient repair turnaround and standby replacement parts are available to handle multiple simultaneous failures. b) c) Communication security, and Hardware and software design.
+
+7.4.1 Operations Security Features Security features comprising operating practice and procedures include the use of function and operating checks (manual and/or automatic). Function and operating checks may include: a) Analog reference points (Oand 90 percent), b) Control function check (loop-back), c) Scan function check (loop-back), d) Poll function check, e) Logging function check, f-i Queue overflow alarms, g) Diagnostic aids, h) Calibration checks, j) Logging of all operator actions, including whether the equipment completed the requested action, k) Tagging of out-of-service control points at the user interface, and m) Use of an RTU local/remote switch, with feedback to a status point, to disable all control actuators while an RTU is being serviced. Equipment designed for remote control of valve shall use both a select-before-execute user interface (UI) sequenceand a checkback-before-operatecommunication sequence for control operations. The UI sequence shall provide visual feedback of the selection to the user, so the user can verifi that the system has interpreted the selection correctly before executing the control function. The communication sequence checkback message shall be derived from the RTU'S point selection hardware, and not be just a simple echoing of the received select message. This allows the master station to verify rrot only that the communication was error free, but also that the RTU'S 1/0 hardware and software acted correctly in interpreting the selection. In order to provide maximum security against random channel noise being interpreted as a selectlexecute sequence at an RTU, the following safeguards should be incorporated: a) The communications protocol shall have a very effective redundancy check code .(this is necessary, but not sufficient, security); b) There shall be a relatively short timeout between the select and operate steps; c) The next master station message.following the select shall be the execute;
+
+b)
+
+The impact of the outage of each system element or function on the availability of the total system shall be mutually agreed upon between the user and the supplier. Availability test results shall be calculated separately for major system components (for example, Server system versus RTUS). Since these components may have a varying impact on the usefulness of the system as a whole, different definitions of downtime are applicable. Major component downtime shall be definedto reflect the proportional significance of the equipment that is down. For example, downtime for the data acquisition system could be defined as the sum of the downtime for all RTUS divided by the total number of RTUs. At the master station, downtime should not include malfunctions in peripheral devices that do not detract from the functional capabilities of the master station as a whole (for example, printers and tape units). 7.4 System Security System security (of operation) is defined as the ability to recognize an inappropriate or undesirable operation or condition in such a fashion that causes an appropriate alarm, a non-operation, or both. Security of operation considerations are divided into the following three areas: a) Operating practice and procedures, 16
+
+IS 15654:2006 d) The complete point identification shall -be contained in the select, checkback, and execute messages, which shall be fully compared before the control operation is executed; If any of the above checks fail, the control sequence shall be re-set immediately, and a new select message shall be required to restart it; and Both the master station and RTU shall enforce the above rules. c) Ensuring that communication channel error control, in concert with the communication protocol and line discipline, reduce the probability of acceptance of messages received with error rate to less than 10-'2 when the channel bit error rate is 104. d) Verification of the proper operation of communication channels on a regular basis. e) Counting, and periodically logging, communication errors on a per-channel basis. f) Ensuring that no two RTUS with the same address share the same party line or switched communication channel. g) Ensuring that each RTU communication channel(s) supportsonly one communication protocol.
+Securi& Features
+
+e)
+
+o
+
+The communication checkback sequence may be performed either concurrently with the control selection sequence at the UI, or after the selection sequence has been completed. When performed concurrently, the selection of a point for control shall cause the select message to be transmitted to the RTU. Upon successfid receipt, the RTU shall arm itself for control, generate the checkback message, and transmit it back to the master station. A valid checkback message shall result in visual selection feedback to the user, who can then choose to either execute or cancel the control fimction. This type of operation requires a longer selectlexecute timeout at the RTU, and will either violate the executenext rule, or will stop scanning on that channel until the user responds with an execution or cancellation. When the UI sequence and communication sequence are performed sequentially, the selection of a point for control should cause the master station to display a visual indication of that selection for verification. In this type of operation, the user's verification of selection does not come fi-om the RTU, but all other security features may be fidly implemented. The user may then execute the control fimction. Status and data scanning should then be interrupted, and a select message sent to the RTU. The RTU shall then arm the control function and return a checkback message. The checkback message shall be checked by the master station, and an execute message sent automatically to the RTU. If this execute message is received as valid, the RTU shall execute the command and return an acknowledgment that the function has been performed. "7.4.2 Communication
+Message Securi@
+
+7.4.3 Hardware/Sojiiare
+
+Security features comprising hardwat'e and software design include the following: a) Power supply protection -- over current, over/under voltage, b) Automatic initialization and restart, c) Equipment self-check with alarm, d) Watchdog timer(s) with alarm, e) Automatic failover with alarm, f) Fail-safe operation, and g) Non-volatile station address retention in RTUS. 7.5 Expandabili@ Expandability is the ease with which new RTU, new points andlor fimctions, or both, can be added to the system, and the amount of downtime required. Expansion point types are defined as spare point, wired point, and space-only. Spare point equipment is equipment that is not being utilized but is filly wired and equipped. Wired point is the capacity -for which all common equipment, wiring, and space are provided, but no plug-in point hardware is provided. Space-only point is the capacity for which cabinet-space-only is provided for fiture addition of equipment and wiring. Expandability limitations may include, but are not restricted to, the following: a) Available physical space; b) Power supply capacity; c) Heat dissipation; d) Processor throughput and number of processors; e) Memory capacity of all types; f) Point limits of hardware, sotlware, or protocol; 17
+
+Communication security features include: a) b) The design goal that an error in a message shall not result in a critical failure of the system. Alarming the failure of an RTU to respond to a message within a specified number of automatic retries.
+
+IS 15654:2006 g) h) j) Buslength, loading, and traffic; Limitations onroutines, addresses, labels, or buffers: and Unacceptable extension of scan times by increased data (given bit rate and protocol efficiency). 7.6.3 Changeability Limitations Changeability limitations may result tlom, but are not limited to the following: Inability to make master station and RTU data base changes on-line from the master station, b) Storage of parameters in memory (for example ROM) that is not modifiable incircuit, c) Restrictions caused by data base structure, d) Hardware/software compatibility, e) Hardware limitations, o Software operating system limitations, and g) Restrictions caused by use of IEDs. 7.7 Spare Capacity Spare capacity is defined as the additional capacity that can be added to the master station. 7.7.1 Main Memory A requirement of no less than 50 percent unused main memory initially will allow enough expansion for new functions, enhancement of existing functions, and growth of the power system and the equipment that needs to be monitored. Computer documentation shall also be consulted to determine how much main memory capacity can be expanded over and above the capacity initially installed. As a minimum, it shall be possible to double the initial capacity with the addition of memory modules. 7.7.2 Auxiliary Memory A requirement of no less than 50 percent spare disk capacity initially will allow for moderate expansion. Computer documentation shall also be consulted to determine how much disk capacity can be expanded over and above the capacity initially installed. As a minimum, it shall be possible .to double the initial capacity with the addition of disk units. 8 MARKING The control and data acquisition equipment and major sub-assemblies shall be suitably marked as necessary for safety and identification. 8.1 Identification Each type of equipment shall be identified so that it can be easily correlated with the documentation. The means of identification shall be uniform throughout the system, and it may include colour coding, labelling, and part number. The identification mark shall be permanently affixed to the part that it identifies. Consideration shall be given to using bar code labels to identi~ the equipment and sub-assemblies. 18 a)
+
+7.6 Changeability Changeability is defined as the ease with which system, RTU, and point data base parameters maybe changed at both the master station and RTU. Parameters that shall be emy to change include the following: a) b) Operating parameters, and Configuration and setup parameters.
+
+The supplier's documentation (see 10.3.2) shall contain the step-by-step process as given in 7.6.1 to 7.-6.3. 7.6.1 Operating Parameters
+.
+
+Operating parameters must be easily changed by the system user. They include, but are not limited to the following: a) b) c) d) e) ~ g) RTU on/off-scan, Point on/off scan, Point tags on/off, Manually entered values, Point alarm limits, Point deadband values, and lED parameters.
+and Setup Parameters
+
+7.6.2 Configuration
+
+Configuration and setup parameters must be easily changed by an authorized system engineer, but shall be protected against being changed by the users. They include the following: a) b) c) d) e) Configuration password, Major/minor alarm conditions and actions, User-definable calculations, Definition of a new RTU,
+
+Communication port and/or station address assignments of RTUS, Addition and/or rearrangement of an RTU'S f) points, @ Correspondence of status points to control points, h) Point and state descriptions, for presentation to the system user, j) Point scaling factors, for conversion of data to engineering units, and k) Output relay dwell times.
+
+IS 15654:2006 8.2 Nameplates Each separate unit of the system shall be iimished with nameplates bearing relevant information. Nameplates shall be legible approximately 1 m. 8.3 Warning "Warning signs or safety instructions shall be applied where there is a need for general instructions relative to safety measures (for example, supply circuit). 9 TESTS AND INSPECTIONS The purpose of-this clause is to describe the tests and inspections recommended to ensure that control and data acquisition equipment will perform reliably and correctly according to the user's technical specifications. Users shall specifi all tests to be performed. Test requirements shall cover, as a minimum, all critical portions of the specification, especially tinctional and design requirements. Tests shall be required to be conducted by user and supplier. Test results and all deviations from test plans shall be required to be documented. 9.1 Stages of Tests and Inspection The test and inspection process requires that various fimctions of the equipment be tested or verified during one or more stages in the production and installation cycle of the equipment. These stages and appropriate tests are illustrated in Table 2. Across the top of the table are shown the four major classes of tests and inspections, being interface, environmental, functional, and performance. The three stages of testing and inspections, being certified design, at a distance of factory and field, are shown along the left-hand edge of the table. The specific tests and inspections in each class are listed in the body of the table, below the class heading. Tests listed without notation are recommended for all applications at the stage they can be most economically performed. Tests marked with an asterisk are optional and are performed only when specified by the user. Certified design tests on equipment can be accepted at the wser's discretion. 9.1.1 Certfied.Design
+Tests
+
+These are tests performed by the supplier on specimens of a generic type of production model equipment to establish conformance with its design standard. The conditions and results of these tests shall be fi.dlydocumented and certified. 9.1.2 Factory Tests and Inspections This stage includes the inspection and approval of interface drawings prior to fabrication of the equipment and all functional tests and inspections performed on the actual equipment to be supplied to the user prior to the shipment of that equipment from th& supplier's facilities. The factory tests shall be a highly structured procedure designed to demonstrate, as completely as possible, that the equipment will perform correctly and reliably in its intended application. Factory tests may also include tests to verify some or all of the results of the certified design tests. 9.1.3 Field Tests and Inspections Field tests and inspections are performed on the equipment after it has been shipped tlom the supplier's facilities. These include pre-installation inspections and
+
+Table 2 Test Stages and CIasses of Tests
+(Clause 9.1)
+sl
+
+TestStages /
+Interface Tests and Inspections (2) Certified design tests Factory tests and inspections (3) Power input* Mechanicalpower source*
+
+No.
+
+ClassesofTests Environmental Tests and Inspections (4) Temperature Humidity Temperature" Humidity* Dust* Functional Tests and Inspections (5) . 1/0 point checkout Communications User interface Special functions Performance Tests and Inspections (6)
+
+\
+
+(1) O ii)
+
+--
+Loading Data acquisition control User interface Computer and dkk stability" Maintainability* Expandability* Availability*
+
+iii)
+
+Field tests and inspections
+
+--
+
+1/0 point checkout Communications User interface Special functions
+
+* Optional tests performed only when specified by the user.
+
+19
+
+E 15654:2006 tests to ensure the equipment has not been damaged during shipment and post-installation tests to verify the equipment performs its functions reliably and correctly. 9.2 Interface Tests and Inspections These tests are designed to demonstrate that the various mechanical and electrical interfaces to the equipment are in accordance with applicable portions of 5, together with other applicable parameters called out in the user's specifications. For the most part, these interface parameters can either be demonstrated during factory tests or accepted on the basis of certified design tests. 9.2.1 Mechanical Mechanical characteristics (for example materials, workmanship, dimensions, fabrication techniques, and finishes) shall be verified through visual inspections and comparisons with applicable drawings. 9.2.2 Electrical These tests include all those to be_performedon electrical interfaces to the equipment, with the exception of those related to the fictional performance of the equipment. 9.2.2.1 Power source The equipment shall be tested to demonstrate the proper operation of the equipment throughout the range of specified power source parameters. 9.3 Environmental Tests 9.4 Functional Tests Functional tests shall be designed to ensure that the equipment performs its functions reliably and correctly. They are performed during the factory, or field test stages, or both. `Preliminary testing should be performed by the supplier before verification by the user. For many applications and types of equipment, successful factory tests will be a sufllcient basis for acceptance of the system by the user. For more complex applications or systems, additional tests in the field may be required to fully veri~ correct and reliable performance. The following fictional a) b) c) d) tests should be carried out: correctly in the following physical environments described in 9.3.1.1 to 9.3.1.3. 9.3.1.1 Temperature To test the equipment within the specified temperature range (see 6.1. 1), it shall be placed in an environmental test chamber where it can be operated for a specified period at both the low and high ends of the range, and cycled between them. Calibration and accuracy checks shall be made throughout the range. 9.3.1.2 Humidity Humidity tests (without condensation) shall be performed in conjunction with the temperature test (see 9.3.1.1). Humidity test data shall include the humidity ranges tested at each temperature. 9.3.1.3 Dust Testing shall consist of inspection to determine whether or not the equipment is properly sealed to prevent intrusion of dust.
+
+These tests are designed to demonstrate that the equipment will perform correctly and reliably while exposed to the applicable environmental parameters described in 6, together with other applicable parameters called out in the user's specifications. The results of certified design tests are usually sufficient to demonstrate that the equipment will operate reliably and correctly within a specified environment. The user may require the supplier to perform factory tests on the equipment to demonstrate that it will indeed perform correctly under the specified environmental conditions. Equipment in environmental tests should be operating with realistic inputs and outputs. The environmental parameters and testing requirements specified by the user should be limited to the worst case conditions that can be realistically anticipated in the location where the equipment will ultimately be installed. Refer IS 9000 series or IEC 60068 series for various environmental tests. 9.3.1 Physical The equipment shall be tested to verifi that it operates
+20
+
+Interface of RTUS with IEDs; Database and alarms validation; Remote workstation testing; Checking of various reports, archiving and trending functions; e) Clock synchronization between the nodes of master station and RTUS; and -f) Security/Passwords testing. 9.4.1 1/0 Equipment Checkout All 1/0 equipment to be supplied shall be tested during factory tests to demonstrate that it performs its fimctions correctly, accurately, and reliably. These tests shall be performed with equipment that simulates the actual equipment to be monitored or controlled. 9.4.2 Communication The communication tests shall demonstrate proper
+
+IS 15654:2006 operation -of all aspects of the equipment's communication capability, including modems, security checking, and message protocols. The data modems or signaling equipment shall be exercised to verifi that they operate correctly and reliably on the type of channel for which they are designed. The tests shall be conducted under conditions that duplicate as closely as possible the specifications for the channel including simulated channel noise, communication failures, and recovery. Provisions shall be made to log communication outages and update communication statistic displays where these features are provided. The communication tests shall exercise all message protocols and formats to which the equipment is designed to respond. The tests shall also demonstrate that any error detection or correction capabilities function properly and that the equipment does not respond to erroneous commands. 9.4.3 User Interface (UQ Comprehensive user interface tests shall be performed to verifi the correct fictional operation of all user interface hardware and software. All indications and displays shall be verified to ensure that they correlate with the correct 1/0 equipment, and all user controls shall be checked to ensure that they result in only the correct sequence of operations. 9.4.4 Special Functions When the equipment supplied is to perform functions tailored expressly to the user's application (for example closed loop control), these fimctions shall be checked during the appropriate test stage. It is often necessary to perform these tests in the field, after the equipment has been adjusted to the parameters of the installation. 9.5 System Performance Tests
+ii)
+
+conditions such as high noise on an entire microwave system. Loading conditions should be determined by analyzing worst case conditions experienced by the user and the worst possible condition likely to happen in the future over the life of the system. Table 3 is provided as a guide. The measurements for performance assume that all fimctions of the system have been individually verified by functional tests and that the total system is ready to be evaluated. If actual system inputs are not available, they shall be simulated with special hardware or software. For a meaningful test, these inputs shall include the following: a) b) Simulated RTU inputs (alarm contacts, analog inputs, status input, etc). Simulated message data structures from the RTUS into the master station communication interfaces. Simulated data links to other computers, specifying the amount, type and frequency of data to be transferred. Simulated user interfaces such as wall mimic. Other simulated inputs. Table 3 System Performance
+(Clause 9.5)
+S1No.
+
+c)
+
+d) e)
+
+TestslJ
+
+(1) i)
+
+Input (2)
+Normal Activity Each user Status input Analog inputs Heavy Activity Each user Status inputs Analog inputs
+
+ActivityCycle (3) 1 displaylequestlminute 1 percent changes/scan 1 percent of all analogs change/scan
+4 display requestiminute 10 percent chrmges/scan 25.pereent of all analogs change/scan
+
+The performance of all critical parameters of the equipment (for example communication, peripherals, user interfaces, 1/0 processing, and CPU) shall be measured under various loading conditions or scenarios. System performance shall be measured as early in a project as possible to identi~ any system weaknesses. This will allow the user and supplier an opportunity to resolve problems in a timely manner. The loading scenarios shall simulate the following: a) b)
+Normal activity -- initial system. Heavy activity (disturbance by user) -- initial system. loading defined
+
+o Values given are for example only. It is recommended that the user select values that represent the user's.system characteristics and operating procedures.
+
+c) Normal activi~ -- filly expanded system. d) Heavy activity (disturbance loading defined by user) -- fully expanded system. e) Communications failures or high noise 21
+
+Manual operation sequences to be performed during tests shall be described in detail to provide a repeatable test scenario and a way to measure improvements in performance (for example, five people requesting oneline diagrams and two people requesting menu displays simultaneously). Test steps should simulate all normal user operations. Response performance shall be measured in seconds. All measurements shall be recorded for analysis after
+
+IS 15654:2006 the tests. Software utility programmed are available tlom most system suppliers for finding CPU utilization and loading (for example, f@ure of the computer operating system or a separate programme available from computer manufacturer, or both) and if used by supplier the system loading of the programs shall be provided to user with proof. Automatic measurement of other test parameters can be done by special purpose software. 9.5.1 Data Acquisition Performance Data acquisition sub-system performance measures the following: a) The time for a status change or analog change at the RTU to be displayed to the user at the master station (for example, monitor, logger or mimic). The time to query all RTUS on a per channel basis.
+9.5.4.1 Computer link response time
+
+Computer to computer link response times should be measured and evaluated during performance tests under varied loading conditions, 9.5.4.2 Computer LANs utilization LANs that connect application computers together should be measured and evaluated during performance tests under varied loading conditions. 9.5.4.3 Computer restart tests
+reconfiguration, power fail and
+
+b)
+
+On master stations with redundant equipment, reconfiguration tests should be performed to confirm the ability to failover from one CPU to another (reconfigure the real-time database) and to switch peripheral equipment to the primary system, the secondary system, or off-line (that is out-of-service). Power fail tests measure the time to recover from a complete or partial power failure until the system is filly operational. Because normal maintenance procedures and equipment failure cause downtime of the master station, restart tests are to assure the system will recover in a timely manner. Existing data shall consist of all scanned and manually entered data (that is pipeline system tags, manual overrides, limit changes, etc). Downtime of the system or parts of the system should be measured during these tests to confirm the length of these outages can be tolerated by the user. The time required to load a system from mass storage and initiate operation should be measured. This time should be less than the acceptable system outage time. 9.6 Test Run The user shall require an availability test to be run after the system is installed and placed in operation (see 7.3). An availability test takes place over a specified length of time during which the equipment shall operate correctly and reliably for at least a specified percentage of that time. The length of the test shall be sufficient to verify that the equipment can be expected to perform its intended functions reliably and correctly over its intended lifetime. The availability test shall be run under conditions mutually agreeable to the user and supplier. In general, the supplier shall be responsible for making the necessary repairs. Downtime should not include delays over which the supplier has no control. This is followed by analyzing the number and types of failures, and their effects on system operation. The test time should be selected so that the total number of 22
+
+A cyclic status point input of 2 or more times faster the system RTU scan rate can be used to detect a missed' scan due to overloading. The status input simulator should be connected to an input of one RTU. The alarm associated with the toggled input shall appear on the logger with a time tag of approximately twice the scan rate. A system overload causing an extension of the scan cycle is obvious from the printout because one or more status changes is missed. 9.5.2 Control Performance Control performance measures the elapsed time between a control request by a user at the master station and the control output contact closure at the RTU. This test shall also be performed in the field. The field test will provide realistic measurements, using user installed RTUS and communication facilities. 9.5.3 User Interface Performance The user interface performance is a measure of the response time to satis~ user requests for information. To measure display response time, measure the time flom the instant a request is made until the result of the request is completely displayed on a CRT screen, printed on a logger, or shown on a mimic panel. Different classes of displays (one-line diagrams, alarm summaries, menus, tabular, etc) may have different display response times due to the amount of data to be gathered and computations required before a display request can be completed. 9.5.4 Computer and Disk Performance The computer and disk performance shall be checked using the supplied programmed from computer manufacturers to ascertain that CPU and Disk utilization is within acceptable limit as specified by user.
+
+IS 15654:2006 device operating hours for each type of system-critical device isrepresentative of the predicted MTBF for that device to obtain statistically significant failure data. Specific rules for accumulation of uptime, downtime, maintenance time, and administrative time shall be agreed upon before the test (see 7). 9.7 Maintainability Test 1) Peripherals, diskspace, memory, 2) CPU capacity (percent utilization), 3) User interface (work station additions), and 4) Database and display expansion. 9.9 Documentation Verification The final phase of the testing programme is to verify that the documentation being supplied is an accurate description of the equipment, including all corrections resulting-from the tests. Final issue of completed documentation shall be provided as soon as practical after shipment and acceptance of the equipment. 10 DOCUMENTATION The documentation for control and data acquisition equipment shall cover five basic areas as follows: a) b) c) d) e) Design, Installation, Operating instructions and records, Maintenance instructions and records, and Test (including QA & QC test plans).
+
+The user shall require a maintainability test to be run to evaluate the supplier's design, documentation, training, and recommended spare parts. Maintainability will directly affect the availability of the SCADA system and therefore the reliability of the system (see 7.2). Computer hardware maintenance and longterrn repair support are ditlicult to evaluate without actual experience. Discussions with other utilities regarding their experience is one way to acquire a certain degree of knowledge about the maintainability of specific equipment and systems. Software, database, and display maintainability is also critical to the successful operation of a SCADA system. Tests to be witnessed should include the following: .System generation tests (measure time to complete, and amount of manual intervention required) a)
+Database maintenance
+
+1) Adding an alarm point (time to make operational) should be demonstrated, 2) Deleting or changing text on an alarm point should be demonstrated, and 3) b) Changing an analog scale factor should be demonstrated.
+maintenance
+
+In general, all final documentation provided by a supplier shall reflect the actual equipment as accepted by the user, and all subsequent equipment changes shall be recorded as document revisions by the user. If users desire to have the information on reliability as described in 7, they shall collect information on failures and repairs for all subassemblies. This data on operating performance shall then be periodically provided to the supplier. Documentation described in 10.1 to 10.6 may be subject to user review or approval. Documentation may be structured in alternate fashion, but shall cover all five areas. The documentation may be supplied in one or more.of -several forms-printed, computer stored, or electronic media. In the latter case, the supplier shall either identify or supply the supporting word processing sothvare used to prepare the documentation. 10.1 Design Documentation Design documentation is the responsibility of the supplier. For example, expansion methods for adding points to hardware assemblies and software programmed or tables shall be described and illustrated. Block diagrams shall be included to describe control and data acquisition equipment and external equipment. `Layout and wiring drawings -shall also be included to define external interconnection needs at each facility. Text, photographs, and illustrative material shall accompany these drawings in sufficient detail so that functional performance and design may be readily understood.
+23
+
+Displ~
+
+1) A new one-line diagram should be added and linked to the database (a specific example in the specification should be provided), and 2) A line and new devices should be added to an existing one-line diagram including analogs, tags, etc. c)
+Equipment maintenance
+
+1) A monitor should be replaced, 2) A modem should'be replaced, and 3) A disk drive should be replaced. 9.8 Expandability Tests
+
+Expansion capability of a new system shall be analyzed (see 7.5). For example a) b) c) RTU 1/0 point expansion (both hardware and software changes required); Addition of RTUS; Master station expansion:
+
+1S 15654:2006 For example, functional block diagrams and explanatory text shall be used to describe each major assembly and software programme contained in the equipment configuration. A document describing the communication process between the master station and the RTUS shall be provided. The supplier shall be responsible for providing outline drawings, mounting requirement details, customer connection details, environmental requirements, size, weight and any other information need for the user to prepare installation documentation.
+10.2 Installation
+
+instructional information and the nature of the system being monitored and controlled. Procedural instructions, that state routine and emergency procedures, safety precautions, and quantitative and qualitative limits to be observed in the starting, running, stopping, switching, and shutting down of control equipment, shall be included. Whenever operating procedures or adjustments are to be performed in a specific sequence, step-by-step instructions should be stated. 10.3.3 Records Records shall be prepared by both operating and maintenance personnel to support the availability/ reliability calculation defined in 7.1 to 7.3. 10.4 Maintenance Instructions and Records
+
+Documentation
+
+Installation documentation is the responsibility ofboth the supplier and user and shall define the following: a) b) Electrical power, data, control, and communications interface wiring procedures; Floor, rack and shelf mounting, drilling, and bolting methods necessary to secure the equipment in place; Safety precautions or guards; Grounding and bonding procedures; Clearances for access and ventilation; Testing and alignment methods; Weather proofing, dustproofing, and other environmental procedures; and Other procedures needed to properly install the equipment.
+Instructions and Records
+
+Maintenance documentation for personnel skilled at the electronic technician level shall be developed and provided by the supplier, and shall include the following information listed in "1O.4Ato 10.4.4. 10.4.1 Performance Information This information shall include a condensed description of how the equipment operates (derived from 10.1) and a block diagram illustrating each major assembly and software programme in the configuration. Message sequences, including data and security formats for each type of message, shall be included in the condensed description and illustrated whenever such messages are used between stations, or locally at a station. The operational sequence of major assemblies and programmed shall be described and illustrated by fictional block diagrams. Detailed logic diagrams and flowcharts shall also be provided as necessary for troubleshooting analysis and field-repair actions. 10.4.2 Preventive Maintenance Instructions These instructions shall include all applicable visual examinations, software and hardware test and diagnostic routines, and resultant adjustments necessary for periodic maintenance of control equipment. Instructions on how to load and use any test and diagnostic programme, and any special or standard test equipment shall bean integral part of these procedures.
+10.4.3 Corrective Maintenance Instructions
+
+c) d) e) 8 ~) h)
+
+10.3 Operating
+
+Instruction information shall be developed for operating personnel who use the control and data acquisition equipment. 10.3.1 Supplier
+Operating Instructions
+
+The supplier shall publish instructional information defining the equipment and how it shall be operated. This instructional information-shall consist of a general description of the equipment configuration provided and shall state its intended use and its major performance characteristics. Whenever a user interface such as a console, indicating/control panel, or printing device is involved~the operational documentation shall detail in step-by-step fashion the operational sequences required to use these interface devices. Adequate iIllustrative material shall be included to identi~ and locate all control and indicating devices. 10.3.2 User operating
+instructions and records
+
+The equipment supplier shall publish operating procedures defining the system and include user detailed instructions and responsibilities. These user instructions shall be based on the supplier's 24
+
+These instructions shall include guides for locating malfunctions down to the spare parts replacement or field-repair level. These guides shall include adequate details for quickly and efficiently locating the cause of an equipment malfunction, and shall state the probable source(s) of trouble, thesymptoms, probable cause, and instructions for correcting the malfunction.
+
+1S 15654:2006 These guides shall explain how to use any on-line test and diagnostic program and any special test equipment if applicable. Corrective maintenance instructions shall also include explanations for the repair, adjustment, or replacement of all items. Schematic diagrams of electrical, mechanical, and electronic circuits; parts location illustrations, or other methods of parts location information; and photographs, and exploded and sectional views giving details of mechanical assemblies shall be provided as necessary to repair or replace equipment. Information on the loading and use of special off-line diagnostic-programmed, tools, and test equipment, and any cautions or warnings which shall be observed to protect personnel and equipment, shall also be included. 10.4.4 Parts Information This information shall include the identification of each replaceable or field repairable module. Parts shall be identified on a list or drawing in sufficient detail for procurement of any repairable or replaceable part. These parts shall be identified by their industrial, generic part numbers, and shall have second source referencing whenever possible. 10.5 Test Documentation Test documentation by the supplier shall consist of a system test plan, test procedures, and certified test reports on tests described in 9. The test plan shall state what equipment configuration will be tested, when it will be tested, which tests will be run, and who will conduct and witness the tests. The test procedures shall define the operating steps and expected results. The test report shall record all test results. 10.6 Channel The vendor calculations.
+Loading Calculation
+
+should
+
+provide
+
+channel
+
+loading
+
+ANNEX
+(Clause
+
+A
+2)
+
+LIST OF REFERRED STANDARDS SP 30:1985 National Electrical Code (NEC) IS 1885 (Part 50) :1985 Electrotechnical vocabulary: Part 50 Telecontrol IS 1885 (Part 52) :1980 Electrotechnical vocabulary: Part 52 Data processing IS 2309:1989 IS 3043:1987 Code of practice for the protection of buildings and allied structures against lightning Code of practice for earthing
+
+IS 9000 Series Basic environmental testing procedures for electronic and electrical items IS 10315:19977 bit coded character set for information interchange equipment and systems: Part 1 General considerations,
+
+IS 1274-6 (Part l/See 3) : 1993 Telecontrol Section 3 Glossary
+
+IS 13947 (Part 1) :1993 Specification for low-voltage switchgear and controlgear: Part 1 General rules IEC 60068 Series Environmental testing IEC 60870-2-1 (1995) Telecontrol equipment and systems -- Part 2: Operating conditions -- Section 1 : Power supply and electromagnetic compatibility IEC 60870-5-101 (2003) Telecontro! equipment and systems -- Part 5-101: Transmission protocols -- Companion standard for basic telecontrol tasks IEC 60870-5-104 (2000) Telecontrol equipment and systems -- Part 5-104: Transmission protocols -- Network access for IEC 60870-5-101 using standard transport profiles IEEE Green Book Standard 142:1991 IEEE Recommended practices for grounding of industrial and commercial power systems 25
+
+IS 15654:2006
+
+ANNEX
+
+B
+
+(Clause 4.1)
+MASTER STATION/RTU INTERCONNECTIONS
+
+B-l SINGLE MAISTER STATION
+
+E!Et-=
+FIG. 8 SINGLEMASTER STATION, SINGLERTU MASTEl? STATION 4 b RTU 2
+
+RTU N
+I FIG. 9 SINGLEMASTER STATION, MULTIPLERTU(S),
+
+I
+RADIAL CIRCUIT
+
+~
+
+RTU 1
+
+MASTER STATION
+
+*
+
+RTU 2
+
+b
+
+RTU N
+
+FIG. 10 SINGLEMASTER STATION, MULTIPLERTU(S), PARTY-LINE CIRCUIT
+
+26
+
+1S-15654:2006
+
+B-2 MULTIPLE MASTER STATIONS
+
+d
+I MASTER I
+FIG.
+
++
+
+R'TU 1
+
+I
+
+11 DUAL MASTER STATIONS,MLJLTIPLE RTU(S), LOOPEDPARTY LINE
+
+z
+RTU
+
+RTU 2
+
+RTU ~
+
+MASTER STATION
+
+1
+
+MASTER STATION 2
+
+SINGLEDUAL PORTEDRTU, RADJAL CIRCUIT FIG. 12 DUALMASTER STATIONS,
+
+B-3 MULTIPLE
+
+MASTER
+
+STATIONS,
+
+MULTIPLE
+
+RTU(S)
+
+MASTER STATION
+
+1
+
+q q q
+9
+MASTER ST-ATION M
+
+FIG. 13 DUALMASTER STATIONS, MULTIPLE RTU(S) [SINGMPORTED RTU(S)] 27
+
+IS 15654:2006
+I I
+
+MASTER STATION
+
+1
+
+q
+c o
+
+q
+MASTER STATION M
+I
+
+I .
+
+FIG. 14 DUALMASTER STATIONS, MULTIPLE RTU(S) [DUALPORTED RTU(S)]
+
+B-4 COMBINATION
+
+SYSTEMS RTU 1 SUB-MASTER STATION RTU N
+
+MASTER STATION
+
+1
+
++
+
+FIG.
+
+15 SINGLEMASTER STATION, SINGLESUB-MASTER STATION
+MULTIPLERTU(S)
+
+28
+
+IS 15654:2006
+
+RTU 1 SUB-MASTER STATION
+
+1
+
+q
+o
+MASTER STATION
+
+1
+
+q q
+RTU 1 SUB-MASTER STATION M RTU M
+
+NOTE -- Sub-master stations could communicate with one another FIG.
+
+16 SINGLE MASTER STATION, MULTIPLE SUB-MASTER STATIONS MULTIPLE RTU(S)
+
+MASTER STATION
+
+RTU 1
+
+@no
+
+RTU N
+
+FIG. 17 SINGLEMASTER STATION, RTU(S) AND END STATION LINK
+
+29
+
+Bureau
+
+of Indian
+
+Standards
+
+BIS is a statutory institution established under the Bureau of Indian Standards Act, 1986 to promote harmonious development of the activities of standardization, marking and quality certification of goods and attending to connected matters in the country.
+Copyright
+
+B]S has the copyright of all its publications. No part of these publications may"be reproduced in any form without the prior permission in writing of BIS. This does not preclude the free use, in the course of implementing the standard, of necessary details, such as symbols and sizes, type or grade designations. Enquiries relating to copyright be addressed to the Director (Publications), BIS.
+Review of Indian Standards
+
+Amendments are issued to standards as the need arises on the basis of comments. Standards are.also reviewed periodically; a standard along with amendments is reaffirmed when such review indicates that no changes are needed; if the review indicates that changes are needed, it is taken up for revision. Users of Indian Standards should ascertain that they are in possession of the latest amendments or edition by referring to the latest issue of `BIS !2atalogue' and `Standards: Monthly Additions'. This Indian Standard has been developed from Dot: No. LTD 25 (2059).
+Amendments Issued Sisrce Publication
+
+Amend No.
+
+Date of Issue
+
+Text Affected
+
+BUREAU OF INDIAN STANDARDS
+Headquarters:
+
+Manak Bhavan, 9 Bahadur Shah Zafar Marg, New Delhi 110002
+Telephones: 2323 Cl131, 23-233373,23239402 website:
+
+www.bis.org.in
+Telephones
+
+Regional
+
+Offices:
+
+Central Eastern Northern Southern Western
+Branches
+
+: Manak Bhavan, 9 Bahadur Shah Zafar Marg NEW DELHI 110002 : 1/14 C.I.T. Scheme. VII M, V.I.P. Road, Kankurgachi KOLKATA 700054 : SCO 335-336, Sector 34-A, CHANDIGARH 160022 : C.I.T. Campus, IV Cross Road, CHENNAI 600113 : Manakalaya, E9 MIDC, Marol, Andheri (East) MUMBAI 400093
+
+23237617 -{ 23233841 23378499,23378561 { 23378626,23379120 2603843 { 2609285 22541216,22541442 { 22542519,22542315 28329295,28327858 { 28327891,28327892
+
+: AHMEDABAD. BANGALORE. BHOPAL. BHUBANESHWAR. COIMBATORJ3. FARIDABAD. GHAZIABAD. GUWAHATI. HYDERABAD. JAIPUR. KANPUR. LUCKNOW. NAGPUR. NALAGARH. PATNA. PUNE. RAJKOT. THIRUVANANTHAPURAM. VISAKHAPATNAM.
+
+Printed at Simco Printing Press, Delhi
+
+

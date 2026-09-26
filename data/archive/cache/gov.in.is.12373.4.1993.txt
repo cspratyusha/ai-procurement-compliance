@@ -1,0 +1,613 @@
+IS12373( lSO/lEC
+
+Part4):1993 7498-4 : 1989
+
+( Reaffirmed 2003 )
+
+Indian
+
+Standard
+
+BASIC REFERENCE MODEL OF OPEN SYSTEMS INTERCONNECTION FOR INFORMATION PROCESSING SYSTEMS
+PART 4 MANAGEMENT FRAMEWORK
+
+UDC
+
+681'327'8'01
+
+@ BIS 1993
+
+BUREAU
+MANAK
+
+OF
+BHAVAN,
+
+INDIAN
+9 BAHADUR NEW DELHI
+
+STANDARDS
+SHAH ZAFAR MARG * 110002 Price Group 5
+
+March
+
+1993
+
+Computer
+
+Systems and Interconnection
+
+Sectional
+
+Committee,
+
+LTD 36
+
+NATIONAL
+
+FOREWORD
+
+This Indian Standard which is identical with ISO/IEC 7498-4 : 1989 `Information processing systems - Open systems Interconnection - Basic reference model - Part 4 : Management framework', issued by the International Organization for Standardization ( IS0 ) was adopted by the Bureau of Indian Standards on the recommendation of the Computer Systems and Interconnection Sectional Committee ( LTD 36 ) and approval of the Electronics and Telecommunication Division Council. In the adopted standard certain terminology and conventions are however not identical used in Indian Standards. Attention is particularly drawn to the following: Wherever the words `International be read as `Indian Standard'. In this Indian Standard, the following respective place the followrng:
+International Standard
+
+to those
+
+Standard'
+
+appear referring Standards
+
+to
+
+this standard,
+
+they should Read in their
+
+International
+
+are referred to.
+Indian
+
+Corresponding
+
+Standard
+
+IS0 7498 : 1984 information processing systemsOpen systems interconnection - Basic reference model
+IS0
+
+IS 12373 ( Part 1 ) : 1987 Basic reference model of open systems interconnection for information processing systems: Part 1 ( Identical ) IS 12373 ( Part 2 ) : 1993 Basic reference model of open systems interconnection for information processing systems: Part 2 Security architecture ( Identical) Standard has been retained while adopting
+
+Information processing 7498-3 : 1989 interconnection systems - Open systems Basic reference model Part 2 : Security architecture text in the International
+
+Only the English language it in this standard.
+
+IS 12373 ISO/IEC
+
+( Part 4) : 1993 7498 - 4 : 1989
+
+Indian Standard
+BASIC REFERENCE MODEL OF OPEN SYSTEMS INTERCONNECTION FOR INFORMATION PROCESSING SYSTEMS
+PART 4 MANAGEMENT FRAMEWORK
+
+1 Scope
+This part of ISO/IEC 7498 establishes a framework for coordinating the development of existing and future standards for OSI Management, and is provided for reference by those standards. P It a) defines terminology Management; of and describes concepts for OSI
+
+3 Definitions and abbreviations
+3.1 This part of ISO/IEC 7498 makes use of the OSI terminology defined in ISO/IEC 7498, specifically: a) (N)-entity b) (N)-layer c) (N)-protocol d) (N)-protocol-data-unit e) open system
+
+b) provides a structure for OSI Management together with an overview of the objectives of and facilities provided by OSI Management; and c) describes OSI Management activities.
+
+9
+
+systems management
+
+This pan of ISO/IEC 7498 does not specify services or protocols for OSI Management. It is neither an implementation specification for systems, nor a basis for appraising the conformance of implementations.
+
+3.2 Terms defined in ISO/IEC 7498 which are redefined the purposes of this part of ISO/IEC 7498: 3.2.1 Systems management application-entity for the purpose communication.
+
+for
+
+application-entity: An of systems management
+
+2
+
+Normative references
+
+The following standards contain provisions which, through reference in this text, constitute provisions of this part of ISO/IEC 7498. At the time of publication, the editions indicated were valid. All standards are subject to revision, and parties to agreements based on this part of ISO/IEC 7498 are encouraged to investigate the possibility of applying the most recent editions of the standards listed below. Members of IEC and IS0 maintain registers of currently valid International Standards. ISO/IEC 7498: 1984, Information processing systems - Open Systems Interconnection - Basic Reference Model. ISO/IEC 7498-2: 1988, information processing systems - Open Systems interconnection - Basic Reference Model - Part 2: Security Architecture.
+
+3.3 For the purpose of this part of ISO/IEC following definitions apply:
+
+7498, the
+
+The facilities to control, co3.3.1 0% Management: ordinate and monitor the resources which allow communications to take place in the OSI Environment. 3.3.2 (N)-layer operation: The monitoring a single instance of communication. and control of
+
+3.3.3 Managed object: The OSI Management view of a resource within the OSI Environment that may be managed through the use of OSI Management protocol(s). 3.3.4 Management Information Base: The conceptual repository of management information within an open system. *
+
+IS 12373 ( Part 4) : 1993 ISWIEC 7498 - 4 : 1989
+
+3.4 Abbreviations MIB OSI
+Management Information Base
+
+4.3 Managed objects, their attributes and operations
+A managed object is the OSI Management view of a resource within the OSIE that is subject to management, such as a layer entity, a connection or an item of physical communications equipment. Thus a managed object is the abstracted view of such a resource that represents its properties as seen by (and for the purposes of) management. A managed object is defined in terms of attributes it possesses, operations that may be performed upon it, notifications that it may issue and its relationships with other managed objects. This is distinct from, but related to, any definition or specification of the resource represented by the managed object as an element of the OSIE. The set of managed objects within a system, together with their attributes, constitutes that system's Management Information Base (MIB).
+
+open systems interconnection
+
+OSIE OSI environment PDU
+SMAE protocol-data-unit systems management application-entity
+
+4 Concepts in OSI Management
+4.1
+
+Users' requirements of OSI Management
+
+Recognising the need for interconnection services which will carry information in a reliable and economic manner, OSI Management supports the users' needs for a) activities which enable managers to plan, organise, supervise, control and account for the use of interconnection services: b) the ability to respond to changing facilities to c) behaviour; and ensure predictable requirements; communications
+
+Management 4.4 systems
+
+relationships
+
+between
+
+open
+
+d) facilities which provide for information protection and for the authentication of sources of and destinations for transmitted data. The management tools which provide this support may vary in complexity depending upon the users' requirements. Such tools may operate locally or co-operate across a number of open systems. OSI Management does not constrain the user interface.
+
+The users' requirements for OSI Management may be met either by local operations or by the communication of information between open systems, or by both. OSI Management is achieved between open systems through co-operation between one or more components of the management activity taking a managing role and others taking a managed role. The role played by a particular system may be static or may change over time, and may depend upon the particular management communication. OSI Management information flow between open systems is defined in terms of operations and notifications.
+
+4.5 4.2
+
+OSI Management functional areas
+Introduction
+
+The OSI Management environment
+
+4.5.1
+
+The OSI Management environment is that subset of the total OSI environment (OSIE) which is concerned with the tools and services needed to monitor, control and coordinate interconnection activities. The OSI Management environment includes both the capability for managers to gather information and to exercise control, and the capability to maintain an awareness of and report on the status of resources in the OSIE. The individual open systems within the OSIE may have aspects of management responsibility delegated to them. The responsibility may be manifest in terms of a) autonomous management of the open system; and
+
+OSI Management is required for a number of purposes. These requirements are categorized into a number of functional areas
+
+4 b) cl 4 4
+
+fault management accounting configuration performance
+
+(see 4.52); (see 4.5.3); (see 4.5.4); (see 4.5.5); and
+
+management management management
+
+security management
+
+(see 4.5.6).
+
+b) co-operation with other open systems, through the exchange of information, to perform coordinated management activities. This management responsibility is directed at individual resources, each of which may operate with a degree of independence from other resources. This management responsibility may be further extended to co-ordinate and control sets of resources to increase functionality and performance. 2
+
+Specific management functions, within these functional areas, are provided by 0.9 Management mechanisms. Many of the mechanisms are general in the sense that they are used to fulfil requirements in more than one functional area. Similarly, managed objects are general in the sense that they may be common to more than one functional area. Each of these functional areas is described briefly below. The lists of functions are not necessarily exhaustive.
+
+IS 12373 ISO/IEC
+
+4 ) : 1993 ( Part 7498 -4 : 1989
+
+4.5.2
+
+Fault management
+
+to
+a) gather statistical information; b) maintain and examine logs of system state histories; under natural and
+
+Fault management encompasses fault detection, isolation and the correction of abnormal operation of the OS1 Environment. Faults cause open systems to fail to meet their operational objectives and they may be persistent or transient. Faults manifest themselves as particular events (e.g. errors) in the operation. of an open system. Error detecti. n provides a capability to recognise faults. Fault management includes functions to
+
+c) determine system performance artificial conditions; and d) alter system modes conducting performance
+
+of operation for the purpose management activities.
+
+of
+
+4 4 cl d) 4
+4.5.3
+
+maintain and examine
+
+error logs; notifications; 4.5.6 Security management
+
+accept and act upon error detection trace and identify faults; carry out sequences correct faults. of diagnostic
+
+tests; and
+
+The purpose of security management is to support the application of security policies by means of functions which include a) the creation, deletion and mechanisms; b) the distribution c) the reporting and control of security services
+
+Accounting
+
+management
+
+of security-relevant of security-relevant
+
+information; events.
+
+and
+
+Accounting management enables charges to be established for the use of resources in the OSIE, and for costs to be identified for the use of those resources. Accounting management includes functions to a) inform users of costs incurred or resources consumed; b) enable accounting limits to be set and tariff schedules to be associated with the use of resources; and c) enable costs to be combined where multiple resources are invoked to achieve a given communication objective.
+
+NOTE - ISO/IEC 7498-2 provides further information on the placement of OSI Management functions within the overall Security Architecture.
+
+5 Model for OSI Management
+5.1
+
+Overview
+
+4.5.4
+
+Configuration
+
+management
+
+OSI Management encompass& those activities needed to control, coordinate and monitor the resources which allow communications to take place in the OSI Environment. Activities relate to the means by which a) a real open system obtains information to enable the supervision and control of its communications resources; and b) real open systems cooperate the OSI Environment. The model of OSI Management to supervise and control
+
+Configuration management identifies, exercises control over, collects data from and provides data to open systems for the purpose of preparing for, initialising, starting, providing for the continuous operation of, and terminating interconnection services. Configuration management includes functions to a) set the parameters of the open system; that control the routine operation
+
+is defined
+
+in terms of
+
+b) associate names with managed managed objects; c) initialize and close down managed d) collect information on demand condition of the open system;
+
+objects
+
+and sets of
+
+c) the OSI Management dj the supporting ment (see 5.3); e) the Management
+
+structure (see 5.2); required by OSI Manage-
+
+functionality
+
+objects; about the current
+
+Information
+
+Base (see 5.4); processes (see 5.5); and
+
+9
+e) obtain announcements of significant condition of the open system; and chanaes in the
+
+the flow of control amongst
+
+g) the flow of information
+
+between entities (see 5.6). ,.
+
+9
+4.55
+
+change the configuration
+
+of the open system. 5.2
+
+OSI Management structure
+
+Performance
+
+management
+
+Performance management enables the behaviour of resources in the OSIE and the effectiveness of communication activities to be evaluated. Performance management includes functions
+
+Management is effected through a se? bf management processes. These processes are not necessarily located at one local system but may be distributed in many ways over a nirmber of systems. Where management processes which are not co-resident need to communicate with one another
+
+3
+
+IS 12373 ( Part 4 ) : 1993 ISO/IEC 7498 - 4 : 1989
+
+in the OSI Management through
+
+Environment, they communicate using 0-3 protocols. OSI Management is accomplished
+
+management information is standardized. This does not imply any form of physical or logical storage for the information and its implementation is a matter of local concern and outside the scope of OSI standards. Management information may be shared between management processes and structured according to the requirements of those processes. The MIB neither restricts the interpretation of management data to a pre-defined set, nor to whether the data is stored in a processed or unprocessed form. However both the abstract syntax and,the semantics of information which is part of the MIB are defined so that they can be represented in OSI protocol exchanges.
+
+a) systems management; b) (N)-layer management; c) (N)-layer operation. Systems management provides mechanisms-for the monitoring, control and coordination of managed objects through the use of application-layer systems management protocols. OSI communications concerning systems management functions are realized through a systems management applicationentity (SMAE). Systems management may be used to manage any objects within or associated with an open system. (N)-layer management provides mechanisms for the monitoring, control and coordination of managed objects which relate to communications activities within the (N)-layer, through the use of special-purpose management protocols within the (N)layer. (N)-layer management can affect multiple instances of communication. The (N)-layer may therefore be managed through the use of systems management protocols or through the use of (N)-layer management protocols. (N)-layer operation provides mechanisms for the monitoring and control of a single instance of communication. This part of ISO/IEC 7498 does not imply any particular relationships among management mechanisms. and
+
+5.5 Flow of management control
+Management processes, which support receive control information OSI Management,
+
+a) from people and/or software acting as administrative agents local to a management process; and b) from remote systems through their: 1) SMAEs 2) (N)-layer management 3) (N)-entities The management
+
+entities
+
+processes exert control managed objects in the same open
+
+c) directly upon system; and
+
+5.3 Supporting functionality required by OSI Management An open system must have sufficient functionality at all seven layers to support an SMAE before the systems management functionality provided by that SMAE can be accessed by another open system. When the functionality to support any SMAEs does not exist, the greatest OSI Management functionality that can be available on such an open system is the set of separate, individual functionaiities provided by the layer managements of the (N)-layers within that open system. In order to support (N)-layer management, sufficient communication functionality must exist at layers 1 to (N-l). When neither systems management nor (N)-layer management can be provided, then the greatest OSI Management functionality that can be available is the set of separate, individual management functionalities provided by (N)-layer operation. An SMAE can exist on an open system independently of the existence of (N)-layer management entities at any of the layers.
+
+d) upon managed objects in other open protocol exchanges through their: 1) SMAEs 2) (N)-layer management 3) (N)-entities
+
+systems
+
+by
+
+entities
+
+The flow of control from administrative agents to local management processes occurs entirely within the Local System Environment, and as such is outside the scope of OSI Management standardization. Such local control may result in OSI Management communications. The abstract syntax and semantics of control flow within the OSI Environment are defined so that they can be represented in OSI protocol exchanges.
+
+5.6
+
+Flow of management information
+
+The OSI Management information within a Management Information Base may be provided by, and made available to a) local administrative agents; and
+
+b) remote open systems, through: 1) systems management 2) (N)-layer management 3) (N)-protocols protocols protocols
+
+5.4
+
+Management Information Base
+
+A Management Information Base (MIB) is that information within an open system which may be transferred or affected through the use of OSI Management protocols. The MIB is the set of managed objects within an open system, however only the managed objects relating to the OSI Environment are subject to standardization. In addition, the logical structure of
+
+.
+Information exchanges may provide monitoring information or may result in the exercise of control. Information exchanges between administrative agents and the MIB occur entirely within the local system and are outside the scope of OSI Management standardization.
+
+a
+
+IS 12373 ( Part 4) : 1993 ISObEC 7498 - 4 : 1989
+
+6 OSI Management specifics
+6.1 OS1
+
+Management standardization
+standardization include
+
+offered by the (N + I) and higher layers. (N)-layer management protocols can only convey management information between peer (N)-layer management entities pertinent to the (N)-subsystems in which these entities reside. (N)-layer management protocols should only be-used where special requirements dictate that systems management protocols are inappropriate or when systems management ; protocols are not available. (N)-layer management protocols'provide such functions as
+
+Areas of OSI Management
+
+a) the services and protocols used to transfer management information between open systems; and b) the abstract syntax and semantics transferred in management protocols. of the information
+
+These areas of standardization apply to sy$ems management, (N)-layer management and normal (N)-layer operation. The actual specification of the syntax, semantics, services and protocols, and the concepts applicable to managed objects are provided in specific OSI standards. The physical representation of managed objects and their physical storage are local matters and are not subject to standardization. Systems management standards specifythe systems management services and protocols, plus the abstract syntax and semantics of the information transferred in such protocols. The (N)-layer management protocols and the management aspects of (N)-protocols are defined by International Standards specifying those protocols in order to cover layer related aspects of the above management facilities. (N)-layer standards may specify (N)-layer management protocols and their use. This standard does not imply that any systems management protocols or layer management protocols are mandatory, neither does it constrain the use of management information in any (N)-protocol exchanges.
+
+communicating parameter values associated with a) managed objects which relate to the operation of the (N)-layer; b) testing the functionality provided by the (N-1)-layer;and
+
+conveying error information describing faults or c) diagnostic information related to the operation of the (N)layer. Each (N)-layer management protocol is independent of other layer management protocols. This pan of ISO/IEC 7498 does not require the development of (N)-layer management protocols for each of the seven layers.
+
+6.2.3
+
+(N)-layer operation
+
+Management functions may exist within the (N)-protocols in all seven layers of OSI. The management information that is carried within an (N)-protocol must be distinguishable from information which the protocol carries for other purposes. It is the responsibility of the (N)-protocol to provide this distinction. Management information carried by (N)-protocol exists for the purpose of controlling and monitoring a single instance of communication. Examples of management information carried within an (N)-protocol are a) parameters carried in connection establishment that apply to the specific instance of communication is being established; b) parameters carried modify the environment munication operates; PDUs which
+
+6.2 6.2.1
+
+0% Management operation
+Systems management
+
+Systems management communications provide the normal method for exchanging OSI management information. These communications take place between Systems Management applications-entities. Systems Management protocols are application layer protocols. Any application-process which communicates according to Systems Management protocol standards does so through an SMAE. The service elements used to support Systems Management are Application Service Elements. Not all open systems provide the full functionality of the seven layers specified in ISO/IEC 7498. Where such open systems are.not the initial source of, nor the ultimate destination for the transfer of data, they act for such instances of communication as relay open systems. Where such systems are required to act as sources of system management information or are subject to systems management control, information is communicated using systems management protocols.
+
+in particular PDUs which can in which this instance of com-
+
+c) error information describing'faults encountered during the operation of that `specific instance of communication; and d) parameters carried in connection release PDUs which report information pertaining to that specific instance of communication which is being released.
+
+6.2.4 Relationships layer management
+
+between systems management, and (N)-layer operation
+
+(N)-
+
+6.2.2
+
+(N)-layer management
+
+(N)-layer management supports the monitoring, control and coordination of (N)-layer managed objects. (N)-layer management protocols are supported by protocols of the layers (N-l) and below. They do not provide communication capability
+
+Whereas the specification of (N)-layer management and (N)-layer operation standards is not the concern of systems management, the semantics of (N)-tayer management .information and the operations permitted thereon must be consistent with such information and operations defined by systems management.
+
+5
+
+IS 12373 ( Part- 4) : 1993 ISO/IEC 7498 - 4 : 1989
+
+(N)-layer management entities are of different types from those (N)-entities which operate (N)-protocols as defined in ISO/IEC 7496. (N)-layer management protocols are distinguished from normal (N)-protocols by the use of (N-I)-layer addressing mechanisms or by discrimination mechanisms within the (N)-layer. (N)-layer management entities and (N):entities operate, independently of each other, upon managed objects which relate to the operation of the (N)-layer.
+
+normal (N)-services, or services provided specifically for management purposes. The information exchanges may be either 2-party or N-party in nature, depending upon the requirements of the initiator of the exchange and the nature of the services availAble to carry out the exchange. Any party may take the role of initiator in a management exchange; the remaining parties to the exchange take the role of responder. The exchange may be initiated for the purposes of performing management operations or notifications.
+
+6.3 The form of management information exchanges Management information exchanges are effected by the use of Application Layer or (N)-layer services; these may be
+
+6.4 OSI Management conformance
+This pan of ISO/IEC 7496 does not imply any conformance requirements for systems management, (N)-layer management or (N)-layer operation.
+
+IS 12373 ISO/IEC
+
+(Part4) : 1993 7498 -4 : 1989
+
+ANNEX A (informative) COMMENTS RELATING TO THE OSI MANAGEMENT FRAMEWORK
+A.1 Introduction
+The OSI Management OS.1Standards. Framework provides the concepts and an abstract model of OSI Management for use by those developing
+
+The purpose of this Annex is to provide additional explanatory this part of ISO/lEC 7498 and to explain their application.
+
+material as an aid to understanding
+
+the concepts
+
+in the body of
+
+A.2 Abbreviations
+QoS Quality of Service
+
+A.3 Brief Overview of OSI Management Scope and Concepts
+Three forms of management expected a) systems management; b) (N)-layer management; c) (N)-layer operation. information exchange are defined within the OSI Management architecture for which standards are
+
+and
+
+Svstems manaoement is the preferred form of of information relating to the monitoring, control Framework uses the term managed objects to upon managed objects in order to mana'oe the or more OSI layers.
+
+management information exchange and provides mechanisms for the exchange and coordination of communications resources of concern to open systems. The describe the management view of these resources. Systems management acts resources to which these objects relate. Such managed objects can relate to one
+
+Systems Management Protocols Application
+presentation I/ ~~~~~~~ .... II
+.A.. . . . . . ..*.........
+
+Presentation Session
+
+Session II Transport Network
+
+.............. ...........;`:`:`:`:.:.:.:i...:.:.:.:. .~:.:.:.~:.:.:.:.~:.~,.~~~~.~~:.~;.;.~~;.~. .......................................................................... :.:.:.:.:.:.:.>:.: :,,,,_,,,,,,,.,,,,,,,,,.,.,.,, ............ ............... ..~.`...`.....~.~.~.~.~.~.........~.~.~.~.~.~.~.......:.:.:....:.: ............................................................. .......... ..................................................................... `.`.`.`.`.`.`."`.:.:.:.:::~,.,~,~.:,~.:,~.~ .:.:. Transport .................... .................................................................................... ................................. ........... .: ..... ..~__...............................~.........~..~~~.........~.~.~.~.~.~.~.~.~ y:.:`f: ......... ........................................................................................... ......:.:.:;;::<;_: ........ ~.~A%`.: ....................................................................................................................... ............................................................................................................ Network .............................. ..............................
+~....,.,..`....:::::::: :.:.:.:;.:.:.::::::
+
+.:.:.:.:.:.:.:.:.:.:.:.:.:.:.:.:.:.:.:.:.:.:.:.:.:.:.~::::::::.:.:.:.:,~.~.~.~.~.~.~,~~.~,~,~,~,~.~.~.~.~.~,~,~~,~,~,~.~.~.~.~.~. ~.:.:.~.~.:.:.~.~.~.~.~.~.~.~.~.~.~.~.~.~.~.~.~.~.~.~.:.:.~.:.~:~:~:~:~:~:~:~:,:::,:~:::~:~:~:~:~:~:::::~:~:::~~:~:~:~:~:::::::~::: : .,.,...,.,.,.,.,.,.,: ,:,:,:
+: : : :.:.:.:.:.:.`.:.:.:.:.~.~.~.:.:.~.:.~.~.~.:.~.:.:.~.:.~.~.~.~.~.~.~.~.:: .,.....,. . .. ,,..._
+
+Data Link Physical
+
+.. . . . . . . .:`:::::~~~~~~~~~~:~:~:~~~~:~~~:~~~: . . . .. .. . . . . . . . . . .._.,..............~.~...~.............~...........`.`.~.~.
+. . . . . . . . . . . . . . ..~.~.~.~.....~.~.......~.....................~.~.......~.~.~.~.....~.~. :.:.:.:.~:../....... : . . . . . .._.,.,........ _.,...,., . . . . . . . . ~.~.~.~.~.~........_................~.~.........~.~...~..........,....~.~. . . . . . . . . . . . . . . .._......._........ . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .
+
+;
+
+.
+.,.,._.j,.,.,.,.,.,.,
+
+I.. I.
+
+.
+
+,A._.
+
+.,....
+
+Normal Communications Protocols
+Figure A.1 - Systems Management Information Exchange
+
+It is perceived that the majority of management information exchanges between open systems will require context negotiation, the establishment of a management session, a reliable end-to-end transport service etc., in exactly the same way as other application layer exchanges. Therefore systems management communication is effected through application layer protocols (see figure A.l). Note that the Framework does not exclude the use of connectionless services. Systems management services and protocols are being developed 7 by the OSI Management Working Group in ISO.
+
+.
+
+IS12373(Patt 4):/993
+IS?/IEC7498-4 : 1989
+
+/N)-laver manaqement is used in special circumstances to carry information relating specifically to the operation of an (N)-layer. An example of layer management is the transport layer network connection management subprotocol (NCMS). It is important to note that layer management at one layer should not replicate any of the functionality of the layers above it, as this would be at variance with the Basic Reference Model. Figure A.2 shows an example of such an exchange in the transport layer. (N)-layer management exchanges can occur in any layer, although layers 2, 3 and 4 are those where such standards are most likely to occur.. Layer management standards are the responsibility of the relevant layer standards group, within ISO.
+
+7 6 5 4 3 2 '1
+Physical
+
+Application Presentation Session Special Purpose Layer Presentation Session Transport
+Network Network
+
+7 6 5 4 3 2 1
+
+Data Link
+.:::::::::.:.:.:::::;q: ._.........,.,.,~.._~,.......,.,~....... ......o ::::. .:,.;:,:.: .,.,.,.(,,_,.,__.,.,.,.,.,~,~,~,~,~ :;;_.. .,.: ;:. .A.....,., :.:.:.:.:.:.:.:,~~:,:.:.:.:.:.:,~~:.:.:.:.:.~: .,.,.,.,.(.,.,.,.,._.,.,.,.,.. ,,,;,__ I],,.,.,...: ::~:~~~~~~~~~~~~~~~~~~,,s Physical
+
+Protocols
+Figure A.2 - (N)-Layer Management Exchange
+
+/N)-laver operation is the set of facilities which control and manage a single instance of communication. These facilities can be embedded within an existing `normal' (N)-protocol exchange (see figure A.3), for example the passing of charging information in an X.25 Clear packet, or they may be a special element of protocol, such as an X.25 Reset. Standards for (N)-layer operation are the responsibility of the relevant layer standards group, within ISO.
+
+Application
+:a--.
+
+Application Presentatior
+
+Presentation Session Transport Network
+Data Link
+
+'Session Management Information carried in Normal Transport Comms. Protocols.:.:.:.?:.:,::,:,:,:.:.~:,:~~.~:.:,:~;:~.~:~~~,:,: .::::.~. .,.,.,.,.,.,.,.,.,.,,,.,.,...~.,.~ ,.,._ ~:::.~.:.:.:.:,:.:.~,~,~.~.~.~.~.~.~.~~~.~.~.~.~.~.~.~.~.~.:.~~.~.~.~.~,~.~.~.~.~~: ._.,.,.,.,.,.,.(.,.,.,...,...~.~., .,. ,._._ .::... _,.,.,.,.,: ,.__,.,:,.,:, :,: ,.,._.,:,:,:_:,:,.,:,:, :,: ,.,.,._:_ :,:,: ,. .. ,. Network
+,.,.,..T,..~.~.~. . .. ... .. .. ..._.................................,.,.,.,.,.,.,.,.,.,.,.,.,.,...,.,.,.,.,.,., :... ... ..c.i,.:_:.> `y:`:`%.... .,. .. .. .. .,.,.,..._. _.,., .,... ,.......... .:,. _....., ..... ,.,.,.,.,.,.,._.,.,.,.,.,.,. ,,,,.."".' .,.,.:, ....:;.._. ....... ~.~.~.~.~.~.~.~.`.`.`.~.~.~.~.~.~.~.~.~.~.~.~.~.~. .,.,.,.,.,.,.,.,._.,.,.,.,.,.,.......,.,.,.,.,.,.,.,.,.,.,.,.....,.,.,.,.,.,.,., :::::::::.:.:.:.:.:.~:::~:.:~:~:~~:~~:.:::~:::.: :,.,.,.,., :,:,: _:_:, :,~,:,:,: ,:,:,._._:,: ,:,: :. Data Link
+
+Physical
+
+._.,_,.,.,.,.,.,.,.,..,,.,...,.,. 2 ,.,.,.,._.,._.,.,.,.,.,.,.,. :.y>> ,._.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.........,.,.,. `.`.`.`.`.`.:.:.:.:.:.:,:,:.:.:.:.:.:.:.:.:.~:,:.:.:.:.:.:.:.:.:.:.:.:.~.:.:.:.:.:.:.:.:.:.:.:.:.~:.:.:.:.:.:.:.:.:.:.:.:.~:.:.: .::::.: .,.,./,.,.(.,.,.,._...,.,.,.,.,.,.,.,.,.,.,.,.,.,...,.,.,.,.,.,...,.....,.,.,.,.,.,.,.,.,.,.,.....,.,.,.,...,.,...,..., Physical :::_::::::.:.:.j:.:.~.~,~,~,:...~.~.~.~.:.~.~.~.~.~,~.:.~.~.~.~.~.~.~.~.:.~.~.:.:.:.~.:.:.~.~.~.~.~,~.~.~.
+
+Normal Communications
+Protocols
+Figure A.3 - (N)-Layer Operation
+
+A.4 Systems Management Standards
+
+t
+
+There are requirements for standardized application services and protocols for the exchange of management information covering a number of functions. A set of application layer standards for systems management are being developed to give users a `toolkit' of services and protocols to allow the exchange of management information between open systems. 8
+
+ISl2373( lSO/lEC
+
+Part 4): 1993 7499-4 : 1999
+
+A.5 Management Information and the Management Information Base
+It is important to recognize that the real information being carried in OSI management protocols is in fact information generated by (and defined by) the individual layer standards. Thus the specification and identification of these `real' elements of management information needs to be carried out by the layer standards groups, in liaison with the OSI Management working group, as part of their standardization activity. A common approach is needed across the layers if a consistent definition is to be produced without omissions or duplications. There is also the problem that not all elements are layer-related. Furthermore, the toplevel statements of allocation of functions to the set of OSI Management protocols are not complete. This makes it hard for those'who have identified particular user needs for management activities (e.g. for access control or QoS) to express them constructively and to direct contributions to the appropriate groups. Consequently, the MIB can be viewed as that information within an open system which can be transferred or affected by the use of OSI Management protocols. The MIB can also be visualized as the set of managed objects within an open system, which relate to the OSI Environment. In addition, the logical structure of management information must be standardized, however this does not imply any form of physical or logical storage fo: the information and its implementation is a matter of local concern and outside the scope of OSI standards. Management information may be shared between management processes and structured according to the requirements of those processes. The MIS neither restricts the interpretation of management data to a pre-defined set, nor to whether the data is stored as received or processed. However both the abstract syntax and the semantics of information which is part of the MI6 are defined so that they can be represented in OSI protocol exchanges.
+
+9
+
+Reprography Unit, BIS, New delhi,
+
+India
+
+Standard Mark The use of the Standard Mark is governed by the provisions of the Bureau of Ina'ian Standards Act, 1986 and the Rules and Regulations made thereunder. The Standard Mark on products covered by an Indian Standard conveys the assurance that they have been produced to comply with the requirements of that standard under a well defined system of inspection, testing and quality control which is devised and supervised by BIS and operated by the producer. Standard marked products are also continuously checked by BIS for conformity to that standard as a further safeguard. Details of conditions under which a licence for the use of the Standard Mark may be granted to manufacturers or producers may be obtained from the Bureau of Indian Standards.
+
+Bureau of Indian Standards
+
+BIS is a statutory institution established under the Bureau of Indian promote harmonious development of the activities of standardization, certification of goods and attending to connected matters-in ihe country.
+Copyrigbt
+
+Sian&r& Acr, 1986 to marking and quality
+
+No part of these: publications may be reproduced has the copyright of all its publications. This does not preclude the free use, any form without the prior permission in writing of BIS. in the course of implementing the standard, of necessary details, such as symbols and sizes, type to copyright be addressed to the Director Enquiries relating or grade designations. ( Publications ), RIS.
+BIS
+in
+
+Revision of Indian Standards
+
+Amendments are issued to standards as the need arises on the basis of comments. Standards are also revi aed periodically; a standard along with amendments is reaffirmed when such review indicates that no changes are needed; if the review indicates that changes are needed, it is taken up for revision. Users of Indian Standards should ascertain that they are in possession of the latest amendments or edition by referring to the latest issue of `BIS Handbook. and `Standards Monthly Additions'. Comments on this Indian Standard may be sent to BIS giving the following reference: Dot : No LTD 36 ( 1554 )
+Amendments Issued Since Publicatioo
+
+Amend
+
+No.
+
+Date
+
+of Issue
+
+Text Affected
+
+BUREAU Headquarters:
+
+OF INDIAN
+
+STANL>ARDS
+
+Manak Bhavan, 9 Bahadur Shah Zafar Marg, : 331 01 31, 331 13 75 Telephones
+
+New Delhi
+
+110002
+
+Telegrams ( Common
+
+: Manaksansthr
+
+to all
+
+Offices )
+
+Regional Central Eastern
+
+Offices : : Manak Bhavan, 9 Bahadur NEW DELHI 110002 : 1114 C. I. T. Scheme CALCUTTA 700054 : SC0 445-446, Sector Shah Zafar Marg Maniktola 37 84 99, I 37 86 26.
+
+Telephone
+33101 31 331 13 75 37 85 61
+
+Vi1 M, V. 1. P. Road,
+
+37 86 62 53 16 40 235 04 42 235 23 15
+632 78 58 632 78 92
+
+Northern Southern Western Branches
+
+35-C, CHANDIGARH
+
+160036
+
+53 38 43, 53 23 84 235 02 16, 235 15 19,
+632 92 95, 632 78 9 1,
+
+: C. I. T. Campus, IV Cross Road, MADRAS 600113
+: Manakalaya, E9 MIDC, BOMBAY 400093 Marol, Andheri ( East )
+
+: AHMADABAD. BANGALORE. BHOPAL. BHUBANESHWAR. COIMBATORE. FARIDABAD. GHAZIABAD. GUWAHATI. HYDERABAD. JAIPUR. KANPUR. LUCKNOW. PATNA. THIRUVANANTHAPURAM. Rioted at Printwell Printera. Aligarh. India
+
+

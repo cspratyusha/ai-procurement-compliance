@@ -1,0 +1,6918 @@
+UDC
+
+68 1'3'01
+
+According to Amendment no. 1, it is 12373_1
+Indian Standard
+
+IS : 12373 - 1987 IS0 7498 - 1~984
+( Reaffirmed 2003 )
+
+BASIC REFERENCE MODEL OF OPEN SYST~EMS INTERCONNECTION FOR INFORMATION PROCESSING SYSTEMS (
+IS0 Title
+: Information
+
+Processing Basic
+
+Systems Reference
+
+-
+
+Open Systems )
+
+Interconnection
+Uational Foreword
+
+Model
+
+This Indian Standard, which is identical with IS0 7498-l 984 `Information processing systems - Open systems interconnection - Basic Reference model', issued by International Organization or Standardization ( IS0 ), was adopted by the Bureau of Indian Standards on the recommendaion of the Computers, Business Machines and Calculators Sectional Committee and approved by he Electronics and Telecommunication Division Council.
+In the
+
+rl Indian
+
+adopted Standards;
+
+standard attention
+
+certain terminology is specially drawn Standard'
+
+and conventions to the following: appear referring
+
+are not identical to this standard,
+
+with they
+
+those should
+
+used be
+
+Wherever the words `International read as #Indian Standard'.
+
+.
+
+Adopted
+
+16 October
+
+1987
+
+@ October 1989.. BIS I
+I OF BHAVAN, INDIAN 9 BAHADUR NEW DELHI STANDARDS SHAH ZAFAR MARG 110002
+
+Gr 1~3
+
+BUREAU MANAK
+
+As in the Original Standard, this Page is Intentionally Left Blank
+
+IS : 12373 - 1987 IS0 7498 - 1984
+
+Contents
+Introduction
+
+.................................... .....................
+
+......... ... . .....
+..I..
+
+Page 1 2 2
+
+Scope and field of application Definitions Notation
+
+..................................... ........................... .., ........
+(OS11
+
+2 2 2 2 4
+
+Introduction 4.1 4.2 4.3 5
+
+to Open Systems Interconnection
+
+Definitions.
+
+. .
+
+.
+
+. ...
+
+. . .
+
+Open Systems Interconnection Modelling the OSI environment
+
+environment
+
+. . .!, . . ............... . ... ., . ...... . ... _........... ............... ............... ............... ............... .
+
+Concepts of a layered architecture 5.1 5.2 5.3 6.4 5.5 5.6 5.7 5.6 5.9 introduction
+
+4 4 5 7 8 10 10 12
+
+......................... ...................
+peer-entities
+
+Principles of layering Communication Identifiers
+
+between
+
+...........................
+
+Properties of service-access-points Data-units
+
+........................... ............
+
+Elements of layer operation. Routing
+
+............. ...... ........
+
+.............................
+Aspects of OSI
+
+16 16
+
+Management
+
+. . .... . . ...... . . . . . ,
+
+6
+
+Introduction 6.1 6.2 Model 6.3
+
+to the specific OSI layers
+
+18 18
+
+Specific layers.
+
+.
+
+. .
+
+.
+
+The principles used to determine
+
+the seven layers of the Reference 20 20 20 20 22
+
+. . . . . . . . . . . . . . . . . . . . . . . . . . . .. . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . Layerdescriptions . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .._..
+
+7
+
+Detailed description 7.1 7.2 Application Presentation
+
+of the resulting OSI architecture
+
+.
+
+.
+
+.
+
+. ..
+
+Layer. Layer
+
+................... ...................
+
+iii
+
+IS : 12373 - 1987 IS0 7490 - 1984
+
+7.3 7.4 7.5 7.6 7.7
+
+SessronLayer Transport
+
+................................................. ............................................... ................................................
+
+23 26 29 33 34
+
+Layer
+
+NetworkLayer Data Link Layer PhysicalLayer
+
+................................................
+
+................................................
+
+Annexes
+
+A
+
+Brief explanation
+
+of how the layers were chosen
+
+.
+
+.
+
+3
+
+B Alphabetical
+
+index to definitions
+
+.
+
+.
+
+.
+
+.
+
+...
+
+.
+
+39
+
+IS : 12373 CSO 7488
+
+- 1887 - 1884
+
+0
+0.1
+
+Introduction
+About this standard
+Standard Reference Model of basis
+
+While the scope of the general architectural for OSI is very broad, concerned associated between this International with systems comprising such systems.
+
+principles required is primarily and atteninformation computers
+
+Standard
+
+terminals,
+
+devices and the means for transferring briefly (see 4.2).
+
+The grrrpose of this international Qpen Systems Interconnection
+
+Other aspects of OSI requiring
+
+is to provide a common
+
+tion are described
+
+for the coordination of standards development for the purpose of systems interconnection, while allowing existing standards t;o be placed Model. The term Open Systems Interconnection (OS11 qualifies standards for the exchange of information among systems that are "open" to one another for this purpose by virtue of their mutual use of the applicable standards. into perspective within the overall Reference
+
+The justification for development of standards shall follow normal administrative procedures even though such standards are identified in the Reference emerge Model. a small
+
+As standards
+
+to meet the OSI requirements, functions, to facilitate
+
+number of practical subsets should be defined by the standards developers from optional tion and compatibility. The description ternational implementa-
+
+The fact that a system is open does not imply any particular systems implementation, technology or means of interconnection, but refers to the mutual recognition plicable standards. It is also the purpose of this International Standard to identify areas for developing or improving standards, and to provide a common standards. reference for maintaining consistency of all related Standard or to be a implementaarchitecture. and It is not the intent of this International specification, of actual and support of the ap-
+
+of the Reference is developed
+
+Model of OS1 given in this Inin stages
+
+Standard
+
+:
+tnter-
+
+Clause 4 establishes connection, the interconnection used in OSI;
+
+the reasons for Open Systems and, describes the modelling
+
+defines what is being connected,
+
+the scope of principles
+
+Clause 5 describes the general nature of the architecture the Reference ing means, Model: and the principles used to describe layers;
+
+of
+
+either to serve as an implementation basis for appraising the conformance tions, or to provide a sufficient the services and protocols Rather, this International functional perts to
+
+namely that it is layered, what iayer-
+
+level of detail to define precisely provides a conceptual
+
+Clause 6 names, and introduces chitecture; and
+
+the specific layers of the ar-
+
+of the interconnection Standard
+
+framework which allows international teams of exwork productively and independently on the of standards for each layer of the Reference An
+
+Clause 7 provides the description indication of how the layers
+
+of the specific layers. were chosen is given in
+
+development Model of OSI.
+
+annex A to this International The Reference of services established
+
+Standard. for the definition the boundaries
+
+The Reference Model has sufficient flexibility to accommodate advances in technology and expansion in user demands. This flexibility is also intended to allow the phased transition to OSI standards. from existing implementations NOTE pansion. The Reference Some
+
+Model serves as a framework protocols which Model. a feature fit within
+
+and
+
+by the Reference
+
+In those few cases where
+Model is expected directions to be subject to future exare indicated by
+
+is explicitly
+
+marked
+
+top-
+
+tional) in the Reference corresponding
+
+Model it should remain optional in the
+
+anticipated
+
+of expansion Standard.
+
+service or protocol (even if at a given instant the
+
+notes or footnotes
+
+in this International
+
+two cases of the option are not yet documented).
+
+IS : 12373 - 1987 IS0 7498 - `1984
+
+0.2 Related OSI standards
+Concurrently standards a) b) c) d) e) f) ~9) h) j) k) m) The with the preparation areas of this International Stanof OSI
+
+This notation
+
+is also used for other layers,
+
+concepts
+
+in the model fN)-protocol,
+
+which are related to these (N + 1 )-service. Clause 6 introduces
+
+for example
+
+dard, work is in progress within IS0 on the development in the following
+
+:
+
+names for individual layers. When referring
+
+virtual terminal file transfer,
+
+protocols; protocols;
+
+to these layers by name, the (N)-, (N + l)- and (N - 1 I- prefixes are replaced by the names of the layers, for example transportprotocol, session entity, and network-service.
+
+access and management
+
+job transfer and manipulation common application
+
+protocols;
+
+services and protocols;
+
+4 Introduction Interconnection
+
+to Open (OS11
+
+Systems
+
+presentation
+
+layer services and protocols;
+
+Session Layer services and protocols; Transport Network Layer services and protocols; Layer services and protocols;
+
+NOTE - The general principles described in clauses 4 and 5 ho!d for all layers of the Reference Model, unless !ayer specific statements to the contrary are made in clauses 6 and 7.
+
+4.1
+
+Definitions real system
+software, processes, and/or
+
+4.1.1 Data Link Layer services and protocols; Physical Layer services and protocols; OSI management protocols. and and physical
+
+: A set of one or more computers,
+peripherals, information information terminals, transfer means, etc.,
+
+the that
+
+associated
+
+human operators, information
+
+forms an autonomous processing
+
+whole capable of performing transfer.
+
+first five items
+
+in this list relate to the Application Model. CCITT
+
+Presentation In addition,
+
+Layers of the Reference liaison is maintained with
+
+4.1.2 real open system : A real system which complies with the requirements of OSI standards in its communication with other real systems.
+
+in the develop4.1.3
+
+ment of OSI standards.
+
+open
+
+system to OSI.
+
+:
+
+The
+
+representation
+
+within
+
+the
+
+Reference
+
+Model of those aspects of a real open system that
+
+are pertinent
+
+1
+
+Scope
+
+and field
+
+of application
+4.1.4
+
+application-process
+which performs
+
+: An element within a real open
+processing for a par-
+
+Th!s International Standard describes the Reference Model of Or,en Systems Interconnection. It establishes a framework for coordinating the development of existing and future standards for the interconnection by those standards. This international Standard does not specify services and prospecification for the conformance of imof systems and is provided for reference
+
+system
+
+the information
+
+ticular application.
+
+4.2
+
+Open
+
+Systems
+of OSI,
+
+Interconnection
+
+environment
+
+In the concept computers, operators, information
+
+a real system is a set of one or more software, peripherals, information information terminals, transfer transfer. human means,
+
+tocols for OSI. It is neither an implementation systerns, nor a oasis for appraising plementations.
+
+associated physical
+
+processes, and/or
+
+etc., that forms an autonomous processing
+
+whole capable
+
+of performing
+
+2
+
+Definitions
+ot terms are included at the beginning of individual
+
+An application-process is an element within an open system which performs the information processing for a particular application. Application-processes puterized can represent manual processes, com-
+
+Detinitions
+
+clauses and~sub-clauses. An index of these terms is provided in an annex 6 for easy reference.
+
+processes or physical processes. of application-processes that are applicable to
+
+3
+
+Notation
+are introduced in clause 5. An (N)-, (N+ 1). and
+
+Some examples
+
+this open system definition Layers (N -- 1 I- notation is used to identify and relate adjacent layers
+
+are the following a banking
+
+:
+is a manual
+
+:
+
+a) a person
+
+operating
+
+terminal
+
+application-process;
+
+CNI-layer : any specific layer;
+b) a FORTRAN (N + lblayer program a remote executing database in a computer is a centre
+
+: the next higher layer; : the next lower layer.
+
+and
+
+accessing
+
+computerised management and
+
+(N - lblayer
+
+application-process; the remote database systems server is also an applicationprocess;
+
+IS : 12373 - 1987 IS0 7498 - 1984
+
+c) a process control program executing puter attached
+
+in a dedicated
+
+com-
+
+to some industrial equipment
+
+and linked into
+
+OSI is concerned only with interconnection of systems. All other aspects of systems which are not related to interconnection are outside the scope of OSI. OSI is concerned tween systems, to interwork words, not only with the transfer of information i.e. transmission, (distributed) be-
+
+a plant control system is a physical application-process. OSI is concerned open systems with the exchange not the internal of information functioning between
+
+(and
+
+of each in-
+
+but also with their capability task. In other aspects of
+
+dividual real open system). As shown in figure 1, the physical media for Open Systems terconnection tion between provides the means for the transfer open systems. In-
+
+to achieve a common between
+
+OSI is concerned
+
+with the interconnection
+
+cooperation1) sion "systems The objective
+
+systems, which is implied by the expres-
+
+of informa-
+
+interconnection". of OSI is to define a set of standards to enable
+
+NOTE -- At this poinr only telecommunications media have been considered. Th+ use nf f;:;:er interconnection media is for further study.
+
+real open systems to cooperate. A system Which complies with the requirements of applicable OSI standards in its cooperation with other systems is termed a real open system.
+
+Physical media
+
+FIgwre 1 -
+
+Open systems connected by physical media
+
+Cooperation among open systems involves a broad range of activities af which the following have been identified
+
+:
+between DSI application-
+
+a) interprocess communication, which
+processes;
+
+concerns
+
+the exchange
+
+of information
+
+and the synchronization
+
+of activity
+
+b) data representation, which concerns all aspects of the creation and maintenance data exchanged between open systems; cJ data storage, which concerns storage media, and file and database
+
+of data descriptions
+
+and data transformations
+
+for reformatting
+
+systems for managing
+
+and providing access to data stored on the media; are declared, initiated and controlled, and
+
+d) process and resource management, which concerns the means by which OSI application-processes the means by which they acquire OSI resources; e) integrity and security, open systems; and which concern information processing constraints
+
+that have to be be preserved
+
+or assured during the operation
+
+of the
+
+f) program support, which concerns application-processes.
+
+the definition,
+
+compilation,
+
+linking, testing,
+
+storage,
+
+transfer,
+
+and access to the programs executed
+
+by OSI
+
+Some of these activities may imply exchange therefore, be of concern to QSI. This International Standard covers the elements
+
+of information
+
+between
+
+the interconnected
+
+open systems and their interconnection
+
+aspects
+
+may,
+
+of 0%
+
+aspects of these activities which are essential for early development
+
+of OSI standards.
+
+4.3
+
+Mode!ling
+
+the OS! environment
+of 0% standards, i.e. standards for the inter-
+
+The reader not familiar with the technique is cautioned that those concepts of open systems constitute pearance Therefore described Throughout an abstraction
+
+of abstract modelling in the description despite a similar ap-
+
+introduced
+
+The development
+
+connection of real open systems, is assisted by the use of abstract models. To specify the external behaviour of interconnected real open systems, each real open system is replaced by a functionally equivalent system. abstract model of a real open system aspects of called an open Only the interconnection
+
+to concepts commonly found in real systems. real open systems need not be implemented as by the Model. the remainder of this International are considered. Standard, only
+
+these open systems would strictly need to be described. However to accomplish this, it is necessary to describe-both the internal and external behaviour of these open systems. Only the external behaviour nal behaviour of open systems is retained as the standard of the intersystems is provided in the Reference of behaviour of real open systems. The description of open
+
+the aspects of real systems and application-processes within the OSI environment tion is illustrated depicted in figure 2. throughout this International
+
+which lie as
+
+Their interconnecStandard
+
+Model only to support the definition of the interconnection aspects. Any real system which behaves externally as an open system can be considered This abstract modelling to be a real open~gst::rn.
+
+5
+5.1
+
+Concepts
+introduction
+
+of a -layered
+
+architecture
+
+is used in two steps. Clause 5 sets forth the architectural concepts Model that are applied of Open Systems protocols, connecThirdly, Fourthly, connecrouting are in the development Interconnection. tions, etc.) of the Reference
+
+First, basic &ments concerning connection This constitutes
+
+of open systems and some key decisions and functioning, are developed. InterModel of Open Systems Standard.
+
+their organization the Reference described
+
+Firstly, the concept Secondly,
+
+of a layered architecture identifiers are introduced
+
+(with layers, entities, service-access-points, is described. for entities, service-access-points, and data-units
+
+in this International
+
+and connections. are described. including Then,
+
+Then, the detailed and precise description of the functioning of the open system is developed in the framework formed by the Reference Model. This constitutes the services and protocols Standards. for OSI which are the subject of other International It should be emphasized that the Reference
+
+service-access-points elements aspects tions, transmission discussed.
+
+of layer operation are introduced
+
+are described
+
+of da?a, and error functions. and finally, management
+
+aspects
+
+Model does not, by The concepts described in clause 5 are those Model of Open Systems described Model. required to describe the Reference tion. However, Interconnecare employed
+
+itself, specify the detailed
+
+system and, therefore, behaviour of real open systems and does not imply the structure of the implementation of a real Dpen system.
+
+and precise functioning of the open it does not specify the external
+
+not all of the concepts
+
+in each layer of the Reference
+
+Aspects of application-processes of concern to OSI, i.e., application.,entities (see 7.1)
+
+Open system A
+
+pen system CA
+
+Open system S
+
+.:.::. .:..~:..~.:; ;. :.. .~.~..`.. .::.. .;:
+m Aspects of real open systems of zoncern to 0% I
+
+I I I I
+
+Figure 2 -
+
+Basic elements
+
+of OSI
+
+4
+
+IS : 12373 - 1987 IS0 7498 - 1984
+
+Four elements
+
+are basic to the Reference
+
+Model (see figure 2)
+
+:
+
+5.2.1.3
+
+(Nt-entity
+
+:
+
+An
+
+active
+
+element
+
+within
+
+an
+
+(N)-subsystem.
+
+a)
+b)
+
+open systems; 5.2.1.4 the application-entities which exist within the 0.9 en5.2.1.5 See them 5.3) which join the applicationinformation (see 5.2.1.6 boundary 5.2.1.7 sublayer (N)-service between (N)-facility peer-entities
+
+: Entities within the same layer.
+
+vironment; c) the connections and permit
+
+: A subdivision of a layer. : A capability
+is provided the (N)-layer of the (N)-layer to (N + 1)-entities and the at the
+
+entities
+
+to exchange
+
+layers beneath
+
+it, which
+
+note 1); and d)
+NOTES 1 This Basic Reference based on the assumption Model of Open Systems Interconnection is that a connection is required for the transfer
+
+and the (N + I)-layer.
+
+the physical media for 0%.
+
+: A part of an (N)-service. : A part of the activity of (N)-entities.
+
+5.2.1.8
+5.2.1.6
+
+(N)-function
+
+(N)-service-access-point
+
+of data. An addendum to this international Standard is currently being developed to extend the description to cover the connectionless forms of data transmission which may be found in a wide variety of data communications techniques (for example local area networks, digital radio, etc.) and applications tfor example remote sensing and banking). of
+
+(Nkervices 5.2.1.10
+
+: The point at which are provided by an (N)-entity to an (N + II-entity. : A set of rules and formats (semantic
+the communication of (N)-functions. behaviour
+
+(N)-protocol
+
+and syntatic) of (N)-entities
+
+which determines in the performance
+
+2 Security aspects which are also general architectural elements protocols are not discussed in this International Standard.
+
+5.2.2
+The
+
+Description
+basic structuring technihue in the Reference Model of
+
+5.2
+52.1
+
+Principles
+Definitions
+
+of layering
+
+Open Systems technique, nience
+
+Interconnection
+
+is layering.
+
+According
+
+to this
+
+each open system `is viewed as being logically comrepresented common forconveboundary. sequence shown their in figure 3. Adjacent
+
+posed of an ordered set of subsystems, in the vertical subsystems communicate through
+
+5.2.1.1
+
+iN)-subsystem
+
+: An element in a hierarchical division
+directly only with elements
+
+Subsystems
+
+of the same rank (N) collectively form the IN)-layer
+
+of an open system which interacts open system.
+
+in the next higher division or the next lower division of that
+
+of the Reference Model of Open Systems Interconnection. An (N)-subsystem consists of one or several (N)-entities. Entities exist in each layer. Entities in the same layer are termed entities. Note that the highest layer does not peer-. an have
+
+5.2.1.2
+
+(N)-layer
+
+: A subdivision
+
+of the
+
+OSI
+
+architecture,
+
+(N + 1)-layer
+
+above
+
+it and the lowest
+
+layer does not have an
+
+constituted
+
+by subsystems
+
+of the same rank (N).
+
+(N - 1 )-layer below it.
+
+Open system A
+
+Open
+system B
+
+Open
+system C
+
+Open
+system S
+
+.:.:.:.:.>:.:.:.:.: .:.:~ ....................::.
+
+................................... ............ ............
+
+............. ............. ............. ..........................
+............. ............ ......................... .... .........
+
+...................... ............
+............. ............
+
+............. ............. .............
+
+.........................
+
+.........................
+:.:.~:.:.:.:.:.:.:.~:.:
+
+.... . . . . .................. :.:.:.:.:.:.:.:.:.:.:.:.: .:.:.:.:.:.:.:.:.:.~:.:.: ............
+
+........
+
+........... .............
+
+:.:.:.:.:.:.:.:
+
+.
+
+.
+
+:.
+
+.
+
+:.
+
+...........
+
+..;
+
+.............
+
+.......................... .............
+
+............ ........................
+
+.....................
+
+............. .......................... .............
+
+. . . ........ . . . . ........ ......................... ............
+
+..
+
+. ............. . . . . .....
+
+. . .
+
+............. ...........
+
+... . .
+
+......
+
+Fhysical media for OSI
+
+Figure 3 -
+
+Layering in co-operating
+
+open systems
+
+5
+
+IS :12373 - 1987 IS0 7498-1984
+
+Not all peer (N)-entities may be conditions example:
+
+need or even can communicate. prevent this communication
+
+There (for
+
+layer which may be bypassed. layer is not allowed. are for further study.
+
+The bypassing of all the subiayers of a of its of a sublayer
+
+which
+
+A sublayer uses the entities and connections
+
+they are not in interconnected
+
+open systems, or they
+
+layer. .The detailed definition or additional characteristics
+
+do not su.pport the same protocol NOTES
+
+subsets).
+
+Except highest services
+
+for
+
+the in
+
+highest the
+
+layer,
+
+each wtth
+
+(N)-layer
+
+provides The
+
+(N + It-entities
+1 The distinction between the type of some object and an instance of that object is a distinction of significance for OSI. A type is a description of a class of objects. An instance of this type is any object that conforms to this description. The instances of the same type constitute NOTES a class. A type. and any instances of this type can be referred 10 by an individual name. Each narneable instance and the type to which this in stance belongs should carry distinguishable names.
+
+(N + 1).layer to represent
+
+(N)-services. layers.
+
+layer is assumed which
+
+all possible uses of the
+
+are provided
+
+by the lower
+
+For example, given that a programmer has written a computer pro gram, that progra?imer has generated a type of something where instances of that are created every time that particular program is invoked into execution by a computer. Thus, a FORTRAN compiler is a type is invoked in a data and each occasion where a copy of that program processing machine one displays an instance.
+
+1 Not all open systems provide the initial source or final destination of data. Such open systems need not contain the higher layers of the architecture (see figures 6 and 13). 2 Classes of service may be defined within the (N)-services. The precise definition of the term "classes of service" is for further study.
+
+Each service provided selection tributes itself fully of that service.
+
+by an (Ni-layer When
+
+may be tailored which determine (NJ-entity
+
+by the the atby it in by
+
+Consider now an (N)-entity in the OSI context. It too, has two aspects, a type and a collection of instances. 7 he type of an (N)-entity is defined by the specific set of (NI-layer stance of that type of (Nl-entity within the relevant functions it is able to perform. An inis a specific invocation of whatever it is functions It occasion of communication.
+
+of one or more INkfacilities support a service requested of other
+
+a single
+
+cannot
+
+by an (N + lkentity (NILentities
+
+calls upon
+
+the co-operation
+
+to help corn-
+
+open system that provides the IN)-!ayer
+
+called for by its type for a particular
+
+plete the service request. In order to co-operate, (N)-entities any layer, other than Those in the lowest layer, communicate means figure of the set of services 4). The entities directly provided in the lowest layer are assumed media which connect
+
+follows from these observations that IN)-entity properties of an association between peer (N)-entity information instance refers to the specific, exchange.
+
+types refer oniy to the (N)-entities, while an of actual
+
+by the !N - 1 )-iayer {see to corn them.
+
+dynamic occasions
+
+municate
+
+via the physical
+
+It is important to note that actual communication occurs only between (NI-entity instances at ail layers. It is only at connection establishment time (or its logical equivalent types are explicitly relevant. specific (NI-entity instances, well be made for arbitrary during a recovery process) that (NI-entity Actual connections are always made to although a request for connection may (NJ-entity instances of a specified type.
+
+The services using necessary An (Nwhich
+
+of an (IV)-layer
+
+are provided within the from
+
+to the tN i `II-layer, the (NSlayrr and as
+
+the iN! functions the services may and An
+
+performed available provide use the
+
+(N ~-4)-iayer,
+to of one one is the or or more more at
+
+(NILentity I)-entities. 7).
+
+services services
+
+`Nothing in this International Standard, however, precludes the request for a connection with a specific (named) instance of a peer iN):entity. If an (N)-entity stance, (N)-entity instance is aware of the name of its peer (N)-entity to request another connection init should instance. be able to that
+
+(N -k 1 )-entities
+
+iNj-service-access-point in adjacent
+
+point
+
+a pair of entities
+
+layers use or provide
+
+services
+
+isee figure
+
+2 It may be necessary to further divide a layer into small substructures called sublayers and to extend ?he technique of layering to cover other dimensions of OSI A sublayer is defined as a grouping of functions in a
+
+Co-operation between (NILentities is governed by one or more (Ni. protocols. The entities and pro!ocols withrn a layer are illustrated in figure 5.
+
+IN-t I)-entities
+
+(N)-layer
+
+Figure 4 -
+
+(N + lbntities
+
+in the (N + lblayer
+
+communicate
+
+through
+
+the INMayer
+
+6
+
+tN)-entities
+
+(NLprotocol U+fl-protocols between (NI-entities
+
+Figure 5 -
+
+5.3 5.3.1
+
+Carnmunicstion Definitions
+
+between
+
+peer-entities
+
+5.3.1.31 (N)-simplex-transmission in one ore-assigned direction.1)
+
+: CN)-data-transmission
+
+5.3.1.1 (W-connection : An association established by the (NHayer between two or more (N + 1I-entities for the transfer of data.
+
+5.3.1.12 (NI-data-communication : An (NI-function which transfers (NJ-protocol-data-units (see 5.6.1.3) actor ing to an (NI-protocol, over one or more (N - 1l-connections. 5: 5.3.1.13 -(N)-two-way-simultaneous communiuation : (NI-data-communication in both directions at the sametime. 5.3.1.14 (N)-two-way-alternate communicat@ : (NI-data-communication in both directions, one direction at a time. 5.3.1.15 (W-one-way-communication cation in one pre-assigned direction.
+
+53.12 (M-connection-endpoint : A terminator at one end of an (N)-connection within an (N)-service-access-point.
+
+5.3.1.3 multi-endpoint-connection more than two connection-endpoints.
+
+: A connection with
+
+: (N)-data-communi-
+
+5.3.1.4 correspondent (W-entities 1N'- f)-connection between them.
+
+: IN)-entities with an
+
+5.3.2
+
+Description
+
+5.3.1.5
+(Nkentity (N)-entity
+
+(N)-relay
+
+: An (NLfunction
+
+by means from one IN)-entity.
+
+of which
+
+an
+
+forwards data received to another correspondent
+
+correspondent
+
+For information to be exchanged between two or more (N + 1I-entities, an association shall be established between them in the (N)-layer using an (NI-protocol.
+NOTE - Classes of protocols may be defined within the (Nkprotocols. The precise definition of the term "classes of protocols" is for further study.
+
+5.3.1.6
+
+IWdata-source
+
+:
+
+An (see
+
+(N - 1 I-service-data-units (N - I)-connection.1)
+
+(Nt-entity 5.6.1.7)
+
+that on
+
+sends an
+
+6.3.1.7
+
+(NI-data-sink
+
+:
+
+An
+
+WI-entity
+
+that
+
+receives
+
+(N - 1 )-service-data-units
+
+on an (N - 1 I-connection.1)
+
+6.3.1.8. (N)-data-transmission : An (NLfacility which conveys (N)-service-data-units from one (N f II-entity to one or more (N + 1Lentities.1)
+
+This association is called an (NI-connection. (N)-connections are provided by the (N)-layer between two or more (N)-serviceaccess-points. The terminator of an (NLconnection at an (NI-service-access-point is called an (N)-connection-endpoint. A connection with more than two connection-endpoints is termed a multi-endpoint-connection. (N)-entities with a connection between them are termed correspondent (N)-entities. tN t- I)-entities can communicate only by using the services of the (N)-layer. There are instances where services provided by the M-layer do not permit direct access between all of the iN + 1)-entities which have to communicate. If this is the case, communication can still occur if some other (N + 1I-entity can act as a relay between them (see figure 6). The fact that communication is relayed ~by a chain of fN + 1l-entities is known neither by the iNMayer nor by the IN + 2)-layer.
+
+5.3.1.9 fN)-duplex-transmission both directions at the same time.`)
+
+: 1NLdata transmission in
+
+5.3.1.16 fN)-half-duplex-transmission : (N)-data transmission in either direction, one direction at a time; the choice of direction is controlled by an (N + 1I-entity. 1)
+1I
+
+These definitions are not for use in this International Standard but are for uss in future OSI standards.
+
+.
+
+Is : ii373
+IS0
+
+- 19si 7498 - 1984
+
+relay entity /
+
+(NHayer
+
+Figure
+
+6 -
+
+Communication
+
+through
+
+a relay
+
+5.4
+5.4.1
+
+Identifiers
+
+5.4.1.11
+
+(Nbconnection-endpoint-suffix which
+
+: A part of an
+is unique within the
+
+(N)-connection-endpoint-identifier Definitions scope of an (Nkservice-access-point. 5.4.1.12
+A permanent
+
+5.4.1.1
+
+title
+
+:
+
+multi-connection-endpoint-identifier specifies the which connection-endpoint should accept the
+
+: An idenof data a multithat is
+
+identifier
+
+for an entity.
+
+tifier
+
+which
+
+endpoint-connection 5.4.1.2 title-domain
+
+: A subset of the title space of the 0%
+
+being transferred. 5.4.1.13 (NI-service-connection-identifier (N + 1 )-entities.
+
+environment.
+
+: An
+
+identifier
+
+5.4.1.3 identifies
+NOTE
+
+title-domain-name a title-domain
+
+: An identifier
+
+which
+
+uniquely
+
+which uniquely specifies an (Nkonnection ment of the correspondent 5.4.1.14 which
+
+within the environ-
+
+within the OSI environment.
+of primary importance are the !ayers. In this
+
+-- Title-domains
+
+INI-protocol-connection-identifier uniquely specifies an individual of the multiplexed
+
+: An identifier
+(Nkonnection within
+
+specific case, the title-domain-name
+
+identifies the (N)-layer.
+
+the environment 5.4.1.4 domain. local-title
+
+(N - 1 )-connection.
+
+: A title which
+
+is unique
+
+within
+
+a title5.4.1.15 (N)-suffix
+
+: A part of an (N)-address which is unique
+
+within the (N)-service-access-point. 5.4.1.5 global-title
+
+: A title which is unique within the OSI
+and 5.4.2 Description or (NILaddress for short, an
+
+environment a local-title.
+
+and comprises two parts, a title-domain-name
+
+An (Nkervicc-access-point-address, 5.4.1.6 be found. (N)-address; (NILservice-access-point-address
+
+:
+may
+
+identifies
+
+a particular
+
+(Nkervice-access-poinr
+
+to which
+
+An identifier which tells where an (Nkervice-access-point
+
+(N + 1 )-entity is attached (see figure 7). When the (N + 1 )-entity is detached from the (N)-service-access-point, the (N)-address no longer provides access to the (N +
+
+1) -entity.
+to a the
+
+If
+
+the new
+
+(Nkervice-access-point 5.4.1.7 (N)-directory
+
+is . reattached
+
+different
+
+: An (N)-function
+is translated
+
+by which the global of an is attached.
+
+title of an (N)-entity
+
+into the (N - 1).address
+
+(N + l)-entity, (N + 1 j-entity
+
+then the (N)-address and not the old &ne.
+
+identifies
+
+(N -~ 1 )-service-access-point
+
+to which the (N)-entity
+
+5.4.1.6
+
+(Nbaddress-mapping
+
+: An (N!-function
+
+which and
+
+prothe
+
+The use of an (N)-address to identify an (N+ 1).entity is the most efficient mechanism if the permanence of attachment between the (N + 1 j-entity and the (NILservice-access-point can be assured. If there is a requirement to identify an (N + 1).entity regardless of its current location, then the global-title assures correct identification. An (NI-directory is an (NLfunction which translates globaltitles of peer (Nkentities into the (N - 1 j-addresses through which they cooperate.
+
+vides the mapping ~between the (NILaddresses (N -- 1).addresses associated with an (N)-entity.
+
+5.4.1.9 the title
+
+routing
+
+: A function within a layer which translates
+or the service-access-point-address to into a path by which the entity can
+
+of an entity
+
+which the entity is attached be reached.
+
+5.4.9.10
+
+IN)-connection-endpoint-identifier (NILconnection at an
+
+: An identifier
+(Nt-service-access-
+
+Interpretation (N)-addresses
+
+of
+
+the
+
+correspondence is
+
+between performed by
+
+the an
+
+of an (N)-connection-endpoint the corresponding point.
+
+w_hich can be used to identify
+
+served by an (N)-entity (N - l)-services function.
+
+and the (N - 1 j-addresses
+
+used for accessing (N)-address-mapping
+
+8
+
+IS:12373-1987
+ISO. 7498
+
+- 1984
+
+.
+
+Two
+
+particular
+
+kinds of (NLaddress-mapping
+
+functions
+
+may
+
+b)
+
+an (N)-suffix
+
+which makes the (N)-service-access-point within the scope of the (N - 1 I-address. a hierarchical structure of addresses
+
+exist within a layer a) b) If an hierarchical
+
+:
+(N)-address-mapping; by tables. always mapped construction structure into only one need and and
+
+uniquely identifiable Within a given layer,
+
+simplifies (N)-address-mapping (N)-address is
+
+(NI-address-mapping
+
+functions
+
+because of the perIt is not imposed in an case where
+
+manent nature of the mapping it presupposes. by the model (N)-address-mappings (N)-entity attached point supports and to cover the
+
+in all layers in order to allow more flexibility to more than
+
+(N - 1 j-address then hierarchical only recognize the hierarchical
+
+of addresses can function
+
+one (N - 1 )-service-access-
+
+be used (see figure 8). The (N)-address-mapping extract the ,(N - 1 I-address In this case, an (Nj-address a) it contains.
+
+only one (N)-service-access-point. is not true, i.e. either an (NI-address (N - 1 I-addresses, or an severai mapped construction into function the same of an address is may use
+
+of an (N)-address
+
+If the previous condition can be mapped is not into
+
+consists of two parts
+
+:
+
+(N)-address
+
+permanently
+
+(N - 1 )-address, an (N - 1 )--address of the (NLentity (N)-service-access-point which is sugporting the current of the (N + II-entity;
+
+then hierarchical (NI-addresses
+
+not possible and the (N)-address-mapping tables to translate
+
+into (N - l)-addresses.
+
+N
+
+(Nl-connectionendpoint-identifier
+
+(Nj-servicess-point
+
+NOTE -
+
+Dashed arrows refer to identifiers.
+
+Figure
+
+7 -
+
+Entities,
+
+service-access-points,
+
+and identifiers
+
+-Bi
+(Nbaddresses
+
+Bj
+
+Bk. BL
+
+(NI-layer
+
+(N - 1 I-addresses
+
+Figure
+
+8 -
+
+Hierarchical
+
+(NI-address-mapping
+
+IS : 12373 - t987 IS0 74984984
+
+Tha structure which &waver,
+
+of an (NLaddrass
+
+is known
+
+bytthe
+
+fN)-entity
+
+An
+
+(Nl-service-access-point and reattached
+
+may
+
+be
+
+detached
+
+from (NI-entity. of
+
+an
+
+is attached to the identified the (N -r- 1 j-entity
+
+(NI-service-access-point.
+
+(Nl-entity An
+
+to the same or another is located by
+
+does not know this structure. (N)-service-access-point An (N)-address means its (N)-address. is used by an (N + 1 I-entity to re-
+
+If an IN + l)-entity has two or more (N)-service-access-points with either the same (Ni-entity or different (Nl-entities, the fN)-entities access-point have no knowledge is considered of this fact. Each fN)-service(N -t 1 l-entity to identify a different
+
+quest an (NLconnection.
+
+5.3 5.6.1
+
+Data-units Definitions
+
+from the perspective A (N+ routing ll-entity function
+
+of the (NLentities. translates the (Nl-address of an
+
+into a path or route by which the (N + l)-entity
+
+may be reached.
+
+5.6.1.1 (N)-protocol-control-information : Information exchanged between (N)-entities, using an (N - 1 l-connection, to
+with another each by then co-ordinate their joint operation. When an (N + 1 I-entity 5.6.1,2 (Nl-user-data on behalf are providing
+
+An lhl +I l-entity may establish an (NI-connection
+(N+ l)-entity by using an (Nl-service. an (N)-connection establishes
+
+with another (N + II-entity,
+
+(N + 1 I-entity is given an (NI-connection-endpoint-identifier its supporting (NLentity. The (N+ l)-entity can distinguish the new connection
+
+:
+
+The services.
+
+data
+
+transferred
+
+between the
+
+(N)-entities (N)-entities
+
+of the
+
+(N + lj-entities
+
+for whom
+
+from all other (NI-connections 5.6.1.3 (NLprotocol-data-unit
+
+accessible at the tN)-service-access-point it is using. This (N)-connection-endpoint-identifier shall be unique within the scope of the (N + l)-entity -which will use the (NI-connection. consists of two parts
+
+: A unit of data specified in
+and
+
+an (N)-protocol
+
+and consisting of (NLprotocol-information
+
+possibly (NI-user-data.
+
+The (NLconnection-endpoint-identifier at
+b)
+
+:
+5.6.1.4 ordinate (N)-interface-control-information between an (N + l)-entity their joint operation.
+
+the (NI-address
+an
+
+of the fN)-service-access-point with the W-connection; which is
+
+which and unique
+
+:
+
+Information to co-
+
+will be used in conjunction
+
+transferred
+
+and an (NLentity
+
+(NI-connection-endpoint-suffix
+
+within the scope of the (NI-sen/ice-access-point. A multi-endpoint-connection Each such connection-endpoint requires identifier accept should multi-connectionis used to specify the data which is shall 5.6.1.5 fN)-interface-data (N + 1 )-entity to an (N)-entity mation transferred being received (N + 1 I-entity.
+
+: Information
+
+transferred from an for transmission to a corresponor conversely, inforafter to an (N + II-entity
+
+endpoint-identifiers. which being transferred.
+Used.
+
+dent (N + 1 )-entity over an (N)-connection, from an (N)-entity over an (NI-connection
+
+A multi-connection-endpoint-identifier
+
+from a correspondent
+
+be unique within the scope of the connection
+
+within which it is
+
+5.6.1.6 The (NHayer may provide to the (N + 1 ).-entities an (NI-serviceuniquely specifies the which the environment of the correspondent connection-identifier IN)-connection within fN + II-entities.
+
+!N)-interface-data-unit
+across the and an (N)-entity
+
+: The unit of information
+between an
+
+transferred (N + l)-entity
+
+(NLservice-access-point
+
+(N)-interface-data-unit information and may also contain (NI-service-data-unit.
+
+in a single interaction. Each (N>-interface-controIcontains the whole or part of an
+
+5.5
+
+Properties
+
+of service-access-points 5.6.1.7 fN)-service-data-unit whose identity to the other.
+
+: An amount of (NI-interfacefrom one end of an
+
+An (N + II-entity requests access-point which permits arr (NLentity.
+
+(N)-services via the (N + II-entity
+
+an (NI-serviceto interact with
+
+data
+
+is preserved
+
+(N)-connection
+
+, Bath the (Nk- and (N + I)-entities attached ,. access-point are in the same system.
+
+to an (NI-service-
+
+5.6.1.8 data-unit pedited.
+
+expedited The (NLlayer
+
+(Nl-service-data-unit,
+
+(Nl-expeditedwhose transfer is exwill or ex-
+
+: A small (N)-service-data-unit
+
+ensures that an expedited-data-unit service-data-unit
+
+An fN + 1l-entity may concurrently be attached to one or more (Nkervice-access-points attached to the same or different (Nj-entities.
+An (N)-entity may concurrently be attached to one.or (N + 1 )-entities through (NI-service-access-points. more
+
+not be delivered after any subsequent pedited unit sent on that connection.
+
+5.6.2
+
+Description is transferred in various types of data-units be-
+
+Information
+
+tween peer-entities An (N)-service-access-point is attached to only one (NI-entity and to only one (N + l?-entity at a time. An (N)-aarvice-access-point may IN + 1MMy and reattached to (N + 1 I-entity. be detached from an the same or another
+
+and between
+
+entities attached
+
+to a specific
+
+service-access-point. The data-units are defined in 56.1 and the relationships among ?hem are illustrated in figures 9 and 10. Except for the relationships defined in figures 9 and 10, there is no overall architectural limit to the size of data-units. There may be other size limitations at specific layers.
+
+10
+
+IS : 12373 - 1987 IS0 7498 - 1984
+
+The size of (N)-interface-data-units at each end of the connection.
+
+is not necessarily the same
+
+Data may be held within a connection data-unit is put into the conneciion.
+
+until a complete
+
+service-
+
+Control (N)-IN) peerentities (N+l)-(N) adjacent layers (NLprotocolcontrolinformation (N)-interfacecontrolinformation (Nj-userdata
+
+Data
+
+Combined (NLprotocoldataunits (Nj-interfacedataunit
+
+(Nj-interfacedata
+
+A
+
+Figure
+
+9 -
+
+Relationships
+
+among
+
+data-units .`
+
+(N)-layer
+
+I I(N - 1 )-layer
+
+(N II-PC1
+
+4 I 1 (N - 1LPDU
+
+PCI = PDU = SDU = NOTES 1 2 3
+
+protocol-control-information protocol-data-unit service-data-unit
+
+This figure assumes that neither segmenting nor blocking of (NLservice-data-units is performed (see 5.7.6.5). This figure does not imply any positional relationship between protocol-control-information and user-data in protocol-data-units. An INLprotocol-data-unit may be mapped one-to-one into an (N-II-service-data-unit, but other relationships are possible (see figure 11).
+
+Figure
+
+10 -
+
+An illustration
+
+of mapping
+
+between
+
+data-units
+
+in adjacent
+
+layers
+
+IS : 1~2373 - 1987 IS0 7498 - 1984
+
+5.7
+5.7.1
+
+Elements
+Definitions
+
+of layer
+
+operation
+
+5.7.1.11 unit.
+
+blocking
+
+: A function performed by an fN)-entity
+into one (NLprotocol-data-
+
+to
+
+map multiple iN)-service-data-units
+
+5.7.1.1
+
+(NI-protocol-identifier (N)-entities
+
+: An identifier used between
+fN)-protocol to
+
+5.7.1.12 to identify blocking.
+
+deblocking multiple
+
+: A function performed by an fN)-entity
+which are contained reverse function of It is the
+
+correspondent
+
+to select a specific
+
+(N)-service-data-units
+
+be used on a particular
+
+IN - l)-connection.
+
+in one`(N)-protocol-data-unit.
+
+5.7.1.2
+
+centralized
+
+multi-endpoint-connection where
+
+: A multi5.7.1.13 (NI-entity concatenation to map multiple
+
+endpoint-connection tities,
+
+data sent by the entity associated is received by all other enis only re-
+
+: A
+
+function
+
+performed
+
+by into
+
+an one
+
+with the central connection-endpoint ceived by the central entity.
+
+fN)-protocol-data-units
+
+while data sent by one of the other entities
+
+(N - 1 )-service-data-unit.
+
+5.7.1.14 5.7.1.3 associated entities. decentralized multi-endpoint-connection such that data
+
+separation
+
+: A function performed
+
+by an fN)-entity of
+
+:
+
+A
+
+to identify multiple (N)-protocol-data-units in one (N - 1 )-service-data-unit. concatenation.
+
+which are contained
+
+multi-endpoint-connection
+
+sent by an entity
+
+It is the reverse function
+
+with a connection-endpoint
+
+is received by all other
+
+-
+
+5.7.1.4
+
+multiplexing
+
+: A function
+
+within
+
+the
+
+(NLlayer
+
+by
+
+6.7.1.15 sequencing : A function performed to preserve the order of (NLservice-data-units mitted to the fN)-layer.
+
+by the (NHayer that were sub-
+
+which one (N - 1 I-connection (Nj-connection.
+
+is used to support more than one
+
+NOTE - The term multiplexing is also used in a more restricted sense to refer to the function performed by the sending (NILentity while the term demultiplexing receiving (NLentitv. is used to refer to the function performed by the
+
+5.7.1.16 which (N)-entity
+
+acknowledgement allows a receiving
+
+: A function
+fN)-entity to
+
+of the inform a
+
+fN)-layer sending
+
+of the receipt of an (NLprotocol-data-unit.
+
+5.7.1.17 5.7.1.5 (NLentity than one demultiplexing which identifies (NLconnection
+
+reset
+
+: A function
+
+which
+
+sets the
+
+correspondent
+
+: The
+
+function
+
+performed for
+
+by
+
+an
+
+(N)-entities tion of data.
+NOTE -
+
+to a predefined
+
+state with a possible loss or duplica-
+
+(N)-protocol-data-units within
+
+more
+
+fN - 1 )-service-data-units It is the reverse funcby the fN)-entity
+Blocking and concatenation, of data-units/ though close to each purposes. other For (they both permit grouping and 5.7.1.12,. are different (see 5.7.1.11
+
+received on a single (N - 1 )-connection. tion of the multiplexing sending~the function (N - lLs.ervice-data-units.
+
+performed
+
+These two functions
+
+may serve different
+
+5.7.1.6
+
+splitting
+
+: A function within the fN)-layer
+(N1).connection is used
+
+by which one
+
+instance, concatenation permits the tN)-layer to group one or several acknowledgment (N)-PDUs with one (or several) tN)-PDUs containing user-data, and this would not be possible with the blocking function only. Also the performs two functions may be combined so that the (NHayer blocking and concatenation.
+
+more than one (NILconnection.
+
+to support
+
+NOTE
+
+-
+
+The term splitting is also used in a more restrictive sense to
+
+refer to the function performed by the sending tN)-entity while the term recombining is used to refer to the function performed by the receiving fN)-entity.
+
+5.7.2
+
+Protocol
+
+selection may be defined for the (NHayer. An
+
+One or more fN)-protocols (NILentity
+
+may employ one or more fN)-protocols. communication requires between the (N)-entities selection over of an one
+
+5.7.1.7
+
+recombining
+
+: The
+
+function
+
+performed
+
+by
+
+an
+
+Meaningful fN)-protocol.
+
+fN)-entity which identifies (NLprotocol-data-units for a single (NLconnection in fN r 1 )-service-data-units received on more than one (No- 1Lconnection. splitting function performed (N - 1 )-service-data-units. It is the reverse function by the fN)-entity of the the sending
+
+fN - 1).connection
+
+agreed
+
+(NILprotocol-identifiers
+
+name the'specific
+
+protocols
+
+defined.
+
+5.7.1.8
+
+fkw
+
+control
+
+: A function which controls the flow of
+adjacent layers.
+
+5.7.3 An
+
+Properties (NLconnection between
+
+of connections is an association established is offered for comby be-
+
+data within a layer or between
+
+5.7.1.9 to map data-units.
+
+segmenting one
+
+: A function performed by an fN)-entity
+into multiple (NLprotocol-
+
+munication
+
+two or more (N + l)-entities, An (Nj-connection
+
+identified
+
+(Nk.ervice-data-unit
+
+their fN)-addresses.
+
+as a service
+
+by the (NLlayer, so that information tween the (N + 1 j-entities. An fN + 1j-entity rnky have,
+
+may be exchanged
+
+5.7.1.10 fN)-entity
+
+reassembling to map
+
+: A
+
+function
+
+performed
+
+by into
+
+an one
+
+simultaneously,
+
+one with
+
+or
+
+more
+
+multiple
+
+(NLprotocol-data-units
+
+(N)-service-data-unit.
+
+It is the reverse function
+
+of segmenting.
+
+(NLconnections with other (N -t 1 )-entities, (N + 1 i-entity, and with itself.
+
+any
+
+given
+
+12
+
+IS:12373 - 1987 JSO 7498 - 19.M
+
+An (N)-connection ly or implicitly, an (N)-address (N + 1 I-entities. The source (N)-addresses tN)-addresses different, One
+
+is established for each of
+
+by referencing, one or
+
+either explicitand destination
+
+an (N)-address
+
+for the source (N + II-entity more
+
+On a decentralized multi-endpoint-connection, entity associated with any connection-endpoint the entities associated with all of the endpoints.
+
+data sent by an is received by connection-
+
+other
+
+(NI-address
+
+and one or more
+
+of the destination is
+
+5.7.4
+
+Connection
+
+establishment of an (Nkonnection
+
+and release by peer-entities of an
+
+may be the same. One or more of the destination may be the same while the source (N)-address The establishment (Nl-layer is constructed or implicitly for when each -an a) requires the following the availability
+
+All may be different.
+
+:
+between the
+
+(NLconnection-endpoint referenced is established.
+
+of an (N - II-connection and
+
+(NLaddress (NI-connection An
+
+explicitly
+
+supporting b)
+
+(N)-entities;
+
+both (N)-entities
+
+be in a state in which they can execute protocol exchange. has to be above
+
+(N + 1 )-entity
+
+accesses
+
+an
+
+(NLconnection
+
+via
+
+an
+
+the connection If it is not already
+
+establishment available,
+
+tN)-service-access-point. an (N - 1 )-connection of the (N - 1)-layer. An (N)-connection has two or more (Nkonnection-endpoints. is not shared by (N + II-entities or The relates three elements same consideration corm-ection applies downwards medium until either an established by peer-entities This requires,
+
+for the (N - II-layer, for the (N)-layer.
+
+the same conditions
+
+as described
+
+An (N)-connection-endpoint (Nkonnections. An (Nkonnection-endpoint a) b) c) The an (N + 1 )-entity; an (NJ-entity; and
+
+available
+
+or the physical
+
+for OSI
+
+is en-
+
+:
+
+countered. Depending upon the characteristics of the IN - 1 I-service and
+
+of the establishment protocol exchange, the establishment of an (N)-connection may or may not be done in conjunction with the establishment of the tN - II-connection. of the the (N)-service with vary regard to the upon of the
+
+an (Nkonnection. The (NLentity and the (N + II-entity related by an characteristics of establishment whether (NI-connection exchange depending
+
+(Nkonnection-endpoint are those implied by the tN)-address referenced when the (N)-connection is established. An (Nkonnection-endpoint has an identifier, called an
+
+or not (NLuser-data protocol
+
+can be transferred
+
+by the connec-
+
+tion establishment (N)-connection. Where
+
+for each direction
+
+(Nkonnection-endpoint-identifier, scope of the (N + II-entity (N)-connection-endpoint. An (Nkconnection-endpoint-identifier
+
+which is unique within the which is bound to the
+
+(Nl-user-data
+
+is transferred
+
+by
+
+the
+
+(N)-connection
+
+establishment protocol exchange, the (N + 1 I-protocol may take advantage of this to allow an (N + 1 )-connection to be established in (N)-connection. conjunction with the establishment of the
+
+is not the same as an
+
+(Ni-address. An (N + II-entity references an (Nkonnection using its
+
+The release of an (NLconnection is normally initiated by one of the (N + 1 )-entities associated in it. The release of an (NLconnection the (N)-entities supporting dition occuring in the (NLlayer may also be initiated by one of conor the layers below.
+
+(N)-connection-endpoint-identifier. Multi-endpoint-connections are connections which have three or more connection-endpoints. Two types of multi-endpointconnection a) b) are defined') and
+
+it as a result of an exception
+
+:
+
+Depending upon the conditions, release of an (N)-connection may result in the discarding of (N)-user-data. The orderly release of an (N)-connection requires either the
+
+centralized; decentralized.
+
+availability
+
+of an (N - II-connection,
+
+or a common
+
+reference to
+
+A centralized multi-endpoint-connection has a central connection-endpoint. Data sent by the entity associated with the central connection-endpoint is received by the entities is associated with all other connection-endpoints. the entity associated with The data sent the central
+
+time [for example time of failure of the 1N - 1 )-connection and common time-out]. In addition, both (N)-entities shall be in a state in which they can execute the connection exchange. It is important to note, however, release protocol that the release of
+
+by an entity associated received only by connection-endpoint.
+
+with any other connection-endpoint
+
+an (N - 1 )-connection does not necessarily cause the release of the which using (N)-connection(s) were it; the (N - l)-connection can be reestablished, or another (N - l)-connection substituted.
+
+1j Other types of multi-endpoint-connections
+
+are for further study.
+
+IS : 12373 - 1987 IS0 .7498 - 1984
+
+The characteristics of the fN)-service with regard to the release of an (NLconnection can be of two kinds : a) fN)-connections are either released immediately when the release protocol exchange is initiated I(N)-user-data not yet delivered b) may be discarded]; or
+
+c) scheduling the next (NLconnection to be serviced over the (N - 1 )-connection when more than one (N)-connection is prepared to send data. The functions a) associated with splitting are: utilization used in of splitting multiple a single
+
+scheduling and
+
+the
+
+release is delayed until all (Nj-user-data of the release protocol (i.e. delivery confirmation may be transferred
+
+sent previous to has been
+
+(N - 1 l-connections (NLconnection; b) with resequencing
+
+the initiation delivered (N)-user-data
+
+exchange
+
+has been received). release pro-
+
+of
+
+(NLprotocol-data-units since they
+
+associated guarantees se-
+
+by the connection
+
+an (NLconnection
+
+may arrive out of se-
+
+tocol exchange. Some tN)-protocols tion establishment 5.7.5 Within Multiplexing the fN)-layer, may provrde for the combining and connection and splitting (N)-connections are mapped onto of connec-
+
+quence
+
+even when each (N - 1 )-connection
+
+quence of delivery (see 5.7.6.6). 5.7.5 5.7.6.1 Transfer Normal of data data transfer
+
+release protocol exchanges.
+
+(N - 1Lconnections. a) b) one-to-one; many
+
+The mapping
+
+may be one of three kinds
+
+:
+
+Control information and user data are transferred between (N)-entities in (N)-protocol-data--units. An (NLprotocol-dataunit is a unit of data specified INI-protocol-control-information in an (Nkprotocol and contains and possibly (NILuser-data.
+
+(NLconnections and
+
+to
+
+one
+
+(N - l)-connection
+
+(multiplexing); c)
+
+(N)-protocol-control-information is transferred between (N)-entities using the (N - 1 )-connection. (N)-protocol-controlinformation is any information (N)-user-data that supports the joint operation is passed transparently between of (Nl-entities. iNkentities
+
+one (NLconnection
+
+to many fN - l)-connections
+
+fsplit-
+
+ting). Multiplexing a) make may be needed in order to: more efficient and (N)-connections rn an exists. environment or more economic use of the
+
+over an (N - lkconnection. has an arbitrary, are mapped but finite, size,
+
+An
+
+(NLprotocoCdata-unit
+
+(NLprotocol-data-units units. The interpretation by the (Nkprotocol An (N - 1 l-service; bl provide
+
+into (N - I)-service-datais defined
+
+of an (NLprotocol-data-unit
+
+in effect for the (N - lkconnection. is transferred between an The
+
+several
+
+(N)-service-data-unit
+
+where only a single (N - 1 Iconnection Splitting may be needed in order to:
+
+(N + 1 I-entity and an (NI-entity, (N)-service-data-unit
+
+through an (NILservice-accessas fN)-user-data in one or
+
+point, in the form of one or more (NJ-interface-data-units. is transferred more (NI-protocol-data-units. since reliability a) improve (N - 1 I-connection is available; b) more than one
+
+provide the required grade of performance, of multiple fN - 1 )-connections; by the utilization each with and
+
+through the
+
+The exchange of data under the rules of an (N)-protocol can only if occur an (N - lkconnection exists. If an (N .- 1 )-connection does not exist, it shall be established before an exchange of data can occur (see 5.7.4).
+
+utilization c) obtain
+
+cost benefits
+
+of multiple
+
+low
+
+cost (N - l)-connections grade of performance. Multiplexing functions mapping. The functions a) (Nassociated of
+
+less than the required
+
+5.7.6.2
+
+Data
+
+transfer
+
+during
+
+connection
+
+establishment
+
+and release (NI-user-data may be transferred in the fN)-connection lishment protocol exchange and in the fN)-connection protocol exchange. release protocol exchange may be combined estabrelease
+
+and splitting each involve a number of associated connection
+
+which may not be needed for one-to-one
+
+with multiplexing the
+
+are: for over that each the not the an
+
+The connection
+
+identification l)-connection,
+
+fN)-connection transferred to ensure
+
+with the connection establishment protocol exchange (see 5.7.4) to provide means for the delivery of a single unit of (N)-user-data confirmation between of receipt. of data which is transfercorrespondent fN + 1 I-entities with a
+
+(NLprotocol-data-unit in order
+
+(N)-user-data
+
+from the various multiplexed (NI-connections are mixed. This identification is distinct from that of (NLconnection-endpoint-identifiers fN)-protocol-connection-identifier; b) flow control on each (NI-connection of the (N and is called
+
+5.7.6.3
+
+Expedited
+
+transfer
+
+An expedited-data-unit in order to share (see 5.7.6.4); and
+
+is a service-data-unit
+
+red and/or processed with priority units. An expedited data transfer signalling and interrupt purposes.
+
+over normal service-dataservice may be used for
+
+the capacity
+
+1)-connection
+
+14
+
+IS0
+
+IS :12373-1997a 7498-1984
+
+Expedited
+
+data flow is independent
+
+of the states and operation
+
+Segmenting Within
+
+may require that information
+
+be included
+
+in the
+
+of the normal data flow, although the data sent on the two flows may be logically related. Conceptually, a connection that suppods expedited flow can be viewed as having two subchandata. Data channel is assumed to be given priority nels, one for normal data, the other for expedited sent on the expedited over normal data.
+
+(NLprotocol-control-information (N)-service-data-unit no segmenting segmenting into several to form
+
+of an fN)-protocol-data-unit. is added to an when 1la)l. If an IN)-protocol-data-unit is performed [see figure
+
+a layer, (N)-protocol-control-information or blocking
+
+is performed,
+
+an (N)-service-data-unit with added 1 lbll.
+
+is mapped (Nl-protocol-
+
+(N)-protocol-data-units [see figure
+
+control-information The transfer guarantees delivered after any expedited-data-unit that an expedited-data-unit normal will not be or Conversely, information Because the expedited flow is assumed to be used to transfer flow control The
+
+subsequent
+
+service-data-unit
+
+it may be necessary to perform form an fN)-protocol-data-unit Model also permits
+
+blocking whereby Isee figure 1lc)l. whereby
+
+sent on the connection.
+
+several (Nl-service-data-units
+
+with added (N)-protocol-control-
+
+Reference
+
+concatenation
+
+small amounts of data infrequently, simplified mechanisms may be used on this data flow.
+
+several (NLprotocol-data-units are concatenated (N - 1).service-data-unit [see figure 1 Id)].
+
+into a single
+
+An expedited by the
+
+(N)-service-data-unit (N + II-entity
+
+is intended with
+
+to be processed over normal
+
+receiving
+
+priority
+
+5.7.6.6
+
+Sequencing
+
+(N)-service-data-units.
+
+The (N - 1 )-services provided by the (N - 1 )-layer of the OSI architecture may not guarantee delivery of data in the same order If the (NHayer needs to through the (N - 1 l-layer, as it was submitted sequencing quencing information. by the (NHayer.
+
+5.7.6.4
+
+Flow
+
+control are provided, they can operate only on
+
+preserve the order of data transferred mechanisms
+
+If flow control functions protocol-data-units
+
+and interface-data-units.
+
+mav
+
+require
+
+shall be present in the (N)-layer. Seadditional (N)-protocol-control-
+
+Two types of flow control are identified a) the peer flow control which Peer
+
+:
+5.7.7 Error functions the rate at which on requires protocol 5.7.7.1 An Acknowledgement function may loss than be used by peer by the between so that of the
+
+regulates control
+
+tN)-protocol-data-units (NLconnection. definitions b)
+
+are sent to the peer (N)-entity flow size; and
+
+and is based on protocol-data-unit flow control which are regulates
+
+acknowledgement
+
+(N)-entities fN)-interface the rate at an of detecting (N - l)-layer. which (NILinterface-data and an (N)-entity. passed size. between
+
+using an (NILprotocol protocol-data-unit fN)-entities can inform
+
+to obtain a higher probability is provided transferred of the receipt
+
+Each (NI-protocol-data-unit the sender
+
+(N + 1 I-entity
+
+(N)-interface
+
+flow control is
+
+correspondent the receiver
+
+is made uniquely identifiable,
+
+based on the IN)-interface-data-unit Multiplexing
+
+in a layer may require a peer flow control function
+
+for individual flows (see 5.7.5). Peer flow control functions be included in the (NLprotocol-data-unit. require flow control information of to an
+
+(NLprotocol-data-unit. An acknowledgement function is also able to infer the non-receipt of (NLprotocol-data-units and take appropriate remedial action. An acknowledgement included in the (NILprotocol-data-units. The scheme of duplicate NOTE study.
+
+(NLprotocol-control-information
+
+function may require that information (NILprotocol-control-information
+
+be of
+
+If the size of service-data-units the (Ml-user-data portion first segmentation
+
+exceeds the maximum
+
+size of then
+
+for uniquely data-units,
+
+identifying
+
+(N)-protocol-data-units such as detection
+
+of an fN)-protocol-data-unit,
+
+may also be used to support other functions segmenting
+
+shall be performed
+
+on the (Nj-service-dataPeer flow
+
+and sequencing.
+of of an action are for further
+
+unit to make it fit within the fN)-protocol-data-units.
+
+control can then be applied on the fN)-protocol-data-units.
+
+Other forms of acknowledgement such as confirmation
+of performance
+
+delivery and confirmation
+
+5.7.6.5 Data-units
+
+Segmenting,
+
+blocking
+
+and concatenation 5.7.7.2 Error detection and notification functions may be used by an of both protocoldetection than is
+
+in the various layers are not necessarily of compatiError detection (NLprotocol data-unit provided and notification to provide a higher probability and data corruption
+
+ble size. It may be necessary to perform segmenting, i.e. to map an (NILservice-data-unit into more than one (N)-protocoldata-units. data-units is necessary the segments respondent Stmilarly, segmenting to preserve may occur when (N)-protocolSince it to identify of (NLservice-data-units are mapped into (N - 1 )-interface-data-units. the identity functions shall be available
+
+error detection
+
+by the (N - 1 )-service. and notification may require that additional in-
+
+on an fN)-connection, fN)-entities
+
+Error detection formation
+
+of an (NI-service-data-unit,
+
+and to allow the cor-
+
+be included
+
+in the fN)-protocol-control-information
+
+to reassemble the (NLservice-data-unit.
+
+of the (NJ-protocol-data-unit.
+
+IS : 12373 - 1987 ~so 7498 - 1984
+
+L
+
+(r
+
+I
+
+v___,
+(N)-PDU (NLPDU b) Segmenting/Reassembling
+
+IN)-PDU a) Neither segmenting nor blocking
+
+T
+
+Y
+
+(N)-PDU c) Blocking/Deblocking
+
+fN - I)-SDU d) Concatenation/Separation
+
+SDU PCI PDU NOTES 1 2
+
+= = =
+
+service-data-unit protocol-control-information protocol-data-unit
+
+This figure does not imply any positional relationship between protocol-control-information and user-data in protocol-data-units. In the case of concatenation, fN)-protocol-data-unit does not necessarily include an (NI-service-data-unit.
+
+Figure 11 -
+
+Relationship
+
+between
+
+(N)-service-data-unit, IN)-protocol-data-unit within a layer
+
+and (N - lkervice-data-unit
+
+5.7.7.3
+
+Reset
+
+5.8
+
+Routing
+
+Some services require a reset function to recover from a loss of synchronization between correspondent fN)-entities. A reset function sets the correspondent (N)-entities to a predefined state with a possible loss or duplication of data.
+NOTE - Additional functions may be required to determine at what point reliable data transfer was interrupted.
+
+A~routing function within the (N)-layer enables communication to be relayed by a chain of (NLentities. The fact that communication is being routed by intermediate (N)-entities is known by neither the lower layers nor by the higher layers. An (N)-entity which participates in a routing function may have a routing table. 5.9 Management ~Definitions aspects of OSI
+
+A quantity of (NI-user-data may be conveyed in association with the fN)-reset function. The-reset function may require that information be included in the (NGprotocol-control-information of the (NLprotocol-dataunit.
+
+5.9.1
+
+5.9.1.1 application-management : Functions in the application layer (see 6.1) related to the management of 09 application-processes.
+
+16
+
+IS : 12373 - 1907 IS0 7498 - 1984
+
+5.9.1.2 functions.
+
+application-management-application-entity which executes
+
+: An
+
+5.9.3.1
+
+Application-management
+
+application-entity
+
+application-management Application-management relates to the management of OSI application-processes. The following list is typical of activities
+
+5.9.1.3
+
+OSI
+
+resources
+
+: Data processing
+
+and to OSI.
+
+data
+
+com-
+
+which fall into this category a) initialization of
+
+but it is not exhaustive representing
+
+:
+application-
+
+munication
+
+resources which are of concern
+
+parameters
+
+processes; 5.9.1.4 systems-management
+
+: Functions
+
+in the Applicab) initiation, maintenance and termination of applicetionprocesses; An funcc) allocation and de-allocation of OSI resources to
+
+tion Layer related to the management
+
+of various OSI resources
+
+and their status across all layers of the OSI architecture.
+
+5.9.1.5 tions.
+
+systems-management-application-entity which executes systems-management
+
+:
+
+application-entity
+
+application-processes; d) detection and prevention of OSI resource interference
+
+5.9.1.6
+
+layer-management
+
+:
+
+and deadlock; Functions related to the e) f) g) integrity and commitment and and recovery control. reside within the by applicationcontrol;
+
+management of the (NHayer partly performed in the (N)-layer itself according to the (N)-protocol of the layer (activities such as activation and error control) and partly performed as a subset of systems-management.
+
+security control; checkpointing
+
+5.9.2
+
+Introduction the acThe protocols for application-management Application Layer, and are handled management-application-entities.
+
+Within the OSI architecture there is a need to recognize special problems of initiating, terminating, and monitoring tivities and assisting in their harmonious handling considered abnormal conditions. These as the management operations, have been
+
+as well as collectively 5.9.3.2 Systems-management relates to the management of OSI
+
+aspects of the OSI architecture.
+
+These concepts are essential to the operation of the interconnected open systems and therefore are included in the comprehensive subsequent The description of the Reference Model Standard. are those open exOSI described in clauses of this International activities the which
+
+Systems-management ture. The following category
+
+resources and their status across all layers of the OSI architeclist is typical of activities which fall into this but it is not exhaustive activation/deactivation
+
+:
+management which includes
+
+management imply actual Only
+
+are of concern to conduct within
+
+which
+
+exchanges protocols for
+
+of information needed standardization
+
+between such the
+
+a)
+
+:
+
+systems.
+
+changes are candidates architecture.
+
+1) activation, maintenance and resources distributed in open physical media for OSI; 2) some program
+
+termination of OSI systems, including
+
+This clause describes key concepts relevant to the management aspects, including the different categories of management activities and the positioning of such activities within the OSI architecture. loading functions; of connections
+
+3) establishment/maintenance/release between management entities; and of management activities be'ween activities 4) open systems parameter which includes :
+
+5.9.3 Only
+
+Categories those
+
+initialization/modification;
+
+management
+
+which
+
+imply
+
+actual
+
+exb) monitoring 1) 2) c) reporting reporting acstatus or status changes; statistics; ant and
+
+changes
+
+of information
+
+remote
+
+management
+
+~entities
+
+are pertinent
+
+to the OSI architecture.
+
+Other management
+
+tivities local to particular Similarly, processing
+
+open systems are outside its scope. are pertinent to OSI. This Internai.e. those data which are of
+
+not all resources considers and data
+
+tional Standard concern to OSI.
+
+only OSI resources, resources
+
+communication
+
+error control which includes 1) error detection and some
+
+:
+of the diagnostic func-
+
+The following tified : a) b) c)
+
+categories
+
+of management
+
+activities
+
+are iden-
+
+tions; and 2) reconfiguration and restart. reside in the applicasystems-management-
+
+application-management; systems-management; layer-management. and The protocols tion layer, for systems-management are handled by and application-entities.
+
+IS : 12373 - 1987 IS0 7498 - 1984
+
+5.9.3.3 There
+
+Layer-management are two aspects of layer-management. One of these is and error con-
+
+Reference derived, tents.
+
+Model
+
+of Open Systems
+
+Interconnection
+
+has been
+
+making specific
+
+choices for the layers and their con-
+
+concerned it applies.
+
+with layer activities such as activation
+
+trol. This aspect is implemented
+
+by the layer protocol to which
+
+The Reference a)
+
+Model contains
+
+seven layers
+
+:
+
+the Application the Presentation
+
+Layer (layer 7); Layer (layer 6);
+
+The other aspect of layer-management management. the The protocols Layer Application and are
+
+is a subset of systemsreside within by systemsc) d) e) f) g) the Session Layer (layer 5); ?he Transport the Network Layer (layer 4); Layer (layer 3); b) handled
+
+for these activities
+
+management-application-entities.
+
+59.4 Several
+
+Principles principles
+
+for positioning are important Model
+
+management in positioning
+
+functions management Intercon-
+
+functions nection. a)
+
+in the Reference
+
+of Open Systems
+
+They include the followinglj both centralization
+
+:
+of management
+
+the Data Link Layer (layer 2); and the Physical Layer (layer 1).
+
+and decentralization
+
+functions are allowed. Thus, the OSI architecutre does not dictate any particular fashion or degree of centralization of such functions. each open allowed tions; b) been if it is necessary, are established operating in connections when isolation from between other management which has open systems, This principle is allowed functions calls for a structure to include and each in which of) is system any (subset subsystem
+
+These layers are illustrated plication co-operate
+
+in figure 12. The highest is the Apthat The lower layers provide co-operate.
+
+Layer and it consists of the application-entities in the OSI environment. which the application-entities
+
+systems-management
+
+the services through
+
+to include any (subset of) layer-management
+
+funcLayers 1 to 6, together with the~physical media for OSI provide a step-by-step enhancement of communication services. The boundary between two layers identifies a stage in this enhanceis defined, of the layers is governed by OSI protocol ment of services at which an OSI service standard while the functioning standards.
+
+entities becomes
+
+an open system
+
+part of the OSI environment.
+
+6
+6.1
+
+Introduction
+Specific
+
+to the specific
+
+OSI
+
+layers
+
+Not all open systems provide the initial source or final destination of data. When the physical media for OSI do not link all some open systems act only as relay The funcopen systems open systems, directly,
+
+layers
+
+passing data to other open systems.
+
+The general structure of the OSI architecture ~described in clause 5 provides architectural concepts from which the
+
+tions and protocols which support the forwarding of data are then provided in the lower layers. This is illustrated in figure 13.
+
+1) Other_principles are for further study.
+
+18
+
+IS0
+
+IS : 12373 - 1987 7498 - 1984
+
+Peer protocol Layer Open system 1
+
+Open
+
+, __
+_-----
+
+2
+
+Application
+
+/---I
+
+system
+
+.
+
+Presentation
+
++
+
+/
+_--SW-
+
+Transport
+I .
+
+_-----
+
+1 _--we-
+
+Network
+, 1
+
+Data-link
+
+_-_---
+
+1
+
+Physical
+
+-
+
+_-----
+
+1
+
+1
+
+1
+Physical media for 0%
+
+Figure
+
+12 -
+
+Seven
+
+layer
+
+reference
+
+model
+
+and peer
+
+protocols
+
+Relay open system
+
+/Open system
+
+Session
+
+Transport
+
+Network
+
+Data-link
+
+Physical
+
+Physical media for OSI
+
+Figure
+
+13 -
+
+Communication
+
+involving
+
+relay
+
+open
+
+systems
+
+IS : 12373 ?I987 IS0 7498 - 1984
+
+6.2 The principles used to determine layers in the Reference Model
+The following layers in the
+
+the seven
+
+n)
+
+Create,
+
+where
+
+needed,
+
+two or more sublayers layers; and
+
+with a
+
+common, the seven pj Allow
+
+and therefore
+
+minimal functionality
+
+to allow inter-
+
+face operation principles have been used to determine Reference Model and are felt to be useful for of OSI standards,
+
+with adjacent
+
+by-passing
+
+of sublayers.
+
+guiding further decisions in the development
+
+6.3
+NOTE - It may be difficult to prove that any particular layering selected is the best possible solution. However, there are general principles which can be applied to the question of where a boundary should be placed and how many boundaries should be placed.
+
+Layer descriptions
+above, clause 7 pro-
+
+For each of the seven layers identified vides a)
+
+:
+an outline of the purpose of the layer; a description of the services offered by the layer to the
+
+a)
+
+Do not create so many layers as to make the system task of describing than necessary; at a point where the description of and integrating the layers
+
+engineering more difficult b)
+
+b)
+
+layer above; and c) a description of the functions provided in the layer and by the layer below. a complete
+
+Create a boundary
+
+the use made of the services provided The descriptions, definition by themselves,'
+
+services can be small and the number of interactions the boundary c) Create are minimized; layers in the to handle process functions performed
+
+across do not provide
+
+of the services and protocols
+
+for each layer. These
+
+separate different involved;
+
+that or
+
+are the
+
+are the subject of separate standards.
+
+manifestly technology dj e)
+
+Collect similar functions Select boundaries
+
+into the same layer; nas
+
+7
+
+Detailed description architecture
+Application
+Definition
+
+of the resulting
+
+0%
+
+at a point which past experience
+
+demonstrated f)
+
+to be successful; functions so that the
+
+7.1
+7.1.1
+
+Layer
+
+Create a layer of easily localized
+
+layer could be totally redesigned and its protocols changed in a major way to take advantage of new advances in architectural, changing adjacent g) hardware or software technology without to the the services expected layers; where it may be useful at some point interface standardized; from and provided
+
+7.1.1.1
+
+application-entity to~OSI
+
+: The aspects of an application-
+
+process pertinent
+
+Create a boundary
+
+7.1.1.2
+
+application-service-element:
+
+That
+
+part of an apcapability,
+
+in time to have the corresponding NOTES
+
+plication-entity which provides an OS1 environment using underlying services when appropriate.
+
+7.1.1.3 elements
+
+user-element:
+
+The representation which uses those
+
+of that part of the application-serviceobjectives
+
+1 Advantages and drawbacks of standardizing internal interfaces
+within open systemsare not considered in this International Standard. In particular, mention of, or reference to principle gj, should not be taken to imply usefulness of standards for such internal interfaces. 2 It is important to note that OSI per se does not require interfaces within open systems to be standardized. Moreover, whenever standards for such interfaces are defined, adherence to such internal inter-face standards ness. can in no way be considered as a condition of open-
+
+application-process
+
+needed to accomplish
+
+the~communications
+
+of that application-process.
+
+7.1.2
+
+Purpose Model of Open Systems a means for environment. with a higher for the the OSI
+
+As the highest layer in the Reference Interconnection, the the Application to Layer application-processes The Application access
+
+Layer provides
+
+h)
+
+Create a layer where there is a need for a different of data, for example
+
+level mor-
+
+Hence the Application layer. application-process
+
+Layer does not interface is the sole
+
+of abstraction in the handling phology, syntax, semantics;
+
+means
+
+to access the OSI environment. Layer is to serve as the window which are using
+
+j) Allow changes of functions or protocols to be made within a layer without affecting other layers; and k) Create for each lower layer only. Similar principles m) layer boundaries with its upper and
+
+The purpose of the Application
+
+between correspondent application-processes the OSI to exchange meaningful information. Each application-process application-entity. is represented
+
+to its peer
+
+by the
+
+have been applied to sublayering subgrouping
+
+:
+All specifiable application-process (and, thus, parameters of each OSI enknown to the implementing of funcvironment communications instance are made Layer.
+
+Create further
+
+and organization
+
+tions to form sublayers within a layer in cases where distinct communication services need it;
+
+OSI environment
+
+to the mechanisms
+
+the OSI environment)
+
+via the Application
+
+20
+
+IS:12373- 1987 IS0 7498-1984
+
+7.1.3
+
+Services provided to application-processes
+exchange information by means of application-protocols, and presentation-
+
+n)
+
+agreement
+
+on the procedures
+
+for control of data integ-
+
+rity; and Application-processes application-entities, services. As the only layer in the_ Reference Model that directly provides services to the application-processes, the Application Layer necessarily provides all OSI services directly usable by application-processes. The application-entity contains one user-element and a set of p) identification of constraints on data syntax (character
+
+sets, data structure).
+
+7.1.4
+
+Functions
+
+within
+
+the Application
+
+Layer which imply com-
+
+The Application
+
+Layer contains all functions
+
+munication between open systems and are not already performed by the lower layers. These include functions performed by programs as well as functions performed by human beings.
+
+application-service-elements. The user-element represents that part of the application-process which uses those applicationservice-elements objectives of needed that to accomplish the communications Application-serviceupon presentation application-process.
+
+When a specific instance of an application-process wishes to communicate with an instance of an application-process in some other open system, in the it must Application invoke Layer an instance of its own of an open application-entity
+
+elements may call upon each other and/or services to perform their function. The only means may communicate protocol-data-units. generated by which user-elements
+
+system. It then becomes the responsibility of this instance of the application-entity to establish an association with an inin different systems stance of an appropriate application-entity in the destination of instances of between the the applicationopen system. This process occurs by invocation entities in the lower layers. When two application-entities process can communicate. has been established,
+
+is through the exchange of applicationThese application-protocol-data-units are
+
+the association
+
+by application-service-elements.
+
+NOTE - The application services differ from services provided by other layers in neither being provided to an upper layer nor being associated with a service-access-point. In addition to information transfer, such services may include,
+
+7.1.4.1
+
+Grouping of functions
+
+in the Application
+
+Layer
+
+An application-entity functions.
+
+can be structured
+
+internally into groupsof is not
+
+but are not limited to the following
+
+:
+
+The technique
+
+used to express this structure
+
+NOTE - Some of the services listed below are provided ~by OSI management. a) identification of intended communications by definite partners (for description, by
+
+constrained by this International Standard. Use of one grouping of functions may depend on use of some other functions, and the active functions nection. The structuring elements functions may vary during the lifetime of a con-
+
+example by name, by address, generic description);
+
+of application-entities user-element
+
+into application-servicean organization of any given subset
+
+and the
+
+provides
+
+in application-entities. an application-entity each instance
+
+Furthermore, type.
+
+b) determination of the current availability of the intended communication partners; c) d) e) f) g) h) establishment agreement of authority to communicate;
+
+of application-service-elements, constitutes type, and tifiable.
+
+along with the user-element, Each application-entity idenare unambiguously
+
+thereof,
+
+on privacy mechanisms; of intended communication partners;
+
+An application-process tions comprising
+
+may determine
+
+the grouping
+
+of func-
+
+the application-entity. are recognized
+
+authentication determination determination determination response
+
+Two categories of application-service-elements of cost allocation of the adequacy of the acceptable time, tolerable methodology; of resources; quality of service (for common-application-service-elements service-elements.
+
+:
+
+and stiecific-applicationpro-
+
+Common-application-service-elements
+
+vide capabilities that are generally useful to a variety of applications. Specific-application-service-elements provide capabilities required to satisfy the particular (for example, ing, order entry). needs of specific applications bank$n may contain applicationfile transfer, data base access, job transfer, Application-entities from both categories,
+
+example
+
+error rate, cost vis-a-vis
+
+the previous considerations); j) synchronization of cooperating applications;
+
+service-elements figure 14.
+
+as illustrated
+
+k) selection of the dialogue tion and release procedures; ml agreement
+
+discipline including the initiaThe partioning of application-service-elements into these two categories does not imply the existence of two independent for error recovery; protocols.
+
+on responsibility
+
+21
+
+IS: 12373c 1987 IS0 7498- 1984
+
+I
+
+User element
+
+I
+
+Figure
+
+14 -
+
+Application-entity
+
+7.1.4.2
+
+Systems-management
+
+and application-
+
+The Presentation the representation
+
+Layer is concerned
+
+only with the syntax i.e. i.e. by
+
+management Systems-management functions see 5.9. are located functions in the and application-management Layer. For details,
+
+of the data and not with its semantics, Layer, which is knownonly
+
+their meaning to the Application the application-entities. The Presentation to 7.1.4,3 Application Layer management there are Layer See 5.9 for a) the Presentation be used Application
+
+Layer provides for a common between application-entities.
+
+representation This relieves
+
+application-entities of any concern with the problem of "common" representation of information, i.e. it provides them with syntax independence. in two ways This syntax independence can be described
+
+In addition other management
+
+to systems and application-management, specifically related to Application (such as activation and error control).
+aSpeCk
+
+activities
+
+:
+Layer provides common syntactical and
+
+the relationship
+
+with other management
+
+elernents which are used by application-entrties; 7.2 Presentation Layer b) the application-entities can use any syntax Presentation Layer provides the transformation these syntaxes rnunication 7.2.1.1 concrete syntax: Those aspects of the rules used rn the formal specification of data which embody a specific representation of that data tion is performed and the common syntax needed between application-entities.
+
+7.2.1
+
+Definitions
+
+and the between for com-
+
+This transformaIt is not seen by on the
+
+inside the open systems.
+
+other open systems and therefore has no impact standardization of presentation-protocols. In this International used. Standard the approach outlined
+
+7.2.1.2 transfer
+
+transfer
+
+syntax:
+
+That
+
+concrete
+
+syntax
+
+used in the
+
+in b) is
+
+of data between
+
+open systems.
+
+7.2.2
+
+Purpose 7.2.3 Services provided to the Application Layer (see 7.3) and
+
+The Presentation Layer provides for the representation of information that applrcation entitles erther communicate or refer to in their communication The Presentation Layer covers two complementary this representation of intormatron : al the representatron of data to be transferred application-entities: and b) the representation of the data structure aspects of
+
+The Presentation the following
+
+Layer provides session-services
+
+facilities
+
+:
+of syntax; and
+
+a)
+
+transformation
+
+between
+
+b)
+
+selection
+
+of syntax.
+
+which along
+
+Transformation set conversions,
+
+of syntax is concerned with the modification
+
+with code and character of the layout of the data
+
+application-entities performed
+
+refer to in their communication,
+
+wrth the representatrons
+
+of the set of actions which may be
+
+on this data structure. aspects of the representation refer to the general concept of informaof transfer
+
+and the adaptation of actions on the data structures. Selection of syntax provides the means of initially selecting a syntax and subsequently modifying the selection. in the form
+
+The complementary tion outlined syntax. above
+
+Session services are provided to application-entities of presentation services.
+
+22
+
+IS : 12373 - 1987 IS0 7498 - 1984
+
+7.2.4 The
+
+Functions Presentation
+
+within the Presentation Layer performs
+
+Layer `functions to
+
+7.2.4.3 There
+
+Addressing is a onecto-one
+
+and mukiplexing correspondence between presentationor split-
+
+the following
+
+help accomplish a) b) c)
+
+the presentation-services request;
+
+:
+
+address and session-address. There is no multiplexing ting in the Presentation Layer. Presentation Layer management
+
+session establishment data transfer; negotiation
+
+7.2.4.4
+
+The Presentation and renegotiation of syntax;
+
+Layer protocols deal with some management and error control). aspects. See with other management
+
+activities of the layer (such as activation 5.9 for the relationship
+
+d) transformation of syntax including data transformation, formatting and special purpose transformations (for example e) compression); and request.
+
+7.3
+7.3.1
+
+Session
+
+Layer
+
+session termination
+
+Definitions quarantine service
+
+7.2.4.1
+
+Transformation
+
+of syntax of syntax
+
+7.3.1.1
+
+: A facility of the session-service
+sent
+
+by which an integral number of session-service-data-units The fact that there is or is not actual transformation has no impact on the presentation-protocol. There are three syntactic by the originating receiving versions of the data and the syntax on a session-connection presentation-entity presentation-entity. until explicitly released by the
+
+are not made available to the receiving sending
+
+: the syntax used
+used by the between 7.3.1.2 service control interaction management used
+
+application-entity,
+
+the syntax
+
+application-entity,
+
+: A facility of the session-
+
+presentation-entities (the transfer syntax). It is clearly possible that any two or all three of these syntaxes may be identical. The Presentation transform Layer contains the transfer the functions necessary to between syntax and each of the other
+
+which allows correspondent presentation-entities to explicitly whose turn it is to exercise certain control
+
+functions.
+
+two syntaxes as required. There is not a single predetermined transfer syntax for all OSI. is
+
+7.3.1.3
+
+two-way-simultaneous
+
+interaction
+
+: A mode of
+may concurrently
+
+interaction where both presentation-entities send and receive. 7.3.1.4 two-way-alternate is permitted interaction interaction
+
+The transfer syntax to be used on a presentation-connection
+
+negotiated between the correspondent presentation-entities. Thus, a presentation-entity must know the syntax of its application-entity protocols. To meet the service requirement utilise any transfer service objectives reduce data transfer specified by the applicationLayer may and the agreed transfer syntax. Only the Layer transfer syntax needs to be referred to in the Presentation
+
+: A mode of interac-
+
+tion where the presentation-entity its correspondent 7.3.1.5 one-way
+
+with the turn may send and
+
+only to receive.
+
+: A form of operation of twothe turn can never be ex-
+
+-entities during the initiation phase, the Presentation
+
+way-alternate changed. 7.3.1.6
+
+interaction
+
+in which
+
+syntax available to it. To accomplish other (for example data volume reduction to cost), syntax transformation may be ~per-
+
+session-connection synchronization
+
+synchronization points state
+
+: A facility of
+to define
+
+the session-service and identify
+
+which allows presentation-entities and to
+
+formed either as a specific syntax-matching service provided to the application-entities, or as a function internal to the Presentation Layer.
+
+and to reset a sessionagree on a resyn-
+
+connection to a predefined chronization point.
+
+7.2.4.2
+
+Negotiafion
+
+of syntax
+
+7.3.2 The
+
+Purpose purpose of the Session Layer is to provide the means
+
+Negotiation of syntax is carried out by communication between the presentation-entities on behalf of the application-entities to determine the form that data will have while in the OSI environment. The negotiations will determine what transformations are needed (if any) and where they will be performed. tions may be limited to the initiation any time during a session. Negotiaphase or they may occur
+
+necessary for co-operating presentation-entities and synchronize their dialogue and to manage
+
+to organize their data ex-
+
+change. To do this, the Session Layer provides services to establish a session-connection between two presentationentities, and to support orderly data exchange the transfer of data between is mapped interactions. the presentationonto and uses a
+
+To implement In OSI, the syntaxes used by application-entities that wish to When entities, communicate may be very similar or quite dissimilar.
+
+the session-connection (see 7.3.4.1). is
+
+transport-connection A session-connection
+
+they are similar, the transformation functions may not be needed at all; however, when they are dissimilar, the Presentation Layer services provide the means to converse and decide where needed transformations will take place.
+
+created
+
+when
+
+requested
+
+by
+
+a are
+
+presentation-entity the lifetime
+
+at a session-service-access-point. session
+
+During
+
+of the session-connection,
+
+services
+
+IS:1237 IS0 749
+
+used by the piesentation-entities to regulate their dialogue, and to ensure an orderly message exchange on the sessionconnection. The session-connection exists until it is released by either the presentation-entities the session-connection exists, state Layer. A presentation-entity only by initiating or can access another accepting a presentation-entity A several sessionand consecutive two presentationof the dialogue or the session-entities. While session-services maintain the loss by the Transport
+
+Simultaneous
+
+session-connection
+
+establishment
+
+requests
+
+typically result in a corresponding number of sessionconnections, but a session-entity can always reject an incoming request. The session-connection presentation-entities vironment establishment service provides to the
+
+even over data
+
+a session-service-connection-identifier which uniquely specifies the session-connection within the enof the correspondent presentation-entities, with a session-connection. lifetime which may be greater than the lifetime of the sessionconnection. This identifier may be used by the presentationentities to refer to the session-connection during the lifetime of the session-connection, entities for administrative presentation-entity designates the destination a The session-connection to release release service allows presentationway to in i.e., there of and may also be used by managementpurposes such as accounting.
+
+presentation-entity may be associated with connections simultaneously. Both concurrent session-connections entities. The initiating are possible between
+
+7.3.3.2
+
+Session-connection
+
+~release
+
+presentation-entity transport-address there
+
+by a session-address. correspondence
+
+In many systems, between
+
+may be used as the session-address, In general, between however,
+
+is a one-to-one
+
+the session-
+
+entities without
+
+a session-connection
+
+in an orderly
+
+address and the transport-address. is a many-to-one session-connections one presentation-entity establishment correspondence onto and transport-addresses.
+
+loss of data. It also allows either presentation-entity be aborted;
+
+session-addresses but does
+
+This does not imply multiplexing transport-connections, establishment target
+
+request at any time that a session-connection this case, data may be lost. The release of a session-connection one of the session-entities supporting
+
+imply that at session-connection connection connection.
+
+time, more than of a session-
+
+may also be initiated it.
+
+by
+
+is a potential
+
+request arriving on a given transport7.3.3.3 Normal data exchange
+
+7.3.3
+
+Services
+
+provided
+
+to the Presentation provided by the
+
+Layer Layer are
+
+The normal data exchange service allows a sending presentationentity to transfer a session-service-data-unit to a receiving presentation-entity. presentation-entity data. This service allows the receiving to ensure that it is not overloaded with
+
+The following services described below : a) b) cl d) e) f) g) h) session-connection session-connection
+
+Session
+
+establishment; release; 7.3.3.4 Quarantine service
+
+normal data exchange; quarantine expedited interaction service; data exchange; management; synchronization; and
+
+The quarantine service allows the serding presentation-entity to request that an integral number of session-service-data-units lone or more) sent on a session-connection should not be made available to the receiving presentation-entity until explicitly released by the sending presentation-entity. The sending quaranpresentation-entity-may request that all data currently
+
+tined be discarded. The receiving presentation-entity receives no infcrmation that data oeing received has been quarantined or that some data was discarded.
+
+session-connection exception reporting.
+
+7.3.3.5
+
+Expedited
+
+data
+
+exchange
+
+7.3.3.1
+
+Session-connection
+
+establishment
+
+The expedited data exchange service provides expedited handling for the transfer of expedited session-service-data-units. A specific size restriction data-units. is placed on expedited exists. session-serviceThis service may be used by a presentation-entity
+
+The session-connection establishment service enables two presentation-entities to establish a session-connection between themselves. addresses connection. The session-connection establishment to service determine at the allows the time the the The presentation-entities used to request are identified by sessionthe establishment of the session-
+
+any time a session-connection
+
+7.3.3.6
+
+Interaction
+
+management
+
+presentation-entities
+
+co-operatively
+
+unique
+
+The interaction management service allows the presentationentities to control explicitly whose turn it is to exercise certain control functions. The service provides for voluntary exchange of the turn where it volunof the turn
+
+values of session-connection parameters session-connectton is established.
+NOTE The provwon
+
+for change of session parameters after sesslo,?
+IS a canddate for further extension
+
+the presentation-entity
+
+which has the turn relinquishes
+
+connection estnhltshrr~rnt
+
+tarily. This service also provides for forced exchange
+
+24
+
+IS : 12373 - 1~987 IS0 7498 - 1984
+
+where,
+
+upon request from the presentation-entity
+
+which does
+
+7.3.4.1 mapping
+
+Session-connection
+
+to transport-connection
+
+the session-service may force the not have the turn, presentation-entity with the turn to relinquish it. In the case of forced exchange The following teraction a) b) c) of the turn, data may be lost. exchange in
+
+There is a one-to-one mapping between a session-connection and a transport-connection at any given instant. However, the lifetime of a transport-connection connection can be distinguished defined and that of a related sessionso that the following cases are
+
+types of session-service-data-unit
+
+are defined
+
+:
+(TWS); and
+
+:
+a transport-connection supports several consecutive (see figure 15); and support a
+
+two-way-simultaneous two-way-alternate one-way interaction.
+
+a)
+
+(TWA);
+
+session-connections
+
+b) several consecutive transport-connections session-connection (see figure 16).
+NOTES
+
+7.3.3.7 The
+
+Session-connection session-connection to
+
+synchronization synchronization service allows
+
+1 It is also possible to consider cases in which one transport connection is used to support several session-connections (i.e., n-to-1 mapping). In this case peer flow control would be required Session Layer. This case is for future development if needed. in the
+
+presentation-entities a) b)
+
+define and identify synchronization reset the session-connection point.
+
+points; and state and
+
+2 To implement the mapping of a session-connection onto a transport-connection, the Session Layer has to map session-servicedata-units into session-protocol-data-units, and session-protocol-dataunits into transport-service-data-units. These mappings may require the session-entities to perform functions such as segmenting. These functions are visible only in the session-protocols, therefore transparent to the Presentation and Transport Layers. they are
+
+to a defined
+
+agree on a resynchronization
+
+The Session Layer is not responsible for any associated pointing tion. or commitment action associated
+
+check-
+
+with synchroniza7.3.4.2 Session-connection flow control
+
+There is no peer flow control in the Session Layer. To prevent 7.3.3.8 The Exception reporting service permits the presentationnot covered by 7.3.4.3 Expedited data transfer session-service-data-units transport is generally service. the receiving presentation-entity data, the receiving session-entity the transport-connection situations from being overloaded with applies back pressure across flow control.
+
+exception
+
+reporting
+
+using the transport
+
+entities to be notified of exceptional other services, such as unrecoverable
+NOTE a) b) c) d) -
+
+session malfunctions.
+for future extensions
+
+The following services are candidates session-service-data-unit brackets; stop-go; security. and sequence
+
+:
+
+The transfer of expedited accomplished
+
+numbering;
+
+by use of the expedited
+
+7.3.4.4
+
+Session-connection
+
+recovery failure Layer of an underlying transport may contain the functions
+
+In the event of reported connection, the Session within the Session Layer
+
+7.3.4
+
+Functions
+
+necessary to re-establish a transport-connection to~support the session-connection, which continues to exist. The sessionentities involved notify the presentation-entities via the excepand restore the This perand continue tion reporting service that service is interrupted service only as directed from an agreed state. mits the presentation-entities to resynchronize
+
+The functions performed services.
+
+within the Session Layer are those which shall be in order to provide the session-
+
+by session-entities
+
+by the presentation-entities.
+
+Most of the functions
+
+required are readily implied by the serdescription is given below for the 7.3.4.5 Session-connection release
+
+vices provided. Additional following functions : a) b) c) d) e) f) session-connection session-connection expedited
+
+to transport-connection flow control;
+
+mapping;
+
+The Session Layer contains the functions necessary to release the session-connection in an orderly way, without loss of data, upon request by the presentation-entities. The Session Layer also contains the necessary functions to abort connection with the possible loss of data. the session-
+
+data transfer; recovery; release; and
+
+session-connection session-connection
+
+7.3.4.6
+
+Session
+
+Layer
+
+management acSee
+
+The Session Layer protocols deal with some management tivities of the layer (such as activation and error control). 5.9 for the relationship with other management aspects.
+
+Session Layer management.
+
+25
+
+1s : 12373 - 1987 IS0 7498 - 1984
+
+I
+Time ______c) Sessionconnections
+
+Transportconnection
+
+Establishment
+
+. Release
+
+Figure 15 - Several consecutive session-connections
+
+I
+Sessionconnection
+
+Time _
+
+I
+
+Transportconnections
+
+6"
+Figure 16 -
+
+I
+
+@O
+
+@O
+
+"A
+"":*
+
+......
+.a...*.
+
+I
+
+0
+
+Establishment
+
+Several consecutive
+
+transport-connections
+
+7.4
+7.4.1
+
+Transport
+Definitions
+
+Layer
+
+All protocols significance,
+
+defined where
+
+in the Transport the ends
+
+Layer have end-to-end as correspondent Layer is OSI end operate only be-
+
+are defined
+
+transport-entities.
+
+Therefore
+
+the Transport
+
+No Transport
+
+Layer specific terms are identified.
+
+open system oriented and transport-protocols tween OSI end open systems. The Transport Layer is relieved
+
+of any concern
+
+with
+
+routing
+
+7.4.2
+
+Purpose
+provides transparent transfer of data beand relieves them from any concern with transfer of
+
+and relaying since the network-service provides connections from any transport-entity to any other, the case of tandem The transport subnetworks (see 7.5.1).
+
+networkincluding
+
+The transport-service tween session-entities data is achieved. The Transport
+
+the detailed way in which reliable and cost effective
+
+functions
+
+invoked in the Transport
+
+Layer to pro-
+
+vide a requested network-service.
+
+service quality depend on the quality of the The quality of the network-service depends is achieved (see 7.5.3).
+
+Layer optimizes the use of the available networkrequired by each session-
+
+on the way the network-service
+
+service to provide the performance
+
+entity at minimum cost. This optimization is achieved within the constraints imposed by the overall demands~of all concurrent session-entities network-service and the overall quality and capacity of the Layer. available to the Transport
+
+7.4.3
+
+Services provided to the Session Layer
+Layer uniquely identifies each session-entity by
+
+The Transport
+
+its transport-address.
+
+The transport-service
+
+provides the means
+
+26
+
+IS : 12373 - 1987 IS0 7498 - 1984
+
+establish,
+
+maintain
+
+and
+
+release
+
+transport-connections. between a
+
+to trol.
+
+the
+
+receiving
+
+transport-service-access-point This service is subject
+
+over
+
+a
+
+Transport-connections
+
+provide duplex transmission
+
+transport-connection.
+
+to flow con-
+
+pair of transport-addresses. More than one transport-connection can be established
+nrnvided r.--.---
+
+be-
+
+tween the same pair of transport-addresses. uses ?ral7snCtrt-cnnnActinn-~n~nnint-irlenf -..- r-"`-.._ -..-.. Transport Layer to distinguish endpoints. The operation the operation between
+
+A session-entity
+hv --I the
+
+b) The expedited transport-service-data-unit transfer service provides an additional means of information exchange on a transport-connection. The exnedited _._.. _r__ _ -..r _-._ -- trsnsnort-dataunits are subject to their own set of transport-service and flow control characteristics. The maximum size of expedited transport-service-data-units is limited.
+
+transport-connection-
+
+of one transport-connection available to the Transport
+
+is independent Layer.
+
+of 7.4.3.3 Transport-connection release
+
+of all others except for the limitations imposed by
+
+the finite resources
+
+The quality of service provided on a transport-connection depends on the service class requested by the session-entities when establishing the transport-connection. The selected quality of service is maintained throughout the lifetime of the transport-connection. The session-entity is notified of any failure to maintain the selected transport-connection. The following described a) b) c) services provided quality of service on a given
+
+This service provides the means by which either session-entity can release a transport-connection session-entity informed and havethe correspondent of the release.
+
+7.4.4
+
+Functions
+
+within
+
+the
+
+Transport
+
+Layer
+
+The Transport by the Transport Layer are
+
+Layer functions
+
+may include
+
+:
+
+ai
+b)
+
+below
+
+:
+estabiishment;
+
+mapping
+
+~~I~ .__._._`__ I _._~_ . _-I-I ~~~ onto transport-aaoress network-address; lend-to-end) transport-connections onto
+
+transport-connection data transfer; and
+
+multiplexing
+
+network-connections; c) transport-connection rbkssc~ d) end-to-end tions; sessionsequence control on individual connecestablishment and release of transport-connections;
+
+7.4.3.1
+
+Transport-connection are
+
+establishment established is negotiated between between
+
+Transport-connections of the transport-connection
+
+entities identified by transport-addresses. entities and the transport-service.
+
+The quality of service the session-
+
+e) end-to-end error detection ing of the quality of service; f: g) h) end-to-end end-to-end lend-to-end supervisory expedited error recovery; segmenting,
+
+and any necessary monitor-
+
+At the time of establishment of a transport-connection the ,.l_CC "I r\f trlnr..r\r+ Cal\,;,%2+n ha IJ'"",""" m*n.,;r(0r( ti(lll C.Z...".Z ho JcilVZcILGU cc.l0crnrl *rem I bI_JJ IlOllJ~"`I JG;I"IbI2 LI, UG ll"lll c1 defined These selected set of available classes of service. service values classes are characterized of parameters such by combinations of
+
+blocking and concatenation;
+
+flow control on individual connections; functions; and transfer.
+
+jr k)
+
+as throughput,
+
+transit transport-service-data-unit
+
+delay, and connection set-up delay and by guaranteed values of parameters such as residual error rate and service availability. These classes of service represent globally predefined tions of parameters of service are controlling to intended cover the combina-
+
+7.4.4.1 quality of service. These classes transport-service generated reof traffic by the ll,L._-
+
+Addressing
+
+_ ____:__ __*:r.. ___ ..__ A_ rL_ * __.- ~. _ I vvrwr~a sesswrwr~u~y requasrs me I ranspon Layer to estabiish with another session-entity the Transport Layer the transport-entity identified by the serves which determines
+
+a transport-connection its transport-address, network-address the correspondent
+
+quirements of the various session-entities.
+
+types
+
+identifying
+
+session-entity. support services on an end-to-end
+
+7.4.3.2 This
+
+Data service
+
+transfer Because provides data transfer in accordance with the transport-entities basis no intermediate transport-entity is involved as a relay between the end transport-entities. Therefore the Transport Layer maps transport-addresses to the network-addresses (see figure 17). which identify the end transport-entities One transport-entity
+
+agreed quality of service. When the quality of service cannot be maintained and all possible recovery attempts have failed, the transport-connection is terminated and the session-entities are notified. a) The transport-service-data-unit transfer service provides the means by which transport-service-data-units of arbitrary length are delimited and transparently transferred in sequence from one sendina transnnrt-service-access-nnint r-_.r-. - --- -.--
+
+may serve more than one session-entity. Several transport-addresses may Abe associated with one network-address within the scope of the same transport-entity. Corresponding mapping functions are performed within the transonrt-entities these r-.. _......_- to _- nrnvirin r._.--_ _ .._-- facilities .-_.....__ Inn I___ fimwn ..J-.- 181 ._,.
+
+27
+
+IS : 12373 - 1987 IS0 7498 - 1984
+
+..a
+
+End transport-addresses Session-entity
+
+,
+Transport-entity b
+
+Transport-entity
+
+\
+
+, \ \ \
+
+End network-addresses
+
+I
+
+Network Layer \
+
+/'
+
+I
+
+Figure
+
+17 -
+
+Association
+
+of transport-addresses
+
+and network-addresses
+
+Transport-addresses
+
+Network-address
+
+Figure
+
+18 -
+
+Association
+
+of one network-address
+
+with
+
+several
+
+transport-addresses
+
+7.4.4.2
+
+Connection
+
+multiplexing
+
+and splitting the map-
+
+provided
+
+by the Network
+
+Layer. The following
+
+functions
+
+may
+
+be performed In order to optimize the use of network-connections, ping of transport-connections onto network-connections need not be on a one-to-one basis. Both splitting and multiplexing may be performed, network-service. namely for optimizing cost of usage of the a) obtain
+
+during this phase
+
+:
+which best matches the cost
+
+a network-connection
+
+requirements of the session-entity, and quality of service;
+
+taking into account
+
+b) decide whether multiplexing or splitting optimize the use of network-connections; 7.4.4.3 Phases of operation within the Transport Layer are c) establish size; d) the optimum
+
+is needed
+
+to
+
+transport-protocol-data-unit
+
+'
+
+The phases of operation a) b) establishment data transfer release phase.
+
+:
+
+phase; phase; and
+
+select the functions
+
+that will be operational
+
+upon enter-
+
+ing the data transfer
+
+phase; onto network-addresses;
+
+.
+
+e)
+
+map transport-addresses
+
+c)
+
+The transfer specified
+
+from one phase of operation
+
+to an other will be Layer.
+
+f) provide identification of different transport-connections between the same pair of transport-service-access-points (connection g) identification function); and
+
+in de&i1 within the protocol
+
+for the Transport
+
+transfer of data.
+
+7.4.4.5 During the establishment phase, establishes a transport-connection the Transport Layer between two session-'
+
+Data
+
+transfer
+
+phase
+
+The purpose of the data transfer phase is to transfer transportservice-data-units between the two session-entities This is achieved connected by the transport-connection. by the transmis-
+
+entities. The functions of the Transport Layer during this phase shall match the requested class of service with the services
+
+IS : 12373 - 1907 IS0 7498 - 1984
+
+sion of transport-protocol-data-units
+
+an? by the following functo the class
+
+containing tional and data-units connections.
+
+communicating procedural between
+
+application-entities
+
+and the funcnetwork-serviceover network-
+
+tions, each of which is used or not used according of service selected in the establishment phase : a) b) c) d) e) f) g) h) sequencing;
+
+means to exchange transport-entities
+
+It provides to the transport-entities blocking; concatenation; segmenting; multiplexing flow control;. error detection; error recovery; 7.5.3 The k)
+m)
+
+independence
+
+from routing and the (see are
+
+and relay considerations operation case 7.5.4.2) of a given several or in parallel. where
+
+associated
+
+with the establishment This includes in tandem are used
+
+network-connection. subnetworks It makes
+
+invisible. to transport-entities
+
+how underlying resources such as data-link-connections used to proyide network-connections. or splitting; Any relay functions and hop-by-hop service enhancement between
+
+pro-
+
+tocols used to support within the Network
+
+the network-service
+
+the OSI Layer, i.e.
+
+end open systems are operating
+
+below the Transport
+
+Layer or below.
+
+Services
+
+provided-to of the
+
+the Transport Nehnrork between Layer
+
+Layer is to provide the This
+
+basic service transfer
+
+transport-service-data-unit transport-connection
+
+delimiting;
+
+and
+
+transparent
+
+of data
+
+transport-entities. content
+
+service allows the structure identification data to be determined Layer. 7.4.4.6 Release phase All services are provided The purpose connection. a) b) c) of the release phase is.;0 release the transportit may inciude the-ioiiowlng of reason for release; of the transport-connection released; and functions cost. The Network notification identification transfer
+
+and detailed
+
+of submitted
+
+exclusively
+
+by layers above the Network
+
+to the Transport
+
+Layer at a known
+
+:
+Layer contains functions necessary to provide the Transport Layer with a firm Network/Transport Layer boundary which is independent of the underlying communications media in all things other than quality of service. Thus the Network Layer contains functions necessary to mask the differences in the characteristics of different transmission and _..L__~.. __I *__L__I__~__ .___ 5uuneIworK recnnotogtes tnro a consistent network service.
+
+of data.
+
+7.4.4.7
+
+Transport
+
+Layer
+
+management acSee
+
+The service provided
+
+at each end of a network-connection
+
+is
+
+The Transport
+
+Layer protocols deal with some management and error control). aspects. with other management
+
+the same even when a network-connection spans several subnetworks, each offering dissimilar services (see 7.5.4.2).
+NOTE - It is important to distinguish the specialized use of the term "service" within the 0% Reference Model from its common use by suppliers of private networks and carriers.
+
+tivities of the layer (such as activation 5.9 for the relationship
+
+7.5
+7.5.1 7.5.1.1
+
+Network Definitions
+
+Layer
+
+The
+
+quality
+
+of service
+
+is negotiated While
+
+between
+
+the transportof
+
+entities and the network-service subnetwork
+
+at the time of establishment
+
+: A set of one or more intermediate
+provide relaying and through which end
+
+a network-connection. given network-connection connection-endpoints.
+
+this quality of service may vary to another it will be agreed for a at both network-
+
+from one network-connection
+
+open systems which open systems
+NOTE -
+
+and be the~same
+
+may establish network-connections.
+!s a representation within the OSI Reference a private network or
+
+A subnetwork
+
+Model of a reai hetwork a local area network.
+
+such as a carrier network,
+
+The following services or elements of services provided by the Network Layer are described below : a) network-addresses; network-connections; network-connection-endpoint-identifiers; network-service-data-unit transfer;
+
+7.5.1.2
+
+subnetwork-connection
+
+: A communication
+
+path b) c)
+
+through a subnetwork Layer in providing
+
+which is used by entities in the Network
+
+a network-connection.
+
+7.5.2
+
+Purpose d) Layer provides the means to establish, network-connections between open maintain systems e) quality of service parameters;
+
+The Network and terminate
+
+IS0
+
+1s : 12373 -1987 7498 - 1984
+
+f) g) h) j) k) m)
+
+error notification; sequencing; flow control;
+
+7.5.3.5
+
+Quality
+
+of -service
+
+parameters
+
+The Network
+
+Layer establishes and maintains a selected quality of the network-connection. include for residual error rate, transit delay (innetwork-connection
+
+of service for the duration The quality expedited reset; and release. below are optional. This means network-service-data-unit transfer; service cluding
+
+of service parameters reliability, and delay
+
+availability, variations),
+
+throughput,
+
+establishment.
+
+7.5.3.8
+
+Error notification errors detected by the Network Layer are
+
+Some of the services described t)r=+ . LIImL . 1) 2)
+
+Unrecoverable reported
+
+to the transport-entities. may or may not lead to the release of the according to the specification of a par-
+
+the user has to request the service; and the network-service provider may honour the request or
+
+Error notification network-connection,
+
+ticular network-service.
+
+indicate that the service is not available.
+7 * 2 7 . .".". r _~~q~~~~~~~
+
+7.5.3.3
+
+Network-addresses are known to the Network Network-addresses Layer by means of by the uniquely are the by
+
+Transport-entities network-addresses. Network to identify necessary
+
+are provided
+
+The Network Layer may provide sequenced delivery of network-service-data-units over a given network-connection when requested by the transpon-entities.
+
+Layer and can be used by transport-entities
+
+other transport-entities, i.e. network-addresses for transport-entities to communicate using The Network systems (represented by transport-entities) layers.
+
+7.5.3.8
+
+Flow
+
+control which is receiving at one end of a network-
+
+network-service. the end open
+
+Layer uniquely identifies each of A transport-entity of the adconnection can cause the network-service to stop transferring network-service-data-units across the service-access-point. This flow control condition may or may not be propagated to the other end of the network-connection and thus be reflected
+
+their network-addresses. dressing needed
+
+This may be independent
+
+by the underlying
+
+7.5.3.2
+
+Network-connections
+
+to the transmitting tion of a particular
+
+transport-entity, network-service.
+
+according
+
+to the specifica-
+
+A network-connection provides the means of transferring data between transport-entities identified by network-addresses. The Network Layer provides the means to establish, maintain and release network-connections. A network-connection More than one is point-to-point may exist between the
+
+7.5.3.9 (optional) The
+
+5xpedited
+
+network-service-data-unit
+
+transfer
+
+expedited
+
+network-service-data-unit The is subject transfer of
+
+transfer expedited
+
+is optional on a network-
+
+and provides an additional means of information network-connection network-connection. service-data-units service characteristics 7.5.3.3 Network-connection-endpoint-identifiers The maximum limited. same pair of network-addresses. to a different
+
+exchange
+
+set of network-
+
+and to separate
+
+flow control. is
+
+size of expedited
+
+network-service-data-units
+
+The Network Layer provides~to the transport-entity a networkconnection-endpoint-identifier which uniquely identifies the network-connection-end:point address. with the associated network-
+
+7.5.3.16 The
+
+Reset
+
+(optional) is optional and when invoked causes the
+
+reset service
+
+7.5.3.4
+
+Network-service-data-unit the Network
+
+transfer Layer provides for the These units have a of the unit's con-
+
+Network
+
+Layer to discard all network-service-data-units
+
+in tran-
+
+On a network-connection, transmission distinct beginning tent is maintained No limit is imposed data-units. The
+
+sit on the network-connection and to notify the transport-entity at the other end of the network-connection that a reset has occurred.
+
+of network-service-data-units. and end and the integrity by the Network Layer.
+
+7.5.3.13 A
+
+Release may request release does not of a networkthe
+
+on the maximum
+
+size of network-service-
+
+transport-entity The
+
+connection. are transferred transparently
+
+network-service is released
+
+guarantee
+
+delivery of data preceding network-service-data-units transport-entities. The network-connection taken by the correspondent between
+
+the release request and still in transit. regardless of the action transport-entity.
+
+30
+
+IS : 12373 - 1987 IS0 7498 - 1984
+
+7.5.3.12 Receipt
+A transport-entity connection.
+
+of confirmation may confirm receipt of data over a networkconfirmation service shall be during con-
+
+work Layer to use the services of the Data Link Layer to control the interconnection of data-circuits (see 7.6.4.10 and 7.7.3.1).
+
+The use of receipt
+
+The control of interconnection Physical between Layer) from a network-entity
+
+of data-circuits
+
+iwhich are in the interaction in the same
+
+agreed by the two users of the network-connection nection establishment. The service is an optional service that may
+
+the Network
+
+Layer requires
+
+and a physical-entity
+
+open system. Since the Reference not always be availab!e. li fz*......*:fi..r r"IIc,,,"I,J ..,;*I.:.. *I.,. _.,a""II11111 IIs= &,~+...A&. I"cz:LW"In I Lrayrl provide for the wide variety of connetwork-connections supported supported ranging from by point-to-point characteristics. configura-
+
+Model permits direct interac-
+
+tion only between adjacent layers, the network-entity cannot interact directly with the physical-entity. This interaction is thus described through -the Data Link Layer which intervenes the Network transparently to convey the interaction between
+
+754 , . Network
+
+Layer and the Physical Layer. This representation happening IS an abstract representation of something
+
+Layer functions supporting
+
+figurations
+
+network-connections tions of subnetworks
+
+inside an open system and which does not model
+
+tions, to network-connections
+
+by complex combina..
+
+with different
+
+the functioning of real open systems and as such has no impact on the standardization of ~OSI protocols.
+
+NO i-E ~ In order tc cope with this wide *variety of cases, netlhinrk functions should be structtireti intc sublayers. The subdivision of the Network Layer intn sublayers need on!y be done when this is useful. In particular, sublayering need not be (Ised when the access protocol to the subnetwork suppotrs the cc:!-,p!ete fufictionality of the OSI Network SeWIce. The
+
+NOTE - When Network Layer functions are performed by combinations of several individual subnetworks, the specification of routing and relaying functions cou!d be facilitated by using sublayers, isolating individual subnetworks routing and relaying fk>nztionsfrorn internetwork routing and relaytng functions. However, when subnetworks have acce& protocols supportir;g the complete functionality of the OSI network ser`uicc, there need be no sublayering rn the Network Layer.
+
+following a) b) c) dl e) f) g) h) j) k) m) n)
+routing
+
+arc functioris performed and relaying;
+
+by the Network
+
+Layer
+
+:
+
+network-connections; network-connection segmenting multiplexing;
+
+754.2 This
+
+Network-connections function provides making network-connections between pro--
+
+transport-entrties,
+
+use of data-link-connections
+
+vided by the Data Link Layer. and blocking; A network-connection ^-^---~:_ _- !_ in series. may also be provided
+i.e.
+
+as subnetwork9ib1313i-
+
+error detection; error recovery; sequencing; flow control; expedited reset; data transfer;
+
+curlrlecuvns
+
+m ianderii,
+
+using sever&
+
+inriividuai
+
+works
+
+The
+
+interconnected
+
+individual
+
+subnetworks Each end of
+
+may have the same or different service capabilities. a subnetwork-connection work protocol. The interconnection
+
+may operate with a different subnet-
+
+of a pair of subnetworks
+
+of differing
+
+qualities may be achieved in two ways. To illustrate these, consider a pair of subnetworks, low quality a) service selection; network and The one of high quality and the other of
+
+:
+are interconnected lower quality as they starId. IS not ibue
+
+The two subnetworks quality than of the that of the
+
+resulting
+
+network-connection subnetwork
+
+higher ldyer management.
+
+figure 191. b) The lower quality subnetwork The quality of is enhanced the equal to the are then in networkquality
+
+7.5.4. 1
+
+Routing
+
+and relaying are provided by network-entities in end may involve intermediate open systems These intermediate open systems may data-link-connections,
+
+higher quality subnetwork Network-connections open systems but interconnect terconnected. connection subnetwork.
+
+and the subnetworks resulting that of the
+
+is approximately
+
+higher
+
+which provide relaying.
+
+subnetwork-connections,
+
+and data-circuits (see 7.7). Routing functions determine an appropriate route between network-addresses. In order to set up the resulting communication, it may be necessary for the Net-
+
+The choice between these two alternatives depends on the degree of difference in quality, the cost of enhancement, and other economic factors.
+
+1) This service IS tncluded in the network
+
+service only to support existing features
+
+of CCITT
+
+Recommendation
+
+X.25
+
+31
+
+Low quality network-connection
+
+LOW quality subnetwork
+
+High quality subnetwork
+
+Figure
+
+19 -
+
+interconnection
+
+of a low
+
+quality
+
+subnetwork
+
+and a high quality
+
+subnetwork
+
+-
+
+--* High quality networkconnection
+
+I
+1
+
+J
+n
+
+Low quality subnetwork
+
+1 I
+
+High quality subnetwork
+
+Enhanced subnetwork
+
+Figure
+
+20 -
+
+interconnection
+
+of an enhanced
+
+low
+
+quality
+
+subnetwork
+
+and a high quality
+
+subnetwork
+
+7.5.4.3
+
+Network-connection
+
+multiplexing network-connections their use. multiplexing also be per-
+
+7.5.4.7
+
+Sequencing provides for the sequenced delivery of networkwhen re-
+
+This function
+
+may be used to multiplex
+
+This function quested
+
+onto data-link-connections
+
+in order to optimize
+
+service-data-units
+
+over a given network-connection
+
+by transport-entities.
+
+In the case of subnetwork-connections onto individual subnetwork-connections formed in order to optimize their use.
+
+in tandem, may
+
+7.5.4.8
+
+Flow
+
+control service is required isee 7.5391, this function
+
+_. It tlow controi 7.5.4.4 Segmenting and blocking 7.5.4.9
+
+may need to he performed.
+
+The Network Layer may segment and/or block networkservice-data-units for the purpose of facilitating the transfer. However the network-service-data-unit delimiters are preserved over the network-connection.
+
+Expedited
+
+data
+
+transfer data transfer service.
+
+This function
+
+provides for the expedited
+
+7.5.4.10
+
+Reset provides for the reset service.
+
+7.5.4.5
+
+Error detection functions over are used to check that the quality of a network-connection is maintained.
+
+This function
+
+Error detection service
+
+7.5.4.11
+
+Service
+
+selection to be carried out to enend of a networkspans
+
+provided
+
+Error detection in the Network Layer uses error notification from the Data Link Layer. Additional error detection capabilities may be necessary to provide the required quality of service.
+
+This function sure that connection the
+
+allows service selection service provided when is the same
+
+at each
+
+a network-connection
+
+several subnetworks
+
+of dissimilar quality.
+
+7.5.4.5
+
+Error
+
+recovery provides for the recovery from detected errors.
+
+7.5.4.12
+
+Network
+
+Layer
+
+management acSee
+
+This function
+
+The Network
+
+Layer protocols deal with some management and error control). aspects. with other management
+
+This function may vary depending service provided.
+
+on the quality of the network
+
+tivities of the layer (such as activation 5.9 for the relationship
+
+32
+
+7.6
+
+Data
+
+Link
+
+Layer
+
+7.6.3.4 When
+
+Sequencing required, the sequence integrity of data-link-service-
+
+7.6.1
+
+Definitions
+
+data-units
+
+is maintained.
+
+No Data Link Layer specific terms are identified 7.6.3.5 7.6.2 Purpose and procedural means among A Each network-entity maximum) units The Data Link Layer detects and possibly corrects errors which may occur in the Physical Layer. In addition, Layer. the Data Link Layer enables the Network of data-circuits Layer to 7.6.3.7 Quality of service parameters may be optionally selectable. The from reflected a can dynamically control (up to the agreed This control may be physical7r6.3.6 Flow control Error notification any
+
+Notification is provided to the network-entity when unrecoverable error is detected by the Data Link Layer.
+
+The Data Link Layer provides functional to establish, network-entities connections. and to transfer is built
+
+maintain and release data-link-connections upon one or several
+
+data-link-service-data-units.
+
+data-link-connection
+
+the rate at which it receives data-link-service-datadata-link-connection. at the in the rate at which the Data Link Layer accepts datacorrespondent data-link-
+
+link-service-data-units connection-endpoint. within the Physical
+
+control the interconnection
+
+Quality of service parameters 7.6.3 Services provided to the Network Layer
+
+Data Link Layer establishes and maintains a selected quality of service for the duration of the data-link-connection. The quality of service parameters include mean time between detected but unrecoverable errors, residual error rate (where errors may arrse form alteration, loss, duplication, disordering, causes), misdelivery service of data-link-service-data-unit, and other ability, transit delay and throughput. avail-
+
+The following services or elements of services provided by the Data Link Layer are described below : a) bl c) d) e) f) g) data-link-connection; data-link-service-data-units;
+
+7.6.4 data-link-connection-endpoint-identifiers; sequencing; error notification; flow control; and
+
+Functions
+
+within
+
+the
+
+Data
+
+Link Layer by the Data Link Layer are
+
+The following functions described below f
+
+performed
+
+a)
+b)
+Cl
+
+data-link-connection
+
+establishment mapping;
+
+and release;
+
+data-link-service-data-unit data-link-connection delimiting sequence
+
+quality of service parameters.
+
+splitting;
+
+d) 7.6.3.1 The Data-link-connection e) Data Link Layer provides two one or more A data-linkdata-linkf) g) h) 7,6.3.2 Data-link-service-data-units j) The Data Link Layer allows exchange units over a data-link-connection. The size of the data-link-service-data-units may be limited by error rate and 7.6.4.1 of data-link-service-datakl m) connections connection between network-entities.
+
+and synchronization; control;
+
+error detection; error recovery; flow control; identification and parameter exchange; and
+
+is always established
+
+and released dynamically.
+
+control of data-circuit
+
+interconnection;
+
+Data Link Layer management.
+
+the relationship between the physical-connection the Data Link Layer error detection capability.
+
+Data-link-connection
+
+establishment
+
+and release on
+
+This function establishes and releases data-link-connections 7.6,3.3 ~Data-link-connection-endpoint-identifiers the Data Link Layer provides data-link-connectionto
+
+activated physical-connections. When a physical-connection has multiple endpoints (for example multipoint connection), a specific function tify the connection. is needed within the Data Link Layer to idenusing such a physicaldata-link-connections
+
+If needed,
+
+endpoint-identifiers that can be used by a network-entity identify a correspondent network-entity.
+
+33
+
+IS : 12373 - 1987 IS0 7498 - 1984
+
+7.6.4.2
+
+Data-link-service-data-unit
+
+mapping into data-link-
+
+7.7
+7.7.1
+
+Physical
+Definition
+
+Layer
+
+This function
+
+maps data-link-service-data-units on a one-to-one basis.
+
+protocol-data-units NOTE -
+
+More general mappings are for further study.
+
+7.7.1.1
+
+data-circuit between
+
+: A communication
+two physical-entities,
+
+path in the physical together with the of
+
+media for 0% 7.6.4.3 Data-link-connection performs splitting splitting of one data-link-connection bits on it.
+
+facilities necessary in the Physical Layer for the transmission
+
+This function
+
+7.7.2
+
+Purpose
+electrical, between within the functional data-linkopen Physical
+
+~onto severai physical-connections. The Physical Layer provides mechanical, 7.6.4.4 Delimiting and synchronization of a sequence of physicalover the and procedural physical entities. systems, means to activate, connections each for bit transmission bit transmission
+
+maintain
+
+and de-activate
+
+1 hese functions
+
+provide recognition
+
+A physical-connection relaying
+
+may invoive intermediate
+
+service-data-units {i.e. bits, see 7.7.3.2) transmitted physical-connection, as a data-link-protocol-data-unit.
+
+Layer. Physical Layer entities are interconnected physical medium.
+
+by means of a
+
+NOTE -- These functions are sometimes referred to as framing. 7.7.3 7.6.4.5 . This Sequence function control the sequential order of dataJinka) b) 7.6.4.6 Error detection c) This function rors occurring detects transmission, format and operational data-link-entity. erd) e) fl g) This function format attempts to recover from detected transmission, 7.7.3.1 Physical-connections transmission of and operational errors and notifies the network-entities data-circuit sequencing, fault condition notification; and identification; either on the physical-connection, of the correspondent or as a result physical.-connection-endpoints; physical-connections; physical-service-data-units; Services provided to the Data Link Layer
+
+The following
+
+services or elements below
+
+of services provided by the
+
+Physical Layer are described maintains service-data-units across a data-link-connection.
+
+:
+
+of a malfunction
+
+7.6.4.7
+
+Error
+
+recovery
+
+quality of service parameters.
+
+of errors which are unrecoverable.
+
+The Physical Layer provides for the transparent 7.6.4.8 Flow control provides the flow control service as indicated A data-circuit OSI between 7.6.4.9 This Identification function performs and parameter data-link-entity exchange identification and
+ii.
+
+bit
+
+streams
+
+between
+
+data-link-entities.
+
+across
+
+physical-
+
+connections. This function in 7.6.3.6. is a communication two physical-entities, path in the physical media for together with the facilities of bits on
+
+necessary in the Physical Layer for the transmission
+
+parameter
+
+exchange
+
+A physical-connection may be provided by the interconnection of data-circuits using relaying functions in the Physical Layer. The provision of a physicai-connection data-circuits is illustrated in figure 21. by such an assembly o!
+
+7.6.4.10
+
+Control
+
+of data-circuit
+
+interconnection The control of the interconnection of data-circuits is offered as the capability of conwithin the Physical 7.7.3.2 Physical-service-data-units consists of one bit in serial
+
+This function Layer.
+
+conveys to-network-entities of data-circuits
+
+a service to data-link-entities.
+
+trolling the interconnection
+
+7.6.4.11
+
+Data
+
+Link Layer
+
+management acSee
+
+A
+
+physical-service-data-unit
+
+transmission The Data Link Layer protocols deal with some management tivities of the layer (such as activation 5.9 for the relationship and error control). aspects. with other management A
+
+and of "II" bits in parallel transmission. may allow duplex or ha!f-duplex
+
+physical-connection
+
+transmission
+
+of bit streams.
+
+34
+
+IS : 12373 - 1987 IS0 7498 - 1984
+
+7.7.3.3 The
+
+Physical-connection-endpoints Physical Layer provides physical-connection-endpointto identify
+
+7.7.4
+
+-Functions
+
+within
+
+the Physical performed
+
+Layer
+
+The following described
+a)
+
+functions
+
+by the Physical Layer are
+
+identifiers
+
+which
+
+may be used by a data-link-entity
+
+below
+
+:
+activation and deactivation; and
+
+physical-connection-endpoints. physical-connection A physical-connection (multi-endpoint) wilt have two (point-to-point) or more b) cl physical-service-data-unit transmission;
+
+physical-connection-endpoints
+
+(see figure 22).
+
+7.7.3.4
+
+Data-circuit
+
+identification which uniquely specify open systems.
+
+Physical Layer management.
+
+`The Physical Layer provides identifiers the data-circuits
+NOTE -
+
+7.7.4.1
+
+Physical-connection
+
+activation
+
+and deactivation and deactivation of
+
+between
+
+two adjacent
+
+These functions
+This identifier is used by network-entities in their dialogue. in adjacent open systems to refer to data-circuits
+
+provide for the activation between
+
+physical-connections
+
+two data-link-entities of data-circuits.
+
+upon re-
+
+quest from the Data Link Layer. These include a relayfunction which provides for interconnection
+
+7.7.3.5
+
+Sequencing 7.7.4.2 Physical-service-data-unit transmission (i.e. bits) may
+
+The Physical Layer delivers bits in the same order in which they were submitted.
+
+The transmission 7.7.3.6 Fault condition are notification of fault conditions detected be synchronous
+
+of physical-service-data-units cr asynchronous.
+
+Data-link-entities
+
+notified
+
+within the Physical Layer.
+
+7.7.4.3
+
+Physical
+
+Layer
+
+management acSee
+
+7.7.3.7
+
+Quality
+
+of service
+
+parameters
+
+The Physical Layer protocols deal with some management tivities of the layer (such as activation and error control). 5.9 for the relationship with other management aspects.
+
+The quality of-service of a physical-connection is derived from the data-circuits forming it. The quality of service can be characterized a) by loss,
+
+NOTE - The above text deals with interconnection between open systems as illustrated in figure 12. For open systems to communicate in
+the real environment, real physical connections should be made as, for example, in figure 23. Their logical representation is as shown in figure 23 and is called the physical media connection. The mechanical, electromagnetic and other media dependent
+
+error rate, where errors may arise from alteration, and other causes;
+
+creation, b) c) d)
+
+service availability; transmission transit delay. rate; and
+
+characteristics dary beween characteristics
+
+of physical media connections are defined at the bounthe Physical Layer and the physical media. These are specified in other standards.
+
+1s : 12373 - 11987 IS0 7498 - 1984
+
+Physical-servicePhysical-connection-endpoint Physrcalconnection-endpoint
+
+Physical Layer
+
+Dat, V Physrcalentity
+
+Physical
+
+Figure
+
+21 -
+
+Interconnection
+
+of data-circuits
+
+within
+
+the Physical
+
+Layer
+
+-_-Data Link Layer --Physical Layer Datalinkentity
+
+---------------
+
+---------------Physical-connection-endpoints
+
+r
+Physical-connection physical connection A and Bi
+
+i
+
+Example of a two endpoint fconnection exists between
+
+Data Link Layer ----_
+
+Datalinkentity
+
+Physical Layer Physical-connection-endpoints
+
+L
+
+Physrcal-connection
+
+Example of a multi-endpoint-physical-connection (connectron exists between A, B and CI
+
+Figure
+
+22 -
+
+Examples
+
+of physical-connections
+
+IS : 12373 - 1987 IS0 7498 - 1984
+
+Metallic
+
+cable
+
+Optical
+
+fibre
+
+Real open system A -6 F Real open system B
+
+Data modems
+
+Transducers
+
+a)
+
+Real environment
+
+Physical
+
+Layer Protocols
+
+Physical
+
+Layer
+
+I
+
+entity
+
+I
+
+I
+Physical
+
+entity
+
+I
+connections
+
+I
+
+entity
+
+'
+
+I
+
+I
+
+media
+
+b)
+
+Logical enwronment
+
+Figure
+NOTE The area of physical media connections
+
+23 -
+
+Examples
+further
+
+of interconnection
+study.
+
+in OSI requires
+
+Annex Brief explanation
+
+A
+
+of how the layers were chosen
+
+(This annex does not form part of the standard.)
+
+A.1 A.2
+A.2.1
+Layer
+
+This annex provides elements
+
+giving additional
+
+information
+
+to this international
+
+Standard.
+
+The following
+
+is a brief explanation
+
+of how the layers were chosen
+
+:
+with different conof a Physical
+
+It is essential that the architecture permits usage of a realistic variety of physical media for interconnection
+(for example V.24, V.25, etc...). Application of principles as the lowest layer in the architecture.
+
+trol procedures
+
+in 6.2 cl, e) and h) leads to identification
+
+A.2.2
+
+Some physical communication
+
+media (for example telephone
+
+line1 require specific techniques
+
+to be used in order to transmit
+
+data between systems despite a relatively high error rate (i.e. an error rate not acceptable for the great majority of applications). These specific techniques are used in data-link control procedures which have been studied and standardized for a number of years. It must also be recognized cedures. Application architecture. that new physical communication media (for example fibre optics) will require different of a Data data-link control proof principles in 6.2 cl, e) and h) leads to identification Link Layer on top of the Physical Layer in the
+
+A.2.3
+
+In the open systems architecture, of a Network
+
+some open systems will act as the final destination data to other systems), Layer on top of the Data Link Layer. Network Layer will provide a connection nodes are involved,
+
+of data, see clause 4. Some
+
+open for ex-
+
+systems may act only as intermediate and g) leads to identification ample, will be grouped transport-entities; including
+
+nodes (forwarding
+
+(see figure 13). Application
+
+of principles in 6.2 c), e) between a pair of
+
+oriented protocols such as routing,
+
+in this layer. Thus, the Network the case where intermediate
+
+path (network-connection)
+
+see figure 13 (see also 7.5.4.1).
+
+A.24
+
+Control of data transportation
+
+from source end open system to destination
+
+end open system (which is not performed
+
+in in-
+
+termediate nodes) is the last function to be performed in order to provide the totality of the transport-service. Thus, the upper layer in the transport-service part of the architecture is the Transport Layer, on top of the Network Layer. This Transport Layer relieves higher layer entities from any concern with the transportation of data between them.
+
+A.2.5
+
+There is a need to organize and synchronize of a Session
+
+dialogue,
+
+and to manage the exchange of data. Application Layer.
+
+of principles in 6.2 c)
+
+and d) leads to the identification
+
+Layer
+
+on top of the Transport
+
+A.2.6
+
+The remaining set of general interest functions are those related to representation programs. Application
+
+and manipulation
+
+of structured
+
+data for the
+
+benefit of application Session Layer.
+
+of principles in 6.2 c) and d) leads to identification
+
+of a Presentation
+
+Layer on top of the
+
+A.2.7
+
+Finally, there are application,%consisting and the protocols
+
+of application-processes
+
+which perform information
+
+processing.
+
+An aspect of these
+
+application-processes chitecture.
+
+by which they communicate
+
+comprise the Application
+
+Layer as the highest layer of the ar-
+
+A.3
+
+The resulting architecture definition
+
+with seven layers, illustrated
+
+in figure 12 obeys the principles in 6.2 a) and b) Standard, starting from
+
+A more-detailed
+
+of each of the seven layers identified above is given in clause 7 of this International Layer described in 7.1 down to the Physical Layer described in 7.7.
+
+the top with the Application
+
+38
+
+IS:12373-1
+
+Annex Alphabetical
+
+B
+
+.
+
+index to definitions
+
+(This annex forms part of the standard.)
+
+Term acknowledgement INLaddress (N)-address-mapping ap;plication-entity application-management application-management-application-entity application-process application blocking service element
+
+Subclause
+5.7.1.16 5.4.1.6 5.4.1.8 7.1.1.1 5.9.1.1 5.9.1.2 4.1.4 7.1.1.2 5.7.1.11 5.7.1.2 5.7.1.13 7.2.1.1 5.3.1.1 5.3.1.2 5.4.1.10 5.4.1.11 5.3.1.4 7.7.1.1 5.3.1.12 5.3.1.7 5.3.1.6 5.3.1.8 5.7.1.12 5.7.1.3 5.7.1.5 5.4.1.7 5.3.1.9 5.2.1.3 5.6.1.8 5.6.1.8 5.2.1.7 5.7.1.8 5.2.1.8 5.4.1.5 transmission 5.3.1.10 7.3.1.2 F 6.1.4 5.6.1.5 5.6.1.6 5.2.1.2 5.9.1.6 5.4.1.4 5.4.1.12 5.3.1.3 5.7.1.4 5.3.1.15 7.3.1.5 4.1.3 5.9.1.3 5.2.1.4 5.2.1 .lO 5.4.1.14 5.6.1.1 5.6.1.3 5.7.1.1 management
+
+Page
+12 8 8 20 16 17 2 20 12 12 12 22 7 7 8 8 7 33 7 7 7 7 12 12 12 8 7 5 10 10 5 12 5 8 7 23 10 10 10 5 17 8 8 6 12 6 23 2 17 5 5 8 10 10 12
+
+centralized multi-endpoint-connection concatenation concrete syntax
+
+1N)-connection
+(NI-connection-endpoint (N)-connection-endpoint-identifier (N)-connection-endpoint-suffix correspondent data-circuit (NI-data (N)-data (NI-data communication sink source (NI-entities
+
+(NJ-data transmission deblocking decentralized multi-endpoint-connection demultiplexing (N)-directory (N)-duplex (NI-entity expedited (N)=service-data-unit (N)-expedited-data-unit (N)-facility flow control (N)-function global-title (NILhalf-duplex interaction transmission
+
+(NILinterface-control-information (NLinterface-data (NI-interface-data-unit (NILlayer layer-management local-title multi-connection-endpoint-identifier multi-endpoint-connection multiplexing (N)-one-way one-way open system OSI resources peer-entities (N)-protocol (NILprotocol-connection-identifier (N)-protocol-control-information (NLprotocol-data-unit (NI-protocol-identifier communication interaction
+
+IS : 12373 - 1987 BO 7498 - 1984
+
+Term quarantine service real system real open system reassembling recombining (N)-relay reset routing segmenting separation sequencing (N)-service (NLservice-access-point (N)-service-access-point-address (N)-service-connection-identifier (NILservice-data-unit session-connection synchronization (N I simplex transmission splitting sublayer subnetwork subnetwork-connection (NI-subsystem (Ni -suffix systems-management systems-management-application-entity transfer syntax titie title-cfomain rrt!e-domain-name (N) two-way alternate communication two way-alternate interaction INI two-way simultaneous communication two-way-simultaneous interaction (NILuser-data user element
+
+Subclause 7.3.1.1 4.1.1 4.12 5.7.1.10 5.7.1.7 5.3.1.5 5.7.1.17 5.4.1.9 5.7.1.9 5.7.1.14 5.7.1.15 5.2.1.6 5.2.1.9 5.4.1.6 5.4.1.13 5.6.1.7 7.3.1.6 5.3.1.11 5.7.1.6 5.2.1.5 7.5.1.1 7.5.1.2 5.2.1.1 5.4.1.15 5.9.1.4 5.9.1.5 7.2.1.2 5.4.1.1 5.4.1.2 5.4.1.3 5.3.1.14 7.3.1.4 5.3.1.13 7.3.1.3 5.6.1.2 7.1.1.3
+
+Page 23 2 2 12 12 6 I2 8 12 12 12 5 5 8 8 10 23 7 12 5 29 29 5 8 17 17 22 8 8 8 7 23 7 23 10 20
+
+Printed
+
+at PRINTOGRARH.
+
+New
+
+Delhi
+
+(India)
+
+40
+
+AMENDMENT
+
+NO. 1 JANUARY 1992 TO 1s 12373 : 1987 IS0 7498 : 1984
+
+BASIC REFERENCE MODEL OF OPEN SYSTEMS 1NTERCONNEC'I'iON FOR 1NFORMATlON YROCESSING SYSTEMS ( ~~~~~ cover, l;fle)- Substitute she following for the existing tide:
+`Ittdiun Standard
+
+BASIC REFERENCE MODEL OF OPEN SYSTEMS INTERCONNECTION FOR 1NFORmTlON PROCESSING SYSTEMS, PART 1' ( First,l/lird alldj&r-titcover,
+following for the existing IS No. : pilgCS 1 10 40, 1.9 NO. > S"lrj'itute the
+
+` IS 12373 (Part 1) : 1987 IS0 7498 : 1984'
+
+(LTD36)
+Reprography
+
+Unit, BIS, New Delhi1 India
+
+NO.2 NOVEMBER 1992 TO IS 12373 (Part 1):1987/ lS07498 :1984 BASIC REFERENCE MODEL OF OPEN SYSTEMS INTERCONNECTION FOR INFORMATION PROCESSING SYSTEMS:PART 1
+[ThisAmendmentNo. 2isbased on Technical Corrigendum ltolSO 7498 :1984.The page number mentioned in this amendment refer to the ISO page number given in the standard.]
+
+AMENDMENT
+
+Page 2 Subclause Paragraph Page 5 Subclause 5.2.2 "as being logically" to "as logically", 4.2 4, item b): change "computerised" to "computerized",
+
+line 3: change Page 6 Subclause NOTE
+
+5.2.2 1, line 7: delete "that" "should". to "that type". of that program. "
+
+1, paragraph
+
+paragraph
+
+2, line 3: change line 6: change
+
+"instance." "should
+
+to "instance be" to "is".
+
+paragraph
+
+4, line 10: change
+
+Gr 3,
+
+Page 7 Replace figure 5 by the following:
+
+(N)-protocol
+
+Subclause Paragraph Page 9 Replace
+
+5.3.2 1, line 2: change "shall be" to "is".
+
+figure 7 by the following:
+
+Title _ `-
+
+(N)-connectionendpoint-identifier
+
+(N)-serviceaccess-point
+
+(N)-address ~
+
+page
+
+10 5.4.2 13, line 8: change 5.6.1.3 "protocol-information" to "protocol-control-inf ormation". "shall" to "must".
+
+Subclauae Paragraph Subclause
+
+Line 2: change Page 12
+
+Subclause NOTE, Page
+
+5.7.1.17 "AIso" to "Note also that".
+
+line 7: change 13 5.7.4 10, line 4:
+
+Subclause Paragraph
+
+change "both
+
+(N)-entities
+
+shall be" to "it requires that both (N)-entities to "re-established".
+
+are".
+
+line 9: change Page 14 Subclause Paragraph Page 15 Subclause Paragraph 5.7.6.6 1, line 2: change line 4: change Subclause 5.7.6.6 "data" 5.7.5 3, item a): change
+
+"reestablished"
+
+"since"
+
+to "where".
+
+"i.e."
+
+to "i.e.,". to "-unit.".
+
+"-units"
+
+lines 2 and 4: change Page 20 Subclause 6.2
+
+to "(N-1 )-service-data-units".
+
+item k): change Subclause Title: 7.1.1
+
+"layer boundaries"
+
+to "layer,
+
+boundaries".
+
+change
+
+"Definition"
+
+to "Definitions".
+
+Page 22 Figure 14, lower right box: 7.2.2 4, line 1: change line 2: change Page 24 Subclause 7.3.3.5 "by a presentation entity" to "by either presentation entity". "i.e." "i.e." to "i.e.,". to "i.e.,". change `"Specific-application-service-element" to "Specific-applica@n-semice-elements".
+
+Subclause Paragraph
+
+line 4: change
+
+3
+
+Page 25 Subclause Paragraph Subclause 7.3.4 1, line 1: change 7.3.4.1 "has to map" to "maps". "shall be" to "are".
+
+NOTE 2, line 2: change Page 28 Subclause Paragraph Subclause Paragraph Page 30 Subclause Paragraph 7.5.3 7.4.4.3
+
+2, line 1: change 7.4.4.4 1, line 4: delete
+
+"an other"
+
+to "another",
+
+"shall",
+
+7, item k: delete
+
+"and";
+
+item m: change
+
+";" to "; and";
+
+and add item n). Add to the Iiat "n)
+
+receipt of confkndon".
+
+Subclause
+
+7.5.3.1
+"uniquely to "i.e.,". to identify" to "to identify uniquely",
+
+lines 3 and 4: change line 4: change Page 31 "i.e."
+
+Subclause
+Paragraph Subclause Paragraph Page 3
+
+7.5.3.12
+1, line 2: change 7.5.4.2 3, item b), last line: add "(see figure 20)". "shall be" to "is",
+
+Subclause
+
+7.6.3.7
+"arise form" to "arise from",
+
+lines 5 and 6: change Page 35
+
+Subclause
+Note,
+
+7.7.4.3
+1, line 4: change line 5: change "figure "figure 23" to "figure 23a". 23" to "figure 23 b".
+
+paragraph
+
+Paragraph Page 36
+
+2, line 3: change
+
+"These"
+
+to "Definitions
+
+of such".
+
+Figure 22 � top figure, legend:
+-- bottom figure,
+
+change
+
+"physical
+
+connection"
+
+to "physical-connection". to "endpoint physical".
+
+legend:
+
+change
+
+"endpoint-physical"
+
+4
+
+Page 37 Replace figure 23 by the following:
+
+Metallic cable
+
+Optical fibre
+
+r Real open system A Real open system B +
+
+--
+
+B
+
+J
+
+a)
+
+Real environment
+
+Physical Layer Protocols
+
+?
+Physical Layer Physical+ layerentity
+
+Jf
+a 4
+
+Physicallayerentity
+*_
+
+9
+
+Physicallayerentity
+
+i~
+
+~
+
+Ptwsical media connections ~
+
+b)
+
+Logical environment
+
+Page 39
+
+Annax B: chenge the term "application
+Page 40 Annex B: place the term "Transfer
+
+service element"
+
+to "application-service-element"
+
+syntax"
+
+after "titledomain-name".
+
+( LTD
+
+36 )
+
+s
+
+Prkrted at Simco Printing Press, Delhi, India
+
+NO.3 MARCH 1993 TO IS 12373 (Part 1):1987/ lS07498 :1984 BASIC REFERENCE MODEL OF OPEN SYSTEMS INTERCONNECTION FOR INFORMATION PROCESSING SYSTEMS,PART 1
+[This AmendmentNo.3 is based on Addendum 1: Connectionless-mode transmission to in this amendment refer to the ISO page number given
+
+AMENDMENT
+
+ISO 7498:1984. in the standard.]
+
+The page number
+
+mentioned
+
+Contents
+Page
+
+o
+
+Introduction . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .. . . . . . . . . . . . . . . .
+
+1 3 3 3 3 3 7
+
+1 Scope and field of application . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .
+2 3 4 5 6 7 Definitions . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . Notation . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . Introduction to Open Systems Interconnection (OSI) Concepts ofalayered architecture ...............................................................
+
+............................................................................... reference model . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .
+
+introduction tothespecific
+
+layemofthe
+
+Detailed description of the resulting 0S1 architecture . . . . . . . . . . . . . . . . .
+
+.............................................. 9
+
+0
+0.1
+
+Introduction About this addendum
+
+0.1.1 ISO 7496 describes the Reference Model of Open Systems Interconnection. It is the intention of ISO 7498 that the Reference Model should establish a framework for coordinating tha development of existing and future standards for the interconnection of systems. The assumption that a connection is a fundamental prerequisite for communication in the 0S1 environment parmeatas the Reference Model and is one of the most, useful and important unifying concapta of the architecture which it describes. However, since ISO 7486 was produced it has been realized that this deeply-rooted connection orientation unnecessarily limits the power and scope of the Reference Model, since it axcludes important classes of applications and important plaaaas of communication network technology which have a fundamentally connectionleaa nature.
+
+0.1.2 The architectural objectives of the Reference Model do not depend on the exclus~e use of connections for all 0S1 communicetiona. It is the intention of this sddendum to introduce terms and define their use wfthin the Reference Model so that the two alternatives (connection-mode transmission and connectionlsaa-mode transmission) can be treated as complementary concepts which can ba applied appropriately in the dflsrbnt circumstance for which each is suited. 0.2 Whet is connectierriess-mode in the Reference Model ? 0.2.1 General transmission
+
+0.2.1.1 The concept of connectionlesa-mode transmission in ona form or another has always played an important role in the epacificetion of services and protocols for data communication.
+
+Price Group
+
+6
+
+The terms "message mode", "datagram", "transaction mode" and "connection-free" have been used in the literature to describe variations on the same basic theme : the transmission of a unit of data in a single self-contained operation without establishing, maintaining, and releasing a connection. 0.2.1.2 Since connectionless-mode transmission and connection-mode transmission are complementary concepts, they are best understood in juxtaposition, particularly since connectionless-mode transmission is defined most easily in relationship to the concept of a connection.
+
+The properties of connection-mode transmission are also relevant in a wide range of other applications. 0.2.3 Connectionless-mode Reference Model transmission in the
+
+0.2.3.1 Again in the formal terminology of the Reference Model, connectionless-mode transmission is the transmission of a single unit of data from a source service-access-point to one or more destination service-access-points without establishing a connection. A connectionless-mode service allows an entity to initiate such a transmission by the performance of a single service access. 0.2.3.2 In contrast to a connection, an instance of the use of a connectionless-mode service does not have a clearly distinguishable lifetime. In addition it has the following fundamental characteristics : a) it requires only a pre-arranged association between the peer-entities involved which determines the characteristics of the data to be transmitted, and no dynamic agreement is involved in an instance of the use of the service; b) all the information required to deliver a unit of data, destination address, quality of service selection, options, etc., is presented to the layer providing the connectionlessmode service, together with the unit of data to be transmitted, in a single service access. The layer providing the connectionless-mode service is not required to relate this access to any other access. 0.2.3.3 As a result of these fundamental characteristics it may also be true that a) each unit of data transmitted is routed independently by the layer providing the connectionless-mode service; b) copies of a unit of data can be transmitted to a number of destination addresses. 0.2.3.4 These characteristics of connectionless-mode transmission do not preclude making available to the service user information on the nature and quality of service which may apply for a single invocation of the service or which may be observed over successive invocations of the service between pairs of service-access-points or among a set of service access points.
+
+0.2.2 Connection-mode Reference Model
+
+transmission
+
+in the
+
+0.2.2.1 In the formal terminology of the Reference Model, a connection is an association established for the transfer of data between two or more peer-entities. This association is established between the peer-entities themselves and between each entity and the next lower layer. The ability to establish and release a connection and to transfer data over it is provided to the entities in a given layer by the next lower layer as a connection-mode service. The use of a connection-mode service by peer-entities proceeds through three distinct phases : a) b) c) connection establishment; data transfer; and connection release.
+
+0.2.2.2 In addition to the clearly distinguishable lifetime exhibited by these phases a connection has the following fundamental characteristics : a) it involves establishing and maintaining a three or more party agreement concerning the transmission of data between the peer-entities concerned and the layer providing the service; b) it allows the negotiation between all the parties concerned of the parameters and options that will govern the transmission of data; c) it provides connection identification by means of which the overheads involved in address resolution and transmission can be avoided on data transfers; d) it provides a context within which successive units of data transmitted between the peer-enthies are logically related, and makes it possible to maintain sequence and provide flow control for those transmissions. 0.2.2.3 The characteristics of connection-mode transmission are particularly attractive in applications which call for relatively long-lived, stream-oriented interactions between entities in stable configurations, Examples are provided by direct terminal use of a remote computer, file transfer, and long-term attachment of remote job entry stations. In these cases the entities involved initially discuss their requirements and agree to the terms of their interaction, reserving whatever resources they may need, transfer a series of related units of data to accomplish their mutual objective, and explicitly end their interaction, releasing the previously reserved resources.
+
+0.3
+
+Structure
+
+of this
+
+addendum
+
+This addendum has a &ructure which is similar to that of ISO 7498 in order to facilitate the eventual integration of the text of this addendum into a revision of ISO 7498. There are two major clauses : Clause 5: this clause deals with general architectural principles and the sub-clauses correspond to sub-clauses in clause 5 of ISO 7498 under which different aspects of connectionlessmode transmission need definition. Clause 7: this clause deals with details which are specific to the layers of the Reference Model of Open Systems interconnection.
+
+2
+
+1
+
+Scope and
+
+field
+
+of application
+
+u) v) w) x)
+
+(N)-service; (N )-service-access-point; (N)-service-data-unit; (N)-user-data.
+
+This addendum a) provides a general description of a connection lessmode service and of functions related to it, which may be provided by layers of the Reference Modal, and b) defines the positions within the Reference Model where the service and functions may be provided. This addendum adds to the concepts and principles defined in ISO 7498; it does not modify them. This addendum -- -- does not specify services and protocols for 0S1; is not an implementation specification;
+
+2.2 For the purpose of this addendum, the following definitions alao apply : 2.2.1 (N)-connection : An association established by the (N)-layer between two or more (N+ 1)-entities for the transfer of data, which provides explicit identification of a set of (N)-data-transmieaions and agreement concerning the (N)-datatransmission services to be provided for the set. NOTE � This definitionof (N)-connectionis a refinementof the defini. tion given in ISO 7488; it does not change it. 2.2.2 (N)-connection-mode transmission : transmiaaion in the context of an (N)-connection. (N)-data-
+
+-- is not a basis for appraising the conformance of actual implementations.
+
+2
+2.1
+
+Definitions This addendum makes use of the following terms : a) b) c) d) e) f) g) h) i) j) k) (N)-addreas; acknowledgement; blocking; concatenation; (N )-data-transmission; (N)-entity; (N)-facility; flow control; (N)-function;
+
+2.2.3 (N)*connectionless-mode transmission : (N)-datatransmiaaion not in the context of an (N)-connection and not required to maintain any logical relationship between (N)-service-data-units.
+
+3
+
+Notation
+
+The layer notation is the same as that defined in ISO 7488.
+
+4
+
+Introduction
+
+to Open
+
+Systems
+
+Interconnection
+
+(0S1)
+
+This clauae makes no additions to clause 4 of ISO 7488.
+
+5 (N )-interface-data-unit; 5.1 (N)-layer;
+
+Concepts of a layered architecture
+Introduction
+
+This addendum makes no additions to 5.1 of ISO 7498. 1) open system; m) n) o) P) q) r) s) t) peer entities; (N)-protocol; (N)-protocol-control-information; (N)-protocol-data-unit; (N )-relay; routing; segmenting; sequencing; a) knowledge of the addresses of the peer entities involved; 5.1 5.2.1 Principles of Iayaring
+
+This sub-clause complements 5.2 of ISO 7498.
+
+5.2.2 In order for (N+ 1)~entities to be able to communicate using an (N)-connection-mode service or an (N)-connectionIeaa-mode service it is essential that a pre-arrangad association exists between them, constituted by the pre-knowledge which it is essential that each (N + 1)-entity has of the othera in order at least to initiate the use of the service. This association is established in ways which are not detailed in this addendum or in ISO 7498 and comprises four elements :
+
+3
+
+b)
+
+knowledge of a protocol agreed by the peer entities for use at least to initiate communication; c) knowledge of the availability for communication of the peer-entities; d) knowledge of the quality of service available from the (N)-service.
+
+those which are offered to the (N)4ayer by the (N � 1)-layer and, if necessary, to convert between one mode of service and another. 5.3 5.3.1
+
+Communication batween peer-entities
+This sub-clause complements 5.3 of ISO 7496.
+
+NOTE � The pre-knowledge constituting a pre-arranged association can be acquired in many ways; some examples are listed below : a) from information acquired manually when contracts are exchanged with a service provider; b) from information which a network administration may provide in a directory or enquiry database; c) from information that may be learned from previous instances of communication; d) from information that may be provided dynamically through the operation of management protocols. The total pre-knowledge constituting a pre-arranged association is likely to be acquired by a combination of the above.
+
+5.3.2 (N+ 1)-entities can communicate using an (N)-connectionleaa-mode service provided that there is a pre-arranged association between them providing knowledge about each other which allows them to do ao. This knowledge should allow the locations of the (N+ 1)-entities to be determined, it should determine the correct interpretation of (N)-service-data-units by a receiving (N+ 1)-entity, and it may define the rates of transfer, rates of response, and the protocol in use between the entities. The knowledge may result from prior agreement between the (N+ 1)-entities concerning the parameters, formats and options to be used.
+NOTE � Data transfer using an (N)-connection-mode service involves the establishment of an (N )-connection prior to the data transfer, setting up, dynamically, an association between the (N+ 1)-entities and the (N)-connection-mode service in addition to the association identified in 5.1. This association involvea elements which are not part of the pre-arranged association described in 5.1, in particular : a) knowledge of the willingness of the peer entity or entities to undertake a specific communication, and of the willingness of the underlying service to support it; and b) the ability for the peer entities to negotiate and renegotiate the characteristics of the communication.
+
+5.2.3 An (N+ 1)-entity provides no information to an (N)-connectionless-mode service about the logical relationships between (N)-service-data-u nits, apart f rom the source and destination (N )-service-access-point-addresses. 5.2.4 From the point of view of the (N+ 1)-entity this means that it is not able to require the (N)-service to apply a particular function to a sequence of (N)-service-data-units sent by it. However, from the point of view of the (N)-layer, this does not imply any constraint on the functions which support the service. 5.2.5 An (N)-layer may offer a connection-mode service, a connectionless-mode service, or both, to the (N + 1)-layer, using the service or services provided by the (N - 1)-layer. 5.2.6 Both the (N)-connection-mode service and the (N )-connectionless-mode service are characterized by the facilities which they offer to, and the quality of service seen by, the (N+ 1)-entities. For both the (N)-connection-mode service and the (N )-connectionlese-mode service, f unctions may be provided by the (N)-layer to enhance the facilities offered to, and the quality of service seen by, the (N+ 1)-entities over
+
+5.3.3 (N+ 1)-entities may require prior knowledge of the facilities offered by the service and the quality of service which they can expect to receive from it in order to choose an (N+ 1)-protocol to be used for communication over an (N)-connectionless-mode service. 5.3.4 There are instances where the connectionless-mode service provided by the (N )-layer does not provide direct access between all of the (N)-service-accees-points supported by the layer. Connectionleaa-mode transmission can still occur between these service-access-points if one or more (N+ 1)-entities provide a relay (see figure 1 which complements figure 6 in ISO 7493). The fact that an (N)-connectionleaa-mode transmission is relayed by one or more (N+ 1)-entities is known neither by the (N)-layer nor by the (N+ 2)-layer.
+
+(N+
+
+(N)
+
+Figure
+
+1 � Connectionlees-mode
+
+tranamiasion
+
+through
+
+a relay
+
+4
+
+5.4
+
+Identifiers
+
+This addendum makes no additions to 5.4 of ISO 7496.
+
+5.5 5.5.1 5.5.2
+a) b)
+
+Properties
+
+of service-access-points
+
+5.7.2.5 If an (N)-service-data-unit cannot be accepted by an (N+ 1)-entity at the time of its arrival at an (N)-service-accesspoint, the (N+ 1)-entity may apply interface flow control (see 5.7.3.2). This may result in the discarding of the (N)-servicedata-unit by the (N )-service provider or, where flow control is provided, in the exercise of interface flow control at the sending (N )-service-access-point by the (N )-service provider. 5.7.2.6 An (N)-connectionlesa-mode service may allow the transmiedon of copies of an (N)-service-data-unit to a number of destination (N )-service-access-points. (N )-service-data-u nits transmittal from a number of source (N )-service-access-points can be received at one destination (N )-service-access-point. The (N )-layer does not assume any logical relationship between these (N)-service-data-u nits. 5.7.2.7 No (N)-protocol-control-information is exchanged between (N)-entities concerning the mutual willingness of the (N+ 1)-entities to exchange data using an (N)-connectionlessmode servica.
+NOTES 1 The specific interface mechanism employed by a particular implementation of a cormectionless-mode service may involve more than one interface exchange to accomplish the single logical service access necessary to initiate a connectionless-mode transmission. However, this is a local implementation detail. 2 The transmission of each (N)-service-data-unit by an (N)-connectionlaaa-mode service should be entirely self-contained. All the addressing and other information required by the (N)-layer to deliver the (N)-service-data-u nit to its destination should be included in the service access for each transmission,
+
+This sub-clause complements 5.5 of ISO 7496. An (N)-service-access-point
+( N)-connection-mode
+
+may support :
+
+services only; services only; or
+
+(N )-connectionless-mode
+
+c) (N)-connection-mode services and (N)-connectionlessmode services concurrently. 5.5.3 A single (N+l)-entity may be using concurrently several (N)-connections and an (N)-connectionleea-mode service through oneormore (N)-service-acceas-pointstowhich it is attached. 5.5.4 (N+l)-entities distinguish between instances of the (N)-connectionless-mode services and the (N)-connectionmode services offered concurrently through the same (N)-service-access-point by tha uniqueness of the interactions prescribed for these services.
+
+5.6
+
+Data-units
+
+This addendum makes no additions to 5.6 of ISO 74!%
+
+5.7 5.7.1
+
+Elements
+
+of layer
+
+operation
+
+Introduction
+
+This sub-clause complements 5.7 and 5.8 of ISO 7486, to which it relates. 5.7.2 Control of connectionless-rnode transmission
+
+3 It is a basic characteristic of a connectionleaa-mode service that no negotiation of the parameters for a transmission takes place at the time the service is accessed and no dynamic association is set up between the parties involved. However, considerable freedom of choice can be preserved by allowing most parameter values and options (such as transfer rate, acceptable error rate, etc. ) to be specified at the time the service is accessed. In a given implementation, if the local (N )-subsystem determines immediate y (from information available to it locally) that the requested transmission cannot be performed under the conditions specified, it may abort the transmission, returning an implementation specific error message. If the same determination is made later, after the service access has been completed, the transmission is abandoned, since the (N)-layer is assumed not to have the information neceaaery to take any other action.
+
+5.7.2.1 This sub-clause is specific to this addendum and has no equivalent in ISO 7496. 5.7.2.2 All the information required by an (N)-connectionlessmode service to deliver an (N)-service-data-unit (destination address, quality of service required, options, etc. ) is presented to it with the (N)-service-data-unit in a single logical service accaee by the sending (N+ 1)-entity. 5.7.2.3 All information related to an (N)-sewice-data-unit, together with the (N)-service-data-unit itself, is received f rom the (N)-service in a single logical service access by the receiving ~N + I )-entity. 5.7.2.4 To provide the (N)-connectionlese-mode service, the (N )-layer performs functions as dascribed in 5.1. These functions are suppotied by (N)-protocols.
+
+5.7.3 5.7.3.1
+
+Transfar
+
+of data
+
+General principles 5.7.6.2 and
+
+5.7.3.1.1 This sub-clause complements 5.7.6.1, 5.7.6.3 of ISO 7498.
+
+5.7.3.1.2 Control information and usar data are transferred between (N)-entities in (N)-protocol-data-units. An (N)protocol-data-unit is a unit of data specified in an (N)-protocol and contains (N)-protocol-control-information and possibly (N)-uaar-data. 5.7.3.1.3 (N)-piotocol-control-information is transferred between (N)-entities using an (N � 1)-service. (N)-protocolcontrol-information is any information that supports the joint operation of (N )-entities. (N )-user-data is passed tranaparentl y between (N)-entities using an (N � 1)-service.
+
+5
+
+5.7.3.1.4 An (N)-protocol-data-unit has a finite size, which may be limited by the (N � 1)-service-data-unit size and by the capabilities of the (N)-protocol. (N)-protocol-data-units are mapped into (N � 1)-service-data-units. The interpretation of an (N)-protocol-data-unit is defined by the (N)-protocol in effect for the (N)-connectionless-mode service. 5.7.3.1.5 An (N)-service-data-unit is transferred between an (N+ 1)-entity and an (N)-entity, through an (N)-service-accesspoint, in the form of one or more (N)-interface-data-units. Each (N )-service-data-unit is transferred as (N)-user-data in one or more (N)-protocol-data-units.
+
+5.7.4.2.2 An (N)-connectionless-mode service is characterized by two groups of quality of service parameters. The parameters in the first group are defined entirely by the behaviour of a single (N)-data-transmission and are the same as those defined for the (N)-connection-mode service. These parameters are a) b) c) d) expected transmission delay; probability of corruption; probability of loss or duplication; probability of wrong delivery; cost; and ~rotection from unauthorized accesa.
+
+5.7.3.2 5.7.3.2.1
+
+Flow control This sub-clause complements 5.7.6.4 of ISO 7498.
+
+e) f)
+
+5.7.3.2.2 If flow control functions are provided, they can operate only on protocol-data-units and interface-data-units. 5.7.3.2.3 Two types of flow control are identified :
+
+5.7.4.2.3 Theparameters inthesecond group apply for multiple (N )-data-transmissions between pairs of (N )-service-acceaapoints. These parametera are a) b) expected throughput; and probability of out-of-sequence delivery.
+
+a) Peer flow control which regulates the rate at which (N)-protocol-data-units are sent between (N)-entities supporting (N)-connectionless-mode transmission between pairs of (N)-service-access-points or among a set of (N)-service-access-points. Peer flow control requires protocol definitions and is based on protocol-data-unit size; and b) (N)-interface flow control, which regulates the rateat which (N)-interface-data-units are passed between an (N+l)-entity and an (N)-entity that supports an (N)-connectionless-mode service. (N)-interface flow control is basedon (N)-interface-data-unit size. 5.7.3.3 5.7.3.3.1 Segmenting, blocking and concatenation
+
+5.7.4.2.4 The values of the parameters in both groups at a given source (N)-service-access-point may vary with the destination (N)-service-access-point. 5.7.4.2.5 Sequencing, acknowledgement and error detection and notification functions maybe used inthe(N)-layer in order to enhance the quality of service offered by the (N)-connectionIess-mode service over that offered by the (N � 1)-connectionIess-mode service.
+
+5.7.4.3 5.7.4.3.1 This sub-clause complements 5.7.6.5of IS07498.
+
+Sequencing This sub-clause complements 5.7.6 .6oflS07-.
+
+5.7.3.3.2 Data units indifferent layers of the Reference Model arenotnecessarily compatible in size. Segmenting, blocking or concatenation maybe necessary. 5.7.3.3.3 Segmenting inan (N)-layer requires theimplementation of a segmenting-reassembly protocol between (N)-entities that support (N)-connectionless-mode transmission between pairs of (N)-service-access-points.
+
+5.7.4.3.2 The (N-1)-services provided by the (N�1)-layer of the 0S1 architecture may not guarantee delivery of data between paira of (N-1) -service-acceaa-ptints in the same order as it was submitted. If the (N )-layer provides a higher probability of in-sequence delivery than is offered by the (N�1)-services, sequencing mechanisms must be present in the (N)-layer. 5.7.4.4 5.7.4.4.1 Acknowledgement This sub-clause~complements 5.7.7.l oflS07498.
+
+5.7.4 5.7.4.1
+
+Quality
+
+of service 5.7.4.4.2 Anacknowledgement function may beused by peer (N)-entities suppotiing (N)-connectionle.SS-mode transmission between pairs of (N)-service-accaaa-points to obtain a higher probability of detecting protocol-data-unit loss than is provided by the (N � 1)-layer. 5.7.4.5 Error detection and notification This sub-clauae complements 5.7.7 .2oflS07*.
+
+Introduction
+
+This sub-clause complements 5.7.7 of ISO 7498. 5.7.4.2 Quality of setyice parameters and has
+
+5.7.4.2.1 Thissub-clause isspecific tothisaddendum no equivalent in IS07498.
+
+5.7.4.5.1
+
+6
+
+5.7.4.5.2 Error detection and notification functions may be supported by protocols used between (N)-entities supporting (N)-connectionless-mode transmission between pairs of (N)-service-access-points to provide a higher probability of both protocol-data-unit error detection and data corruption detection than is provided by the (N�1)-service. 5.7.4.5.3 The error detection or notification function is only as reliable as the (N)-connectionless-mode service itself. While the (N)-service provider may attempt to provide a notification upon detection of data corruption or protocol-data-unit loss, misdelivery, etc., it cannot be relied upon to be capable of doing so forevery instance of error detection.
+
+5.10.3 In order to allow combinations c) and d) two architectural elements are required : a) a function to provide an (N)-connection-mode service using an (N � 1)-connectionless-mode service; and b) a function to provide an (N)-connectionless-mode vice using an (N � 1)-connection-mode service. ser-
+
+NOTE � Of these functions, function a) requires significant protocolcontrol-information. For exsmple, there is a need to identify the connection which is constructed, control its state and provide sequencing of service-dats-units. Function b) requires little or no additional protocol-control-information, rather, it places constraints on the way in which the connection-mode service is used.
+
+5.8 5.8.1
+
+Routing This sub-clause complements 5.8of 1S07488.
+
+5.10.4
+
+An (N)-relay can either
+
+a) join two connection-mode services to yield a connection-mode service; or b) join two connectionless-mode services to yield a connectionless-mode service. 5.10.5 Provision of a service of a given type using services of different types requires that one of the services (either the connection-mode or the connectionless-mode one, depending upon economic and technical factors) be first converted to the other using the functions which have been identified, an (N)-relay can then operate. 5.10.6 The basic cases of relaying are illustrated in figure 2. The use of conversions between services within a layer is not explicitly constrained by the Reference Model but, where several services are connected in tandem, the use of conversions would be ordered to minimize the number of conversions necessary to arrive at a given composite service. 5.10.7 Where an (N � 1)-connectionlesa-mode service ia enhanced to provide an (N)-connection-mode service, a number of (N)-connections may be supported by (N � 1)-connectionlesa-mode transmission between the same (N � 1)service-access-points. 5.10.8 Where an (N - 1)-connection-mode service is used to provide an (N)-connectionlesa-mode service, (N)-connectionIess-mode transmission between a number of different (N)service-access-points may be supported by the same (N � 1)connection.
+
+5.8.2 An (N)-routing function enables an(N� 1)-connectionless-mode transmission to be relayed by a chain of (N)-entities. The fact that (N )-routing is being used is known by neither the (N+ 1)-layer nor the (N � 1)-layer.
+
+5.9 59.1
+
+Management This sub-clause complements 5.9 of ISO 7498.
+
+5.9.2 Systems and layer management provide for initialization action to establish support for connectionless-mode services between systems. 5.9.3 Management facilities may be provided to allow characteristics of the nature, quality and type of connectioniess-mode service provided by a layer to be conveyed to the next higher layer prior to the invocation of that service. These facilities may provide this information either prior to any invocation of the service or at any time during a period when it is available.
+
+5.10 The relationship between at adjacent layer boundaries
+
+services
+
+provided
+
+5.10.1 This sub-clause is specific to this addendum and has no equivalent in ISO 7498. 5.10.2 There are no architectural co~straints on any vertical combination of an (N)-layer providing one type of (N)-service (connection-mode or connectionless-mode) using the other type of (N � 1)-service. In principle the services at the two layer boundaries can be a) b) both connection-mode services; both connectionless-mode services;
+
+6 Introduction to the specific layers of the Reference Model
+6.1 Introduction
+
+This clause complements clause 6 of ISO 7486. 6.2 General principles
+
+c) the [N)-service a connection-mode service and the (N � 1)-se,wice a connectionless-mode service; d) the (N)-service a connectionless-mode service and the (N � 1)-service a connection-mode service.
+
+6.2.1 A connectionleaa-mode service for a particular layer may include none, some, or all of the detailed services and it may be characterized by none, some, or all of the quality of service parameters defined for the layer in ISO 7496 and in 5.7.4 of this addendum (for example error notification).
+
+7
+
+(N+ 21-layer . (N+ I)-layer
+
+--
+
+.. . .
+
+(N+ 1)-connection-mode aarnc% ........ ................ Relayentity (Nl-connectionmode service > / `
+
+f-n.
+
+.......
+
+/
+
+{N)-connectionmode serviw \
+
+a)
+
+Relaying between two connection-mode services
+
+(N+ 2)-layer
+
+/.
+
+~
+
+(N+ 1l-connectionlass-mode service ........ ................ \ Relayentity 7 (N)-connectionleasmode sewiw \ / J \ ` )
+
+.......
+
+(N+ 1)-layer
+
+(N)-connectionless0 modeservice \ <
+
+IN)-layer
+
+b)
+
+Relaying between two connectionleaa-mode service
+
+(N+
+
+2)-layer .....
+
+(N+ 1)-connection-mode aawice / ........... . .. ........ Relayentity ... / J L ` (N)-connectionmode service / ................ ~ .......
+
+(N+ 1}-layer
+
+se~ice mode ~O"ve~iOn
+
+/ (N)-layer L
+
+(N)-connectionle.ssr mode sewice _
+
+c)
+
+Connection- and connectionless-mode services yielding a connection-mode service
+
+(N +2)-layer .,,
+
+/
+
+(N+ 1Mayer ~ (N)-layer ~~
+
+(N+ 1)-connectionbs-s-mode service ~ ................ ................ Relayentity SeNice mode Co"ve=io" . (N)-connactionmode service~ _Of(N)-connactionleaamode aewice 7 ~
+
+.......
+
+--
+
+d)
+
+Connection- and connectionless-mode services yielding a connectionless-mode service
+
+Figure 2 � The basic cases of relaying
+
+involving
+
+connection-mode
+
+and connectionless-mode
+
+sarvices
+
+8
+
+6.2.2 The provision of connectionless-mode and connectionmode services in specific layers of the Reference Model and the characteristics of these services, together with the provision of functions providing for conversion within a layer between one mode of service and another, should be such as to ensure that it IS possible to determine whether or not interworking between
+open systems interworking one moae is possible. In order to maximize complexity, the possibility of there is a restricbetween and to limit protocol of service
+
+allow categorization into connection-mode and connectionIess-mode operation. Functions in the Data Link Layer must convert between the services offered by the Physical Layer and the type of Data Link service needed. b) Conversion may be provided in the Network Layer to support a Network service of a given mode over a Data Link or subnetwork service of the other mode. This, in conjunction with relaying, provides an end-to-end Network service of a given mode over concatenated subnetworks and/or Data Link services of either mode (see 5.10). Support of such conversions, where they are necessary to provide a given mode of Network service, is a requirement of 0S1 standards. c) Conversion may be provided in the Transport Layer on cond!tion that this makes use of only limited additional protocol functions over those required to support a given mode of Transport service over the same mode of Network service. Since relaying is not permitted in the Transoort Layer, such conversions can only be applied between endsystems. Support for such conversions is not a requirement of 0S1 standards. d) Conversion at the Session Layer and above is not permitted.
+NOTE � It is not possible (since a Transport Protocol operates between end-systems) for a Transport Protocol to provide the Transport Service in an instance of communication between two end-systems utilising (in that instance of communication) different modes of Network Service.
+
+tion on the number
+
+of layers within which conversion and the other may take place,
+
+6.2.3 For each layer, the sub-clauses of clause 7 identify those items which have relevance to the connectionless-mode service provided by that layer, Detailed descriptions are given only of those items which are specific to the connectionless-mode service; detailed descriptions of other items can be found in 1S0 7498,
+
+6.2.4 The basic (N)-connectionless-mode which meets the following conditions :
+
+service is a service
+
+a) it is not required to exhibit any minimum values of the quality of service measures, in particular the sequence of (N l-service-data-units need not be maintained; and b) H is not required to exhibit peer flow control, service definition should allow
+
+Any (N)-connectionless-mode this basic service.
+
+6.2.5 Since the basic service is not required to maintain the sequence of (N)-service-data-units, there is no requirement for any (N)-layer to provide sequencing functions. However, in real implementations the characteristics of the underlying medium or of real subnetworks may offer a high probability of insequence delivery and this may be reflected in the characteristics of the connectionless-mode services offered by higher layers.
+
+6.3.2
+
+It follows from these restrictions that
+
+a) A real system which is fully open as defined in 4.1.2 of ISO 7498 shall support a given mode of Transport service over a Network service of the same mode (utilising conversion within the Network Layer if necessary); such a system may, in addition, provide conversion in the Transport Layer. b) A real system which only supports a given mode of Transport service by providing conversion in the Transport Layer from a Network service of the other mode is not fully open as defined in 4.1.2 of ISO 74!38, since such a system would be incapable of communicating with a system which only supports the given mode of Transport service over a Network service of the same mode.
+NOTE � The restriction that a given mode of Transport Service has to b supported by the same mode of Network Sewice ia applied so that systems may communicate without requiring prior agreement on the mode of Network Service to be used. Where prior agreement exista this restriction need not appl~, although the requirements for systems to be fully open are as stated in 6.3.2a).
+
+6.2.6 Although no architectural limit on the size of (N}-servicedata-units is defined in clause 5, in order to limit protocol complexity, segmentation and reassembly functions are not provided in layers above the Network Layer, Consequently, the size of service-data-units in layers above the Network Layer is limited by the size of the service-data-unit provided by the service of the layer below and by the size of the protocol-controiinformation for the layer itself.
+
+6.3 Combinations connectionless-mode
+
+of connection-mode service
+
+and
+
+6.3.1 As indicated in 6.2.2, there is a restriction on the number or layers within which conversion from a connectionmodej service to a connectionless-mode service (or vice-versa ) may take place. This restriction applies to the layers as follows : a) Special considerations apply to the Physical and Data Link layers. Connection-mode and connectionleee-mode services are not differentiated for the Physical Layer. The services of the Physical Layer are determined by the characteristics of the underlying medium and are too diverse to
+
+7 Detailed description of the resulting 0S1 architecture
+7.1 7.1.1 Application Introduction Layer
+
+This sub-clause complements 7.1 of ISO 7498.
+
+7.1.2
+
+Purpose
+
+b)
+
+identification of syntax; and
+
+The purpose of the Application Layer is the same as that defined in 7.1.2 of ISO 7488. 7.1.3 Services provided to application-processes
+
+c) transformation of syntax including data transformation and formatting and special purpose transformations (for example compression).
+
+7.1.3.1 Where they are appropriate for connectionless-mode operation, equivalent services are provided by the Application Layer to application-processes to those provided for connection-mode operation. 7.1.3.2 Inaddition toinformation transfer, such services may include, but are not limited to, the following : a) b) c) d) e) 7.1.4 identification of intended communication partners; establishment of authority to communicate; authorization of intended communication partners; determination of theacceptance identification of constraintson Functions within quality ofservice; and data syntax. Layer
+
+7.3
+7.3.1
+
+Session Layer
+`introduction
+
+This sub-clause complements 7.3 of ISO 7488. 7.3.2 Purpose
+
+The only purpose of the Session Layer for connectionlessmode communication is to provide a mapping of transportaddresses to session-addresses. 7.3.3 Services provided to the Presentation Layer
+
+The Session Layer provides the following services : a) connectionless-mode transmission using the transportconnectioniess-mode service; and b) exception reporting.
+
+the Application
+
+7.1.4.1 The Application Layer contains all functions which are necessary to support the connectionless-mode services offered to application-processes and which are not already performed by lower layers. 7.1.4,2 In particular, application-entities maintain, as part of the pre-knowledge necessary in order to communicate, information on the use of connection-mode and/or connectionlessmode transmission bypeerentities with which they may need to communicate.
+
+NOTE � The connectionless-mode Session Service and Protocol are under study. This study may result in the identification of requirements for additional functions in the Session Layer.
+
+7.3.4
+
+Functions
+
+within
+
+the Session Layer
+
+The Session Layer provides a one-to-one mapping of sessionconnectionless-mode-transmissions onto transport-connectionless-mode-transmissions.
+
+7.2 7.2.1
+
+Presentation Introduction
+
+Layer
+
+7.4 7.4.1
+
+Transport
+
+Layer
+
+Introduction
+
+This sub-clause complements 7.2 of ISO 7498. 7.2.2 Purpose
+
+This sub-clause complements 7.4 of ISO 7488. 7.4.2 Purpose
+
+The purpose of the Presentation Layer is the same as that defined in 7.2.2 of ISO 7498. 7.2.3 Services provided to the Application Layer
+
+The purpose of the Transport Layer is the same as that defined in 7.4.2 of ISO 7498. 7.4.3 Services provided to the Session Layer
+
+The Presentation Layer enhances the session-services with the following facilities, invoked for each instance of connectionIess-mode transmission : a) b) 7.2.4 transformation of syntax; and selection of syntax.
+
+The Transport Layer provides a connectionless-mode service which maps a request for transmission of a transport-servicedata-unit onto a request to the connectionless-mode network service. 7.4.4 Functions within the Transport layer
+
+Functions
+
+within
+
+the Presentatiorr
+
+Leyer
+
+The Presentation Layer performs the following functions to provide the above services : a) data transfer;
+
+The Transport Layer provides the following functions to support connectionless-mode transmission : a) mapping between transport-addresses addresses; and network-
+
+10
+
+b)
+
+mapping
+
+end-to-end
+
+transport-connectionless-mode transmis-
+
+f) g)
+
+error recovery; and service selection.
+
+transmissions sions;
+
+onto network-connectionless-mode
+
+NOTE � There may be specific situations where performing conversion from corrnectlon-mode Layer to connectionless-mode and may thus operation be permitted In the Transport can be justified
+
+proprovided that this requires only limited extensiom.coexisting tocols. lnsuchcases itisaccepted that communication using such conversions can only take place between end systems supporting them (see 6.3 1). c) end-to-end ity of service; d) e) error detection and monitoring of thequal-
+
+7.5.4.2 The Network Layer also provides the functions necessary to enhance a data-link-con nectionless-mode service to provide a network-connection-mode service.
+
+7.6 7.6.1
+
+Data Link Layer Introduction
+
+transport-service-data-unitdelimiting;and supervisory functions.
+
+This sub-clause complements 7.6 of ISO 7496. 7.6.2 Purpose
+
+7.5 7.5.1
+
+Network
+
+Layer
+
+In addition to the purpose defined in 7.6.2 of ISO 7488, the Data Link Layer provides the functional and procedural means for connectionless-mode transmission among network-entities. 7.6.3 Services provided to the Network Layer
+
+Introduction
+
+This sub-clause complements 7.5 of ISO 7498. 7.5.2 Purpose The following services and elements of services are provided by the Data Link Layer : a) b) c) 7.6.4 data-link-service-data-unit transmission;
+
+In addition to the purpose defined in 7.5,2 of ISO 7498, the Network Layer provides the functional and procedural means for connectionless-mode transmission among transport-entities and, therefore, provides to the transport-entities independence of routing and relay considerations associated with connectionIess-mode transmission.
+
+local error notification; and quality of service parameters. Functions within the Data Link Layer
+
+7.5.3
+
+Services
+
+provided
+
+to the Transport
+
+Layer
+
+The following services and elements of services are provided by the Network Layer, operating between pairs of network service-access points : a) transmission of network-service-data-units maximum size; b) c) quality of service parameters; and local error notification. of a defined
+
+The functions in the Data Link Layer provide the services offered by the layer using the services offered by the Physical Layer.
+
+7.7 7.7.1
+
+Physical
+
+Layer
+
+Introduction
+
+This sub-clause complements 7.7 of ISO 7486. 7.7.2 Purpoaa
+
+7.5.4
+
+Functions within
+
+the Network
+
+Layer
+
+The purpose of the Physical Layer is the same as that given in 7.7.2 of ISO 7498. 7.7.3 Sarvicas providad to the Data Link Layer
+
+7.5.4.1 The Network Layer provides the following functions to support network-connectionless-mode transmission : a) mapping between addresses; network-addresses and data-link-
+
+b) mapping network-connectiordess-m ode transmissions onto data-link-connectionless-mode transmissions; c) converting from data-link-connection-mode network-connectionless-mode service; d) e) routing and switching; segmenting and blocking; service to
+
+The services provided by ~e Physical Layer are determined by the characteristics of the underlying medium and are too diverse to allow categorization into connection-mode and connectionless-mode operation. 7.7.4 Functions within the Physical Layer
+
+The functions in the Physical Layer are determined by the characteristics of the underlying medium and ars too diverae to allow categorization into connection-mode and connectionleasmode operation.
+
+( LTD 36 ) Printedat SimcoPrinting Press, Delhi, India
+
+11
+
+

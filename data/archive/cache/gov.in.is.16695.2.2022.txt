@@ -1,0 +1,5046 @@
+NAT ЯТ» IS 16695 (Part 2) : 2022 
+Indian Standard 
+
+
+THIET : FATS cere Brora Raven 
+eta ЗП 
+Пт 2 Ч/бегев- ІІ 779 
+
+
+SCOSTA : Smart Card Operating 
+System Template Architecture 
+
+
+Part 2 Public Key Infrastructure 
+
+
+ICS 35.240.15 
+
+
+© BIS 2022 
+
+
+anda HIS Sm 
+BUREAU OF INDIAN STANDARDS 
+HAR WH, 9 serere TH AMT, 4% {И – 110002 
+
+
+Vee МАМАК BHAVAN, 9 BAHADUR SHAH ZAFAR MARG 
+NEW DELHI-110002 
+www.bis.gov.in www.standardsbis.in 
+
+
+January 2022 Price Group 12 
+
+
+Computer Hardware, Peripherals and Identification Cards Sectional Committee, LITD 16 
+
+
+FOREWORD 
+
+
+This Indian Standard (Part 2) was adopted by Bureau of Indian Standards, after the draft finalized by the 
+Computer Hardware, Peripherals and Identification Cards Sectional Committee, had been approved by the 
+Electronics and Information Technology Division Council. 
+
+
+This Indian Standard is published in several parts. The other part in this series is: 
+Part 1 Basic command set 
+
+
+The SCOSTA-Part 2 specification (PKI) was initially prepared jointly by Indian Institute of Technology, Kanpur, 
+Indian Institute of Technology, Bhilai, and Centre for Development of Advanced Computing. 
+
+
+This standard inherits all features of IS 16695 (Part 1). In addition to the features from the Part 1 of the standard, 
+it provides specifications for public key cryptography and public key infrastructure (PKI) in operating system 
+for smart cards. PKI is a concept built using public key cryptography. This standard specifies data structures for 
+storing and using cryptographic information including cryptographic keys in a card and provides support for 
+multi-applications. 
+
+
+The standard provides support for various PKI operations, including key generation, digital signatures, public key 
+cryptography, authentication and trust building using X.509 Certificates and similar other operations. 
+
+
+The standard was developed under the sub-committee, LITD 16 : 1 ‘Cards and personal Identification’. The 
+composition of the sub-committee, LITD 16 : 1 responsible for the formulation of this standard is given at 
+Annex E. 
+
+
+CONTENTS 
+
+
+1 SCOPE 
+2 REFERENCES 
+
+
+3 TERMINOLOGY AND SYMBOLS 
+
+
+3.1 Terminology 
+3.2 Symbols 
+3.3  Abbreviated Terms 
+
+
+4 GENERAL REQUIREMENT 
+5 APDU 
+
+
+6 OPERATIONS 
+
+
+61 Authentication 
+
+6.2 Session Key Establishment 
+
+6.3 Authentication and Session Key Establishment 
+6.4 Computation of Digital Signature 
+
+6.5 Encryption and Decryption 
+
+6.6 Certificate Verification 
+
+6.7 Generate Asymmetric Key Pair 
+
+
+7 BASIC DATA STRUCTURE 
+
+
+7.1 Overview 
+7.2 Ері 
+7.3 Df.Cia 
+7.31 | Overview 
+7.3.2 CIAInfo 
+7.3.3 EFOD 
+7.3.4 | CIO Directory files 
+
+
+8 APPLICATION IDENTIFICATION AND SELECTION 
+
+
+8.1 Application Identification 
+8.2 Application Selection 
+
+
+8.3 Common Scenarios 
+
+
+9  KEY/PASSWORD STORAGE AND RETRIEVAL 
+
+
+9.] Passwords and Symmetric Keys 
+9.2 Private Keys 
+9.3 Public Keys 
+
+
+9.4 Соттоп Scenarios 
+
+
+10 PUBLIC KEY RELATED OPERATIONS IN SCOSTA-PKI 
+
+
+10.1 Authentication 
+10.1.1 External Authentication 
+10.1.2 Internal Authentication 
+10.1.3 Mutual Authentication 
+
+
+IS 16695 (Part 2) : 2022 
+
+
+Page No. 
+
+
+NY N Ne 
+
+
+о N N N QV л л ta CA d A A A LULU LULULUN N N 
+
+
+O c0 oc 
+
+
+= 
+— 
+
+
+11 
+
+
+IS 16695 (Part 2) : 2022 
+
+
+10.2 Session Key Establishment 
+10.3 Authentication and Session Key Establishment 
+10.4 Generation of Asymmetric Key Pair 
+
+
+11 CRYPTOGRAPHIC ALGORITHMS IN SCOSTA-PKI 
+
+
+11.1 Algorithms for Confidentiality 
+11.2 Algorithms for Authentication 
+11.3 Algorithms for Digital Signature 
+
+
+12 MODIFIED COMMAND SETS FOR IMPLEMENTING ADDED 
+FUNCTIONALITY FOR PKI 
+12.1 Envelope 
+122 Get Challenge 
+12.3  External/ Internal/ Mutual Authenticate 
+124 MSE SET for Key Derivation 
+12.5 PSO Decipher 
+12.6 PSO Encipher 
+12.7 | PSO Compute Digital Signature 
+12.8 PSO Verify Certificate 
+12.9 Generate Asymmetric Key Pair 
+
+
+13 ASN.1 MODULE 
+
+
+131 Common Data Types 
+13.1.1 Path Data Type 
+13.1.2 Object Value Data Type 
+13.11.3 RSA Public Key Data Type (reference: КЕС 3447) 
+13.1.4 RSA Private Key Data Type (reference: КЕС 3447) 
+13.1.5 Algorithm Identifier Data Type (reference: КЕС 5280) 
+13.1.6 Name Data Type (reference: КЕС 5280) 
+13.1.7 Certificates (reference: RFC 5280) 
+13.1.8 Certification Request (reference: RFC 2986) 
+13.2 The CIO Type 
+13.3 Keys 
+13.3.1 Private Keys 
+13.3.2 Public Keys 
+13.3.3 Secret Keys 
+13.4 Authentication Objects 
+
+
+ANNEX A LIST OF REFERRED INDIAN STANDARDS 
+ANNEX B LIST OF REFERRED INTERNATIONAL STANDARDS/PUBLICATIONS 
+ANNEX C ROLE-BASED ACCESS CONTROL 
+
+C-1 CODING OF THE CORRESPONDING SECURITY ENVIRONMENT 
+
+
+C-2 CERTIFICATE HOLDER AUTHORIZATION (CHA) 
+
+
+IS 16695 (Part 2) : 2022 
+
+
+Page No. 
+C-3 MECHANISMS FOR ROLE-BASED ACCESS CONTROL wy 32 
+C-4 RULES FOR ROLE-BASED ACCESS CONTROL ss 22 
+C-4.1 Rules for Role-matching w 32 
+C-4.2 Rules for Access Control $e 92 
+C-5 EXAMPLES OF SPECIFYING ROLES ле 39 
+ANNEX D SAMPLE FOR ‘GENERATE ASYMMETRIC KEY PAIR’ ua 239 
+D-1 GENERATE ASYMMETRIC KEY PAIR ыс 99 
+D-2 SAMPLE COMMAND APDU AND RESPONSE DATA FIELD us. 239 
+ANNEX E COMMITTEE COMPOSITION we 37 
+LIST OF FIGURES 
+Fig.1 Certificate Chain " 3 
+Fig.2  Ber-Tlv Encoded Structure of a Ddo B 
+Fig.3 Sample File Structure = 8 
+Fig.4 Authentication and Key Establishment Protocol = 15 
+LIST OF TABLES 
+Table 1 Tags in Application Template 4 
+Table 2 Elementary files in DF.CIA 5 
+Table 3 Tags contained in a Key Template (tag “А0”) E 6 
+Table4 Keys and Passwords 8 
+Table 5 | Mechanism to obtain key reference for a private key a 9 
+Table 6 Mechanism to Obtain Key Reference for a Public Key ne 10 
+Table 7 Algorithm Reference for Confidentiality Algorithms ss 16 
+Table 8 Algorithm Reference for Authentication Algorithms is 16 
+Table 9 Algorithm Reference for Digital Signature Computation Algorithms X 16 
+Table 10 Get Challenge Command Parameters ds 17 
+Table 11 Description of P1 (algorithm reference) is 17 
+Table 12 Interpretation of P1 for Various AUTH Commands ws 18 
+Table 13 Decipher Command Parameters we 19 
+Table 14 Encipher Command Parameters a. 20 
+Table 15 Parameters for Compute Digital Signature as 24 
+Table 16 Parameters for Verify Certificate Command us A 
+
+
+Table 17 Parameters for Generate Asymmetric Key Pair Command s 22 
+
+
+iii 
+
+
+IS 16695 (Part 2) : 2022 
+
+
+Indian Standard 
+
+
+SCOSTA : SMART CARD OPERATING SYSTEM 
+TEMPLATE ARCHITECTURE 
+
+
+PART 2 PUBLIC KEY INFRASTRUCTURE 
+
+
+1SCOPE 
+
+
+This Indian standard (Part 2) describes specifications 
+for public key infrastructure support in an operating 
+system for smart cards. This standard (Part 2) also 
+specifies the data structures for storing and retrieving 
+cryptographic information in a card. It also provides 
+details of various cryptographic mechanisms like 
+authentication, | encryption/decryption, certificate 
+verification and digital signature that need to be 
+supported using public key cryptography. 
+
+
+2 REFERENCES 
+
+
+The standards listed in Annex A and Annex B contains 
+provisions which, through reference in this text, 
+constitute provisions of this standard. At the time 
+of publication, the editions indicated were valid. 
+АП standards are subject to revision and parties to 
+agreement based on this standard are encouraged to 
+investigate the possibility of applying the most recent 
+editions of the standards indicated in Annex A and 
+Annex B. 
+
+
+3 TERMINOLOGY AND SYMBOLS 
+
+
+3.1 Terminology 
+
+
+For the purpose of this standard, the following 
+definitions shall apply. 
+
+
+3.1.1 Application — An application is defined by an 
+application identifier and its associated DF. 
+
+
+3.1.2 Application Identifier — Data element that 
+identifies an application in a card as defined in IS 14202 
+(Part 4) and ISO/IEC 7816-15. 
+
+
+3.1.3 Authentication Information Object  — 
+Cryptographic information object that provides 
+information about authentication related data, for 
+example, a password. 
+
+
+3.1.4 Authentication Object Directory File — 
+Elementary file containing authentication information 
+objects. 
+
+
+3.1.5 Cryptographic Information Application (CIA 
+Application) — Optional application in the card that 
+
+
+contains information on cryptographic information 
+objects, other security data and their intended use. 
+
+
+3.1.6 Cryptographic Information Object — Structured 
+information contained in a CIA, which describes a 
+cryptographic data element, for example, a public key 
+or a certificate. 
+
+
+3.1.7 Decryption — Reversal of а corresponding 
+encryption. 
+
+
+3.1.8 Directory File (ЕЕ DIR) — Optional elementary 
+file containing a list of applications supported by the 
+card and related data elements. 
+
+
+3.1.9 Encryption — Reversible operation by a 
+cryptographic algorithm converting data into ciphertext 
+so as to hide the information content of the data. 
+
+
+3.1.10 Non-CIA Application — Any application which 
+is not a CIA application is a non-CIA application. 
+
+
+3.1.11 Object Directory File — Mandatory elementary 
+file in a CIA containing reference to other CIA directory 
+files. 
+
+
+3.1.12 Private Key Directory File — Elementary file 
+containing private key information objects. 
+
+
+3.1.13 Private Key Information Object — Cryptographic 
+information object that provides information about a 
+private key. 
+
+
+3.1.14 Public Key Directory File — Elementary file 
+containing public key information objects. 
+
+
+3.1.15 Public Key Information Object — Cryptographic 
+information object that provides information about a 
+public key. 
+
+
+3.1.16 Secret Key Directory File — Elementary file 
+containing secret key information objects. 
+
+
+3.1.17 Secret Key Information Object — Cryptographic 
+information object that provides information about a 
+secret key. 
+
+
+3.1.18 Trusted Public Key — Public key of an external 
+entity that 1s trusted by the card. 
+
+
+IS 16695 (Part 2) : 2022 
+
+
+3.2 Symbols 
+
+
+Abbreviation Definition 
+3.2.1 хіу Either x or y 
+. Lc Length of command data in a 
+3.3 Abbreviated Terms command APDU 
+Abbreviation Definition Le Maximum length of data expected in 
+APDU from the ICC as a response to 
+AID Application Identifier command APDU 
+APDU Application Protocol Data Unit MF Master File 
+ASN.1 Abstract Syntax Notation One OD Object Directory 
+AT Authentication Template P1 First parameter byte for the APDU 
+CA Certifying Authority P2 Second parameter byte for the 
+= : APDU 
+CCA Central Certifying Authority (Root- я — 
+CA) PDN Partial Distinguished Name 
+CCT Control reference template for PKCS Public Key Cryptography Standard 
+Cryptographic Checksum PKI Public Key Infrastructure 
+CDE Cryptographic Data Element RDN Relative Distinguished Name 
+CIA Cryptographic Information RFC Request for comments 
+Application RSA Rivest-Shamir-Adleman algorithms 
+CIO Cryptographic Information Object for Public-Key Cryptography 
+CRL Certificate Revocation List SE Security Environment 
+CRT Control Reference Template SHA1 Message Digest Algorithm (Secure 
+CT Control reference template for Hash Algorithm variant 1) 
+confidentiality SW1 First byte of the status word in the 
+DDO Discretionary Data Object response APDU 
+DER Distinguished Encoding Rules SW2 Second byte of the status word in the 
+А І response APDU 
+DF Dedicated File 
+DF.CIA Dedicated file containing CIA 4 GENERAL REQUIREMENT 
+application The OS shall comply with the requirements of IS 16695 
+DH Diffie-Hellman Key Exchange (Part 1). 
+Protocol 
+DSA Digital Signature Algorithm SAEDE 
+DST Control reference template for The OS shall support both short and extended 
+digital signature length formats for Lc and Le in the command 
+EF El tary Fil APDU as specified in IS 14202 (Part 4). In any 
+Aaa di command-response pair containing both Le and Le 
+EF.AOD Authentication Object Directory fields, short and extended length fields shall not be 
+EFPrKD Private Key Directory combined, either both of them are extended or both of 
+F : them are short. The OS shall support at least 1024-byte 
+ЕРО Public Key Directory long data in the command APDU. 
+EF.SKD Secret Key Directory 
+EFI Internal record EF with SFID = 1 сзи 
+EF2 Internal record EF with SFID = 2 The OS shall support the following operations 
+ne a f i lic k t hy i ition t 
+ICC Integrated Circuit Card (that is, E. Ced 5. Г y Meo 2. Pu ао 
+smart card) what 1s specified іп Part ] of this standard. 
+IFD Interface Device 6.1 Authentication 
+KAT Control reference template for Key Authentication is the process of establishing an 
+Agreement identity of an entity. This is achieved by using 
+
+
+challenge-response mechanism. The SCOSTA-PKI 
+supports PKI based authentication mechanism in 
+
+
+addition to the symmetric-key based authentication 
+mechanisms as described in Part 1 of this standard. 
+
+
+6.2 Session Key Establishment 
+
+
+The algorithms for asymmetric key cryptography 
+are computationally more expensive than those for 
+symmetric key cryptography. Thus, the asymmetric 
+key cryptography may be used for establishing 
+symmetric session keys. А session key is valid only for 
+a particular session and needs to be re-established for 
+every new session. The session keys can be used for 
+performing other symmetric key based operations (like 
+encryption/decryption, cryptographic checksum 
+calculation/verification). For session key establishment, 
+two sides exchange their key material which is used to 
+create the session keys. 
+
+
+6.3 Authentication and Session Key Establishment 
+
+
+This operation combines the authentication procedure 
+with session key establishment. The key material from 
+either side is passed on along with the challenge and 
+response. A unified process requires fewer number 
+of message exchanges as compared to when these 
+operations are performed separately. 
+
+
+6.4 Computation of Digital Signature 
+
+
+A digital signature is an additional data item related to 
+a message and the signer. It can be used to establish the 
+identity of the signer and to determine whether or not 
+the data has been altered since it was signed. A digital 
+signature is obtained by signing the hash of a message 
+with the signer’s private key and verified using its 
+public key. 
+
+
+IS 16695 (Part 2) : 2022 
+
+
+6.5 Encryption and Decryption 
+
+
+The process of encryption/decryption is used for 
+enforcing confidentiality. 
+
+
+6.6 Certificate Verification 
+
+
+A certificate is a data structure containing the public 
+key of an entity, together with associated information, 
+all of which is digitally signed by a certifying authority. 
+Certificate verification is the process of verifying the 
+digital signature using the certifying authority's public 
+key and can be used to verify the origin and integrity 
+of the certificate. The public key obtained from the 
+certificate after verification process is trusted by the 
+ICC and can be used for further PKI-based operations 
+such as authentication, digital signature verification or 
+encryption. This public key is known as the certified 
+public key. 
+
+
+The certificate verification can be performed by either 
+using the root CA's (CCA) key or by chain verification 
+process. Any public key operation can be carried out 
+only after the chain verification of that public key's 
+certificate. The public keys of CCAs are kept in the 
+ICC as trusted public keys. Each such key shall carry 
+a unique key reference. A chain is identified by the key 
+reference of the root CA's public key and is defined as 
+a hierarchy of certificates starting from the root CA. To 
+verify a certificate in this chain, all the certificates in 
+this chain starting from the root CA need to be verified 
+first. The ICC maintains the information of the latest 
+certified public key along with the key reference of 
+the CCA's public key and this key may be used for 
+verifying the next certificate in the chain. The process 
+of chain verification is described in Fig. 1. 
+
+
+To verify any certificate in a chain, the CCA's public key must be 
+available in the ICC as a trusted key. 
+
+
+Consider the scenario as described in the figure on left. To verify a 
+user's public key, first the certificate of CA1 needs to be verified using 
+the CCA's key. After a successful verification, the certified public key 
+
+
+of CA1 is maintained by the ICC and is used to verify the certificate of 
+CA2 (provided the key usage in CAT's certificate permits so). After 
+successful certificate verification of CA2, its key shall be maintained as 
+the certified public key and the public key of CA1 shall no longer be 
+maintained. The public key of CA2 shall be used to verify the 
+certificate of user provided the key usage in CA2s certificate permits 
+
+
+SO. 
+
+
+Fic. 1 CERTIFICATE CHAIN 
+
+
+3 
+
+
+IS 16695 (Part 2) : 2022 
+
+
+6.7 Generate Asymmetric Key Pair 
+
+
+This operation is used to generate an asymmetric key 
+pair (public and private key) within the ICC. Generating 
+key pair within the ICC would provide greater security 
+of the private key since it is not brought out of the ICC. 
+
+
+7 BASIC DATA STRUCTURE 
+
+
+7.1 Overview 
+
+
+The cryptographic information in an ICC may be stored 
+either as given in Part 1 of this standard or as a separate 
+application, in a directory called DF.CIA (see 7.3). 
+Each application may have its own DF.CIA which will 
+store its cryptographic information. 
+
+
+If the mapping between an application and its 
+corresponding CIA is present in the EF.DIR file (Refer 
+Section 7.2), then the cryptographic information of 
+this application will be present in its corresponding 
+DF.CIA. The following cases may be applicable: 
+
+
+a) Case 1 — EF DIR (Refer section 7.2) file is absent 
+
+
+Since EF.DIR is absent, none of the applications 
+in the ICC could be linked to its corresponding 
+DF.CIA. Thus, no application present on the ICC 
+can have a PKI support. In such cases, only the 
+mechanisms described in Part 1 of this standard 
+are used to obtain symmetric keys and passwords 
+using EF2 and ЕГІ respectively. 
+
+b) Case 2 — EF.DIR is present and (a) Application is 
+not listed in EF.DIR, or (b) DF.CIA entry is absent 
+for the listed application 
+The corresponding application will not support 
+PKI mechanisms and will use mechanisms 
+described in Part 1 of this standard to obtain 
+symmetric keys and passwords using EF2 and 
+ЕГІ respectively. 
+
+c) Case 3 — EFDIR is present; РЕСІА entry 
+corresponding to an application is present 
+This application will have PKI support and DF.CIA 
+will be used to obtain cryptographic information 
+
+
+corresponding to the PKI mechanisms. If 
+DF.CIA does not exist, it will be deemed as if the 
+corresponding keys and passwords do not exist. 
+In such cases the behavior will be similar to the 
+one described in Part 1 of this standard when the 
+referred keys and passwords are not found. 
+
+
+If applicable, the cryptographic information? of 
+keys and passwords will be stored as Cryptographic 
+Information Objects (CIO) within the corresponding 
+DF.CIA. Two or more applications may use the same 
+DF.CIA. 
+
+
+7.2 Ef.Dir 
+
+
+EF.DIR is an internal transparent elementary file which 
+is present under MF and has a special file identifier 
+‘2F00’. It indicates a list of applications supported by 
+the ICC. It shall contain a list of application templates 
+which will be used to locate the corresponding 
+DF.CIA for an application. Additionally, EF.DIR may 
+also contain the application template for CIAs. The 
+information for an application is encapsulated under 
+the tag “617 as defined in IS 14202 (Part 6). Refer 
+ISO/IEC 7816-15, IS 14202 (Part 4). 
+
+
+For a non-CIA application, the application template 
+(tag *61^) shall contain the DOs with tags as defined 
+in Table 1. 
+
+
+Table 1 Tags in Application Template 
+( Clause 7.2) 
+
+
+Tag Value Occurrence 
+'AF' Application identifier Mandatory 
+‘50° — Application label Optional 
+‘51? Path relative to MF including *3F00' with Mandatory 
+
+even number of bytes in length 
+‘52’ Command to perform to select application Optional 
+‘73° Discretionary Data Objects(DDO) Optional 
+
+
+If present, a DDO shall contain AID of the 
+corresponding CIA. A DDO shall have the BER-TLV 
+encoded structure as given in Fig. 2. 
+
+
+BER-TLV encoded structure of a DDO 
+
+
+ЕП 1....Lai bytes ЕР 
+
+
+1...Lain bytes provide the AID for the corresponding CIA. 
+L shall always be more than or equal to Laip + 2 
+
+
+Ес. 2 BER-TLV ENCODED STRUCTURE OF A рро 
+
+
+? Cryptographic information is a generic term used for the information attached to the keys, passwords and certificates which are used by the 
+OS to perform cryptographic operation involving these keys, passwords or certificates. 
+
+
+For a CIA application, the application template 
+(tag *61^) shall contain the tags as defined in Table 1. 
+For a non-CIA application, DDO will not be used in 
+OS. 
+
+
+7.3 Df.Cia 
+
+
+7.3.1 Overview 
+
+
+This directory shall contain the  cryptographic 
+information pertaining to an application in various 
+elementary files as defined in Table 2. For elementary 
+files in DF.CIA, the file identifier ‘5033’ is reserved as 
+defined in ISO/IEC 7816-15 and will not be used in a 
+DF.CIA for РКІ. 
+
+
+Table 2 Elementary files in DF.CIA 
+( Clause 7.3.1) 
+
+
+IS 16695 (Part 2) : 2022 
+
+
+File Mandatory File Short EF File Type 
+
+Identifier Identifier 
+
+EF.PuKD Optional As Transparent, 
+defined in Internal 
+OD file 
+
+EF.SKD Optional As Transparent, 
+defined in Internal 
+OD file 
+
+
+7.3.2 CIAInfo 
+
+
+The CIAInfo file is a transparent working EF and 
+shall contain information about the ICC and its 
+capabilities. It shall contain information as specified in 
+ISO/IEC 7816-15. The contents of this file shall not be 
+used by the OS internally. 
+
+
+7.3.3 EF OD 
+
+
+File Mandatory File Short ЕЕ File Type This elementary file may contain references to other 
+
+Identifier Identifier CIO Directory Files (see 7.3.4) which contain the 
+
+CIAInfo Yes 5032 427 Transparent, cryptographic information in form of CIOs. The CIOs 
+Working present in these directory files shall contain references 
+EF.OD Yes ‘5031’ ‘11’ Transparent, to other EFs which will store the actual cryptographic 
+Internal items such as keys and passwords. 
+EFAOD Optional As Transparent, — EF.OD shall contain the concatenation of 0, 1 or 
+defined in Internal : : 
+тоге DER-encoded CIO Choice values which shall 
+OD file : 
+be a path reference to a separate CIO directory file 
+БЕРДЕН: “pions BS ui Transparent, (ке EE PuKD, EF.AOD etc.) which shall contain the 
+defined in Internal ENS Р $ А : 
+
+OD file cryptographic information objects (like public keys 
+information object etc.). Each entry in the EF.OD file 
+will be a CIO Choice value and shall have the following 
+ASN.1 syntax (Refer ISO/IEC 7816-15). 
+
+CIOChoice ::= CHOICE { 
+privateKeys [0] PrivateKeys -- (Tag САО”Н), 
+trustedPublicKeys [2] PublicKeys -- (Tag ‘A2’H), 
+secretKeys [3] SecretKeys -- (Tag ‘A3’H), 
+authObjects [8] AuthObjects -- (Tag ‘A8’H) 
+} 
+PrivateKeys :: = Path -- Refers to a file containing CIOs of type 
+-- PrivateKeyChoice as described in section 13.3.1 
+PublicKeys :: = Path -- Refers to a file containing CIOs of type 
+-- PublicKeyChoice as described in section 13.3.2 
+SecretKeys :: = Path -- Refers to a file containing CIOs of type 
+-- SecretKeyChoice as described in section 13.3.3 
+AuthObjects :: - Path -- Refers to a file containing CIOs of type 
+-- AuthenticationObjectChoice as described in 
+
+
+section 13.4 
+
+
+IS 16695 (Part 2) : 2022 
+
+
+Each EF.OD entry shall refer to a separate file containing 
+CIOs ofthe indicated type. Further details on these ASN.1 
+types can be found in ISO/IEC 7816-15 and clause 13 of 
+this document. АП CIOs in the OS shall be stored in 
+an EF under the DF.CIA. Only a 2-byte file identifier 
+shall be used to define the Path of a CIO directory file 
+containing the CIOs ofa certain type. This file identifier 
+shall refer to the file under the DF.CIA. The only valid 
+DER encoding of Path shall be 
+
+
+‘307 gar 
+We 024 
+X Y 
+
+
+where X and Y define the 2 bytes file identifier of the 
+CIO directory file under the DF.CIA. 
+
+
+An example of an EF.OD contents is shown below. In 
+this example, CIOs for private keys are stored in an 
+ЕЕ “44017 under DF.CIA and CIOs for authentication 
+objects are stored in an EF “44027 under DF.CIA. The 
+EF.OD file shall have the following bytes. 
+
+
+‘AO’ 706” == 'AO' tag for 
+private keys 
+“30” 704” -- УЗО tag for 
+SEQUENCE 
+“04” 502! == “04” tag for 
+OCTET STRING to 
+store path 
+‘44’ 5017 -- file identifier 
+for EF.PrKD 
+‘A8’ 706” == 'A8 tag for 
+authentication 
+objects 
+'30' 704” == ‘30! tag for 
+SEQUENCE 
+“04” 502! a= “04” tag for 
+OCTET STRING to 
+store path 
+'44' 5027 -- file identifier 
+for EF.AOD 
+
+
+7.3.4 CIO Directory files 
+
+
+Each CIO directory file (1e. EF.AOD, EF.PrKD, 
+EF.PuKD and EF.SKD) is an internal transparent EF 
+and shall contain a directory of CIOs of a certain kind. 
+For example, a private key directory file (EF.PrKD) 
+contains a directory (list) of private key information 
+objects. 
+
+
+A CIO stored in a CIO directory file shall contain a 
+reference to actual cryptographic item (for example, 
+key or password) along with other information as 
+specified in section 13. Cryptographic items like 
+keys and passwords are stored in elementary files, 
+the reference to which is given in the corresponding 
+
+
+CIO. When CIOs refer to cryptographic items that are 
+logically linked (for example, a private key and the 
+corresponding public key) they shall have the same 
+CIO identifier. 
+
+
+Passwords will be stored in a separate EF which will 
+be referred to by a password CIO listed in the ЕЕ AOD 
+file. This EF shall be an internal record file containing 
+passwords in exactly the same format as defined in Part 
+1 of this standard for the password file. 
+
+
+Keys will be stored in one or more separate EFs which 
+will be referred to by the corresponding key information 
+objects. This EF shall be an internal transparent file 
+containing one or more key templates. Each key 
+template (tag *A0") is a constructed data object and 
+shall contain the DOs with tags as specified in Table 3. 
+
+
+Table 3 Tags contained in a Key Template 
+(tag “А0”) 
+( Clause 7.3.4 ) 
+
+
+Tag Length Value 
+
+*80" 1 byte Key identifier (as defined inPart 1 of this 
+standard) 
+
+“817 1 byte Key type 
+
+
+‘АЗ’ Variable Key specific information with following 
+
+
+tags and in order as specified by the key 
+
+
+type. 
+
+Tag Length Value 
+
+‘90° 2 bytes Key usage counter 
+
+917 1 byte Key retry counter 
+(4 bits for retry 
+counter and 4 bits 
+for maximum retry 
+counter) 
+
+“047 Variable Key value 
+
+
+The values in Table 3 shall have the following 
+interpretation: 
+
+
+a) Key Identifier — The key identifier shall have the 
+same structure and meaning as defined in Part 1 of 
+this standard. It is not related to the key identifier 
+field in the information present in the CIO. 
+
+
+b) Key Type — The key type 1s used to define the 
+associated counters for various operations. These 
+counters are stored within a key template as a DO 
+embedded in a template with tag “АЗ” tag. The 
+structure of the key type is specified in section 
+9.2 of the Part 1 of this standard. It shall indicate 
+which key counters are present in the key specific 
+information for various operations. The key type 
+shall not be used for operations based on public 
+key cryptography and shall be ignored by the OS. 
+The KD bit as specified in Section 9.2 of the Part 
+1 shall stand deprecated for symmetric key based 
+operation when DF.CIA and EF. SKD are used as 
+the same functionality is obtained through CIOs in 
+EF.SKD. 
+
+
+c) Key Specific Information (counters) — The key 
+counters are stored in the constructed DO in an 
+order as specified by the key type. If a key counter 
+indicated by key type as present is not contained 
+by “АЗ” tag, then the behavior is undefined. The 
+operating system must make the best effort to 
+consider such counters to have infinite value. The 
+key specific information such as counters shall not 
+be used for Public Key Cryptography operation 
+and shall be ignored by the OS. 
+
+
+1) Key usage counter — The key usage counter 
+shall have the same interpretation as defined 
+in Part 1 of this standard. This 2-byte counter 
+shall be present if the key type indicates the 
+presence of key counters for encryption and/or 
+internal authentication. These two operations 
+shall have their own separate key usage 
+counters. If the value of key usage counter is 
+‘FFFF’, it shall be an infinite counter. 
+
+
+2) Key retry counter — This shall have the 
+same interpretation as defined in Part 1 of 
+this standard. This is a 1 byte counter and is 
+applicable for external authenticate operation. 
+The upper 4 bits code the retry counter value 
+while the lower 4 bits code the maximum 
+number of retries. 
+
+
+d) Key value — This shall store the actual value of 
+the key according to the ASN.1 syntax as given in 
+section 13.1. 
+
+
+The operation for which the key is permitted to be 
+used is indicated by the information contained by the 
+corresponding CIO. If the key is not permitted to be 
+used for the current operation, an error with status bytes 
+SW1-SW2=‘6985’ (“Conditions of use not satisfied") 
+will be returned wherever appropriate. 
+
+
+The following types of CIO directory files may be 
+present in DF.CIA. If yes, the OS shall use these files. 
+Other files 1f present shall be ignored by the OS. 
+
+
+7.3.4.1 Private key directory file (EF.PrKD) 
+
+
+This EF will store the private key information objects 
+for the private keys of the application. It shall store 
+private key information objects for keys which may be 
+used for decryption and digital signature computation. 
+Multiple private key information objects may be present 
+in this file and are identified by a key reference. The 
+structure of private key CIOs are discussed in detail in 
+section 13.3.1. 
+
+
+7.3.4.2 Public key directory file (EF.PuKD) 
+
+
+This EF shall store the CIOs corresponding to 
+ClOChoice value being equal to trusted PublicKeys. 
+The trusted Public Key CIOs refer to the public key 
+information objects for public keys of the central 
+
+
+IS 16695 (Part 2) : 2022 
+
+
+certifying authority (CCA) that are trusted by the ICC. 
+A trusted Public Key CIO shall contain the Name 
+of the owner of the public key as specified in the 
+corresponding certificate's subject component. This 
+key can only be used for certificate verification. These 
+trusted public key CIOs have the ASN.1 syntax for 
+public key information object as described in section 
+13.3.2. 
+
+
+7.3.4.3 Secret key directory file (EF.SKD) 
+
+
+This EF shall store the secret key information 
+objects of secret keys for symmetric key algorithms. 
+The CIOs present in EF.SKD may refer to the keys 
+for confidentiality, integrity and/or authentication 
+operations. It shall contain secret key information 
+objects in form of SecretKeyChoice type as described 
+in section 13.3.3. 
+
+
+7.3.4.4 Authentication object directory file (EF.AOD) 
+
+
+This EF shall contain cryptographic information objects 
+corresponding to passwords. An authentication object 
+CIO is stored as an Authentication Object Choice type 
+as described in section 13.4. 
+
+
+8 APPLICATION IDENTIFICATION AND 
+SELECTION 
+
+
+This section describes how to identify and select an 
+application supported by the ICC. 
+
+
+8.1 Application Identification 
+
+
+An application is identified by an AID which is specified 
+as the name of the DF corresponding to the application. 
+All EFs and DFs without DF name under this DF 
+belong to the same application. Any DF that carries a 
+DF name (AID) defines a new application under that 
+tree. An application may or may not be listed in the 
+EF.DIR file. An application which is listed in EF.DIR 
+file and has an entry for its corresponding DF.CIA shall 
+have the PKI support (Refer section 7.1). 
+
+
+8.2 Application Selection 
+
+
+When a DF/EF is selected (using relative or using 
+absolute path or by file identifier or by DF name (that 
+is, AID) or implicitly) an application is also selected as 
+per the following rules: 
+
+a) If the DF being selected has a DF name, that 
+application 15 selected; 
+
+b) If the DF being selected has no DF name but one 
+ofthe ancestors of the DF has a DF name, then the 
+application is selected by finding the name of the 
+closest ancestor of this DF; and 
+
+
+с 
+
+
+wm 
+
+
+If the DF being selected has none of its ancestors, 
+including the MF, have a DF name, no application 
+is selected. 
+
+
+IS 16695 (Part 2) : 2022 
+
+
+8.3 Common Scenarios 
+
+
+EF1 EF2 
+
+
+Fic. 3 SAMPLE FILE STRUCTURE 
+
+
+In the Fig. 3, Al, A2 and A3 are the applications (that 
+is, DF with names); MF, DF1, DF2, БЕЗ and DF4 are 
+DFs without DF name; and ЕГІ, EF2 are elementary 
+files. Some common scenarios are described below. 
+
+
+Scenario A: The current DF is DF3 (that is, application 
+A2 is selected). If DF4 is now selected, then application 
+A3 will automatically get selected. 
+
+
+Scenario B: If the current DF 15 A3 (that is, the current 
+application is also АЗ) and a SELECT command is 
+used to select the parent DF, then application A1 shall 
+get selected. The current DF will also be A1. 
+
+
+Scenario C: The currently selected DF is DF2 and 
+hence the current application is Al. If DF1 is now 
+selected, it results in no application being selected. 
+
+
+9 KEY/PASSWORD 
+RETRIEVAL 
+
+
+STORAGE AND 
+
+
+9.1 Passwords and Symmetric Keys 
+
+
+The rules in Table 4 are used to resolve the references 
+for passwords and symmetric keys. The elementary file 
+EF2 (key file, refer section 9 of Part 1 of this standard), 
+wherever applicable, shall contain keys for symmetric 
+key operations only. It shall not be used to store private 
+or public keys. 
+
+
+Table 4 Keys and Passwords 
+( Clause 9.1 ) 
+
+
+Case Condition 
+
+
+Local Key/Password Lookup 
+Method 
+
+
+Global Key/Password 
+Lookup Method 
+
+
+1 EF.DIR is not present 
+
+
+Keys/Passwords obtained from 
+EF2/EFI under the current DF as 
+described in Part 1 ofthis standard 
+. PKI support not available. 
+
+
+Keys/Passwords obtained 
+from EF2/EF1 under MF 
+as described in Part 1 of 
+this standard . PKI support 
+not available. 
+
+
+2 EF.DIR is present and 
+
+
+2.a Current DF is not an application or does not belong to an 
+application, or 
+
+
+2.b 
+
+
+Current DF is an application which is not listed in EF.DIR 
+or does not have an entry for its corresponding DF.CIA in 
+EF.DIR, or 
+
+
+Current DF belongs to an application which is not listed 
+in EF.DIR or does not have an entry for its corresponding 
+DF.CIA in EF.DIR. 
+
+
+Keys/Passwords obtained from 
+EF2/EFI under the current DF as 
+described in Part 1 ofthis standard 
+. PKI support not available. 
+
+
+Keys/Passwords obtained 
+from EF2/EF1 under MF 
+as described in Part 1 of 
+this standard . РКІ support 
+not available. 
+
+
+3 EF.DIR is present and 
+
+
+3.a Current DF is an application with a corresponding DF.CIA 
+entry in EF.DIR 
+
+
+3.b Current DF belongs to an application, and this application 
+has a DF.CIA entry in EF.DIR 
+
+
+Keys or Passwords are obtained 
+from EFs referred to from the 
+CIOs present іп EF.SKD ог 
+EF.AOD respectively in the 
+corresponding DF.CIA of the 
+application. 
+
+
+Keys ог Passwords 
+are obtained from EFs 
+referred to from the CIOs 
+present in EF.SKD or 
+EF.AOD respectively in 
+the corresponding DF.CIA 
+of the application. 
+
+
+9.2 Private Keys 
+
+
+When a command to be executed requires a private key 
+(for example, COMPUTE DIGITAL SIGNATURE), 
+the key shall be retrieved according to the rules 
+described below; 
+
+
+a) The key reference for a private key is obtained as 
+specified in Table 5. 
+
+
+b) EF.PrKD file in the corresponding DF.CIA 
+directory of the application in use is located 
+through EF.OD. If EF.PrKD is not found, then the 
+condition is treated as key not found. 
+
+
+c) EF.PrKD is searched for a CIO which has the 
+same key reference as the key to be searched. If 
+no such CIO is found, then the condition is treated 
+as key not found. 
+
+
+d) Ifa matching CIO is found, then from this CIO the 
+path to a key file is obtained which contains the 
+actual keys and it corresponding counters. If the 
+path to this key file is absent or invalid, then the 
+condition is treated as key not found. 
+
+
+e) This key file (section 7.3.4) is then searched for 
+a key template with same key reference and the 
+key is retrieved from this template. If no key is 
+found or the key is invalid, then the behavior will 
+be similar to the one described in Part 1 of this 
+standard when keys are not found. 
+
+
+9.3 Public Keys 
+
+
+9.3.1 When a command to be executed requires a 
+public key, the key reference for the public key shall be 
+obtained as specified in Table 6. 
+
+
+IS 16695 (Part 2) : 2022 
+
+
+9.3.2 The key shall be retrieved according to the rules 
+described below. 
+
+
+For VERIFY CERTIFICATE command: 
+
+
+A certificate verification operation requires the public 
+key of the certifying authority (CA) that has signed the 
+certificate. This can either be a CCA's key (root-CA) 
+or a key obtained by a process of chain verification of 
+certificates starting from the CCA. 
+
+
+a) Verification of certificates issued by a CCA 
+
+
+The public key for CCA shall be searched in the 
+trusted EF.PuKD according to following steps. 
+
+
+1) The trusted EF.PuKD file in the corresponding 
+DF.CIA directory of the application in use is 
+located using the EF.OD file. If EF.PuKD is 
+not found, then the condition is treated as “Кеу 
+not found". 
+
+
+2) This trusted EF.PuKD file is searched for a CIO 
+which has the same key reference as the key to 
+be searched. If no such CIO is found, then the 
+condition is treated as “key not found”. 
+
+
+3) If a matching CIO is found and it refers to a 
+key file with a valid trusted public key, then 
+one of the following cases shall hold. 
+
+
+(i) If the subject name associated with this 
+trusted public key is same as the issuer’s 
+Name іп the certificate, this CCA's 
+key shall be used to perform certificate 
+verification. 
+
+
+(ii) If the subject name associated with this 
+trusted public key does not match the 
+issuer's Name in the certificate, then the 
+process of chain verification of certificates 
+(as described later) is followed. 
+
+
+Table 5 Mechanism to obtain key reference for a private key 
+
+
+( Clause 9.2 ) 
+
+
+Command 
+
+
+Mechanism to obtain key reference 
+
+
+SIGNATURE 
+
+
+PSO: COMPUTE DIGITAL | Key reference and algorithm reference are taken from the DST (in current SE) for which the usage qualifier 
+
+
+byte permits signature computation operation. The key reference and algorithm reference shall be taken 
+from ‘84’ and ‘80’ tag respectively. If no such DST template is present or the key reference is not defined 
+or if key reference is 0, it is treated as "key not defined". If the algorithm reference is absent, the algorithm 
+shall have a default value 0 as specified in section 11.3. 
+
+
+PSO: DECIPHER 
+
+
+Key reference and algorithm reference are taken from the CT (in current SE) for which the usage qualifier 
+byte permits decryption operation. If the algorithm reference refers to a symmetric key algorithm, the 
+decipher command is carried out as described in Part 1 of this standard. If the algorithm reference refers to 
+an asymmetric key algorithm, the private key reference and algorithm reference shall be taken from ‘84’ 
+and ‘80’ tag respectively. If the algorithm reference is absent, the algorithm shall have a default value 0 as 
+described in Part 1 of this standard. If no such CT template is present or the key reference is not defined or 
+if key reference is 0, it is treated as "key not defined". 
+
+
+MSE SET 
+
+
+MSE SET can be used for key derivation and setting of other SE parameters as defined in Part 1 of this 
+standard and in section 12.4 of this document. The usage of key reference, algorithm reference and other 
+parameters is given in the description of MSE SET command (section 12.4). 
+
+
+INTERNAL/MUTUAL 
+AUTHENTICATE 
+
+
+These authentication commands may use private key for decryption or digital signature computation when 
+asymmetric key algorithms are used. Depending on the algorithm for authentication (as per the algorithm 
+reference in the P1 byte or from the AT template (if P1 is 0)), the key reference will be taken from other 
+templates as described in section 12.3. 
+
+
+IS 16695 (Part 2) : 2022 
+
+
+Table 6 Mechanism to Obtain Key Reference for a Public Key 
+
+
+( Clause 9.3.1) 
+
+
+Command 
+
+
+Mechanism to obtain key reference 
+
+
+PSO: VERIFY CERTIFICATE 
+
+
+Key reference is taken from the “83” tag in the DST (in current SE) for which the usage qualifier byte 
+permits certificate verification. If no such DST template is present or the key reference is not defined or 
+if key reference is 0, it is treated as “key not defined". If found, the key reference shall be treated as the 
+chain-id and shall refer to the key of the CA. The key of the CA must be the certified key of CA in the 
+chain of a CCA if the key reference is same as of the certified key's chain-id. Otherwise it shall be treated 
+as the key reference of the CCA from the EF.PuKD referred key. 
+
+
+PSO: ENCIPHER 
+
+
+Key reference and algorithm reference are taken from the CT (in current SE) for which the usage qualifier 
+byte permits encryption operation. If the algorithm reference refers to a symmetric key algorithm, the 
+encipher command is carried out as describedin Part 1 of this standard. If the algorithm reference refers 
+to an asymmetric key algorithm, the public key reference and algorithm reference shall be taken from 
+483” and “80” tag respectively. If this key reference is non-zero, then it must match with the chain-id of 
+the certified public key. If the key reference is not defined or if key reference is 0, the chain matching 
+is ignored and the certified public key is used provided that it permits the encipher operation. If the 
+algorithm reference is absent, the algorithm shall have a default value 0 as specified in Part 1 of this 
+standard. If no such CT template is present, it is treated as “key not defined". 
+
+
+GET CHALLENGE 
+
+
+The GET CHALLENGE command is described in section 12.2. The following cases may hold for this 
+command. 
+
+
+a) РІ-0 
+
+
+The challenge shall be issued in plain text. Hence, the key reference and the algorithm reference are not 
+needed. 
+b) PI Z0 
+
+The challenge is given out in encrypted form. For the encryption, the key reference (*83’ tag) and algorithm 
+reference (‘80’ tag) shall be taken from the CT (in current SE) for which the usage qualifier byte permits 
+encryption. If no such CT template is present or the algorithm reference (for encryption) is absent or not 
+supported, it shall result in an error. If the key reference obtained from this CT is non-zero, then it must 
+match with the chain-id of the certified public key. If the key reference is not defined or if key reference is 
+0, the chain matching is ignored and the certified public key is used provided that it permits encipher and/ 
+or key encipher operation as described in section 12.2. 
+
+
+EXTERNAL/MUTUAL 
+AUTHENTICATE 
+
+
+These authentication commands may use public key for encryption or digital signature verification when 
+asymmetric key algorithms are used. Depending on the algorithm for authentication (as per the algorithm 
+reference in the P1 byte or AT template (if P1 is 0)), the key reference will be taken from other templates 
+as described in section 12.3. 
+
+
+If the key file referred to by the matching CIO is absent 
+or it does not have the referred key or the key is invalid, 
+then the certificate verification shall fail. 
+
+
+b) Chain verification of certificates 
+
+
+as a certified public key. This certified public key 
+is stored in the memory along with its chain-id, 
+key usage, supported algorithm and the Name of 
+the subject to whom the key was issued. At any 
+point in time, the ICC shall maintain information 
+
+
+Chain verification is required when the certificate 
+to be verified is not signed by the CCA's key but 
+by a CA whose certificate belongs to a chain of 
+certificates starting from the CCA. For verifying a 
+certificate, the entire chain of certificates starting 
+from the CCA to this certificate needs to be 
+verified. 
+
+
+A chain is uniquely identified by its CCA and has 
+a chain-id associated with it. Chain-id 15 same 
+as the key reference of the CCA. A public key 
+obtained by verifying any certificate in a chain 
+of certificates shall have the chain-id as that of 
+CCA’s key reference. 
+
+
+Inthe OS, there can be only one public key 
+maintained other than the CCA keys. This key 
+is obtained from a certificate after a successful 
+VERIFY CERTIFICATE operation and is known 
+
+
+10 
+
+
+of only one certified public key. This key shall 
+become invalid if another application is selected 
+or if a VERIFY CERTIFICATE command is 
+carried out. Also, when a certificate is successfully 
+verified, the previous certified public key 18 
+replaced by the public key obtained from the new 
+verified certificate. 
+
+
+To verify a certificate by chain verification 
+
+process, the certified public key maintained by the 
+
+ICC shall be used. This certified public key shall 
+
+be used only if: 
+
+a) the chain-id of the certified public key is the 
+same as the key reference present in the *83* 
+tag in the DST template of current SE, 
+
+
+b) the subject name associated with this certified 
+public key is same as the issuer's Name in the 
+certificate, and 
+
+
+c) The key usage obtained from the certificate 
+after verification indicates that this key can be 
+used for certificate verification. 
+
+
+If any of these conditions are not met or if no certified 
+public key exists, then certificate verification process 
+fails. 
+
+
+For commands other than the VERIFY CERTIFICATE 
+command: 
+
+
+For public key operations other than certificate 
+verification, the certified public key obtained from the 
+last successful VERIFY CERTIFICATE shall be used. 
+If the key reference (obtained as per Table 6) is non 
+zero, it must match with the chain-id of the certified 
+public key. If no valid certified public key exists, then 
+it 1s treated as “Кеу not defined" and the behavior shall 
+be similar to the one described in Part 1 of this standard 
+when keys are not found. 
+
+
+The CCA keys shall not be used for any command other 
+than the VERIFY CERTIFICATE command. Therefore, 
+for operations involving the CCA's public key, first the 
+self-signed CCA certificate must be certified using 
+VERIFY CERTIFICATE command. 
+
+
+9.4 Common Scenarios 
+
+
+Some common scenarios while retrieving the key 
+are discussed below. The file organization is same as 
+described in section 8.3 and Fig. 2. 
+
+
+Scenario A: DF1 is the currently selected DF. Since 
+MF and DF1 are not applications, they don't have an 
+associated DF.CIA. Hence, keys and passwords shall 
+be obtained described in Part 1 of this standard (that is, 
+global keys and passwords from EF2/EF1 under MF 
+and local keys and passwords from EF2/EF 1 under the 
+current DF). 
+
+
+Scenario B: DF3 is the currently selected DF. 
+Application A2 has a DF.CIA associated with it and 
+has a corresponding entry in EF.DIR file. Symmetric 
+keys and passwords shall be obtained from the DF.CIA 
+directory as specified in section 9.1. 
+
+
+Scenario C: Al is an application with a valid entry in 
+EF.DIR for its corresponding DF.CIA. АЗ does not have 
+an entry in EF.DIR for its corresponding DF.CIA. The 
+current DF is DF4 which belongs to application A3. 
+If a symmetric key or password needs to be retrieved, 
+then they will be obtained from EF2/EF1 under DF4 
+(or under MF for global keys/passwords) and not from 
+DF.CIA of Al. 
+
+
+10 PUBLIC KEY RELATED OPERATIONS IN 
+SCOSTA-PKI 
+
+
+10.1. Authentication 
+
+
+In addition to the authentication methods, involving 
+symmetric keys mentioned in part | of this standard, 
+the OS shall also require the asymmetric key based 
+
+
+11 
+
+
+IS 16695 (Part 2) : 2022 
+
+
+authentication as described here. Specific details of 
+authentication commands are described later in 12.3. 
+
+
+The authentication algorithms described here may 
+require the ICC to have the public key of the external 
+entity (IFD). Hence, the external entity must issue 
+VERIFY CERTIFICATE command(s) prior to starting 
+the authentication process so that ICC can have IFD’s 
+public key as certified public key. The certified public 
+key obtained by this certificate verification will be 
+used for the authentication process only if its chain- 
+id is the same as the key reference present in the 
+corresponding CRT (that is, CT or DST in current SE) 
+which permits the required operation (encryption or 
+signature verification).If no valid certified public key 
+meeting the condition mentioned above is present, then 
+the condition will be treated as “key not found”. 
+
+
+10.1.1 External Authentication 
+
+
+External authentication is a process where an external 
+entity authenticates itself to the ICC. In asymmetric 
+key based external authentication, one of the processes 
+(depending on the algorithm reference) described here 
+shall be followed. The external authentication is subject 
+to the key retry counter as described in Part 1 of this 
+standard. 
+
+
+10.1.1.1 Digital 
+mechanism 
+
+
+The IFD gets a challenge R from the ICC. The IFD 
+computes a digital signature on R using its private key 
+and sends it as response to the ICC. The ICC verifies the 
+response by doing a signature verification using IFD’s 
+public key. For performing this signature verification, 
+the ICC needs to have the public key of IFD which 
+shall be available as a certified public key with its usage 
+permitting signature verification. If this verification is 
+successful, the external entity is authenticated. 
+
+
+signature based authentication 
+
+
+Sequence of commands: 
+
+
+1. IFD issues GET CHALLENGE with P1 = *00* 
+and Le > 8. The ICC responds with a random 
+number (R) of length Le as challenge. 
+
+
+. IFD computes the digital signature on R using 
+its private key. It then issues EXTERNAL 
+AUTHENTICATE command with this 
+digital signature on К as command data. The 
+algorithm reference in this command must 
+refer to a PKI-based algorithm and will have 
+value *04 as specified in section 11.2. 
+
+
+. The ICC verifies the digital signature by using 
+IFD's public key. The IFD's public key must 
+be present in the ICC as a certified public key 
+and its usage must permit digital signature 
+verification. If the verification succeeds, the 
+external entity 1s authenticated in the CCA's 
+chain. A VERIFY CERTIFICATE operation 
+shall invalidate an authenticated session. 
+
+
+IS 16695 (Part 2) : 2022 
+
+
+10.1.1.2 Encrypted challenge based authentication 
+mechanism 
+
+
+The IFD takes an encrypted challenge (random number 
+R encrypted with IFD's public key) from the ICC. For 
+sending this encrypted challenge, the ICC needs to 
+have the public key of IFD which must be available 
+as a certified public key with its usage permitting 
+data encipher operation. On receiving the encrypted 
+challenge, IFD decrypts it using its private key. It then 
+sends the decrypted challenge as response to the ICC. 
+The ICC verifies this response by matching it against 
+R. If this verification is successful, the external entity 
+(IFD) is authenticated. 
+
+
+Sequence of commands: 
+
+
+a) IFD issues GET CHALLENGE with algorithm 
+reference ‘01’. The ICC responds with an 8-byte 
+challenge (R) encrypted with IFD’s public key. 
+The IFD’s public key must be present in the ICC 
+as a certified public key and its usage must permit 
+data encipher operation. 
+
+
+b 
+
+
+— 
+
+
+IFD decrypts the response using its private 
+key to get the 8-byte challenge R. It then issues 
+EXTERNAL AUTHENTICATE command with 
+this 8-byte challenge as data for the command. 
+The algorithm reference in this command must 
+have value “03” as specified in section 11.2. 
+
+
+с 
+
+
+ме 
+
+
+The ІСС verifies the response by matching it with 
+the challenge (R) issued by itself in the previous 
+GET CHALLENGE command. If the verification 
+succeeds, the external entity is authenticated in 
+the CCA's chain. А VERIFY CERTIFICATE 
+operation shall invalidate an authenticated session. 
+
+
+10.1.2 Internal Authentication 
+
+
+Internal authentication is a process where the ICC 
+authenticates itself to the external entity. In asymmetric 
+key based internal authentication, one of the processes 
+(depending on the algorithm reference) described here 
+shall be followed. 
+
+
+10.1.2.1 Digital signature based authentication 
+mechanism 
+
+
+IFD generates a random number R, and sends this 
+challenge to the ICC. ICC computes a digital signature 
+on R using its private key, provided the operation is 
+permitted and sends it back as response. IFD verifies 
+the digital signature on R using ICC’s public key, 
+provided its usage permits signature verification. If this 
+verification succeeds, the ICC is authenticated to IFD. 
+No status information is maintained by the ICC after 
+an internal authentication. The internal authentication 
+is subject to the corresponding key usage counters as 
+described in Part 1 of this standard. 
+
+
+12 
+
+
+Sequence of commands: 
+
+
+a) IFD generates an 8-byte challenge (R) and issues 
+an INTERNAL AUTHENTICATE command with 
+R as command data. The algorithm reference must 
+have value ‘04’ as specified in section 11.2. 
+
+
+b) ICC computes a digital signature on R and sends 
+this as response to IFD. 
+
+
+с) Тһе digital signature 15 then verified by the IFD 
+for R. If the verification succeeds, the ICC 1s 
+authenticated to the external entity (IFD). 
+
+
+10.1.2.2 Encrypted-challenge based authentication 
+mechanism 
+
+
+IFD generates a random number R, encrypts it with 
+the public key of ICC, provided its usage permits data 
+encipher and sends this encrypted challenge to the ICC. 
+ICC decrypts the challenge to get R and sends it back 
+as response. The IFD matches the response against R. 
+If this verification succeeds, the ICC is authenticated to 
+IFD. No status information is maintained by the ICC 
+after an internal authentication. 
+
+
+Sequence of commands: 
+
+
+a) IFD generates an 8-byte challenge (R) and 
+encrypts it with ICC’s public key. It then issues 
+an INTERNAL AUTHENTICATE command 
+with this encrypted challenge as command data. 
+The algorithm reference must have value ‘03’ as 
+specified in section 11.2. 
+
+
+b 
+
+
+— 
+
+
+ICC decrypts this command data (that is, 
+encrypted challenge) to get R. The ICC then sends 
+this decrypted challenge as response to IFD. 
+
+
+с 
+
+
+— 
+
+
+This response is then verified by IFD against the 
+generated R in step 1. If the verification succeeds, 
+the ICC is authenticated to the external entity 
+(IFD). 
+
+
+10.1.3 Mutual Authentication 
+
+
+Mutual authentication is the process where the IFD 
+and ICC authenticate each other. In asymmetric key 
+based mutual authentication, one of the processes 
+(depending on the algorithm reference) described here 
+shall be followed. For mutual authentication, the key 
+retry counter and the key usage counter both shall be 
+applicable. 
+
+
+10.1.3.1 Digital signature based authentication 
+mechanism 
+
+
+The IFD takes a challenge R1 from the ICC and 
+computes a digital signature on R1 using its private key. 
+IFD then generates a random number R2 as challenge 
+and sends ((Signature of R1) || R2) inside the command 
+data of MUTUAL AUTHENTICATE command to 
+the ICC. The ICC verifies the signature on R1 using 
+
+
+IFD's public key. For performing this signature 
+verification, the ICC needs to have the public key of 
+IFD as certified public key with its usage permitting 
+signature verification. If this verification succeeds, IFD 
+is considered to be authenticated by the ICC. The ICC 
+will compute a signature on R2 using its private key and 
+sends this as response. IFD shall verify this response 
+using ICC’s public key, provided its usage permits 
+signature verification. If this verification succeeds, the 
+ICC is considered authenticated by the IFD. 
+
+
+Sequence of commands: 
+
+
+a) IFD issues GET CHALLENGE with algorithm 
+reference ‘00’ and Le = 8. The ICC responds with 
+an 8-byte random number R1 as challenge. 
+
+b) IFD computes a digital signature on КІ 
+
+using its private key. IFD generates an 8-byte 
+
+random number R2. It then issues MUTUAL 
+
+AUTHENTICATE command with input data as 
+
+((signature of R1) || R2). The algorithm will have 
+
+a value ‘04’ as specified in section 11.2. 
+
+
+с 
+
+
+wa 
+
+
+The ICC will verify the signature on R1 using 
+IFD's public key which must be present in the ICC 
+as a certified public key and its usage must permit 
+signature verification. If the verification succeeds, 
+the external entity is authenticated in the CCA's 
+chain. 
+
+
+d 
+
+
+М7 
+
+
+The ICC will then compute digital signature of 
+the received challenge R2 using its private key. 
+This digital signature is then sent as response by 
+the ICC and verified by IFD. If the verification 
+succeeds, the ICC is authenticated to the external 
+entity (IFD). A VERIFY CERTIFICATE operation 
+shall invalidate the authenticated session. 
+
+
+10.1.3.2 Encrypted-challenge based authentication 
+mechanism 
+
+
+In asymmetric key based authentication, the external 
+entity (IFD) takes an encrypted challenge (random 
+number КІ encrypted with IFD's public key) from 
+the ICC. For sending this encrypted challenge, the 
+ICC needs to have the public key of IFD as certified 
+public key with its usage permitting data encipher. 
+On receiving the encrypted challenge, IFD decrypts 
+it using its private key to get КІ. IFD generates а 
+random number R2 as challenge. It then encrypts 
+(КІ || R2) with ICC's public key, provided its usage 
+permits data encipher and sends it in the command data 
+of MUTUAL AUTHENTICATE command to the ICC. 
+The ICC decrypts the response with its private key to 
+get КІ and R2. If R1 is the same as the random number 
+issued by it in the previous GET CHALLENGE, the 
+IFD is considered to be authenticated by the ICC. The 
+ICC shall then send R2 as response. IFD shall verify 
+this response against R2 issued by it earlier. If the 
+verification is successful, the ICC is considered to be 
+authenticated by the IFD. 
+
+
+13 
+
+
+IS 16695 (Part 2) : 2022 
+
+
+Sequence of commands: 
+
+
+a) IFD issues GET CHALLENGE with algorithm 
+reference “017. The ICC responds with an 8-byte 
+challenge R1 encrypted with IFD's public key. 
+The IFD's public key must be present in the ICC 
+as a certified public key and its usage must permit 
+encryption. 
+
+
+b 
+
+
+— 
+
+
+IFD decrypts the response to get the challenge 
+КІ. IFD generates an 8-byte random number 
+R2. It then issues MUTUAL AUTHENTICATE 
+command with (R1 || R2) encrypted with the 
+public key of ICC provided its usage permits data 
+encipher. The algorithm will have a value “03” as 
+specified in section 11.2. 
+
+
+The ICC decrypts the response to get R1 and R2. 
+It verifies response by matching R1 obtained after 
+decryption with the challenge issued by it in the 
+previous GET CHALLENGE command. If the 
+verification succeeds, the IFD is considered to be 
+authenticated by the ICC in the chain of CCA. 
+
+
+The ICC will then send the received challenge 
+R2 as response to the IFD. This response is then 
+verified by the IFD. If the verification succeeds, 
+the ICC is considered to be authenticated by the 
+IFD. A VERIFY CERTIFICATE operation shall 
+invalidate the authenticated session. 
+
+
+wm 
+
+
+с 
+
+
+а 
+
+
+— 
+
+
+10.2 Session Key Establishment 
+
+
+In addition to the session key establishment mechanisms 
+using symmetric keys described in part 1 of this 
+standard, the OS shall also require the asymmetric 
+key based session key establishment mechanism as 
+described here. The session keys shall be symmetric 
+keys and will be used for confidentiality, integrity or 
+authentication mechanisms based on TDES symmetric 
+key cryptography as the case may be. Specific details of 
+the commands used for key establishment are described 
+in 12.4. 
+
+
+In order to establish a session key, the IFD and ICC each 
+relay a 16-byte random key material to the other side. 
+The session keys are then computed by taking an XOR 
+of the two key materials. One or more session keys may 
+coexist at any point in time provided they have been 
+derived for different purposes (that is, confidentiality, 
+integrity or authentication). At any instant, at most three 
+session keys can coexist- one each for confidentiality, 
+integrity and authentication purpose. When a session 
+key is derived for certain purpose, it shall replace 
+the earlier session key, if present, which had been 
+established for the same purpose. For example, if a 
+session key is derived for confidentiality, it shall replace 
+the existing session key for confidentiality (if present), 
+but the existing session keys for other purposes will not 
+be affected by this. 
+
+
+IS 16695 (Part 2) : 2022 
+
+
+Sequence of Commands: 
+
+
+а) IFD issues a GET CHALLENGE command with 
+algorithm reference 02. ICC generates a 16 byte 
+random number K. , encrypts it with IFD's public 
+key and sends it to IFD. The IFD's public key 
+must be present in the ICC as a certified public 
+key and its usage must permit key encipher. 
+b) IFD generates 16 bytes random number K,,, and 
+encrypts it using public key of ICC, provided its 
+usage permits key encipher. It then issues an MSE 
+SET command (refer section 12.4) and provides 
+encrypted К, with “94° tag in the command 
+field. The purpose for which the key is to be 
+derived is determined by P2 parameter of MSE 
+SET command (Refer IS 14202 (Part 4)). The 
+key reference of the ICC's private key shall be 
+obtained from the ‘84’ tag in the KAT template of 
+
+
+current SE. 
+с 
+
+
+ме 
+
+
+Both sides shall compute the session key by taking 
+an XOR of K,, and K,,,. The session key so derived 
+
+
+shall be used for operations as described in the 
+description of MSE SET command (see 12.4). 
+
+
+10.3 Authentication and Session Key Establishment 
+
+
+The Part 1 of this standard defines the authentication 
+with session key establishment using symmetric 
+keys which shall be applicable to SCOSTA-PKI as 
+well. In addition, SCOSTA-PKI shall also require the 
+asymmetric key based mechanism for the same as 
+described here. The session keys that are established for 
+a session shall be symmetric keys and will be used for 
+confidentiality or integrity based on TDES symmetric 
+key cryptography as the case may be. Specific details of 
+the commands used are described in 12.3. 
+
+
+The authentication process 1s carried out using 
+the encrypted challenge mechanism. The session 
+keys are established for symmetric encryption 
+(TDES algorithm) and shall be 16 bytes long. Two 
+separate keys for confidentiality and integrity are 
+established simultaneously using this mechanism. 
+The confidentiality key shall be usable for encryption, 
+decryption and secure messaging (this can be restricted 
+further by the CRT usage tag ‘95’ in the CT template 
+in the current SE). The integrity key shall be usable 
+for the computation and verification of cryptographic 
+checksum and for secure messaging (this can be 
+restricted further by the CRT usage tag “957 in the 
+CCT template). Algorithm reference for the MUTUAL 
+AUTH command shall be “05” as defined in Table 8. 
+
+
+IFD gets a random number R, from the ICC which 
+the ICC sends encrypted using IFD's public key. The 
+IFD's public key must be present in the ICC as a 
+certified public key with its usage permitting both key 
+encipher and data encipher. IFD decrypts the challenge 
+
+
+using its private key to get R,,. IFD generates a 
+
+
+14 
+
+
+random number R pp, key material K pp. (for integrity 
+key) and key material K,,, (for confidentiality 
+key). It then computes a cipher text by encrypting 
+КАК КК , using ICC's public key, provided 
+its usage permits both key encipher and data encipher. 
+The ICC then decrypts it, verifies Rcc to authenticate 
+the external entity and generates key material K 
+(for integrity key) and K ec (for confidentiality key). 
+It then sends back R,j[K...,|K,.., encrypted with 
+IFD's public key which must be available to the ICC 
+as a certified public key and its usage must permit both 
+key encipher and data encipher. IFD shall verify Rpp 
+to authenticate the ICC. Both sides will then establish 
+session keys as a function of K ec Kirp. for integrity 
+and Kec» Krp for confidentiality as indicated 
+in Fig. 4. 
+
+
+ICC-1 
+
+
+10.4 Generation of Asymmetric Key Pair 
+
+
+This functionality shall be used to generate a key pair 
+in the ICC for public-key cryptographic operations. 
+Corresponding private key is not brought out ofthe ICC 
+and may be used for cryptographic operations involving 
+private key such as decipher, digital signature, key 
+decryption etc. 
+
+
+This functionality shall be used only when following 
+prerequisites are met. 
+
+
+a) There must be a valid current application; 
+
+
+b) The selected application has an associated CIA 
+application represented by DF.CIA; 
+
+
+c) EF.PrKD entry is there in the corresponding 
+DF.CIA; 
+
+
+d) CIO corresponding to the reference to the key to 
+be generated is present; and 
+
+
+е) The key store referred by the EF.PrKD must be 
+present. 
+
+
+The key can only be generated in one of the following 
+scenarios. 
+
+
+1) There is no key present in the key store 
+corresponding to the key reference of the key 
+to be generated. In such a case the key store 
+must permit write operation on the basis of 
+current security status otherwise an error shall 
+be returned. 
+
+
+If the key is present in the key store 
+corresponding to the key reference of the key 
+to be generated, whether valid or invalid. In 
+such a case the key store must permit update 
+operation on the basis of current security status 
+otherwise an error shall be returned. 
+
+
+2) 
+
+
+After a key pair is successfully generated, a certification 
+request is created which includes elements such 
+as public key, subject name etc. and is returned as 
+response. The certification request may be acted upon 
+by the IFD. 
+
+
+IS 16695 (Part 2) : 2022 
+
+
+Issues GET CHALLENGE command (with Р1-01) 
+
+
+Responds with challenge as Ricc (8 bytes) encrypted with IFD's public 
+key 
+
+
+IFD decrypts the challenge using its private key to get Ricc. It then 
+generates 8-byte long random Rip, 16-byte long random Kirp-1 (key 
+material for integrity key) and 16-byte long random Кр. (key 
+material for confidentiality key) 
+
+IFD encrypts Ricc | | Riro | | Kiro-1 | | Kiep-2 with the public key of the ICC 
+and issues a MUTUAL AUTHENTICATE command with this cipher 
+text as command data. 
+
+
+ICC decrypts this cipher text and verifies Ricc. It then extracts Riep, 
+Кірр-і and Kigp-2 from the command data. ICC generates 16-byte long 
+random Kicci (key material for integrity key) and 16-byte long 
+random Кісс-2 (key material for confidentiality key). 
+
+ICC creates а cipher-text by encrypting Riro || Kicca | | Kicc-2 with 
+public key of IFD. This data is sent as a response. 
+
+
+IFD decrypts the response and verifies Rip. 
+
+Both IFD and ICC compute the session keys. The integrity key is 
+computed as (Kirp-1 XOR Kicc-1). The confidentiality key is computed 
+as (Kirp-2 ХОК Кісс-2). 
+
+Both IFD and ICC set the IV for confidentiality as O and IV for integrity 
+
+
+Fic. 4 AUTHENTICATION AND KEY ESTABLISHMENT PROTOCOL 
+
+
+15 
+
+
+IS 16695 (Part 2) : 2022 
+
+
+11 CRYPTOGRAPHIC ALGORITHMS IN 
+SCOSTA-PKI 
+
+
+The OS shall support all algorithms specified in Part 
+1 of this standard. In addition, it shall support RSA 
+based algorithms for confidentiality, digital signature, 
+authentication and session key derivation as described 
+in this clause. 
+
+
+The OS shall use TDES algorithm (as given in Part 1 
+of this standard) for symmetric key based usage and 
+RSA algorithm for asymmetric key based usage with 
+appropriate description given in this standard. 
+
+
+11.1 Algorithms for Confidentiality 
+
+
+For asymmetric key cryptography, the OS must provide 
+algorithms for encryption/decryption using asymmetric 
+key cryptography. The OS shall support RSA based 
+encryption/decryption schemes as given in Table 7. The 
+algorithm reference in the CT template will refer to the 
+encryption/decryption schemes as described in Table 7. 
+
+
+Table 7 Algorithm Reference for Confidentiality 
+Algorithms 
+
+
+( Clause 11.1) 
+
+
+Algorithm Reference Method 
+
+
+“00”, “01° As per Part 1 of this standard 
+“02° RSAES-OAEP-Encrypt/Decrypt 
+*03* RSAES-PKCSI-v15-Encrypt/Decrypt 
+
+
+Description of these encryption schemes can be found 
+in RFC 3447. The RSA encryption can be performed 
+using either 1024 bits or 2048 bits key. Algorithm 
+identifier 0 and 1 shall refer to symmetric key encryption 
+techniques as described in Part 1 of this standard. 
+
+
+11.2 Algorithms for Authentication 
+
+
+There shall be at least two algorithms for cryptographic 
+authentication based on public key cryptography. 
+These algorithms will use authenticate commands 
+(INTERNAL, EXTERNAL and MUTUAL 
+AUTHENTICATION). The algorithm reference for 
+authenticate commands shall refer to algorithms as 
+described in Table 8. 
+
+
+Table 8 Algorithm Reference for Authentication 
+Algorithms 
+
+
+( Clause 11.2 ) 
+
+
+Algorithm Reference Method 
+
+
+“007, ‘01’, “02° As per Part 1 of this standard 
+
+‘03? Encrypted challenge-response based 
+method using PKI. 
+
+*04* Digital signature based authentication 
+mechanism using PKI. 
+
+*05* Authentication + Session Key 
+establishment as described in Figure 3 
+using PKI. 
+
+
+16 
+
+
+When the algorithm reference (as in Table 8) is ‘03’ 
+or ‘05’, the algorithms to be used for the encryption 
+or decryption of challenge shall be indicated in the CT 
+template which permits encryption or decryption or 
+both. The algorithm reference in this CT template shall 
+have the value as defined in Table 7 and must have a 
+value ‘02’ or “03” only. 
+
+When the algorithm reference (as in Table 8) is ‘04’, 
+the algorithm to be used for signature computation or 
+verification on the challenge shall be indicated in the 
+DST template which permits signature computation 
+or verification or both. The algorithm reference in this 
+DST template shall have the value as defined in Table . 
+If there is no algorithm reference in the DST template 
+or when the DST template is not found, the default 
+algorithm reference of “00” shall be used. 
+
+
+11.3 Algorithms for Digital Signature 
+
+
+The algorithm for digital signature computation shall 
+take the hash of message as input and return the digital 
+signature as output. The OS shall support RSA for 
+computing digital signature (Table 9). 
+
+
+Algorithm reference for computation of digital signature 
+shall be obtained from the DST template of the current 
+SE. This algorithm reference will refer to algorithms as 
+described in Table . If there is no DST template present 
+in the current SE which permits signature computation 
+or if the algorithm reference is absent, the algorithm 
+reference shall be taken as 0. Algorithm reference 
+0 shall refer to the default algorithm which will be 
+the same as algorithm referred to by the algorithm 
+reference 1. 
+
+
+Table 9 Algorithm Reference for Digital Signature 
+Computation Algorithms 
+
+
+(Clause 11.3) 
+
+
+Algorithm Method 
+Reference 
+“00”, 01° RSASSA-PSS-Signature scheme with EMSA-PSS 
+
+
+message encoding as described in PKCS#1. 
+
+
+“02° RSASSA-PKCSI-vl 5 Signature scheme with 
+EMSA-PKCS]- vl 5 message encoding and 
+ӚНДІ as underlying hash function as described 
+in PKCS#1 
+
+037 RSASSA-PKCSI-vl 5 Signature scheme with 
+
+
+EMSAPKCSI-vl 5 message encoding апа 
+SHA256 as underlying hash function as described 
+in PKCS#1 
+
+
+12 MODIFIED COMMAND SETS FOR 
+IMPLEMENTING ADDED FUNCTIONALITY 
+FOR PKI 
+
+
+The commands given in this clause shall be 
+implemented to ensure added functionality for PKI 
+support in SCOSTA-PKI. 
+
+
+12.1 Envelope 
+
+
+The OS shall support the ENVELOPE command 
+for Т-0 protocol. This command shall be used for 
+transmitting a command APDU with extended Lc or 
+Le using T=0 protocol. Refer IS 14202 (Part 4) for 
+INS = ‘C2’. 
+
+
+12.2 Get Challenge 
+
+
+The GET CHALLENGE command shall issue a 
+challenge in either plain text or encrypted using IFD’s 
+public key depending on the algorithm reference 
+specified in P1. IFD’s public key shall be present in the 
+ICC as certified public key with its usage permitting 
+encipher operations. The GET CHALLENGE 
+command will be issued with parameters as specified 
+in Table 10. Refer IS 14202 (Part 4) for INS = ‘84’. 
+
+
+Table 10 Get Challenge Command Parameters 
+( Clause 12.2 ) 
+P1 Algorithm reference as defined in Table 10 
+P2 *00" 
+Data Field Absent 
+
+
+Table 11 Description of P1 (algorithm reference) 
+( Clause 12.2 ) 
+
+
+Algorithm L, Challenge Response 
+Reference returned 
+
+(P1) 
+
+*00" Length ofplain Le bytes Challenge in 
+text challenge long random plain text. 
+expected number 
+
+‘OL’ Length of 8-byte long 8-byte random 
+cryptogram random number 
+expected number encrypted. The 
+
+cryptogram 
+length is 
+determined by 
+the PKI. 
+
+“02” Length of 16-byte long 16-byte key 
+cryptogram random material 
+expected number(tobe encrypted. The 
+
+used as key cryptogram 
+
+material) length is 
+determined by 
+the PKI. 
+
+
+When РІ has value ‘00’, the challenge will be 
+returned as plain text according to part | of this 
+standard. When РІ (that is, algorithm reference) is 
+‘Ol’ or “02” (as indicated in Table 11), the challenge 
+is encrypted using asymmetric key cryptography and 
+this encrypted challenge is returned as response. An 
+algorithm reference with value ‘01’ (as defined in Table 
+10) indicates that the response is an encrypted 8-byte 
+challenge, while a value ‘02’ indicates that the response 
+is an encrypted 16 byte key material. 
+
+
+When an encrypted challenge is to be sent (that is, P1 
+= “017 or ‘02’), the encryption is performed using the 
+
+
+17 
+
+
+IS 16695 (Part 2) : 2022 
+
+
+public key of the external entity present in the ICC as 
+certified public key with its usage permitting encipher 
+operations. The key and algorithm to be used for this 
+encryption are obtained as described below. 
+
+
+a) Algorithm — The algorithm to be used for doing 
+this encryption is indicated by the algorithm 
+reference (80° tag) present in the CT (in current 
+SE) for which the usage qualifier byte permits 
+encryption. If no such CT template is present or if 
+the algorithm reference is absent, it shall result in 
+an error (‘6A88’: reference data not found). The 
+algorithm reference for this encryption algorithm 
+must refer to PKI algorithm and have a value 
+*02" or *03' as defined in Table 7. 
+
+
+Key — The public key of external entity will be 
+used to encrypt the challenge. The key reference of 
+the public key to be used for encryption is treated 
+as the chain-id. The key reference (‘83’ tag) shall 
+be taken from the CT (in current SE) for which 
+the usage qualifier byte permits encryption. If no 
+such CT template is present then it shall return an 
+error (*6A88": reference data not found). If the key 
+reference obtained from this CT is non-zero, then 
+it must match with the chain-id of the certified 
+public key. If the key reference in this CT is absent 
+or has a value 0, the chain matching is ignored and 
+the certified public key is used. 
+
+
+b 
+
+
+wm 
+
+
+c) Key Usage — The key usage of the certified public 
+key obtained from the certificate must allow data 
+encipher operation when the P1 byte is ‘01’, or 
+key-encipher operation when the РІ byte is ‘02’. 
+
+
+The challenge issued by GET CHALLENGE command 
+shall be valid only for the immediately following 
+command. Also, the ICC shall remember only the 
+challenge generated and not the cipher-text sent as a 
+response in case of encrypted challenge (algorithm 
+reference = ‘01’ or ‘02’). 
+
+
+An error (*6A88': reference data not found) shall be 
+returned when any of the following conditions are true: 
+
+
+1) If Pl is 017 or ‘02’ and there is no CRT with 
+CT template in the current SE which permits 
+encryption. 
+
+
+2 
+
+
+МУ 
+
+
+ІРІ is ‘OL’ or ‘02’ and no algorithm reference 
+is present in the CT for encryption. 
+
+If Pl is ‘Ol’ or ‘02’ and the encryption 
+algorithm indicated in the CT template of the 
+current SE is not ‘02’ or ‘03’. 
+
+The key reference obtained from the CT does 
+not match the chain-id of the certified public 
+key. 
+
+
+3) 
+
+
+4) 
+
+
+5) 
+6) 
+
+
+No valid certified key is present. 
+
+While obtaining the public key as described 
+in 9.3, the condition “key not defined” occurs 
+(that is, the key is not found). 
+
+
+IS 16695 (Part 2) : 2022 
+
+
+12.3 External/ Internal/ Mutual Authenticate 
+
+
+Refer IS 14202 (Part 4) for INS = ‘88’ 
+(INTERNAL AUTHENTICATE) and INS = ‘82’ 
+(EXTERNAL/MUTUAL AUTHENTICATE). 
+
+
+The authentication algorithm to be used 
+in the INTERNAL/EXTERNAL/MUTUAL 
+AUTHENTICATE command is indicated by the 
+algorithm reference which will be obtained as described 
+in Table 12. When the algorithm reference (80° tag) 
+is taken from the current SE, the AT template shall be 
+used for which the usage qualifier permits the selected 
+operation. 
+
+
+This algorithm reference shall refer to an authentication 
+algorithm as defined in Table 8. If this algorithm 
+reference is ‘00’, “017 or “02” (that is, it refers to a 
+non-PKI algorithm), the authentication process shall 
+be carried out as perPart 1 of this standard. If the 
+algorithm reference is ‘03’, ‘04’ or ‘05’ (that is, it refers 
+to PKI algorithm), the authentication process shall use 
+asymmetric key cryptography and shall proceed as 
+described in this clause. 
+
+
+Table 12 Interpretation of P1 for Various AUTH 
+Commands 
+
+
+( Clause 12.3 ) 
+
+
+P1 Value of Algorithm Reference 
+
+
+0 From current SE 
+
+
+#0 P1 
+
+
+For asymmetric key based authentication, the P2 byte 
+shall always be equal to zero. 
+
+
+The various authentication algorithms (as defined in 
+Table 8) using asymmetric key cryptography may 
+require keys and algorithms as described below. 
+
+
+a) Encrypted Challenge-response Based 
+Authentication — When the algorithm reference 
+is ‘03’ or ‘05’, the encrypted-challenge based 
+authentication mechanism is used and the 
+authentication commands may require encryption 
+(using public key) and decryption (using private 
+key) operations. The key and algorithm reference 
+for these operations shall be obtained as described 
+below: 
+
+
+1) Decryption using private key — The key 
+reference (584? tag) and the algorithm reference 
+(“80° tag) for decryption will be taken from 
+the CT (in current SE) for which the usage 
+qualifier byte permits decryption operation 
+(refer section 9.2). If no such CT template 
+exists or key reference is absent/zero or the 
+algorithm reference is absent/not supported/ 
+zero or the key is not found, it will be an error 
+condition (*6A88'": reference data not found). 
+
+2) Encryption using public key — Тһе key 
+reference (5837 tag) and the algorithm 
+reference (‘80’ tag) for encryption will be 
+
+
+taken from the CT (in current SE) for which 
+the usage qualifier byte permits encryption 
+operation (refer section 9.3). If no such CT 
+template exists or the algorithm reference is 
+absent/not supported/zero, it will be an error 
+condition (*6A88': reference data not found). 
+If the key reference obtained from this CT is 
+non-zero, then it must match with the chain-id 
+of the certified public key. If this non-zero key 
+reference does not match the chain-id of the 
+certified key, it is an error condition. If the key 
+reference is not defined or if key reference is 0, 
+the chain matching is ignored and the certified 
+public key is used, provided its usage permits 
+data encipher. If no valid certified key is 
+present, it will be an error (‘6A88’: reference 
+data not found). 
+
+
+b) Digital Signature Based Authentication 
+Mechanism — When the algorithm reference is 
+“047, the digital signature based authentication 
+mechanism is used and the authentication 
+commands may require digital signature 
+computation and verification operations. The key 
+and algorithm reference for these operations shall 
+be obtained as described below: 
+
+
+1) Digital signature computation — The private 
+key reference and the algorithm reference 
+will be taken from the DST (in current SE) 
+for which the usage qualifier byte permits 
+computation operation (refer section 9.2). If 
+no such DST template exists or key reference 
+is absent/zero or the algorithm reference is 
+absent/not supported/zero or the key is not 
+found, it will be an error condition (“6A88’: 
+reference data not found). 
+
+
+2) Digital signature verification — The key 
+reference and the algorithm reference will be 
+taken from the DST (in current SE) for which 
+the usage qualifier byte permits verification 
+operation (refer section 9.3). If no such DST 
+template exists or the algorithm reference is 
+absent/not supported/zero, it will be an error 
+condition (‘6A88’: reference data not found). 
+If the key reference obtained from this DST is 
+non-zero, then it shall match with the chain-id 
+of the certified public key. If this non-zero key 
+reference does not match the chain-id of the 
+certified key, it is an error condition. If the key 
+reference is not defined or if key reference is 0, 
+the chain matching is ignored and the certified 
+public key is used, provided its usage permits 
+signature verification. If no valid certified key 
+is present, it will be an error (‘6A88’: reference 
+data not found). 
+
+When the value of algorithm reference is ‘05’(as 
+defined in Table 11), the INTERNAL and EXTERNAL 
+AUTHENTICATE commands will fail and only 
+
+
+MUTUAL AUTHENTICATE command shall be 
+allowed to proceed to establish session key along with 
+the authentication as described in 11.2. Also in this 
+case, the key usage for private key must permit both 
+data decipher and key decipher operations while the 
+key usage for certified public key must permit both data 
+encipher and key encipher operations. An error “6985” 
+(“Conditions of use not satisfied") will occur if these 
+key usage conditions are not satisfied. 
+
+
+The remaining specifications will remain same as given 
+in part 1 of this standard. 
+
+
+12.4 MSE SET for Key Derivation 
+
+
+MSE SET can be used for key derivation and setting 
+of other SE parameters as defined in part 1 of this 
+standard. MSE SET operation can be used to establish 
+symmetric session keys using asymmetric session keys 
+as described in clause 10.2. Refer IS 14202 (Part 4) for 
+INS = ‘22’. 
+
+
+A MANAGE SECURITY ENVIRONMENT command 
+shall be issued for key derivation with parameters as 
+described below. 
+
+
+Pl “ХІ? (for MSE SET) 
+
+P2 CRT tag of the template for which key is 
+to be derived. 
+
+Data field 45947 L - Data for deriving 
+key(mandatory)} 
+
+
+When a MSE SET command is issued for key derivation 
+(that is, command data contains DO with ‘94’ tag), one 
+of the following cases shall occur. 
+
+
+a) Casel: The CRT indicated by P2 byte contains a 
+DO with '84'tag 
+
+
+The session key shall be derived using symmetric 
+key algorithms as described in part 1 of this 
+standard. 
+
+
+b) Case 2: The CRT indicated by P2 byte does not 
+contain any DO with ‘84’ tag 
+
+
+The session key shall be derived using the algorithm as 
+described in clause 10.2. The data to derive the key is 
+taken from the ‘94’ tag in the command data field. 
+
+
+In the current SE, a КАТ template is searched in which 
+the usage qualifier indicates the key derivation for the 
+required operation. The key reference of the private key 
+of the ICC is obtained from the ‘84’ tag in this KAT 
+template. The key usage of this private key must permit 
+key decipher operation. The algorithm reference is 
+taken from the ‘80’ tag in this KAT template and shall 
+refer to the algorithm (refer Table 7) used for encrypting 
+the key material. This algorithm reference must have a 
+value ‘02’ or ‘03’ (i.e. it should refer to PKI). 
+
+
+19 
+
+
+IS 16695 (Part 2) : 2022 
+
+
+An error condition (‘6A88’: reference data not found) 
+will occur if any one of the conditions below is true. 
+
+
+1) If no KAT with usage qualifier byte permitting 
+the required operation is found. 
+
+
+2) If the KAT does not contain algorithm or key 
+reference (for private key) for key derivation. 
+
+
+3) If while retrieving private key (as in section 
+9.2), the condition “key not found" is 
+encountered. 
+
+
+4) The private key referred to is invalid. 
+
+
+An error condition (‘6985’: Conditions of use not 
+satisfied) will occur if the key usage for the private key 
+does not permit key decipher operation. 
+
+
+The key usage of the derived key shall be restricted only 
+for the operations given as an argument to the MSE SET 
+command (in P1 byte) provided that the usage qualifier 
+in the CRT indicated by P2 byte includes that usage. 
+For example, if the session key has been derived for 
+confidentiality (that is, P2 = ‘B8’) and the usage qualifier 
+byte in CT indicates key is valid for both encipherment 
+and decipherment and the P1 parameter in the MSE SET 
+command indicates only encipherment then the derived 
+key can only be used for encipherment. Similarly, if 
+the РІ byte indicates only SECURE MESSAGING 
+IN COMMAND and the usage qualifier for the CRT 
+indicates SECURE MESSAGING IN COMMAND as 
+well as IN RESPONSE then the derived key can only 
+be used for SECURE MESSAGING IN COMMAND. 
+
+
+12.5 PSO Decipher 
+Ref: As in ISO/IEC 7816-8 for INS = ‘2A’. 
+
+
+This operation deciphers the data transmitted in 
+the command data field and returns the plain text as 
+response. The DECIPHER operation is issued as a PSO 
+command with parameters as in 13. 
+
+
+Table 13 Decipher Command Parameters 
+( Clause 12.5 ) 
+
+
+P1 “80” (plain value) 
+P2 “86° (padding indicator byte followed Бу 
+cryptogram) 
+Data Field Data to be deciphered 
+
+
+The algorithm reference (‘80° tag) for performing 
+decryption will be taken from CT template (in 
+current SE) for which the usage qualifier byte permits 
+decryption. If no such CT template is present or the 
+algorithm reference is absent, then the default algorithm 
+reference with value 0 is used. An algorithm reference 
+with value ‘00’ ог “017 refers to symmetric key 
+decryption and shall proceed according to part 1 of this 
+standard. If the algorithm reference has a value ‘02’ or 
+
+
+IS 16695 (Part 2) : 2022 
+
+
+‘03’ (that is, it refers to asymmetric key cryptography), 
+a private key shall be used for decryption and shall be 
+obtained as described below. 
+
+
+For asymmetric key algorithms, the key reference 
+for the private key (‘84’ tag) is obtained from the CT 
+template (in current SE) for which the usage qualifier 
+byte permits decryption operation. This key shall be 
+valid for decryption and shall be obtained as described 
+in 9.2. 
+
+
+An error (‘6A88’: reference data not found) will occur 
+if any one of the following conditions is satisfied. 
+
+
+a) No CT template is present in current SE for 
+which the usage qualifier byte permits decryption 
+operation 
+
+
+b) The key reference for private key 1s either absent 
+or 0. 
+
+
+c) While retrieving the private key (according to 
+section 9.2), the condition “key not defined" 
+occurs. 
+
+
+d) The referred private key is invalid. 
+
+
+e) The algorithm referred to by the algorithm 
+reference is not supported. 
+
+
+For asymmetric-key decryption, the encrypted data 
+is first decrypted (using RSAES-OAEP-DECRYPT 
+ог RSAES-PKCSI-vl_5-DECRYPT) and then the 
+padding bytes are removed (using EME-OAEP or 
+ЕМЕ-РКСӨ61-у1 5 decoding respectively) according 
+to the algorithm used as defined in Table 7. 
+
+
+The other specifications of the command remain similar 
+to part 1 of this standard. 
+
+
+12.6 PSO Encipher 
+This operation enciphers the data transmitted in the 
+command data field and returns the cipher text as 
+response. The ENCIPHER operation is issued as a 
+PSO command with parameters as in Table 14. Refer 
+IS 14202 (Part 8) for INS = ‘2A’. 
+
+Table 14 Encipher Command Parameters 
+
+
+( Clause 12.6 ) 
+
+
+РІ “86° (padding indicator byte followed by 
+cryptogram) 
+
+P2 “80” (plain value) 
+
+Data Field Data to be enciphered 
+
+
+The algorithm reference (80° tag) for performing 
+encryption. will be taken from CT template (in 
+current SE) for which the usage qualifier byte permits 
+encryption. If no such CT template is present or the 
+algorithm reference is absent, then the default algorithm 
+reference with value 0 is used. An algorithm reference 
+with value “007 or “017 refers to symmetric key 
+
+
+20 
+
+
+encryption and shall proceedas given in part 1 of this 
+standard. If the algorithm reference has a value “02” or 
+“03” (that is, it refers to asymmetric key cryptography), 
+the certified public key shall be used for encryption and 
+shall be obtained as described below. 
+
+
+For asymmetric key algorithms, the key reference (*83° 
+tag) shall refer to the key reference ofthe CCA (chain-id 
+of the certified public key) and is obtained from the CT 
+template (in current SE) for which the usage qualifier 
+byte permits encryption operation. If this key reference 
+is non-zero, then it must match with the chain-id of the 
+certified public key. If no CT template is present or the 
+key reference is not defined or if key reference is 0, the 
+chain matching is ignored and the certified public key 
+is used provided that its usage permits the data encipher 
+operation. This public key will be obtained as described 
+in 9.3. 
+
+
+An error (‘6A88’: reference data not found) will occur 
+if any one of the following conditions is satisfied. 
+
+
+a) The key reference for public key is non-zero and 
+does not match the chain-id of the certified public 
+key. 
+
+b) No valid certified public key exists. 
+
+
+c) While retrieving the public key (according to 
+section 9.3), the condition “key not defined" 
+occurs. 
+
+
+d) The algorithm referred to by the algorithm 
+reference is not supported. 
+
+
+For asymmetric-key encryption, the data is first encoded 
+(using EME-OAEP or EME-PKCS1-v1_5 encoding) 
+and then encrypted (using RSAES-OAEP-ENCRYPT 
+ог RSAES-PKCS1-vl_5-ENCRYPT respectively) 
+according to the algorithm used as defined in Table 7. 
+
+
+The other specifications of the command remain similar 
+to the specifications given in Part 1 of this standard. 
+
+
+12.7 PSO Compute Digital Signature 
+
+
+A Digital Signature is computed by performing a PSO 
+command with the parameters as defined in Table 15. 
+The algorithm shall take the hash of the message as 
+input and compute the digital signature on it. Refer IS 
+14202 (Part 8) for INS = ‘2A’. 
+
+
+The algorithm reference (80° tag) shall be taken from 
+the DST template of the current SE for which the usage 
+qualifier byte permits signature computation. The 
+algorithm reference shall refer to a signature algorithm 
+as specified inTable. If no such DST is present or the 
+algorithm reference is absent or 0, the default algorithm 
+reference 0 shall be used. The data on which digital 
+signature is to be computed is first encoded according 
+to the message encoding scheme corresponding to the 
+referred algorithm. 
+
+
+Table 15 Parameters for Compute Digital 
+Signature 
+
+
+( Clause 12.7 ) 
+
+
+РІ “Е” (specifies that the value to be returned is а 
+digital signature) 
+P2 “9А” (specifies that the data field is the data to be 
+
+
+signed or integrated in the signature process) 
+
+
+Data field If P2— '9A', hash ofthe message on which signature 
+
+
+is to be computed 
+
+
+Computation of digital signature is performed using a 
+private key. The key reference (*84 tag) for this private 
+key is taken from the DST template of the current 
+SE (refer section 9.2) and this key must be valid for 
+computation of signature. If no such DST is present in 
+the current SE or the key reference is absent or 0, it will 
+be an error. 
+
+
+If the command is successfully executed, the value 
+returned by the ICC shall be the digital signature. The 
+command shall fail and an error (‘6A88’: reference 
+data not found) shall be returned when any one of the 
+following conditions are true: 
+
+
+a) No DST exists in the current SE with its usage 
+qualifier byte permitting signature computation; 
+
+
+b) The key reference in the DST is absent or 0; 
+
+
+c) While obtaining the private key as described in 
+9.2, the condition “Кеу not defined" occurs (that 
+is, the key is not found); 
+
+
+d) The private key referred to is invalid; and 
+e) The indicated algorithm is not supported. 
+
+
+12.8 PSO Verify Certificate 
+
+
+The VERIFY CERTIFICATE command requires a 
+certificate to be passed as a DO in the command data. 
+This certificate should be an X.509 version 3 certificate. 
+An X.509 certificate consists of three parts: certificate 
+information, a signature algorithm identifier and a 
+digital signature on the certificate information. The 
+length of the certificate should not exceed 800 bytes. 
+The certificate shall be encoded as per ASN.1 syntax 
+for X.509 certificates as specified in 13.1.7. Refer IS 
+14202 (Part 8) for INS = ‘2A’. 
+
+
+Certificate verification is carried out by doing a PSO 
+command with parameters as specified in Table 16. 
+
+
+Table 16 Parameters for Verify Certificate 
+Command 
+
+
+( Clause 12.8) 
+
+
+РІ “00: 
+P2 ‘BE’ 
+Data Field BER encoded certificate 
+
+
+The reference of the public key (that is, chain-id) to be 
+used in the verification process shall be taken from the 
+DST template in the current SE. The public key to be 
+
+
+IS 16695 (Part 2) : 2022 
+
+
+used for verification must be valid for verify certificate 
+operation and is obtained as described in section 9.3. 
+If no DST template is present or the key reference is 
+absent or 0, an error (“6А88°: reference data not found) 
+shall occur. 
+
+
+The algorithm to be applied for signature verification is 
+obtained from the certificate information. 
+
+
+After successful certificate verification, following 
+information is retrieved from the certificate and stored 
+by the ICC. 
+
+
+a) Subject Public Key Info — Public Key of the 
+entity to which the certificate was issued is taken 
+from subject public key provided algorithm for 
+the public key is supported by the OS. This key is 
+stored as certified public key with a key reference 
+which is same as the key reference (chain-id) of 
+the CA's key used for verification and should be 
+referred to in the subsequent commands with this 
+reference. 
+
+
+b) Key Usage Extension — This filed if present 
+specifies the operations for which the extracted 
+public key can be used. This field is optional in the 
+certificate and if not present, the corresponding 
+public key can be used for all operations. The 
+possible operations are the following. 
+
+
+1) Digital Signature — The subject public key can 
+be used to verify the digital signatures (other 
+than the signatures on certificates and CRLs). 
+
+
+2) Non Repudiation — The subject public key 
+can be used to verify the digital signatures for 
+the purpose of non-repudiation (other than the 
+signatures on certificates and CRLs). 
+
+
+3) Key Encipherment — The subject public key 
+can be used to encipher the keys for transport 
+purposes. 
+
+
+4) Data Encipherment — The subject public key 
+can be used to encipher data. 
+
+
+5) Key Agreement — The subject public key can 
+be used for key agreement. 
+
+
+6) Key CertSign — The subject public key can 
+be used to verify the signatures on the X509 
+certificates. 
+
+
+7) cRL Sign — The subject public key can be used 
+to verify signatures on certificate revocation 
+lists. This usage of the public key is not 
+envisaged in this standard. 
+
+
+8) Encipher Only — When present along with 
+key agreement, the public key can be used 
+for enciphering data while performing key 
+agreement. The usage is not defined in this 
+standard when this is set without key agreement 
+usage. 
+
+
+c) Algorithm — Тһе algorithm field is extracted 
+from the subject public key info field and is used 
+
+
+IS 16695 (Part 2) : 2022 
+
+
+to identify the cryptographic algorithm which 
+supports the certified public key. The algorithm 
+must be supported by the OS, that is, RSA 
+algorithm. 
+
+Subject — This standard supports role based 
+access control using data object ‘7F4C’ in the 
+AT template for the access control SE. In this 
+mechanism, access conditions may be defined so 
+that certain operations can only be carried out by 
+entities that have well defined role. The subject 
+field defines the owner of the public key and 18 
+used to permit role-based operations as per the 
+access control mechanisms. The guidelines for 
+using the role based access control are given in 
+Annex C. 
+
+
+This information is invalidated if some other application 
+is selected or another verify certificate operation is 
+executed. 
+
+
+d 
+
+
+М7 
+
+
+12.8.1 The response data field is empty and the status 
+bytes indicate whether the certificate was successfully 
+verified or not. The certificate verification shall fail and 
+an error (‘6A88’: reference data not found) shall be 
+returned when any of the following conditions are true: 
+
+
+а) Ifthere is no CRT with DST in the current SE. 
+
+
+b) The key reference is not specified in the DST 
+template of the current SE or the key reference 18 
+0. 
+
+
+c) While obtaining the public key as described in 
+section 9.3, the condition “key not defined” occurs 
+(that is, the key is not found). 
+
+
+d) The key reference does not match with the 
+chain-id of any CCA. 
+
+
+е) The indicated algorithm 15 not supported. 
+
+
+12.9 Generate Asymmetric Key Pair 
+
+
+The generate asymmetric key pair command is used 
+to generate asymmetric key pair, store the private key 
+securely and create a certification request which 1s 
+returned as a response of the command. 
+
+
+The data field of the command shall contain an AT 
+template (tag ‘A4’). Within the AT template there will 
+be an instance of DO with tag ‘7F4C’. The DO ‘7F4C’ 
+will have Name of the subject, in X.500 format, as its 
+value. The Name encoded in BER format shall be used 
+in creation of the certification request. Refer IS 14202 
+(Part 8) for INS = “46? 
+
+
+The certification request is returned as per ASN.1 
+syntax in BER encoding as specified in 13.1.8. The 
+parameters to this command are shown in Table 17, and 
+details are given in Annex D. 
+
+
+22 
+
+
+Table 17 Parameters for Generate Asymmetric Key 
+Pair Command 
+
+
+( Clause 12.9) 
+
+
+РІ *82' 
+P2 Key reference (should be non-zero) 
+Data Field AT template (tag ‘A4’) containing a DO 
+
+
+“7ЕАС” having as value the subject 
+
+
+name (Name encoded in BER format as 
+defined in RFC5280). 
+
+
+The CIO corresponding to key reference provided in P2 
+must exist in the EF.PrKD for the DF.CIA of currently 
+selected application. The cryptographic algorithm for 
+the use of generated asymmetric key pair shall be taken 
+from the CIO corresponding to private key choice 
+(refer ISO/IEC 7816-15 : 2004 Section 8.4). 
+
+
+The creation of certification request requires digital 
+signature using the generated private key. The signature 
+algorithm for this purpose shall be automatically chosen 
+based on the cryptographic algorithm taken from the 
+CIO as mentioned above. 
+
+
+Usually this algorithm will be the best one corresponding 
+to cryptographic algorithm taken from the CIO as above 
+and as available in the operating system. 
+
+
+The creation of certification request also requires Name 
+of the subject as specified in section 13.1.6. This Name 
+as an octet string is encoded as a value of DO with 
+‘7F4C’ tag and embedded in Authentication template 
+(‘A4’) and is provided as data field to the command. 
+
+
+The private key corresponding to the generated key 
+pair is stored in key store referred to by EF.PrKD in 
+a format as specified in Table 3. This shall be possible 
+only under the following cases: 
+
+
+a) The key does not exist in the key store. In such a 
+case the security status must permit write into the 
+key store. 
+
+b) The key exist in the key store, whether valid or 
+invalid. In such a case the security status must 
+permit update of the key store. 
+
+When multiple keys are stored in the key store, inclusion 
+of generated private key shall not alter/modify any 
+other key, status, metadata or value. 
+
+
+An error (‘6A88’: Reference Data not found) shall be 
+returned in one or more of the following conditions: 
+
+
+1) If valid current application is not present; 
+2) If DF.CIA is not present; 
+3) If EF.PrKD is not present; 
+
+
+4) If the CIO corresponding to the key reference 
+(P2) is not present in the EF.PrKD; 
+
+
+5) Ifthe path of the key store is not present in the 
+CIO; and 
+
+
+6) The key store is not present. 
+
+
+An error (‘6A84’: Not enough memory space in file) 
+shall be sent if there is not enough space in the key 
+store. 
+
+
+An error (569857: Conditions of use not satisfied) shall 
+be in one or more of the following conditions: 
+
+
+(1) The command data is inconsistent; 
+(ii) The key store is not internal file; 
+
+
+(11) If the key is not present corresponding to 
+the key reference and the key store does 
+not permit write operation; and 
+
+
+13.1.1 Path Data Type 
+
+
+IS 16695 (Part 2) : 2022 
+
+
+(iv) If the key (valid or invalid) is present for 
+the corresponding key reference and the 
+key store does not permit update operation. 
+
+
+Further errors may also be returned wherever 
+applicable. If the command is successful then the 
+response data field shall return certification request data 
+object containing public key and other data elements as 
+per section 13.1.8. 
+
+
+13 ASN.1 MODULE 
+
+
+13.1 Common Data Types 
+
+
+This clause specifies the ASN.1 syntax of some 
+common data types that shall be used for defining the 
+data types in subsequent sections. 
+
+
+Path ::- SEQUENCE ( -- Definition derived from ISO/IEC 7816-15 
+efidOrPath OCTET STRING 
+j 
+13.1.2 Object Value Data Type 
+ObjectValue(Type) ::- CHOICE(-- Definition derived from ISO/IEC 7816-15 
+indirect Path, --The syntax of object is 
+--determined by the context 
+direct [0] Type 
+3 
+13.1.3 RSA Public Key Data Type (reference: RFC 3447) 
+RSAPublicKey ::= SEQUENCE { 
+modulus INTEGER, -- n 
+publicExponent INTEGER -- e 
+Н 
+13.1.4 RSA Private Key Data Type (reference: КЕС 3447) 
+RSAPrivateKey ::- SEQUENCE ( 
+version Version, 
+modulus INTEGER, -- n 
+publicExponent INTEGER, -- e 
+privateExponent INTEGER, -- d 
+primel INTEGER, -- p 
+prime2 INTEGER, -- q 
+ехропепі1 INTEGER, -- d mod (p-1) 
+exponent2 INTEGER, -- d mod (q-1) 
+coefficient INTEGER, - (inverse of q) mod p 
+otherPrimeInfos OtherPrimeInfos OPTIONAL 
+) 
+
+
+23 
+
+
+IS 16695 (Part 2) : 2022 
+
+
+Version ::- INTEGER ( two-prime(0), multi(1) ) 
+
+(CONSTRAINED BY 
+
+{-- version must be multi if otherPrimeInfos present --)) 
+OtherPrimeInfos ::= SEQUENCE SIZE(1..MAX) OF OtherPrimeInfo 
+OtherPrimeInfo ::= SEQUENCE { 
+
+prime INTEGER, -- r, 
+
+exponent INTEGER, -- d, 
+
+coeficient INTEGER -- t, 
+
+j 
+
+
+13.1.5 Algorithm Identifier Data Type (reference: RFC 5280) 
+AlgorithmIdentifier ::= SEQUENCE { 
+algorithm OBJECT IDENTIFER, 
+parameters ANY DEFINED BY algorithm OPTIONAL 
+} 
+
+
+13.1.6 Name Data Type (reference: RFC 5280) 
+Name ::= CHOICE { RDNSequence } 
+
+
+RDNSequence ::= SEQUENCE OF RelativeDistinguishedName 
+RelativeDistinguishedName ::= SET OF AttributeTypeAndValue 
+AttributeTypeAndValue ::= SEQUENCE { 
+
+
+type AttributeType, 
+
+value AttributeValue } 
+AttributeType ::= OBJECT IDENTIFIER 
+AttributeValue ::= ANY DEFINED BY AttributeType 
+
+
+13.1.7 Certificates (reference: RFC 5280) 
+
+
+The VERIFY CERTIFICATE command requires a certificate to be passed as a DO in the command data. This 
+certificate should be a X.509 version 3 certificate. A X.509 certificate consists of three parts: certificate information, 
+a signature algorithm identifier and a digital signature on the certificate information. 
+
+
+An X.509 version 3 certificate shall have the following ASN.1 syntax as derived from RFC 5280. 
+
+
+Certificate ::= SEQUENCE { 
+tbsCertificate TBSCertificate, 
+signatureAlgorithm AlgorithmIdentifier, 
+signature BIT STRING -- computed on tbsCertificate 
+) 
+TBSCertificate ::= SEQUENCE { 
+version [0] Version DEFAULT v1, 
+serialNumber CertificateSerialNumber, 
+signature AlgorithmIdentifier, 
+issuer Name, 
+validity Validity, 
+subject Name, 
+subjectPublicKeyInfo SubjectPublicKeyInfo, 
+issuerUniqueID [1] IMPLICIT UniqueIdentifier OPTIONAL, 
+
+
+-- If present, version MUST be v2 or v3 
+24 
+
+
+IS 16695 (Part 2) : 2022 
+
+
+subjectUniqueID [2] IMPLICIT UniqueIdentifier OPTIONAL, 
+-- If present, version MUST be v2 or v3 
+extensions [3] Extensions OPTIONAL 
+) 
+Version ::= INTEGER (v1(0), v2(1), v3(2)) 
+-- for this document, Version shall always have value 2 i.e. v3. 
+CertificateSerialNumber ::- INTEGER 
+Validity ::- SEQUENCE ( 
+notBefore Time, 
+notAfter Time ) 
+Time ::- CHOICE ( 
+utcTime UTCTime, 
+
+
+generalTime GeneralizedTime ) 
+
+
+SubjectPublicKeyInfo ::- SEQUENCE ( 
+algorithm AlgorithmIdentifier, 
+subjectPublicKey BIT STRING} 
+UniqueIndentifier ::= BIT STRING 
+Extensions ::= SEQUENCE SIZE (1..MAX) OF Extension 
+Extension :: SEQUENCE { 
+extnID OBJECT IDENTIFIER, 
+
+
+critical BOOLEAN DEFAULT FALSE, 
+extnValue OCTET STRING } 
+The issuer and subject name shall be a maximum of 128 bytes when DER encoded. 
+
+
+The following AttributeType, ifpresent in the certificate, shall be recognized with the corresponding ASN.1 
+type of Attribute Value 
+
+
+AttributeType AttributeValue 
+
+id-at-name X520name 
+OBJECT IDENTIFIER ::- {2 5 4 41} 
+
+id-at-surname X520name 
+OBJECT IDENTIFIER ::- (2 5 4 4) 
+
+id-at-givenName X520name 
+OBJECT IDENTIFIER ::- (2 5 4 42) 
+
+id-at-initials X520name 
+OBJECT IDENTIFIER ::- (25 4 43) 
+
+id-at-generationQualifier X520name 
+OBJECT IDENTIFIER ::- (25 4 44) 
+
+id-at-commonName X520CommonName 
+OBJECT IDENTIFIER ::- (254 3) 
+
+id-at-localityName X520LocalityName 
+OBJECT IDENTIFIER ::- {2 5 4 7} 
+
+
+25 
+
+
+IS 16695 (Part 2) : 2022 
+
+
+id-at-stateOrProvinceName X520StateOrProvinceName 
+
+OBJECT IDENTIFIER ::- (254 8) 
+id-at-organizationName X5200rganizationName 
+
+OBJECT IDENTIFIER ::- (25 4 10) 
+id-at-organizationalUnitName X5200rganizationUnitName 
+
+OBJECT IDENTIFIER ::- {2 5 4 11) 
+id-at-title X520Title 
+
+OBJECT IDENTIFIER ::- (25 4 12) 
+-- Above AttributeValue more specifically are PrintableString or UTF8String 
+id-at-dnQualifier X520dnQualifier 
+
+OBJECT IDENTIFIER ::= {2 5 4 46} -- PrintableString 
+id-at-countryName X520countryName 
+
+OBJECT IDENTIFIER ::- (25 4 6) -- PrintableString 
+id-at-serialNumber X520SerialNumber 
+
+OBJECT IDENTIFIER ::- {2 5 4 5} -- PrintableString 
+id-at-psuedonym X520Psuedonym 
+
+OBJECT IDENTIFIER ::- (2 5 4 65) -- more specifically 
+
+-- PrintableString or UTF8String 
+
+id-domainComponent DomainComponent 
+
+OBJECT IDENTIFIER ::- (0 9 2342 19200300 100 1 25) -- IA5String 
+id-emailAddress EmailAddress 
+
+
+OBJECT IDENTIFIER ::- (1 2 840 113549 1 9 1) -- IA5String 
+
+
+The Extensions type is used for specifying additional attributes. In the OS, the key usage attribute shall be used 
+if defined in the certificate. The key usage extension will specify the possible usage of the key contained in the 
+certificate. If this extension is not specified, the corresponding public key shall be usable for all operations including 
+data encipher, key encipher, signature verification and certificate verification operations. The Extension type 
+for key usage shall have the following values: 
+
+
+KeyUsageExtension ::= SEQUENCE{ 
+extnID id-ce-keyUsage, 
+critical TRUE, 
+
+
+extnValue KeyUsage } 
+
+
+id-ce OBJECT IDENTIFIER ::= {2 5 29} 
+
+id-ce-keyUsage OBJECT IDENTIFIER ::= { id-ce 15 } 
+
+KeyUsage ::= BIT STRING { 
+digitalSignature (0), 
+nonRepudiation (1), 
+keyEncipherment (2), 
+dataEncipherment (3), 
+keyAgreement (4), 
+keyCertSign (5), 
+cRLSign (6), 
+encipherOnly (7), 
+decipherOnly (8) ) 
+
+
+26 
+
+
+The digital Signature bit is asserted when 
+the subject public key is used with a digital signature 
+mechanism to support security services other than 
+certificate signing (bit 5), or CRL signing (bit 6). The 
+non Repudiation bit is asserted when the subject 
+public key is used to verify digital signatures used 
+to provide a non-repudiation service which protects 
+against the signing entity falsely denying some action, 
+excluding certificate or CRL signing. 
+
+
+The key Encipherment bit is asserted when the 
+subject public key is used for exchange of encrypted 
+key material for key establishment. 
+
+
+13.1.8 Certification Request (reference: RFC 2986) 
+
+
+IS 16695 (Part 2) : 2022 
+
+
+The data Encipherment bit is asserted when the 
+subject public key is used for enciphering user data, 
+other than cryptographic keys. 
+
+
+The key CertSign bit is asserted when the subject 
+public key 1s used for verifying a signature on public 
+key certificates. 
+
+
+The rest of the bits are ignored by the ICC and are 
+included only for compatibility reasons. 
+
+
+A certification request shall have the following ASN.1 syntax. 
+
+
+CertificationRequest ::- 
+
+
+SEQUENCE ( 
+
+
+certificationRequestInfo CertificationRequestInfo, 
+
+
+signatureAlgorithm AlgorithmIdentifier {{ SignatureAlgorithms }}, 
+-- As defined in RFC 2986 
+
+
+signature BIT STRING 
+
+
+CertificationRequestInfo 
+
+
+-- computed on CertificationRequestInfo 
+
+
+гіш SEQUENCE { 
+
+
+version INTEGER ( v1(0) ) (v1,...), 
+
+
+subject Name, 
+
+
+-- specifies the Name of entity 
+
+
+(Refer section 12.9 and 13.1.6) 
+
+
+subjectPKInfo SubjectPublicKeyInfo(( PKInfoAlgorithms }}, 
+-- As defined in RFC 2986 
+
+
+attributes [0] Attributes( } 
+
+
+j 
+
+
+13.2 The CIO Type 
+Reference: ISO/IEC 7816-15 
+
+
+-- empty 
+
+
+A cryptographic information object of any kind is stored as DER encoded CIO type. A CIO type is parameterized 
+
+
+with object class attributes and object type attributes. 
+CIO (ClassAttributes, 
+commonObjectAttributes 
+
+
+SubClassAttributes, TypeAttributes} ::= 
+
+
+SEQUENCE { 
+
+
+CommonObjectAttributes, 
+
+
+classAttributes ClassAttributes, 
+subClassAttributes [0] SubClassAttributes OPTIONAL, 
+typeAttributes [1] TypeAttribtues 
+
+} 
+
+
+CommonObjectAttributes ::= 
+
+
+SEQUENCE { } == 
+
+
+Empty sequence. Definition 
+
+
+-- derived from ISO/IEC 7816-15 
+
+
+27 
+
+
+IS 16695 (Part 2) : 2022 
+
+
+13.3 Keys 
+
+
+CIOs for all kinds of keys (i.e. private keys, public keys etc.) shall have CommonKeyAttributes type as the 
+ClassAttributes parameter for CIO type. 
+
+
+CommonKeyAttributes ::= SEQUENCE ( -- Derived from ISO/IEC 7816-15 
+iD OCTET STRING, -- Max size 256 Bytes 
+usage KeyUsageFlags, 
+native BOOLEAN DEFAULT TRUE, 
+keyReference INTEGER -- value as defined in part 1 of this standard 
+
+
+-- for P2 byte for various 
+
+
+-- AUTHENTICATE commands 
+
+
+) 
+
+KeyUsageFlags ::- BIT STRING ( 
+encipher (0), 
+decipher (1), 
+sign (2), 
+signRecover (3), 
+keyEncipher (4), 
+keyDecipher (5), 
+verify (6), 
+verifyRecover (7), 
+derive (8), 
+nonRepudiation (9) 
+j 
+
+
+The iD component shall uniquely identify a key information object except when a private key information object 
+and its corresponding public key information object are stored on the same ICC. In that case, the private key 
+information object and the public key information object shall have the same i D. 
+
+
+The usage component shall indicate the possible usage of the keys. In this component, the bits 3, 7 and 9 will 
+always be set to 0 as these operations are not required by this standard. 
+
+
+The native component shall indicate whether the cryptographic algorithms associated with the key are implemented 
+in the ICC hardware. 
+
+
+The keyReference component shall be the key reference as defined in part 1 of this standard.. 
+
+
+13.3.1 Private Keys 
+
+
+A Private Key information object will be oftype Private Key Choice and shall have the ASN.1 syntax as 
+described below. Private RSA Key Attributes. Path shall refer to an EF which contains the private 
+RSA key. 
+
+
+PrivateKeyChoice ::- CIO ( -- Derived from ISO/IEC 7816-15 definition 
+
+
+-- of privateRSAKey 
+
+
+CommonKeyAttributes, CommonPrivateKeyAttributes, 
+PrivateRSAKeyAttributes ) 
+
+
+CommonPrivateKeyAttributes ::- SEQUENCE { } -- Empty sequence 
+-- Derived from ISO/IEC 7816-15 
+PrivateRSAKeyAttributes ::- SEQUENCE ( 
+value Path, 
+modulusLength INTEGER, -- modulus length in bits, e.g. 1024 
+) 
+
+
+28 
+
+
+IS 16695 (Part 2) : 2022 
+
+
+A private key can be used for decipher, key decipher and signature computation operations. 
+13.3.2 Public Keys 
+
+
+A Public Key information object will be of type PublicKeyChoice and shall have the ASN.1 syntax as 
+
+
+described below. PublicRSAKeyAttributes.value shall specify path to an EF which shall contain the 
+public RSA key. 
+
+
+PublicKeyChoice ::- CIO ( -- Derived from ISO/IEC 7816-15 definition 
+
+
+-- of publicRSAKey 
+
+
+CommonKeyAttributes, CommonPublicKeyAttributes, 
+PublicRSAKeyAttributes ) 
+
+
+CommonPublicKeyAttributes ::- SEQUENCE ( 
+name Name OPTIONAL specifies the Name of entity (refer section 
+-- 13.1.6) to whom this public key was issued] 
+} 
+PublicRSAKeyAttributes ::= SEQUENCE { 
+value ObjectValue {RSAPublicKey}, 
+modulusLength INTEGER 
+
+
+-- Modulus length in bits, e.g. 1024 
+} 
+A public key can be used for encipher, key encipher, signature verification and certificate verification operations. 
+
+
+13.3.3 Secret Keys 
+
+
+A Secret Key information object will be of type Secret Key Choice and shall have the ASN.1 syntax as described 
+below. 
+
+
+SecretKeyChoice ::= CIO { -- Definition derived from ISO/IEC 7816-15 
+
+
+CommonKeyAttributes, CommonSecretKeyAttributes, 
+SecretKeyAttributes ) 
+
+
+CommonSecretKeyAttributes ::= SEQUENCE { } -- Empty Sequence 
+-- derived from ISO/IEC 7816-15 
+SecretKeyAttributes ::- SEQUENCE ( 
+value Path } 
+
+
+A secret key can be used for encryption, decryption and derive operations. 
+13.4 Authentication Objects 
+
+
+Authentication object directory file shall contain CIOs for passwords only. An authentication object CIO is stored 
+as an AuthenticationObjectChoice type with ASN.1 syntax as described below. 
+
+
+AuthenticationObjectChoice ::- CIO ( -- Definition derived from 
+
+
+-- ISO/IEC 7816-15 
+CommonAuthenticationObjectAttributes, NULL, PasswordAttributes} 
+
+
+CommonAuthenticationObjectAttributes ::- SEQUENCE ( ) -- Empty sequence 
+-- derived from ISO/IEC 7816-15 
+PasswordAttributes ::- SEQUENCE ( 
+pwdFlags PasswordFlags 
+pwdType PasswordType, 
+
+
+29 
+
+
+IS 16695 (Part 2) : 2022 
+
+
+minLength INTEGER (cia-lb-minPasswordLength.. 
+
+cia-ub-minPasswordLength), 
+storedLength INTEGER (0..cia-ub-storedPasswordLength), 
+pwdReference [0] INTEGER DEFAULT 0, 
+
+
+-- as defined in part 1 of this standard for P2 byte 
+-- for the VERIFY command 
+path Path -- This stores the path to EF in 
+
+
+-- which password resides 
+
+
+PasswordFlags ::- BIT STRING ( 
+case-sensitive (0), 
+local (1), 
+change-disabled (2), 
+unblock-disabled (3), 
+initialized (4), 
+needs-padding (5), 
+unblockingPassword (6), 
+soPassword (7), 
+disable-allowed (8), 
+integrity-protected (9), 
+confidentiality-protected (10), 
+exchangeRefData (11) 
+) 
+
+PasswordType ::- ENUMERATED (bcd, ascii-numeric, utf8, ...} 
+
+
+PasswordAttribtues.pwdType indicates the type of password which shall be ut£8. 
+
+
+PasswordAttributes.minLength and PasswordAttributes.storedLength have been included 
+only for compatibility with ISO/IEC 7816-15 standard and shall be ignored by the ICC. . 
+
+
+30 
+
+
+IS No. 
+
+
+14202 (Part 4) : 
+2014 
+
+
+14202 (Part 6) : 
+2013 
+
+
+ISO No/Other 
+Publication 
+
+
+ISO/IEC 7816-15: 
+2004 
+
+
+PKCS £1 v2.1 
+RFC 5280 
+
+
+АММЕХА 
+( Clause 2) 
+LIST OF REFERRED INDIAN STANDARDS 
+
+
+Title 
+
+
+Identification cards — Integrated 
+circuit cards: Part 4 Organization, 
+security and commands for 
+interchange 
+
+
+Identification cards — Integrated 
+circuit cards: Part 6 Inter-industry 
+data elements for interchange 
+
+
+IS No. 
+
+
+14202 (Part 8) : 
+2013 
+
+
+16695 (Part 1) : 
+2021 
+
+
+ANNEX B 
+( Clause 2) 
+LIST OF REFERRED INTERNATIONAL STANDARDS/PUBLICATIONS 
+
+
+Title 
+
+
+Identification | cards — 
+Integrated circuit cards — 
+Part 15: Cryptographic 
+Information Application 
+
+RSA Cryptography Standard 
+Internet X.509 Public Key 
+Infrastructure Certificate and 
+
+
+Certificate Revocation List 
+(CRL) Profile, May 2008. 
+
+
+31 
+
+
+ISO No/Other 
+Publication 
+
+
+RFC 3447 
+
+
+RFC 2986 
+
+
+IS 16695 (Part 2) : 2022 
+
+
+Title 
+
+
+Identification cards — Integrated 
+circuit cards: Part 8 Commands 
+for security operations 
+
+
+Smart-card operating system 
+template architecture: Part 1 
+Basic command sets 
+
+
+(first revision) 
+
+
+Title 
+
+
+PKCS #1: RSA Cryptography 
+Specifications, February 
+2003 
+
+
+PKCS #10: Certification 
+Request Syntax Specification 
+Version 1.7 
+
+
+IS 16695 (Part 2) : 2022 
+
+
+ANNEX C 
+( Clause 12.8 ) 
+ROLE-BASED ACCESS CONTROL 
+
+
+C-1 CODING OF THE CORRESPONDING 
+SECURITY ENVIRONMENT 
+
+
+The data object ‘7F4C’ is used as Certificate Holder 
+Authorization (CHA) template and may be included 
+inside the AT template. The data object shall hold the 
+role identifier against which the subject name of the 
+verified certificate shall be matched for role-based 
+access control. The following example indicates the 
+definition of an SE with inclusion of CHA in the AT 
+template for role-based access condition. 
+
+{80° - L- SEID} - {AF -L- {*95’- 01-80} - {*7F4C’ 
+- L- Certificate holder authorization} | 
+
+
+C-2 CERTIFICATE 
+AUTHORIZATION (CHA) 
+
+
+Certificate holder authorization (CHA) indicates the 
+role that an external entity should possess in order 
+to satisfy the access condition to perform various 
+operations on resources like files, commands, etc. CHA 
+shall be represented using the ASN.1 syntax as follows. 
+
+
+HOLDER 
+
+
+CHA ::= CHOICE { PDNSequence } 
+PDNSequence = SEQUENCE OF 
+PartialDistinguishedName 
+PartialDistinguishedName = SET OF 
+
+
+AttributeTypeAndValue 
+
+
+AttributeTypeAndValue shall be represented as 
+given in section 13.1.6. 
+
+
+C-3 MECHANISMS FOR ROLE-BASED 
+ACCESS CONTROL 
+
+
+The role based access control shall be implemented 
+using the roles specified in CHA and the subject name 
+of the certified public key. For this purpose the specified 
+operation on the resource (file/command/DO etc.) shall 
+be permitted only if the role specified through the 
+CHA in the corresponding AT template matches with 
+the subject name of the certified public key. For such 
+a matching to occur, each element of the Partial 
+Distinguished Name in the CHA shall match 
+with the corresponding element of the Relative 
+Distinguished Name in the subject name of the 
+certified public key. 
+
+
+C-4 RULES FOR ROLE-BASED ACCESS 
+CONTROL 
+
+
+C-4.1 Rules for Role-matching 
+
+
+Rule 1: Every Partial Distinguished 
+Name element present inside the CHA as 
+identified by Attribute Type, shall be 
+
+
+32 
+
+
+present in the set of elements of Relative 
+Distinguished Name, with the same value 
+ofAttribute Type, inside the subject name 
+of the certified public key. Number of elements in 
+Relative Distinguished Name may be 
+more than the number of elements in Partial 
+Distinguished Name. A role specified 
+through CHA is said to match with the subject name 
+if each Partial Distinguished Name 
+element in CHA matches with an element in the set 
+of elements in Relative Distinguished 
+Name in subject name of the certified public key. 
+
+
+Rule 2: Ап element of Partial 
+Distinguished Name shall be matched based 
+on the following rules. 
+
+
+Rule 2.1: If the length of value in an 
+Attribute Type Апа Value ofa 
+Partial Distinguished Name is zero, 
+then an element must be present with the same 
+value of Attribute Type, in the set of 
+elements of Relative Distinguished 
+Name inside the subject name. 
+
+
+Rule 2.2: When the length of the value in 
+the Attribute Type And Value of 
+a Partial Distinguished Name is 
+non-zero, then the value field of the DO for 
+value in Partial Distinguished 
+Name is matched with the corresponding 
+value field in Relative Distinguished 
+Name as described here. The value 
+is a character string (PrintableString, 
+or  UTFS8Strng ог  lAS5String) in 
+PartialDistinguishedName as defined 
+by AttributeType with an exception that 
+the last character can be ‘00’. АП non-zero 
+characters in the corresponding elements 
+
+
+of RelativeDistinguishedName 
+and PartialDistinguishedName 
+must match exactly In case the last 
+
+
+character in the value field in the element of 
+PartialDistinguishedName is ‘00’, 
+it will match zero or more characters in the 
+value field of the corresponding element of 
+RelativeDistinguishedName. 
+
+
+C-4.2 Rules for Access Control 
+
+
+When the role is matched successfully, the access to 
+the operation shall be permitted based on the DO for 
+usage qualifier in AT template of the SE definition and 
+the access control specified in the FCP of the file or the 
+resource. 
+
+
+C-5 EXAMPLES OF SPECIFYING ROLES 
+
+
+Consider a scenario where a particular file or resource 
+can only be accessed by users having a specific role. 
+The DER-TLV representation of the CHA for the role 
+
+
+VIFAC' 738” -- 
+“307 735” == 
+‘31’ ‘OB’ =z 
+“30” 709” -- 
+‘06’ 703” -- 
+
+‘55’ ‘04’ 706” = 
+
+‘13’ ‘02’ -- 
+
+'49' "AE" ns 
+
+Y31^ 0D == 
+`30' ‘OB’ == 
+‘06’ 703” -- 
+
+“55” *04' ‘0A’ -- 
+
+713” 704” a 
+
+'49' 49” *54' ‘4B’ -- 
+
+YXST* "0c" x 
+“30” ‘OA’ im 
+‘06’ 703” me 
+
+“55” ‘04’ ‘0B’ -- 
+
+*13* 703! = 
+
+‘43’ ‘53’ ‘00’ == 
+
+`31” 709” -- 
+“30” 707” == 
+‘06’ 703” -- 
+
+‘55’ ‘04’ ‘03’ == 
+
+137101 -- 
+
+
+“00” - 
+
+
+33 
+
+
+IS 16695 (Part 2) : 2022 
+
+
+identifier in the AT template of SE is as follows. This 
+CHA represents “апу one" from an organization unit 
+with names starting with *CS" (such as CSE, CSA, 
+CSIT etc.) of an organization “ПТК” in country “IN” 
+can access the resource. 
+
+
+CHAT 
+SEQUENCE 
+SET 
+SEQUENCE 
+OID 
+Country OID 
+Printable String 
+"IN" - Exact 
+SET 
+SEQUENCE 
+OID 
+Organization OID 
+Printable String 
+“ІІТК” - Exact 
+SET 
+SEQUENCE 
+OID 
+Organization Unit OID 
+Printable String 
+Starting with "CS" 
+SET 
+SEQUENCE 
+
+
+OID 
+Common Name OID 
+Printable String 
+Any String 
+
+
+IS 16695 (Part 2) : 2022 
+
+
+A value of ‘00’ in the CHA above represents zero or 
+more characters may be matched. The following subject 
+names as example will have access to the resource if 
+other conditions, if any, are met. 
+
+
+country — *IN", organization- *IITK", organization 
+unit = “CSE” and common name = “Ankit”. 
+
+
+country = “IN”, organization= *IITK", organization 
+
+
+unit = “CSE” and common name = “Alpana”, 
+location= “Kanpur”. 
+However, the subject name (country= “IN”, 
+
+
+organization = “ІШ, organization unit = “CSE”) will 
+not have access for two reasons — (1) organization 
+name is not matching, and (2) subject name does not 
+include commonName. 
+
+
+Observations: 
+
+
+a) AsperRulel,every Partial Distinguished 
+Name element present inside the CHA as 
+identified by Attribute Type, is present in 
+the set of elements of Relative Distinguished 
+
+
+34 
+
+
+Name, with the same value of Attribute 
+Type, inside the subject name of the certified 
+public key certificate. This is true for the given 
+example where country, organization, 
+organization Unit and common Name are 
+the only elements present in the CHA and they all 
+appear in the subject name of the certified public 
+key. 
+
+b) As per Rule 2.1, the element for Attribute 
+Type common Name is present in the set of 
+elements of Relative Distinguished 
+Name inside the subject name, even though, 
+the length of Attribute Value in the 
+Attribute Type And Value of the 
+corresponding Partial Distinguished 
+Name in CHA is zero. 
+
+
+As per Rule 2.2, all non-zero characters in 
+the corresponding elements of Relative 
+Distinguished Name and Partial 
+
+
+Distinguished Name match exactly. 
+
+
+IS 16695 (Part 2) : 2022 
+
+
+ANNEX D 
+
+
+( Clause 
+
+
+12.9) 
+
+
+SAMPLE FOR “СЕМЕКАТЕ ASYMMETRIC KEY PAIR? 
+
+
+D-1 GENERATE ASYMMETRIC KEY PAIR 
+
+
+The generate Asymmetric Key Pair command is used 
+to generate asymmetric key pair, store the private key 
+securely and create a certification request which 18 
+returned as a response to the command. 
+
+
+The data field ofthe command shall contain AT template 
+(tag ‘A4’) containing a DO ‘7F4C’ having as value the 
+subject name (Name encoded in BER format as defined 
+in RFC5280). 
+
+
+ХА4” ^35' 
+VIFAC' ‘32’ 
+“30” 30” 
+Y31' "0B" 
+“30” 709” 
+‘06’ 03” 
+‘55’ ‘04’ 706” 
+v3. *02* 
+'49' "AE! 
+‘31’ ‘OD’ 
+‘30’ ‘OB’ 
+‘06’ 703” 
+‘55’ ‘04’ ‘06’ 
+713” 704” 
+“49” 49” “547 ‘4B’ 
+Y31* 712” 
+“30” 710” 
+‘06’ 703” 
+‘55’ ‘04’ ‘03’ 
+713” 709” 
+
+
+D-2 SAMPLE COMMAND APDU AND 
+RESPONSE DATA FIELD 
+
+
+The generate asymmetric key pair command APDU 
+and response data field samples for key reference “87” 
+15 shown below. 
+
+
+a) Command APDU and Data Field for Generate 
+Key Pair 
+CLA= ‘00’, INS= ‘46’, РІ- ‘82’, P2= ‘87’, Lc= 
+‘37°, LcData = Name of the Subject Le=OxFFFF 
+
+
+-- AT 
+
+-- CHAT 
+
+-- SEQUENCE 
+
+== ЅЕТ 
+
+-- SEQUENCE 
+
+== OID 
+
+zx Country OID 
+
+== Printable String 
+zx "IN" 
+
+== SET 
+
+== SEQUENCE 
+
+ss OID 
+
+=s Organisation OID 
+== Printable String 
+m “ЕТТЕ” 
+
+== ЅЕТ 
+
+== SEQUENCE 
+
+s= OID 
+
+== Common Name OID 
+== Printable String 
+
+
+573! ‘75! 764” *68" *61' *6E! *73' 7687 775! 
+
+
+== "sudhanshu" 
+
+
+b) Response APDU that is Certification Request as per the Section 13.1.8 
+
+
+730" *82' *01^ 770” 
+‘30’ ‘81’ ‘DA’ 
+‘02’ ‘01’ 
+“00” 
+“30” 30” 
+‘31’ ‘OB’ 
+“30” 709” 
+‘06’ 703” 
+‘55’ ‘04’ 706” 
+
+
+35 
+
+
+-- SEQUENCE 
+
+== SEQUENCE 
+
+== INTEGER 
+
+== (0) version 1 
+
+== SEQUENCE 
+
+== SET 
+
+=< SEQUENCE 
+
+== OID 
+
+zi Country OID 
+
+
+IS 16695 (Part 2) : 2022 
+
+
+“3” "02" ss Printable String 
+`49' ‘AR’ == "IN" 
+“31” “0р” == SET 
+“30” ‘0B’ ін SEQUENCE 
+‘06’ 703” == OID 
+“55” 704” ‘06’ m Organisation OID 
+713” 704” == Printable String 
+“49” “49” *54' ‘АВ’ i "IITK" 
+3317 *12* == SET 
+130" 510” == SEQUENCE 
+‘06’ 703” == OID 
+“55” ‘04’ ‘03’ m Common Name OID 
+713” 709” -- Printable String 
+“73” “75” *64' ‘68’ ‘61’ ^6E' 7737 7687 ‘75’ 
+m "sudhanshu" 
+'30' ‘81’ ‘А0’ == SEQUENCE 
+“30” “Ор” m SEQUENCE 
+‘06’ ‘09’ == OID 
+'2A' 786” “48” 786” ‘F7’ ‘OD’ ‘01’ ‘01’ ‘01’ 
+== RSA 
+“05” 700” -- parameters (NULL) 
+‘03’ ‘81’ ‘8E’ == ВІТ STRING 
+‘00’ 730” 781” ‘8A’ 702” 781” 781” 700” ‘8D’ ‘06’ ‘FF’ САС?” ^30" ‘04’ 
+‘OB’ ‘FEF’ ‘1C’ СЕ1” СЕ9” 728” ‘C4’ 787” С2П” ‘65’ ‘6D’ ^7F' ^3A' ‘6B’ 
+“37! 754” 787” ‘DD’ СЕ8” "2C' ^3F' СЗЕ” ‘51’ ‘OA’ ‘C7’ ‘AB’ 7297 784” 
+MAC! 7E! СБА! “PD! *AS' 7597 “СВ” “EC? 'P3^ 7907 7427 *15' “TET 569! 
+‘3A’ ‘EO’ СЗЕ” 764” ‘35’ СВ5” ‘53’ ^D5' СБ5” 7727 731! 781! ‘FT’ 795” 
+‘9B’ 787” 726” 779” ‘FO’ ‘DD’ САЗ?” ‘47’ 65” ^5A' 747” ^E2' "6F' 772” 
+‘78’ ‘DD’ ‘1A’ 7117 ‘8B’ "F8' ‘C5’ СЕ6” ‘Al’ 7257 ^B3' ‘OB’ ‘74’ 7197 
+‘4B’ ‘FB’ ‘5A’ ‘26’ ‘BO’ ‘OA’ ‘FF’ ‘66’ ‘4C’ ‘F9’ ‘04’ ‘AD’ ‘87’ ‘ED’ 
+'F2' ‘55’ 780” 738” ‘35’ 728” ‘86’ 711” 725” ‘87’ ‘1B’ ‘A8’ ‘DB’ ‘CA’ 
+‘C9’ 702” 704” 700” 701” 700” 701” 
+‘AO’ 700” == Attributes (Empty) 
+“30” ‘OD’ -- SEQUENCE 
+‘06’ ‘09’ == OID 
+‘2A’ 786” ‘48’ ‘86’ ‘F7’ ‘OD’ ‘01’ ‘01’ ‘0B’ 
+== sha256RSA 
+“05” 700” -- parameters (NULL) 
+037-7817 761” -- ВІТ STRING 
+‘00’ ‘OA’ ‘AD’ 749” 791” 7С0” СОВ” ‘EO’ ‘51’ 715” СБЕ” СВЕ” "F7' 
+‘OA’ ‘9D’ 766” ^57' 789” 767” 707” "8B' 749” 738” 779” СЕП” ‘83’ 
+‘3D’ ‘35’ 723” ‘9A’ ‘6A’ ‘DA’ СОВ” ‘25’ ‘7EF’ СБА” 7327 ‘F6’ ‘16’ 
+‘86’ СІП” ‘FE’ ‘BC’ ‘3B’ 770” ‘69’ ‘4B’ ‘24’ 720” 756” ‘63’ ‘FE’ 
+‘Al’ ‘09’ 716” ‘3B’ 740” 723” ‘4B’ ‘2D’ ‘82’ ‘5C’ ‘4B’ ‘8E’ ‘58’ 
+‘23’ ‘E6’ ‘66’ ‘BA’ ‘FB’ 734” 777” 787” 706” 722” 702” ‘EA’ ‘71’ 
+‘21’ ‘08’ 710” 735” ‘08’ ^5F' ‘8E’ ‘DE’ ‘D6’ ^E5' 707” ‘8F’ ‘B8’ 
+‘1D’ ‘3A’ ‘D3’ ^2F' ^3C' 722” ‘01’ ‘BC’ ‘4F’ ‘14’ ‘OE’ "OC' ‘94’ 
+‘2F’ ‘2D’ 787” ‘24’ ХА8” 743” СЕЗ” СЕ7” САС” СЕС” *2C’ "9C' ‘CO’ 
+“ЗЕ” 785” ‘ВЕ’ ‘C2’ ‘55’ ^8F' ‘8B’ ‘92’ ‘32’ САС” ‘AF’ "4A' 
+
+
+36 
+
+
+“Е5” 
+“Сс” 
+“74! 
+“ТЕ” 
+“5” 
+“43” 
+‘D6’ 
+‘AT’ 
+“ЕЗ” 
+
+
+IS 16695 (Part 2) : 2022 
+
+
+ANNEX E 
+( Foreword ) 
+COMMITTEE COMPOSITION 
+
+
+Computer Hardware, Peripherals & Identification Cards Sectional Committee, LITD 16 
+
+
+Organization 
+
+
+In personal capacity 
+All India Radio, New Delhi 
+
+
+Canon India Private Limited, Gurugram 
+
+
+Central Institute of Plastics Engineering and 
+Technology, Murthal 
+
+
+Centre for Development of Advanced Computing, 
+Noida 
+
+
+Centre for Railway Information Systems, New Delhi 
+
+
+Computer Society of India, New Delhi 
+
+
+Delhi Integrated Multi-Modal Transit System Ltd, 
+New Delhi 
+
+
+Delhi Metro Rail Corporation Limited, Delhi 
+
+
+Electronics Regional and Test Laboratory (North), 
+New Delhi 
+
+
+e-Smart Systems Limited, New Delhi 
+
+
+Fime India, Bengaluru 
+HP India Sales Private Limited, Bengaluru 
+
+
+In personal capacity 
+Indian Institute of Technology Bhilai, Bhilai 
+
+
+Infineon Technologies India Private Limited, Noida 
+
+
+Manufacturers Association for Information 
+Technology, New Delhi 
+
+
+Ministry of Electronics and Information 
+Technology-Standardization Testing and Quality 
+Certification (STQC), New Delhi 
+
+
+Ministry of Electronics and Information Technology, 
+New Delhi 
+
+
+Narnix Technolabs Private Limited, New Delhi 
+National Informatics Centre, New Delhi 
+
+
+National Payments Corporation of India, Mumbai 
+
+
+NXP Semiconductors India Private Limited, 
+Bengaluru 
+
+
+Representative(s) 
+
+
+DR MAHESH CHANDRA (Chairman) 
+
+
+MR S. К. SRIVASTAVA 
+Ме PRADEEP MEHRA (Alternate) 
+
+
+MR AsHISH KHAANA 
+MR SATOSHI HIRABAYASHI (Alternate) 
+
+
+DR SMITA MOHANTY 
+Dn M. К. Biswar (Alternate) 
+
+
+Ms SAVITA KASHYAP 
+Mn КАЈЕЅН KUSHWAHA (Alternate) 
+
+
+Mr С. К. MaisHI 
+Mn Visay К. DEVNATH (Alternate) 
+
+
+ProF M. М. Норд 
+
+
+MR ALOK SETHI 
+MR ABHISHEK SRIVASTAVA (Alternate) 
+
+
+MR V. P. SINGH 
+MR M. P. SHARMA 
+
+
+MR ANURAG ASHOK 
+
+
+MR HARDIK MIRANI 
+MR ANGAJ BHANDARI (Alternate) 
+
+
+Ms ANUBHUTI 
+Ms UPASANA CHOUDHRY (Alternate) 
+
+
+MR ViNAY BHUSHAN TANEJA 
+PROF RAJAT MOONA 
+
+
+MR MADHUSUDHANAN SAMPATH 
+MR Azay HANYALU (Alternate) 
+
+
+MR GEORGE PAUL 
+
+
+MR MANISH SELAL 
+
+
+MR MUKUL KUMAR YADAV 
+MR U. K. NANDWANI (Alternate I) 
+SHRIMATI ASHA NANGIA (Alternate II) 
+
+
+MR N. KISHOR NARANG 
+MR RAJDEEP CHOUDHURY 
+
+
+MR NALIN BANSAL 
+MR SANJAY CHANDAK (Alternate) 
+
+
+MR AJESH KAPOOR 
+MR ACHIN JAIN (Alternate) 
+
+
+37 
+
+
+IS 16695 (Part 2) : 2022 
+
+
+Organization Representative(s) 
+Samsung India Electronics Private Limited, Mr DEEPAK BHARADWAJ 
+New Delhi Mn SANJAY KUMAR BANSAL (Alternate) 
+
+
+ST Microelectronics Private Limited, Greater Noida Mr PRASHANT PANDEY 
+
+
+Telecommunication Engineering Center, New Delhi Мк К. SAJI KUMAR 
+Mr UTTAM CHAND (Alternate) 
+
+
+The Institution of Electronics and Pror WG CD P. PRABHAKAR 
+Telecommunication Engineers, New Delhi Dr JYOTSNA KUMAR MANDAL (Alternate) 
+UL India Private Limited, Bengaluru Mr AsHIsH MATHUR 
+
+
+MR V. MANJUNATH (Alternate) 
+
+
+BIS Director General Ms REENA GARG, SCIENTIST ‘F’ AND HEAD (ELECTRONICS AND IT) 
+[ REPRESENTING DIRECTOR GENERAL ( Ex-officio ) | 
+
+
+Member Secretary 
+
+
+SHRI MANIKANDAN K. 
+SCIENTIST ‘D’ (ELECTRONICS AND IT), BIS 
+
+
+Panel involved in the Finalization — LITD 16 : 1 Cards and personal Identification 
+
+
+Organization Representative(s) 
+
+Indian Institute of Technology Bhilai, Bhilai ProF КАЈАТ Moona (Convener) 
+Centre for Development of Advanced Computing, Ms SAVITA KASHYAP 
+
+NOIDA 
+Centre for Development of Advanced Computing, MR ADARSH PILLAI 
+
+NOIDA 
+Centre for Development of Advanced Computing, MR MANISH KUMAR VERMA 
+
+NOIDA 
+e-Smart Systems Limited, New Delhi Mr ANURAG ASHOK 
+Infineon Technologies India Private Limited, Noida Mr MADHUSUDHANAN SAMPATH 
+Manufacturers Association for Information Mr GEORGE PAUL 
+
+Technology, New Delhi 
+NXP Semiconductors India Private Limited, MR AJESH KAPOOR 
+
+Bengaluru 
+National Informatics Centre, New Delhi MR RAJDEEP CHOUDHURY 
+
+
+ST Microelectronics Private Limited, Greater Noida МА DEEPAK AGARWAL 
+
+
+ST Microelectronics Private Limited, Greater Noida МА PRASHANT PANDEY 
+
+
+38 
+
+
+Bureau of Indian Standards 
+
+
+BIS is a statutory institution established under the Bureau of Indian Standards Act, 2016 to promote harmonious 
+development of the activities of standardization, marking and quality certification of goods and attending to 
+connected matters in the country. 
+
+
+Copyright 
+
+
+BIS has the copyright of all its publications. No part of these publications may be reproduced in any form without 
+the prior permission in writing of BIS. This does not preclude the free use, in the course of implementing the 
+standard, of necessary details, such as symbols and sizes, type or grade designations. Enquiries relating to 
+copyright be addressed to the Director (Publications), BIS. 
+
+
+Review of Indian Standards 
+
+
+Amendments are issued to standards as the need arises on the basis of comments. Standards are also reviewed 
+periodically; a standard along with amendments is reaffirmed when such review indicates that no changes are 
+needed; if the review indicates that changes are needed, it is taken up for revision. Users of Indian Standards 
+should ascertain that they are in possession of the latest amendments or edition by referring to the latest issue of 
+‘BIS Catalogue’ and ‘Standards: Monthly Additions’. 
+
+
+This Indian Standard has been developed from Doc No.: LITD 16 (12452). 
+
+
+Amendments Issued Since Publication 
+
+
+Amend No. Date of Issue Text Affected 
+
+
+BUREAU OF INDIAN STANDARDS 
+
+
+Headquarters: 
+
+Manak Bhavan, 9 Bahadur Shah Zafar Marg, New Delhi 110002 
+
+Telephones: 2323 0131, 2323 3375, 2323 9402 Website: www.bis.gov.in 
+
+Regional Offices: Telephones 
+
+Central : Manak Bhavan, 9 Bahadur Shah Zafar Marg f 2323 7617 
+NEW DELHI 110002 2323 3841 
+
+Eastern : 1/14 C.I.T. Scheme VII M, V.I.P. Road, Kankurgachi | 2337 8499, 2337 8561 
+KOLKATA 700054 2337 8626, 2337 9120 
+
+Northern : Plot No. 4-A, Sector 27-B, Madhya Marg | 265 0206 
+CHANDIGARH 160019 265 0290 
+
+Southern : С.І.Т. Campus, IV Cross Road, CHENNAI 600113 | 2254 1216, 2254 1442 
+
+2254 2519, 2254 2315 
+
+Western : Manakalaya, E9 MIDC, Marol, Andheri (East) 2832 9295, 2832 7858 
+
+MUMBAI 400093 2832 7891, 2832 7892 
+
+
+Branches : AHMEDABAD. BENGALURU. BHOPAL. BHUBANESHWAR. COIMBATORE. 
+DEHRADUN. DURGAPUR. FARIDABAD. GHAZIABAD. GUWAHATI. 
+HYDERABAD. JAIPUR. JAMMU. JAMSHEDPUR. KOCHI. LUCKNOW. 
+NAGPUR. PARWANOO. PATNA. PUNE. RAIPUR. RAJKOT. VISAKHAPATNAM. 
+
+
+Published by BIS, New Delhi 
+
+

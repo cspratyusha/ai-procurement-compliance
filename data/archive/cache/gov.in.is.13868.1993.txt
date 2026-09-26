@@ -1,0 +1,3583 @@
+IS 13868 : 1993 IS0 8348 : 1987 ( Reaffirmed 2003 )
+
+Indian Standard
+NETWORK SERVICE DEFINITION IN DATA COMMUNICATIO~NS FOR INFORMATION PROCESSING SYSTEMS
+
+U DC
+
+681'327'8'01
+
+0 BIS 1993 BUREAU
+MANAK
+
+OF
+BHAVAN, 9
+
+INDIAN
+BAHADUR DELHI NEW
+
+STANDARDS
+SHAH ZAFAR MARG 110002 Rice Group IO
+
+December 1993
+
+.
+
+Computer
+
+Systems and Interconnection
+
+Sectional
+
+Committee,
+
+LTD 36
+
+NATIONAL
+
+FOREWORD
+
+This Indian Standard which is identical with IS0 8348 : 1987 `Information processing systems Data communications - Network service definition', issued by the International Organization for Standardization ( IS0 ) was adopted by the Bureau of Indian Standards on the recommendation of the Computer Systems and Interconnection Sectional Committee ( LTD 36 ) and approval of the Electronics and Telecommunication Division Council. In the adopted standard certain terminology and conventions are however not identical used in Indian Standards. Attention is particularly drawn to the following: Wherever the words `International be read as `Indian Standard'. In this Indian Standard, the following respective place the following:
+International IS0 Standard
+
+to those should
+
+Standard'
+
+appear referring standards
+
+to this
+
+standard, to.
+
+they
+
+international
+
+are referred
+Indian
+
+Read in their
+
+Standard
+
+7498 Information processing systems interconnection - Basic Open systems reference model
+
+IS 12373 ( Part 1 ) : 1987 + Basic reference model of open systems interconnection for information processing systems : Part 1 ( Identical ) IS 13919 : 1993 Connection oriented transport specification in open systems protocol interconnection for information processing sytems ( Under print ) ( Identical > preparation of this standard has reviewed the has decided that they are acceptable for use in systems of open
+
+IS0 8073 : 1988 Information processing interconnecsystems -. Open systems transport oriented tion - Connection protocol specification The technical committee responsible for the provisions of the following IS0 Standards and conjunction with this standard: ISO/TR
+Service CCITT
+
+8509 : 1987
+conventions Recommendation
+
+Information
+X `200
+
+processing
+Reference
+
+Open systems
+
+systems
+
+interconnection
+
+-
+
+model
+
+interconnection
+
+for CCITT
+
+applications CClTT Recommendation
+
+X `210 OSI layer service
+
+definition
+
+COnVentiOnS
+
+CCITT Recommendation X.213 Network service definition for open systems interconnection for CCITT applications CCITT Recommendation X.224 Transport protocol specification for open systems interconnection for CCITT applications The text of technical standard. corrigendum 1 ( `I 991 ) to IS0 8348 : 1987 is given Standard at the while end of this
+
+Only the English language it in this Standard.
+
+text in the International
+
+has been retained
+
+adopting
+
+IS 13888: 1993 IS0 8348: 1987
+
+Indian
+
+Standard
+
+NETWORK SERVICE DEFINITION IN DATA COMMUNICATIONS FOR INFORMATION PROCESSING SYSTEMS
+
+0
+
+Introduction
+
+Throughout Reference
+
+the set of OSI Standards capability provided
+
+the term "Service"
+
+refers Ser-
+
+to the abstract This International Standard is one of a set of International Standards produced to facilitate the interconnection of computer systems. as defined Reference It is related to other International Standards in the set by the Open Systems Interconnection (OS11 Basic Model. The OSI Reference Model subdivides the into a series of size. vice defined architectural NOTE "Service"
+
+by one layer of the OSI Standard is a conceptual divisions.
+
+Model to the layer above it. Thus, the Network in this Service, International independent of administrative
+
+It is important to distinguish the specialized use of the term
+within the set of OS.1 Standards from its use elsewhere to
+
+area of standardization for interconnection layers of specification, each of a manageable This International Standard
+
+describe the provision of a service by an organization (such as the provision of a service, as defined in other CCITT Recommendations, by an Administration).
+
+defines the Service provided by the
+
+Network Layer to the Transport Layer at the boundary between the Network and Transport Layers of the Reference Model. It provides for the designers of Transport Protocols a definition of the Network Service existing to support the Transport Protocol and ror the designers of Network Protocols a definition of the servrces to be made available through the action of the Network Protocol illustrated over the underlying service. This relationship is in figure 1.
+
+Any
+
+particular
+
+subnetwork
+
+may or may not support Service
+
+the OSI
+
+Network additional
+
+Service.
+
+The OSI Network between
+
+may be provided and optional
+
+by a combination functions
+
+of one or more subnetworks
+
+or outside these subnetworks.
+
+1
+
+Scope and field of application
+Standard defines the OSI Network Service in
+
+t
+Transport Protocol
+
+I
+
+-
+
+This International terms of
+uses Service
+
+Transport Layer
+
+- - -,
+a) the primitive
+actions and events of the Service;
+
+Network Protocol Network Layer I---
+
+provides
+
+i - Network,Service 1 I Service -1
+
+b) the parameters associated with each primitive and event, and the form which they take; c) the interrelationship between,
+
+action
+
+and the valid sequences
+
+1 Figure 1 Relationship Standard other
+
+I
+of the Network to the protocols OSI Standards Service specified in this in
+
+of, these actions and events. The principal objectives a) of this International Standard are Network Model in
+
+International
+
+to specify the characteristics and thus supplement
+
+of a conceptual the Reference
+
+Service The use of the word "Network" of the OSI Reference Model to name the "Network" Layer
+
+guiding the development b) to encourage
+
+of Network
+
+Layer protocols; offered by
+
+should be distinguished
+
+from the
+
+convergence
+
+of the capabilities
+
+use of the word "network" to denote a communications network as conventionally understood. To facilitate this distinction, physical IS0 7498). privately the term equipment, supplied "subnetwork" commonly may is used for a collection called be either a "network!" networks public of (see or
+
+providers of subnetworks; c) of to provide a basis for the individual to Service may enhancement a common them to enable involve
+
+existing
+
+heterogeneous
+
+subnetworks
+
+Subnetworks
+
+subnetwork-independent to be concatenated munication. additional national (Such functions Standard.) element
+
+Network
+
+networks.
+
+In the case of public
+
+networks,
+
+for the purpose of providing global comconcatenation which A definition optional Interare not defined in this
+
+their properties may be determined by separate CCITT Recommendations such as CCITT Recommendation X.21 for a cirkuitswitched network or CCITT packet-switched network. Recommendation X.25 for a
+
+of the quality of service is Standard;
+
+an important
+
+of this International
+
+1
+
+IS 13868: 1993 IS0 8348 : 1987
+
+.
+
+d)
+
+to provide a basis for the development of subnetwork-independent from the variability and Transport their
+
+and implemenLayer protopublic and interface
+
+NOTE -
+
+See also CCITT Recommendation Interconnection for CCITT
+
+X.200,
+
+Reference
+
+Mode/of
+
+tation
+
+Open Systems
+
+Applications.
+
+cols decoupled
+
+of underlying specific
+
+subnetworks private requirements. This International Standard
+
+IS0
+
+8073,
+
+information -
+
+processing Connection
+
+systems oriented
+
+-
+
+Open
+
+Systems protocol
+
+Interconnection specification. does not specify individual im-
+
+transport
+
+plementations
+
+or products
+
+nor does it constrain within a system.
+
+the implemenNOTE - See also CCITT Recommendation X.224, Specification for Open Systems Interconnection cations. Transport Protocol for CCITT Appli-
+
+tation of entities and interfaces There is no conformance Instead, Network
+
+of equipment OSI
+
+to this International through improtocols this which
+
+Standard. plementation fulfill the Standard.
+
+conformance Service
+
+is achieved Network in
+
+of conforming
+
+ISOITR Systems
+
+8509,
+
+Information -
+
+processing Service
+
+systems
+
+-
+
+Open
+
+defined
+
+International
+
+Interconnection
+
+conventions.
+
+NOTE
+
+-
+
+See also CCITT conventions.
+
+Recommendation
+
+X.210,
+
+OS/ Layer Service
+
+2
+IS0
+
+References
+7498, Information processing systems Model. Open Systems Basic Reference
+
+definition
+
+CCITT
+
+Recommendation
+
+X.213,
+
+Network for CCITT
+
+Service Definition Applications.
+
+for
+
+Interconnection
+
+Open Systems
+
+Interconnection
+
+c
+
+IS
+
+13868: &48:
+
+1993
+
+IS0
+
+1987
+
+Section
+3
+Definitions
+
+one
+
+:
+
+General
+
+3.3.3 Generic address : An address which identifies a set of NSAPs rather than a single specific NSAP.
+
+NOTE - The definitionscontainedin this clausemake use of abbreviations defined in clause4.
+
+4
+3.1 Reference Model definitions
+
+Abbreviations
+Confirmation of Receipt Expedited Network-Service-Data-Unit Network Network-connection Network Layer Network Service Network-Service-access-point Network-Service-data-unit Open Systems Interconnection Quality of service +
+
+COR
+ENSDU N NC NL
+
+This international Standard is based on the concepts developed in IS0 7498, and makes use of the following terms defined in it: a) bl cl d) e) f) 9) h) expedited Network-Service-data-unit Network-Connection
+
+NS Network Layer Network Service Network-Service-access-point Network-Service-access-point-address Network-Service-data-unit subnetwork 5.1 NSAP NSDU OSI 00s
+
+5
+
+Conventions
+General conventions
+
+3.2
+
+Service
+
+conventions
+
+definitions
+
+This International Standard uses the descriptive conventions defined in ISO/TR 8509. The layer service model, service primitives, and time-sequence diagrams taken from those conventions are entirely abstract descriptions; they do not represent a specification for implementation. 5.2 Parameters
+
+This international Standard also makes use of the following terms defined in ISO/TR 8509, as they apply to the Network Layer : a) b) c) d) e) Network Service user Network Service provider primitive request indication
+
+Service primitives, used to represent service-user/serviceprovider interactions (see ISO/TR 85091, convey parameters which indicate information available in the user/provider interaction. The parameters which apply to each group of Network Service ~primitivesare set out in tables in clauses 12 to 14. Each "X" in the tables indicates that the primitive labelling the column in which it falls may carry the patameter labelling the row in which it falls. Service definitions Some entries are further qualified by items in brackets. These may be a) an indication that the parameter is conditional in some way : (Cl indicates that the parameter is not present on the primitive for every NC; the parameter definition describes the conditions under which the parameter is present or absent. a parameter specific constraint : confirm primitive is always identical to that supplied in the corresponding request or response primitive occurring at the peer NSAP.
+
+f 1 response g) confirm
+
+3.3
+
+Network
+
+For the purpose of this International Standard, the following definitions also apply.
+
+3.3.1 Calling NS user: An NS user that initiates an NC Establishment request.
+
+3.3.2 Called NS user: An NS user with whom a calling NS user wishes to establish an NC. NOTE - Calling NS usersand calledNS usersare definedwith respect to a singleNC. An NS usercan be both a callingand a called NS user simultaneously.
+
+-b)
+
+(= 1 indicates that the value supplied in an indication or
+
+3
+
+IS 13868: IS0
+
+1993
+
+.
+
+8348 : 1987
+
+c) indication that some note applies to the entry:
+(Note x) indicates that the referenced note contains additional information pertaining to the parameter and its use. In any particular interface, not all parameters need be explicitly stated. Some may be implicitly associated with the NSAP at which the primitive is issued.
+
+7
+
+Features of the Network
+
+Service
+
+The Network Service offers the following features to an NS user: a) The means to establish an NC with another NS user for the purpose of transferring NS-user-data in the form of NSDUs. More than one NC may exist between the same pair of NS users. b) The establishment of an agreement between the two NS users and the NS provider for a certain QOS associated with each NC. c) The means of transferring NSDUs in sequence on an NC. The transfer of NSDUs, which consist of an integer number of octets, is transparent, in that the boundaries of NSDUs and the contents of NSDUs are preserved unchanged by the Network Service, and there are no constraints on the NSDU content~imposed by the Network Service. d) The means by whichfhe receiving NS user may flow control the rate at which the sending NS user may send NSDUs. e) In some circumstances, the means of transferring separate expedited NSDUs in sequence (see clause 8). Expedited NSDUs are limited in fength and their transmission is subject to a different flow control from normal data across the NSAP. f) The means by which the NC can be returned to a defined state and the activities of the two NS users synchronized by use of a Reset service. g) In some circumstances, the means for the NS user to confirm the receipt of an NSDU (see clause 8). h) The unconditional, and therefore possibly destructive, release of an NC by either of the NS users or by the NS provider.
+
+5.3
+
+NC endpoint
+
+identification
+
+convention
+
+If an NS user needs to distinguish among several NCs at the same NSAP, then a local NC endpoint identification mechanism must be provided. All primitives issued at such an NSAP would be required to use this mechanism to identify NCs. Such an implicit identification is not described as a-parameter of the service primitives in this International Standard.
+NOTE - The implicit NC endpoint identification must not be confused with the address parameters of the N-CONNECT primitives (see 12.2).
+
+6
+
+Overview
+
+and general characteristics
+
+The Network Service provides for the transparent transfer of data (i.e. NS-user-data) between NS users. It makes invisible to these NS users the way in which supporting communications resources are utilized to achieve this transfer. In particular, the Network Service provides for the following : a) Independence of underlying transmission media - The Network Service relieves NS users from all concerns regarding how various subnetworks are used to provide the Network Service. The Network Service hides from the NS user differences in the transfer of data over heterogeneous subnetworks, other than quality of service. b) End-to-end transfer - The Network Service provides for transfer of NS-user-data between NS users in end systems. All routing and relaying functions are performed by the NS provider including the case where several similar or dissimilar transmission resources are used in tandem or in parallel. c) Transparency of transferred information - The Network Service provides for the transparent transfer of octetaligned NS-user-data and/or control information, It does not restrict the content, format or coding of the information, nor does it ever need to interpret its structure or meaning. d) Quality of service selection - The Network Service makes available to NS users a means to request and to ~agreeto the quality of service for the transfer of NS-userdata. Quality of service issspecified by ~means of QOScharacteristics parameters representing such as throughput, transit delay, accuracy, and reliability. e) NS-user-addressing - The Network Service utilizes a system of addressing INSAP addressing) which allows NS users to refer unambiguously to one another.
+
+8
+
+Classes of Network
+
+Service
+
+No distinct classes of Network Service are defined. However, two Network Layer services, Receipt Confirmation and Expedited Data Transfer, are NS provider-options. A service which is an NS provider-option is one which an NS provider can choose either to provide or not to provide for a particular NC. In circumstances where the NS provider chooses not to provide a provider-option service, it will not be available in the Network Service. If the provider-option Receipt Confirmation or Expedited Data Transfer is provided, it shall be provided as defined in this International Standard (see clauses 14.1 to 14.31. All other Network services are mandatory in the Network Service. Mandatory services shall be provided by every NS provider and are therefore always available.
+
+4
+
+IS IS0
+
+13888 8348:
+
+: 199b 1987
+
+9
+9.1
+
+Model of the Network
+Model of the Network
+
+Service
+Layer Service
+
+provide the Network Service. No attempt to specify or constrain Network Service implementations is implied. In interpreting this International Standard, statements in clauses 12 to 14 concerning the properties of individual primitives have precedence over the general statements in this clause. NOTE - In addition to the interaction between service primitives described by this model, there may beconstraintsappliedlocallyon the abilityto invokeprimitives,as well as servicepro&lures definingparticular sequencingconstraintson some primitives.
+
+This International Standard uses the abstract model for a layer service defined in clause 4 of ISO/TR 8SO9 The model defines the interactions between the NS users and the NS provider which take pie-q at the two NSAPs. Information is passed between the NS user a.^? the NS provider by service primitives, which may convey parameters There are two types of OSI Network Service:
+
+9.2.1 a) a connection-mode Service (defined in section two). The connection-mode Service is characterized by the features a) to h) given in clause 7. b) a connectionless-mode Service (defined in addendum 1 to this International Standard). When making reference to the Network Service, an NS user or NS provider shall state which types of Network Service it expects to use or provide.
+
+Queue model concepts
+
+The queue model represents the operation of an NC in the abstract by a pair of queues linking the two NSAPs. There is one queue.foreach direction of information flow (see figure 2). Each queue represents a flow control function in one direction of transfer. The ability of an NS user to add objects to a queue will be determined by the behaviour of the_NS user removing objects from that queue and the state of the queue. Objects are entered or removed from the queue, either as the result of interactions at the two NSAPs, or as thkresult of NS provider initiatives. The pair of queues is considered to be available for each potential NC. The objects which may be placed in a queue as a result of interactions at an NSAP (see clauses 12 to 14) are a) connect objects (associated with primitives and all of their parameters); b) octets of normal NS-user-data N-DATA primitive); cl indications of end-of-NSDU pletion of an N-DATA primitive); N-CONNECT
+
+9.2
+
+Model
+
+of a Network
+
+Connection
+
+Between the two endpoints of an NC, there exists a flow control function which relates the behaviour of the NS user at one end receiving NS-user-data to the ability of the NS user at the other end to send NS-user-data. As a means of specifying this flow control feature and its relationship with other capabilities provided by the Network Service, the queue model of an NC, described in the following clauses, is used. This queue model of an NC is discussed only to aid in the understanding of the end-to-end service features perceived by users of the Network Service. It is not intended to serve as a substitute for a precise, formal description of the Network Service, nor as a complete specification of all allowable sequences of NS primitives. (Allowabte primitive sequences are specified in clause 11 - also, see the note.) In addition, this model does not attempt to describe all the functions or operations of Network Layer entities (including relay entities) which are used to ".
+
+(associated with an
+
+(associated with com-
+
+d) expedited NSDUs (associated with N-EXPEDITEDDATA primitives and all their parameters); e) data acknowledgment objects N-DATA-ACKNOWLEDGE primitives); (associated with
+
+I
+
+NS user A
+
+I
+Queue from A to 6
+Queue from
+
+NS user
+
+B
+
+B to A
+
+NS
+
+provider
+
+Figure 2 -
+
+Queue model of a Network
+
+Connection
+
+IS 13888: 1993 IS0 8348: 1987 .
+
+f)
+
+reset objects [associated
+
+with N-RESET
+
+primitives land
+
+9.2.2
+
+NC establishment
+
+their parameters); g) disconnect objects (associated with N-DISCONNECT A pair of queues is associated with an NC between two NSAPs when the NS provider receives an N-CONNECT : equest primitive at one of the NSAPs one of the queues. NOTE - The description of flow control (see 9.2.3) requires a less abstract description than that used for describing sequences of primitives in clauges 11 to 14. While primitives are defined to be indivisible, for purposes of this queue model, information associated with N-DATA primitives is conceptually subdivided into a sequence of octets of NS-user-data followed by an end-of-NSDU indication. This does not imply any particular subdivision in any real interface.
+
+primitives
+
+and all their parameters).
+
+and a connect remain
+
+object is entered with
+
+into
+
+From the standpoint (associated with
+
+of one of the NS users the NC until at that an from N-DISCONNECT a queue
+
+of the NC, a disconnect primitive) NSAP.
+
+the queues object
+
+associated
+
+is either entered
+
+or removed
+
+If NS user A denotes the NS user who initiates NC Establishment (resulting in a connect object being entered into the queue from NS user A to NS user B) then no object other than a disconnect object may be entered into the queue from A to B
+
+The objects which may be placed in a queue as a result of NS provider initiatives (see clauses 12 to 14) are primitives and
+
+until after the connect object associated with the N-CONNECT confirm has been removed. In the queue from NS user 6 to NS user A, objects can be entered only after a connect object associated with an N-CONNECT response from NS user B has been entered; it is possible for a disconnect B to A, instead object to be placed object, to in the queue from release the NC. The properties of a connect
+
+1)
+
+reset objects (associated with N-RESET
+
+all their parameters); 2) 3) synchronization disconnect mark objects (see 9.2.4); (associated with N-DISCONNECT
+
+objects
+
+primitives
+
+and all their parameters). to have the following general proper-
+
+exhibited
+
+by,the
+
+queues
+
+while
+
+the NC exists concern-
+
+represent the agreements The queues are defined ties NS provider durinb'the ing quality of service and Expedited i) A queue is empty until a connect object has been entered and can be returned to this state, with loss of its contents, ii) by the NS provider (see 9.2.4 may be entered and 9.2.5).
+
+reached among the NS users and the NC Establishment services. procedure Confirmation
+
+:
+
+and the use of the Receipt
+
+Data Transfer
+
+9.2.3
+
+Data
+
+transfer
+
+operations in this queue model by allowing objects of affectin item
+
+Flow control on the NC is represented Objects into a queue as a result of the into a queue by the the management of the queue actions of the source hS user, subject to control by the NS psovider; objects NS provider. iii) Objects are removed NS user. removed under the control of the from the queue under the control Once in the queue, adjacent objects, the NS provider in may also be entered
+
+capacity,
+
+certain types to be added to the queues. The conditions ing entry of reset and disconnect b) below and in 9.2.4 between and 9.2.5. objects are described
+
+The flow control relationship by table 1. pairs of
+
+the other types of objects is summarized
+
+of the receiving
+
+may manipulate
+
+resulting
+
+iv)
+
+Objects are normally
+
+NS user in the same order that they were entered (however see 9.2.3).
+
+a) change of order; the order of any pair of objects may be reversed if, and only if, the following object is of a type defined to be able to advance ahead of the preceding object. another No object is defined to be able to advance ahead of object of the same type.
+
+v) A queue has a limited capacity, but this capacity is not necessarily either fixed or determinable.
+
+Table
+
+1 -.
+
+Flow
+
+control
+
+relationships
+
+between
+
+queue
+
+model
+
+-objects
+
+The addition NS-user-data or end-of-NSDU Expedited NSDU Data acknowledgement
+
+further addition of object y Octets of normal NS-user-data or end-of-NSDU Expedited NSDU Data acknowledgement
+
+Yes No No
+
+.---___No No No
+
+6
+
+IS 13868: IS0 8348:
+
+1993 1987
+
+b)
+
+deletion;
+
+any object may be deleted if, and only if, the
+
+The completion
+
+of a Reset procedure
+
+by the issuance
+
+of an
+
+following object is defined to be destructive with respect to the preceding object. If necessary, the last object in the queue will be deleted to allow a destructive object to be entered. Destructive objects may therefore always be added to the queue. Disconnect objects are defined to be destructive with defined respect to all other L.;Lonnect, objects. Reset objects are tc 5e destructive with respect to all other objects and other reset objects.
+
+N-RESET response by an NS user results in a reset object being placed in the queue from the responding NS user A synchronization mark object cannot be removed from a
+
+queue by an NS user; a queue appears empty to an NS user when a synchronization mark object is the next object in it. Unless destroyed by a disconnect object, a synchronization mark object remains in the queue until the next object followmg it in the queue is a reset object. Both the synchronizatton mark object and the followtng reset object are then deleted by the NS provider NOTE Associated with the mvocatlon of a Reset procedure are rcstrictlons on the issuance of certain other types of primitives. These
+restnctlons will result I" restrictions on the entry of certain Into the queue unttl the Reset procedure is complete. oblect types
+
+except connect, The relationships as described Whether
+
+between
+
+objects which may be manipulated in table 2.
+
+in a) and b) are summarized
+
+the NS provider performs
+
+actions resulting in change of if all
+
+of order and deletion or not will depend upon the behav,our the NS users and the agreed QOS for the NC. In general,
+
+NS user does not cause objects to be removed from a queue, the NS provider shall, after some unspecified period of time, perform all permitted actions of types a) and b).
+
+9.2.5
+
+NC Release object, which may
+
+The insertion into a queue of a disconnect occur at any time, 9.2.4
+Reset
+
+represents
+
+the initiation
+
+of an NC Release
+
+operations of a Reset procedure is represented in the two
+
+procedure. The Release procedure may be destructive with respect to other objects in the two queues and eventually results in the emptying of the queues and the disassociation of the queues with the NC. The insertion of a disconnect object may also represent the re jection of an NC Ekablishment attempt or the failure to complete NC Establishment. In such cases, if a connect object representing an N-CONNECT request primitive is deleted by a disconnect object, then the disconnect object is also deleted. The disconnect object is not deleted when it deletes any other object, including the case where it deletes representing an N-CONNECT response. a connect object
+
+The invocation
+
+queues as follows
+
+:
+
+a) invocation of a Reset procedure by the NS provider is represented by the introduction into each queue of a reset object followed b) A Reset by a synchronization procedure invoked mark object. user is rep-
+
+by an NS
+
+resented by the addition of a reset object to one queue. In this case, the NS provider will insert a reset object followed by a synchronization mark oblect into the other queue
+
+Table Following
+object Y is defined
+
+2 T
+
+Ordering
+
+relationships
+
+between
+
+queue
+
+model
+
+objects
+
+Octets
+Connect of normal NS-user-data End-of-NSDU
+
++d object y Connect Octets of normal NS-user data End of NSDU Expedited NSDU Data acknowledgement Reset Synchronization mark Disconnect AA DES `.. `1
+N/A N'A
+
+Expedited NSDU
+
+Data acknowledgement
+
+IReset
+
+Synchroniration mark
+
+Disconnect
+
+_
+
+_ AA
+
+AA AA AA
+
+DES DES DES DES
+
+g::DES DtS DES DES
+
+N/A N/A NA N/A WA N:A
+N I A
+
+AA
+
+N `A
+N/A
+
+N'A N/A
+
+DES N/A N/A
+
+NIA N'A 1
+
+DES DES
+
+N/A
+
+Indicates that oblecr Y IS defined to he able IO advanr:a ahead of the preceding object y indicates that object x is defined to be tfestrircr~vc? with respect to the precsdiny
+lndlcates that object that nblect x IS neither destructive with respect to oblect object nhlect v ahead of object y
+
+y nor able to advance y in a valid state
+
+N/A
+
+indicates
+
+x will not nccur
+
+II-I a positInn
+
+succeediny
+
+of a queue.
+
+7
+
+IS 13868: IS0
+
+1993 .
+
+8348 : 1987
+
+10
+`The
+
+Quality
+term
+
+of Network
+of Service
+
+Service
+(00s) refers between to certain
+
+these
+
+QQS-parameters,
+
+however,
+
+information
+
+about
+
+the
+
+values which is useful to the NS provider and each NS user Quality may be made known The NS QOS-parameters The set of NS and by local means. are defined in 10.2.1 that to 10.2.12. to the first to are characteristics of an NC as observed the NC endin QOS-parameters negotiating belong
+
+points. QOS describes aspects of an NC which are attributable solely to the NS provider; it can only be properly determined constrains the absence of NS user behaviour performance of the Network (which is beyond the control or impairs the
+
+of the NS provider) which specifically Service.
+
+category, conveying
+
+and the procedures
+
+and constraints those
+
+that apply
+
+QOS-parameters,
+
+specified in 12.2.7. A value of QOS applies to an entire NC. When measured determined or the lifetime at both ends of an NC, the QOS observed by the NS several subnetworks services. where each
+
+Once the NC is established,
+
+and throughout
+
+of the NC, the agreed values for these two QOS-
+
+users at the two ends of the NC is the same. This is true even in the case of an NC spanning subnetwork offers different
+
+parameters are not "renegotiated" at any point, and there is no guarantee that the originally negotiated values will be maintained. The NS user should also be aware that, once an NC is changes in QQS on the NC are not explicitly established,
+
+signalled in the NS.
+
+10.1
+
+Determination
+
+of QOS
+
+For QOS-parameters in the second category, the values for a particular NC are not negotiated, nor are they directly conveyed from NS user to NS user. As a local matter, by which are known interactions the and utilized which however, there may be means QOS-parameters user/NS provider the values of one or more of these by the NS provider of particular NS for the purthe characdescribe are the local nature
+
+by means of __QOS-parameters. The definition of each of these QOS-parameters specifies the way in which the QOS-parameter's value is measured or determined, making reference, where appropriate, to primitive events of the NS.
+
+QOS is described
+
+and each NS user. Despite poses of exchanging
+
+may occur information,
+
+NOTES
+1 It is important to distinguish the use of the term QOS-parameters as defined in 5.2 and used
+
+QOS-parimeter
+
+teristics applicable basis. properties
+
+of an NC tihich Thus, in order to
+
+QOS-parameters
+
+from the more general term "parameters"
+
+and can be observed on a complete of NCs, the definitions
+
+NC, end-to-end of the set of QOSDefinition.
+
+throughout this International Standard. A "QOS-parameter" refers to a specific aspect or component of the QOS for an NC. As described below, a particular QOS-parameter may or may not be related to a parameter defined as part of a Network Service primitive. 2 For purposes of accuracy and/or convenience, the definition and measurement formula for some QOS-parameters includes a component attributable to the NS user(s). In such cases, to evaluate the QOS attributable solely to the NS provider, this NS user-dependent component must be factored 3 The definition out. in terms which provide a
+
+give a full characterization of the entire
+
+parameters category
+
+which apply to the NS, including those classified in in this Network Service 2 parameters, such as the cir-
+
+2, are included
+
+Other aspects related to category cumstances of theiravailability
+
+and use, as well as other QOS
+
+issues, such as the relationship to OSI management, and multilayer QOS relationships, are the subjects of other OSI QOSrelated specifications.
+
+of NS QOS-parameters
+
+means for measurement
+
+should not be understood
+
+to imply that QOS
+
+NOTE -
+
+monitoring or that verification of stated QOS values is, or must be, performed by the NS provider or by the NS users.
+
+For non-negotiated QDS-parameters associated with the Data Transfer phase of an NC, when specified, a value of such a QOSparameter applies to both directions of transfer on the NC.
+
+It is in terms of the NS QOS-parameters QOS is exchanged Information selection, Information be used provided enhancement among
+
+that information
+
+about
+
+10.2
+
+Definition
+
+of QOS-parameters can be classified as which express Network Service per-
+
+the NS provider
+
+and NS users. QQS-parameters
+
+about the QOS requirements provider route determination, and
+
+of the NS users may such as protocol of resources. QOS values Table 3 Classification of performance Performance QOS-parameters criterion a) QOS-parameters as shown
+
+be used by the NS
+
+for purposes
+
+allocation
+
+formance,
+
+in table 3.
+
+about the QOS available from the NS provider may users for ~purposes such and determining as selecting the QOS mechanisms
+
+by NS
+
+to NS users at higher layers. can be divided into two categories-as Phase NC establishmerlt peer NS phase of "negofor the value
+Transit delay NC release NC release delay
+
+The NS QOS-parameters follows
+
+Speed NC establishment delay
+Throughput
+
+.Accuracy/reliability NC establishment failure probability (mioconnection/NC refusal) ___-_.
+Residual error rate (corruption, duplication/loss) NC resilience Transfer failure probability
+
+:
+
+a)
+
+those whose values are "conveyed" between users by means of the NS during the establishment an NC. tiation" As part of this conveyance, among a three-party the NS users and the NS provider
+
+____._
+Data transfer
+
+purpose of agreeing upon a particular QOS-parameter may take place; and b) those whose the values NS are not users and "conveyed" the NS
+
+or "negoprovider. For
+
+NC release failure probability
+
+tiated"
+
+among
+
+8
+
+IS IS0
+
+13868: i348:
+
+1993 1987
+
+bl
+
+QOS-parameters
+
+that
+
+express
+
+other
+
+Network
+
+Service
+
+characteristics,
+
+as shown in table 4.
+
+Throughput is specified transfer. Each Throughput desired "target" the "lowest
+
+separately for each direction of specification will specify ~both the acceptable value (i.e.. for the NC. (See also 12.2.7.1
+
+value and the minimum
+
+Table
+
+4 -
+
+QOS-parameters with performance
+
+not associated
+
+quality acceptable")
+
+10.2.4 NC protection NC priority Maximum acceptable cost
+
+Transit
+
+delay an N-DATA request
+
+Transit delay is the elapsed time between and the corresponding are calculated N-DATA indication. only on NSDUs
+
+Elapsed time values transferred.
+
+that are successfully
+
+NOTE - Some QOS-parameters are defined in terms of the issuance of Network Service primitives. Reference to a primitive in 10.2.1 to 10.2.12 refers to the complete execution of that service primitive at the appropriate
+
+Successful
+
+transfer
+
+of an NSDU
+
+is defined to occur when the
+
+NSAP.
+
+NSDU is transferred from the sending NS user to the intended receiving NS user without error, in the proper sequence, prior to release of the NC by the receiving NS user. the The
+
+10.2.1 NC
+
+NC establishment delay
+
+delay is the maximum and acceptab!e the delay
+
+Specification "lowest
+
+of transit delay will define a pair of values: value and the maximum acceptable") value. (See acceptable also 12.2.7.)
+
+desired "target" quality
+
+(i.e. the
+
+establishment
+
+between an N-CONNECT
+
+N-CONNECT request confirm primitive.
+
+corresponding
+
+specified values will be averages and will be based on an NSDU size of 128 octets. The pair of transit delay values specified for an NC applies to delay in each
+
+NOTE - This delay includes 3 component, attributable to the called NS user, which is rhe flme between the N-CONNECT indication primitive and the N~CONNECT response.
+
+both directions direction
+
+of transfer.
+
+That
+
+is, t&e transit
+
+is expected
+
+to be rio' worse than that specified.
+
+10.2.2
+
+NC establishment failure
+
+failure probability
+
+probability is the ratio of total attempts NC in a
+
+The transit delay for an individual NSDU may be increased if the receiving NS user exercises flow control. Such occurrences are excluded delay values. in calculating both average and maximum transit
+
+NC establishment astablishment measurement
+
+failures to total NC esiablishment sample.
+
+10.2.5 Residual duplicate boundary
+
+Residual error
+
+error
+
+rate ratio of total incorrect, The lost, and
+
+NC establishment time period
+
+failure is defined to occur when a requested within the specified maximum of NS provider or excessive delay. acceptable such as behaviour
+
+rate is the a
+
+NC is not established misconnection,
+
+NSDUs during
+
+tc total NDSUs measurement is defined,
+
+transferred period.
+
+across the NS relationship
+
+as a result
+
+NC refusal,
+
+NC establish-
+
+among these quantities as shown in figure 3.
+
+for a particular NS user pair,
+
+ment attempts which fail as a result of NS user behaviour such as error, NC refusal, or excessive delay are excluded in calculating NC establishment failure probability.
+
+10.2.6 10.2.3 Throughput is defined, continuously MS provider for each direction to the can of transfer, transferred sustain, in terms NSDUs and unTransfer to Throughput presented rate the constrained of a sequence of at least two successfully NS provider continuously total
+
+Transfer
+
+failure
+
+probability is the ratio of total transfer failures observed during a performance
+
+failure probability transfer samples
+
+measurement. A transfer sample is a discrete observation of NS provider per-
+
+at the maximum NS user.
+
+by flow control applied by the receiving of n NSDUs,
+
+formance in transferring NSDUs between a specified sending and receiving NS user. A transfer sample begins on input of a selected NSDU at the sending NS user boundary, of NSDU and contransfer tinues until the outcome of a given number
+
+Given such a sequence
+
+where II is greater than or to be the smaller of in the last
+
+equal to 2, the Throughput a)
+
+is defined
+
+requests has been determined. A transfer sample will normally correspond to the duration of an individual NC. A transfer failure is a transfer sample in which the observed performance Transfer values specified is worse than a spedified minimum failures for the transfer are identified supported are by comparing performance throughput, acceptable the parameters transit delay, level. with perand measured
+
+the number of NS-user-data requests
+
+octets contained and
+
+n - 1 NSDUs N-DATA
+
+divided by the time between in the sequence;
+
+the first and last
+
+b) the number of NS-user-data octetscontained in the last n - 1 NSDUs divided by the time between the first and last N-DATA Successful receiving indications transfer in the sequence. in a transmitted NSDU is
+
+failure thresholds.
+
+The three supported
+
+formance parameters residual error rate. In systems where by the probability during a transfer
+
+of the octets
+
+Network
+
+Service
+
+QOS
+
+is reliably monitored can-be estimated
+
+defined to occur when the octets are delivered to the intended NS user without error, in the proper sequence, NS user. prior to release of the NC by the receiving
+
+by the NS provider, transfer failure probability sample.
+
+of an NS provider invoked N-DISCONNECT
+
+CS 13868: 1993 IS0 8348: 1987
+
+NSDUs sent
+
+NSDUs received
+
+I
+r_
+
+I
+
+I t1
+__ _____--T-_--q
+
+-I
+I
+1
+
+Lost NSDUs IN(l)1
+
+Successfully transferred NSDUs IN(s)1
+
+I
+
+incorrect NSDUs IN(e)1
+
+I I I -l
+
+Extra NSDUs IN(Xll
+
+1 ----s--v------lI
+
+I I I
+
+Total NSDUs transferred IN I --
+
+-----a
+
+Figure
+
+3 -
+
+Components
+
+of residual
+
+error
+
+rate
+
++
+
+10.2.7
+
+NC resilience specify the probability of
+
+within
+
+the specified
+
+maximum
+
+NC release delay of the NS user request (given that the former NS request).
+
+issuing the N-DISCONNECT NC resilience parameters a)
+
+user has not issued an N-DISCONNECT
+
+an NS provider invoked NC release (i.e. issuance of an indication with no prior N-DISCONNECT 10.2.10 NC ~protection is the extem unauthorized by selecting to which an NS provider attempts masquerading NC any combination or of monitoring for an NC the or is protection and provider invoked reset (i.e., issuance request); NC. of an
+
+N-DISCONNECT request); b)
+
+NC protection to prevent manipulation specified features a)
+
+an NS
+
+N-RESET
+
+indication
+
+with no prior N-RESET
+
+of NS-user-data.
+
+following
+
+during a specified
+
+time interval on an established
+
+:
+confidentiality detection of an entire NSDU sequence on the NC;
+
+10.2.8
+
+NC release delay acceptable delay between an
+
+b)
+
+of modification,
+
+deletion,
+
+replay, or insertion
+
+of data within the NSDU NC release delay is the maximum NS user invoked mally specified N-DISCONNECT independently request and the successful NC release c) that peer entity the NS NSAP
+
+sequence
+
+on an NC;
+
+authentication. should such that there
+
+The NS user may request confirm the identity against of the masis protection
+
+release of the NC at the peer NS user. NC release delay is norfor each NS user. delay does not apply in cases where the NS provider. Issuance of an N-DISCONNECT NC release is invoked by
+
+provider
+
+remote
+
+querading
+
+by T-entities;
+
+request
+
+by either
+
+NS
+
+user
+
+d) authentication of the origin of an NSDU such that there is protection against the unauthorized insertion or replay of the NSDU.
+
+starts the counting of NC release delay for the other NS user. Successful NC release is signalled to the NS user not initiating the N-DISCONNECT request by an N-DISCONNECT indication.
+
+10.2.11
+
+NC priority the relative importance of
+
+NC priority specifies independently
+
+10.2.9
+
+NC release failure probability
+is the ratio of total NC release re-
+
+an NC with respect to the following a) priority to gain an NC; priority to keep an NC; priority of data on the NC.
+
+:
+
+NC release failure probability quests resulting included ability is normally in a measurement specified
+
+in release failure to total NC release requests sample. NC release failure'probfor each NS user NS user, if indication independently
+
+b) c)
+
+A release failure is defined to occur, for a particular that user does not receive an N-DISCONNECT
+
+NC priority QOS-parameters in which NCs are to be
+
+a) and b) together broken to
+
+define the order resources if
+
+recover
+
+10
+
+IS IS0
+
+13868: 6348:
+
+1993 1987
+
+necessary. The NS provider is required to accept new requests for NCs with a high priority type a) if it can, even if NCs tiith a loher priority type bt have to bereleased to do so. NC priority QOS-parameter c) defines the order in which NCs are to have their QOS degraded. The NCs with a high priority type c) are to have their requests serviced within the required QOS first and remaining resources are then used to attempt to satisfy requests un lower priority NCs.
+NOTE - The use or abuse ofthe NC priority QOS-parameters controlled by one or more of the following : user discipline within a closed group of NS users; differential tariffs; can be
+
+-
+
+management
+
+facilities within the Network
+
+Layer such that re-
+
+quests for-NC
+
+priority are policed and regulated.
+
+lg.212
+
+Maximum
+
+acceptable
+
+cost
+
+The maximum acceptable cost QOS-parameter specifies the maximum acceptable cost for an NC. The cost may be~specified in absolute or relative cost units. The cost of an NC is composed of communications and end-system resource costs.
+NOTE - The possible actions of the NS provider in the event that the maximum acceptable cost for an NC is exceeded are not specified in this International Standard.
+
+11
+
+IS 13888: 1993 IS0 8348 : 1987
+
+*
+
+Section two
+11 Sequence of primitives
+
+:
+
+Definition of the connection-fnods
+
+primitives
+
+11.1 Relation of primitives at the two NC endpoints
+A primitive issued at one NC endpoint will, in general, have consequences at the other NC endpoint. The relations of primitives of each type to primitives at the other NC endpoint are defined in the appropriate clauses 12 to 14; all these relations are summarized in the diagrams in figure 4. However, an N-DISCONNECT request or indication primitive may terminate any of the other sequences before completion.
+
+.
+
+This clause defines the constraints on the sequences in which the primitives defined in clauses 12 to 14 may occur. The constraints determine the order in which primitives occur, but do not fully specify when they may occur. Other constraints, such as flow control of data, will affect the ability of an NS user or an NS provider to issue a primitive at any particular time. Table 5 is a summary of the NS primitives and their parameters.
+
+Table 5 Phase JC establishment
+
+Summary
+Service
+
+of Network
+
+Service primitives and parameters
+Parameters (Called address, calling address, receipt confirmation selection, expedited data selection, data) QOS-parameter *et, NS-user-
+
+Primitive N-CONNECT request
+
+NC establishment
+
+N-CONNECT
+indication
+
+(Called address, calling address, receipt confirmation selection, expedited data selection, QOS-parameter set, NS-userdata)
+
+N-CONMCT response
+
+(Responding address, receipt confirmation selection, expedited data selection, QOS-parameter set, NS-user-data) (Responding address, receipt confirmation selection, expedited data selection, QOS-parameter set, NS-user-data) confirmation confirmation request) request)
+
+N-CONNECT confirm
+
+Data transfer
+
+Data transfer
+
+N-DATA N-DATA indication
+
+request
+
+(NS-user-data, (NS-user-data,
+
+Receipt confirmation (see the note)
+
+N-DATAACKNOWLEDGE request N-DATAACKNOWLEDGE indication
+
+-
+
+-
+
+Expedited data transfer (see the note)
+
+N-EXPEDITEDDATA request
+
+(NS-user-data)
+
+N-EXPEDITEDDATA indication Reset N-RESET N-RESET indication N-RESET response N-RESET NC release NC release confirm request
+
+(NS-user-data)
+
+(Reason) (Originator, reason)
+
+-
+
+(Reason, address) NS-user-data, responding
+
+N-DISCONNECT request N-DISCONNECT indication
+
+(Originator, responding
+
+reason, NS-user-data. address) Service.
+
+NOTE
+
+-- An NS provider-option
+
+service; it may not be provided in every Network
+
+12
+
+IS 13868:
+
+1993 1987
+
+ISO- 8348:
+
+N-CONNECT request
+
+N-CONNECT confirm
+
+_1-k
+Successful NC establishment NS provider invoked NC release
+
+NS user invoked NC release
+
+Simultaneous
+
+NS user invoked
+
+NC release
+
+Simultaneous NS user and NS provider invoked NC release N-DISCONNECT request N-DISCONNECT indication \
+
+NS user rejection of an NC establishment attempt N-CONNECT
+
+I I
+N-DISCONNECT indication
+
+L
+\ N-DISCONNECT indication N-DISCONNECT
+
+N-CONNECT indication N-DISCONNECT request
+
+NS provider
+
+retectlon
+
+of an
+
+NC establishment N~CONNECT request \
+
+attempt
+
+Normal data transfer
+
+Normal dai,: transfer with acknowledgement N-DATA request w/confirmation request set
+
+N-DATA request
+
+\r
+
+_*
+\
+
+N-DISCONNECT/ indication
+
+N-DATA indication
+
+N-DATA indication w/confirmation request set N-DATA-ACKNOWLEDGE request
+
+t
+
+N-DATA ACKNOWLEDGE indication
+
+Expedited data transfer N-EXPECTEDDATA request N-RESET reqrrest \ \ N-EXPEDITEDDATA indication N-RESET confirm 1
+
+NS user invoked reset
+
+Simultaneous invoked
+
+NS user reset
+
+\,
+
+/-`-
+
+N-RESET response
+
+NS provider reset
+
+invoked
+
+Simultaneous NS provider N-RESET request
+
+NS user and invoked reset
+
+\ \r /
+
+N-RESET indication N-RESET response
+
+response
+
+N-RESET confirm
+
+/'
+
+Figure
+
+4 -
+
+Summary
+
+of Network
+
+Service
+
+primitive
+
+time
+
+sequence
+
+diagrams
+
+t3
+
+IS
+
+13868:
+
+1993
+
+IS0 8348 : 1987
+
+.
+
+An
+
+N-RESET
+
+request
+
+or
+
+indication transfer,
+
+may or
+
+terminate
+
+a data
+
+b)
+
+N-DISCONNECT
+
+stands for either the request in all cases;
+
+or the
+
+transfer, sequence
+
+expedited
+
+data
+
+receipt
+
+confirmation
+
+indication c) ing
+
+form of the primitive
+
+before completion.
+
+the labelling of the states NS user invoked reset pend(state 5) and NS provider invoked started reflect reset pending the party which the local interthe value of the primitive;
+
+11.2
+
+Sequence
+
+of primitives
+
+at one NC endpoint
+
+(state 6) indicates action, originator d)
+
+and does not necessarily parameter
+
+The possible overall sequences are defined diagram a) a primitive which in the state
+
+of primitives at an NC endpoint diagram, figure 5. In the
+
+in the associated
+
+N-RESET
+
+transition
+
+the Idle (state 1) reflects the absence of an NC. It is the and once it has been the NC is released; diagram to describe the
+
+initial and final state of any sequence, re-entered, is not shown permitted effect as resulting in a trane) the use of a state transition sequences or constraints allowable
+
+sition (from one state to the same state, or from one state to a different see 11.1 N-RESET state) isnot the in that state (however, and concerning primitives); of N-DISCONNECT
+
+of service primitives of the Network
+
+does not impose
+
+any requirements
+
+on the internal organization Service.
+
+of any implementations
+
+N-DISCONNECT
+
+connection
+
+\
+
+N-CONNECT
+
+N-CONNECT /-
+
+N-DISCONNECT
+
+/
+
+/N-RESET
+confirm
+
+\
+
+/
+
+N-RESET\
+
+\
+
+NS user invoked
+
+N-EXPEDITED-DATA, w response N-DATA or N-DATA-ACKNOWLEDGE request or indication
+
+v
+
+NS provider invoked
+
+Figure
+
+5 _ State transition
+
+diagram for sequences of primitives at an NC endpoint
+
+14
+
+IS -IS0
+
+13868: 6348:
+
+1993 1987
+
+12
+12.1
+The
+
+Network
+Function
+NC
+
+Connection
+
+establishment
+
+phase
+
+12.2.2 The ing
+
+Called called
+
+address
+
+parameter conveys NC an address be identify-
+
+address to
+
+parameter which the the
+
+the
+
+NSAP explicitly
+
+is to primitives
+
+established.
+
+Where establishment service primitives can be used to establish an NC, provided the NS users exist and are known to the NS provider. Simultaneous handled two, N-CONNECT requests at the two NSAPs are 12.2.3 The NSAP
+
+supplied,
+
+addresses
+
+in coiresponding are identical.
+
+N-CONNECT
+
+request and indication
+
+Calling calling
+
+address
+
+parameter conveys the address N-CONNECT of the request
+
+address
+
+parameter
+
+independently
+
+by the NS provider;
+
+they may result in
+
+from which the NC has been requested.
+
+Where explicitly
+
+one or zero NCs.
+
+supplied, the addresses in corresponding and indication primitives are identical.
+
+12.2
+Table
+
+Types
+
+of primitives
+the types
+
+and parameters
+12.2.4 Responding address parameter conveys the address of the Where explicitly of primitives and the parameters The responding NSAP address parameter to which the NC has been established.
+
+6 indicates
+
+needed for NC establishment.
+
+12.2.1 The
+
+Addresses parameters all refer maximum which to take addresses addresses. digits as values The NSAP (12.2.2 to
+
+supplied, the addresses in corresponding N-CONNECT response and confirm primitives are identical. This parameter always NSAP conveys address. a specific NSAP address and not:a generic
+
+12.2.4) defined decimal
+
+NSAP
+
+address 12.2.5 The Receipt receipt confirmation select& parameter indicates the in confirmation selection parameter use/availability of the receipt confirmation service on the NC. If
+
+parameters
+
+will accommodate
+
+variable length addresses up to a (when expressed
+
+of 40 decimal
+
+digit syntax). by the NS user are
+
+The values of these addresses as supplied
+
+the receipt confirmation
+
+service is not provided in the Network
+
+not necessarily checked or authenticated by the NS provider. An NS user receiving these addresses in N-CONNECT indication or confirm NS user has primitives can only rely on their validity if the that the NS provider guarantees knowledge
+
+Service, then it cannot be used on the NC (see clause 8). The value of this parameter is either `use of receipt confirmation" or "no use of receipt confirmation". primitives a) on are related such that the N-CONNECT request, either of the defined The values on the various
+
+address correctness. NOTE - Mechanisms operating within the NS provider, such as call redirection or resolution of generic addresses, may result in address parameters in corresponding primitives not being identical in the following cases : a) the responding address parameter on the N-CONNECT response may not necessarily be the same as the called address parameter on the N-CONNECT indication; b) the responding address parameter on the N-CONNECT confirm may not necessarily be the same as the called address parameter on the N-CONNECT request. values may occur; b) on the N-CONNECT indication, the value is either equal or is "no use of receipt
+
+to the value on tne request primitive, confirmation"; c) on the N-CONNECT response,
+
+the value is either equal or is "no use of
+
+to the value on the indication receipt confirmation"; d) on the N-CONNECT
+
+primitive
+
+confirm, primitive.
+
+the value is equal to the
+
+value on the respoqse
+
+Table
+
+6 -
+
+NC establishment N-CONNECT request
+
+primitives N-CONNECT indication
+
+and parameters N-CONNECT response N-CONNECT confirm
+
+I
+
+I
+
+Called address Calling address Responding address Receipt confirmation selection Expedited data selection QOS-parameter set NS-user-data NOTE -
+
+X X (see the note)
+
+X(=1 (see the note) Xl=) X (see the note) Xl=)
+
+X X X X
+
+X X X
+
+X X X X
+
+xt=t
+X(=1 X(=1
+
+Xf=)
+
+1
+
+Xl-)
+
+Thii pnrame&r may be implicitly associated with the NSAP at which the primitive is issued
+
+1s 13868:
+1%)
+
+1993
+
+8348:
+
+1987
+
+.
+
+Since receipt confirmation
+
+may not be provided in the Network both NS users and the on an NC: it is not used;
+
+In those "lowest
+
+cases where quality
+
+both
+
+the subparameters are specified
+
+"target"
+
+and NS
+
+Service and since, when it is available, of negotiation a) b) of receipt confirmation
+
+acceptable"
+
+by the calling
+
+NS provider must agree to its use, there are four possible cases
+
+user, they are boundary both the subparameters
+
+parameters
+
+defining a "range" and "lowest
+
+of QOS where quality
+
+values to which the calling NS user will agree. Similarly, "available"
+
+the calling NS user does not request it -
+
+the calling NS user requests it but the NS provider does it is not used; NS user requests it and the NS provider
+
+acceptable" are specified by the NS provider, they are boundary parameters defining a "range" of QOS values which the NS provider is willing ?o provide. These "ranges" are defined to include the values of both of the boundary subparameters, plus
+
+not provide it c) the calling
+
+agrees to provide it, but the called NS user does not agree to its use d) it is not used:
+
+any values allowed for these subparameters which lie between The boundary subparameters. In the case where the "target" (or the "available") subparameter has a specified value but the "lowest quality acceptable" value is "unspecified", the range is defined to consist ot the "target" value plus all other values which are allowed for these subparameters (in QOS "target" terms) than and "lowest and which are lower the target. If the value for both the quality acceptable" is "unspecified",
+
+the calling NS user requests it, the NS provider agrees it
+
+to provide it, and the called NS user agrees to its use can be used.
+
+12.2.6
+
+Expedited
+
+data
+
+selection
+
+parameter indicates the useiavail-
+
+then no range of values is defined.
+For other value assignments lfor example "target" is "unspecified" but "lowest quality acceptable" has a specified value), the "range" is not defined since these assignments are not allowed in the negotiation procedures described in 12.2.7.1 and 12.2.7.2. NOTE
+
+The expedited data selection parameter ability of the expedited expedited data transfer
+
+service on the NC. If the be used on the NC. The data" or "no
+
+data transfer service is not available from the NS prois either "use of expedited
+
+vider (see clause 81, then it cannot value of this parameter use of expedited related such that
+
+data". The values on the various primitives are
+
+c 12.2.7.1 Throughput the presence QOS-parameters of the QOS-subparameters in the N-CONNECT for primi-
+
+Table 7 indicates a) on the N-CONNECT request, either of the defined the throughput tives. indication, request the value is either equal or is "no use of primitive, The negotiation QOS-parameters a) values may occur; b) on the N-CONNECT on the data"; response, the value is either equal or is "no use of
+
+to the value expedited c)
+
+and conveyance are conducted
+
+of each of the two throughput as foltows
+
+:
+the calling NS Per-
+
+on the N-CONNECT data";
+
+In the N-CONNECT (i.e. lowest
+
+request
+
+primitive,
+
+to the value on the indication expedited d)
+
+primitive
+
+user specifies acceptable"
+
+values for the "target" throughput) are and "lowest
+
+and "lowest subparameters.
+
+quality
+
+mitted value assignments on the N-CONNECT confirm, the value is equal to the value on the response primitive. Case 1 : both the "target" are "unspecified"; 12.2.7 QOS-parameter set
+
+quality acceptable"
+
+Case 2: values other than "unspecified" both "target" and "lowest
+
+are specified
+
+for
+
+quality acceptable";
+
+For each QOS-parameter which is conveyed during NC establishment, a set of "subparameters" is defined from among the following a) possibilities
+
+:
+value desired by the
+
+Case 3 : a value other than "unspecified" is specified for the "target" and the "lowest quality acceptable" is "unspecified". NOTE - The case where "target" is "unspecified" and the "lowest quality acceptable" has a value other than "unspecified" is
+
+a "target"
+
+value which is the 00s
+
+calling NS user; b) the "lowest quality acceptable" value which is the
+
+lowest QOS value agreeable c) an "available"
+
+to the calling NS user; is the QOS value the NS
+
+not permitted; logically, this case can be represented by the permitted assignment where an identical value is specified for both the "target" and "lowest quality acceptable" (case 21.
+
+value which
+
+provider is willing to provide; and d) a "selected" value which is the QOS value to which the
+
+bl
+
+If the value assignments
+
+of the "target"
+
+and "lowest
+
+quality acceptable" called NS user agrees. The set of values which can be specified for each subparameter is defined in every Network the value "unspecified". be a "default value", Service. Each set of values includes understood by the NS It may also include a value defined to which it is conveyed.
+
+subparameters
+
+are as defined in case 1, the highest QOS throughThis value by the NS as the indication
+
+then the NS provider determines
+
+put value which is to be offered on the NC. (which may be the "default" value understood provider "available" and the called NS user) subparameter in the N-CONNECT
+
+is specified
+
+which is mutually
+
+provider and the NS user between
+
+while the "lowest quality acceptable" subparameter value is "unspecified". If the requested QOS value assignments are as defined in case 2 or case 3, then, if the NS provider does not agree to provide a QOS in the requested establishment attempt is rejected as described range, the NC in 13.5. If the
+
+NOTE - "Default" values are defined between a particular NS user and the NS provider. Different "defaults" may exist for different NS users and thusa value which is understood as a "default" at one end of an NC may not be the "default" value at the other end.
+
+NS provider does agree to provide a QOS in the requested range, then in the N-CONNECT indication, the "available"
+
+16
+
+IS 13868: ISO 8648:
+
+1993 1987
+
+subparameter range which "lowest
+
+specifies
+
+the highest QOS is willing subparameter
+
+value within
+
+the
+
+d)
+
+If the
+
+called range,
+
+NS
+
+user does
+
+agree
+
+to a QOS
+
+in the to
+
+the NS provider
+
+to provide and the value is identical subparameter in
+
+specified value response. e)
+
+then the NS user specifies parameter of the
+
+the agreed N-CONNECT
+
+quality acceptable" request.
+
+in the
+
+"selected"
+
+to that of the "lowest the N-CONNECT c)
+
+quality acceptable"
+
+In the
+
+N-CONNECT indication.
+
+confirm,
+
+the "selected" of "selected"
+
+subparin the
+
+If the called NS user does not agree to a 00s and the "lowest range between the "available" acceptable" subparameters in 13.4. of the N-CONNECT then the NS user reiects the NC establishment
+
+in the quality as
+
+ameter
+
+has a value
+
+identical
+
+to that
+
+N-CONNECT A summarv
+
+indication attempt of the neqotiation iscontained Drocedures for the throughput QOS-subparameters in table 8.
+
+described
+
+_
+
+Table
+
+7 -
+
+Negotiated Primitive
+
+QOS-subparameters N-CONNECT
+request
+
+for throughput N-CONNECT
+indication
+
+QOS-parameters N-CONNECT
+confirm
+
+N-CONNECT
+response
+
+Throughput
+
+1 "target" (calling
+
+X X X X X(=1 X X X X Xl=) X(=) X(=1 +
+
+to called) Throughput 1 "lowest quality acceptable" (calling to called) Throughput 2 "target" (called to calling) Throughput 2 "lowest quality acceptable" (called to calling) Throughput 1 "available" (calling to called) Throughput 2 "available" (called to calling) Throughput to called)
+
+1 "selected" (calling
+
+Throughput 2 "selected" (called to calling)
+
+Table
+
+8 -
+
+Negotiation
+
+of throughput
+
+QOS-subparameters
+
+.
+
+Notes
+
+"Target" Case 1
+
+"Lowest quality acceptable" "Unspecified"
+
+"Available"
+
+"Lowest quality acceptable" "Unspecified"
+
+"Selected"
+
+"Selected" Z may be a "default" value; Z>A>O X and/or Y may be defined to be the "default" value at the calling NS user end, called NS user end, or both; X>Z>Y; Z>A>Y X may be a "default" value; x>z>o Z>A>O
+
+"Unspecified"
+
+2
+
+A
+
+A
+
+Case 2
+
+Case 3
+
+--w-IX "Unspecified"
+1 I
+
+_Z
+I
+
+"Un'specified"
+I
+
+A
+
+A
+
+I
+I
+
+17
+
+IS 13868: 1993 IS0 8348: 1987 .
+
+1227.2
+
+Transit
+
+delav of the QOS-subparameters for in the N-CONNECT primitives. of the transit delay QOS-
+
+subparameter assignments NS provider
+
+in the N-CONNECT are as defined
+
+indication.
+
+If the value in the re-
+
+in case 2 or case 3, then if the a QOS attempt is rejected as subparameter
+
+Table 9 indicates the presence the transit delay QOS-parameter The negotiation
+
+does not agree to provide
+
+quested range, the NC establishment QOS in the requested in the N-CONNECT which is offered.
+
+described in 13.5. If the NS provider does agree to provide a and conveyance as follows request range, the "available" indication specifies parameter a) are conducted
+
+:
+primitive, the calling NS quality subdelay)
+
+the value of QOS
+
+In the N-CONNECT
+
+user specifies acceptable" parameters.
+Case 1
+
+values for the "target"
+
+and "lowest
+
+(i.e. highest acceptable transit Permitted value assignments are and "lowest
+
+c) If the called NS user does not agree to the QOS specified as "available", then the NS user rejects the NC establishment d) QOS, (the attempt NS as described in 13.4. to the "available" response any transit
+
+: both the "target"
+
+quality acceptable"
+
+If the called N-CONNECT
+
+user does agree does
+
+are "unspecified"; Case 2: values other than "unspecified" both "target" Case 3 "target" specified".
+NOTE "lowest The case where "target" is "unspecified" and the is
+
+then the NS user issues an N-CONNECT response not convey
+
+are specified
+
+for
+
+and "lowest
+
+quality acceptable"; is specified for the acceptable" is "un-
+
+delay QOS-subparameters), e) In the N-CONNECT confirm the "selected" sub-
+
+: a value other than "unspecified"
+and the "lowest quality
+
+parameter value is identical to that specified in the N-CONNECT indication. A summary of the negotiation
+is contaiged
+
+as "available"
+
+procedures
+in table
+
+for the transit delay
+10.
+
+quality acceptable"
+
+has a value other than "unspecified"
+
+QOS-subparameters
+
+not permitted; logically, this case can be represented by the permitted assignment where an identical value is specified for both the "target" and "lowest quality acceptable". 12.2.8
+
+M-user-data
+
+parameter parameter allows the transfer of NS-userof octets of
+
+b) If the value assignments of the "target" and "lowest quality acceptable" subparameters are as defined in case 1, then the NS provider determines the transit delay value to be offered on the NC and specifies it as the "available"
+
+The NS-user-data data between NS-user-data
+
+NS users, without between
+
+modification
+
+by the NS pro-
+
+vider. The NS user may send any integer number
+
+zero and 128 octets inclusive.
+
+Table
+
+9 -
+
+Negotiated
+
+QOS-subparameters
+N-CONNECT request
+
+for transit
+N-CONNECT indication
+
+delay
+
+QOS-parameter
+N-CONNECT confirm
+
+N-CONNECT response
+
+Transit delay "target" Transit delay "lowest acceptable" quality
+
+X X
+
+Transit delay "available" Transit delay selected
+
+X X
+
+Table
+
+10 -
+
+Negotiation
+
+of transit
+
+delay
+
+QOS-subparameters NS provider specifies in
+N-CONNECT confirm "Selected" Notes
+
+Calling NS user specifies in N-CONNECT request
+"Lowest quality acceptable"
+
+NS provider specifies in
+N-CONNECT indication
+
+Called NS user specifies in
+N-CONNECT response
+
+"Target" Case 1 Case 2
+
+"Available"
+
+"Unspecified"
+
+, "Unspecified"
+
+2
+
+2 X and/or Y may be a default value; X<Z<Y X may be a default value; x<z<co
+
+X
+
+Y
+
+Z
+
+Z
+
+Case 3
+
+X
+
+"Unspecified"
+
+Z
+
+Z
+
+18
+
+IS 13868: IS0 -i348:
+
+1993 1987
+
+12.3
+
+Sequence
+
+of primitives
+is
+
+Table 11 -
+
+NC release primitives
+Primitive
+N-DISCONNECT
+
+and parameters
+N-DISCONNECl
+
+The sequence of primitives in a successful NC establishment
+defined by the time sequence
+fi
+
+diagram
+I
+
+in figure 6.
+Originator
+
+request
+
+indication
+X
+
+N-CONNECT
+
+Reason NS-user-data
+
+X X address X(C) (see the note) associated
+
+X X(C-) X(C = I
+
+_-----N-CONNECT Responding
+
+NOTE - This parameter may be implicitly which the orimitive is issued.
+
+with the NSAP
+
+at
+
+13.2.1
+The Figure 6 Sequence of primitives
+
+Originator
+
+parameter
+indicates either the the source "NS of the NC "NS
+
+originator
+
+parameter
+
+in successful
+
+NC
+
+establishment
+The NC establishment procedure may fail either due to the
+
+release. Its value indicates provider", or "undefined".
+NOTE The value indication "undefined"
+
+user",
+
+is
+
+not
+
+permitted
+
+when
+
+an
+
+N-DISCONNECT in order to reject
+
+is issued by an NS user or an NS provider attempt (see 13.4 and 13.5).
+
+inability indication 13.5). aborted
+
+of the NS provider (for these cases, the NC by the NS provider
+
+to establish
+
+an NC or due to the 13.4 and may be
+
+an NC establishment
+
+unwillingness
+
+of the called NS user to accept an N-CONNECT see NC release service, establishment attempt
+
+In addition,
+
+13.2.2
+
+Reason parameter
+gives information about the cause of the will be as
+
+or either of the NS users at any confirm. The reason parameter NC release. follows The value conveyed in this parameter
+
+other time before the issuing of the N-CONNECT
+
+:
+when the originator parameter indicates an NSprovider
+
+13
+13.1
+
+Network Function
+
+Connection
+
+release
+
+phase
+
+a)
+
+invoked release, the value is one of: 1) The NC release service primitives The NC release may be performed 31 a) by either or both of the NS users to release an established NC; 4) b) by the NS provider to release an established NC. failures to maintain an NC are indicated in this way; c) by the called NS user to reject an N-CONNECT All connection rejectionNSAP unreachable/transient condition; 5) indiconnection rejection-NSAP unreachable/permaconnection rejection-NSAP address unknown (permanent condition); are used to release an NC. 21 disconnectionpermanent condition; condition;
+
+disconnection-transient
+
+nent condition; 6) connection rejection-QOS not available/perma-
+
+cation; d) by the NS provider to indicate its inability to establish a NC.
+
+nent condition; requested 7) connection rejection-QOS not available/transient
+
+condition; NC release is permitted at any time regardless of the current phase of the NC. Once an NC release procedure has been invoked, the NC will be released; a request for NC release cannot be rejected. pointi NS-user-data After NC release has been invoked at one NC endmay discard any normal or expedited b) that has not yet been delivered at the other NC When the originator parameter indicates an NS user invoked release, the value is one of 9) connection rejection-reason unspecified/transient the NS provider condition. 8) connection rejection-reason unspecified/perma-
+
+nent condition;
+
+endpoint and may cause any uncompleted sequence of primitives for NC establishment, receipt confirmation, or reset to remain uncompleted.
+
+1) disconnection-normal 13.2
+Table
+
+condition; condition; condition; condition;
+
+Types of primitives
+11 indicates
+
+and parameters
+and the parameters
+
+2) 3) 4)
+
+disconnection-abnormal connection connection
+
+the types of primitives
+
+rejection-permanent rejectiontransient
+
+needed for NC release.
+
+19
+
+1s 13888: IS0
+
+1993 .
+
+8348 : 1987
+
+5)
+
+connection
+
+rejection-QOS
+
+not available/transient
+
+condition; 6) conn&tion rejection-QOS not available/permanent
+
+N-DISCONNECT refluest
+
+condition; 7) connection rejection-incompatible information in
+N-DISCONNECT indication
+
+NS-user-data. Figure c) When the originator parameter value is "undefined", shall also be "unthen the value of the reason parameter defined". 7 Sequence of primitives NC release in NS user. invoked
+
+13.2.3 The
+
+NS-user-data NS-user-data
+
+parameter allows the transfer of NS-userN-DISCONNECT request N-DISCONNECT request
+
+parameter
+
+data between number inclusive. originator of
+
+NS users, without octets of
+
+modification between
+
+by the NS prozero and 128 can
+
+vider. An NS user invoking
+
+NC release may send any integer indication, this parameter
+
+NS-user-data
+
+In an N-DISCONNECT number parameter
+
+have a non-zero
+
+of octets of NS-user-data user".
+
+only if the
+
+has the value "NS
+
+The NS-user-data user (13.3).
+
+sent is.lost
+
+if NC release is simultaneously receiving NS Figure 8 Sequence of primitives in simultaneous NS user invoked NC release
+
+invoked by either the NS provider or the intended
+
+13.2.4
+
+Responding
+
+address
+
+parameter is present in this primitive
+
+The responding
+
+address
+
+parameter attempt
+
+only in the case where the primitive is used to indicate rejection of an NC establishment parameter plied, conveys N-DISCONNECT by an NS user (see 13.4). The from which request the the address of the NSAP in the corresponding generic addressing,
+
+request was issued and, where explicitly supand indi(for
+N-DISCONNECT indication
+
+the addresses
+
+cation primitives are identical. example, call redirection, may be different ing N-CONNECT
+
+Under certain circumstances
+
+etc.) this address in the correspondN-DISCONNECT indication
+
+from the "called address" request primitive.
+
+13.3 Sequence of primitives established NC
+The sequence of primitives depends
+
+when releasing
+
+an
+
+Figure
+
+9 -Sequence
+
+of primitives NC release
+
+in NS provider
+
+invoked
+
+on the origin or origins of may be
+
+the NC release action. a) invoked
+
+The sequence
+
+by one NS user, with a request from that NS to the other NS user;
+N-DISCONNECT request
+
+user leading to an indication
+
+b) invoked by both NS users, with a request from each of -the NS users; c) invoked by the NS provider, with an indication to each
+
+of the NS users; d) invoked independently by one NS user and the NS proNS user andan
+N-DISCONNECT indication
+
+vider, with a request indication The sequences
+
+from the originating
+
+to the other NS user. of primitives in these four cases are expressed in diagrams in figures 7 to 10. Figure 10 Sequence of primitives invoked
+
+in simultaneous NC release
+
+the time sequence
+
+NS user and NS provider
+
+20
+
+IS IS0
+
+13868: 8348: .
+
+1993 1987
+
+Sequence of primitives in an NS user 13.4 rejection of an NC establishment attempt
+An NS user may reject an NC establishment attempt N-DISCONNECT request. The originator parameter N-DISCONNECT diagram primitives will indicate by an in the NC
+
+that divisions of available NS-user-data into small NSDUs may have cost implications because of the impact on cost optimization mechanisms operated by the NS provider.
+
+NS user invoked
+
+14.1.2 Table
+
+Types
+
+of primitives
+
+and parameters and the parameters
+
+release. The sequence of events is defined in the time sequence in figure 11.
+
+12 indicates
+
+the types of primitives
+
+needed for data transfer.
+
+N-CONNECS vequest
+
+Table
+
+12 -
+
+Data transfer primitives and parameters
+N-DATA request N-DATA indication xt =
+
+N-CONNECT indication N-DISCONNECT request
+
+NS-user-data Confirmation request
+
+X X(C)
+
+1
+
+X(C=)
+
+N-DISCONNECT indication
+
+14.1.2.1
+
+NS-user-data
+
+parameter allows the transfer modification number of an NSDU one or
+
+The NS-user-data in NS user rejection attempt between greater,
+
+parameter
+
+Figure 11 -
+
+Sequence of primitives of an NC establishment
+
+NS users, without of NS-user-data
+
+by the NS provider. of octets,
+
+The NS user may send any integer
+
+that forms the RISDU.
+
+13.5 Sequence of primitives in an NS-provider rejection of an NC establishment attempt
+If'the NS provider is unable to establish an NC, it indicates this to the requestor by an N-DISCONNECT indication. The originator parameter in this primitive indicates an NS provider invoked NC release. The sequence diagram in figure 12. of events is defined in the time sequence
+
+14.1.2.2
+
+Confirmation
+
+request
+
+parameter transferred by means of The conN-DATA-
+
+The receipt confirmation an N-DATA mation firmation of primitive receipt request parameter
+
+of an NSDU
+
+can be requested (COR)
+
+by setting the confirrequest. by the
+
+on the N-DATA is provided
+
+ACKNOWLEDGE
+
+primitives (see 14.2). The value of the confirmay indicate either that a COR is reThe parameter may only be of service was agreed by
+
+mation request parameter N-CONNECT request
+
+quested or that it is not requested.
+
+present if use of the receipt confirmation the NC.
+
+both NS users and the NS provider during the establishment
+
+14.1.3
+
+Sequence
+
+of primitives Service in tranferring NSDUs can re-
+
+The operation N-DISCONNECT indication /
+
+of the Network
+
+be modelled as a queue of unknown quest or of the NS provider
+
+size within the NS provider indication
+
+(see clause 9). The ability of an NS user to issue an N-DATA to issue an N-DATA depends on the behaviour of the receiving resulting state of the queue.
+
+Figure 12 rejection
+
+NS user and the
+
+Sequence
+
+of primitives
+
+in NS provider attempt
+
+of an NC establishment
+
+14
+14.1
+14.1.1
+
+Data
+Data
+
+transfer
+transfer
+
+phase
+
+The sequence of primitives in a successful data transfer defined in the time sequence diagram in figure 13.
+
+is
+
+Function of in Figure The 13 Sequence of of primitives in figure in data 13 transfer may remain primitive
+
+The data transfer service primitives provide for an exchange NS-user-data called Network-Service-data-units (NSDUs),
+
+either direction or in both directions simultaneously on an NC. The Network Service preserves both the sequence and the boundaries of the NSDUs.
+
+sequence
+
+primitives
+
+NOTE - Designers of higher layer protocols using the Network Service should realize that the requested QOS applies to complete NSDUs, and
+
+uncompleted occurs.
+
+if an N-RESET
+
+or an N-DISCONNECT
+
+21
+
+IS 13860: I%I 8340:
+
+1993
+t987
+
+.
+
+14.2
+14.2.1
+
+Receipt confirmation
+Function
+
+service
+
+The receipt confirmation service is requested by the confirmation request parameter on the N-DATA primitives. For each and every NSDU transferred with the confirmation request parameter set, the receiving NS user should return a confirmation of receipt (COR) by issuing an N-DATAACKNOWLEDGE request. Such CORs should be issued in the same sequence as the corresponding N-DATA indications were received, and will be conveyed by the NS provider so as to preserve them distinct from any previous or subsequent CO%. The NS user may thus correlate them with the original N-DATA primitives (with "Confirmation Requests" set) by counting. N-DATA-ACKNOWLEDGE requests will not be subject to the flow control affecting N-DATA requests at the same NC endpoint; N-DATA-ACKNOWLEDGE indications will not be subject to the flow control affecting N-DATA indications at the same NC endpoint. The use of the receipt confirmation service shall be agreed by the two NS users of the NC and the NS provider during NC establishment by use of the receipt confirmation selection parameter on the N-CONNECT primitives. The service need not be provided by all NS providers. 14.2.2 Types of primitives and parameters
+
+An NS user must not issue an N-DATA-ACKNOWLEDGE request if no N-DATA indication with "confirmation request"set has been received or if a COR has already been issued for all such N-DATA indications. Following a reset procedure, signalled by means of an N-RESET indication or N-RESET confirm, an NS user must not issue an N-DATA-ACKNOWLEDGE request in response to an N-DATA indication (with "confirmation request" set) which was received before the reset procedure was signalled.
+NOTES 1 The withholding attainable of COR by an NS user can have an effect on the on the NC. on an-NC may have an effect on the the issuing of a flow-
+
+throughput 2
+
+The use Of receipt confirmation
+
+flow control of normal data on the NC. For example, ing in the opposite direction from the COR. 3 Receipt confirmation support existing features is included in the Network of CCITT Recommendation
+
+COR may result in the relaxation of flow control on_NS-user-data
+
+Service X.25.
+
+only to
+
+14.3.
+
+Expedited
+
+data transfer
+
+service
+
+14.3.1 Function
+The expedited data transfer service provides a further means of information exchange on an NC in both directions simultaneously. The transfer of expedited Network-Service-dataunits (ENSDUs) is subject to different QOS and separate flow control from that applying to NS-user-data of the data transfer service. It is not intended to provide a qualified data transfer facility. The NS preserves both the sequence and boundaries of the ENSDUs. The NS provider guarantees that an ENSDU will not
+be delivered after any subsequently that NC. issued NSDU or ENSDU on
+
+The receipt confirmation service involves two primitives :
+
+-
+
+N-DATA-ACKNOWLEDGE N-DATA-ACKNOWLEDGE
+
+request; indication.
+
+These primitives do not convey any parameters.
+The relationship between normal and expedited NS-user-data
+
+14.2.3
+
+Sequence
+
+of primitives
+
+is modelled by the operation of changing of order within queues as described in 9.2.3. In particular, expedited NS-userdata can still be delivered accepting when the receiving However, NS user is not of nornormal NS-user-data. the amount
+
+The sequence of primitives in a successful data transfer with receipt confirmation is defined in the time sequence diagram in figure 14. N-DATA request
+with "confirmation request" set
+
+mal NS-user-data bypassed by such changing of order cannot be predicted or guaranteed. Expedited data transfer cannot be guaranteed to bypass blockages in normal data flow where these blockages are occurring in lower layers.
+
+-------.
+N-DATA indication with "confirmation request"set
+me-----
+
+The expedited data transfer service is a provider-option which may not be available in the Network Service. Its use-shall be agreed to by the two NS users of the NC and the NS provider during NC establishment by means of the expedited data selection parameter on the N-CONNECT primitives (12.2.6). 14.3.2 Types of primitives and parameters
+
+&ozz~ request
+
+N-DATA- B----ACKNOWLEDGE indication
+
+Table 13 indicates the types of primitives and the parameters needed for expedited data transfer. Table 13 Expedited data transfer primitives and parameters
+N-EXPEDITEDDATA request N-EXPEDITED
+
+of primitives in successful data Figure 14 - Sequence transfer with receipt confirmation
+
+The sequence of primitives in figure 14 may remain uncompleted if an N-RESET or an N-DISCONNECT primitive occurs.
+
+DATA indication X(=1
+
+NS-user-data
+
+X
+
+22
+
+I$ 13888: 1993 IS0 g48: 1987
+
+14 3.2.1
+
+NS-user-data
+
+parameter
+
+14.4.2.1
+
+Originator
+
+parameter
+
+The NS-user-data parameter allows the transfer of expedited NS-user-data between NS users, without modification by the NS provider. The NS user may send any integer number of octets of expedited NS-user-data between 1 and 32 inclusive. 14.3.3 Sequerice of primitives
+
+The originator parameter indicates the source of the reset. Its value indicates either the "NS user", "NS provider", or "undefined".
+
+14.4.2.2
+
+Reason parameter
+
+The sequence of primitives in a successful expedited data transfer is defined in the time sequence diagram in figure 15.
+
+The reason parameter gives information indicating the cause of the reset, The value conveyed in this parameter will be as follows :
+
+N-EXPEDITEDDATA request
+
+a) When the originator parameter indicates an NS provider invoked reset, the value is one of 1) 2) "congestion"; "reason unspecified".
+
+Figure 15 -
+
+Sequence of primitives data transfer
+
+in expedited
+
+b) When the originator parameter indicates an NS user invoked reset, the value is "user resynchronization". c) When the originator parameter has the value "undefined", then the value of the rgason parameter is also "undefined".
+
+The sequence of primitives in figure 15 may remain uncompleted if an N-RESET or an N-DISCONNECT primitive occurs. 14.4 14.4.1 Reset
+
+14.4.3
+
+Sequence
+
+of primitives
+
+service
+The interactions between each NS user and the NS provider will be an exchange of these primitives, namely either a) an N-RESET request from the NS user, followed by an N-RESET confirm from the NS provider; or b) an N-RESET indication from the NS provider, followed by an N-RESET response from the NS user. The N-RESET request acts as a synchronization mark in the stream of NSDUs, ENSDUs, and CORs transmitted by the issuing NS user. The N-RESET indication likewise acts as a synchronization mark in the stream of NSDUs, ENSDUs, and CORs received by the receiving NS user. Similarly, the N-RESET response acts as a synchronizing mark in the stream of NSDUs, ENSDUs, and CORs transmitted by the responding NS user, while the N-RESET confirm acts as a synchronization mark in the stream of NSDUs, ENSDUs, and CORs received by the NS user which originally invoked the reset. The resynchronizing properties of the reset service are that 1) No NSDU, ENSDU, or COR transmitted by the NS user before the synchronization mark in that transmitted stream s delivered to the other NS user after the synchronization mark in that received stream. -
+
+Function
+
+The reset service may be used a) by the NS user to resynchronize the use of the NC; or
+
+b) by the NS provider to report detected loss of NS-userdata unrecoverable within the Network Service. All loss of NS-user-data which does not involve loss of the NC is reported in this way. Invocation of the reset service will unblock the flow of NSDUs and ENSDUs in case of congestion of the NC: it will cause the NS provider to discard NSDlJs, ENSDUs, or CORs associated with the NC, and to notify any NS user or users that did not invoke reset that a reset has occurred. The service will be completed in a finite time, irrespective of the acceptance of NSDUs, ENSDUs, and CORs by the NS users. Any NSDUs, ENSDUs, or CORs not delivered to the NS users before completion of the service will be discarded by the NS provider. 14.4.2 Types of primitives and parameters
+
+Table 14 indicates the types of primitives and the parameters needed for the reset service.
+
+Table M Primitive Originator Reason
+
+Reset primitives
+N-RESET request
+
+and parameters
+N-RESET response N-RESET confirm
+
+N-RESET indication X
+
+X
+
+X
+
+23
+
+IS IS0
+
+13868:
+
+1993
+
+8348 : 1987
+
+ENSDUs, and The NS provider will discard all NSDUs, CORs submitted before the issuing of the N-RESET request which have not been delivered to the receiving NS user when the NS provider issues the N-RESET Also, the NS provider will discard all NSDUs, CORs submitted indication. ENSDUs, and
+N-RESET indication
+
+\
+
+N-RESET indication
+
+before the issuing of the N-RESET
+
+response
+
+which have not been delivered to the initiator of the N-RESET when the NS provider issues the N-RESET confirm. 2) No NSDU, ENSDU, or COR transmitted by an NS user stream the syn-
+
+N-RESET N-RESET response 1 /response
+
+after the synchronization
+
+mark in that transmitted
+
+will be delivered to the other NS user before chronization mark in that received stream. The N-RESET The complete with conflicting i)
+
+Figure
+
+16 -
+
+Sequence of primitives in NS provider invoked reset
+
+confirm may be issued to the initiator of the reset indication is issued to the other NS user. depends upon the origin of resets
+\ N-RESET indication
+
+before the N-RESET
+
+sequence
+
+of primitives
+
+N-RESET request
+
+of the reset action and the occurrence
+
+or otherwise
+
+origins. Thus the reset service may be: a) with
+
+invoked by one NS user, leading to interaction
+
+that NS user and interaction ii)
+
+b) with the peer NS user; a) with
+N-RESET confirm
+
+invoked by both NS users, leading to interaction
+
+both NS users; iii) invoked by the NS provider, leading to interaction b)
+
+0
+19 - Sequence of primitives in simultaneous NS user and NS provider invoked reset of reset "collision" which obfrom the number of reset procedures
+
+with both NS users; iv) invoked by one NS user and the NS provider, leading to interaction a) with the originating NS user and b) with the peer NS user. The sequence time sequence of primitives in these four cases is defined in the diagrams in figures 16 to 19. Figure
+
+Further, there may be circumstances point being different
+
+result in the number of reset procedures observed at one NC endserved at the other NC endpoint. Such circumstances result in two additional cases which may occur, where the reset service may be
+
+N-RESET
+
+request
+
+.-------__
+
+: ,.
+
+VI invoked by one NS user while a previous reset procedure is still incomplete at the other NS user, leading to additional interaction sequent reset, only; vi) a) with the NS user invoking the sub-
+
+invoked by the NS provider at one NC endpoint,
+
+while
+
+a previous reset procedure is still incomplete at the other, leading to additional interaction b) with the NS user at the
+N-RESET confirm
+
+first NC endpoint,
+
+only. of reset primitives for the but may be sequence of illus-
+
+There are many possible sequences two NC endpoints Sequence of primitives in NS user are not illustrated derived trated using in
+
+which may occur for cases VI and vi). These here by time sequence diagrams, constraints 16 to 19. on the The allowed
+
+Figure 16 -
+
+invoked reset
+
+the
+
+primitives for each NC endpoint, figures
+N-RESET request \ /
+
+and the reset sequences synchronizing
+
+properties
+
+N-RESET request
+
+associated with the issuance of the N-RESET same for all of the six cases outlined.
+
+primitives are the
+
+NOTE - Situations in which t?e number of reset procedures at the two ends of a NC are not the same are not described by the operation of the queue model in 9.2.
+
+Any sequence of reset primitives may remain uncompleted if an N-DISCONNECT primitive occurs. Once a reset procedure has been invoked at an NC endpoint (by means of an N-RESET request or N-RESET indication primitive), no further N-DATA, N-EXPEDITED-DATA, or N-DATA-ACKNOWLEDGE prin-&e can be issued by either the NS user or the NS provider until the
+
+Figure 17 -
+
+Sequence of primitiyes in simultaneous NS user invoked reset
+
+reset procedure confirm
+
+has been completed response).
+
+(by means of an N-RESET
+
+or N-RESET
+
+24
+
+Is
+is0
+
+14868:
+
+1993
+
+8348 : 1987
+
+Annex Differences between IS0 8348 and CCllT Recommendation X.213-1986
+
+(This annex does not form part of the standard.)
+
+The following
+
+differences
+
+between
+
+this International
+
+Standard
+
+and CCITT
+
+Recommendation
+
+X.213
+
+should
+
+be noted.
+
+A.1
+"NOTE
+
+The following
+-
+
+note, which is contained
+
+in paragraph
+
+12.2.7.2
+
+of CCITT Recommendation
+
+X.213,
+
+does not appear in IS0
+
+6346.
+
+The implementation
+
+of the transit delay negotiation
+
+requires urgent further study in order to have a harmonized consequences."
+
+realization in different types
+
+of subnetworks.
+
+Special attention
+
+is required as regards routing and charging
+
+A.2
+
+The following
+
+note, which is contained
+
+in paragraph
+
+12.2.8 of CCITT
+
+Recommendation
+
+X.213,
+
+does not appear in IS0 6348.
+
+"NOTE - The objective is to make this parameter a mandatory parameter to be supported by all subnetworks in the future. However, a number of existing subnetworks cannot support it now. During the interim period, while these subnetworks exist and are not modified to provide this parameter, it is considered as a provider-option. No negotiation mechanism is needed in the Network Service. ,
+
+Limiting, in some subnetworks, the length of NS-user-data period would imply fewer changes to existing interfaces subnetworks."
+
+to be provided to a value lower than 126 octets (for example 16 to 32 octets) for an interim and signalling systems and would simplify the introduction of such a service in existing
+
+In addition, in table 61X.213 "conditional" in IS0 8348.
+
+the NS-user-data
+
+parameters
+
+are marked as "conditional",
+
+whereas these parameters
+
+are not marked as
+
+A.3
+
+The following
+
+note, which is contained
+
+in paragraph
+
+13.2.3 of CCITT
+
+Recommendation
+
+X.213,
+
+does not appear in IS0 8348.
+
+"NOTE - The objective is to make this parameter a mandatory parameter to be supported by all subnetworks in the future. However, a number of existing subnetworks cannot support it now. During the interim period, while these subnetworks exist and are not modified to provide this parameter, it is considered as a provider-option. No negotiation mechanism is needed in the Network Service."
+
+In addition, in table 11 /X.213 the "NS-user-data" as "conditional" in IS0 8348.
+
+parameters
+
+are marked as "conditional",
+
+whereas these parameters
+
+are not marked
+
+As in the Original Standard, this Page is Intentionally Left Blank
+
+IS 1386,8: 1993 IS0 8348: 1987
+
+Technical
+
+corrigendum
+
+1 to International
+
+Standard
+
+IS0 8348
+
+: 1987 was prepared
+
+by ISO/IEC JTC 1, lnformafion technology.
+
+Page 7
+
+Table 2 Replace table 2 with the following: Table 2 Ordering relationships
+between queue model objects
+
+is defined
+
+Connect
+
+Octets of normal NS-user-data _ _ _ N/A
+
+End-of-NSDU
+
+Ex~~~~d
+
+Data acknowledgement AA AA AA -
+
+Reset
+
+Synchronization mark
+
+Disconnect
+
+Connect Octets of normal NS-user-data End of NSDU Expedited NSDU Data acknowledgement Reset Synchronization Disconnect AA DES mark
+
+N/A N/A N/A N/A N/A N/A N/A N/A
+
+N/A N/A _ N/A _ N/A
+
+AA AA _ AA
+
+DES DES DES DES DES DES N/A
+
+N/A N/A N/A N/A N/A N/A N/A
+
+DES DES DES DES DES DES DES DES
+
+_
+N/A
+
+N/A
+
+indicates that object x is defined to be able to advance ahead of the preceding object y. indicates that object x is defined to be destructive with respect to the preceding object y. indicates that object x is neither destructive with respect to object y nor able to advance ahead of object y,
+
+N/A
+
+indicates that object x will not occur in a position sucdeeding object y in a valid state of~a queue.
+
+27
+
+Printed at Dee Kay Print&. New Delhi, India
+
+,
+
+1 Standard Mark The use of the Standard Mark ir governed by the proviioronn of the lSvrrsu of I&& Standards Act, 1986 and the Rules and Regulations made thereunder. The Standard Mark on products covered by an Indian Standard conveys the aesuranoe that they have been produced to comply with the requirements of that standard under a well defined system of inspection, testing and quality control which if devised and supervised by BIS and operated by tb,e producer. Standard marked products are also continuously checked by BIS for conformity to that standard as a further safeguard. Details of conditions under which a licence for the use of the Standard Mark may be granted to manufacturers or 1 producers may be obtained from the Bureau of Indian Standards;
+I ----- I_ ---.-,-
+
+I
+
+Bureau of Indian Standards BIS is a statutory institution established under the Bureau e/ Indian Sfandarda Act, I91yQIto promote harmonious development of the activities of standardization, marking and quality certification of goods and attending to connected matters in the ~country. Copyright No part of these publications may be reproduced BIS has the copyright of all its publications. This does not preclude the free USC, in any form without the prior permission in writing of BIS. in the course of implementing the standard, of~necessany details, such as symbols and sizes, type to copyright be addressed to the Director or grade designations. Enquiries relating ( Publications ), BIS. Revision of Indian Staudards Standards Amendments are issued to standards as the need arises on the basis of comments. are also reviewed periodically; a standard along with amendments is reaffirmed when such review indicates that no changes are needed; if the review indicates that changes are needed, it is taken Users of Indian Standards should ascertain that they are in possession of the up for revision. latest amendments or edition by referring to the latest issue of `BIS Handbook and `Standards Monthly Additions'. Comments on this Indian Standard may be sent to BIS giving the following reference: Dot : No. LTD 36 ( 1558 ) Amendments Amend No Issued Since Publicatiou c Text Affected
+
+Date of Issue
+
+BUREAU Headquarters: Manak
+Telephones
+
+OF INDIAN
+
+STANDARDS
+
+Bhavan, 9 Bahadur Shah Zafar : 331 01 31, 331 13 `75
+
+Marg.
+
+New Delhi
+
+110002 Telegrams ( Common : Manaksanstha to all Offices )
+
+Regional Central
+
+Offices : : Manak Bhavan, 9 Bahadur NEW DELHI 110002 Shah Zafar Marg
+
+Telephone
+
+Eastern
+
+: l/l4 C. I. T. Scheme VII M, V. 1. B. Road, CALCUTTA 700054 : SC0 445-446, Sector : C. I. T. Campus, 35-C, CHANDIGARH MADRAS Andheri
+
+Maniktola
+
+Northern Southern Western Branches
+
+160036 600113
+
+I
+
+37 84 99, 37 86 26,
+
+37 85 61 ~37 86 62 53 16 40
+
+53 23 38 84 43,
+
+IV Cross Road, Marol,
+
+235 02 16, 235 15 19, 632 92 95, 632 78 91,
+
+235 04 42 235 23 IS 632 78 58 632 78 92
+
+: Manakalaya, E9 MIDC, BOMBAY 400093
+
+( East )
+
+I AHMADABAD. BANGALORE. BHOPAL. BHUBANESHWAR. COIMBATORE; FARIDABAD. GHAZIABAD. GUWAHATI. HYDERABAD; JAIPUR. KANPUR. LUCKNOW. PATNA. THIRUVANANTHAPURAM. Printed at Printwell Printers, Aligarh, India
+
+

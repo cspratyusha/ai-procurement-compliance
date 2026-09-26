@@ -1,0 +1,1600 @@
+IS 13675 ( Part 2 ) : 1993 ISO/IEC 9072-2 : 1989
+
+( Reaffirmed 2003 )
+
+Indian
+
+Standard
+
+REMOTE OPERATIONS IN TEXT COMMUNICATION FOR INFORMATION PROCESSING SYSTEMS
+PART 2 PROTOCOL SPECIFICATION
+
+UDC
+
+681'327'8'01
+
+@I BIS 1993
+
+BUREAU
+MANAK
+
+OF
+BHAVAN,
+
+INDIAN
+9 NEW BAHADUR DELHI
+
+STANDARDS
+SHAH 110002 Price Group 10 ZAFAR MARG
+
+May
+
+1933
+
+Computer
+
+Systems and Interconnection
+
+Sectional
+
+Committee,
+
+LTD 36
+
+NATIONAL
+
+FOREWORD
+
+This Indian Standard which is identical with ISO/IEC 9072-2 : 1989 `Information processing systems - Text communication -. Remote operations - Part 2 : Protocol specification', issued by the International Organization for Standardization ( IS0 ), was adopted by the Bureau of Indian Standards on the recommendation of the Computer Systems and Interconnection Sectional Committee (LTD 36 ) and approval OFthe Electronics and Telecommunication Division Council. In the adopted standard certain terminology and conventions are however not identical used in Indian Standards. Attention is particularly drawn to the following: Wherever the words `International be read as `Indian Standard'. In this Indian Standard, the followina respective place the foliowing: International IS0 Standard
+
+to those
+
+Standard' International
+
+appear
+
+referring
+
+to this standard, are referred to.
+
+they should Read in their
+
+Standards
+
+indian Standard
+
+7498 : 1984 Information processing systems - Open systems interconnection - Basic reference model
+
+fS0 8649 : 1988 Information processing systems - Open systems interconnecdefinition tion - Service for the association control service element fS0 8650 : 1988 Information processing systems - Open systems interconnecspecification for the tion - Protocol association - control service element &So 8822 : 1988 Information systems - Open systems tion - Connection oriented service definition processing interconnecpresentation
+
+IS 12373 ( Part 1 ) : 1987 Basic reference model of open systems interconnection for information processing systems: Part 2 ( Identical) IS 13615 : 1993 Service definition for the association control service element in open systems for information processing interconnection systems ( Identical ) IS 13706 : 1993 Protocol specification for the association control service element in open interconnection for information systems processing systems ( Identical ) Dot LTD 36 ( 1636 ) PI Connection oriented presentation service definition in open systems interconnection for information processing systems ( under preparation ) ( Identical) IS 13767 ( Part 1 ) : 1993 Reliable transfer in text communication for information processing systems : Part 1 Model and service definition ( Identical ) IS 13707 ( Part 2 ) : 1993 Reliable transfer in text communication for information processing systems : Part 2 Protocol specification ( Identical ) IS 13675 ( Part 1 ) : 1993 Remote operations in text communication for information processing systems : Part 1 Model, notation and service definition ( Identical )
+
+t!jO/IEC 9066- 1 : 1989 Information processcommunication i ng systems - Text Reliable transfer - Part 1 : Model and service definition CSO/IEC 9066-2 : 1989 ing systems - Text transfer Reliable specification ISO/IEC 9072-I : 1989 ing systems - Text operations Remote notation and service Information processcommunication Part 2 : Protocol Information processcommunication - Part 1 : Model, definition
+
+The technical committee responsible for the preparation of this standard has reviewed the provisions of the following IS0 Standards and has decided that they are acceptable for use in conjunction with this standard: ISO/TR 8509 : 1987 Information processing systems - Open systems interconnection Service conventions IS0 8824 : 1987 Specification of IS0 8825 : 1987 Specification of Information processing systems - Open systems interconnection abstract syntax notation one ( ASN. 1 ) Information processing systems - Open systems interconnection basic encoding rules for abstract syntax notation one ( ASN, 1 ) text in the International istandard has been retained while -
+
+Only the English language it in this standard.
+
+adopting
+
+i
+
+IS 13675 ( Part 2 ) : 1993 IS0 / IEC 9072-2 : 1989
+
+Indian
+REMOTE OPERATIONS FOR INFORMATION
+PART 2
+
+Standard
+IN TEXT COMMUNICATION PROCESSING SYSTEMS
+SPECIFICATION
+
+PROTOCOL
+
+1
+
+Scope
+
+This part of ISO/IEC 9072 specifies the protocol (abstract syntax) and procedures for the Remote Operation Service Element (part 1 of this International Standard). The ROSE services are provided in conjunction with the Association Control Service Element (ACSE) services (IS0 86491 and the ACSE protocol (IS0 86501, optionally the Reliable Transfer Service Element (RTSE) services (ISO/IEC 9066-l) and the RTSE protocol USO/IEC 9066-21, and the presentationservice (IS0 8822). The ROSE procedures al are defined in terms of
+
+ISO/IEC 7498: 1984, Information processing systems - Open Systems interconnection - Basic Reference Model. ISO/TR 8509: 1987, Information processing systems - Open Systems Interconnection - Service Conventions. IS0 8649: 1988, Information processing systems Open Systems Interconnection - Service definition for the Association Control Service Element. IS0 8650: 1988, Information processing systems Open Systems Interconnection - Protocol specification for the Association Control Service Element. IS0 8822. :988, !nformation processing systems Open Systems Interconnection - Connection oriented presentation service definition. -
+
+the interactions between peer ROSE. protocol machines through the use of RTSE services or the presentation-service; the interactions between the ROSE protocol machine and its service-user.
+
+b)
+
+IS0 8824: 1987, Information processing systems Open Systems Interconnection - Specification of Abstract Syntax Notation One (ASN.l). IS0 8825: 1987, Information processing systems Open Systems Interconnection - Specification of basic encoding rules for Abstract Syntax Notation One (ASN.1). ISOtIEC 9066-l: 1989, Znfarmation processing systems - Text communication - Reliable Transfer - Part 1: Model and service definition. ISO/IEC 9066-2: 1989, Information processing systems - Text communication - Reliable Transfer -Part 2: Protocol specification. ISO/IEC 9072-l: 1989, Information sy-stems - Text communication Operations - Pizrt 1: Model, notation definition. processing - Remote and service
+
+This part of ISO/IEC 9072 specifies conformance requirements for systems implementing these procedures.
+
+2
+
+Normative references
+
+The following standards contain provisions which, through reference in this text, constitute provisions of this part of ISO/IEC 9072. At the time of publication, the editions were valid. All Standards are subject to revision, and `parties to agreement-based on this part of ISO/IEC 9072 are encouraged to investigate the possibility of applying the most recent editions of the standards listed below. Members of IS0 and IEC maintain Registers of currently valid International Standards.
+
+1
+
+IS13675(
+
+iso
+
+Part2):1993 / IEC 9072-2 : 1989
+
+3
+3.1
+
+Definitions
+Reference Model definitions
+
+3.4
+
+Association
+
+control
+
+definitions
+
+. use of the
+
+This part of ISO/IEC 9072 makes following terms defined in IS0 8649: a) b) C) 3.5 application-association; application Association Reliable context;
+
+This part of ISO/IEC 9072 is based on the concepts developed in ISO/IEC 7498 and makes use of the following terms defined in it:
+a)
+
+association;
+
+Application
+
+Layer;
+
+Control Service Element. definitions
+
+b) C) d) e) f) d h) 9 3 k) 1) 3.2
+
+application-process; application-entity; application-service-element; application-protocol-data-unit; application-protocol-control-information; presentation-service; presentation-connection; session-service; session-connection; transfer syntax; and user-element. Service conventions definitions
+
+Transfer
+
+This part of ISO/IEC 9072 makes use of the following terms defined in ISO/IEC 9066-l: a) 3.6 Reliable Transfer Service Element. ROSE service definitions
+
+This part of ISO/IEC 9072 makes use of the following terms defined in ISO/IEC 9072-l:
+
+a)
+b) c) d) e) fl g) h) i) j) k) 1) m) n) and 0) 3.7 service; service;
+
+association-initiating-application-entity; association-initiator; association-responding-applicationentity; association-responder; invoking-application-entity; performing-application-entity; requestor; acceptor; linked-operations; parent-operation; child-operation; RO-notation; Remote Operation Service Element; ROSE-provider; ROSE-user; RTSE-user; Remote Operations. Remote specification Operation definitions protocol invoker; performer;
+
+This part of ISO/IEC 9072 makes use of the following terms defined in ISO/TR 8509: a) b)
+Cl
+
+service-provider; service-user; confirmed service;
+
+d) e) fl g) h) i) j) 3.3
+
+non-confirmed
+
+provider-initiated primitive; request (primitive); indication
+
+(primitive);
+
+response (primitive); confirm (primitive). Presentation
+
+service definitions use of the
+
+This part of iSO/IEC 9072 makes following terms defined in IS0 8822: a) b)
+C)
+
+For the purpose of this part of ISO/IEC 9072 the following definitions apply: 3.7.1 remote-operation-protocol-machine. The protocol machine for the Remote Operation Service Element specified in this part of ISO/IEC 9072.
+
+abstract syntax; abstract syntax name; presentation context
+
+2
+
+IS 13675 ( Part 2 ) : 1993 IS0 / IEC 9072-2 : 1989
+
+3.7.2 requesting-remote-operationprotocol-machine: The remote-operationprotocol-machine whose service-user is the requestor of a particular Remote Operation Service Element service. 3.7.3 accepting-remote-operation-protocolmachine: The remote-operation-protocolmachine whose service-user is the acceptor for a particular Remote Operation Service Element service.
+
+5
+
+Conventions
+
+This part of ISO/IEC 9072 employs a tabular presentation of its APDU fields. In clause 7, tables are presented for each ROSE APDU. Each field is summarized using the following notation: M U req ind presence is mandatory presence is a ROSE-user option source is related request primitive sink is related indication primitive
+
+4
+4.1 APDU 4.2
+
+Abbreviations
+Data units application-protocol-data-unit Types units of application-protocol-data-
+
+resp conf sP
+
+source is related response primitive sink is related confirm primitive source or sink is the ROPM in of
+
+The following abbreviations have been given to the application-protocol-data-units defined in this part of ISO/IEC 9072. ROIV RORS ROER RORJ RO-INVOKE data-unit RO-RESULT data-unit RO-ERROR unit RO-REJECT data-unit Other abbreviations are used in this part Entity Control Service application-protocolapplication-protocolapplication-protocol-data-
+
+The structure of each ROSE APDU is specified clause 9 using the abstract syntax notation ISO/IEC $824.
+
+6
+6.1
+
+Overview
+
+of the protocol
+,
+
+Service provision
+
+The protocol specified in this part of ISO/IEC 9072 provides the ROSE services defined in ISO/IEC 9072-l. These services are listed in table 1.
+
+Table 1 - ROSE services
+
+summary
+
+application-protocolService RO-INVOKE RO-RESULT RO-ERROR RO-REJECT-U RO-REJECT-P Type Non-confirmed Non-confirmed Non-confirmed Non-confirmed Provider-initiated
+
+4.3
+
+The following abbreviations of ISO/iEC 9072 AE ACSE ASE RO (or ROS) ROPM ROSE RT RTSE Application Association Element Application
+
+Service Element
+
+6.2
+
+Use of services
+
+Remote Operations Remote Machine Remote Element Pperations Operations Protocol Service
+
+The ROSE protocol specified in this part of ISO/IEC 9072 needs a transfer service to pass information in the form of ROSE APDUs between peer application-entities (AEs). Two transfer services may be used alternatively: a) b) the RTSE services, if the RTSE included in the application-context, or the presentation-service, if the RTSE not included in the application-context. is is
+
+Reliable Transfer Reliable Transfer Service Element
+
+3
+
+IS 13675 ( Part 2 ) : 1993 IS0 / IEC 9072-2 : 1989
+
+\
+
+In both cases an existing established and released services, is assumed. 6.2.1
+
+application-association, by means of the ACSE
+
+Use of the RTSE services
+
+If the RTSE is included in the application-context, this part of ISO/IEC 9072 assumes that the ROPM is the sole user of the RT-TRA,NSFER service and the RT-TURN-GIVE service. The initiating A& may only request the release of the application-association by means of the RTCLOSE service if it possesses the Turn. Therefore the RTSE-user and the ROPM are the user of the RT-TURN-PLEASE service. The ROPM is the user of the RT-U-ABORT RT-P-ABORT services. 6.2.2 Use of the presentation-service and
+
+issues indication primitives to its service-user, and request primitives on the used RTSE services, or the presentation-service. If the RTSE is included in the application-context, the RTTRANSFER indication, RT-TRANSFER request and RT-TRANSFER confirm primitives are used. In the case of an application-context excluding RTSE, the presentation-service P-DATA request, and P-DATA indication primitives are used. In this case the transfer is not confirmed. The reception of a ROSE service primitive, or of a RTSE service or of a presentation-service primitive, and the generation of dependent actions are considered to be indivisible. During the,exchange of APDUs, the existence of both, the association-initiating AE and the association-responding AE is presumed. How these AEs are created is beyond the scope of this part of ISO/IEC 9072. _ During the execution of operations, the existence of an application-association between the peer AEs is presumed. How this applicationassociation is established and released is beyond the scope of this part of ISO/IEC 9072 (see ISO/IEC 9072-1, IS0 8649, IS0 8650, ISO/IEC 9066-l and ISO/IEC 9066-21.
+NOTE Each application-association end system, by an internal, so that dependent mechanism may be identified implementation the ROSE service-user in an
+
+If the RTSE is not included in the application-context, the ROPM is a user of the PDATA service. 6.3 Model
+
+The remote-operation-protocol-machine (ROPM) communicates with its service-user by means of primitives defined in ISO/IEC 9072-I. Each invocation of the ROPM controls a single application-association. The ROPM is driven by ROSE service request primitives from its service-user, and by indication and confirm primitives of the RTSE services, or the presentation-service. The ROP,M, in turn,
+
+and the ROPM can refer to it.
+
+4
+
+\
+
+IS 13675 ( Part 2 ) : 1993 IS0 / IEC 9072-2 : 1999 .
+
+7
+
+Elements of procedure
+consists of the following
+
+b)
+
+a ROW APDU as user-data indication primitive. RO-INVOKE request
+
+of a-transfer
+
+The ROSE protocol elements of procedure:
+a)
+
+7.1.3.1
+
+primitive
+
+invocation return-result return-error user-reject provider-reject. Invoke-ID Linked-ID Operation-value Argument M U M U Field name Presence j Source
+Table 2 - ROIV APDC fields
+
+bl c) d) e)
+
+I
+t
+
+Sink
+
+In the following clauses, a summary of each of these elements of procedure is presented. This consists of a summary of the relevant APDUs, and a high-level overview of the relationship between the ROSE service primitives, the APDUs involved, and the transfer service that is used. The generic terms transfer service, transfer service-provider, transfer request, and transfer indication are used in the context, of clause 7. Clause 8 describes how these generic service primitives are mapped either on to the RTSE services or the presentation-service. In clause 9 a detailed AFDUs is given using 8821. 7.1 7.1.1 Invocation Purpose specification the notation of the ROSE defined in IS0
+
+w req
+req req
+
+ind ind ind ind
+
+The requesting ROPM forms a ROIV APDU from the parameter values of the RO-INVOKE request primitive. It issues a transfer request primitive. The user-data parameter of the transfer request primitive contains the ROIV APDU. The requesting ROP,ZI waits either for a transfer indication primitive from the transfer serviceprovider or any other primitive from the requestor. 7.1.3.2 ROW APDU
+
+The invocation procedure- is used by one AE (the invoker) to request an operation to be performed by the other AE (the performer). 7.1.2 APDUs used uses the RO-INVOKE
+
+The accepting ROPM receives a ROIV APDU from its peer as user-data on a transfer indication primitive. tf any of the fields of the ROIV APDU are unacceptable to this ROPM, the providerreject procedure is performed, and no ROINVOKE indication primitive is issued by the ROPM. If the ROIV APDC is acceptable to the accepting ROPM, it issues a RO-INVOKE indication primitive to the acceptor. The RO-INVOKE indication primitive parameters are derived from the ROW APDU. The accepting ROPM waits either for a transfer indication primitive from the transfer serviceprovider or any other primitive from the acceptor.
+
+The invocation (ROW APDU.
+
+procedure
+
+The fields of the ROIV APDU 7.1.3 Invocation is driven
+
+are listed
+
+in table
+
+2.
+
+procedure by the following request primitive events: from the
+
+This procedure a)
+
+a RO-INVOKE requestor
+
+5
+
+IS 13675 ( Part 2 ) : 1993 IS0 / IEC 9072-2 : 1989
+
+i
+
+7.1.4
+
+Use of the ROW
+
+APDU
+
+fields
+
+7.2.2
+
+APDUs
+
+used uses the RO-
+
+The ROW fields are used as follows. 7.L4.1 Invoke-ID
+
+The return-result procedure RESULT (RORS) APDU.
+
+This is the invoke-ID parameter value of the ROINVOKE request primitive. It appears as the invoke-ID parameter value of the RO-INVOKE indication primitive. The value of this field is transparent to the ROPM, however the value may be used in the provider reject procedure. 7.1.4.2 Linked-ID
+
+The fields of the RORS APDU are listed in table 3. 7.2.3 Return-result procedure events: from the
+
+This procedure is driven by the following a) b) a RO-RESULT requestor; request primitive
+
+a RORS APDU as user-data indication primitive. RO-RESULT Request
+
+of a transfer
+
+This is the linked-ID parameter value of the ROINVOKE request primitive. It appears as the linked-ID parameter value of the RO-INVOKE `indication primitive. The value ROPM. 7.1.4.3 of this field is transparent to the
+
+7.2.3.1
+
+Primitive
+
+Table 3
+
+- RORS APDC fields
+c
+
+Field name
+
+sPrc-e
+
+Source
+
+Sink
+
+Operation-value
+
+This is the operation-value parameter value of the RO-INVOKE request primitive. It appears as the operation-value parameter value of the ROINVOKE indication primitive. The value ROPM. 7.1.4.4 of this field is transparent to the
+
+Invoke-ID Operation-value Result
+
+M U U
+
+req req req
+
+ind ind ind
+
+Argument
+
+The requesting ROPM forms a RORS APDU from the parameter values of the RO-RESULT request primitive. It issues a transfer request primitive. The user-data parameter of the transfer request primitive contains the RORS APDU,. The requesting ROPE waits either for a transfer indication primitive from the transfer serviceprovider or any other primitive from the requestor. 7.2.3.2 RORS APDU
+
+This is the argument parameter value of the ROINVOKE request primitive. It appears as the argument parameter value of the RO-INVOKE indication primitive. The value ROPM. 7.2 7.2.1 of this field is transparent to th5
+
+Return-result Purpose
+
+The return-result procedure is used by one AE (the performer) to request the transfer of the result of a successfully performed operation to the other AE (the invoker).
+
+The accepting ROPM receives a RORS APDU from its peer as user-data on a transfer indication primitive. If any of the fields of the RORS APDU are unacceptable to this ROPM, the providerreject procedure is performed, and no RORESULT indication primitive is issued by the ROPM.
+
+6
+
+i
+
+IS 13675 ( Part 2 ) : 1993 IS0 / IEC 9072-2 : 1989
+
+If the RORS APDU is acceptable to. the accepting ROPM, it issues a RO-RESULT indication primitive to the acceptor. The RO-RESULT indication primitive parameters are derived from the RORS APDU. The accepting ROPM waits either for a transfer primitive from the transfer service-provider or any other primitive from the acceptor. 7.2.4 Use of the RORS APDU fields
+
+7.3.2
+
+APDUs
+
+used procedure uses the RO-ERROR
+
+The return-error (ROER) APDU.
+
+The fields of the ROER APDU are listed in table 4.
+
+Table 4 - ROER APDC fields
+
+I
+
+I
+
+The RORS fields are used as follows. 7.2.4.1 Invoke-ID
+
+Field name I
+
+Presence I
+
+Source
+
+Sink
+
+This is the invoke-ID parameter value of the RORESULT request primitive. It appears as the invoke-ID parameter value of the RO-RESULT indication primitive. 7.3.3 The value of this field is transparent to the ROPM, however the value may be used in the provider-reject,procedure. 7.2.4.2 Operation-value Return-error procedure This procedure a) b) is driven by the following request primitive
+
+ind ind ind
+
+events: from the
+
+a RO-ERROR requestor;
+
+This is the operation-value parameter value of the RO-RESULT request primitive. It appears as the operation-value parameter of the RO-RESULT indication primitive. The value ROPM. of this field is transparent to the
+
+a ROER APDU as user-data indication primitive. RO-ERROR request
+
+of a transfer
+
+7.3.3.1
+
+primitive
+
+This field shall be present only if the result field is present. 7.2.4.3 Result
+
+The requesting ROPM forms a ROER APDL from the parameter values of the RO-ERROR request primitive. It issues a transfer request primitive. The user-data parameter of the transfer request primitive contains the ROER APDU. The requesting ROPM waits either for a transfer primitive from the transfer service-provider or any other primitive from the requestor. 7.3.3.2 ROER APDU
+
+This is the result parameter value of the RORESULT request primitive. It appears as the result parameter value of the RO-RESULT indication primitive. The value ROPM. 7.3 7.3.1 of this field is transparent to the
+
+Return-error Purpose
+
+The accepting ROPM receives a ROER APDU from its peer as user-data on a transfer indication primitive. If any of the fields of the ROER APDU are unacceptable to this ROPM, the providerreject procedure is performed, and no RO-ERROR indication primitive is issued by the ROPM. If the ROER APDU is acceptable to the accepting ROPM, it issues a RO-ERROR indication primitive to the acceptor. The RO-ERROR indication primitive parameters are derived from the ROER APDU.
+
+The return-error procedure is used by one AE (the performer) to request the transfer of the the error information in the case of an unsuccessfully performed operation to the other AE (the invoker).
+
+7
+
+IS 13675 ( Part 2 ) : 1993 iSO / IEC 9072-2 : 1989
+
+The accepting ROPM waits either for a transfer indication primitive from the transfer serviceprovider or any other primitive from the acceptor. 7.3.4 Use of the ROER APDU fields
+
+7.4.3
+
+User-reject
+
+procedure events: from
+
+This procedure is driven by the following al a RO-REJECT-U the requestor request
+
+primitive
+
+The ROER fields are used as follows. 7.3.4.1 Invoke-ID
+
+b)
+
+a RORJ APDU as user-data indication primitive. RO-REJECT-U request
+
+of a transfer
+
+This is the'invoke-ID parameter value of the ROERROR request primitive. It appears as the invoke-ID parameter value of the RO-ERROR indication primitive. The value of this field is transparent to the ROPM, however the value may be. used in the provider reject procedure. 7.3.4.2 Error-value
+
+7.4.3.1
+
+primitive
+
+The requesting ROPM forms a RORJ APDU.from the parameter values of the RO-REJECT-U request primitive. It issues a transfer request primitive. The user-data parameter of the transfer request primitive contains the RORJ APDU. The requesting ROPN waits either for a transfer indication primitive from the transfer serviceprovider or any other primitive from the requestor. 7.4.3.2 RORJ APDU
+
+This is the error-value parameter value of the ROERROR request primitive. It appears as the errorvalue parameter value of the RO-ERROR indication primitive. The value ROPM. 7.3.4.3 of this field is transparent to the
+
+The accepting ROPbI receives a RORJ APDU from its peer as user-data on a transfer indication primitive. If any of the fields of the RORJ APDU are unacceptable to this ROPbI, no RO-REJECTU indication primitive is issued by the ROP%I. If the RORJ APDU is acceptable to the accepting ROPM and the fields of the RORJ APDU indicates a user reject (i.e. invoke-problem, return-resultproblem, or return-error-problem), it issues an RO-REJECT-U indication primitive to the acceptor. The RO-REJECT-U indication primitive parameters (invoke-ID and. reject-reason) are derived from the RORJ APDC. The accepting ROPM waits either for a transfer indication primitive from the transfer serviceprovider or any other primitive from the acceptor. 7.4.4 Use of the RORJ APDU fields
+
+Error-parameter
+
+This is the error-parameter parameter value of the RO-ERROR request primitive. It appears as the error-parameter parameter value of the ROERROR indication primitive. The value ROPM. 7.4 7.4.t of this field is transparent to the
+
+User-reject Purpose
+
+The user-reject procedure is used by one AE to reject the request (invocation) or reply (result or error) of the other AE . 7.4.2 APDUs used
+
+The RORJ fields are used as follows. The user-reject procedure uses the RO-REJECT (RORJ) APDU. This RORJ APDU is used in addition by the provider-reject procedure. The fields of the RORJ APDU used for the userreject procedure are listed in table 5. 7.4.4.1 Invoke-ID
+
+This is the invoke-ID parameter value of the ROREJECT-U request primitive. It appears as the invoke-ID parameter value of the RO-REJECT-U indication primitive. The value ROPM. of this field is transparent to the
+
+8
+
+\
+
+IS13675(Part2):1993 IS0 / IEC 9072-2 : 1989
+
+Table
+
+5
+
+- RORJ APDU fields used for user-reject
+
+Field name Invoke-ID Problem (choice of): Invoke-problem Return-result-problem Return-error-problem
+
+Presence M M
+
+Source =eq req
+
+Sink ind ind
+
+7.4.4.2
+
+Problem
+
+-
+
+This is the problem parameter value of the ROREJECT-U request primitive. It appears as the problem parameter value of the RO-REJECT-U indication primitive. The values used by the user-reject a) procedure are
+
+unexpected-child-operation: signifies that the invoked child-operation is not one that the invoked parent-operation referred to by the linked-ID allows. user-reject primitive of a with
+
+b)
+
+Return-result-problem: RO-RESULT indication values: -
+
+Invoke-problem: user-reject of a RO-INVOKE indication primitive with values; duplicate-invocation: sigr.Xies that the invoke-ID parameter violates the assignment rules of ISO/IEC 9072-l; unrecognized-operation: signifies operation is not one of those between the ROSE-users; that the a'greed
+
+unrecognized-invocation: signifies that no operation with the specified invoke-ID is in progress; result-response-unexpected: signifies that the invoked operation does not report a result; mistyped-result: signifies that the type of the result parameter supplied is not that agreed between the ROSE-users.
+
+-
+
+-
+
+-
+
+-
+
+mistyped-argument: signifies that the type of the operation argument supplied is not that agreed between the ROSE-users; resource-limitation: the performing ROSE-user is not able to perform the invoked operation due to resource limitation; initiator-releasing: the initiator is not willing to invoked operation because attempt to release the association; associationperform the it is about to application-
+
+c)
+
+Return-error-problem: user-reject of a ROERROR indication primitive with values: unrecognized-invocation: signifies that no operation with the specified invoke-ID is in progress; error-response-unexpected: signifies that the invoked operation does not report failure; unrecognized-error: signifies that the reported error is not one of those agreed between the ROSE-users; unexpected-error: signifies that the reported error is not one that the invoked operation may report; mistyped-parameter: signifies that the type of the error parameter supplied is not that agreed between the ROSE-tisers.
+
+-
+
+-
+
+-
+
+unrecognized-linked-ID: signifies that there is no operation in progress with an invoke-ID equalto the specified linked-ID; linked-response-unexpected: signifies that the invoked operation referred to by the linked-ID is not a parent-operation;
+
+IS 13675 (Part2): 1993 IS0 / IEC 9072-2 : 1989
+
+7.5 7.5.1
+
+Provider-reject Purpose
+
+The provider-reject procedure is used to inform the ROSE user and the peer ROPM, if an ROPM detects a problem. 7.5.2 APDUs used
+
+If the received unacceptable APDU is a RORJ APDU no new RORJ APDU is formed and transferred. In this case, or after the rejection of a locally specified number of APDUs, the application-association is released abnormally. If the application-association is not released abnormally, the receiving ROPM waits either for a transfer indication primitive from the transfer service-provider or any other primitive from the requestor. 7.5.3.2 RORJ APDU
+
+The provider-reject procedure uses the ROREJECT (RORJ) APDU. This RORJ APDU is used in addition by the user-reject procedure. The fields of the RORJ APDU used for the provider-reject procedure are listed in table 6.
+
+Table 6 _RORJ APDL- fields used for provider-reject
+
+The receiving ROPM receives a RORJ APDU from its peer as user-data on a transfer indication primitive. If any of the fields of the RORJ APDU are unacceptable to this ROPM, the prov'iderreject procedure for an unacceptable APDU is performed. If the RORJ APDU is acceptable to the accepting ROPM and the problem field of the RORJ AI'DU indicates a general-problem, it issues an RORE.JECT-P indication primitive to the acceptor. The RO-REJECT-P indication primitive parameters (invoke-ID and reject-reason] are derived from the RORJ BPDU. The receiving ROPIvI waits either for a transfer indication primitive from the transfer serviceprovider or any other,primitive from the acceptor. 7.5.3.3 Unsuccessful APDL! transfer
+
+Field name
+
+Presence M M
+
+Source
+
+Sink
+
+Invoke-ID Problem (choice of): General-problem
+
+sP sP
+
+ind ind
+
+7.5.3
+
+Provider-reject
+
+procedure
+
+This procedure a) bl
+
+is driven by the following events: of a
+
+an unacceptable APDC as user-data transfer indication primitive; a RORJ parameter user-data primitive;
+
+APDU with the problem choice general-problem as of a transfer indication transfer (e.g
+
+cl
+
+unsuccessful APDU association abort). Unacceptable APDU
+
+If a sending ROPM is not able to transfer an APDU by means of the transfer yequest primitive (e.g in the case of abnormal association release), the sending ROPM issues a RO-REJECT-P indication primitive to the requestor for each APDU not yet transferred. The RO-REJECT-P indication primitive parameter returned-parameters contains the parameters of the RO-INVOKE request, RORESULT-request, RO-ERROR request or ROREJECT-U request primitives. After all returned-parametersof the APDUs not transferred have been issued to the requestor, the application-association, if it still exists, is released abnormally.
+
+7.5.3.1
+
+The receiving ROPM receives an APDU from its peer as user data on a transfer indication primitive. If any of the fields of the APDU (except RORJ APDU) are unacceptable to this ROPM, it forms a RORJ APDU with the problem field choice general-problem and the invoke-ID of the rejected APDU. The receiving ROPM issues a transfer request primitive. The user-data parameter of the transfer request primitive contains the RORJ APDU.
+
+10
+
+\
+
+IS 13675 ( Part 2 ) : 1993 IS0 / IEC 9072-2 : 1989
+
+7.5.4
+
+Use of the RORJ APDU
+
+fields
+
+d)
+
+.The RORJ fields aie used as follows. 7.5.4.1 Invoke-ID
+
+General-problem: with values: -
+
+provider-reject
+
+of an
+
+APDU
+
+This is the invoke-ID field of a rejected APDP and the invoke-ID parameter of the RO-REJgCT-P indication service primitive. The type and value of this field may be NULL, if the invoke-ID field of the rejected APDU is not detectable. In this case, the invoke-ID parameter of the RO-REJECT-P indication primitive is omitted. 7.5.4.2 Problem: general-problem
+
+unrecognized-APDU: signifies that the type of the APDU, as evidenced by its type identifier, is not one of the four defined by this part of ISO/IEC 9072; mistyped-APDU: signifies that the structure of the APDU does not conform to this part of ISO/IEC 9072; badly-structured-APDU: signifies that the structure of the APDU does not conform to the standard notation and encoding, defined in IS0 8824 and IS0 8525.
+
+-
+
+-
+
+This is the problem parameter value of the ROREJECT-P indication primitive. The values used by the provider-reject procedure are
+
+11
+
+IS 13675 ( Part 2 ) : 1993 IS0 / IEC 9072-2 : 1989
+
+8
+
+Mapping to used services.
+
+This clause defines how a ROPM transfers APDUs by means of' a) b) the RTSE services, or the presentation-service.
+
+further APDUs to transfer of priority equal to or higher than that indicated in the RT-TURNPLEASEindication primitive. If it has APDUs of lower priority still to transfer, it may issue a RTTURN-PLEASE request whose priority reflects the highest priority APDU remaining to be transferred. 8.1.1.1 Use of service the RT-TURN-PLEASE
+
+Subclause 8.1 defines the mapping on the RTSE services, and 8.2 defines the mapping on the presentation-service. Identification of the named abstract syntax in use is assumed for all ROSE services and is mapped onto used services, however this is a local matter and outside the scope of this part of ISO/IEC 9072. 8.1 Mapping on the RTSE services
+
+The ROPM issues the RT-TURN-PLEASE request primitive to request the Turn. It may do so only if it does not already possess the Turn. The RTTURN-PLEASE service is a non-confirmed service. The use of the RT-TURN-PLEASE parameters is as follows: Priority This reflects the highest APDU awaiting transfer Use of the RT-TURN-GIVE service priority
+
+This subclause defines how the RTSE service primitives described in ISO/IEC 9066-l are used by the ROPM. Table 7 defines the mapping of the ROSE service primitives and APDUs to the RTSE service primitives. 8.1.1 Managing the Turn
+
+8.1.1.2
+
+service
+
+A ROPM shall possess the Turn before it can use the RT-TRANSFER service. The ROPM without the Turn may issue a RT-TURN-PLEASE request primitive the priority parameter of which reflects the highest priority APDU awaiting transfer. The ROPE which has the Turn, may issue a RTTURN-GIVE request primitive when it has no furtker APDUs to transfer. It shall issue. a RTTURN-GIVE request primitive in response to an RT-TURN-PLEASE indication when it has no
+
+The ROPM issues the RT-TURN-GIVE request primitive to relinquish the Turn to its peer. It may do so only if it possess the Turn. The RT-TURNGIVE service is a non-confirmed service with no parameters. 8.1.2 APDU transfer
+
+Each APDC is transferred as user-data of the RTTRANSFER service. The ROPM only issues an RT-TRANSFER request primitive, if the ROPM possess the Turn, and if there is no outstanding RT-TRANSFER confirm primitive.
+
+Table 7 - RTSE mapping overview
+
+ROSE service RO-INVOKE request / indication RO-RESULT request/indication RO-ERROR request / indication RO-REJECT-U request/indication RO-REJECT-P indication managing the Turn
+
+I
+
+APDU ROIV RORS ROER RORJ RORJ
+
+RTSE service RT-TRANSFER ~ RT-TRANSFER 1 RT-TRANSFER RT-TRANSFER RT-TRANSFER request request request request request / / / / / indication / confirm indication / confirm indication/confirm indication /confirm indication/confirm
+
+RT-TURN-PLEASE request / indication RT-TURN-GIVE request/indication
+
+i
+
+IS 13675 ( Part 2 ) : 1993.' IS0 / IEC 9072-2 : 1989
+
+8.1.2.1
+
+Use of the RT-TRANSFER service
+
+service Result
+
+The RT-TRANSFER service.
+
+is a confirmed
+
+with the parameter parameters.
+
+returned-
+
+The use of the RT-TRANSFER parameters is as follows: APDU
+
+request primitive
+
+The APDU is to be transferred. Its maximum size is not restricted in this mapping. This is specified by a local rule of the sending ROPM. It may be related to the priority of the APDU. indication
+
+The parameter value "APDUtransferred" indicates a positive confirm, the parameter value "APDU-not-transferred" indicates a negative confirm. Mapping on the Presentation-service
+
+8.2
+
+Transfer-time
+
+This subclause defines how the presentationservice primitives described in IS0 8822 are used by the ROPM. Table 8 defines the mapping of the ROSE service primitives and APDUs to the presentation-service primitives. 8.2.2 APDU transfer as user-data of the
+
+The use of the RT-TRANSFER primitive parameters is as follows: APDU
+
+The APDU is transferred. Its maximum size is not restricted in this mapping. confirm primitive
+
+Each APDU is transferred P-DATA service. 8.2.2.1
+
+Use of the P-DATA
+
+service service.
+
+The use of the RT-TRANSFER parameters is as follows: APDU
+
+The P-DATA service is an non-confirmed
+
+The APDU is not transferred within the transfer-time. This parameter is only provided, if the value of the result parameter is "APDU-not-transferred" In this case the ROPM issues a RORE.JECT-P indication primitive
+
+The use of the P-DATA request and P-DATA indication primitive parameters is as follows: User Data The APDU is to be transferred. Its maximum size is not restricted in this mapping.
+
+'
+
+Table 8
+
+- Presentation-service
+
+mapping overview
+
+ROSE service RO-INVOKE request/indication RO-RESULT request/indication RO-ERROR request / indication RO-REJECT-U request/indication RO-REJECT-P indication
+
+APDU ROIV RORS ROER RORJ RORJ
+
+Presentation P-DATA P-DATA P-DATA P-DATA P-DATA
+
+service I indication I indication I indication / indication I indication
+
+request request request request request
+
+13
+
+IS 13675 ( Part 2) : 1993 IS6 / IEC 9072-2 : 1989
+
+\
+
+9
+
+Abstract syntax definition of APDUs
+syntax notation of
+
+The abstract syntax of each ROSE APDU is specified in this clause using the abstract IS0 8824 and is shown in figure 1.
+
+Remote-Operations-APDlJs ( joint-iso-ccitt remote-operations(4)apdus(1))
+DEFINITIONS :: = BEGIN EXPORTS rOSE, InvokelDType;
+
+--the following
+IMPORTS
+
+macros are used as defined
+FROM
+
+in Figure 4 of IS0 9072/l
+{ joint-iso-ccitt remote-operations(4) notation(O)) Remote-Operations-Notation-extension remote-operations(4) notation-extension { joint-iso-ccitt (2));
+
+OPERATION, ERROR FROM Remote-Operation-Notation APPLICATION-SERVICE-ELEMENT
+
+rOSE APPLICATION-SERVICE-ELEMENT --
+
+:: = aoint-iso-ccitt
+
+remote-operations(4)
+
+aselD (3))
+
+APDUs __ Types and values of operations and errors are defined in an ROSE-user using the RO-notation.
+
+protocol type or
+
+__ specification
+
+Operation values are either of object identifier
+
+__ of integer type. If integer types are used they shall be distinct within an abstract syntax. __ Error values are either of object identifier type or integer types. If integer t_vpesare used they for the
+
+__ &hall be distinct within an abstract syntax. There is no object identifier.specified __ abstract syntax name for ROSE. __ shall be included __ specification.
+ROSEapdus :: = CHOICE ( roiv-apdu [l] IMPLICIT ROIVapdu, rors-apdu (21 IMPLICIT RORSapdu, roer-apdu (31 IMPLICIT ROERapdu, rorj-apdu [4] IMPLICIT RORJapdu)
+
+However all ASN.1
+
+data types defined
+
+in this module
+
+in the named abstract syntax defined
+
+in the ROSE-user protocol
+
+--
+
+ROSE Protocol specification
+
+continued
+
+Figure 1 (Part 1 of3) - Abstract syntax specification of ROSE protocol
+
+14
+
+IS 136h
+
+( Part 2) : 1993
+
+IS0 / IEC 9072-2
+
+: 1989
+
+__ ROSE Protocol -- APDU types
+ROlVapdu
+
+specification
+
+continued
+
+. .. =
+
+SEQUENCE
+
+( invoke10 linked-ID InvokelDType. [0] IMPLICIT InvokelDType OPERATION, BY operation-value OPTIONAL} OPTIONAL,
+
+operation-value argument --
+
+ANY DEFINED
+
+ANY is filled by the single ASN.l data type following -- key word ARGUMENT in the type definition of a --particular operation.
+
+the
+
+InvokelDType
+
+:: =
+
+INTEGER
+
+RORSapdu
+
+. .. .=
+
+SEQUENCE
+
+( invokeID InvokelDType, operation-value result --ANY OPERATION, BY operation-value
+
+SEQUENCE{
+
+ANY DEFINED
+
+is filled by the single ASN.1 data type --following the key word RESULT in the type -- definition of a particular operation.
+
+}
+ROERapdu :: = SEQUENCE ( invokeID error-value parameter --
+
+OPTIONAL}
+
+InvokelDType, ERROR, ANY DEFINED BY error-value OPTIONAL}
+
+ANY is filled by the single ASN.1 data type following -- key word PARAMETER in the type definition of a --particular error.
+RORJapdu :: = SEQUENCE ( invokeID problem CHOICE (InvokelDType, CHOICE ( NULL},
+
+the
+
+[0] IMPLICIT GeneralProblem, [l] IMPLICIT InvokeProblem, [2] IMPLICIT ReturnResultProblem, [3] IMPLICIT ReturnErrorProblem})
+
+--
+
+ROSE Protocol specification
+
+continued
+
+Figure
+
+1 (Part
+
+2 of 3) - Abstract
+
+syntax
+
+specification
+
+of ROSE protocol
+
+15
+
+IS 13675 ( Part 2 ) : 1993 IS0 / IEC 9072-2 : 1989
+
+\
+
+-- ROSE Protocol specification
+GeneralProblem :: =
+
+continued
+-(0),
+
+INTEGER ( UnrecognisedAPDU mistypedAPDU (1).
+
+ROSE-provider
+
+detected
+
+badlyStructuredAPDU InvokeProblem :: = INTEGER ( duplicatelnvocation
+
+(2)) --ROSE-user (0). (1).
+
+detected
+
+unrecognisedoperation mistypedArgument resourceLimitation initiatorReleasing (2). (3). (4).
+
+unrecognizedLinked
+
+(5). (6), (7))
+
+IinkedResponseUnexpected unexpectedChildOperation
+
+ReturnResultProblem
+
+:: =
+
+INTEGER ( unrecognisedlnvocation
+
+--
+
+ROSE-user
+(l),
+
+detected
+
+(0).
+
+resultResponseUnexpected mistypedResult ReturnErrorProblem :: = (2))
+
+INTEGER ( unrecognisedlnvocation errorResponseUnexpected UnrecognisedError UnexpectedError mistypedparameter (2). (3). (4))
+
+--ROSE-user (0). (l),
+
+detected
+
+END
+
+--
+
+of ROSE Protocol specification
+
+Figure 1 (Part 3 of3).
+
+Abstract syntax spkitication
+
+of ROSE protocol
+
+i
+
+IS 13675 ( Part 2 ) : 1993 IS0 / IEC 9072-2 : 1989
+
+10
+
+Conformance
+
+10.2
+
+Static
+
+requirements syntax
+
+An implementation claiming conformance to this part of ISO/IEC 9072 shall comply with the requirements given in 10.1 to 10.3. 10.1 Statement requirements
+
+The system shall conform to the abstract definition of APDC's defined in clause 9. 10.3 Dynamic requirements
+
+The system shall al b) conform to the elements defined in clause 7; of procedure used is
+
+An implementor shall state the application context for which conformance is claimed, including whether the system supports the mapping of ROSE onto RTSE, onto the presentation-service, or both.
+
+conform to the mappings to the services, for which conformance claimed, as defined in clause 8.
+
+17
+
+IS 13675 ( Part 2 ) : 1993 IS0 / IEC 9072-2 : 1989
+
+Annex A
+(normative)
+
+ROPM state tables
+A.1 General
+4) 5) transfer part of the ROPM TR); and * (ROPM-
+
+. This annex defines a single Remote Operations Protocol Machine (ROPM) in terms of's state table. The state table shows the interrelationship between the state of an application-association, the incoming events that occur in the protocol, the actions taken, and, finally the resultant state of the application-association. The ROPM state table does not constitute a formal definition of the ROPM. It is included to provide a more precise specification of the elements of procedure defined in clause 7 and 8. This annex contains the following a) tables:
+
+either Presentation service-provider (PS-provider) and the Association Control Service Element (_ACSE), or the Reliable Transfer Service Element (RTSE).
+
+e)
+
+Table A.5 specifies the predicates. using the tables. abbreviations of the above
+
+D Table A.6 specifies the ROPM state table
+
+d
+
+Table A.1 specifies the abbreviated name, source, and name I description of each incoming event. The sources are
+
+Table A.7 specifies the ROPM-TR state table using the abbreviations of the above tables, if the RTSE is included in the application context. the ROPM-TR state table using the abbreviations of the above tables, if the RTSE is not included in the application context.
+
+h) Table A.8 specifies
+
+1) ROSE-user (ROSE-user);
+
+2) peer ROPLI (ROPM-peer);
+3) 4) 5) ROPM excluding (ROPM); transfer TR); the transfer part
+
+A.2
+
+Conventions
+event (row) and a
+
+part of the ROPM
+
+(ROPM-
+
+The intersection of an incoming state (column) forms a cell.
+
+either Presentation service-provider (PS-provider) and the Association Control Service Element (ACSE), or the Reliable Transfer Service Element (RTSE). name name
+
+In the state table, a blank cell represents the combination of an incoming event and a state that is not defined for the ROPM. (See A.3.1) A non-blank cell represents an incoming event and a state that is defined for the ROPM. Such a cell contains one or more action lists. An action list may be either mandatory ar conditional. If a cell contains a mandatory action list, it is the only action list in the cell. A mandatory action list contains: . a) optionally one or more outgoing and b) an resultant state. action list contains: comprising operators (1
+
+b) c) d)
+
+Table A.2 specifies the abbreviated of each state of the ROPM. Table A.3 specifies the abbreviated of each state of the ROPM-TR.
+
+Table A.4 specifies the abbreviated name, target, and name I description of each outgoing event. The targets'are 1) 2) 3) ROSE-user (ROSE-user);
+
+events,
+
+peer ROPM (ROPM-peer); ROPM excluding (ROPM); the transfer part A conditional a) a predicate expression predicates and Boolean
+
+18
+
+\
+
+IS 13675 ( Part 2 ) : 1993 IS0 / IEC 9072-2 : 1969
+
+represents b)
+
+the Boolean NOT), and
+
+b)
+
+a mandatory action list (this mandatory action list is used only if the predicate expression is true).
+
+A.3
+
+Actions ROPM
+
+to be taken
+
+by the
+A.3.2
+
+If the incoming event is related to a received APDU, PS-provider, ACSE, or RTSE; either the ROPM issues an AAABreq event to the ROPM-TR, or the ROPM-TR issues an ABORTreq to either the RTSE or ACSE and an AA-ABind to the ROPM. Valid Intersections
+
+The ROPM state table defines the action to be taken by the ROPM in terms of an optional outgoing event and the resultant state of the application-association. A.3.1 Invalid Intersections
+
+If the intersection of the state and incoming event is valid, one of the following actions shall be taken: a) b) If the cell contains a mandatory action list, the ROPM takes the actions specified. If a cell contains one or more conditional action lists, for each predicate expression that is true, the ROPM takes the actions specified. If none of the predicate expressions are true, the ROPM takes one of the actions defined in A.3.1.
+
+Blank cells indicate an invalid intersection of an incoming event and state. If such an intersection occurs, one of the following actions shall be taken: a) If the incoming event comes from ROSE-user, any action taken by ROPM is a local matter. the the
+
+19
+
+IS 13675 ( Part 2 ) : 1993
+
+IS0 / IEC 9072-2
+
+: 1989
+
+i
+
+Table A.1 (Part 1 of 2) - Inceming event list
+
+Abbreviated name AA-ESTAB
+
+Source
+
+Name and description
+
+RTSE ACSE
+
+positive RT-OPEN response primitive or positive RTOPEN confirm primitive positive A-ASSOCIATE response primitive or positive A-ASSOCIATE confirm primitive RO-INVOKE RO-RESULT RO-ERROR RO-REJECT-U request primitive request primitive request primitive request primitive APDU as user data on a TRANSind APDC as user data on a TRANSind APDU as user data on a TRASSind APDU (user-reject) as user data on a
+
+RO-INVreq RO-RESreq RO-ERRreq RO-RJUreq ROIV RORS ROER RORJu RORJp APDUua TRAKSind TRANSreq P-DATAind RT-TRind RT-TRcnf RT-TRcnfRT-TPind RT-TGind +
+
+ROSE-user ROSE-user ROSE-user ROSE-user ROPM-peer ROPM-peer
+
+valid RO-INVOKE event valid RO-RESULT event valid RO-ERROR event valid RO-REJECT TRASSind event valid RO-REJECT General-problem) Unacceptable event transfer transfer
+
+ROPM-peer ROPM-peer ROPXpeer ROPM-peer ROPM-TR ROPM PS-provider RTSE RTSE RTSE RTSE RTSE
+
+APDU (provider-reject with as user data on a TRANSind event
+
+APDC as user data on a TRANSind of an APDU
+
+indication
+
+request for an APDU primitive primitive
+
+P-DATA indication RT-TRANSFER
+
+indication
+
+positive RT-TRANSFER negative RT-TRANSFER
+
+confirm primitive confirm primitive primitive
+
+RT-TURN-PLEASE RT-TURN-GIVE
+
+indication indication
+
+primitive
+
+20
+
+IS13675(Pmt2):1993
+
+i
+
+IS0 / IEC 9072-2 : 1989
+
+Table
+
+A.1 (Part
+
+2 of 2) -Incoming
+
+event
+
+list
+
+Abbreviated name AA-REL
+
+Source
+
+Name and descriptioh
+
+RTSE ACSE
+
+RT-CLOSE response primitive or RT-CLC)SE confirm primitive positive A-RELEASE response primitive or A-RELEASE confirm primitive
+
+AA-ABreq AA-ABind ABORTind
+
+ROPM ROPM-TR RTSE ACSE
+
+abort application-association application-association aborted
+
+RT-P-ABORT indication primitive or the RT-UABORT indication primitive A-ABORT indication primitive or A-P-ABORT indication primitive
+
+Table
+
+A.2
+
+- R0P.M states
+
+Abbreviated name I
+
+Name and description
+
+STAO 1 STAO2
+
+idle; unassociated associated
+
+Table
+
+A.3.
+
+ROPM-TR
+
+states
+
+Abbreviated name ~
+
+Name and description
+
+STAlO STAB0 STAB 1 STA22 STA23 STAlOO STA200
+
+!dle; unassociated associated, associated, associated, associated, token assigned, token assigned, no transfer transfer in progress
+
+token not assigned, token not assigned,
+
+no transfer transfer required
+
+idle; unassociated associated
+
+21
+
+IS 13675 ( Part 2 ) : 1993 IS0 / IEC 9072-2 : 1989
+
+i
+
+Table
+
+A.4 -Outgoing
+
+event
+
+list
+
+dbbreviated flame RO-INVind RO-RESind RO-ERRind RO-RJUind RO-RJPind ROW
+
+Target
+
+Name and description
+
+ROSE-user ROSE-user ROSE-user ROSE-user ROSE-user ROPM-peer
+
+RO-INVOKE RO-RESULT RO-ERROR RO-REJECT-U RO-REJECT-P RO-INVOKE event RO-RESULT RO-ERROR
+
+indication indication indication
+
+primitive primitive primitive primitive primitive on a TRANSreq
+
+indication indication APDU
+
+as user-data
+
+RORS ROER RORJu
+
+ROPE-peer ROPM-peer ROPWpeer
+
+APDU APDU
+
+as user-data as user-data APDU
+
+on a TRANSreq on a TRANSreq as user-data
+
+event event
+
+RO-REJECT user-reject TRANSreq event RO-REJECT provider-reject TRANSreq event transfer transfer P-DATA request indication request
+
+on a
+
+RORJp
+
+ROPM-peer
+
+APDC
+
+as user-data
+
+on a
+
+TRANSreq TRAYiSind P-DATAreq RT-TRreq RT-TPreq RT-TGreq AA-ABreq AA-ABind ABORTreq
+
+ROPM-TR ROPM PS-provider RTSE RTSE RTSE ROPM-TR ROPM RTSE AC$E
+
+for an APDU of an APDC primitive request primitive primitive
+
+RT-TRANSFER RT-TURN-PLEASE RT-TURN-GIVE abort
+
+request request
+
+primitive
+
+application-association aborted
+
+application-association
+
+RT-U-ABORT request primitive A-ABORT request primitive
+
+22
+
+\
+
+IS 13675 ( Part 2 ) : 1993 IS0 / IEC 9072-2 : 1989
+
+Table A.5 - Predicates
+
+Code I Pl
+
+Name and description unacceptable APDU is not RORJ APDU & number of rejects does not exceed locally specified value Token initially assigned to ROPM-TR
+
+23
+
+IS13675( Part 2):1993 IS0 / IEC 9072-2 : 1969
+
+\
+
+Table A.6 - ROPM state table
+
+I
+2A-ESTAB X0-INVreq I RO-RESreq
+
+STAOl
+
+I I
+
+STAOB
+
+I STAOB
+
+ROIV I STAOZ RC'IS STAOZ ROER STAOB RORJu STAOZ RO-INVind STAOS RO-RESind STAOB RO-ERhnd STAO2 RO-RJC'ind STAO2 RO-RJPind STA02 pl: RORJp S'i'AO2 `pl: AA-ABreq STAO 1 STAOl STAO 1
+
+RO-ERRreq
+
+RO-RJUreq
+
+ROIV
+
+RORS
+
+ROER
+
+RORJu
+
+RORJp
+
+APDC'ua
+
+AA-ABind AA-REL
+
+24
+
+IS 13675 ( Part 2 ) : 1993 IS0 / IEC dO72-2 : 1969
+
+Table A.7
+
+- ROPM-TR
+
+state table for transfer by RTSE
+
+STAlO AA-ESTAB p2: STA20 1 p2: STA22
+
+STAB0
+
+STA21
+
+STA22
+
+STAiZ3
+
+TRANSreq
+
+RT-TRreq STAB1 STAPO RO-RJPind STA20
+
+RT-TPreq STA23
+
+RT-TRcnf + RT-TRcnf-
+
+RT-TRind
+
+TRANSind STA22 RT-TGreq STA22
+
+TRANSind STA23
+
+RT-TPind
+
+STAB1 RT-TRreq STA2 1 RO-RJPind ABORTreq STAlO RO-RJPind AA-ABind STAlO RO-RJPind STAlO
+
+RT-TGind STA20 AA-ABreq ABORTreq STAlO ABORTind AA-ABind STAlO AA-REL STAlO RO-RJPind ABORTreq STAlO RO-RJPind AA-ARind STAlO RO-RJPind STAlO
+
+ABORTreq STAlO
+
+AA-ABind STAZO STAlO
+
+25
+
+IS 13675 ( Part 2 ) : 1993 IS0 / IEC 9072-2 : 1989
+
+i
+
+Table A.8 - ROPM-TR state table for transfer by presentation service
+
+STAlOO AA-ESTAB TRANSreq STAB00
+
+STASOO
+
+P-DATAreq STAB00 TRANSind STAB00 ABORTreq STAlOO AA-ABind STAlOO STAlOO
+
+P-DATAind
+
+AA-ABreq
+
+ABORTind
+
+AA-REL
+
+26
+
+IS 13675 ( Part 2 ) : 1993 IS0 / IEC 9072-2 : 1989
+
+Annex l3
+(informative) Differences between this part of ISO/IEC 9072 and CCITT Recommendation
+B.2.2
+
+x.410 - 1984
+Invoke
+
+This annex describes the technical differences between the notation and protocol for Remote Operations of this International Standard and the corresponding notation and protocol of CCITT Recommendation X.410 - 1984.
+
+Add: optional linked-ID element to SEQUENCE argument .Change: element From: To: Return
+
+B.l
+B.l.l Add: B-1.2
+
+Macros
+New Macros BIND macro and UNBIND OPERATION Macro macro B.2.3
+
+mandatory optional Result and SEQUENCE
+
+Add: Field operation-value result element From: Change: To: B.2.5 Reject
+
+Value Notation From: Change: To:
+
+INTEGER CHOICE { INTEGER, OBJECT IDENTIFIER}
+
+mandatory optional
+
+.
+
+Named Type in Result productioh From: mandatory Change: To: optional Add: Productions B.1.3 ERROR for linked Operations Macro
+
+Invoke Problem Add: values (3) to (7) inclusive
+
+B.3
+B.3.1 Add:
+
+Procedures
+Mapping
+
+and Mapping
+onto used Services
+
+Mapping onto Presentation service if RTSE is absent in the Application Context Mapping for BIND and UNBIND
+
+Value Notation
+
+see B.1.2 item 1. Add:
+
+B.2
+B.2.1
+
+Application
+APDUs
+
+Protocol
+
+Data Units
+
+B.4
+
+Interworking Implementation
+
+between
+
+84 and 88
+
+Choice alternative From: Change: To:
+
+explicit tagging implicit tagging
+
+Due to B.2.1 item 1 and B.2.3 item 1 interworking between 84 and 88 implementations is not possible. However the first change was indicated in the X.400-Series Implementors Guide Version 5.
+
+27
+
+IS 13675
+
+IS0 / IEC 9072-2
+
+( Part 2 ) : 1993 : 1989
+
+\
+
+Annex C
+(informative)
+
+Summary of assigned object identifier values
+
+This Annex summarizes
+
+the object identifier
+notation (0)) apdus(1)) notation-extension
+
+values assigned in ISO/IEC 9072-l
+--
+
+and ISO/IEC 90'72-2. in ISOIIEC 9072-l
+
+( joint-iso-ccitt remote-operations(4) { joint-iso-ccitt remote-operations(4) { joint-iso-ccitt remoteqerations(4)
+fioint-iso-ccitt remote-operations(4)
+
+ASN.1 module ASLV.I module ASN.1 module ASE identifier ASE identifier
+
+defined defined defined defined defined
+
+-(2)) --
+
+in ISOIIEC 9072-Z
+in ISOIIEC in ISOIIEC in ISOIIEC 9072-l 9072-Z 9072-l
+
+aselD (3))
+
+---
+
+{ joint-iso-ccitt remothperations(4)
+
+aselD-ACSE (4))
+
+28
+Printed at Dee Kay F'rinten. New Delhi. hdia
+
+Standard Mark The use of the Standard Mark is governed by the provisions of the Bureau of Indian Standards Act, 1986 and the Rules and Regulations made thereunder. The Standard Mark on products covered by an Indian Standard conveys the assurance that they have been produced to comp!y with the requirements of that standard under a well defined system of inspection, testing and quality control which is devised and supervised by BIS and Standard marked products are also continuously checked by operated by the producer. Details of conditions under BIS for conformity to that standard as a further safeguard. which a licence for the use of the Standard Mark may be granted to manufacturers or producers may be obtained from the Bureau of Indian Standards.
+
+Bureau of Indian Standards BIS is a statutory
+
+institution established under the Bureau of Indian Standards Act, I986 to promote harmonious development of the activities of standardization, marking and quality certification of goods and attenting to connected matters in the country.
+Copyright
+
+No part of these publications may be reproduced BIS has copyright of all its publications. in any form without the prior permission in writing of BIS. This does not preclude the free use, in the course of implementing the standard, of necessary details, such as symbols and sizes, type Director relating to copyright be addressed to the or grade designations. Enquiries ( Publications ), BIS.
+Revision of Indiao Standards
+
+Amendments are issued to standards as the need arises on the basis of comments. Standards are also reviewed periodicalIy; a standard along with amendments is reaffirmed when such review indicates that no changes are needed; if the review indicates that changes are needed, it is taken Users of Indian Standards should ascertain that they are in possession of the up for revision. latest amendments or edition by referring to the latest issue of `BIS Handbook' and Standards Monthly Additions'. Comments on this Indian Standard may be sent BIS giving the following reference: Dot : No LTD 36 ( 1576 )
+Aendments Issued Since Publication
+
+Amend No.
+
+Date of Issue
+
+Text Affected
+
+BUREAU OF INDIAN Headquarters: Manak Bhavan, Telephones
+
+STANDARDS
+
+9 Bahadur Shah Zafar Marg, New Delhi 11002 331 13 75 Telegrams : Manaksanstha ( Common to all Offices ) Telephone 9 Bahadur Shah Zafar Marg I 1002 l-331 01 31 I 331 13 75 f37 84 99, I 37 86 26, f53 38 43, $3 23 84 37 85 61 37 86 62 53 16 40
+
+: 331 01 31,
+
+Regional Offices : Central
+: Manak Bhavan,
+
+NEW DELHI
+
+Eastern : l/14 C. I. T. Scheme VII M, V. 1. P. Road, Maniktola CALCUTTA 700054 Northern Southern : SC0 445-446, Sector 35-C, CHANDIGARH 160036
+
+: C. I. T. Campus, IV Cross Road, MADRAS 600113
+
+f235 02 16, 235 04 42 1235 15 19, 235 23 15 l-632 92 95, 632 78 51 1632 78 9 1, 632 78 92
+
+Western : Manakalaya, E9 MIDC, Marol, Andheri ( East ) BOMBAY 400093 Branches
+: AHMADABAD.
+
+BANGALORE. BHOPAL. BHUBANESHWAR. COIMBATORE FARIDABAD. GHAZIABAD. GUWAHATI. HYDERABAD. JAIPUR. KANPUR. LUCKNGW. PATNA. THIRUVANANTHAPURAM.
+Printed at Printwell Printers, Aligsrh, India
+
+

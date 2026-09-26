@@ -1,0 +1,2457 @@
+URAL 4744” 15 18058 : 2023 
+Indian Standard 
+
+
+чачат е BA Stet 
+TARIE (=т=т) Aren feet 8 
+Гете ГезтІЧе9т 
+
+
+Guidelines for Supervisory Control 
+and Data Acquisition (SCADA) 
+System Displays 
+
+
+ICS 33.200 
+
+
+© BIS 2023 
+
+
+UR AAG eq 
+BUREAU OF INDIAN STANDARDS 
+AMG Чач, 9 45745 Mes WH AUT, Ag faceil-110002 
+VA МАМАК BHAVAN, 9 BAHADUR SHAH ZAFAR MARG 
+NEW DELHI - 110002 
+www.bis.gov.in www.standardsbis.in 
+
+
+April 2023 Price Group 12 
+
+
+Power System Control and Associated Communications Sectional Committee, LITD 10 
+
+
+FOREWORD 
+
+
+This Indian Standard was adopted by the Bureau of Indian Standards, after the draft finalized by the Power System 
+Control and Associated Communications Sectional Committee and approved by the Electronics and Information 
+Technology Division Council. 
+
+
+This Standard was prepared on the request of Grid Controller of India Limited (erstwhile Power System 
+Operation Corporation Limited) and entails the guidelines regarding the Supervisory Control and Data 
+Acquisition (SCADA) System Displays to be used in the context of Power System Applications. 
+
+
+Good visualization of SCADA power maps, map board displays, single line diagrams of substations, etc is an 
+essential requirement to improve situational awareness for any grid operator. Existing SCADA system displays 
+were developed about 10 years ago by State Load Despatch Centers (SLDC)/Regional Load Despatch Centers 
+(RLDC)/National Load Despatch Centers (NLDC) at the time of implementation of SCADA projects under 
+Unified Load Despatch and Communication (ULDC) scheme and were maintained and updated in an 
+unconventional manner. The philosophy used in representation of the power system elements on SCADA 
+displays was adopted on the basis of the requirements, preferences and instructions given to the person involved 
+in making and updating these displays. Furthermore, locations of generating stations and sub-stations on the map 
+were not based on its actual geographical position as per the corresponding latitude and longitude. As SCADA 
+projects are periodically upgraded after a certain time-frame and displays are also to be recreated simultaneously, 
+the standardization of SCADA display conventions across all RLDCs, SLDCs, Sub SLDCs, and DISCOMs 
+also (as per applicability). 
+
+
+Various agencies in India, like Central Electricity Authority (CEA), Central Board of Irrigation and Power 
+(CBIP), Central Transmission Utility (CTU), Grid Controller of India Limited (erstwhile Power System 
+Operation Corporation Limited) and State Load Despatch Centers (SLDC), are involved in development, 
+publishing and use of power maps which is mentioned in the following figure: 
+
+
+Central Central Board of Central 
+Electricity Irrigation and Transmission 
+Authority Power Utility 
+
+
+To follow a National/International 
+Standard for SCADA Displays 
+
+
+Grid-India SLDCs 
+(RLDCs and (Load Despatch Centres 
+NLDC) of Various States) 
+
+
+By adopting a nationwide common philosophy, all the agencies would be benefitted, and it would be easy to use 
+and analyze Power Maps developed and published by other agencies. 
+
+
+For the purpose of deciding whether a particular requirement of this standard is complied with, the final value, 
+observed or calculated, expressing the result of a test or analysis, shall be rounded off in accordance with 
+IS 2 : 2022 ‘Rules for rounding off numerical values (second revision)’. The number of significant places 
+retained in the rounded off value should be the same as that of the specified value in this standard. 
+
+
+53 
+
+
+5.4 
+
+
+10 
+
+
+11 
+
+
+12 
+
+
+IS 18058 : 2023 
+
+
+Table of Contents 
+
+SCOPE 5 an алые E LC mau aes Ais lat ah ШЫМ anaes ela hee 1 
+TERMINOLOGY AND РрЕЕІМІТІОМЗ........................... НЕ 1 
+For the purpose of this standard the following definitions shall арріу........ е 1 
+Display. a n sanu nn nu oe ode Seas basta Haden ted anu Uses Fee i lees ee 1 
+DWG: Format «oreet ean eee te ete ee et eot 1 
+Aspect Ratio: ca лышы ЫЙЫ e ERE ce И ee ыны 1 
+SUDStatiOfi.: cc ete estt ad ЕЛЕНА at ee IU AU A IUE Н ЕНЕН D icu TEM C ti 1 
+Geographical Coordinates л soit evite ee eee eda арына e ERO o дары 1 
+Single Eme Diagrám. о та ЫР ЫП а iet tute ынд ыда дананы 1 
+Node dm coh a ae aet ОЛ p ННН 1 
+XE FOLIA. yess o ode domiti u a uha 1 
+FORMAT AND SCALE ж Ын иды Нин gre a Semel oh rp EN au niet eta 1 
+TEXT LANGUAGE, FONT AND LAYOUT... eene E 1 
+LEGENDS: ыла ы Бн a ae bate n hen id Бына ama I Ar A LA usa IT 2 
+Legend Category-A: Border (4 Types) ............... sse НЕ 2 
+Legend Category-B: NODE (22 Туре)... ннн ннн нынын нынын нынын ыыы 4 
+Legend Category-C: Interconnections (16 Types) .............. sse eene ener nnns 9 
+Legend Category-D: Other Power System Elements (28 Types)..................................... a... 13 
+REPRESENTATION OF FUTURE ELEMENTS l a au eren ыыы 18 
+COLOURCODE:.:3 emet o Eq date ga eee he dosi И олн УНА obi Gases нды 18 
+LAYER SYSTEM: іл "Оман ЕН asunta dto bred Deni E E Li e 19 
+Layer Oi esis —R—————————— MÀ 19 
+Layerlio25: “Мойевохсигыиенасетимисиямар ee a eua eed 20 
+Làyer26 043: [nterconnectiOns. l uq ege Dee m She ane tee bls ete t aa tat 21 
+Layer 44to 56: OtherElemetits: алсам рына n шына DEO AR Od A ee es 22 
+Layer57 0:82: Hind! Text... ee eR RR IRA лан Raia ees 22 
+Eayer83:to:9 1I: Dynamic Dàta;...:.: ie atero emo ate m orae eet 23 
+LAYOUT OF SINGLE LINE DIAGRAM OF A SUBSTATION ........ccccccsseesesseseeseseeseeecseeaeeecaeeaeeeeneeaeers 24 
+
+
+COLOUR CODING OF THE STATIC DATA TO BE PLACED ON THE DISPLAYS IN SCADA 
+SYSTEMS: «troie te Rer e Oe pe rh rei ere re lieu RR EU Ep ID ER C Dem EOS 25 
+
+
+COLOUR CODING OF THE DYNAMIC DATA TO BE PLACED ON THE DISPLAYS IN SCADA 
+SYSTEMS: too derer ere restet Oe rete PAAR А АНША ua aa 25 
+
+
+iii 
+
+
+IS 18058 : 2023 
+
+
+Table: ‘Fable A Boundaries: Райегив e E tT HIR DER aa Qa qaw ess 3 
+Table 2:Symbols for №одев: needed teret er doen tiec cierre Nu a u: 4 
+Table 3 Representation for Interconnections.................................... enne neret nennen inen 9 
+
+Table 4 Symbols for Other Power System Elements..................................... eene enne nennen nnn 13 
+Table 5 Colour Coding for Different Voltage Levels.................... sse eene enne 18 
+Table 6 Particulars of Layer 0.0 a ———————— 20 
+Table 7 Particulars.of Layer 11025аиисаспамценииогияняанампаноиниинениоенияиыпнаан ЗИ ЕНӘ СҮН 20 
+Table 8:Particulars-of Layer 26 16341........ eise ease ee E UR HR RE Re de НИНИН 21 
+
+Table.9 Particulars of Layer 44 10656... ——————— Sar: 22 
+Table 10 Particulars of Layer 57 t@.82...... a n n Din ЫНЫН eu en e НЕНТ ЫНЫН 22 
+Table 11 Particulars of Гауег831001хассаие нм ене tte e ER ағу es ты ни 23 
+
+Table 12 Colour Coding for Dynamic Юаќа.................................... eene nennen nnne nennen nre 26 
+Table 13 Attribute Changes of Interconnections in Case of Alarms............................ n nssnssssssssss. 28 
+Table 14 Attributes Changes of Dynamic Data in Case of А1агп8.........л.4аа0ш4а шаша nsn... 29 
+Table 15 Quality Flags for Various Cases of Data Status....................................... nennen nennen nnn 32 
+Fig. 1 SUBSTATION REPRESENTATION WITH MULTIPLE VOLTAGE LEVELS..................... eene 8 
+
+Fig. 2 GENERATING STATION REPRESENTATION WITH HVDC LINK............... eene 8 
+
+Fig. 3 SAMPLE SINGLE LINE DIAGRAM REPRESENTATION... ннн ннн нын нн өнен 24 
+
+
+IS 18058 : 2023 
+
+
+Indian Standard 
+GUIDELINES FOR SUPERVISORY CONTROL AND 
+DATA ACQUISITION (SCADA) SYSTEM DISPLAYS 
+
+
+1 SCOPE 
+
+
+This Indian Standard describes the display 
+conventions to be used for development and 
+maintenance of displays in supervisory control and 
+data acquisition (SCADA) system for all RLDCs, 
+SLDCs, Sub SLDCs, and DISCOMs also (as per 
+applicability). 
+
+
+2 TERMINOLOGY AND DEFINITIONS 
+
+
+21 For the purpose of this standard the 
+following definitions shall apply. 
+
+
+2.2 Display 
+
+
+Representation of data/information in visual forms 
+such as text, table, graphical, infographics, etc in 
+the user interface of SCADA System. 
+
+
+2.3 DWG Format 
+
+
+DWG (“drawing”) is a binary file format used 
+for storing 2D and 3D design/drafting data. It is 
+the native format for several CAD packages 
+including AutoCAD, IntelliCAD, Caddie and by 
+many other CAD applications. 
+
+
+2.4 Aspect Ratio 
+
+
+The ratio of the width to the height of an 
+image or screen. 
+
+
+2.5 Substation 
+
+
+А substation is а рай of ап electrical 
+generation, transmission, and distribution system. 
+Substations transform voltage from high to low, or 
+the reverse, or perform any of several other 
+important functions. 
+
+
+2.6 Geographical Coordinate 
+
+
+A geographic coordinate system is а 
+coordinate system that enables every location on 
+Earth to be specified by a set of numbers, letters or 
+symbols. 
+
+
+2.7 Single Line Diagram 
+
+
+In power engineering, a one-line diagram or single- 
+line diagram is а simplified notation for 
+representing a three-phase power system. The 
+one-line diagram has its largest application in 
+power flow studies. 
+
+
+2.8 Node 
+
+
+A node is any point on a circuit where the terminal 
+of two or more circuit element meet in circuit 
+diagrams, connections are ideal wires with zero 
+resistance, so a node may consist of the entire section 
+of wire between elements, not just a single point. 
+
+
+2.9 DXF Format 
+
+
+DXF is a file extension for a graphic image 
+format typically used with AutoCAD (Computer 
+Aided Design) software. DXF stands for drawing 
+exchange format. 
+
+
+3 FORMAT AND SCALE 
+
+
+The power maps are used for reference in 
+online system (SCADA/EMS) as well ав for 
+offline analysis. Therefore, power maps апа 
+displays in SCADA system shall be based on the 
+geographical representation of  state/regional/ 
+national power system of India. The SCADA 
+displays are generally not-to-scale but efforts shall 
+be made to make it as close as possible to the actual 
+relative positions and distancing between stations. 
+
+
+4 TEXT LANGUAGE, FONT AND LAYOUT 
+
+
+Power maps to be used for reference in online 
+system (SCADA/EMS), shall have text displayed in 
+Hindi as well as in English assigned to separate 
+layers. The text size and font shall be such that they 
+are clearly visible when maps are displayed on 
+screen. 
+
+
+The text for 400 kV level and above stations shall 
+be written in upper case while that of 220 kV and 
+below shall be written in lower case with only 
+the first alphabet in upper case. Different font 
+size for different voltage levels could be 
+adopted without affecting the clarity and 
+readability of the text. 
+
+
+The general layout of the map shall be such that its 
+height to width ratio is suitable to display on wide 
+screen having an aspect ratio of 16 : 9. The 
+aspect ratio of the screen can be modified by the 
+utilities in case the display-monitor technology 
+changes and some other aspect-ratio is adopted by 
+the electronics hardware industry. 
+
+
+IS 18058 : 2023 
+
+
+5 LEGENDS a) Round-Dot for Distribution Companies 
+Boundary; 
+
+b) Dash-Dot for state boundary; 
+
+c) Dash for International boundary; and 
+
+d) Solid for Regional Boundary. 
+
+
+The legends can be grouped in following four 
+categories such as, borders; nodes; Interconnections 
+and other elements. The graphical symbols for 
+
+
+diagrams and colours to be used are listed as under. 
+
+The colour of the boundary can be black or some 
+Sit Legend сак ео ess Border уро) other colour based on the proper visibility on 
+The pattern of the boundary shall be assigned as different background for SCADA and printed maps. 
+
+
+follows: 
+
+
+IS 18058 : 2023 
+
+
+Example: 
+In SCADA displays with black background, the boundary colour can be white as shown below: 
+
+
+Table 1 Boundaries Patterns 
+(Clause 5.1) 
+
+
+Description Illustration 
+
+
+(2) (3) 
+
+
+DISCOM 
+boundary 
+
+
+(Round-Dot) 
+
+
+m posers ces 
+
+
+(Dash-Dot pattern) 
+
+
+International 
+boundary 
+
+
+(Dash pattern) 
+
+
+Regional boundary 
+
+
+IS 18058 : 2023 
+
+
+5.2 Legend Category- B: Node (22 Types) 
+
+
+Table 2 Symbols for Nodes 
+(Clause 5.2) 
+
+
+SI No. Description Illustration 
+
+
+(1) (2) (3) 
+
+
+i) Thermal generating station 
+
+
+(Coal/Gas/Lignite) JUU 
+
+
+(preferably to be shown in White colour with Black 
+background) 
+
+
+ii) Nuclear generating station [ө | 
+
+
+(preferably to be shown in White colour with Black 
+background) 
+
+
+ili) Hydro generating station 4 
+
+
+(preferably to Бе shown іп White colour with Black 
+background) 
+
+
+iv) Wind generating station/farm Ы] 
+
+
+(preferably to Бе shown іп White colour with Black 
+background) 
+
+
+v) Solar generating station INNN NI 
+ZL. 
+
+
+(preferably to be shown in White colour with Black 
+background) 
+
+
+Other renewable power plants 
+
+
+(excl. wind and solar) Ax 
+
+
+vi) 
+
+
+(preferably to be shown in White colour with Black 
+background) 
+
+
+SI No. 
+(1) 
+
+
+vil) 
+
+
+viii) 
+
+
+ix) 
+
+
+x) 
+
+
+хі) 
+
+
+xii) 
+
+
+IS 18058 : 2023 
+
+
+Table 2 (Continued) 
+
+
+Description 
+
+
+(2) 
+11 kV substation 
+
+
+33 kV substation 
+
+
+66 kV substation 
+
+
+132 kV substation 
+
+
+220 kV substation 
+
+
+400 kV substation (charged at 220 kV level) 
+
+
+Illustration 
+
+
+(3) 
+
+
+Brown (hex #A52A2A; 165 Red, 42 Green and 
+42 Blue) 
+
+
+Pink (hex #FFCOCB; 255 Red, 192 Green and 
+203 Blue) 
+
+
+2 
+
+
+Golden Brown (hex #996515; 153 Red, 101 Green 
+and 21 Blue) 
+
+
+2 
+
+
+Cyan (hex #00FFFF; 0 Red, 255 Green and 255 Blue) 
+
+
+2 
+
+
+Lime Green (hex #00FF00; 0 Red, 255 Green and 
+0 Blue) 
+
+
+Q 
+
+
+Lime Green (hex #00FF00; 0 Red, 255 Green апа 
+0 Blue) 
+
+
+IS 18058 : 2023 
+Table 2 (Continued) 
+
+
+Description Illustration 
+
+
+(2) (3) 
+
+
+400 kV substation 
+
+
+Red (hex #FF0000; 255 Red, 0 Green and 0 Blue) 
+
+
+765 kV substation (charged at 400kV level) @ 
+
+
+Red (hex #FF0000; 255 Red, 0 Green and 0 Blue) 
+
+
+765 kV substation e 
+
+
+Yellow (hex ЯҒҒЕЕ00; 255 Red, 255 Green and 
+
+
+0 Blue) 
+1200 kV substation С) 
+
+
+Light Cold Blue (hex #00BOFO; 0 Red, 176 Green 
+and 240 Blue) 
+
+
+HVDC bi-pole rerminal station (+ 500 kV) O 
+
+
+Magenta (hex #8B008B; 139 Red, 0 Green and 139 
+Blue) 
+
+
+HVDC back-to-back terminal station 
+(+ 500 kV) 
+
+
+Magenta (hex #8B008B; 139 Red, 0 Green and 139 
+Blue) 
+
+
+xiv) 
+
+
+ху) 
+
+
+xvi) 
+
+
+xvii) 
+
+
+хуш) 
+
+
+IS 18058 : 2023 
+
+
+Table 2 (Concluded) 
+
+
+Illustration 
+
+
+(3) 
+
+
+Description 
+(2) 
+
+
+Multi-terminal HVDC station 
+
+
+- 500 kV) 
+
+
+2 
+
+
+Magenta (hex #8B008B; 139 Red, 0 Green and 139 
+Blue) 
+
+
+© 
+
+
+Purple (hex #800080; 128 Red, 0 Green and 128 
+Blue) 
+
+
+HVDC back-to-back terminal station 
+(+ 800kV) 
+
+
+Purple (hex #800080; 128 Red, 0 Green and 128 
+Blue) 
+
+
+Multi-terminal HVDC station 
+(+ 800 kV) 
+
+
+Purple (hex #800080; 128 Red, 0 Green and 128 
+
+
+HVDC bi-pole terminal station (+ 800 kV) 
+
+
+Transmission substation having multiple voltage The above representations are shown in example 1 
+
+levels shall be represented by concentric circles of and example 2 below: 
+
+the colour representing appropriate voltage level. Bunch: 
+
+The higher voltage level shall be represented by a 
+
+circle of larger radius. Suppose there is a 765/400/220/132 kV 
+substation having interconnections at all the 
+
+The size and placement of the legend of generating four voltage levels. The above substation along 
+
+station shall be such that it fits with in the circle with its associated feeders shall be represented 
+
+representing the voltage level of the transmission in the power map as under: 
+
+
+substation at which the generation is being 
+evacuated. 
+
+
+IS 18058 : 2023 
+
+
+FIG. 1 SUBSTATION REPRESENTATION WITH MULTIPLE VOLTAGE LEVELS 
+
+
+Example 2: a +/- 500 kV HVDC connected at 400 kV. The 
+above substation along with generating station 
+and HVDC line shall be represented in the 
+power map as under: 
+
+
+Suppose there is a thermal (coal) generating 
+station switched at 400 kV and this station also 
+has a 765 kV level. Further assume that there is 
+
+
+FIG. 2 GENERATING STATION REPRESENTATION WITH HVDC LINK 
+
+
+The placement of nodes should be accurate with coordinates too close to be represented with adequate 
+regards to its geospatial coordinates. Exceptions may clarity. 
+be taken only in case of certain nodes with 
+
+
+IS 18058 : 2023 
+
+
+5.3 Legend Category - C: Interconnections (16 Types) 
+
+
+iv) 
+
+
+vi) 
+
+
+vii) 
+
+
+ix) 
+
+
+Table 3 Representation for Interconnections 
+
+
+Description 
+(2) 
+
+
+Line at 11 kV voltage level 
+
+
+Line at 33 kV voltage level 
+
+
+Line at 66 kV voltage level 
+
+
+Line at 132 kV voltage level 
+
+
+Line at 220 kV voltage level 
+
+
+Line at 400 kV voltage level 
+
+
+Line at 765 kV voltage level 
+
+
+Line at 1 200 kV voltage level 
+
+
+Line at HVDC (= 500 kV) 
+
+
+Line at HVDC (+ 800 kV) 
+
+
+(Clause 5.3) 
+
+
+Illustration 
+
+
+(3) 
+
+
+Brown (hex ҒА52А2А; 165 Red, 42 Green and 42 Blue) 
+
+
+Pink (hex #FFCOCB; 255 Red, 192 Green and 203 Blue) 
+
+
+Golden Brown (hex #996515; 153 Red, 101 Green and 21 Blue) 
+
+
+Cyan (hex #00FFFF; 0 Red, 255 Green and 255 Blue) 
+
+
+Red (hex #ЕЕ0000; 255 Red, 0 Green and 0 Blue) 
+
+
+[fice "жы ——,— oni 
+Lime Green (hex #00FF00; 0 Red, 255 Green and 0 Blue) 
+
+
+Yellow (hex #FFFF00; 255 Red, 255 Green and 0 Blue) 
+
+
+Light Cold Blue (hex #00BOFO; 0 Red, 176 Green and 240 Blue) 
+
+
+Magenta (hex #8B008B; 139 Red, 0 Green and 139 Blue) 
+
+
+Purple (hex 4800080; 128 Red, 0 Green and 128 Blue) 
+
+
+IS 18058 : 2023 
+Table 3 (Continued) 
+
+
+SI No. Description Illustration 
+
+
+(1) (2) G) 
+
+
+Magenta (hex #8B008B; 139 Red, 0 Green and 139 Blue) 
+
+
+xi) - 500 kV HVDC bi-pole 
+
+
+xii) + 800 kV HVDC bi-pole 
+
+
+Purple (hex 4800080; 128 Red, 0 Green and 128 Blue) 
+
+
+xiii) + 500 kV HVDC back-to-back 
+
+
+Magenta (hex #8B008B; 139 Red, 0 Green and 139 Blue) 
+
+
+IS 18058 : 2023 
+
+
+Table 3 (Continued) 
+SI No. Description Illustration 
+(1) (2) (3) 
+xiv) | € 500 kV HVDC multi-terminal Series-Connected: 
+
+
+Parallel-Connected Radial: 
+
+
+Parallel-Connected Meshed: 
+
+
+Magenta (hex #8B008B; 139 Red, 0 Green and 139 Blue) 
+
+
+xv) + 800 kV HVDC back-to-back 
+
+
+Purple (hex #800080; 128 Red, 0 Green and 128 Blue) 
+
+
+IS 18058 : 2023 
+
+
+Table 3 (Concluded) 
+
+
+SI No Description 
+
+
+(1) (2) 
+
+
+Illustration 
+
+
+(3) 
+
+
+xvi) |+800 КУ HVDC multi-terminal 
+
+
+Series-Connected: 
+
+
+The interconnections shall be represented by lines 
+connecting two nodes. All the available 
+interconnections (number of circuits and voltage 
+level) between two nodes shall be represented 
+distinctly. The thickness of the transmission line 
+shall preferably be in increasing order of its voltage 
+
+
+level. The transmission lines shall be drawn as per its 
+geospatial coordinates, if possible. However, in the 
+absence of the geospatial coordinates of the 
+transmission line route, the representation on the map 
+may be indicative only. 
+
+
+IS 18058 : 2023 
+
+
+5.4 Legend Category- D: Other Power System Elements (28 Types) 
+
+
+Generator 
+
+
+Table 4 Symbols for Other Power System Elements 
+(Clause 5.4) 
+
+
+Description Symbols for Power Maps 
+
+
+(2) (3) 
+
+
+Fixed Series Capacitor (FSC) 
+Thyristor Controlled Series Reactor (TCSC) 
+
+
+Shunt capacitor bank 
+
+
+L 
+r 
+Shunt Var Compensator (SVC) 
+
+
+STATCOM (voltage source) 
+
+
+vii) STATCOM (current source) 
+
+
+IS 18058 : 2023 
+Table 4 (Continued) 
+
+
+Symbols for Power Maps 
+
+
+Description 
+
+
+(2) (3) 
+
+
+vill) Series reactor 
+
+
+Switchable shunt reactor 
+(bus reactor as well as line 
+reactor) 
+
+
+He 3 
+
+
+Non-Switchable reactor (bus 
+. NSW 
+reactor as well as line reactor) 
+
+
+Inter Connecting Transformer (ICT) 
+
+
+Three winding transformer 
+
+
+Phase shifter transformer 
+
+
+xiv) | Wind farm turbine 
+
+
+1 @ &ф- ©): 
+
+
+АУ 
+
+
+IS 18058 : 2023 
+
+
+Table 4 (Continued) 
+
+
+Description Symbols for Power Maps 
+
+
+(2) 
+
+
+Wind farm inverter 
+
+
+Solar farm inverter 
+
+
+Interface meters 
+
+
+Battery energy storage systems 
+
+
+_ Фф 
+
+
+хх) Current transformer 
+
+
+IS 18058 : 2023 
+Table 4 (Continued) 
+
+
+Description Symbols for Power Maps 
+
+
+(2) (3) 
+
+
+ххі) Potential transformer/Capacitor 
+
+
+voltage transformer 
+
+
+++ 
+
+
+хху) Circuit breaker 
+(Open, closed and invalid 
+position) 
+OPEN CLOSE INVALID 
+
+
+xxvi) Isolator 
+
+
+(Open, closed and invalid 
+position) 
+
+
+OPEN CLOSE INVALID 
+
+
+IS 18058 : 2023 
+
+
+Table 4 (Continued) 
+
+
+Description Symbols for Power Maps 
+
+
+(2) 
+
+
+xxvii) Earth switch 
+
+
+CLOSE INVALID 
+
+
+xxviii) Energized/De-energized Transmission Line: 
+elements 
+Energized from both ends De-energized from one end 
+
+
+De-energized from other end — De-energized from both ends 
+
+
+Transformer: 
+/ — 
+К | 
+vA 
+\ 
+"P 2 
+Energized De-energized 
+
+
+17 
+
+
+IS 18058 : 2023 
+
+
+Table 4 (Concluded) 
+SI No. Description Symbols for Power Maps 
+(1) (2) 
+Generator: 
+^^ 
+IN ! 
+N- 
+In Service Out of Service 
+NOTE — Similar energization/de-energization effects сап Ве assigned to 
+other elements also as per requirements of the utilities. 
+The colour of the above equipment shall be same as pattern. For instance, the existing elements could 
+the voltage level at which they are be drawn with line style as “solid” while the 
+energized/installed. For instance, an interface future elements could be drawn with line style as 
+meter on a 400 kV line shall be red in colour. “Square-Dotted”. 
+6 REPRESENTATION OF FUTURE 7 COLOUR CODE 
+ELEMENTS In choosing the shades vis-à-vis the voltage level it 
+is recommended to choose colours closer to ‘Red’ 
+The SCADA displays comprises of power for higher voltages and those closer to ‘Violet’ for 
+system elements currently in service as well as the lower voltages. 
+
+
+power system elements expected in ише These Thewolotr codewhall be asper Table S, 
+future elements can be represented with a similar 
+
+
+legend but distinguishable in the form of square-dot 
+
+
+Table 5 Colour Coding for Different Voltage Levels 
+(Clause 7) 
+
+
+Voltage Level Colour Coding 
+(D 2 
+
+
+1) 800 kV HVDC 
+
+
+(hex#800080; 128 Red, 0 Green and 128 Blue) 
+
+
+500 kV HVDC Magenta 
+
+
+(hex#8B008B; 139 Red, 0 Green and 139 Blue) 
+
+
+1200 kV AC Light Cold Blue 
+
+
+(һех“00В0Ғ0; 0 Red, 176 Green and 240 Blue) 
+
+
+IS 18058 : 2023 
+
+
+Table 5 (Concluded) 
+
+
+SI No. 
+(1) 
+
+
+Voltage Level 
+
+
+765 kV AC 
+
+
+220 kV AC 
+(incl. 230 kV) 
+
+
+132 kV AC 
+
+
+(incl. 110 kV) 
+
+
+Colour Coding 
+(3) 
+
+
+Golden Brown 
+
+
+(hex#996515;153 Red, 101 Green and 21 Blue) 
+
+
+33 kV AC 
+
+
+Pink 
+
+
+(hex#FFC0CB;255 Red, 192 Green and 203 Blue) 
+
+
+11 kV AC 
+
+
+Brown 
+
+
+(hex £ A52A2A; 165 Red, 42 Green and 42 Blue) 
+
+
+Additional voltages not covered in the table, 
+wherever necessary, shall be indicated by a colour 
+so chosen making it distinguishable from the 
+other colours appearing in the diagram. The 
+background colour of the display shall preferably 
+be black by default. If other colours are chosen 
+for the display-background, then it shall be such 
+as to render good contrast with the shades 
+representing the voltage levels. 
+
+
+8 LAYER SYSTEM 
+
+
+The power system elements represented on the 
+maps shall be displayed on separate layers to de- 
+clutter the display and provide flexibility in the 
+visualization. For instance, it should be possible 
+to visualize the geographical position of the 
+
+
+different kinds of substations or different kinds of 
+generating station in the state/region/country. It 
+shall also be possible to clearly visualize the 
+transmission system on the basis of its voltage 
+level and types (AC/DC). Suggested layer 
+philosophy is mentioned in sub-clauses below. 
+This is purely for illustration purpose and based 
+on the requirement of operator, system 
+performance etc various information сап be 
+displayed on separate layers. 
+
+
+8.1 Layer 0 
+In the geographical maps, the boundary representing 
+international border, State border shall be 
+
+
+distinguishable. Layer 0 shall be ON by default 
+while the other layers shall be switchable by choice. 
+
+
+IS 18058 : 2023 
+
+
+Table 6 Particulars of Layer 0 
+(Clause 8.1) 
+
+
+SI No. Layer Particulars | 
+(1) Q) (3) 
+0 (or DEFAULT layer) " Map border 
+= Logo 
+
+
+=" Legend box 
+
+= Scale used in map 
+
+= Date on which map was updated 
+
+= Geographical boundaries 
+
+= Respective legend of the geographical boundary 
+
+
+8.2 Layer 1 to 25: Nodes to be displayed by the user must be visible in the 
+1 ; 
+
+The contents of the legend box shall be linked to Seen BOK 
+
+the respective layers in which the element is being The text associated with a power system element 
+
+displayed by the user that is, only those legends shall be linked to the respective layers in which the 
+
+(along with its description) that have been chosen element is being displayed by the user. 
+
+
+Table 7 Particulars of Layer 1 to 25 
+(Clause 8.2) 
+
+
+(2 
+
+
+Generating station (coal/gas/nuclear) switched at 11 kV level 
+
+
+ШЕГЕ Generating station (coal/gas/nuclear) switched at 33kV level 
+
+
+No. 
+1) 
+1 
+ii) 
+™ 
+| 
+i) 
+ii) 
+iil) 
+) 
+) 
+i) 
+ү) 
+
+
+Generating station (coal/gas/nuclear) switched at 400 kV level 
+
+
+vii 7 
+
+
+Vill 
+
+
+| мш) | Generating station (coal/gas/nuclear) switched at 765 kV level 
+
+
+Generating station (coal/gas/nuclear) switched at 1200 kV and above 
+
+
+Generating station (coal/gas/nuclear) switched at 66 kV level 
+
+
+) 
+Г 
+Т 
+ШЕН NE 
+Б 
+Е 
+X 15 Generating station (hydro/renewable) switched at 765 kV level 
+í 
+n 
+li 8 
+
+
+1 33 kV voltage level substation 
+
+
+хіх) 19 66 kV voltage level substation 
+
+
+( 
+i) 
+ii 
+iv 
+у 
+vi 
+ix 
+X 
+xi 
+
+
+20 
+
+
+IS 18058 : 2023 
+
+
+Table 7 (Concluded) 
+| SI No. Layer Particulars 
+(1) 
+
+
+NOTE — In case of substations with multiple voltage levels, the highest voltage-level will be considered 
+
+
+(2) (3) 
+
+
+for depicting its layer. 
+
+
+8.3 Layer 26 to 43: Interconnections appropriate concentric circle representative of 
+) , 220 kV level. 
+
+The interconnections shall connect the nodes (that ii 
+
+is, circle) of appropriate voltage level. For instance, The multiple interconnections between two nodes 
+
+a 220 kV line shall originate from a concentric shall be distinguishable when all layers are 
+
+circle representative of 220 kV and terminate at the switched ON. 
+
+
+Table 8 Particulars of Layer 26 to 43 
+(Clause 8.3) 
+
+
++ 500 kV HVDC bi-pole, + 800 kV HVDC bi-pole and HVDC back-to-back 
+(with circuit numbers) 
+
+
+1 200 kV line (with circuit numbers) 
+
+
+Line length (in km) of transmission lines at 11 kV level (preferably with conductor- 
+Line length (in km) of transmission lines at 33 kV level (preferably with conductor- 
+Line length (in km) of transmission lines at 66 kV level (preferably with conductor- 
+Line Length (in km) of transmission lines at 132 kV level (preferably with conductor- 
+Line length (in km) of transmission lines at 220 kV level (preferably with conductor- 
+Line length (in km) of transmission lines at 400 kV level (preferably with conductor- 
+Line length (in km) of transmission lines at 765 kV level (preferably with conductor- 
+
+
+Line length (in km) of transmission lines at + 500 kV/+ 800 kV HVDC 
+level (preferably with conductor-type symbol also) 
+
+
+Line length (in km) of transmission lines at 1 200 kV and above voltage level 
+(preferably with conductor-type symbol also) 
+
+
+21 
+
+
+IS 18058 : 2023 
+8.4 Layer 44 to 56: Other Elements 
+
+
+The power system elements associated with the substation and lines also should be displayed. 
+
+
+Table 9 Particulars of Layers 44 to 56 
+(Clause 8.4) 
+
+
+asss FSC, TCSC, Sertes reactor 
+| lc ü | SVC, STATCOM, Shunt capacitor bank, Switchable/Non switchable shunt 
+ICT, Phase shifter transformer 
+
+
+Future nodes, interconnections and other elements of 11 kV voltage level. 
+
+
+Future nodes, interconnections and other elements of 33 kV voltage level 
+
+
+1 
+ii) 
+1 
+
+
+0 
+
+i) 
+
+ii 
+ix 
+x) 
+xi 
+
+
+44 
+4 
+4 
+4 
+4 
+4 
+
+
+) 
+Future nodes, interconnections and other elements of 110 kV and 132 kV 
+voltage level 
+
+) 
+
+) 
+
+
+Future nodes, interconnections and other elements of 220 kV voltage level 
+Future nodes, interconnections and other elements of 400 kV voltage level 
+
+
+Future nodes, interconnections and other elements of 765 kV voltage level 
+
+
+) 
+
+
+xiii) Future nodes, interconnections and other elements of +500 kV/+ 800 kV 
+HVDC level 
+
+
+NOTE — The elements specified in the “Layer 44 to Layer 47” above can be further segregated into layers depending upon 
+
+
+Future nodes, interconnections and otherelements of 1 200 kV and above voltage 
+level 
+
+
+Ба Future nodes, interconnections and other elements of 66 kV voltage level 
+
+
+(2) 
+5 
+6 
+7 
+8 
+9 
+50 
+51 
+52 
+53 
+54 
+55 
+56 
+
+
+different voltage levels if required by the utilities. 
+
+
+22 
+
+
+IS 18058 : 2023 
+
+
+8.5 Layer 57 to 82: Hindi Text 
+
+
+Table 10 Particulars of Layer 57 to 82 
+(Clause 8.5) 
+
+
+Hindi text names of generating station (coal/gas/nuclear) at 11 kV voltage level 
+
+
+[| | Hindi text names of generating station (coal/gas/nuclear) at 33 KV voltag 
+
+
+58 
+iv) NEAR Hindi text names of generating station (coal/gas/nuclear) at 110 kV and 132 kV 
+voltage level 
+
+
+| v) | 6 | Hindi text names of generating station (coal/gas/nuclear) at 765 kV voltage level 
+
+
+63 
+viii) 64 Hindi text names of generating station (coal/gas/nuclear) at 1 200 kV and above 
+voltage level 
+
+
+Hindi text names of generating station (hydro/renewable) at 11 kV voltage level 
+| x) | 66 ` |Hinditext names of generating station (hydro/renewable) at 33 kV voltage level 
+Hindi text names of generating station (hydro/renewable) at 66 kV voltage level 
+
+
+xii) Hindi text names of generating station (hydro/renewable) at 110 kV and 132 kV 
+voltage level 
+
+
+| xiii) | 69 | Hindi text names of generating station (hydro/renewable) at 220 kV voltage level 
+xiv) Hindi text names of generating station (hydro/renewable) switched at 400 kV 
+voltage level 
+
+
+voltage level 
+xvi) 72 Hindi text names of generating station (hydro/renewable) switched at 1 200 kV 
+ШЫП [a Í aaa Ы а NN 
+
+
+Hindi text names of 132 kV substation апа 220 kV substation charged at 132 kV 
+voltage level 
+voltage level 
+xxiii) 79 Hindi text names of 400 kV substation and 765 kV substation charged at 400 kV 
+EUN eect 
+
+
+| ххі))| 80 | Hindi text names of 765 kV voltage level substation 
+Hindi text names of 1 200 KV and above level substations 
+Hindi text names of + 500 kV and + 800 КУ HVDC terminal station 
+
+
+8.6 Layer 83 to 91: Dynamic Data 
+
+
+Table 11 Particulars of Layer 83 to 91 
+(Clause 8.6) 
+
+
+Layer Particulars 
+
+
+(1) (2) (3) 
+
+
+| iii) 85 765 kV voltage level data 
+
+
+23 
+
+
+IS 18058 : 2023 
+
+
+Table 11 (Concluded) 
+
+
+SI No. Layer Particulars 
+(1) (2) (3) 
+iv) 86 400 kV voltage level data 
+v) 87 220 kV and 230 kV voltage level data 
+vi) 88 132 kV and 110 kV voltage level data 
+vii) 89 66 kV voltage level data 
+viii) 90 33 kV voltage level data 
+ix) 91 11 kv voltage data 
+
+
+Segregation of various forms of data in different 
+layers helps in customized selection of 
+combination of layers to be made visible at any 
+particular time based on the changing 
+requirements of the operators in control rooms. 
+The user may have to switch ON multiple layers 
+to visualize the maps with desired level of detail 
+and clarity. 
+
+
+20-July-2020 14:30:55 
+
+
+Unit-1 
+
+
+«мк 
+
+
+9 LAYOUT OF SINGLE LINE DIAGRAM ОЕ 
+A SUBSTATION 
+
+
+The Single Line Diagrams (SLD) which need to be 
+made for each substation shall be made in the 
+manner shown below: 
+
+
+Station Name (in block Letters) 
+
+
+«тик чек 
+
+
+тия 
+
+
+кт. 
+(315 MVA) 
+
+
+FIG. 3 SAMPLE SINGLE LINE DIAGRAM REPRESENTATION 
+
+
+A substation contains all major power equipment 
+such as line ends, transformers, generating units, 
+reactors, circuit breakers, isolators, buses and all the 
+telemetered instruments. Each line end shall be 
+shown as a line with arrow going outside the 
+substation and a hyperlink shall be provided along 
+with the arrow which on clicking opens a display of 
+
+
+24 
+
+
+the far end substation 
+
+
+In the Single Line Diagrams (SLD) of the 
+substations, text such as “MW”, *MVAR", “KV”, 
+“HZ”, etc shall be displayed along with the 
+corresponding analog data if there is no space 
+constraint. 
+
+
+In addition to above, the following details may be 
+displayed in the Single-Line Diagram as рег 
+requirements of the utilities: 
+
+
+a) Ratings of equipment (such as MVA of 
+ICT, installed capacity of generators, MVA 
+ratings of reactors); 
+
+b) Weather 
+temperature, wind-speed, wind direction, 
+
+
+parameters (such as 
+
+
+luminosity and other available telemetry); 
+c) RGMO status for generating stations; 
+
+
+d) Water reservoir level in case of 
+Hydro power stations; 
+e) Contact details of the | substation 
+
+
+(preferably on the top-right portion of the 
+SLD); 
+
+f) Protocol of reporting of data to the 
+control centers; and 
+
+g) Communication media for reporting of 
+data to the control centers (such as 
+optical fiber, VSAT, PLCC, etc). 
+
+
+25 
+
+
+IS 18058 : 2023 
+
+
+10 COLOUR CODING OF THE STATIC 
+DATA TO BE PLACED ON THE DISPLAYS 
+IN SCADA SYSYTEMS 
+
+
+In general, all the static data such as name of 
+substations, headings of tables, time-date-day, 
+contact details, equipment parameters, etc shall be 
+displayed in white colour on black background in 
+English, Hindi and other local languages as required 
+by the utilities. In case of background colour other 
+than black, some other suitable colour can be 
+adopted for representing the static data. 
+
+
+11 COLOUR CODING OF THE DYNAMIC 
+DATA TO BE PLACED ON THE DISPLAYS 
+IN SCADA SYSTEMS 
+
+
+In various load despatch centres, customized 
+displays are made and used in SCADA/EMS 
+system and huge amount of real-time data is placed 
+on it for visualization. This comprises the 
+dynamic data and shall be represented as per 
+Table 12. 
+
+
+IS 18058 : 2023 
+
+
+Table 12 Colour Coding for Dynamic Data 
+
+
+Бес tion Colour Coding for Dynamic Data 
+2 3 
+
+
+) 
+Analog MW =æ 9999 9999 
+@ 9999 % 9999 
+Lime Green (hex #00FF00; 0 Red, 255 (теп and 0 Blue) 
+NOTE — In case of Phase-wise MW available from site, a subscript such as “R-Ph”, “YPh” and “B-Ph” сап 
+be shown along with the data for clarity 
+ii) | Analog MVAR 
+=) 9999 + 9999 
+@ 9999 {$ 9999 
+Orange (hex #FFA500; 128 Red, 0 Green and 128 Blue) 
+NOTE — In case of Phase-wise MVAR available from site, a subscript “R-Ph”, *Y-Ph" and “B-Ph” сап be 
+shown along with the data for clarity. 
+
+
+iti) | Analog current 
+Light Blue (hex #49DC3E6; 157 Red, 195 Green and 230 Blue) 
+NOTE — In case of Phase-wise current available from site, a subscript “R-Ph”, “Y-Ph” and “B-Ph” can be 
+shown along with the data for clarity. 
+
+
+iv) | Analog kV 9999 
+Yellow (hex #FFFFOO; 255 Red, 255 Green and 0 Blue) 
+NOTE — In case of Phase-wise kV available from site, a subscript *R-Ph", “Y-Ph” and “BPh” can be 
+shown along with the data for clarity. 
+Analog Hz 9 9 9 9 
+ШЕ Yellow (hex #FFFF00; 255 Red, 255 Green and 0 Blue) 
+
+
+vi) Analog generation 
+9999 
+Coral (hex #FF7F50; 255 Red, 127 Green and 80 Blue) 
+
+
+% 
+
+
+vii) | Analog angle 999 
+
+
+Golden (hex #FFD966; 255 Red, 217 Green and 102 Blue) 
+NOTE — In case of Phase-wise angle available from site, a subscript “R-Ph”, *Y-Ph" and “B-Ph” can be shown 
+along with the data for clarity. 
+
+
+26 
+
+
+IS 18058 : 2023 
+
+
+Table 12 (Concluded) 
+
+
+Description Colour Coding for Dynamic Data 
+
+
+(2) (3) 
+
+
+Transformer 
+tap status 
+
+
+Peach (hex ZFFDABO9; 255 Red, 218 Green and 185 Blue) 
+
+
+Estimated MW => 9999 t 9999 
+@ 9999 $ 9999 
+
+
+Cyan (hex #00FFFF; 0 Red, 255 Green and 255 Blue) 
+Estimated MVAR 
+
+
+= 9999 % 9999 
+«€ 9999 $ 9999 
+
+
+Magenta (hex #8B008B; 139 Red, 0 Green and 139 Blue) 
+
+
+Estimated kV 9 9 9 9 
+
+
+Coral (hex #EE82EE; 238 Red, 130 Green and 238 Blue) 
+
+
+B 
+999 
+
+
+Dark Gold (hex #FFA500; 255 Red, 165 Green and 0 Blue) 
+
+
+Estimated angle 
+
+
+Estimated 
+transformer tap 
+
+
+status 
+Moccasin (hex #FFE4B5; 255 Red, 228 Green and 181 Blue) 
+
+
+Weather 999 
+
+
+parameters 
+
+
+Dark Blue (һех#0070С0; 0 Red, 112 Green and 192 Blue) 
+
+
+NOTE — Certain subscripts such as “Deg.Cel.”, "Kmphb", etc, can be associated with weather 
+for clarity. 
+
+
+The colour, size and other attributes related 
+to alarms shall be as per Table 13. The effects of 
+limit violations on the lines at some voltage 
+
+
+levels are mentioned in Table 13. Similar 
+
+
+approach can be adopted for other voltage levels 
+also. 
+
+
+27 
+
+
+IS 18058 : 2023 
+
+
+Table 13 Attribute Changes of Interconnections in Case of Alarms 
+
+
+КІ Мо Alarm Condition Illustration 
+2 3 
+
+
+1 
+i) [Li t 220kV volt level No Alarm І 
+И E inne No 
+
+Alarm Limit 1 | — | 
+
+
+Wath: 4, Blinking: No 
+
+
+Alarm Limit 2 === ——==== 
+Width: 5: Blinking: Yes 
+
+
+Line at 400kV voltage level 
+
+
+Alarm Limit 1 
+Width: 4, Blinking: No 
+Alarm Limit 2 ——H: 
+Width: 5: Blinking: Yes 
+Alarm Limit 3 === 
+Width: 6, Blinking: Yes 
+iii) [Line at 765 kV voltage level No Alarm 
+Width: 2, Blinking: NO 
+Alarm Limit 1 [е г к. 
+Width: 4, Blinking: No 
+Alarm Limit 2 rl 
+Width: 5: Blinking: Yes 
+Alarm Limit 3 r 
+Width: 6, Blinking: Yes 
+iv) | Line at 1200kV voltage level No Alarm 
+Width: 2, Blinking: No 
+Width: 4, Blinking: No 
+Alarm Limit 2 er) 
+Width: 5: Blinking: Yes 
+Alarm Limit 3 (a es 
+Width: 6, Blinking: Yes 
+
+
+NOTE — In case the thickness of the transmission lines put in displays are considered in increasing order of its voltage level, then 
+the above-mentioned "widths"can be suitably modified in the same trend. 
+
+
+As per the current practice only three limits above-mentioned limits; hence, it may not 
+
+are defined for each analog in SCADA system; be restricted to these limits in case of making 
+
+whereas in case of more than 3 limits the concerned contour-maps and other applications. 
+
+utilities can decide on the additional attributes for 
+
+depicting limit violations. For Analog, Alarm Limit 1 signifies high voltage 
+limit and Alarm Limit 2 signifies low voltage 
+
+Moreover, the limits to configure different colour limit. Such effects corresponding to Alarms needs 
+
+effects in contour-maps can be different from the to be implemented in the Single Line Diagrams of 
+
+
+28 
+
+
+IS 18058 : 2023 
+
+
+substations as given in Table 14 below: 
+
+
+Table 14 Attributes Changes of Dynamic Data in Case of Alarms 
+( Clause 11) 
+
+
+SI No. Description Alarm Condition Illustration 
+(1) (2) (4) 
+
+
+(3) 
+Ша эмт - 9999 + 9999 
+@ 9999 % 9999 
+Blinking: No, Background: No 
+Alarm Limit 1 
+= 9999 + 9999 
+@ 9999 $ 9999 
+Blinking: Yes, Background: No 
+
+
+ы 9999 | #9999 | 
+Blinking: No, Background box: Yes, 
+Background box blinking: No 
+
+n 499999 | #9999 | 
+Blinking: No, Background box: Yes, 
+Background box blinking: Yes 
+
+
+ii) Analog MVAR No Alarm 
+
+
+- 9999 + 9999 
+= 9999 $ 9999 
+
+
+. Blinking: No, Background: No 
+
+
+IS 18058 : 2023 
+Table 14 (Continued) 
+
+
+БІ Хо. | Description Alarm Condition Illustration 
+
+
+(1) (2) (3) (4) 
+
+
+Alarm Limit 1 
+
+
+=) 9999 + 9999 
+= 9999 $ 9999 
+
+
+Blinking: Yes, Background: No 
+
+
+n 9999. 9999. 
+
+
+Blinking: No, Background box: Yes, 
+Background box blinking: No 
+
+
+Alarm Limit 3 
+
+
+Blinking: No, Background box: Yes, 
+Background box blinking: Yes 
+
+
+30 
+
+
+IS 18058 : 2023 
+Table 14 (Concluded) 
+
+
+Description — = E d 
+Q) 
+Analog kV Noam mm 
+
+
+Alarm Limit 1 (High) ETE 
+
+
+Blinking: No, Background box: Blue, 
+Background box blinking: No 
+
+
+Alarm Limit 2 (Low) | 9999 
+
+
+Blinking: No, Background box: Red, 
+Background box blinking: No 
+
+
+Analog Hz No Alarm 
+
+
+99.99 
+
+
+Blinking: No, Background: No 
+
+
+Alarm Limit 1 (High) 99.99 | 
+
+
+Blinking: No, Background box: Blue, 
+Background box blinking: No 
+
+
+Alarm Limit 2 (Low) | 99.99 
+
+
+Blinking: No, Background box: Red, 
+Background box blinking: No 
+
+
+NOTE — Similar patterns can be followed for other data such as current, OLTC, angles, etc also as required by the utilities. 
+
+
+— 
+
+
+31 
+
+
+IS 18058 : 2023 
+
+
+12 QUALITY FLAG standardized and shall follow the convention as 
+
+
+mentioned in Table 15 below: 
+Various flags which are to be displayed along 
+
+
+with the real-time data also need to be 
+
+
+Table 15 Quality Flags for Various Cases of Data Status 
+(Clause 12) 
+
+
+SI No. Description Quality Flags Representation 
+(1) (2) (3) 
+
+
+1 | Uninitialized 
+
+
+Telemetry failure 
+
+
+it 
+E 
+МУ 
+
+o 
+
+= 
+
+С. 
+
+
+iv) Bad 
+v) | Over range 
+vi) | Unreasonable 
+
+
+vil) | Remote suspect 
+
+
+viii) | Anomalous 
+
+
+ix) | Manually replaced 
+x) | Remote replaced 
+xi) | State estimator replaced 
+
+
+xii) | Generalized calculation replaced 
+
+
+xil) | Not in service 
+
+
+xiv) | Alarm inhibit 
+
+
+xv) | Alternate data source 
+
+
+xvi) | Object under testing 
+
+
+шә 
+
+
+2 
+
+
+IS 18058 : 2023 
+
+
+ANNEX A 
+(Foreword) 
+
+
+COMMITTEE COMPOSITION 
+Power System Control and Associated Communication Sectional Committee, LITD 10 
+
+
+Organization 
+In Personal Capacity (New Delhi) 
+ABB India Limited, Bengaluru 
+Bhakra Beas Management Board, Chandigarh 
+
+
+Central Electricity Authority, New Delhi 
+
+
+Central Power Research Institute, Bengaluru 
+
+
+GETCO, Vadodara 
+
+IEEE India, Bengaluru 
+
+Pillai India Smart Grid Forum, New Delhi 
+
+Indian Electrical and Electronics Manufacturers 
+Association, New Delhi 
+
+Indian Institute of Technology Bombay, Mumbai 
+
+Indian Institute of Technology, Delhi 
+
+Indian Institute of Technology, Hyderabad 
+
+Infosys Technologies Limited, Bengaluru 
+
+Institute of Electrical and Electronics Engineers 
+
+Standards Association 
+
+
+Kalki Communication Technologies Private Limited, 
+Bengaluru 
+
+
+National Smart Grid Mission, Ministry of Power, 
+Gurugram 
+
+
+Power Grid Corporation of India, Gurugram 
+
+
+Power System Operation Corporation Limited, New 
+Delhi 
+
+
+Reliance Energy Limited, Mumbai 
+
+
+33 
+
+
+Representative(s) 
+SHRI PANKAJ BATRA (Chairperson) 
+SHRIS. R. VIJAYAN 
+SHRI NAVEEN GUPTA 
+
+
+SHRI FARAZ 
+SHRI PRATEEK SRIVASTAVA (Alternate) 
+
+
+DR AMIT JAIN 
+SHRI V. SHIVAKUMAR (Alternate) 
+
+
+SHRI B. B. MEHTA 
+SHRI RAVINDRA DESAI 
+
+
+SHRI КЕЛ KUMAR 
+SHRI HARPREET SINGH (Alternate) 
+
+
+SHRIJ. PANDE 
+SHRI AKEEL KHAN (Alternate) 
+
+
+PROF 5. A. KHAPARDE 
+SHRI ABHIJIT R. ABHYANKAR 
+DR PRADEEP KUMAR YEMULA 
+
+
+SHRI C. N. RAGHUPATHI 
+SHRI ANANTH CHANDRAMOULI (Alternate) 
+
+
+SHRI SRIKANTH CHANDRASEKARAN 
+SHRI JOSE THOMAS 
+SHRI VINOO S. WARRIER 
+
+
+SHRI ATUL KUMAR BALI 
+SHRI SUNDEEP REDDY (Alternate) 
+
+
+SHRI A. K. MISHRA 
+SHRI ANAND SHANKAR (Alternate) 
+DR SUNITA CHOHAN (Alternate) 
+
+
+SHRI DEVENDER KUMAR 
+SHRI PRAMOD KUMAR (Alternate) 
+
+
+SHRI BHUSHAN R. CHAUDHARI 
+SHRI VIJAY PANPALIA (Alternate) 
+
+
+IS 18058 : 2023 
+
+
+Organization 
+
+
+Scope T & M Private Limited, Mumbai 
+
+
+Secure Meters Limited, Gurugram 
+
+
+Siemens Limited, Mumbai 
+
+
+Tata Power Delhi Distribution Limited, Delhi 
+
+
+Tata Power Limited, Mumbai 
+
+
+Uttar Haryana Bijli Vitran Nigam(UHBVN), 
+Panchkula 
+
+
+In Personal Capacity, (New Delhi) 
+
+
+BIS Director General 
+
+
+Representative(s) 
+
+
+SHRI VIVEKANAND SINDKAR 
+SHRI BHASKAR ARRABALLI (Alternate D 
+SHRI YASH KULKARNI (Alternate ЇЇ) 
+
+
+SHRI MADHUR KUMAR SRIVASTAVA 
+
+
+SHRI VIKRAM GANDOTRA 
+SHRI RAJNEESH AMETA (Alternate) 
+SHRI ANIL MEHTA (Alternate) 
+
+
+SHRIS. SAMANTA 
+SHRI ANIL KUMAR OJHA 
+SHRI RASTOGI (Alternate) 
+
+
+SHRI AMOK AGARWALA 
+SHRI AsHISH P. MHATRE (Alternate 1) 
+SHRI VIVEKANANDAN S. (Alternate IT) 
+
+
+SHRI UTTAM S. MANE 
+
+
+SHRI N. S. SODHA 
+MS BINDOO SRIVASTAVA 
+SHRI P. K. AGARWAL 
+
+
+SHRIMATI REENA GARG, SCIENTIST ‘F’/SENIOR 
+DIRECTOR AND HEAD (ELECTRONICS AND 
+INFORMATION TECHNOLOGY) [REPRESENTING 
+DIRECTOR GENERAL (Ex-officio)] 
+
+
+Member Secretary 
+
+
+MS ALISMITA KHAG 
+SCIENTIST ‘C’/DEPUTY DIRECTOR 
+(ELECRTONICS AND INFORMATION TECHNOLOGY), BIS 
+
+
+34 
+
+
+Bureau of Indian Standards 
+
+
+BIS is a statutory institution established under the Bureau of Indian Standards Act, 2016 to promote harmonious 
+development of the activities of standardization, marking and quality certification of goods and attending to 
+connected matters in the country. 
+
+
+Copyright 
+
+
+BIS has the copyright of all its publications. No part of these publications may be reproduced in any form without 
+the prior permission in writing of BIS. This does not preclude the free use, in the course of implementing the 
+standard, of necessary details, such as symbols and sizes, type or grade designations. Enquiries relating to 
+copyright be addressed to the Head (Publication & Sales), BIS. 
+
+
+Review of Indian Standards 
+
+
+Amendments are issued to standards as the need arises on the basis of comments. Standards are also reviewed 
+periodically; a standard along with amendments is reaffirmed when such review indicates that no changes are 
+needed; if the review indicates that changes are needed, it is taken up for revision. Users of Indian Standards 
+should ascertain that they are in possession of the latest amendments or edition by referring to the website- 
+www.bis.gov.in or www.standardsbis. 
+
+
+This Indian Standard has been developed from Doc No.: LITD 10 (17093). 
+
+
+Amendments Issued Since Publication 
+
+
+Amend No. Date of Issue Text Affected 
+
+
+BUREAU OF INDIAN STANDARDS 
+
+
+Headquarters: 
+
+Manak Bhavan, 9 Bahadur Shah Zafar Marg, New Delhi 110002 
+
+Telephones: 2323 0131, 2323 3375, 2323 9402 Website: www.bis.gov.in 
+
+Regional Offices: Telephones 
+Central : 601/A, Konnectus Tower -1, 6% Floor, | 2323 7617 
+
+
+DMRC Building, Bhavbhuti Marg, New 
+Delhi 110002 
+
+
+Eastern : 8" Floor, Plot No 7/7 & 7/8, CP Block, Sector V, | 23670012 
+
+Salt Lake, Kolkata, West Bengal 700091 2320 9474 
+
+Northern : Plot No. 4-A, Sector 27-B, Madhya Marg, | 265 9930 
+Chandigarh 160019 
+
+Southern : C.I.T. Campus, IV Cross Road, Taramani, Chennai 600113 | 2254 1442 
+
+2254 1216 
+
+Western : Plot No. E-9, Road No.-8, MIDC, Andheri | 2821 8093 
+
+
+(East), Mumbai 400093 
+
+
+Branches : AHMEDABAD. BENGALURU. BHOPAL. BHUBANESHWAR. CHANDIGARH. CHENNAI. 
+COIMBATORE. DEHRADUN. DELHI. FARIDABAD. GHAZIABAD. GUWAHATI. 
+HIMACHAL PRADESH. HUBLI. HYDERABAD. JAIPUR. JAMMU & KASHMIR. 
+JAMSHEDPUR. KOCHI. KOLKATA. LUCKNOW. MADURAI. MUMBAI. NAGPUR. 
+NOIDA. PANIPAT. PATNA. PUNE. RAIPUR. RAJKOT. SURAT. VISAKHAPATNAM. 
+
+
+Published by BIS, New Delhi 
+
+

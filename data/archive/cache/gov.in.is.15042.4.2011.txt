@@ -1,0 +1,196 @@
+IS 15042 (Part 4) : 2011 ISO/TR 9564-4 : 2004
+
+Hkkjrh; ekud
+
+cSafdax
+
+--
+
+O;fDrxr igpku uEcj �fiu� izca/ku ,oa lqj{kk
+Hkkx 4 vksiu usVodZ esa fiu j[k&j[kko ds fn'kkfunsZ'k
+
+Indian Standard BANKING -- PERSONAL IDENTIFICATION NUMBER (PIN) MANAGEMENT AND SECURITY
+PART 4 GUIDELINES FOR PIN HANDLING IN OPEN NETWORKS
+
+ICS 35.240.40
+
+� BIS 2011
+
+B U R E A U O F I N D I A N S TA N D A R D S
+MANAK BHAVAN, 9 BAHADUR SHAH ZAFAR MARG NEW DELHI 110002 December 2011 Price Group 3
+
+IS 15042 (Part 4) : 2011 ISO 9564-4 : 2004 Banking and Financial Services Sectional Committee, MSD 7
+
+NATIONAL FOREWORD This Indian Standard (Part 4) which is identical with ISO/TR 9564-4 : 2004 `Banking -- Personal Identification Number (PIN) management and security -- Part 4: Guidelines for PIN handling in open networks' issued by the International Organization for Standardization (ISO) was adopted by the Bureau of Indian Standards on the recommendation of the Banking and Financial Services Sectional Committee and approval of the Management and Systems Division Council. This standard is published in various parts. Other parts in this series are: Part 1 Part 2 Part 3 Basic principles and requirements for online PIN handling in ATM and POS systems Approved algorithm(s) for PIN encipherment Requirements for offline PIN handling in ATM and POS systems
+
+The text of ISO Standard has been approved as suitable for publication as an Indian Standard without deviations. Certain conventions are, however, not identical to those used in Indian Standards. Attention is particularly drawn to the following: a) Wherever the words `International Standard' appear referring to this standard, they should be read as `Indian Standard'. b) Comma (,) has been used as a decimal marker while in Indian Standards, the current practice is to use a point (.) as the decimal marker. In this adopted standard, reference appears to certain International Standards for which Indian Standards also exist. The corresponding Indian Standards which are to be substituted in their respective places are listed below along with their degree of equivalence for the editions indicated: International Standard ISO 7811-1 : 1995 Identification cards -- Recording technique -- Part 1: Embossing ISO 7811-2 : 1995 Identification cards -- Recording technique -- Part 2: Magnetic stripe ISO/IEC 7812-1 : 2000 Identification cards -- Identification of issuers -- Part 1: Numbering system ISO/IEC 7812-2 : 2000 Identification cards -- Identification of issuers -- Part 2: Application and registration procedures Corresponding Indian Standard IS 14147 (Part 1) : 2003 Identification cards -- Recording technique: Part 1 Embossing IS 14147 (Part 2) : 2003 Identification cards -- Recording technique: Part 2 Magnetic stripe IS 14173 (Part 1) : 2003 Identification cards -- Identification of issuers: Part 1 Numbering system (first revision) IS 14173 (Part 2) : 2003 Identification cards -- Identification of issuers: Part 2 Application and registration procedures (first revision) Degree of Equivalence Identical
+
+do
+
+do
+
+do
+
+i
+
+IS 15042 (Part 4) : 2011 ISO 9564-4 : 2004 International Standard ISO 7816-1 : 1998 Identification cards -- Integrated circuit(s) cards with contacts -- Par t 1: Physical characteristics Corresponding Indian Standard IS 14202 (Part 1) : 2003 Identification cards -- Integrated circuit(s) -- cards with contacts: Par t 1 Physical characteristics (first revision) Degree of Equivalence Identical
+
+The technical committee has reviewed the provisions of the following International Standards referred in this adopted standard and has decided that they are acceptable for use in conjunction with this standard: International Standard ISO/IEC 7810 : 2003 ISO/IEC 7813 : 2001 ISO 13491-1 : 1998 Title Identification cards -- Physical characteristics Identification cards -- Financial transaction cards Banking -- Secure cryptographic devices (retail) -- Part 1: Concepts, requirements and evaluation methods
+
+ii
+
+IS 15042 (Part 4) : 2011 ISO 9564-4 : 2004
+
+Introduction
+The open network environment is a high-risk environment. This is especially true for PIN-based transactions, since the management of the PIN entry device is beyond the control of either the issuer or acquirer. In many circumstances, it is the cardholder who decides on the network access device (NAD). This part of ISO 9564 provides guidelines to assist the payment system participants in reducing the exposure of PIN compromise in open networks and the likelihood of subsequent fraud in those payment systems covered by ISO 9564-1 and ISO 9564-3. Its purpose is to define minimal PIN security practices in the open network environment. If PIN security in this environment is deficient, there is a high probability, if card data are also disclosed, that both (card data and PIN) may be fraudulently used in the ATM, POS or open network environments. The integrity of the authentication mechanism is contingent on the confidentiality of the PIN and the cardholder data. In this environment, the lack of control makes protection of the PIN difficult; therefore, protection of the cardholder data is necessary to minimise the risk of fraud resulting from card data capture and PIN compromise in the open network environment. Noting the fluidity of the technology and the market, it was decided that the development of an International Standard was not advised at the time of publication. This part of ISO 9564 will be reviewed on a regular basis to ensure consistency with current market requirements and technological developments.
+
+iii
+
+IS 15042 (Part 4) : 2011 ISO 9564-4 : 2004
+
+Indian Standard BANKING -- PERSONAL IDENTIFICATION NUMBER (PIN) MANAGEMENT AND SECURITY
+PART 4 GUIDELINES FOR PIN HANDLING IN OPEN NETWORKS
+
+1
+
+Scope
+
+This part of ISO 9564 provides guidelines for personal identification number (PIN) handling in open networks, presenting finance industry best-practice security measures for PIN management and the handling of financial card originated transactions in environments where issuers and acquirers have no direct control over management, or where no relationship exists between the PIN entry device and the acquirer prior to the transaction. It is applicable to financial card-originated transactions requiring verification of the PIN and to those organizations responsible for implementing techniques for the management of the PIN in terminals and PIN entry devices when used in open networks. It is not applicable to          PIN management and security in the online and offline ATM and POS PIN environments, which are covered in ISO 9564-1 and ISO 9564-3, approved algorithms for PIN encipherment, which are covered in ISO 9564-2, the protection of the PIN against loss or intentional misuse by the customer or authorised employees of the issuer or their agents, privacy of non-PIN transaction data, protection of transaction messages against alteration or substitution, e.g. an online authorisation response, protection against replay of the PIN or transaction, specific key management techniques, access to, and storage of, card data by server-based applications such as wallets, or financial institution sponsored, cardholder activated, secure PIN entry devices.
+
+1
+
+IS 15042 (Part 4) : 2011 ISO 9564-4 : 2004
+
+2
+
+Terms and definitions
+
+For the purposes of this document, the following terms and definitions apply. 2.1 acquirer institution, or its agent, that acquires from the card acceptor the financial data relating to the transaction and initiates such data into an interchange system 2.2 compromise cryptography breaching of secrecy and/or security 2.3 encipherment rendering of text unintelligible by means of an encoding mechanism 2.4 integrated circuit card ICC ID-1 card type, as specified in ISO 7810, ISO 7811, ISO 7812 and ISO 7813, into which one or more integrated circuits have been inserted
+NOTE See ISO 7816-1.
+
+2.5 issuer institution holding the account identified by the primary account number (PAN) 2.6 network access device NAD personal computer, set top box, mobile phone, PDA or other device capable of allowing access to an open network 2.7 open network public network in which the integrity and confidentiality of transmitted data cannot be guaranteed
+EXAMPLE The internet.
+
+2.8 personal identification number PIN code or password possessed by the customer for verification of identity 2.9 PIN entry device PED PIN pad PIN entry keypad device into which the cardholder inputs the PIN 2.10 primary account number PAN assigned number that identifies the card issuer and cardholder, composed of an issuer identification number, individual account identification and accompanying check digit, as defined in ISO/IEC 7812-1
+
+2
+
+3
+3.1
+
+Open network model
+Network model
+
+IS 15042 (Part 4) : 2011 ISO 9564-4 : 2004
+
+Other International Standards, including ISO 9564-1 and ISO 9564-3, address PIN security for online and offline PIN-based transactions in an ATM (automatic teller machine) or POS (point-of-sale) environment. Technological developments have now made feasible the use of PIN-based financial transactions in open networks. In the open network environment the network access device (NAD) may initiate a transaction with any open-network-connected merchant in the world, and this merchant may use any open network-equipped acquirer. Therefore, when a PIN is used for cardholder verification in an open network transaction, the transaction acquirer has no control over the PIN-entry device into which the PIN is entered. This differs from the ATM and POS environments where the acquirer is solely responsible for the operation and security of the PIN-entry device.
+
+3.2
+
+Open network access devices
+
+This part of ISO 9564 specifies the means to achieve a minimally acceptable level of security when a PIN is used for authentication in conjunction with an open network access device. The following payment flow is assumed. a) b) c) The cardholder contacts the merchant using a network access device that communicates via an open network. The merchant communicates with its acquirer either via an open network or through normal merchant-toacquirer communications. The acquirer communicates with the issuer using the conventional authorization and settlement networks.
+
+This part of ISO 9564 addresses the minimum security recommendation for PIN entry in these open network access devices. The information in this part of ISO 9564 provides a methodology for the protection of card data, limiting the risk of fraud within the open network access devices, since all of the devices covered are assumed to be untrusted. Although methods of cardholder verification other than PINs are outside the scope of this part of ISO 9564, it should not be construed as implying that such other methods are less desirable than PINs.
+
+4
+4.1
+
+Principles of PIN security in open network devices
+Overview
+
+Historically, the principles of PIN security have been based upon the confidentiality of the PIN without providing for the protection of the magnetic stripe data on the card. In this open network environment, it is difficult to ensure the confidentiality of the PIN. Consequently, in order to limit the potential risks of PIN compromise, this part of ISO 9564 focuses on the protection of the magnetic stripe data by not allowing the use of devices that provide magnetic stripe capability. Under no circumstances should card data be stored in any device outside of the acquiring and issuing financial institutions' systems. If the security of the system is to be maintained, it is essential that the information released by the ICC not be sufficient to permit the production of a fraudulent magnetic stripe card, for example, by ensuring that the card data authentication values in the magnetic stripe and ICC environments differ.
+
+3
+
+IS 15042 (Part 4) : 2011 ISO 9564-4 : 2004
+
+4.2
+4.2.1
+
+Card data sources
+Integrated circuit cards
+
+The risk of fraud is greatly reduced in the offline PIN open network environment, where no magnetic stripe capability exists, as the ICC provides significant protection for the card data. As a result, the requirement to provide robust PIN security is diminished in comparison to the requirements of ISO 9564-1 and ISO 9564-3. 4.2.2 Magnetic stripe cards
+
+The use of magnetic stripe cards in this environment is not supported, as such use risks the security of PINs in those environments that are the subjects of ISO 9564-1 and ISO 9564-3. See Table 1 for supported and unsupported environments. 4.2.3 Manual PAN entry
+
+When card data is manually entered, it is essential that the NAD not prompt for PIN entry. Table 1 -- Supported and unsupported environments
+NAD Online PIN ICC Magnetic stripe Manual PAN entry Not supported Not supported Not supported Offline PIN Supported Not supported Not supported
+
+5
+
+Minimally acceptable PED
+
+The application of the principles presented in Clause 4 results in the supported environment shown in Table 1. In order to provide the functionality for the supported environment, a device conforming to the requirements of a minimally acceptable PED (PIN entry device) as defined in the present clause is needed. A minimally acceptable PED is a NAD that includes an ICC reader and an input device capable of allowing the cardholder to enter his/her PIN for offline verification. It is recommended that the appropriate physical and/or cryptographic protection of the PIN be provided between the PED and the ICC. The slot of the IC reader into which the IC card is inserted should a) b) c) not have sufficient space to hold a PIN-disclosing "bug" when a card is in the IC reader, not feasibly be enlarged to provide space for a PIN-disclosing "bug", and not be positioned such that wires leaving the slot to an external "bug" could be hidden from users of the device.
+
+The necessary electronic protection circuit should be provided to prevent the adding of tapping devices inside the IC reader.
+
+4
+
+IS 15042 (Part 4) : 2011 ISO 9564-4 : 2004
+
+6
+6.1
+
+PIN security for offline PIN handling devices connected to open networks
+General
+
+The only environment supported by this part of ISO 9564 consists of the use of an ICC with a PED. This clause addresses offline PIN handling in an ICC environment.
+
+6.2
+
+Offline PIN verification at open network access devices
+
+When offline PIN verification is performed by an ICC, the PIN is usually transmitted from the PIN entry keypad to the ICC as plaintext. Some payment applications require the submission of an enciphered PIN to the ICC using a public key of the ICC. In such situations, where the network access device is capable of performing this encipherment, the transaction will be completed. To assist in preventing fraudulent access to the ICC, it is recommended that cardholders be instructed to remove the ICC between transactions; alternatively, the payment application should require that the card be physically reset between each transaction.
+
+6.3
+
+General recommendations for open network financial transactions
+
+It is strongly recommended that cardholders be instructed to control access to their IC cards at all times when these are used in open networks. For example, cardholders should not leave their card in the NAD any longer than for the time necessary to complete the transaction. It is strongly recommended that PEDs used in NADs be constructed such as to prevent the plaintext PIN leaving the PED except for when it is to be sent to the ICC.
+
+5
+
+IS 15042 (Part 4) : 2011 ISO 9564-4 : 2004
+
+Bibliography
+
+[1] [2] [3] [4] [5] [6] [7]
+
+ISO/IEC 7810:2003, Identification cards -- Physical characteristics ISO/IEC 7811 (all parts), Identification cards -- Recording technique ISO/IEC 7812-1:2000, Identification cards -- Identification of issuers -- Part 1: Numbering system ISO/IEC 7812-2:2000, Identification cards -- Identification of issuers -- Part 2: Application and registration procedures ISO/IEC 7813:2001, Identification cards -- Financial transaction cards ISO/IEC 7816-1:1998, Identification cards -- Integrated circuit(s) cards with contacts -- Part 1: Physical characteristics ISO 13491-1:1998, Banking -- Secure requirements and evaluation methods cryptographic devices (retail) -- Part 1: Concepts,
+
+6
+
+Bureau of Indian Standards BIS is a statutory institution established under the Bureau of Indian Standards Act, 1986 to promote harmonious development of the activities of standardization, marking and quality certification of goods and attending to connected matters in the country. Copyright BIS has the copyright of all its publications. No part of the these publications may be reproduced in any form without the prior permission in writing of BIS. This does not preclude the free use, in the course of implementing the standard, of necessary details, such as symbols and sizes, type or grade designations. Enquiries relating to copyright be addressed to the Director (Publications), BIS. Review of Indian Standards Amendments are issued to standards as the need arises on the basis of comments. Standards are also reviewed periodically; a standard alongwith amendments is reaffirmed when such review indicates that no changes are needed; if the review indicates that changes are needed, it is taken up for revision. Users of Indian Standards should ascertain that they are in possession of the latest amendments or edition by referring to the latest issue of `BIS Catalogue' and `Standards: Monthly Additions'. This Indian Standard has been developed from Doc No.: MSD 7 (341). Amendments Issued Since Publication Amend No. Date of Issue Text Affected
+
+BUREAU OF INDIAN STANDARDS Headquarters: Manak Bhavan, 9 Bahadur Shah Zafar Marg, New Delhi 110002 Telephones: 2323 0131, 2323 3375, 2323 9402 Website: www.bis.org.in Regional Offices: Central : Manak Bhavan, 9 Bahadur Shah Zafar Marg NEW DELHI 110002 1/14 C.I.T. Scheme VII M, V.I.P. Road, Kankurgachi KOLKATA 700054 SCO 335-336, Sector 34-A, CHANDIGARH 160022 Telephones 2323 7617 2323 3841 2337 8499, 2337 8561 2337 8626, 2337 9120 260 3843 260 9285 2254 1216, 2254 1442 2254 2519, 2254 2315 2832 9295, 2832 7858 2832 7891, 2832 7892
+
+Eastern
+
+:
+
+Northern
+
+:
+
+Southern
+
+:
+
+C.I.T. Campus, IV Cross Road, CHENNAI 600113
+
+Western
+
+:
+
+Manakalaya, E9 MIDC, Marol, Andheri (East) MUMBAI 400093
+
+Branches
+
+:
+
+AHMEDABAD. BANGALORE. BHOPAL. BHUBANESHWAR. COIMBATORE. DEHRADUN. FARIDABAD. GHAZIABAD. GUWAHATI. HYDERABAD. JAIPUR. KANPUR. LUCKNOW. NAGPUR. PARWANOO. PATNA. PUNE. RAJKOT. THIRUVANANTHAPURAM. VISAKHAPATNAM.
+Published by BIS, New Delhi
+
+

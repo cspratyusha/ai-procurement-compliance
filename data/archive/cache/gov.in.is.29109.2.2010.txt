@@ -1,0 +1,2995 @@
+пая HTA IS/ISO/IEC 29109-2 : 2010 
+Indian Standard (Reaffirmed 2021) 
+
+
+ga ureifiret — amissis 
+
+19794 Ñ ufanfaa «їе Stet 
+
+gerda 74е cht STRUT Utteret 
+Wore feram 
+
+
+ATT 2 fet at ater Stet 
+
+
+Information Technology — 
+Conformance Testing Methodology 
+for Biometric Data Interchange 
+Formats Defined in ISO/IEC 19794 
+
+
+Part 2 Finger Minutiae Data 
+
+
+ICS 35.040 
+© BIS 2018 
+ada 999 equ 
+BUREAU OF INDIAN STANDARDS 
+ө AM WH, 9 четче WA AM, as eet (10002 
+м чыз MANAK BHAVAN, 9 BAHADUR SHAH ZAFAR MARG 
+
+
+NEW DELHI-110002 
+www.bis.gov.in www.standardsbis.in 
+
+
+June 2018 Price Group 12 
+
+
+Information Systems Security and Biometrics Sectional Committee, LITD 17 
+
+
+NATIONAL FOREWORD 
+
+
+This Indian Standard (Part 2) which is identical with ISO/IEC 29109-2:2010 ‘Information Technology 
+— Conformance testing methodology for biometric data interchange formats defined in ISO/IEC 19794 
+— Part 2: Finger minutiae data’ issued by the International Organization for Standardization (ISO) and 
+International Electrotechnical Commission (IEC) jointly was adopted by the Bureau of Indian Standards 
+on the recommendations of the Information Systems Security and Biometrics Sectional Committee 
+and approval of the Electronics and Information Technology Division Council. 
+
+
+This standard is one of the series of standards on Information technology - Conformance testing 
+
+methodology for biometric data interchange formats defined in ISO/IEC 19794. Other parts in this 
+
+series are: 
+Part 
+Part 
+Part 
+Part 
+Part 
+
+
+1 Generalized conformance testing methodology (Under Print) 
+4 Finger image data (under print) 
+
+5 Face image data (under print) 
+
+6 Iris image data (under print) 
+
+7 Signature/sign time series data (under print) 
+
+Part 8 Finger Pattern Skeletal Data (under print) 
+
+Part 9 Vascular image data (under print) 
+
+Part 10 Hand geometry silhouette data (under print) 
+
+
+The text of the ISO/IEC standard has been approved as suitable for publication as Indian Standard 
+without deviations. Certain conventions are, however, not identical to those used in Indian Standards. 
+Attention is particularly drawn to the following: 
+
+
+a) Wherever the words ‘International Standard’ appear referring to this standard, they should be 
+read as ‘Indian Standard’. 
+
+
+b) Comma (,) has been used as a decimal marker while in Indian Standards, the current practice 
+is to use a point (.) as the decimal marker. 
+
+
+In this adopted standard, reference appears to certain International Standards for which Indian 
+Standards also exist. The corresponding Indian Standards, which are to be substituted in their 
+respective places, are listed below along with their degree of equivalence for the editions indicated: 
+
+
+International Standard 
+
+
+ISO/IEC 29109-1 : 2009 Information 
+technology — Conformance testing 
+methodology for biometric data 
+interchange formats defined in 
+ISO/IEC 19794 Part 1: 
+Generalized conformance testing 
+methodology 
+
+
+Corresponding Indian Standard 
+
+
+Doc: LITD 17(3586) Information 
+technology — Conformance testing 
+methodology for biometric data 
+interchange formats defined in 
+ISO/IEC 19794 Part 1: 
+Generalized conformance testing 
+methodology (under print) 
+
+
+Degree of Equivalence 
+
+
+Identical with 
+ISO/IEC 29109-1 : 2009 
+
+
+The technical committee has reviewed the provisions of following International Standards referred in 
+this adopted standard and has decided that they are acceptable for use in conjunction with this 
+standard. For undated references, the latest edition of the referenced document applies, including 
+any corrigenda and amendment: 
+
+
+Title 
+
+
+Information technology — Biometric data interchange formats — Part 2: 
+Finger minutiae data 
+
+
+International Standard 
+ISO/IEC 19794-2 : 2005 
+
+
+(Continued on third cover) 
+
+
+IS/ISO/IEC 29109-2 : 2010 
+
+
+Indian Standard 
+
+
+INFORMATION TECHNOLOGY — CONFORMANCE 
+TESTING METHODOLOGY FOR BIOMETRIC DATA 
+INTERCHANGE FORMATS DEFINED IN ISO/IEC 19794 
+
+
+PART 2 FINGER MINUTIAE DATA 
+
+
+1 Scope 
+
+This part of ISO/IEC 29109 specifies elements of conformance testing methodology, test assertions and test 
+procedures, as applicable to the biometric data interchange format standard relating to finger minutiae data 
+(i.e. ISO/IEC 19794-2). 
+
+
+It establishes 
+
+
+— tests of assertions of the structure of the finger minutiae data format as specified in 
+ISO/IEC 19794-2:2005 (Type A Level 1 as defined in ISO/IEC 29109-1:2009), 
+
+
+— tests of assertions of internal consistency by checking the types of values that may be contained within 
+each field (Type A Level 2 as defined in ISO/IEC 29109-1:2009), and 
+
+
+— tests of semantic assertions (Type A Level 3 as defined in ISO/IEC 29109-1:2009). 
+This part of ISO/IEC 29109 does not establish 
+
+
+— tests of conformance of CBEFF structures embedding ISO/IEC 19794-2:2005 biometric data blocks 
+(BDBs), 
+
+
+— tests of other characteristics of biometric products or other types of testing of biometric products 
+(e.g. acceptance, performance, robustness, security), 
+
+
+— tests of conformance of systems that do not produce ISO/IEC 19794-2:2005 records, or 
+
+
+— tests for Level 3 conformance testing. 
+
+
+2 Conformance 
+
+
+Biometric data interchange format conformance tests conform to this part of ISO/IEC 29109 if they satisfy all 
+of the normative requirements related to Clause 6. Specifically, they shall use the test methodology specified 
+in ISO/IEC 29109-1:2009, Clauses 6, 7 and 8, and all Level 1 and Level 2 tests shall use the assertions 
+defined in Table 2. 
+
+
+Implementations of ISO/IEC 19794-2:2005 tested according to the methodology specified shall be able to 
+claim conformance only to those Biometric Data Record (ВОК) requirements specified in 
+ISO/IEC 19794-2:2005 that are tested by the test methods established by this methodology. 
+
+
+IS/ISO/IEC 29109-2 : 2010 
+
+
+Implementations of ISO/IEC 19794-2:2005 do not necessarily need to conform to all possible aspects of 
+ISO/IEC 19794-2:2005, but only to those ISO/IEC 19794-2:2005 requirements that are claimed to be 
+supported by the implementation in an Implementation Conformance Statement, filled out in accordance with 
+Table 1 of this part of ISO/IEC 29109 and ISO/IEC 29109-1:2009, Clause 8. 
+
+
+3 Normative references 
+
+The following referenced documents are indispensable for the application of this document. For dated 
+references, only the edition cited applies. For undated references, the latest edition of the referenced 
+document (including any amendments) applies. 
+
+
+ISO/IEC 19794-2:2005, Information technology — Biometric data interchange formats — Part 2: Finger 
+minutiae data 
+
+
+ISO/IEC 19794-2:2005/Cor.1:2009, Information technology — Biometric data interchange formats — Part 2: 
+Finger minutiae data — Technical corrigendum 1 
+
+
+ISO/IEC 29109-1:2009, Information technology — Conformance testing methodology for biometric data 
+interchange formats defined in ISO/IEC 19794 — Part 1: Generalized conformance testing methodology 
+4 Terms and definitions 
+
+
+For the purposes of this document, the terms and definitions given in ISO/IEC 29109-1 apply. 
+
+
+5 Symbols and abbreviated terms 
+
+
+For the purposes of this document, the symbols and abbreviated terms given in ISO/IEC 29109-1 apply. 
+
+
+6 Conformance testing methodology 
+
+
+6.1 General 
+
+
+The testing methodology specified in ISO/IEC 29109-1:2009, Clauses 6, 7 and 8 shall be used. The content of 
+the tables below is based on the conformance testing methodology outlined in 29109-1 and shall only be used 
+in the context of that testing methodology. 
+
+
+6.2 Table of requirements in the base standard 
+
+
+The normative requirements of ISO/IEC 19794-2:2005, are listed in Table 1. The supplier of the IUT can 
+explain which optional components of the standard are supported and the testing laboratory can note the 
+results of the test. 
+
+
+Table 1 — Requirements of the Base Standard (19794-2:2005) 
+
+
+Requirement 
+Identifier 
+
+
+Reference 
+in Base 
+Standard 
+
+
+Requirement Summary 
+
+
+Level 
+
+
+Status 
+
+
+Subformat Applicability 
+
+
+3 14 |5 |6 |25 
+
+
+26 
+
+
+27 
+
+
+28 
+
+
+IUT Support 
+
+
+Supported 
+Range 
+
+
+Test 
+Result 
+
+
+R-1 
+
+
+6.2 
+
+
+Some points are neither a ridge ending 
+nor a bifurcation. This standard 
+therefore defines additionally a type 
+named "other", which shall be used in 
+such a way that the matching conditions 
+specified in clause 6.5 apply. The 
+"other" minutiae type shall not be used 
+for minutiae that are ridge endings or 
+ridge bifurcations. 
+
+
+3C 
+
+
+O-1 
+
+
+N/A 
+
+
+R-2 
+
+
+6.3.1 
+
+
+The coordinate system used to express 
+the minutiae of a fingerprint shall be a 
+Cartesian coordinate system. Points 
+shall be represented by their X and Y 
+coordinates. The origin of the 
+coordinate system shall be the upper 
+left corner of the original image with X 
+increasing to the right and Y increasing 
+downward. The X and Y coordinates of 
+the minutiae shall be in pixel units, with 
+the spatial resolution of a pixel given in 
+the “X Resolution” and “Y Resolution” 
+fields of the format. 
+
+
+3C 
+
+
+O-1 
+
+
+N/A 
+
+
+N/A 
+
+
+R-3 
+
+
+6.3.2 
+
+
+The minutia for a ridge ending shall be 
+defined as the point of forking of the 
+medial skeleton of the valley area 
+immediately in front of the ridge ending. 
+
+
+3C 
+
+
+O-1 
+
+
+N/A 
+
+
+N/A 
+
+
+R-4 
+
+
+6.3.3 
+
+
+The minutia for a ridge bifurcation shall 
+be defined as the point of forking of the 
+medial skeleton of the ridge. If the 
+ridges were thinned down to a single- 
+pixel-wide skeleton, the point where the 
+three legs intersect is the location of the 
+minutia. 
+
+
+3C 
+
+
+O-1 
+
+
+N/A 
+
+
+N/A 
+
+
+010 : 2-601L62 DAI/OSI/SI 
+
+
+Requirement 
+Identifier 
+
+
+Reference 
+in Base 
+Standard 
+
+
+Requirement Summary 
+
+
+Level 
+
+
+Status 
+
+
+Subformat Applicability 
+
+
+3 14 |5 |6 |25 26 
+
+
+27 
+
+
+28 
+
+
+IUT Support 
+
+
+Supported 
+Range 
+
+
+Test 
+Result 
+
+
+R-5 
+
+
+6.3.4 
+
+
+The minutia for a ridge skeleton 
+endpoint shall be defined as the center 
+point of the ending ridge. 
+
+
+3C 
+
+
+O-1 
+
+
+N/A 
+
+
+N/A 
+
+
+R-6 
+
+
+6.3.5 
+
+
+For minutia other than a bifurcation or 
+ridge ending the position and angle 
+calculations shall be done in such a way 
+that the matching conditions in clause 
+6.5 apply. 
+
+
+3C 
+
+
+O-1 
+
+
+N/A 
+
+
+N/A 
+
+
+R-7 
+
+
+6.5 
+
+
+Core direction: If the core has a 
+discernible angle of direction, it shall be 
+recorded in the core information, since 
+this characterizes the type of core. 
+
+
+3C 
+
+
+O-1 
+
+
+N/A 
+
+
+N/A 
+
+
+R-8 
+
+
+6.5 
+
+
+Delta direction: For all observable 
+divergences the angle is defined by the 
+direction of the tangent before the pair 
+of ridges beings to diverge. The angle 
+shall point from divergent towards 
+parallel ridge lines; that is, the angles 
+shall point outwards from the delta. 
+
+
+O-1 
+
+
+N/A 
+
+
+N/A 
+
+
+6.6 
+
+
+In a matching process, the different 
+minutia types shall be matched 
+according to the following Table 1. 
+Matchers may choose to assign lower 
+weights (or importance) to a match of 
+type 00 to 01 or 10, than to a match of 
+type 00 to 00, 01 to 01, or 10 to 10. 
+
+
+3C 
+
+
+N/A 
+
+
+N/A 
+
+
+R-10 
+
+
+6.7 
+
+
+All multibyte quantities are represented 
+in Big-Endian format; that is, the more 
+significant bytes of any multibyte 
+quantity are stored at lower addresses 
+in memory than (and are transmitted 
+before) less significant bytes. All 
+numeric values are fixed-length integer 
+quantities, and are unsigned quantities. 
+
+
+N/A 
+
+
+N/A 
+
+
+0L0c : 2-601L62 DAI/OSI/SI 
+
+
+Requirement 
+Identifier 
+
+
+Reference 
+in Base 
+Standard 
+
+
+Requirement Summary 
+
+
+Level 
+
+
+Status 
+
+
+Subformat Applicability 
+
+
+3 14 |5 |6 |25 26 
+
+
+27 
+
+
+28 
+
+
+IUT Support 
+
+
+Supported 
+Range 
+
+
+Test 
+Result 
+
+
+7.1 
+
+
+The minutiae record format shall be 
+used to achieve interoperability between 
+finger matchers providing a one-to- one 
+verification. 
+
+
+O-1 
+
+
+N/A 
+
+
+N/A 
+
+
+7.1 
+
+
+The minutia data shall be represented in 
+a common format, containing both basic 
+and extended data. With the exception 
+of the Format Identifier and the Version 
+number for the standard, which are null- 
+terminated ASCII character strings, all 
+data is represented in binary format. 
+
+
+= 
+
+
+R-13 
+
+
+7.3 
+
+
+There shall be one and only one record 
+header for the minutiae record, to hold 
+information describing the type and 
+characteristics of device that generated 
+the minutia data. 
+
+
+= 
+
+
+7.3.1 
+
+
+The Finger Minutiae Record shall begin 
+with the three ASCII characters “FMR” 
+followed by a zero byte as a NULL 
+string terminator. 
+
+
+= 
+
+
+R-15 
+
+
+7.3.2 
+
+
+The version number for the version of 
+this standard used in constructing the 
+minutiae record shall be placed in four 
+bytes. This version number shall consist 
+of three ASCII numerals followed by a 
+zero byte as a NULL string terminator. 
+The first and second character will 
+represent the major revision number 
+and the third character will represent the 
+minor revision number. The version 
+number is “ 20” (an ASCII space 
+followed by an ASCII ‘2’ and an ASCII 
+`0”). 
+
+
+= 
+
+
+0L0c : 2-601L62 DAI/OSI/SI 
+
+
+Requirement 
+Identifier 
+
+
+Reference 
+in Base 
+Standard 
+
+
+Requirement Summary 
+
+
+Level 
+
+
+Status 
+
+
+Subformat Applicability 
+
+
+3 14 |5 |6 |25 26 
+
+
+27 
+
+
+28 
+
+
+IUT Support 
+
+
+Supported 
+Range 
+
+
+Test 
+Result 
+
+
+R-16 
+
+
+7.3.3 
+
+
+The length of the entire record shall be 
+recorded in four bytes. 
+
+
+R-17 
+
+
+7.3.4 
+
+
+If the most significant bit is ‘1’, the 
+original capture equipment was certified 
+to be compliant with the specifications in 
+Annex B, copied from the US Federal 
+Bureau of Investigation's Image Quality 
+Specifications, Appendix F. The least 
+significant of the four bits is reserved for 
+a future ISO finger image capture 
+equipment certification. The two 
+additional bits are reserved for future 
+image quality certifications. 
+
+
+3C 
+
+
+O-1 
+
+
+N/A 
+
+
+N/A 
+
+
+7.3.5 
+
+
+The capture device type ID shall be 
+recorded in twelve bits. 
+
+
+R-19 
+
+
+7.3.6 
+
+
+The size of the original image in pixels 
+in the X direction shall be contained in 
+two bytes. 
+
+
+R-20 
+
+
+7.3.7 
+
+
+The size of the original image in pixels 
+in the Y direction shall be contained in 
+two bytes. 
+
+
+R-21 
+
+
+7.3.8 
+
+
+The resolution of the minutiae 
+coordinate system shall be recorded in 
+two bytes having the units of pixels per 
+centimeter. The value of the X 
+resolution shall not be less than 98.45 
+pixels per centimeter (250 pixels per 
+inch). 
+
+
+010 * c-6016c DAI/OSI/SI 
+
+
+Requirement 
+Identifier 
+
+
+Reference 
+in Base 
+Standard 
+
+
+Requirement Summary 
+
+
+Level 
+
+
+Status 
+
+
+Subformat Applicability 
+
+
+3 14 |5 |6 25 26 
+
+
+27 
+
+
+28 
+
+
+IUT Support 
+
+
+Supported 
+Range 
+
+
+Test 
+Result 
+
+
+R-22 
+
+
+7.3.9 
+
+
+The resolution of the minutiae 
+coordinate system shall be recorded in 
+two bytes having the units of pixels per 
+centimeter. The value of the Y 
+resolution shall not be less than 98.45 
+pixels per centimeter (250 pixels per 
+inch). 
+
+
+R-23 
+
+
+7.3.10 
+
+
+The total number of finger views 
+contained in the minutiae record shall 
+be recorded in one byte. 
+
+
+R-24 
+
+
+7.3.10 
+
+
+In cases where there is more than one 
+view of any finger, this number will be 
+greater than the number of fingers. 
+
+
+R-25 
+
+
+7.3.11 
+
+
+This field is reserved for future use, and 
+to align the end of the record header on 
+a long-word (four byte) boundary. For 
+the current version of the standard, this 
+field shall be set to zero. 
+
+
+R-26 
+
+
+7.4.1 
+
+
+A finger header shall start each section 
+of finger data providing information for 
+that finger. There shall be one finger 
+header for each finger contained in the 
+finger minutiae record. The finger 
+header will occupy a total of four bytes 
+as described below. 
+
+
+R-27 
+
+
+7.4.1.1 
+
+
+The finger position shall be recorded in 
+one byte The codes for this byte shall 
+be as defined in Table 2. 
+
+
+010 : 2-601L62 DAI/OSI/SI 
+
+
+Requirement 
+Identifier 
+
+
+Reference 
+in Base 
+Standard 
+
+
+Requirement Summary 
+
+
+Level 
+
+
+Status 
+
+
+Subformat Applicability 
+
+
+3 14 |5 |6 |25 26 
+
+
+27 
+
+
+28 
+
+
+IUT Support 
+
+
+Supported 
+Range 
+
+
+Test 
+Result 
+
+
+R-28 
+
+
+7.4.1.2 
+
+
+The view number shall be recorded in 
+four bits. 
+
+
+R-29 
+
+
+7.4.1.2 
+
+
+If more than one finger minutiae record 
+in a general record is from the same 
+finger, each minutiae record shall have 
+a unique view number. The combination 
+of finger location and view number shall 
+uniquely identify a particular minutiae 
+record within a general record. 
+
+
+R-30 
+
+
+7.4.1.2 
+
+
+Multiple finger minutiae records from the 
+same finger shall be numbered with 
+increasing view numbers, beginning 
+with zero. Where only one finger 
+minutiae record is taken from each 
+finger, this field shall be set to 0. 
+
+
+R-31 
+
+
+7.4.1.3 
+
+
+The impression type of the finger 
+images that the minutiae data was 
+derived from shall be recorded in four 
+bits. The codes for this byte are shown 
+in Table 3. 
+
+
+R-32 
+
+
+7.4.1.4 
+
+
+The quality of the overall finger minutiae 
+data shall be between 0 and 100 and 
+recorded in one byte. 
+
+
+= 
+
+
+R-33 
+
+
+7.4.1.5 
+
+
+The number of minutiae recorded for 
+the finger shall be recorded in one byte. 
+
+
+R-34 
+
+
+7.4.2 
+
+
+The finger minutiae data for a single 
+finger shall be recorded in blocks of six 
+bytes per minutia. 
+
+
+010 * c-6016c DAI/OSI/SI 
+
+
+Requirement 
+Identifier 
+
+
+Reference 
+in Base 
+Standard 
+
+
+Requirement Summary 
+
+
+Level 
+
+
+Status 
+
+
+Subformat Applicability 
+
+
+3 14 |5 |6 |25 26 
+
+
+27 
+
+
+28 
+
+
+IUT Support 
+
+
+Supported 
+Range 
+
+
+Test 
+Result 
+
+
+R-35 
+
+
+7.4.2.1 
+
+
+The type of minutia will be recorded in 
+the first two bits of the upper byte of the 
+X coordinate. There will be two bits 
+reserved at the beginning of the upper 
+byte of the Y coordinate for future use. 
+The bits “00” will represent a minutia of 
+“other” type, “01” will represent a ridge 
+ending and “10” will represent a ridge 
+bifurcation. 
+
+
+R-36 
+
+
+7.4.2.2 
+
+
+The X coordinate of the minutia shall be 
+recorded in the rest of the first two bytes 
+(fourteen bits). 
+
+
+= 
+
+
+R-37 
+
+
+7.4.2.2 
+
+
+The Y coordinate shall be placed in the 
+lower fourteen bits of the following two 
+bytes. 
+
+
+R-38 
+
+
+7.4.2.2 
+
+
+The coordinates shall be expressed in 
+pixels at the resolution indicated in the 
+record header. 
+
+
+3C 
+
+
+O-1 
+
+
+N/A 
+
+
+N/A 
+
+
+R-39 
+
+
+7.4.2.3 
+
+
+The angle of the minutia shall be 
+recorded in one byte in units of 1.40625 
+(360/256) degrees. The value shall be a 
+non-negative value between 0 and 255, 
+inclusive. 
+
+
+R-40 
+
+
+7.4.2.4 
+
+
+The quality of each minutia shall be 
+recorded in one byte. The quality figure 
+shall range from 100 as a maximum to 1 
+as a minimum. 
+
+
+010 : 2-601L62 DAI/OSI/SI 
+
+
+0L 
+
+
+Requirement | Reference Requirement Summary Level | Status Subformat Applicability IUT Support | Supported Test 
+Identifier in Base Range Result 
+Standard 
+3 |4 |5 |6 |25 26 27 28 
+R-41 74.24 The quality of each minutia shall be 1 M N IN IN IN IN IN IN IN 
+recorded in one byte. The quality figure 
+shall be set to 0 for no quality encoded. 
+R-42 7.5 The extended data for each finger view | 1 M Y JY IY JY IN IN N |N 
+shall immediately follow the standard 
+minutiae data for that finger view and 
+shall begin with the Extended Data 
+Block Length field. 
+R-43 75 In particular, ridge count data, соге and |3C O-1 N IN IN IN IN IN IN IN N/A N/A 
+delta data or zonal quality information 
+shall not be represented in proprietary 
+manner to the exclusion of the publicly 
+defined formats in this standard. 
+R-44 7544 All minutiae records shall contain the 1 M ү |Y [ү ly IN IN IN IN 
+extended data block length. 
+R-45 7.5.1.1 A value of all zeros (0х0000 1 M Y |Y Y ly IN IN IN IN 
+hexadecimal) will indicate that there is 
+no extended data. 
+R-46 7.5.1.2 The type identification code shall be 1 О N IN IN IN IN IN IN IN 
+
+
+recorded in two bytes, and shall 
+distinguish the format of the extended 
+data area (as defined by the Vendor 
+specified by the PID code in the CBEFF 
+header). A value of zero in both bytes is 
+a reserved value and shall not be used. 
+A value of zero in the first byte, followed 
+by a non-zero value in the second byte, 
+shall indicate that the extended data 
+section has a format defined in this 
+standard. A nonzero value in the first 
+byte shall indicate a vendor specified 
+format, with a code maintained by the 
+vendor. 
+
+
+0L0c : 2-601L62 DAI/OSI/SI 
+
+
+LL 
+
+
+Requirement 
+Identifier 
+
+
+Reference 
+in Base 
+Standard 
+
+
+Requirement Summary 
+
+
+Level 
+
+
+Status 
+
+
+Subformat Applicability 
+
+
+3 14 |5 |6 |25 26 
+
+
+27 
+
+
+28 
+
+
+IUT Support 
+
+
+Supported 
+Range 
+
+
+Test 
+Result 
+
+
+R-47 
+
+
+7.5.1.3 
+
+
+The length of the extended data section 
+shall be recorded in two bytes. If the 
+Extended Data Block Length (7.5.1.1) 
+for the finger view is zero, indicating no 
+extended data, this field shall not be 
+present. 
+
+
+R-48 
+
+
+7.5.2 
+
+
+If the extended data area type code is 
+0x0001, the extended data area 
+contains ridge count information. 
+
+
+R-49 
+
+
+7.5.2 
+
+
+Ridge counts shall not include the 
+ridges represented by either of the 
+associated minutiae. 
+
+
+O-1 
+
+
+N/A 
+
+
+N/A 
+
+
+R-50 
+
+
+7.5.2.1 
+
+
+The ridge count data area shall begin 
+with a single byte indicating the ridge 
+count extraction method. 
+
+
+= 
+
+
+R-51 
+
+
+7.5.2.1 
+
+
+In 4 Neighbor Ridge Count Method, For 
+each center minutia used, ridge count 
+data was extracted to the nearest 
+neighboring minutia in four quadrants, 
+and ridge counts for each center minutia 
+are listed together. 
+
+
+R-52 
+
+
+7.5.2.1 
+
+
+In 8 Neighbor Ridge Count Method, For 
+each center minutia used, ridge count 
+data was extracted to the nearest 
+neighboring minutia in eight octants, 
+and ridge counts for each center minutia 
+are listed together. 
+
+
+010 : 2-601L62 DAI/OSI/SI 
+
+
+cl 
+
+
+Requirement | Reference Requirement Summary Level | Status Subformat Applicability IUT Support | Supported Test 
+Identifier in Base Range Result 
+Standard 
+3 |4 |5 |6 |25 26 | 27 28 
+
+R-53 7.5.2.1 All ridge counts for a particular center О Y Iy Iy |Y [ү [ү Y ly 
+minutia shall be listed together. 
+
+R-54 7.5.2.1 The center minutia shall be the first О N IN IN NN IN IN IN 
+minutia references in the three-byte 
+ridge count data. 
+
+R-55 7.5.2.1 If а given quadrant or octant has no О N IN IN IN IN IN IN IN 
+neighboring minutiae in it, a ridge count 
+field shall be recorded with both the 
+minutia index and the ridge count fields 
+set to zero (so that, for each center 
+minutia, there shall always be four ridge 
+counts recorded for the quadrant 
+method and eight ridge counts recorded 
+for the octant method). 
+
+R-56 7.5.2.1 No assumption shall be made regarding О N IN IN IN IN IN IN IN 
+the order of the neighboring minutiae. 
+
+R-57 7.5.2.2 Тһе гіаде count data shall be О МОМ М МОМ М МОМ 
+represented by a list of three-byte 
+elements. 
+
+R-58 7.53 If the extended data area type code is О N N IN JN IN IN IN IN 
+0x0002, the extended data area 
+contains core and delta information. 
+
+R-59 7.5.3.1 The number of соге points represented О N N IN JN IN IN IN IN 
+
+
+shall be recorded in the least significant 
+four bits of this byte. Valid values are 
+from 0 to 15. 
+
+
+010 * c-6016c DAI/OSI/SI 
+
+
+£L 
+
+
+Requirement 
+Identifier 
+
+
+Reference 
+in Base 
+Standard 
+
+
+Requirement Summary 
+
+
+Level 
+
+
+Status 
+
+
+Subformat Applicability 
+
+
+3 14 5 |6 |25 26 
+
+
+27 
+
+
+28 
+
+
+IUT Support 
+
+
+Supported 
+Range 
+
+
+Test 
+Result 
+
+
+R-60 
+
+
+7.5.3.2 
+
+
+The core information type shall be 
+recorded in the first two bits of the upper 
+byte of the X coordinate of the core 
+position. The bits "01" will indicate that 
+the core has angular information while 
+"00" will indicate that no angular 
+information is relevant for the core type. 
+If this field is “00”, then the angle fields 
+shall not be present for the cores. 
+
+
+N/A 
+
+
+N/A 
+
+
+R-61 
+
+
+7.5.3.3 
+
+
+The X coordinate of the core shall be 
+recorded in the lower fourteen bits of 
+the first two bytes (fourteen bits). 
+
+
+R-62 
+
+
+7.5.3.3 
+
+
+The Y coordinate shall be placed in the 
+lower fourteen bits of the following two 
+bytes. 
+
+
+R-63 
+
+
+7.5.3.3 
+
+
+The coordinates shall be expressed in 
+pixels at the resolution indicated in the 
+record header. 
+
+
+3C 
+
+
+O-1 
+
+
+N/A 
+
+
+N/A 
+
+
+R-64 
+
+
+7.5.3.4 
+
+
+The angle of the core shall be recorded 
+in one byte in units of 1.40625 
+(360/256) degrees. The core angle is 
+measured increasing counter-clockwise 
+starting from the horizontal axis to the 
+right. The value shall be a nonnegative 
+value between 0 and 255, inclusive. 
+
+
+R-65 
+
+
+7.5.3.5 
+
+
+The number of delta points represented 
+shall be recorded in the least significant 
+four bits of this byte. Valid values are 
+from 0 to 15. 
+
+
+010 : 2-601L62 DAI/OSI/SI 
+
+
+145 
+
+
+Requirement 
+Identifier 
+
+
+Reference 
+in Base 
+Standard 
+
+
+Requirement Summary 
+
+
+Level 
+
+
+Status 
+
+
+Subformat Applicability 
+
+
+IUT Support 
+
+
+Supported 
+Range 
+
+
+Test 
+Result 
+
+
+R-66 
+
+
+7.5.3.6 
+
+
+The delta information type shall be 
+recorded in the first two bits of the upper 
+byte of the X coordinate of the delta 
+position. The bits "01" will indicate that 
+the delta has angular information while 
+"00" will indicate that no angular 
+information is relevant for the delta type. 
+If this field is “OO”, then the angle fields 
+shall not be present for the deltas. 
+
+
+N/A 
+
+
+N/A 
+
+
+R-67 
+
+
+7.5.3.7 
+
+
+The X coordinate of the delta shall be 
+recorded in the lower fourteen bits of 
+the first two bytes (fourteen bits). 
+
+
+R-68 
+
+
+7.5.3.7 
+
+
+The Y coordinate shall be placed in the 
+lower fourteen bits of the following two 
+bytes. 
+
+
+R-69 
+
+
+7.5.3.7 
+
+
+The coordinates shall be expressed in 
+pixels at the resolution indicated in the 
+record header. 
+
+
+3C 
+
+
+O-1 
+
+
+N/A 
+
+
+N/A 
+
+
+R-70 
+
+
+7.5.3.8 
+
+
+The three angle attributes of the delta 
+shall each be recorded in one byte in 
+units of 1.40625 (360/256) degrees. The 
+delta angle is measured increasing 
+counter-clockwise starting from the 
+horizontal axis to the right. The value 
+shall be a non-negative value between 
+0 and 255, inclusive. 
+
+
+R-71 
+
+
+7.5.3.8 
+
+
+If not all three angles can be extracted 
+from the image because of noise or 
+image cropping, the angle fields 
+affected shall be filled by repeating any 
+of the other angle(s) for the same delta. 
+
+
+3C 
+
+
+O-1 
+
+
+N/A 
+
+
+N/A 
+
+
+010 * 2-601L62 DAI/OSI/SI 
+
+
+SL 
+
+
+Requirement | Reference Requirement Summary Level | Status Subformat Applicability IUT Support | Supported Test 
+Identifier in Base Range Result 
+Standard 
+3 |4 |5 |6 |25 | 26 | 27 28 
+R-72 754 If the extended data area type code is |2 О N IN IN IN JN IN IN IN 
+0x0003, the extended data area 
+contains zonal quality data. 
+R-73 7544 The number of pixels in cells in the x- 1 О N IN IN IN IN IN IN IN 
+direction (horizontal) shall be stored in 
+one byte. Permissible values are 1 to 
+255. 
+R-74 75.4.1 The number of pixels in cells in the y- 1 О N IN IN IN IN IN IN IN 
+direction (vertical) shall be stored in one 
+byte. Permissible values are 1 to 255. 
+R-75 7542 The bit depth of the cell quality 1 О N IN IN N МОМ IN IN 
+information shall be contained in one 
+byte. 
+R-76 7543 The quality of the fingerprint image in 1 О N IN IN IN JN IN IN IN 
+each cell shall be represented by one or 
+more bits, as indicated in 7.5.4.2. 
+R-77 7.5.4.3 Quality data for cells shall be stored іп | ЗС O-1 N IN IN JN |N |N JN |N N/A N/A 
+usual "raster" order — left to right, then 
+top to bottom. 
+R-78 75.43 If the finger image within this cell is of 3C O-1 N IN IN IN IN IN IN IN N/A N/A 
+
+
+good clarity and significant ridge data is 
+present, the cell quality shall be 
+represented by higher values (by the bit 
+value ‘1’ if the information depth is 1). If 
+the cell does not contain significant 
+ridge data, or the ridge pattern within 
+the cell is blurred, broken or otherwise 
+of poor quality, the cell quality shall be 
+represented by lower values (the bit 
+value ‘0’ if the information depth 
+
+is 1). 
+
+
+0L0c : 2-601L62 DAI/OSI/SI 
+
+
+9L 
+
+
+Requirement 
+Identifier 
+
+
+Reference 
+in Base 
+Standard 
+
+
+Requirement Summary 
+
+
+Level 
+
+
+Status 
+
+
+Subformat Applicability 
+
+
+3 14 |5 |6 25 
+
+
+26 
+
+
+27 
+
+
+28 
+
+
+IUT Support 
+
+
+Supported 
+Range 
+
+
+Test 
+Result 
+
+
+7.5.4.3 
+
+
+The cell quality shall be packed into 
+bytes. The final byte in the cell quality 
+data may be packed with bit values of 
+zero (‘0’) on the right as required to 
+complete the last byte. 
+
+
+= 
+
+
+R-80 
+
+
+8.3.1 
+
+
+The maximum number of minutiae 
+accepted is therefore an 
+implementation dependent value 
+and shall be indicated in the 
+Biometric Information Template, if 
+the default value is not used (see 
+Annex С). 
+
+
+N/A 
+
+
+N/A 
+
+
+A card may also require a special 
+ordering of the minutiae presented in 
+the biometric verification data. The 
+ordering scheme shall be indicated in 
+the Biometric Information Template 
+(see ISO/IEC 19785 and ISO/IEC 
+7816-11), if the default value is not 
+used. 
+
+
+N 
+
+
+R-82 
+
+
+8.3.1 
+
+
+If the number of minutiae exceeds 
+the maximum number processable 
+by a card, truncation is necessary. 
+The truncation is a 2 step process. 
+At first, finger minutiae of poor 
+quality are eliminated. If still too 
+many minutiae are there, then 
+truncation shall be made by peeling 
+off minutiae from the convex hull of 
+the minutiae set and before sorting 
+into the order required by the card. 
+
+
+N/A 
+
+
+N/A 
+
+
+0L0c : 2-601L62 DAI/OSI/SI 
+
+
+D 
+
+
+Requirement 
+Identifier 
+
+
+Reference 
+in Base 
+Standard 
+
+
+Requirement Summary 
+
+
+Level 
+
+
+Status 
+
+
+Subformat Applicability 
+
+
+3 14 |5 |6 |25 26 
+
+
+27 
+
+
+28 
+
+
+IUT Support 
+
+
+Supported 
+Range 
+
+
+Test 
+Result 
+
+
+R-83 
+
+
+8.3.3 
+
+
+For the indication of the minimum 
+and maximum value of minutiae 
+expected by the card the DO 
+Number of minutiae as shown in 
+Table 10 shall be used. 
+
+
+R-84 
+
+
+8.3.4 
+
+
+For the indication of the ordering 
+scheme for minutiae, the DO Minutiae 
+order as shown in Table 11 shall be 
+used. 
+
+
+R-85 
+
+
+8.3.4 
+
+
+The position of the centre of mass of 
+the minutiae shall be computed as the 
+point specified by the means of the 
+coordinates in X and Y. Xom= (x1 + X2+ 
+wee + Xn) / N; Yom = (y1 + y2t .... + yn) / 
+n, where cm is the centre of mass and 
+nis the number of minutiae. 
+
+
+R-86 
+
+
+8.4.1 
+
+
+If proprietary data are appended, then 
+the biometric data in standardized 
+format (DOs with tag ‘90’ — '93') shall 
+be encapsulated in the DO with tag 
+‘A1’, see Table 13. 
+
+
+R-87 
+
+
+8.4.2 
+
+
+If a card with of on-card matching 
+supports one or more of the additional 
+features, then the capabilities shall be 
+indicated in the DO ‘Biometric algorithm 
+parameters’ (tag ‘B1’ within the BIT, see 
+ISO/IEC 7816-11) using the DO 
+‘Feature handling indicator (tag ‘83’, 
+value field 1 byte). The nesting of the 
+DO ‘Feature handling indicator’ in the 
+DO ‘Biometric algorithm parameters’ is 
+shown in Table 14, the coding is 
+denoted in Table 15. 
+
+
+0L0c : 2-601L62 DAI/OSI/SI 
+
+
+8L 
+
+
+Requirement | Reference Requirement Summary Level | Status Subformat Applicability IUT Support | Supported Test 
+Identifier in Base Range Result 
+Standard 
+3 |4 |5 |6 |25 |26 |27 28 
+
+R-88 B.1 Equipment shall be tested to meet the | 3C O-1 Y IY IY IY JY JY JY TY N/A N/A 
+requirements in normal operating 
+modes, e.g., scanners shall not be 
+tested at slower than normal 
+operating speeds to meet modulation 
+transfer function specifications. 
+
+R-89 B.2 Fingerprint Scanner Performance 3C O-1 Y IY IY IY IY JY JY TY N/A N/A 
+Characteristics. 
+
+R-90 B.3 Latent Print Scanner Performance 3C O-1 Y IY IY IY IY JY JY JY N/A N/A 
+
+
+Characteristics. 
+
+
+010 * c-6016c DAI/OSI/SI 
+
+
+IS/ISO/IEC 29109-2 : 2010 
+
+
+Notes for Level 3 Requirements: 
+
+
+The following short notes provide more details about why a specific conformance test assertion is not 
+specified for the corresponding requirement(s): 
+
+
+1. Level 3 Assertion is too difficult to test 
+No method has been defined to test the conformance of the IUT or BDIR for this mandatory requirement of the 
+base standard. For the purposes of this international standard, this requirement is marked as Optional until an 
+
+
+appropriate test method is established. A ground truth database is envisioned as a mechanism by which 
+content checking associated with these level 3 tests can be used. 
+
+
+6.3 Tables of Test Assertions 
+
+
+The specific test assertions required for conformance testing of ISO/IEC 19794-2:2005 Finger Minutia Format 
+for Data Interchange are listed in Tables 2-11. 
+
+
+Clause 9 defines that the CBEFF Format Owner ID is ‘0101’ and is registered with IBIA. It also defines ten 
+different CBEFF Format Types. Each type has its own format. Therefore, only one of the following ten 
+Formats will be tested, as further described in Test Note 6. 
+
+
+The normative requirements of ISO/IEC 19794-2:2005 Biometric Data Interchange Format — Part 2-Finger 
+Minutia Data described in Table 1 which are applicable to each CBEFF Format Type are listed in Tables 2-11. 
+
+
+19 
+
+
+02 
+
+
+Table 2 — Conformance Test Assertions for CBEFF Format Type 1 (no extended data) 
+
+
+Test | Section Requirement | Level | Field Operator | Operands Note |Status |Support |Supported | Test 
+ID Values Result 
+T-1.1 Record Header R-12, R-14 1 Format Identifier EQ 0x464D5200 M 
+1.2 Record Header R-14 1 Format Identifier NEQ 0x00524D46 1 M 
+2.1 Record Header R-10, R-15 1 Version EQ 0x20323000 M 
+2.2 Record Header R-15 1 Version NEQ 0x00303220 M 
+3 Record Header R-16 1 Кесога Length ЕО 24 — 4294967295 М 
+3.1 Record Header R-16 2 Record Length EQ Total Bytes Read M 
+3.2 Record Header R-16 2 Record Length EQ Total Bytes Expected | 2 M 
+4 Record Header R-17 N/A Capture Equipment Certification NONE M 
+5 Record Header R-18 N/A Capture Device Type ID NONE M 
+6 Record Header R-19 N/A Image Size X NONE M 
+if: Record Header R-20 N/A Image Size Y NONE M 
+8 Record Header R-21 1 Resolution X GTE 98 / 1000 / 100 3 M 
+9 Record Header R-22 1 Resolution Y GTE 98 / 1000 / 100 3 M 
+10 Record Header R-23 1 Number of Finger Views EQ 0-176 4 M 
+10.1 Record Header R-24 2 Number of Finger Views EQ Finger View Read M 
+11 Record Header R-25 1 Reserved EQ 0 M 
+inge. Finder peser qu Finger Position EQ 0-10 М 
+
+
+12 
+
+
+Header Record 
+
+
+010 * c-6016c DAI/OSI/SI 
+
+
+Lë 
+
+
+Test |Section Requirement | Level Field Operator | Operands Note |Status |Support |Supported | Test 
+ID Values Result 
+Single Finger R-26, R-28, R- . M 
+13 Header Record 29 2 View Number EQ 0-15 5 
+Single Finger R-26, R-31 В М 
+1 | T E 0-3,8 
+14 Header Record APER S ' 
+Single Finger R-26, R-32 Я - M 
+1 F lit E 0 — 100 
+15 Header Record înger Quality S 
+Single Finger R-26, R-33 as M 
+16 Header Record 1 Number of Minutiae EQ 1-255 
+Single Finger KAR 2 Number of Minutiae EQ Minutiae Read M 
+16.1 Header Record 
+17 Single Finger Info | R-34, R-35 1 Minutiae Type EQ 0-2 M 
+18 Single Finger Info | R-34, R-36 2 Minutiae X coordinate EQ 0 — 16383 M 
+19 Single Finger Info | R-34, R-37 N/A Reserved NONE M 
+20 Single Finger Info |R-34, R-37 2 Minutiae Y coordinate EQ 0 — 16383 M 
+21 Single Finger Info | R-34 2 Minutiae Position С 7 М 
+22 Single Finger Info | R-34, R-39 1 Minutiae Angle EQ 0 – 255 M 
+R-34, R-40, R- M 
+Single Finger Info і ' Minutiae Quality EQ 0 – 100 
+23 41 
+R-42, R-44, R- M 
+24 Extended Data 45 i | Extended Data Block Length EQ 0 
+
+
+010 : 2-601L62 DAI/OSI/SI 
+
+
+сс 
+
+
+Table 3 — Conformance Test Assertions for CBEFF Format Type 2 (including extended data) 
+
+
+Test | Ѕесііоп Requirement | Level | Field Operator | Operands Note Status |Support |Supported |Test 
+ID Values Result 
+T-1.1 Record Header R-12, R-14 1 Format Identifier EQ 0x464D5200 M 
+1.2 Record Header R-14 1 Format Identifier NEQ 0x00524D46 1 M 
+2.1 Record Header R-10, R-15 1 Version EQ 0x20323000 M 
+2.2 Record Header R-15 1 Version NEQ 0x00303220 M 
+3 Record Header R-16 1 Record Length EQ 24 — 4294967295 M 
+3.1 Record Header R-16 2 Record Length EQ Total Bytes Read M 
+3.2 Record Header R-16 2 Record Length EQ Total Bytes Expected | 2 M 
+4 Record Header R-17 N/A Capture Equipment Certification NONE M 
+5 Record Header R-18 N/A Capture Device Type ID NONE M 
+6 Record Header R-19 N/A Image Size X NONE M 
+f Record Header R-20 N/A Image Size Y NONE M 
+8 Record Header R-21 1 Resolution X GTE 98 / 1000 / 100 3 M 
+9 Record Header R-22 1 Resolution Y GTE 98 / 1000 / 100 3 M 
+10 Record Header R-23 1 Number of Finger Views EQ 0-176 4 M 
+10.1 Record Header R-24 2 Number of Finger Views EQ Finger View Read M 
+11 Record Header R-25 1 Reserved EQ 0 M 
+Single Finger E e Finger Position EQ 0-10 M 
+
+
+12 
+
+
+Header Record 
+
+
+010 * c-6016c DAI/OSI/SI 
+
+
+се 
+
+
+Test | Ѕесііоп Requirement | Level | Field Operator | Operands Note Status |Support |Supported |Test 
+ID Values Result 
+Single Finger R-26, R-28, R- i M 
+13 Header Ri 29 2 View Number EQ 0-15 5 
+Single Finger R-26, R-31 у М 
+14 Gr 1 Impression Type EQ 0-3,8 
+Single Finger R-26, R-32 А : M 
+45 Header Record 1 Finger Quality EQ 0 – 100 
+Single Finger R-26, R-33 S M 
+16 Header Record 1 Number of Minutiae EQ 1-255 
+эпе тоа. FE 2 Number of Minutiae EQ Minutiae Read M 
+16.1 Header Record 
+17 Single Finger Info |R-34, R-35 1 Minutiae Type EQ 0-2 M 
+18 Single Finger Info | R-34, R-36 2 Minutiae X coordinate EQ 0 — 16383 M 
+19 Single Finger Info | R-34, R-37 N/A Reserved NONE M 
+20 Single Finger Info | R-34, R-37 2 Minutiae Y coordinate EQ 0 — 16383 M 
+21 Single Finger Info | R-34 2 Minutiae Position C 7 M 
+22 Single Finger Info | R-34, R-39 1 Minutiae Angle EQ 0 – 255 M 
+R-34, R-40, R- M 
+23 Single Finger Info 41 í å 1 Minutiae Quality EQ 0-100 
+R-42, R-44, R- M 
+24 Extended Data 48 ' | 1 Extended Data Block Length EQ 0 - 65535 
+24.2 Extended Data R-44, R-45 2 Extended Data Block Length EQ Bytes Read M 
+24.3 Extended Data R-44, R-45 2 Extended Data Block Length EQ Bytes Expected 8 M 
+
+
+010 : 2-601L62 DAI/OSI/SI 
+
+
+vc 
+
+
+Test | Ѕесііоп Requirement | Level | Field Operator | Operands Note Status |Support |Supported |Test 
+ID Values Result 
+R-46 1—3, 0x0100 — M 
+25 Extended Data 1 Extended Data Area Type Code EQ OxFEFF 9 
+26 Extended Data R-47 1 Extended Data Area Length EQ 4 — 65535 M 
+26.1 Extended Data R-47 2 Extended Data Area Length EQ Bytes Read M 
+27 Ridge Count R-48, R-50 1 Ridge Extraction Method EQ 0-2 M 
+R-48, R-51, R- M 
+Ridge Count SA RARER a Ridge Index 1 © 10 
+idge Coun R-55, R-56, R- idge Index 
+28 57 
+R-48, R-51, R- M 
+` 52, R-53, R-54, І 
+Ridge Count R-55, R-56, R- 2 Ridge Index 2 C 11 
+29 57 
+R-48, R-51, R- M 
+Ridge Count 52, R-53, R-54, | 2 Ridge Index 2 С 12 
+29.1 R-55, R-56 
+R-48, R-51, R- M 
+| 52, К-53, К-54, І 
+Ridge Count R-55, R-56, R- 1 Ridge Count EQ 0 13 
+30 57 
+31 Core R-58, R-59 1 Number of Cores EQ 0-15 M 
+31.1 Core R-58, R-59 2 Number of Cores C Cores Read M 
+32 Core R-58, R-60 1 Core Information Type EQ 0-1 M 
+32.1 Core R-58, R-60 2 Core Information Type C 15 M 
+33 Core R-58, R-61 2 Core Location X EQ 0 — 16383 M 
+
+
+0L0c * 2-601L62 DAI/OSI/SI 
+
+
+Sc 
+
+
+Test | Ѕесііоп Requirement | Level | Field Operator | Operands Note Status |Support |Supported | Test 
+
+ID Values Result 
+34 Core R-58, R-62 2 Core Location Y EQ 0 — 16383 M 
+
+R-58, R-60, R- M 
+35 Core 63 1 Core Angle EQ 0 – 255 
+36 Delta R-58, R-65 1 Number of Delta EQ 0-15 M 
+36.1 Delta R-58, R-65 2 Number of Delta C Delta Read M 
+37 Delta R-58, R-66 1 Delta Information Type EQ 0-1 M 
+37.1 Delta R-58, R-66 2 Delta Information Type C 15 M 
+38 Delta R-58, R-67 2 Delta Location X EQ 0 – 16383 M 
+39 Delta R-58, R-68 2 Delta Location Y EQ 0 — 16383 M 
+
+R-58, R-66, R- M 
+40 Delta 70 1 Delta Angle 1 EQ 0 — 255 
+
+R-58, R-66, R- M 
+41 Delta 70 1 Delta Angle 2 EQ 0 – 255 
+
+R-58, R-66, R- M 
+42 Delta 70 1 Delta Angle 3 EQ 0 – 255 
+43 Zone Quality R-72, R-73 1 Cell Width EQ 1-255 M 
+44 Zone Quality R-72, R-74 1 Cell Height EQ 1-255 M 
+45 Zone Quality R-72, R-75 1 Cell Bit Depth EQ 1-255 M 
+
+А R-72, R-75, R- fra i M 
+
+46 Zone Quality 76, R-79 2 Cell Quality Bits С Cell Bits Read 
+
+
+010 : 2-601L62 DAI/OSI/SI 
+
+
+9c 
+
+
+Table 4 — Conformance Test Assertions for CBEFF Format Type 3 (card normal valley bifurcation with header) 
+
+
+Test | Ѕесііоп Requirement | Level | Field Operator | Operands Note Status |Support |Supported |Test 
+ID Values Result 
+T-1.1 Record Header R-12, R-14 1 Format Identifier EQ 0x464D5200 M 
+1.2 Record Header R-14 1 Format Identifier NEQ 0x00524D46 1 M 
+2.1 Record Header R-10, R-15 1 Version EQ 0x20323000 M 
+2.2 Record Header R-15 1 Version NEQ 0x00303220 M 
+3 Record Header R-16 1 Record Length EQ 24 — 4294967295 M 
+3.1 Record Header R-16 2 Record Length EQ Total Bytes Read M 
+3.2 Record Header R-16 2 Record Length EQ Total Bytes Expected | 2 M 
+4 Record Header R-17 N/A Capture Equipment Certification NONE M 
+5 Record Header R-18 N/A Capture Device Type ID NONE M 
+6 Record Header R-19 N/A Image Size X NONE M 
+f Record Header R-20 N/A Image Size Y NONE M 
+8 Record Header R-21 1 Resolution X GTE 98 / 1000 / 100 3 M 
+9 Record Header R-22 1 Resolution Y GTE 98 / 1000 / 100 3 M 
+10 Record Header R-23 1 Number of Finger Views EQ 0-176 4 M 
+10.1 Record Header R-24 2 Number of Finger Views EQ Finger View Read M 
+11 Record Header R-25 1 Reserved EQ 0 M 
+Single Finger E e Finger Position EQ 0-10 M 
+
+
+12 
+
+
+Header Record 
+
+
+010 * c-6016c DAI/OSI/SI 
+
+
+LT 
+
+
+Test | Ѕесііоп Requirement | Level | Field Operator | Operands Note Status |Support |Supported |Test 
+ID Values Result 
+Single Finger R-26, R-28, R- i M 
+13 Header Ri 29 2 View Number EQ 0-15 5 
+Single Finger R-26, R-31 у М 
+14 Gr 1 Impression Type EQ 0-3,8 
+Single Finger R-26, R-32 А : M 
+1 F lit E 0 — 100 
+15 Header Record inger Quality ч 
+Single Finger R-26, R-33 eng M 
+16 Header Record 1 Number of Minutiae EQ 1-255 
+эпе тоа. FE 2 Number of Minutiae EQ Minutiae Read M 
+16.1 Header Record 
+17.1 Single Finger Info | R-34, R-35 1 Minutiae Type EQ 0-3 M 
+18 Single Finger Info | R-34, R-36 2 Minutiae X coordinate EQ 0 — 16383 M 
+19 Single Finger Info | R-34, R-37 1 Reserved EQ 0 M 
+20 Single Finger Info | R-34, R-37 2 Minutiae Y coordinate EQ 0 — 16383 M 
+21 Single Finger Info | R-34 2 Minutiae Position C 7 M 
+22 Single Finger Info | R-34, R-39 1 Minutiae Angle EQ 0 – 255 М 
+К-42, R-44, R- M 
+24.5 Extended Data án : і Extended Data Block Length EQ 0 
+
+
+010 : 2-601L62 DAI/OSI/SI 
+
+
+8c 
+
+
+Table 5 — Conformance Test Assertions for CBEFF Format Type 4 (card normal ridge ending with header) 
+
+
+Test | Ѕесііоп Requirement | Level | Field Operator | Operands Note Status |Support |Supported |Test 
+ID Values Result 
+T-1.1 Record Header R-12, R-14 1 Format Identifier EQ 0x464D5200 M 
+1.2 Record Header R-14 1 Format Identifier NEQ 0x00524D46 1 M 
+2.1 Record Header R-10, R-15 1 Version EQ 0x20323000 M 
+2.2 Record Header R-15 1 Version NEQ 0x00303220 M 
+3 Record Header R-16 1 Record Length EQ 24 — 4294967295 M 
+3.1 Record Header R-16 2 Record Length EQ Total Bytes Read M 
+3.2 Record Header R-16 2 Record Length EQ Total Bytes Expected | 2 M 
+4 Record Header R-17 N/A Capture Equipment Certification NONE M 
+5 Record Header R-18 N/A Capture Device Type ID NONE M 
+6 Record Header R-19 N/A Image Size X NONE M 
+f Record Header R-20 N/A Image Size Y NONE M 
+8 Record Header R-21 1 Resolution X GTE 98 / 1000 / 100 3 M 
+9 Record Header R-22 1 Resolution Y GTE 98 / 1000 / 100 3 M 
+10 Record Header R-23 1 Number of Finger Views EQ 0-176 4 M 
+10.1 Record Header R-24 2 Number of Finger Views EQ Finger View Read M 
+11 Record Header R-25 1 Reserved EQ 0 M 
+Single Finger E e Finger Position EQ 0-10 M 
+
+
+12 
+
+
+Header Record 
+
+
+010 * c-6016c DAI/OSI/SI 
+
+
+62 
+
+
+Test | Ѕесііоп Requirement | Level | Field Operator | Operands Note Status |Support |Supported |Test 
+ID Values Result 
+Single Finger R-26, R-28, R- i M 
+13 Header Ri 29 2 View Number EQ 0-15 5 
+Single Finger R-26, R-31 у М 
+14 Gr 1 Impression Type EQ 0-3,8 
+Single Finger R-26, R-32 А : M 
+1 F lit E 0 — 100 
+15 Header Record inger Quality ч 
+Single Finger R-26, R-33 eng M 
+16 Header Record 1 Number of Minutiae EQ 1-255 
+эпе тоа. FE 2 Number of Minutiae EQ Minutiae Read M 
+16.1 Header Record 
+17.1 Single Finger Info | R-34, R-35 1 Minutiae Type EQ 0-3 M 
+18 Single Finger Info | R-34, R-36 2 Minutiae X coordinate EQ 0 — 16383 M 
+19 Single Finger Info | R-34, R-37 1 Reserved EQ 0 M 
+20 Single Finger Info | R-34, R-37 2 Minutiae Y coordinate EQ 0 — 16383 M 
+21 Single Finger Info | R-34 2 Minutiae Position C 7 M 
+22 Single Finger Info | R-34, R-39 1 Minutiae Angle EQ 0 – 255 М 
+К-42, R-44, R- M 
+24.5 Extended Data án : і Extended Data Block Length EQ 0 
+
+
+010 : 2-601L62 DAI/OSI/SI 
+
+
+og 
+
+
+Table 6 — Conformance Test Assertions for CBEFF Format Type 5 (card compact valley bifurcation without header) 
+
+
+Test | Ѕесііоп Requirement | Level | Field Operator | Operands Note Status |Support |Supported |Test 
+ID Values Result 
+18.1 Single Finger Info | R-34, R-36 Minutiae X coordinate EQ 0 – 255 14 М 
+20.1 Single Finger Info | R-34, R-37 Minutiae Y coordinate EQ 0 – 255 М 
+21 Single Finger Info | R-34 Minutiae Position C 7 M 
+17.3 Single Finger Info | R-34, R-35 Minutiae Type EQ 0-2 M 
+22.1 Single Finger Info | R-34, R-39 Minutiae Angle EQ 0-64 M 
+R-42, R-44, R- M 
+Extended Data | ' Extended Data Block Length EQ 0 
+24.3 45 
+Table 7 — Conformance Test Assertions for CBEFF Format Type 6 (card compact ridge ending without header) 
+Test | Section Requirement | Level | Field Operator | Operands Note | Status | Support | Supported | Test 
+ID Values Result 
+18.1 Single Finger Info | R-34, R-36 2 Minutiae X coordinate EQ 0 – 255 14 М 
+20.1 Single Finger Info | R-34, R-37 2 Minutiae Y coordinate EQ 0 – 255 М 
+21 Single Finger Info | R-34 2 Minutiae Position С 7 М 
+17.3 Single Finger Info | R-34, R-35 1 Minutiae Type EQ 0-2 M 
+22.1 Single Finger Info | R-34, R-39 1 Minutiae Angle EQ 0-64 M 
+R-42, R-44, R- M 
+24.3 Extended Data 4n i ' 1 Extended Data Block Length EQ 0 
+
+
+010 * c-6016c DAI/OSI/SI 
+
+
+LE 
+
+
+Table 8 — Conformance Test Assertions for CBEFF Format Type 25 (card compact valley bifurcation without header) 
+
+
+Test | Ѕесііоп Requirement | Level | Field Operator | Operands Note Status |Support |Supported |Test 
+ID Values Result 
+T-1.1 Record Header R-12, R-14 1 Format Identifier EQ 0x464D5200 M 
+1.2 Record Header R-14 1 Format Identifier NEQ 0x00524D46 1 M 
+2.1 Record Header R-10, R-15 1 Version EQ 0x20323000 M 
+2.2 Record Header R-15 1 Version NEQ 0x00303220 M 
+3 Record Header R-16 1 Record Length EQ 24 — 4294967295 M 
+3.1 Record Header R-16 2 Record Length EQ Total Bytes Read M 
+3.2 Record Header R-16 2 Record Length EQ Total Bytes Expected | 2 M 
+4 Record Header R-17 N/A Capture Equipment Certification NONE M 
+5 Record Header R-18 N/A Capture Device Type ID NONE M 
+6 Record Header R-19 N/A Image Size X NONE M 
+7 Record Header R-20 N/A Image Size Y NONE M 
+8 Record Header R-21 1 Resolution X GTE 98 / 1000 / 100 3 M 
+9 Record Header R-22 1 Resolution Y GTE 98 / 1000 / 100 3 M 
+10 Record Header R-23 1 Number of Finger Views EQ 0-176 4 M 
+10.1 Record Header R-24 2 Number of Finger Views EQ Finger View Read M 
+11 Record Header R-25 1 Reserved EQ 0 M 
+M о p REB RaT ИЕ Finger Position EQ 0-10 М 
+
+
+010 : 2-601L62 DAI/OSI/SI 
+
+
+ce 
+
+
+Test | Ѕесііоп Requirement | Level | Field Operator | Operands Note Status |Support |Supported | Test 
+ID Values Result 
+Single Finger R-26, R-28, R- 2 View Number EQ 0-15 5 M 
+13 Header Record 29 кызы a 
+Single Finger R-26, R-31 F M 
+1 | T E 0-3,8 
+14 Header Record ER ps Q : 
+Single Finger R-26, R-32 1 i M 
+1 F lit E 0 — 100 
+15 Header Record inger Quality g 
+Single Finger R-26, R-33 MT M 
+1 Number of Minut E 1-255 
+16 Header Record оом $ 
+Single Fi R-26, R-30 M 
+1614 мы св і 2 Number of Minutiae EQ Minutiae Read 
+18.1 Single Finger Info | R-34, R-36 2 Minutiae X coordinate EQ 0 – 255 14 М 
+20.1 Single Finger Info | R-34, R-37 2 Minutiae Y coordinate EQ 0 – 255 M 
+21 Single Finger Info | R-34 2 Minutiae Position C 7 M 
+17.3 Single Finger Info | R-34, R-35 1 Minutiae Type EQ 0-2 M 
+22.1 Single Finger Info | R-34, R-39 1 Minutiae Angle EQ 0-64 M 
+R-42, R-44, R- M 
+24.3 Extended Data 45 å ' Extended Data Block Length EQ 0 
+
+
+0L0c : 2-601L62 DAI/OSI/SI 
+
+
+ce 
+
+
+Table 9 — Conformance Test Assertions for CBEFF Format Type 26 (card compact ridge ending with header) 
+
+
+Test | Ѕесііоп Requirement | Level | Field Operator | Operands Note Status |Support |Supported |Test 
+ID Values Result 
+T-1.1 Record Header R-12, R-14 1 Format Identifier EQ 0x464D5200 M 
+1.2 Record Header R-14 1 Format Identifier NEQ 0x00524D46 1 M 
+2.1 Record Header R-10, R-15 1 Version EQ 0x20323000 M 
+2.2 Record Header R-15 1 Version NEQ 0x00303220 M 
+3 Record Header R-16 1 Record Length EQ 24 — 4294967295 M 
+3.1 Record Header R-16 2 Record Length EQ Total Bytes Read M 
+3.2 Record Header R-16 2 Record Length EQ Total Bytes Expected | 2 M 
+4 Record Header R-17 N/A Capture Equipment Certification NONE M 
+5 Record Header R-18 N/A Capture Device Type ID NONE M 
+6 Record Header R-19 N/A Image Size X NONE M 
+7 Record Header R-20 N/A Image Size Y NONE M 
+8 Record Header R-21 1 Resolution X GTE 98 / 1000 / 100 3 M 
+9 Record Header R-22 1 Resolution Y GTE 98 / 1000 / 100 3 M 
+10 Record Header R-23 1 Number of Finger Views EQ 0-176 4 M 
+10.1 Record Header R-24 2 Number of Finger Views EQ Finger View Read M 
+11 Record Header R-25 1 Reserved EQ 0 M 
+M о p REB RaT ИЕ Finger Position EQ 0-10 М 
+
+
+010 : 2-601L62 DAI/OSI/SI 
+
+
+vt 
+
+
+Test | Ѕесііоп Requirement | Level | Field Operator | Operands Note Status |Support |Supported | Test 
+ID Values Result 
+Single Finger R-26, R-28, R- 2 View Number EQ 0-15 5 M 
+13 Header Record 29 кызы a 
+Single Finger R-26, R-31 F M 
+1 | T E 0-3,8 
+14 Header Record ER ps Q : 
+Single Finger R-26, R-32 1 i M 
+1 F lit E 0 — 100 
+15 Header Record inger Quality g 
+Single Finger R-26, R-33 MT M 
+1 Number of Minut E 1-255 
+16 Header Record оом $ 
+Single Fi R-26, R-30 M 
+1614 мы св і 2 Number of Minutiae EQ Minutiae Read 
+18.1 Single Finger Info | R-34, R-36 2 Minutiae X coordinate EQ 0 – 255 14 М 
+20.1 Single Finger Info | R-34, R-37 2 Minutiae Y coordinate EQ 0 – 255 M 
+21 Single Finger Info | R-34 2 Minutiae Position C 7 M 
+17.3 Single Finger Info | R-34, R-35 1 Minutiae Type EQ 0-2 M 
+22.1 Single Finger Info | R-34, R-39 1 Minutiae Angle EQ 0-64 M 
+R-42, R-44, R- M 
+24.3 Extended Data 45 å ' Extended Data Block Length EQ 0 
+
+
+0L0c : 2-601L62 DAI/OSI/SI 
+
+
+SE 
+
+
+Table 10 — Conformance Test Assertions for CBEFF Format Type 27 (card normal valley bifurcation without header) 
+
+
+Test | Section Requirement Level | Field Operator | Operands Note Status |Support |Supported Test 
+ID Values Result 
+
+17.1 Single Finger Info | R-34, R-35 1 Minutiae Type EQ 0-3 M 
+
+18 Single Finger Info | R-34, R-36 2 Minutiae X coordinate EQ 0 — 16383 M 
+
+19 Single Finger Info | R-34, R-37 1 Reserved EQ 0 M 
+
+20 Single Finger Info | R-34, R-37 2 Minutiae Y coordinate EQ 0 — 16383 M 
+
+21 Single Finger Info | R-34 2 Minutiae Position C 7 M 
+
+22 Single Finger Info | R-34, R-39 1 Minutiae Angle EQ 0 – 255 M 
+
+24.3 Extended Data R-42, R-44, R-45 1 Extended Data Block Length EQ 0 M 
+
+Table 11 — Conformance Test Assertions for CBEFF Format Type 28 (card normal ridge ending without header) 
+
+Test | Section Requirement | Level Field Operator | Operands Note |Status |Support |Supported Test 
+ID Values Result 
+
+17.1 Single Finger Info | R-34, R-35 1 Minutiae Type EQ 0-3 M 
+
+18 Single Finger Info | R-34, R-36 2 Minutiae X coordinate EQ 0 — 16383 M 
+
+19 Single Finger Info | R-34, R-37 1 Reserved EQ 0 M 
+
+20 Single Finger Info | R-34, R-37 2 Minutiae Y coordinate EQ 0 — 16383 M 
+
+21 Single Finger Info | R-34 2 Minutiae Position C 7 M 
+
+22 Single Finger Info | R-34, R-39 1 Minutiae Angle EQ 0 – 255 M 
+
+24.3 Extended Data R-42, R-44, R-45 |1 Extended Data Block Length EQ 0 M 
+
+
+010 : 2-601L62 DAI/OSI/SI 
+
+
+IS/ISO/IEC 29109-2 : 2010 
+
+
+Test Notes: 
+
+These are short notes that provide more detail about a specific conformance test assertion or requirement. 
+They use a combination of explanatory text and pseudo code for complex calculations. The pseudo code uses 
+commonly used mathematical notations, rather than the specific logical operators developed for the assertion 
+language. 
+
+1. {Format Identifier} and {Version} Little-Endian 
+
+Test 1 checks to see if these multi-byte quantities have been encoded as the Little-Endian equivalent of the correct Big- 
+Endian value. This test fails if that is true but pass in all other cases. By reviewing the combination of the results of Tests 
+1, 1.1, 2, it should be simple to determine whether or not the implementation under test is using the correct Big-Endian 
+encoding. 
+
+2. {Record Length} 
+
+The following calculation will be evaluated once the {Extended Data Block Length} field for the last finger view has 
+been parsed successfully (not having reached an End-of-File marker prematurely). In the event that an End-of-File 
+marker is reached prematurely this test will be marked as having failed, but no value of {Total Bytes Expected} will be 
+
+
+produced. 
+
+
+The initial value of SUMBYTES below will correspond to the length of the BIR header in bytes (24). 
+
+
+SUMBYTES = BIR Header Length 
+
+
+IF (CBEFF Type} EQ ‘0001’ THEN 
+FOR I= 1 TO (Number of Finger Views} 
+SUMBYTES = SUMBYTES + 6 + ({Number of Minutiae} * 6) 
+
+
+END 
+
+
+IF {CBEFF Type} EQ ‘0002’ THEN 
+FOR I= 1 TO {Number of Finger Views} 
+SUMBYTES = SUMBYTES + 6 + ({Number of Minutiae} * 6) 
+SUMBYTES = SUMBYTES + {Extended Data Block Length} 
+
+
+END 
+
+
+IF {CBEFF Type} EQ ‘0003’ OR 
+IF {CBEFF Type} EQ ‘0004’ THEN 
+FOR I= 1 TO {Number of Finger Views} 
+
+
+SUMBYTES = SUMBYTES + 6 + ({Number of Minutiae} * 5) 
+
+
+36 
+
+
+IS/ISO/IEC 29109-2 : 2010 
+
+
+END 
+
+
+IF {CBEFF Type} EQ ‘0005’ OR 
+IF {CBEFF Type} EQ ‘0006’ THEN 
+FOR I = 1 TO {Number of Finger Views} 
+SUMBYTES = SUMBYTES + 6 + ({Number of Minutiae} * 3) 
+
+
+END 
+
+
+{Total Bytes Expected} = SUMBYTES 
+3. (CBEFF Type Resolution} 
+IF {CBEFF Type} EQ ‘0001’ OR 
+IF {CBEFF Type} EQ ‘0002’ THEN 
+{Resolution X} GTE 98 
+
+
+{Resolution Y} GTE 98 
+
+
+IF {CBEFF Type} EQ ‘0003’ OR 
+IF {CBEFF Type} EQ ‘0004’ THEN 
+{Resolution X} EQ 1000 
+
+
+{Resolution Y} EQ 1000 
+
+
+IF {CBEFF Type} EQ ‘0005’ OR 
+IF {CBEFF Type} EQ ‘0006’ THEN 
+{Resolution X} EQ 100 
+
+
+{Resolution Y} EQ 100 
+
+
+The card formats have fixed resolution, whereas the standard format has a minimum resolution requirement. 
+4. {Number of Finger View Consistency} 
+
+
+This test will pass if the value of {Number of Finger Views} is less than or equal to the sum of all possible 
+finger positions (11) permitted by the standard multiplied by the maximum number of views per finger (16). 
+
+
+Maximum {Number of Finger View} = 11 x 16 = 176. 
+
+
+37 
+
+
+IS/ISO/IEC 29109-2 : 2010 
+
+
+5. {Incremental View Number Correctness} 
+
+
+As each finger view from the BIR is read, a counter, {Next Finger View}, for the corresponding 
+finger position (if valid) is incremented and compared to {View Number}. The test shall pass if 
+{Next Finger View} is equal to {View Number}. 
+
+
+6. {CBEFF Format Type Testing} 
+
+
+Clause 9 defines that the CBEFF Format Owner ID is ‘0101’ and is registered with IBIA. It also 
+defines six different CBEFF Format Types. Each type has its own format. Therefore, only one of the 
+following four Formats will be tested. 
+
+
+IF {CBEFF Type} EQ ‘0001’ 
+
+
+Finger minutiae Record Format with no extended data 
+
+
+IF {CBEFF Type} EQ ‘0002’ 
+
+
+Finger minutiae Record Format with extended data 
+
+
+IF {CBEFF Type} EQ ‘0003’ OR 
+IF (CBEFF Type} EQ ‘0004’ THEN 
+
+
+Finger minutiae Normal Size Card Format 
+
+
+IF {CBEFF Type} EQ ‘0005’ OR 
+IF {CBEFF Type} EQ ‘0006’ THEN 
+
+
+Finger minutiae Compact Size Card Format 
+
+
+7. {Unique Minutia X-Y Points} 
+Though not explicitly defined in the standard, all minutiae within a finger view should have unique X/Y coordinates to 
+
+
+avoid potential interoperability issues. This test shall pass if the {Minutiae Position} is a unique pair of minutiae X/Y 
+coordinates within the finger view. 
+
+
+8. {Zero Extended Data Length for No Extended Data} 
+As the individual extended data areas are read, the {Length of Extended Data Area} parameter for each one will become 
+
+
+known. The sum of these is {Bytes Expected} for the extended data block, in accordance with Section 7.5.1.1 of the base 
+standard. The test shall pass if the length is zero for a record that has no extended data. 
+
+
+38 
+
+
+IS/ISO/IEC 29109-2 : 2010 
+
+
+9. {Vendor Specific Value Disambiguity} 
+
+
+Note that this condition assumes the current text of 7.5.1.2 is correct and not Table 4, since Table 4 specifically disallows 
+certain vendor specified values as Reserved, but this is incompatible with the concept of a vendor specified value. 
+
+
+10. {Ridge Count Indexing Consistency} 
+
+If {Minutiae Index 1} corresponds with the first ridge count in a Four-neighbor or Eight-neighbor group, or if the {Ridge 
+Extraction Method} is zero (0), the test shall pass if the index is between I and {Number of Minutiae}. Otherwise, the 
+test shall pass only if the index is the same value as {Minutiae Index 1} of the first ridge count in the same Four-neighbor 
+or Eight-neighbor group. 
+
+11. {Ridge Count Extraction Method Checking} 
+
+If the (Ridge Extraction Method} is zero (0), the test shall pass if the index is between 1 and {Number of Minutiae}, and 
+if the index is not equal to {Minutiae Index 1}. If the {Ridge Extraction Method} is one (1) or two (2) then the test shall 
+pass if the index is between 0 and {Number of Minutiae}. 
+
+12. {Ridge Count Index 2 Uniqueness} 
+
+This test is only evaluated if {Minutiae Index 2} is not zero (0) and the {Ridge Extraction Method} is not zero (0). Each 
+ridge count within the same Four-neighbor or Eight-neighbor group should refer to the same center minutiae, {Minutiae 
+Index 1}, and neighboring minutiae, {Minutiae Index 2}, from a different quadrant or octant. Thus, this test shall pass if 
+{Minutiae Index 2} is unique within the same Four-neighbor or Eight-neighbor group. 
+
+
+13. {Zero Ridge Count Index 2} 
+
+
+This test is only evaluated if {Minutiae Index 2} is zero (0) and {Ridge Extraction Method} is not zero (0). This test 
+shall pass if {Ridge Count} is zero. 
+
+
+14. {Maximum Value for X and Y Coordinates} 
+
+
+As per footnote in clause 8.2, the maximum value for the X and Y coordinate is 25.5mm with the compact format. The 
+unit for X and Y is 10" mm. The Maximum value for the X and Y coordinate is 255. 
+
+
+Unit = 10" mm 
+25.5mm = 255 x 10" mm 
+15. (Core and Delta Angles Present given Core Information Type of 01) 
+The following calculation will be evaluated once the (Extended Data Area Length) field for the core and delta 
+data extended type has been parsed successfully (not having reached an End-of-File marker prematurely). 
+In the event that an End-of-File marker is reached prematurely this test will be marked as having failed, but 
+no value of (Total Bytes Expected) will be produced. 
+(Total Bytes Expected] — Extended Data Area Length 
+IF (Core Information Type} EQ ‘0001’ THEN 
+NUMBER of BYTES for CORE Data EQ 1 + 5 * NUMBER OF CORES 
+ELSE 
+
+
+NUMBER of BYTES for CORE Data EQ 1 + 4 * NUMBER_OF_CORES 
+
+
+IF {Delta Information Type} EQ ‘0001’ THEN 
+
+
+39 
+
+
+IS/ISO/IEC 29109-2 : 2010 
+
+
+NUMBER of BYTES for DELTA Data EQ 1 + 7 * NUMBER OF DELTAS 
+ELSE 
+NUMBER of BYTES for DELTA Data EQ 1 + 4 * NUMBER OF DELTAS 
+
+
+Total Bytes Expected EQ NUMBER of BYTES for CORE Data + NUMBER of BYTES for DELTA Data, such 
+that the remaining bytes parsed are valid chains of extended data block lengths to end of file marker 
+
+
+40 
+
+
+(Continued from second cover) 
+
+
+For the purpose of whether a particular requirement of this standard is complied with, the final value, 
+observed or calculated, expressing the result of a test or analysis, shall be rounded off in accordance 
+with IS 2 : 1960 ‘Rules for rounding off numerical values (revised)’. The number of significant places 
+retained in the rounded off value should be same as that of the specified value in this standard. 
+
+
+Bureau of Indian Standards 
+
+
+BIS is a statutory institution established under the Bureau of Indian Standards Act, 2016 to promote 
+harmonious development of the activities of standardization, marking and quality certification of goods 
+and attending to connected matters in the country. 
+
+
+Copyright 
+
+
+BIS has the copyright of all its publications. No part of these publications may be reproduced in any form 
+without the prior permission in writing of BIS. This does not preclude the free use, in course of implementing 
+the standard, of necessary details, such as symbols and sizes, type or grade designations. Enquiries 
+relating to copyright be addressed to the Director (Publications), BIS. 
+
+
+Review of Indian Standards 
+
+
+Amendments are issued to standards as the need arises on the basis of comments. Standards are also 
+reviewed periodically; a standard along with amendments is reaffirmed when such review indicates that 
+no changes are needed; if the review indicates that changes are needed, it is taken up for revision. Users 
+of Indian Standards should ascertain that they are in possession of the latest amendments or edition by 
+referring to the latest issue of ‘BIS Catalogue’ and ‘Standards: Monthly Additions’. 
+
+
+This Indian Standard has been developed from Doc No.: LITD 17 (3587). 
+
+
+Amendments Issued Since Publication 
+
+
+BUREAU OF INDIAN STANDARDS 
+
+
+Headquarters: 
+Manak Bhavan, 9 Bahadur Shah Zafar Marg, New Delhi 110002 
+Telephones: 2323 0131, 2323 3375, 2323 9402 Website: www.bis.gov.in 
+Regional Offices: Telephones 
+Central : Manak Bhavan, 9 Bahadur Shah Zafar Marg | 2323 7617 
+NEW DELHI 110002 2323 3841 
+Eastern : 1/14, C.I.T. Scheme VII M, V.I.P. Road, Kankurgachi 2337 8499, 2337 8561 
+KOLKATA 700054 2337 8626, 2337 9120 
+Northern : Plot No. 4-A, Sector 27-B, Madhya Marg, CHANDIGARH 160019 E 50206 
+265 0290 
+Southern : C.I.T. Campus, IV Cross Road, CHENNAI 600113 Em 1216, 2254 1442 
+2254 2519, 2254 2315 
+Western : Manakalaya, E9 MIDG, Marol, Andheri (East) 2832 9295, 2832 7858 
+MUMBAI 400093 2832 7891, 2832 7892 
+
+
+Branches: AHMEDABAD. BENGALURU. BHOPAL. BHUBANESWAR. COIMBATORE. 
+DEHRADUN. DURGAPUR. FARIDABAD. GHAZIABAD. GUWAHATI. 
+HYDERABAD. JAIPUR. JAMMU. JAMSHEDPUR. KOCHI. LUCKNOW. NAGPUR. 
+PARWANOO. PATNA. PUNE. RAIPUR. RAJKOT. VISAKHAPATNAM. 
+
+
+Published by BIS, New Delhi 
+
+

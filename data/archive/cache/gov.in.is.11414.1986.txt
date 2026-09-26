@@ -1,0 +1,1028 @@
+( Reaffirmed 2003 )
+
+IS : 11414-1986
+UDC 681'327'18 IS0
+
+1745-l
+
+975
+
+Indian Standard
+
+BASIC MODE CONTROL PROCEDURES FOR DATA COMMUNICATION SYSTEMS
+m 1 I
+
+[
+
+IS0 Title : Information Processing-Basic Procedures - Data Communication
+
+Mode Control Systems 1
+
+National
+
+Foreword
+
+This Indian Standard which is identical with IS0 1745-1975 `Information ProcessingBasic mode control procedures-Data communication systems', issued by the International Organization for Standardization (ISO), was adopted by the Indian Standards Institution on the Business Machines and Calculators Sectional Committee recommendation of the Computers, and approved by the Electronics and Telecommunication Division Council. ln the adopted standard certain terminology those ,used in Indian Standards; attention is especially a) b) and conventions are not identical drawn to the following : in Indian Standards with the they
+
+Comma (,) has been used as a decimal marker while current practice is to use a point (.) as the decimal marker. Wherever the words `International Standard' should be read as `Indian Standard'.
+
+appear referring
+
+to this standard,
+
+Cross
+
+References
+
+International
+IS0 646-1983 Information 7-bit coded character interchange.
+
+Standard
+processing - IS0 set for information
+
+Corresponding
+IS : 10315-1982 information (Technically
+
+Indian Standard
+character set for
+
+7-bit coded interchange equivalent)
+
+IS0
+
+4111-1985 Data communication-Basic mode control procedures-Code dependent information transfer 2628-1973 Basic mode control -Complements 2629-1973 Basic mode control -conversational information transfer
+
+in-
+
+IS : 11415-1986 Basic mode control procedures for code independent information transfer (Identical) IS : 11416-1986 Basic mode control -complements (Identical) procedures
+
+IS0
+
+procedures
+
+IS0
+
+procedures
+
+message
+
+IS : 11417-1986 Basic mode control procedures for conversational information message transfer (Identical)
+
+Adopted 15 January 1986
+
+8
+
+November
+
+lQ86,
+
+ISI I
+
+Gr 8
+
+INDIAN MANAK
+
+STANDARDS BHAVAN, 9 BAHADUR NEW DELHI
+
+INSTITUTION SHAH 110002 ZAFAR MARG
+
+IS : 11414-1986 IS0 1745-I 975
+
+0
+
+INTRODUCTION
+
+Extensions to the basic mode are contained in tha following International Standards :
+
+0.1 General A data communication system may be considered as the ensemble of the terminal installations and the interconnecting network that permits information to be exchanged. A data link concept is identifiable when considering terminal installations connected to the same network, operating at the same speed, in the same code. Whenever actions on ,the respective transmission control characters take place, a separation of data links is constituted. Typical examples where this applies are : store and forward switching centres, concentrators, intermediate reformatting and speed-change devices. IS0 2 111, Basic mode control independent information transfer; procedures Code
+
+Basic IS0 2628, Complemen is;
+
+mode
+
+control
+
+procedures -
+
+procedures Basic mode control IS0 2629, Conversational information message transfer; and also in annexes B and C of this International Standard.
+
+The following considerations have been taken into account in developing the rules for the basic mode :
+
+The information transfer in a data link is monitored by data link control procedures where some characters, selected within a code set, are given particular meanings according to the transmission phase and are used for various purposes such as to delineate information, to reverse the direction of transmission, to ask questions, to answer, etc.
+
+The data link control procedures are categorized in classes which are referred to as modes of operation. The present considerations relate to one class called "basic mode", which is defined as follows :
+
+The rules are based on the assumption that one of the stations in each connection would be either a computer or a device capable of handling automatically an exchange of information. The rules are designed to allow the complexity of operation to be increased from a basic level by adding options. These options are designed so that any number of stations can still communicate even though they normally operate at different levels of complexity.
+
+In the basic mode all the necessary transmission control information (for example, message framing and supervisory instructions) passing from one station to another is carried over the link by discrete control characters selected from the ten transmission control characters which are defined in. the ISOKCITT 7-bit code (IS0 646). The information exchanges are carried out in the alternate mode on standard communication facilities The control of the data link is not affected by any characters other than the ten transmission control characters Other codes than the ISO/CCITT code may therefore be transmitted provided that they do not contain any of the ten transmission control characters in either heading or text. Sequences of transmission control character combinations such as DLE.XXX. are not permitted, with the one exception DLE.EOT which is defined as "Disconnect".
+
+It is desirable to `reduce optional features in this International Standard to a minimum, but still retain a balance between an economic solution for the "low cost for encompassing more systems" and extendability complex systems. The rules may be difficult to implement m very simple systems involving low cost devices and human control. On the other hand, in complex high speed computer links, the rules may seriously restrict the throughput of information. These two casesare regarded as the upper and lower fringes of, the present International Standard and may be the subject of future International Standards.
+
+With the above considerations, typical limitations of basic mode control procedures are : restriction of efficiency by the time delay which is due to the alternate mode of Operation; single link operation only.
+
+2
+
+IS : 11414-1988 IS0 1745-l 975
+
+0.2
+
+Communication phases
+
+1 SCOPE AND FIELD OF APPLICATION 1.1 General
+
+The table below shows the various possible phases and subphases of a data communication. Phases 1 and 5, which relate to the establishment and clearing of connections over the general switched network, are under the responsibility of the CCITT and are therefore not covered by this International Standard. In each phase, one of the stations directs the operation and is responsible for the continuity of the communication. The other station or stations only react to the actions of the responsible station. The transmission control characters which are shown alongside the various sub-phases are those which are involved in the basic mode of operation. EOT is shown in parentheses in Phases 2 and 3 because its use within the phases initiates a changeover to Phase 4.
+
+This International Standard specifies the method of implementation of the ISOKCITT 7-bit coded character set') for information interchange on data transmission channels. It also defines the formats of the transmitted messages and the supervisory sequences which are part of the transmission control procedures. It covers the majority of existing data transmission systems and data link configurations used in conjunction with data processing systems. These control procedures deal with transmission over one link at a time and do not describe the operation of data links in "tandem". They relate to the class of control procedures which is known as the basic mode and apply at the interface between data communication equipment and data terminal equipment.
+
+Table of phases
+
+*
+Function Phase Action Reaction 1 Establishment of connection over general network Establishment of data link Responsible Responsive Station's name Transmissbn control charmten usad in basic mode Forward Backward Notes
+
+a) 6)
+
+Switching Identification Calling Answer Called Control Reply Tributary Master Reply Slave Master Slave Supervision SOH, STX ETB, ETX, (EOT) ACK, NAK, (EOTI (EOTI, ENQ ACK, NAK (EOT), ENCI (EOT)
+
+CCITT Responsibility
+
+2
+
+al 6)
+
+Switching Polling
+
+Call Poll
+
+Not covered at present
+
+cl
+
+Selecting
+
+Select
+
+3
+
+Information
+
+transfer
+
+Transfer
+
+4
+
+Termination
+
+a) 6)
+
+Return to neutral state Return to control station Disconnect
+
+Terminate Interrupt Terminate Interrupt Disconnect Disconnect
+
+Master Slave Master Slave Master Stave
+
+EOT EOT EOT EOT DLE, EOT DLE, EOT CCll-T Responsibility
+
+cl
+
+S
+
+Clearing of connection
+
+1)
+
+See IS0 646. CCll-T
+
+: Alphebet
+
+No. 5.
+
+3
+
+IS : 11414-1986 IS0 1745-l 975
+
+It is accepted that, in their present form, the control procedures are a framework upon which a system can be built and that, before the successful interconnection of equipment from different supplies can be ensured, it will be necessary to define additional details, such as :
+
+7) The following cases will be the subject of further study : transfer a) One-way simultaneous supervision. of information with
+
+-
+
+structure of prefixes or addresseswhen used; procedures and the recovery procedures the various timeout conditions (see
+
+b) Alternate two-way transfer of information with simultaneous supervision. c) Two-way simultaneous transfer of information with alternate supervision. dj Two-way simultaneous transfer of information with simultaneous supervision. 2 DEFINITIONS CHARACTERS OF THE TRANSMISSION CONTROL
+
+"time-out" which follow IS0 2628).
+
+This International Standard must be considered conjunction with the following IS0 publications :
+
+in
+
+1) IS0 1177, information processing - Character structure for start/stop and synchronous transmission;
+2) IS0 1155, Information processing - Use of longitudinal parity to detect errors in information messages.
+
+The basic definitions of the ten transmission control characters, as taken from IS0646, are listed below (see clause 5 for description of use). (Xl) SOH Start of heading
+
+1.2
+
+Assumptions 1) The information to be transmitted will normally be coded in accordance with the 7-bit ISO/CCITT code. 2) All transmission control functions will be performed by the use of ten specific transmission control characters which are defined in this code as TC 1 to TC 10. 3) No recommendation is made regarding the technique used (hardware or software);
+
+A transmission control character used as the first character of a heading of an information message.
+
+(TC2) STX
+
+Start of text
+
+A transmission control character which precedes a text and which is used to terminate a heading.
+
+(TC3)
+
+ETX
+
+End of text
+
+A transmission control character which terminates a text.
+
+- the part of the terminal installation where the information messages and supervisory sequences are generated and recognized. 4) Transmission may be at any data transfer rate, either serial or parallel and either start/stop or synchronous. 5) Responses to an information message or a supervisory sequence may be either by turn around of the channel or by using another channel. 6) The basic mode control procedures are applicable to systems of varied complexity based on either-way transmission using : a) One-way transfer of information supervision on the same channel. -b *_-__c *--,-w with alternate *---
+
+(TC4)
+
+EOT
+
+End of transmission
+
+A transmission control character used to indicate the conclusion of the transmission of one or more texts.
+
+(TC5)
+
+ENQ
+
+Inquiry
+
+A transmission control character used as a request for a response from a remote station - the response may include station identification and/or station status. When a"`Who are you" function is required on the general switched transmission network, the first use of ENQ after the connection is established shall have the meaning `Who are you" (station identification). Subsequent use of ENQ may, or may not, include the function `Who are you", as determined by agreement.
+
+b) One-way transfer of information with alternate supervision on a separate channel. c c *---_ +--_-_ c) Alternate two-way transfer of information with alternate supervision on the same channel. ) e--e -.--_-_c 1.. --_-_* with
+
+UC61 ACK
+
+Acknowlaclge
+
+A transmission control character transmitted by a receiver as an affirmative response to the sender.
+
+(TC7)
+
+DLE
+
+Data link escape
+
+d) Alternate two-way transfer of information alternate supervision on separate channels. ---_* . . ..--__c F *--_-..
+
+A transmission control character which will change the meaning of a limited number of contiguously following characters. It is used exclusively to provide supplementary data transmission control functions. Only graphic characters and transmission control characters can be used in DLE sequences.
+
+4
+
+IS : 11414-1988 IS0 1745-l 975
+
+(TC8)
+
+NAK
+
+Negative acknowled~
+
+b) Supervisory sequences All supervisory sequencesexcept DLE.EOT are composed of either a single transmission control character or a single transmission control character preceded by one or several graphics. In some of the following supervisory sequences the meaning of the- character or characters which precede the transmission control character is defined (for example Polling address). In others, it is simply shown as a prefix which may include one or more of the following : identity information; address information; status information; any other qualifier respohse number). as necessary (for example
+
+A transmission control character transmitted by a receiver as a negative response to the sender. UC91 SYN Synchronous idle
+
+A transmission control character used by a synchronous transmission system in the absence of any other character (idle condition) to provide a signal from which synchronism may be achieved or retained between data terminal equipment. (TCl 0) ET6 End of transmission block
+
+A transmission control character used to indicate the end of a transmission block of data where data is divided into such blocks for transmission purposes.
+
+3
+
+MESSAGE FORMATS
+
+The use of these prefixes and their description is subject to prior agreement. They may be standardized at a later date. EOT, ENQ, ACK and NAK are used for supervision. They can never appear contiguously. The prefix must not contain more than 15 characters.
+
+The various possible messagesare categorized as follows :
+
+-
+
+information messages; forward supervisory sequences; backward supervisory sequences. 3.2 a) Information messages S T --TEXT--T X S T--TEXT--T X E 8 C x 0c 8 C 8 0C
+
+3.1
+
+General rules b)
+
+Every transferred sequence of characters contains at least one transmission control character. These are used either to define the nature of the information contained in a sequence of data or to convey supervisory functions. must not be considered information. - They Therefore, they must not be transmitted as part of the text or heading of an information message with the exception of SYN which may be inserted as required but which must not be regarded as information. T When used singly or at the end of a message or sequence, they invite the station receiving them to take action. a) Information messa*s
+
+E
+
+(See note 2, below) c) S
+
+d)
+
+S 0 - - HEADING H
+
+S --T--TEXT--T X
+
+8 0C C 8
+
+E
+
+(See note 2, below) 4 S 0 H
+
+Information messages consist of a text which can be preceded by a heading; the heading is delivered with the text. Routing indication, for intermediate points in pafticular, must be in the heading. Other auxiliary information may be either in the heading or in the text. SOH, STX, ET8 and ETX are used as information framing characters. They cannot be sent singly. Information messages, or information blocks, may be accompanied by a block checking character in accordance with IS0 1155. The use of this block checking character, shown in parentheses, is optional and therefore subject to prior agreement.
+
+(See note 2, below)
+NOTES 1 Fillers may be inserted in the heading and the text example SYNC. (for
+
+2 In for&t, b), d) and e) above which end with ETB, some continuation is required. 3 All the above messagescan be aborted by terminating them at any point with EOT. Future study may lead to the specifying of another method for aborting which allows the continuation of the communication.
+
+5
+
+iS:l1414-1986 IS0 1745-1975
+
+3.3 a)
+
+Forward supervisory sequences Polling E N Q
+
+b)
+
+Negative reply to :
+
+- an information message
+(Prefix) c) Negative reply to : N A K
+
+Polling address
+
+(See note below) b) Selecting
+
+- a polling supervisory sequence
+(Prefix) E N Q E 0 T
+
+1) Station selection
+Selecting address
+
+d)
+
+Negative reply to :
+
+(See note below) If a reply is not required, ENQ is not used and the selecting sequence is immediately followed by the information message. e) 2) Identification and status E N Q
+
+- a selecting supervisory sequence
+(Prefix) Request for : N A K
+
+- an interruption
+(Prefix) - a return of responsibility to the control station E 0 T E 0 T
+
+(Prefix)
+
+3)
+
+Out of neutral E N cl
+
+(Prefix)
+
+(Prefix) - return to neutral state
+
+cl
+
+Return to control station - Return to neutral state E 0 T
+
+(Prefix)
+
+(Prefix) (See note 2, below)
+
+(See note below) d) Disconnect f) (Prefix) D L E E 0 T
+NOTES
+
+E 0 T
+
+Disconnect D L E E 0 T
+
+(Prefix)
+
+NOTE - Polling sequences are always preceded by EOT except in systems involving Pha#, 1 where the omission of EOT is optional. Selecting sequencesmay also be preceded by EOT. Some systems may not be able to tolerate a polling or selecting sequence immediately following EOT. In such ceses it may be nm to ensure e short delay between the EOT end the eddress by using, for example, a number of "filler" cheracten.
+
+1 The procedures for the casesof "no reply" are covered in 4.3. 2 Future study may lead to replacing the interruption by EOT with another method.
+
+4
+
+DESCRIPTION
+
+OF PHASES
+
+3.4 a)
+
+Backward supewisory sequences Positive reply to :
+
+The operational procedures of a complete system can be constructed from the following separate phases and sub-phases: Phase 1' ) network Establishment of connection over the general
+
+- an information message
+- selecting A C K
+
+a) b)
+
+Switching Identification
+
+(Prefix)
+
+1) This phese is under the responsibility of the CCITT.
+
+6
+
+IS : 11414-1986 IS0 1745-197s
+
+Phase 2 Establishment of data link a) Switching b) c) Polling Selecting
+
+Phase 3
+
+Information transfer
+
+Assuming the slave station(s) has accepted to receive the information message, the master station commences its transmission. During this phase there are no changes of station status or responsibility. Phase 4 a), b), c) Termination
+
+Phase 3 Information transfer Phase 4 Termination a) b) c) Return to neutral state Return to control station Disconnect
+
+Phase 5' ) Clearing of connection 4.1 Phase linkage
+
+When the information messagehas been transmitted and satisfactorily received by the slave station(s), the master station sends EOT to announce to the control station that its transmission requirement has temporarily ceased. By doing so, the master station relinquishes its master status and returns the responsibility of the communication to the control station. If there are no further transmission requirements, the control station, by sending DLE.EOT, releases the possibly involved private switching equipment. Phase 5 Clearing of connection (General network) The Disconnect function (DLE.EOT) of the termination phase will initiate the clearing of the connection over the general switched network. The procedure for so doing is under the responsibility of the administration. As a matter of fact, in most systems, several data link establishments and several information transfers take place in sequence within a communication. This is illustrated by the phase linkage arrows marked PL 1, 2,...,6. An example of such a multiple communication could be : Phase 1 a), b) general network; We reach a multistation link via the
+
+Figure 1 represents the various phases of a communication which are linked (thick lines) to achieve one transmission, or information transfer, in the most general case encompassed by the basic mode control procedures. The sequence of events for such a communication would be as follows : Phase 1 a), b)' Establishment of connection over the general switched network Here connection is established by the the telecommunications administration and this is likely to be divided into two sub-phases : "Switching" and "Identification". They will both be under the responsibility of the administration. Unless otherwise stipulated by the administration, once this phase is achieved, the calling station takes on the responsibility for the communication and acts as master station or control station. Means for signalling the completion of Phase 1 will be defined with reference to Recommenditions on interfaces (for example, CCITT-V24, Circuit 1071. Phase 2 a), b), cl Establishment of data link
+
+Phase 2 c) - We try to select station X; Phase 4 a) - Station X refuses to receive; Phase 2 b) - We poll station Y;
+
+After establishing the Connection on the general network it is required to establish the data link. This procedure may involve some private line Switching performed by a private Switching exchange or a line concentrator before polling and selecting. The "Polling" procedure, carried out by the control station, invites a tributary station to transmit any messageit may have. This procedure . transfers the responsibility of the communication to the polled station, which takes the status of master station. procedure, carried out by the The "Selecting" so-designated master station, invites in turn another station to get ready to receive an information message. This procedure gives to the selected station the status of slave station.
+1) This phase is under the responsibility of the CCITT.
+
+Phase 3 - Station Y transmits information to us; Phase 4 - Station Y terminates its transmission; Phase 4 c) - We decide to disconnect; Phase 5 - The general network is cleared. All the permitted phase linkages are shown on the phase diagrams in 4.2, along with more detailed descriptions of the phases and sub-phases. In some systems, not all the phases or sub-phasesshown on the phase linkage diagram will be required. Examples are illustrated by different by-passes :
+
+By-pass 1 (BP11
+This by-pass applies to systems composed entirely of leased or private circuits not connected to the general switched network.
+
+7
+
+IS : 11414-1988 IS0 1745-l 975
+
+_-_-_--
+
+--
+
+z
+
+--_ aN p.
+
+Disconnect
+
+m
+
+J
+
+----
+
+__
+
+a.
+
+z
+
+Transfer
+
+m
+
+In
+
+n
+
+m
+
++! ._
+
+Selecting
+
+m
+
+c
+
+m f
+
+Polling \ I
+
+P 0 m
+
+`ii
+
+Switching \
+
+--
+
+5,m a P
+
+---------4 %
+
+Identification I
+
+`iii
+
+FIGURE 1 - Phrr linkyl diagram
+
+QSwitching 8
+
+0.
+
+m
+
+IS :11414-1986 IS0 1745-197s
+
+By-pWlss 2 (BP21 This by-pass applies to systems which do not involve line switching. By-pass 3 (BP31 This by-pass applies to systems that do not involve private line switching. By-pass 4 ,(BP4) In systems with control station, the suppression of the polling sub-phase allows only the sending of information from the control station to the others. In systems without control station, each station can still select the other in order to transfer information but cannot poll in order to request transmission from the other end. By-pass 5 (BP5) This by-pass applies to systems with control station in which only the transfer of information from the tributary stations to the control station is required. 4.2 Phase diagrams
+
+Polling sequences are always preceded by EOT except in systems involving Phase 1 where the omission of EOT is optional. Some selecting sequences may be preceded by EOT. c) SELECTING Selecting is the normal process for inviting one or more stations to receive an information message. However, it can be used for the sole purpose of checking the identification of a station and/or for obtaining its status. The selecting process can only be performed by a master station. When used on a multistation data link, the selecting supervisory sequence uniquely identifies, by means of its address, one or several stations. This function is called station selection. The address may include information other than that indicating the address of the desired station, for example, priority, device selections, etc. The address of the selecting supervisory sequence may identify either a single station on the link or a group of stations on the link. The station selection sequence may be sent either by the control station taking the master status or by a station previously polled. When used on a point-to-point data link, the selecting supervisory sequence, which may be limited to the character ENQ, essentially turns the data link out of its neutral state. In all cases, the selecting supervisory sequence calls for a status reply from the selected or opposed station. If no response or a non-valid response is received, the master station must take action to recover the communication (see 4.3, recovery procedures).
+NOTES
+
+The detailed procedures for the phases 2 to 4 are given in the following text and illustrated by flow diagrams. 4.2.1 Establishment
+
+of data /ink
+
+(Phase 2) (see figure 2)
+
+a) SWITCHING A private switching process may be used. This, however, is not described in this International Standard. b)
+POLLING
+
+Polling is the process of inviting stations, one at a time in an orderly fashion, to transmit messages.The basic function of polling is to prevent contention by ensuring that only one station transmits at a time. The polling process can only be performed by a control station, following EOT. When a station receives its appropriate polling supervisory sequence, it becomes the master station. Each polling supervisory sequence must uniquely identify one station on the data link. However, a given station may be assigned more than one address (for example, to distinguish between different precedences of originating traffic). If no response or a non-valid response is received after transmission of a polling supervisory sequence, the control station must clear the possibly established data link by sending a termination supervisory sequence (EOT, see 4.2.3, termination phase, and 4.3, recovery procedures). Some systems may not be able to tolerate a polling or selecting sequence immediately following EOT. In such cases it may be necessary to assure a short delay between the EOT character and the polling or selecting sequence using, for example, a number of "filler" characters.
+
+se&t"
+
+1 An exception to the above is the use of the so-callad "Fast method in which the information messags follows
+
+immediately the selecting address (EN0 is not usadl. The use of this method requires special agreement b,twean sender and recipient. 2 The method for achieving the sequential or group selection of a number of stations with the purpose of transmitting the same marto all stations is nol completely defined by this International Standard.
+
+4.2.2 a)
+
+lnfornmfion transfer (phase 3) (see figure 3)
+
+HEADING
+
+The heading of an information message is a sequence of characters sent by a master station which constitutes the auxiliary information pertinent to the communicatron of a text. Such auxiliary information may include, for instance, characters representing routing, priority, security, message numbering, and associated characters. The definition of specific portions of a heading is not within the scope of this International Standard. The sequence of characters which constitutes the heading is prefixed by the start of heading (SOH) character and is terminated only with the start of text (STX) character.
+
+9
+
+Control sends
+
+Master sends
+
+Slave sends (replies)
+
+I
+Identification Switch(Phase Switching (Phase 2a) Termination (Phase 4 b)
+RCJCOVC!~ (R
+
+11
+Polling address 7
+
+E
+N cl
+
+i
+I I
+
+I I
+0;
+I
+
+Information transfer (Phase 3)
+
+I
+1
+
+1. R 2) Phase 2
+
+Selecting
+
+address
+
+A
+
+Establishment
+
+Invalid
+
+reply (R4)
+
+or no reply (R3)
+
+Invalid
+
+reply (R 1)
+
+-or
+
+no reply
+
+--
+
+-- I I
+
+_-L---F t
+Recoveries
+
+@
+0
+
+For those systems whe:a the information not used. In most cases, the transmission polling or selecting supervisory
+
+message follows
+
+the selecting address (Fast Select path),
+
+ENQ is
+
+of EOT is necessary after sequence is transmitted.
+
+the connection
+
+has been established
+
+and before a
+
+FIGURE
+
+2 - Phase 2 - Establishment of data link
+
+IS : 11414-1988 IS0 1745-l 975
+
+The heading is not a "stand alone" message but must always be immediately followed by a text and is applicable only to that text. Any arrangement for association of one heading with more than one text can only be made by prior agreement between the affected parties and is not within the scope of this International Standard. The heading may be sub-divided into more than one information block by terminating each such block with the end of transmission block (ETB) character and by prefixing the next following portion of the heading with the SOH character. The block check character (BCC), if used, immediately follows the ETB character (see IS0 1155). b)
+TEXT
+
+Up to 15 characters may precede the final character of the reply sequence to convey information of a qualifying nature. The nature of this information is not a subject of this International Standard (see3.1 b), supervisory sequences formats). 4.2.3 Terminefion (Phase 4) (see figure 4).
+
+There are essentially three situations when a station may elect to terminate the transmission in progress : a) When a station refuses the establishment of a data link, either because it has nothing to transmit (negative reply to polling), or because it is unable to transmit (negative reply to pollingI, or because it is unable to receive (negative reply to selecting). b) When the master station has successfully transmitted all of the data it desires to send : The master station then transmits the end of transmission. control character (EOT), indicating to the slave station that the master statioh has no more data to transmit. The master station thus relinquishes its right to transmit (unless it is also the control station).
+C)
+
+The text portion of an information message contains the information that is to be transmitted as an entity from the sender to the recipient(s). A text is always embodied between the STX and ETX characters, and is always transmitted by a master station. The text may be subdivided into more than one information block. Each of the blocks is terminated by an end of block control character (ETB. or ETX if it is the last block of text). The following portion of the text must be prefixed with the STX character. If block checking is employed, the block check character immediately follows the ETB or ETX character. The master station stops sending after each text or block has been sent, and normally does not resume transmission until the reply has been received.
+C) REPLIES
+
+When an unusual situation arises where either the master or the slave station desires to stop the transmission in progress :
+
+If a master station sends EOT at any time other than after a terminated transmission, the transmission in progress is said to be aborted.
+If a slave station sends EOT instead of a normal reply (ACK, NAK), the transmission in progress is said to be interrupted. In all circumstances, such as a), b), cl, the sending of EOT by any of the stations terminates the transmission, that is tosay :
+
+Replies are used by the slave station to inform the master station of the status of the slave station and of the validity of the received message. If the information message, or block, was acceptable, and the slave station is ready to receive, the slave station replies by transmitting the acknowledge character (ACK). The master station then transmits the next information message or block. If the master station has no more to transmit, it passesto termination phase. If the information message or block is unacceptable, the slave station responds with the negative acknowledge character (NAK). This negative acknowledgement indicates to the master station that the data was unacceptable and also that the slave station is ready to receive. The next block of data transmitted is normally a retransmission of the previous information messageor block. If, during the information transfer, the slave station becomes unable to receive further, this station waits for the end of the transmitted information message or block and then responds by EOT. This EOT shall be interpreted by the other station(s) as a request for interruption and, according to the type of system used, either returns the responsibility of the communication to the control station or returns the data link to neutral state (see 4.2.3, termination .phase).
+
+- in systems comprising a control station, returns the responsibility and the control of the communication to that control station; this function is called "Return to Control";
+in point-to-point systems, without control station, returns the data link to neutral state; this function is called "Return to Neutral". In addition, in all the casesof termination, if the clearing of the connection (private and/or general network) is the intended consequence of the termination, the "Disconnect" supervisory sequence (DLE.EOTI shall be sent, either instead of EOT or following the receipt of an EOT. 4.3 Rv proaduroa
+
+It has been recognized that a number of recovery procedures are required to deal with various abnormal situations. Some recovery procedures are outlined in the following and their linkage to the appropriate phase is outlined in the diagrams in 4.2.
+
+in all cases, after appropriate time-out periods, it shall be the responsibility of either the control station or the m8StOr station (never of a slave station) to take action.
+
+11
+
+Slew sends (replies)
+
+I
+
+Polling (Phase 2 b) Selecting (Phase 2 c) Information transfer Recoveries (R3)
+
+---
+
+J
+I
+_ (Prefix) A K \
+
+Information transfer (Phase 31
+
+lI ---
+
+i
+I I I I I
+
+Invalid reply
+
+or no reply (R3)
+--I
+
+Abnormal termination of _ _ information message - (EOT) @
+
+_
+
+-
+
+-
+
+-
+
+-
+
+I
+Recoveries
+
+0 0
+
+The BCC in brackets is optional. EOT can abort the transfer at any point in the transfer phase.
+
+FIGURE
+
+3 - Phase 3 -
+
+Information transfer
+
+I6 : 11414-1988 IS0 1745-l 975
+
+4.3.1 Rl
+
+Recovery procedures by control station -Intheceseof:
+
+SOH
+
+-Stertofheeding-TC
+
+1
+
+Definition A transmission control character usad as the first character of a heeding of en information message. Description of use 1I SOH is transmitted by a master stetion. 21 If a heeding is usad it must be preceded by SOH. 3) If a heeding is subdivided into transmission blocks, each block must be preceded egein by SOH. 41 If block checking is usad, see IS0 1155.
+
+- no reply or invalid reply to a polling suparvisory sequence, or - invalid, sequence, or ebsance of termination supervisory
+
+the control station must transmit EOT. R2 - In the cesa of repaatad unsuccessful polling of ona, several or all stations, the control stetion should, for exemple, set en alarm or report to the operator. Subsequent manual or automatic continuation is systemdependent end fells outside the scope of this International Standard.
+
+51 SOH is not permitted in text. STX-Stertoftext-TC2
+
+4.3.2 R3
+
+Reco~wy procedures by master station -Inthecesaof:
+
+Definition A transmission control character which precedes a text and which is used to terminate a heading. Description of use 1) STX is transmitted by the master station. 2) A text must ba preceded by STX.
+
+or
+
+no reply or invalid reply to an information message,
+
+- no reply or invalid raply to a selecting supervisory sequance. the master station must repeat the previous transmission. This procedure ten leed to duplicetion of blocks. A possible elternative is : In the case of no reply or en invelid reply to en information messega, EN0 can be transmitted by the master station es a request to the slave station to repeat its previous responsa (ACK or NAKI. This procadure is prefeiably usad in conjunction with a response numbering scheme to ensure that blocks are neither added nor deleted. R4 -1ntheceseof:
+
+3) If a heading is used, STX in the messaga indicates the end of the heading. 4) If the text is sub-dividad into transmission blocks, each block must ba preceded again by STX. 5) If block checking is used, see IS0 1155.
+
+61 STX is not permitted in the heading. ETX - End of text - TC 3
+
+Definition A transmission control character which terminates a text. repeated unsuccessful transmission of en information
+
+message.or
+repeated unsuccessful transmission of a selecting supervisory sequence, or repeated negative replies (NAK) to en information
+
+Description of use 1) ETX is only transmitted by the master station. end of the text of each
+
+-
+
+2) ETX indicates the information massage.
+
+massage, the master station should set en alarm or report to the operator end go to the termination phase Subsequent manual or automatic continuation is systemdepandent and fells outside the scope of this International Standard.
+
+3) If an information message is sub-divided into transmission blocks, ETX is usad to terminate the last block. 4) ETX calls for a reply from the slave station.
+
+5) If block checking is usad, ETX signals that the next following character is a block check character. Sea IS0 1155. 6) EOT ETX is not permitted in text or heading. - End of trensmission - TC 4
+
+6 DESCRIPTION OF USE OF THE CONTROL CHARACTER6
+
+TRANSMISSION
+
+In the following, the definition of the ten trensmission control cherecters already given in clause 2'is recalled end the functional description of their usa is summarized. See also 3.1.
+
+A transmission control character used to. indicate the conclusion of the transmission of one or more texts.
+
+14
+
+IS : 11414-1988 IS0 1745-l 975
+
+Description of use 1) EOT may be transmitted by a control, master, or slave station. 2) The control station transmits EOT to condition all tributary stations. to anticipate the reception of a forward supervisory sequence. 3) The master station, in a system with control station, transmits EOT to relinquish its right to transmit in favour of the control station. 4) The master station, in a system without control station, transmits EOT to indicate either the end or the aborting of a transmission and resets the master and slave stations to the neutral state. 5) The slave station transmits EOT to indicate its inability KOreceive further information messages.This is an abnormal reply or interruption and leads into termination phase. 6) EOT is not permitted in text or heading.
+NOTE - Depending upon the system characteristics and configuration, EOT transmitted by a tributary station (master or slave) may reset some or all tributary stations.
+
+Description of use 1) ACK is transmitted only by a slave station as an affirmative reply to a master station. 2) When supplementary information is included in the reply (for example, station identification or status information) it is prefixed to ACK. 3) In the selecting sub-phase, ACK is transmitted as a reply to a selecting supervisory sequence to indicate that the slave station is ready to receive. 4) In the information transfer phase, ACK indicates that the last transmitted information message or block was received correctly, and that the slave station is ready to receive the next one. 5) ACK is not permitted in text or heading.
+
+DLE - Data link escape - TC 7 Definition A transmission control character which will change the meaning of a limited number of contiguously following characters. It is used exclusively to provide supplementary data transmission control functions. Only graphics and transmission control characters can be used in DLE sequences. Description of use
+
+ENQ - Enquiry - TC 5 Definition
+A transmission control character used as a request for a
+
+response from a remote station - the response may include station identification and/or station status. When a "Who are you" function is required on the general switched transmission network, the first use of ENQ after the connection is established shall have the meaning "Who are you" (station identification). Subsequent use of ENQ may, or may not, include the function "Who are you", as determined by agreement. Description of use 1) ENQ is transmitted by the control station during polling and by the master station during selecting. 2) In the polling sub-phase, ENQ is used to indicate the end of a polling address. 3) In the selecting sub-phase, ENQ is used to indicate the end of a selecting address or prefix when a reply is required from the slave station.
+More specifically, ENQ can in this sub-phase
+
+1) DLE immediately followed by EOT is transmitted by a master or a slave station to "disconnect", that is, to initiate the clearing of the connection over private and/or general switched network. 2) Other uses of DLE require prior agreement until additional DLE sequences are defined in future International Standards for modes other than the basic mode. NAK - Negative acknowktdga - TC 8
+
+Definition A transmission control character transmitted by a receiver as a negative response to the sender. Description of use 1) NAK is transmitted only by a slave station as a negative reply to the master station. 2) When supplementary information is included in the reply (for example, station identification or status information) it is prefixed to NAK. 3) The slave station transmits NAK after receipt of a selecting supervisory sequence to indicate its inability to receive an information message. 4) In the information transfer phase, NAK indicates that the last transmitted information message or block was not received correctly, and the slave station is ready to receive the same one. 5) NAK is not permitted in text or heading.
+
+4) ACK
+
+terminate a station selection sequence; request identification and/or status; turn a data link out of neutral state. ENQ is not permitted in text or heading. - Acknowledge - TC 6
+
+Definition A transmission control character transmitted by a receiver as an affirmative response to the sender.
+
+15
+
+IS : 11414-1988 IS0 1745-l 975
+
+SYN - Synchronous idle - TC 9
+Definition A transmission control character used by a synchronous transmission system in the absence of any other character (idle condition) to provide a signal from which synchronism may be achieved or retained between terminal equipments. Description of use 1) SYN may be transmitted by a control, master, or sieve station. 2) SYN is used to achieve character synchronization in synchronous data communization systems. At least two SYN characters must be transmitted prior to the transmission of any information message or supervisory sequence.
+NOTE - It is assumed that the receiving station mquims two consecutive SYN characters to reliably achim character tynchronization.
+
+b)
+
+within DLE sequences.
+
+4) SYN is generally removed at the receiving terminal installation. 5) If block checking is used, see IS0 1155.
+
+ETB - End of transmission block - TC 10
+Definition A transmission control character used to indicate the end of a transmission block of data where data is divided into such blocks for transmission purposes. Description of use 1) ETB is transmitted only by the master station. into each
+
+3) SYN can be used as "time-fill" to maintain, for instance, synchronization during periods when no other characters are available for transmission. When used as "time-fill", SYN may be added at any point in a character sequence, except : a) between ETX or ETB and the block check character when block checking is implemented;
+
+2) If an information message is subdivided transmission blocks, ETB is used to terminate block, with the exception of the final one. 3) ETB calls for a reply from the slave station.
+
+4) If block checking is used, ETB indicates that the next following character is a block check character (BCC). See IS0 1155.
+
+16
+
+IS:11414-1986 ISO1745-1975
+
+ANNEX A (not part of the standard) DEFINITIONS
+
+A.1 The following definitions have been included for use with this International Standard since these definitions are not in accordance with those given in the corresponding sections of the IS0 Information Processing Vocabulary (IS0 2382) :
+coded character set
+
+: A finite set of characters arranged in a specified order according to given rules and conventions.
+
+,
+
+filler : A character that is used as a time or space fill when a block of a specified size is required and there are insufficient heading and/or text characters for this purpose. heading : A sequence of characters preceding the text of a message. It enables the receiving station to handle the text(s). information block : A sequence of characters of fixed or variable length which is a subdivision of an information message formed for the purpose of meeting transmission requirements. transmission control characters (TCC) : Characters used either to define the nature of the information contained in a sequence of data characters or to convey supervisory instructions. They must not be transmitted as part of the text or heading
+
+A.2 The following definitions have been drawn in part from the corresponding sections of the IS0 Information Processing Vocabulary (IS0 2382). address : A sequence of characters to select or poll another station. asynchronous Wansmission~) : A transmission process such that between any two significant instants in the same group (block or character) there is always an integral number of unit intervals. Between two significant intervals located in different groups there is not always an integral number of unit intervals. backward supervision : The use of supervisory sequences sent from the slave to the master station. block check1 ) : A system of error control based on the check that some preset rules for the formation of blocks are observed. both-way : A mode of operation on two channels so that transmission may occur simultaneously. One of the channels is equipped for transmission in one direction while the other is equipped for transmission in the opposite direction. channel1 ) : A means of one-way transmission. Several channels may share a common path as in carrier systems; in this case, each channel is allotted a particular frequency band which is reserved to it. code Wantparent Wantmission : A transmission process which is capable of handling any character set or binary arrangement. connection : The established path between two or more terminal installations. It is a permanent connection when it is established without using switching facilities, and a temporary connection when it is established bv using switching facilities. It may consist of one or more channels in tandem. contention : A condition arising on a communication channel when two or more stations try to transmit at the same time. control station : The station on a network which supervises the procedures such as polling, selecting and recovery. It is also responsible for establishing order on the line in the event of contention, or any other abnormal situation, arising between any stations on the network. data communication system : One or more data links each of whidr may be operating in the same or a different mode. data link : An ensemble of terminal installations and the interconnecting network operating in a particular mode that permits information to be exchanged between terminal installations. data terminal equipmart) : Equipment comprising the data source, the data link or both. eitber-wy : A mode of operation of a channel to permit the transmission of signals in either direction. These Wansrnissions cannot take place simultaneously. error : Any received character or sequence of characters that does not conform to those transmitted.
+
+1) Dofinition taken from CCITT yellow book and appropriata supphnents.
+
+17
+
+IS : 11414-1988 IS0 1745-l 975
+
+error control or error protection : A procedure for detecting and reducing the effects of errors generated during the process of data transmission. forwrd supervision : Use of supervisory sequences sent from the master to the slave station.
+
+identifier : A sequence of one or more characters transmitted by a station in order to identify itself. information message : A sequence of characters conveying the test. It may also convey supplementary information forming a heading. invalid reception : A character or sequence of characters that has not been recognized in accordance with the expected character or sequence. mmtar station: The station which, at a given instant, has the right to select and to transmit an information messageto a slave station and the responsibility of ensuring the information transfer. There should be only one master station on a data link at one time. multi-point network : A configuration in which a connection is established between more than two terminal installations. The connection may include switching facilities. network : The ensemble of equipment through which connections are made between terminal installations. These equipments operate in real time and do not introduce store and forward delays. one-wry : A mode of operation of a channel for one-way transmission of signals in a preassigned direction. parity bit : A bit associated with a character or block for the purpose of checking the absence of error within that character or block, This is chosen to make the modulo 2 sum of the bits (including the parity bit) in the character or block a "0" or a "1" as required. ~allel transmission1 ) : The simultaneous transmission of a certain number of signal elements constituting the same telegraph or data signal. point-to-point connection : A configuration in which a connection is established between two, and only two, terminal installations. The connection may include switching facilities. polling : The process of inviting another station to become a master station. prefix : A sequence of characters (other than TCCs) used in a supervisory sequence to define or qualify the mean/ng of the supervisory sequence. query : The process by which a master station asks a slave station to identify itself and to give its status. recovery procadure : A process by which a responsible station within the network attempts to resolve either conflicting, or erroneous conditions arising in the communication process. The control or master station is responsible for this procedure. rwta : The selected path between master station and slave station for the purpose of information transfer. saleeting : The process of inviting a station to receive. sarial transmissiont ) : Transmission, at successive intervals, of signal elements constituting the same telegraph or data signal. The sequential elements may be transmitted with or without interruption provided that they are not transmitted simultaneously. slava station : A station which, at a given instant, is intended to receive an information message from a master station. ttM dmwnt character. (in a start/stop system) : Binary element sewing to prepare the terminal installation for the reception of a
+
+dstop transmission1 ) : Asynchronous transmission in which a group of code elements corresponding to a character signal is preceded by a start signal which serves to prepare the receiving mechanism for the reception and registration of a character and is followed by a stop signal which sewes to bring the receiving mechanism to rest in preparation for the reception of the next character. station : See terminal installation. status : The capability at a given instant of a station to receive or transmit. It is indicated by a sequence of one or more characters which may be an acknowledgement of the previous data exchange.
+
+1) Definition takrn from CCITT yellow book and rppropriatr supplemena.
+
+18
+
+IS : 11414-1986 IS0 1745-l975
+
+stop element (in a start/stop system) : Binary element serving to bring the terminal
+
+installation
+
+to rest.
+
+supervisory sequence : A sequence of one or more characters used for transmission control, whose structure does not follow the .forrnatting rules applied to the information message.
+switching1
+
+) : Operations
+
+involved
+
+in interconnecting
+
+circuits
+
+in order to establish a temporary communication between two
+
+or more stations. synchronous transmission' ) : A transmission process such that between any two significant instants there is always an integral number of unit intervals. terminal installation (for data transmission) or station1 ) : Installation comprising the data terminal equipment, the signal conversion equipment, and any intermediate equipment.
+
+NOTE - In some instances the data terminal aquipmant mry ba connrctad directly to a data procauing machine or my k a part of it.
+
+text : A sequence of characters forming part of a transmission, which is transmitted as an entity to the ultimate destination and which contains the information to be conveyed. tributary station : Any station on a non-switched multi-point network, other than the control station.
+
+II
+
+Definition taken from CCITT yellow book and approprista su~emants.
+
+19
+
+IS : 11414-1988 IS0 1745-l 975
+
+ANNEX
+
+B
+
+(not part of the standard)
+
+EXTENSIONS
+
+OF TRANSMISSION
+
+CONTROL
+
+FUNCTIONS
+
+USING OLE SEQUENCES
+
+This annex Extension The
+
+describes
+
+a standard
+
+method
+
+for providing
+
+additional
+
+transmission
+
+control
+
+functions
+
+through
+
+the definition
+
+of
+
+Sequences using DLE. DLE is used as a prefix function to one or more represented sequences. by one "final" begins character. with DLE, When Extension continues with Sequences formed any number by more than additional IS0 7-bit characters to form a sequence to represent a
+
+character
+
+communication Preference
+
+control
+
+not directly
+
+by a single control
+
+character.
+
+should be given to two-character
+
+Two-character two characters characters
+
+sequences consist of DLE followed are required, the Extention character.
+
+Sequence
+
+of "intermediate"
+
+and end with one "final" characters
+
+.
+The intermediate are those in column 2 of the IS0 7-bit code table. 3, 4, 5, 6 and 7, with the exception of DEL { 7/15 } of the IS0 7-bit The final characters are the TC's and those in columns the numerics
+
+code table, i.e. the alphabetics. The final characters of DEL { 7/15 in columns
+
+and several of the special graphics. in columns 3 and 7 with the exception
+
+4, 5, 6 are for private use. The TC's and the characters standardization.
+
+) are reserved for future international
+
+ANNEX
+
+C
+
+(not part of the standard)
+
+ALTERNATIVE
+
+POSITIVE
+
+ACKNOWLEOGEihENT
+
+OPTION
+
+The following
+
+basic rules are recommended of ACK with
+
+for alternate
+
+response numbering,
+
+if used
+
+:
+
+1) Use of DLE 3/0+-rstead
+2) Use of DLE
+
+in phase 2. DLE 3/l instead of ACK in phase 3, starting with DLE 3/l as the acknowledgement
+
+3/O alternating block. 3/l,
+
+for the first information 3) Use of DLE
+
+310 or DLE
+
+as appropriate,
+
+in response to EN0
+
+in phase 3.
+
+20
+
+

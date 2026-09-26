@@ -1,0 +1,3001 @@
+IS 15398:2003
+
+Indian Standard
+
+SOFTWARE FOR COMPUTERS IN THE SAFETY SYSTEMS OF NUCLEAR AND RADIATION FACILITIES
+
+ICS 27.120.20,35.080
+
+@ BE3 2003
+
+BUREAU
+MANAK
+
+OF
+
+IN DIAN
+
+STANDARDS
+
+BHAVAN, 9 BAHADUR SHAH ZAFAR MARC NEW DELHI 110002
+Price Group 14
+
+December
+
+2003
+
+Nuclear Instrumentation Sectional Committee, LTD 26
+
+FOREWORD This Indian Standard was adopted by the Bureau of Indian Standards, after the draft finalized by the Nuclear Instrumentation Sectional Committee had been approved by the Electronics and Telecommunication Division Council. Computer systems are extensively used for on line monitoring of the reactor core against blockage of coolant flow, on line power regulation, fuel handling operation, supervision of process parameters against safety thresholds, event sequence analysis, measurement of.radiation level, etc. The basic principles for the design of nuclear instrumentation as specifically applied to the safety systems of nuclear and radiation facilities have been interpreted in existing standards with reference to hardwired systems as the `Safety Guide 50-SG-D2' of the I.A.E.A. This standard has been developed to interpret these principles for the utilization of digital systems -- multi-processor distributed systems as well as larger scale central processor systems -- in the safety systems of nuclear facilities. The other process plants may find use of this standard in the design and use of their computer based systems. It discusses the software system principles and requirements and should be read in conjunction with IS 15399:2003 `Hardware for computers in the safety system of nuclear and radiation facilities.' This standard may also be useful as a guide for other computer systems requiring real time applications. Aspects for which special recommendations have been produced, due to the unique nature of computer systems and their software are: a) Established hardware criteria as far as they affect the software, taking careful account of the high degree of interdependency between hardware and software; b) A general approach to software development to assure the production of the highly reliable software required, c) A general approach to software verification and computer system validation; and d) Procedures for software maintenance, modification and configuration control. While preparing this standard, assistance has been derived from IEC 60880 (1986) `Software for computers in the safety systems of nuclear power stations' issued by the International Electrotechnical Commission. The composition of the Committee responsible for formulation of this standard is given in Annex G.
+
+IS 15398:2003
+
+Indian Standard
+
+SOFTWARE FOR COMPUTERS IN THE SAFETY SYSTEMS OF NUCLEAR AND RADIATION FACILITIES
+1 SCOPE 1.1 Tlis standard is applicable to highly reliable software required for computers to be used in the safety systems of nuclear facilities for safety functions -- Class 1 functions according to IS 12772:2003 `Application of computers to nuclear reactor instrumentation and control (first revision)'. This includes the safety actuation systems, the safety system support features and the protection systems.
+
+3 TERMS AND DEFINITIONS For the purpose of this standard, following definitions shall apply. 3.1 Application Programme -- A computer programme that performs a task related to the process being controlled rather than the functioning of the computer itself. 3.2 Code Compaction -- The purposeful reduction in memory size required for a computer progratnme by the elimination of redundant or extraneous instructions. 3.3 Computer -- A programmable functional unit that consists of-one or more associated processing units and peripheral equipment, that `is controlled by internally stored programmed and that can perform substantial computation, including numerous arithmetic operations or logic operations, without human intervention during a run.
+NOTE -- A computer may Ix a stand-atone unit or may consist of severat intercomected units.
+
+1.2 This standard covers requirements for each stage of software generation, including design, development, qualification and operation as well as the documentation for each stage of the software generation for the purpose of achieving highly reliable software. An acceptable approach to the development and content of the software requirements is given in Annex A. The principles applied in developing requirements include: a) Best available practice; b) Top-down design methods; C) Modularity; d) Verification of each phase; e) Clear documentation; f) Auditable documents; and g) Validation testing. these
+
+3.4 Computer Programrm! -- A set of ordered .instmctions and data that specify operations in a form suitable for execution by a digital computer. 3.5 Computer System -- A system consisting of one or more computers (comprising hardware as well as software) collectively forming a functional unit of an instrumentation and control system. 3.6 Data -- A representation of facts, concepts or instructions in a formalized manner suitable for communication, interpretation or processing by a computer. 3.7 Defence in Depth -- Provision of multiple levels of protection for ensuring safety of workers, the public orthe environment. 3.8 Diversity -- Existence of different means of performing a required function (for example, other physical principles, other ways of solving the same task). 3.9 Fault Tolerance -- The built-in capability of a system to provide continued correct execution in the presence of a limited number of hardware or software faults. 1
+
+1.3 Additional guidance and information on how to comply-with the requirements of the main part of this standard is given in Annex B to Annex F. 1.4 If practices differing from those of the Annexes are used, they shall be documented and auditable according to the requirements of the main part of this standard. 2 REFERENCES The following standards are necessary adjuncts to this standard: Title IS No. IS 12772:2003 Application of computers to nuclear reactor instrumentation and control
+(first revision)
+
+IS 15399:2003
+
+Hardware for computers in the safety system of nuclear and radiation facilities
+
+IS 15398:2003 3.10 Graceful Degradation -- Stepwise reduction of system functions in response to detected failures while essential functions are maintained.
+
+computer system development process fulfils all the requirements imposed by the previous phase. 3.22 Avaihhility -- The ability of an item to be in a state to perform a required function under given conditions at a given instant of time or over a given time interval, assuming that the required external resources are provided. 3.23 Component
+Hardware -- Items from which the system is assembled (for example, integrated circuits, resistors, capacitors, wires, connectors, transistors, switches, etc). b) So~are -- A basic part of a progmmme.
+
+3.11 Initialize -- To set counters, switches, addresses, or contents of storage devices to zero or other starting values at the beginning of, or at prescribed points in, the operation of a computer programme. 3.12 Integration Tests -- Tests performed during the hardware/software integration process prior to computer system validation to verify compatibility of the software and the computer system hardware. 3.13 Procedure -- A portion of a computer programme which is named and which perform a specific task. 3.14 Redundancy -- Provision of alternative (identical or diverse) elements or systems so that any one can perform the required function regardless of the state of operation or failure of any other. 3.15 Single Failure -- A random failure, which results in the loss of capability of a component to perform its intended safety function. Consequential failures resulting from a single random occurrence are considered to be pmt of the single failure. 3.15.1 Single Failure Criterion -- A criterion applied to a system such that it is capable of performing its safety task in the presence of any single failure. 3.16 Software -- Programmed, procedures, rules and any associated documentation pertaining to the operation of a computer system. 3.17 "Software Life Cycle -- The period of time that starts when a software product is conceived and ends when the product is no longer available for use. The software life cycle typically includes a requirements phase, design phase, implementation phase, test phase, installation and check-out phase, operation and maintenance phase. 3.18 Software Modification -- Changes of already agreed documents leading to a change to the executable code or its data. 3.19 Software Modularity -- The software attribute that provides a structure of highly independent computer programme units that are discrete and identifiable with respect to translating, testing and combining with other units. 3.20 Validation -- The test and evaluation of the integrated computer system (hardware and software) to ensure compliance with the functional, performance and interface requirements. 3.21 Verification -- The process of determining whether or not the product of each phase of the digital
+
+a)
+
+3.24 Design -- The theoretical -work which leads towards a system requirements specification. test 3.25 Development -- The experimental, demonstration work which is intended to prove the success of any pints of the design whose performance cannot be ensured by theoretical work alone. 3.26 Maintainabfity -- The probability that a given active maintenance action to an item under given conditions of use can be carried out within a stated time interval -when the maintenance is performed under stated conditions and using stated procedures and resources. of all 3.27 Maintenance -- The combination technical and administrative actions, includlng supervision actions, intended to retain an item in, or restore it to, a state in which it can perform a required function. 3.28 Module -- Any assembly of interconnected components which constitutes an identifiable device, instrument or piece of equipment. A module can be removed as a unit and replaced with a spare. It has definable performance characteristics which permit it to be tested as a unit. A module could be a caFL a draw out circuit breaker or any other sub-assembly of a larger device, provided it meets the requirements of this definition. 3.29 Qualified Life -- The period of time for which satisfactory performance can be verified for a specified set of operating conditions. 3.30 Reliability -- The probability that a failure which causes deviation from the required output by more than specified tolerances, in a specific environment, does not occur during a specified exposure period. 3.31 Sub-System -- A division of a system that in itself has the characteristics of a system. 3.32 System -- A set of interconnected elements constituted to achieve a given objective by performing a specified function.
+`L
+
+IS 15398:2003 4 PROJECT STRUCTURE 5 SOFTWARE 5.1 General 5.1.1 The software requirements REQUIREMENTS
+
+Any project will normally be divided up into a number of phases. Each phase is to some extent self-contained but will depend on other phases and will, in its turn, be depended on by others. These phases are informally recognizable by the specific activities pertinent to them. For safety related applications, these phases shall be formalized and none of the identified phases shall be omitted. 4.1 General The following general factors determine the activities in implementation of a project. 4.1.1 The whole considered. software life cycle shall be
+
+(see M2 of F-1 and F-3) shall be derived from requirements of the safety systems and are part of the computer system specification. The computer system specification is a description of the combined hardware/software system and states the objectives and functions assigned to the computer system. The safety critical and safety related functions shall be clearly identified in the requirement specification document.
+
+4.1.2 Each phase of the software life cycle shall be divided into elementary tasks with a well-defined activity for each of them. 4.1.3 Every product shall be systematically checked after each phase (see B-5.7). 4.1.4 The tasks of quality assurance should be run generally in parallel with the other tasks of the life cycle. 4.1.5 Each phase shall include generation of the appropriate documents (see F-3). 4.1.6 Each phase shall be systematically terminated by a critical review. Critical reviews forma major part of the verification process of the software project (see 6). 4.1.7 Every verification step or critical review shall result in a report on the analysis performed, the conclusions reached and the resolutions agreed. his report shall be included in the documentation. 4.1.8 A list of documents required as a minimum through the software life cycle is given in Annex F. 4.2 Software Quality Assurance Plan A quality assurance plan shall exist or be established at an early stage either as a part of the computer system specification (see 4) or.as a companion document. Although the whole of this standard and its annexes can be considered as a quality assurance plan for safety related software, special quality assurance plans may be adopted for individual product phases or particular software components according to organizational standards. These plans should address all quality assurance procedures required during all phases of the software life cycle. 3
+
+5.1.2 The software requirements describe the product, not the project. They shall describe what has to be done and not how it has to be done. An acceptable approach to the development and content of the soft-warerequirements, which is consistent with this clause, is given in Annex A. 5.1.3 Whereas the main -purpose of the software requirements document is to form the basis for software development, the licensing aspects should not be neglected. Therefore, it may contain aspects of minor importance to software design which are, however, a background for licensing. Such aspects may be: a) Risk considerations; b) Recommendations for functions or engineered safety features; and c) Other items that provide the background for specific requirements. 5.1.4 The software functional Requirements represent an expansion of the functions which are assigned to the computer system and which are to be implemented by the computer system. 5.1.5 The software reliability requirements represent an expansion of the reliability requirements of the computer system. They shall be derived in a similar way to the functional requirements. 5.2 The computer system specification shall give an external and synthetic view of the functions to be implemented by the software of the computer system (see A-2.1). 5.3 The computer system configuration shall be described using as a background of the reliability requirements and the environment of the system, since reliability properties and system configuration are closely connected (see A-2.2). 5.4 For interaction between the computer system and plant operator or any other person 10.1.2 and A-2.3 are applicable. 5.5 The interface between the computer system and any other system either within or outside the nuclear plant, wherever a direct connection exists or is
+
+IS 15398:2003
+
+planned, shall be identified and documented indicating the specific interfaces and the related software requirements (see A-2.4). 5.6 The constraints between hardware and software shall be described (see A-2.6). A reference to the hardware requirements document shall be made. 5.7 The computer system software shall continuously supervise both itself and the hardware (see A-2.8). This is considered a primary factor in the achievement of the overall system reliability requirements. 5.7.1 Self-supervision shall meet the following requirements, unless it is proved that other means provide the same degree of safety: a) No single failure shall be able to block directly or indirectly any safety related function of the system. b) Those parts of the memory that contain code or invariable data shall be monitored to ensure integrity of the memory. 5.7.2 The safety system software shall be designed in such a manner that essential functions of the whole safety system be testable during the operation of the facility. 5.7.3 If any failure is detected during plant operation, appropriate and timely automatic actions shall be taken. This may require giving due consideration to avoiding spurious trips. 5.7.4 System self-checking shall not adversely affect the intended system functions. 5.7.5 The safety system software shall be designed so as to meet the requirements of periodic testing which takes place withrn specified maximum intervals (for example, shut-down periods). a) Every single function shall be coverable by periodic testing. b) Any degradation of the execution of safety functions shall be detected. c) The basic self-checking functions shall also be testable during periodic tests. The software should be able to collect automatically all information gained during periodic testing. Further details for periodic testing are given in 10.3. 5.8 Software functional requirements shall be Tresented according to a standard whose formality should not preclude readability (see A-2.9). The requirements shall be unequivocal, testable or verifiable and realizable. 5.9 The use of a formal specification language may be a help to show coherence and completeness of the software functional requirements. Automatic tools may be used for this purpose.
+
+5.10 The software functional requirements shall be provided: a) To the authors of the computer system requirements documents for assessment and approval prior to programming; b) To the software design team manager for approval and with respect to feasibility and readability; and c) To the licensers with respect to compliance with the overall plant safety requirements for licensing approval.
+
+6 DEVELOPMENT (DESIGN AND CODING) OF SAFETY SYSTEM SOFTWARE The following recommendations provide a guide to good practice for writing software which is as error-free as possible from the very beginning and which can easily be verified. The software functional nquirements specification should be available before the design and coding phase
+of programme development begins. 6.1 Principles Coding) 6.1.1 The of Development (Design and
+
+following general principles for development are based on experience in producing error-free and understandable software. 6.1.1.1 The software design shall include self-supervision of control flow and data. On failure detection, appropriate action shall be taken. 6.1.1.2 The programme structure should be based on a decomposition into modules. 6.1.1.3 The programme structure should be simple and easy to understand, both in its overall design and in its details. Tricks, recursive structures and unnecessary code compaction should be avoided. 6.1.1.4 The final source programme readable from start to end. should be
+
+6.1.1.5 Good documentation shall be provided. 6.1.2 From these principles the following recommendations are derived a) Measures .to obtain the required reliability including self-supervision should be chosen at the outset of the development (see B-4); b) Atop down approach to software development should be prefemed to a bottom up approach (see B-2); c) A conceptual model of system structure should be adopted at the beginning of each software project (see B-3); d) The programme should be written to allow easy testing (see B-5 and B-6); and
+
+4
+
+IS 15398:2003
+
+e)
+
+Where standard software froma manufacturer or supplier is used, it should be shown to have operated satisfactorily (see B-3.3). For safety critical application, the listing of the software shall be available Ior verification by the licensing agency.
+
+translation of a specific language feature oraparticular combination of such features.
+6.2.3 Problem oriented languages preferred to machine oriented ones. 6.2.4 are strongly
+
+6.2 LanWage, Translator and Other Tools Guidance for selection of Ianguage,translator, etc, are given in Annex D. Even though a specific programming-language cannot be required, the following may be considered as common basic rules for safety system programming languages. 6.2.1 Languages with a thoroughly tested translator should be used. If no thoroughly tested translator is employed, additional verification shall show that the result of the translation is correct. 6.2.2 The language should be completely and unambiguously defined, otherwise the use of the language shall be restricted to completely and unambiguously defined features. This applies in a similar way if there is any doubt about the correct
+
+As well as the specific points mentioned in Annex D, a programming language for safety systems and its translator should not prevent by their design: a) Error-limiting constructs; b) Translation-time type checking; and c) Run-time type and array bound check, and parameter checking. 6.2.5 Automatic testing aids should be available. 6.2.6 The use of automatic teds is recommended. 6.3 Detailed Recommendations
+6.3.1 Development
+
+In Annex B a set of recommendations is given which specifies in detail the aspects identified in 6.2. The headings of the individual recommendations of Annex B as well as relevant clauses of this standard can also be attributed to the two major parts of programme development, design and coding, according to Table 1.
+
+Table 1 Procedural
+
+and Structural
+
+Aspects of Desiin and Coding of User Programme for Safety System (Clause 6.3.1)
+item (4) B-2.1 B-2.2 B-2,3 B-2.4 B-2.5 Clause (5) 4 6 9 9 Structural Aspects (6) Control and access structures Modules Operating system Execution time Interrupts Arithmetic expressions Plausibility check Safe output Branches and loops Subroutines and prcadures Nested structures Data structures Modules Execution time Interrupts Arithmetic expression Plausibility check Safe output Memory contents Error checking Branches and bOpS Subroutines and procedures Nested structures Addressing and arrays Data structures Dynamic changes Sequences and arrangement Comments Assembler/Compiler Item (7) B-3.1 B-3.2 B-3.3 B-3.4 B-3.5 B-3.6 B+$.1 B-4.2 B-5.1 B-5.2 B-5.3 B-5.5 B-3.2 B-3.4 B-3.5 B-3.6 B-4.1 B-4.2 B-4.3 B-4.4 B-5.1 B-5.2 B-5.3 B-5.4 B-5.5 B-5.6 B-6.1 B-6.2 B-6.3 Clause (8)
+
+SI
+No. (1) i)
+
+Parameter (2) Design
+
+Procedural Aspects (3) Changeability Top-down approach hrtermcchateverification Changes during development System reconfiguration
+
+4
+
+4 4
+
+ii)
+
+Coding
+
+Intermediate verification Changes during development Intermcdate tests Codkg roles
+
+B-2.3 B-2.4 B-5.7 B-6.4
+
+6 9 6
+
+5
+
+IS 15398:2003 6.3.2 6.3.2.1 Use of the.Recommena2ztions
+
+At the outset
+project
+
+programming be selected programme
+
+of any safety those recommendations
+
+related should
+
+documentation is provided programme development.
+
+as a by-product
+
+of
+
+The selection may include the change of priorities and further sub-divide into details of individual recommendations. 6.3.2.2 In connection with particular problems it may be reasonable to modify the recommendations selected from Annex -B, in order to meet the goal of overall simplicity and understandability. These modifications shall be documented, taking account of the following: a) During the selection procedure of the recommendations, the safety relevance of particular software parts should be considered; b) The more limiting recommendations should be selected and applied to those programme sections which are more critical to the safety of the system; c) Programme sections of outstanding safety relevance should be clearly identifiable from the system and data structure used; d) The selection procedure should take into account the available testing facilities and the intended validation strategy. If important parts are programmed diversely, a different verification strategy may be used for those parts; and e) If difficulties arise during verification, a retrospective change of programming style may be necessary. 6.4 Documentation
+6.4.1 During programme development the end of the
+
+and recorded development.
+
+which apply to the intended
+
+6.4.3 The aim is an integrated set of documents. Each document shall have a defined relationship to the other document and contain a well bounded subject-matter. 6.4.4 Documentation formats should be selected according to the specific purpose, including: a) Narrative description; b) Arithmetic expressions; and c) Appropriate diagrams and drawings. As a general rule it is preferable to choose a graphical representation. The documentation itself shall follow the relevant standards. 7 VERIFICATION 7.1 Software Verification
+Process
+
+7.1.1 After the software functional requirements have
+
+been established and before the next phase begins, verification addresses the adequacy of the software functional requirements in fulfilling the safety system requirements assigned to the software by the computer system specification. 7.1.2 After the design phase and before the next phase begins, verification addresses the adequacy of computer system software design as documented in the software performance specification to the software functional requirements. 7.1.3 After the coding phase and before the next phase begins, verification addresses the compliance of the coded computer system software to the software performance specification as derived by the design phase. Each phase shall be completed (see A-1).
+7.2 Software Verification 7.2.1 7.2.1.1 Verification Plan Activities
+
+design phase shall be marked by production of a formal document, the software performance specification (see M3 of F-1 and F-3). This document serves as the basis"forthe formal design review and the subsequent programme coding. Sufficient detail shall be included so that programme coding can proceed without further design clarification. An outline of the suggested content is given in Annex C. 6.4.2 In addition to the software performance specification, other documents may be required. They are used for both intermediate and final programme verification steps. Some of these documents relate to the first design steps. They are derived from the functional requirements specification and provide the basis for the software performance specification. Others are derived from this particular document and represent the basis for-later coding. If the recommendations for the development procedure according to Annex B are met, appropriate 6
+
+by verification
+
+Concurrently with the phases of the software development cycle described above a software verification plan shall be established. The plaa shall document all the criteria, the techniques and tools to be utilized in the verification process. It shall describe the activities to be performed to evaluate each item of software and each phase to show whether the functional and reliability requirements specification is met. The level of detail shall be such that an independent group can execute the verification plan and reach an objective judgement on whether or not the software meets its performance requirements.
+NOTE -- The requirements for an independent group implies verification either by an individual or an organization which is separate from the individual or organization developing the software. The most appropriate way is to engage a verification team.
+
+7.2.1.2
+
+The verification plan shall be prepared by a verification team addressing: a) Selection of verification strategies, either systematic, random or both, with test case selection according to either required functions, special features of programme structure, or both (see Annex E); b) Selection and utilization of the software test equipment; c) Execution of verification; d) Documentation of verification activities; and e) Evaluation of verification results gained from verification equipment directly and from tests, evaluation of whether the reliability requirements are met.
+
+strategy. At the module level, the software is not yet integrated into the system, therefore it can be extensively tested. The purpose of module testing is to show that each module performs its intended function and does not perform unintended functions. A module integration test shall be performed to show at the earliest stage of development that all modules interact correctly to perform the intended function. Guidance for code verification activities is given in the software test specification.
+7.2.3.1 Software test specification
+
+The management of the verification team shall be separate and independent from the management of the development team. The members of the verification team shall have proven skill in the design and development of safety critical and safety related computer systems. 7.2.2 Design Verification, Critical Reviews
+7.2.2.1 The design vefilcation addresses:
+
+The software test specification is one of the principal documents of the verification plan for the coding phase. TMs document shall be based upon a detailed examination of the software functional requirements and shall give detailed information on the tests to be performed addressing each of the components of the software (modules, their constituents and interfaces). The software test specification is based on a general description of the software being tested. The description is supplied by the design team. The software test specification shall include: a) Environment in which the tests are run; b) Test procedures; c) Acceptance criteria, that is a detm'led definition of the criteria to be fulfilled in order to accept modules and major software components on sub-system and system leveh d) Error detection and corrective action procedures; and e) A list of all documents that should be produced during the code verification phase. 7.2.3.2 Software test report The software test report shall present the results of the test programme described in the software test specification stating whether or not the software has achieved the performance requirements given in the software functional requirements. This standard (see M4 of F-1 and F-3) shall allow the complete diagnosis of design and performance deficiencies. It shall also include the resolution of all software deficiencies and test discrepancies discovered during the test. The software test report shall include the followi~ items both for the module and major design levels: a) Hardware configuration used for the test; b) Storage medkrn used and access requirements of the final code tested; c) Input test listing; d) Output test listing e) Additional data regarding timing, sequence of events, etc; f) Conformance with acceptance criteria given in the test specification; and 7
+
+Adequacy of the software performance specification for the software functional requirements with respect to consistency and completeness down to and including the modular level; b) Decomposition of the design into functional modules and the manner of specification with reference to: 1) feasibility of the performance required; 2) testability for further verification; 3) readability by the development and verification team; and 4) maintainability to permit further evolution; c) Aspects of quality requirements. In case of any non-conformance as mentioned above, the software design shall be updated to meet the requirements to ensure safety before going to the coding phase. 7.2.2.2 The result of the design verification shall be documented in a report (see MS of F-1 and F-3). This report shall include: a) Items which do not conform to the software functional requirements; b) Items which do not conform to the design standards; and c) Modules, data, structures and algorithms poorly adapted to the problem. 7.2.3 Coding Phase Ver#kation The code verification activities begin with module testing and go up through the software by a bottom-up
+
+a)
+
+g)
+
+Error incident log which describes the character of the error and the remethes taken by the design team. INTEGRATION
+
+any integration requirements to be included in the design of the hardware and software. 8.3 System Configuration
+Control
+
+8 HARDWARE/SOFTWARE
+
+8.3.1 The system integration plan shall establish a
+
+The process of hardware/software integration is the combining of verified hardware and software modules into a system that is capable of performing specified functions. This process consists of four parts: a) Assembling hardware modules by interconnecting wiring according to the system design drawings; b) Assembling software modules by a linkage processov c) Loading the software into the hardware; and d) Verifying by testing that the hardwarel software interface requirements have been satisfied and that the software is capable of operating in that particular hardware environment. 8.1 System Integration Plan 8.1.1 The system integration plan shall be prepared and documented in the integration requirements (see A-1) and verified against the safety system requirements. The system integration plan (see M2 of F-1 and F-3) describes the organizational and procedural aspects of the hardware/software integration. 8.1.2 This plan shall specify the standards and procedures to be followed in the hardwardsoftware integration and shall document those provisions of the overall quality assurance plan that are applicable to the system integration. 8.1.3 The system integration plan shall discuss any constraints made by the specific design of the hardware and the software. The plan shall include the requirements for procedures and control methods covering: a) System configuration control; b) System integration; c) Integrated system verification testing; and d) Error resolution. 8.1.4 In the process of verifying the individual hardware and software modules, certain.aspects of the design of these modules may be better tested at the integrated system level. All interdependencies between the verification of the individual modules and the verification testing of the integrated system shaIl be documented in the system integration plan. 8.2 Relationship
+Hardware of System Integration and Software Development to
+
+library of software and hardware modules as the means for system configuration control. This library shall provide revision control for all hardware and software modules to be used in the system. 83.2 Adequate procedures shall be established to implement this library function and shall provide for the following tasks of the library function. a) Procedure shall ensure that no module or revision is entered into the library until it has been verified; b) Procedure shall ensure that the system integration is performed using the proper revision levels of the individual modules; c) Procedure shall provide for an index of the use of each module in the system so that the impact of future revisions to the modules can be adequately assessed; and d) Procedure shall be conducted in such a way that the overall quality assurance plan is met. 8.4 System Integration Phase
+8.4.1 The specific procedures
+
+for the hardware/ software integration necessarily depend on the nature of the system design and cannot be included in this standard. However, such procedures shall be established and documented by the integration plan and shall cover the following activities: a) Acquisition of the-proper modules using the library and procedures of 7.3; b) Integration of the hardware modules into the system (for example, module position, memory address, selection, interconnection wiring); c) Linkage of software-modules and the loading of the software into the hardwarq d) Preliminary functional test of the integrated system function (see 7.4.2); e) Documentation of the integration process and the system configuration that will be subjected to verification testing; and o Formal release of the integrated system to verification testing. 8.4.2 The testing performed in this phase of the hardware/software integration is the designer's functional test of the system. It is the system analogy to the debugging done by a programmer before he reteases KNsoftware to be verified. If the resolution of any error requires a change to verified software or any design document, that error shall be reported according to the procedures established by 7.6.
+
+The system integration plan shall be prepared sut%ciently early in the development process to allow
+
+8
+
+IS 15398:2003
+
+8.5 Integrated System Verification 8.5.1 The system verification is the process of determining whether or not the verified hardware and software modules have been properly integrated into the system and that the hardware and software are compatible and perform as a system as required by the integration requirements. 8.5.2 The system shall be as complete as is practical for this testing. 8.5.3 The test cases selected for system verification shall exercise all module interfaces as well as the basic operation of the modules themselves. Justification shall be provided in the system integration plan for the simulation of any part of the system or its interfaces. 8.5.4 Integrated system verification shall be conducted in-accordance with a formal test plan. The plan shall identify the tests for each computer system interface requirement. The integrated system test shall be developed and the test results evaluated by individuals who are familiar with the system specification and who did not participate in the development of the system. 8.5.5 The level of independence provided between the designers and the system verifiers shall be sufficient to ensure that all communication between the two parties, whether for clarification or error reporting, is only conducted formally in writing at a level of detail which may be audited by persons not involved.in the development of the system. 8.5.6 Equipment used for system verification shall be calibrated. Quality assurance measures shall be established for software tools used for verification, commensurate with the importance of those tools "for verification. 8.6 Error Resolution Procedures
+
+to determine whether any systematic deficiency of the verification exists. 8.7 Integrated System Veritlcation
+Test Report
+
+8.7.1 The results of the integrated system verification shall be documented in a test report (see M5 of F-1
+
+and F-3). This report shall identify the hardware and software used, the test equipment used and its calibration, the simulation of system or interface components, and any test results discrepancy found along with the corrective actions taken according to 7.6. The test results shall be retained in a form that is auditable by persons not directly engaged in the test programme. 8.7.2 The resolution of all reported errors and the results of the subsequent evaluation shall be documented in sufficient detail and in a manner that is auditable by persons not directly engaged in the system development and verification prograrnme. 9 COMPUTER SYSTEM VALIDATION 9.1 General 9.1.1 Testing shall be performed to validate the hardware and software as a system in accordance with the safety systems requirements to be satisfied by the computer system. The computer system validation shall be conducted in accordance with a formal validation plan (see M5 of F-1 and F-3). The plan shall identify the vrdidation for static and dynamic cases. 9.1.2 The computer system shall be exercised by static and dynamic simulation of input signals present during normal operation, anticipated operational occurrences and accident conditions requiring computer system action. Each safety function should be confirmed by representative tests of each trip or protection parameter singly and in combination.
+9.1.3 It is recommended that the tests be conducted
+
+8.6.1
+
+Specific procedures for the reporting and resolution of errors shall be prepared as a part of the system integration plan. These procedures shall apply to all errors found during the system verification as well as those found during the integration functional test that require changes to verified software or system design documents. The procedure shall ensure that any required re-verification of hardware or software modules is performed and that the revision to the modules is carried out through the library procedures of 7.3. 8.6.2 An evaluation of each error reported shall be made to determine whether the error was of such a nature that it should have been detected at an earlier phase (such as module testing) of the verification. If this is found to be the case, then an investigation of that earlier stage of the verification shall be conducted 9
+
+so as to: a) Cover all signal ranges, and the ranges of computed or calculated parametem in a fully representative mannen b) Cover the voting and other logic combinations comprehensively; c) Be made for all trip or protective signals in the final assembly configuration; d) Cover signals out of range; e) Ensure that accuracy and response times are confirmed and that correct action is taken for any equipment failure or failure combination; and f) Cover signals coupled with anticipated noise.
+9.1.4 In addhion, the required input signals and their
+
+values, the anticipated output signals and the acceptance criteria shall be stated in the validation
+
+IS 15398:2003
+plan.
+
+The computer system validation plan shall be developed and the results of the validation be evaluated by individuals who did notprticipate in the development phase. 9.1.5 Equipment used for validation shall be calibrated. Proven hardware and software shall be used for validation. They should, however, be showm to be suited to their purpose. 9.2 Computer System Validation Report
+9.2.1 The results of the computer system validation shall be documented in a report (see M6 of F-1
+
+10.1.2 The modification request shall be evaluated independently, the result being either: a) Reject the request; in this case it is sent back with comments; b) Approve a request of minor importance and impact immediately if it is made during initial development after analysis; c) Require a detailed analysis resulting in software modification analysis report. This report shall be written by software personnel knowledgeable in the system software; and d) Accept the request. 10.1.3 The following items shall be examined in the evaluation of the modification request: a) Technical feasibility; b) Impact upon hardware (for example, memory extension) or upon other equipment (for example, test systems) in which case the request for modification addressing this impact axeamustbedocumentedfor theequipment c) Impact upon software including a list of affected modules; d) Impact upon performance (including speed, accuracy, -etc); e) Necessary effect for verification and validation; the analysis of the software re-verification needed shall be documented in an auditable form; f) Set of documents to be reviewed. 10.1.4 The software modification request is pending until the decision is made: a) To accept it (immediately, or after examination of the software modification analysis report) and to execute it, or b) To reject it and justify the rejection.
+
+and F-3). This report shall identify the hardware and software used, the equipment used and its calibration, the simulation models used, and any discrepancies and corrective actions according to the modification procedure of 9. 9.2.2 The report shall summarize the results of the computer system validation and shall assess the system compliance with all requirements. 9.2.3 The results shall be retained in a form that is auditable by persons not directly engaged in the validation. Software tools used in the validation process should be identified as an item in the validation report. Simulations of the plant and its systems used for the validation shall be documented.
+10 MAINTENANCE AND MODIFICATION
+
+A formal modification control procedure shall be established including verification and validation.
+10.1 Modification Request Procedure
+
+For a modification to be considered, the following procedure shall be followed.
+10.1.1 A software modification request shall be generated, and uniquely identified sta,ing: a) Reason for request; b) Aim; c) Functional scope; and d) Originator.
+
+10.2 Procedure for Executing a Modification on site, the software 10.2.1 For modifications supplier should have access to a test configuration which is identical to the real system in all relevant aspects (including installed machine, translator, testing tools, plant simulator, etc) to ensure the validity of the modifications. 10.2.2 A modification procedure depends upon the level at which it is introduced: a) For a change of the software functional specification, the whole software development process for any part of the system impacted by the change shall be re-examined b) A change during the development phase shall be reviewed in terms of its potential impact upon correspondingIower levels; and c) The modification shall be carried out according to the rules given in 5.
+
+The modification may be requested during the development phase because of a change of functional requirements caused by: a) Functional modification; b) Technological evolution; and c) Changes of operating conditions. The modification may be requested because of .an anomaly report as a result of tests or change in the functional requirements. Modification for these reasons may cause a change in the software requirements document. If the modification is requested after delivery; .it is then considered to be maintenance of the software.
+
+10
+
+IS 15398:2003 10.2.3 After implementation of the modification, the whole or part of the verification and validation process described in 6.1 and 8, shall be performed again 11 COMMISSIONING 11.1 Computer System 11.1.1 Commissioning Tests AND OPERATION
+
+according to the software (see 9.1.3).
+
+modification
+
+analysis
+
+10.2.4 All the documents affected by the modification shall be corrected and refer to the identification of the software modification request. A software modification report shall sum up all the actions made for modification purposes.
+All these documents shall be dated, numbered and
+
+11.1.1.1 A test programme shall be provided to verify the integrity of the installed computer-based safety system with respect to response, calibration, functional operation and interaction with other systems.
+
+11.1.1.2 A commissioning test plan, consisting of acceptance criteria, test cases and test environment shall be established (see M6 of F-1 and F-3). 11.1.1.3 A commissioning test report presenting test results and conformity to acceptance criteria shali be established (see M7 of F-1 and F-3). 11.1.2 Man-Machine Interaction 11.1.2.1 To allow man-machine interaction, operator control of computer functions maybe required. These devices shall not provide the capability to alter the stored computer programme logic. 11.1.2.2 An appropriate procedure and/or locking device shall be established to prevent the operator inadvertently changing parameters that can affect the set points of the safety system. 11.1.2.3 All the actions performed by the operator through the operator control shall be documented by suitable means. 11.2 Operator Training 11.2.1 Training Programme In order to achieve safe plant operation, operator behaviour is as important as equipment reliability. Therefore an operator training programme shall be provided both for plant operators and instrumentation and control specialists consistent with the complexity of the protective functions implemented. The training programme shall provide for normal and abnormal operation. All operator interfaces of the computer system shrdl be included in the training programme. Specific training in the recognition of hardware and software abnormalities should also be included in the programme. TIie training programme shall also include description of the hardware and software. Procedure for stopping and re-starting the system and procedure for changing software constants like alarm limits and keywords related to the plant signals shall be well documented. IL2.2 Training Plan
+11.2.2.1 A training plan consistent with the principles of the training programme shall be established (see M6 of F-1 and F-3).
+
+filed in the software modification control history for the project. 10.2.5 The testing and verification of modification in software shall be performed in separate identical spare system. After successful testing and verification, the modified software shall be ported to target system.
+10.3 Maintenance
+
+The reasons for maintenance include: a) An anomaly report; b) A functional requirements change after delivery; c) Technological evolution; and d) A change in operating conditions. 10.3.1 In case of an anomaly, an anomaly report shall be written giving the symptoms, the system environment and system status at the time at which the anomaly was discovered and the suspected causes. Anomaly correction requires the generation of a software modification request, the execution of which shall follow the procedure described in 9.1. 10.3.2 In case of a change in software functional requirements or in operating conditions, the whole software development process shall be re-examined for that part of the system impacted by the change. 10.3.3 Any new hardware requirements and capabilities shall be examined with respect to their potential impact on the software systems. This evaluation should include all hardware considerations reviewed in the original software design. If it can be shown that the new system does not impact the software requirements, a simplified procedure maybe used to implement the modification either at the design or coding phase. 10.3.4 In all cases, after implementation of the modification upon the in-the-field equipment, a field document shall be issued which gives the date of the implementation and the result of the specified observations. This document shall be filed in the software morhfication control history for the project.
+
+11.2.2.2 A user manual shall be provided for the plant operator (see M6 of F-1 and F-3). The user manual 11
+
+IS 15398:2003
+should
+
+define each operator interface device. Each function of each device shall be explained and illustrated in accordance with its complexity. 11.2.3 Training System Operator training shall be conducted on a training system which is equivalent to the actual hardware/software system. The plant stimulus to this system shall be provided by a test system capable of simulating normal and abnormal plant conditions.
+11.2.3.1
+
+checks, verification of proper calibration and response time tests shall be defined. 11.3.2 Test Requirements The tests shall verify the basic functional capabilities of the software periodically including: a) Test of all basic safety functions; b) Special testing to be used to detect failures that cannot be revealed by self-checking provisions of the safety systems or by alarm or anomaly indications; and c) Tests of the major non-safety related functions. 11.3.3 Auxiliary Device Requirements The software dedicated to auxiliary devices for periodic testing of the safety systems need not be designed to comply with all software safety requirements. Their quality should cornxpond to the quality of verification tools as mentioned in 8. Test data should be selected according to E-4.2.
+
+11.2.3.2 Furthermore the training system should provide training facilities for each operator interface device. A computerized simulator may be used for this purpose.
+11.3 Software Requirements 11.3.1 Test Programme for Periodic Testing
+
+A programme.for periodic tests of the safety systems including applicable functional tests, instruments,
+
+ANNEX (Clauses 1.1,5.1.2,5.2,5.3,5.4,
+SYSTEM DEVELOPMENT A-1 SYSTEM DEVELOPMENT
+
+A and 8.1.1)
+REQUIREMENTS
+
+5.5,5 .6,5.7,5.8,7.1.3
+
+LIFE CYCLE AND DETAILS LIFE CYCLE
+
+OF SOFTWARE
+
+The system development life cycle is illustrated in Fig. 1, which shows the relationship of the designed implementation activities to the verification and validation activities. .A-2 DETAILS OF SYSTEM REQUIREMENTS
+A-2.1 A-2.1.1 Computer System Speeifkation
+
+The purpose of the computer system specification is to: a) State the overall purpose of the software with a definition of explicit limits and with a statement of what the software must not do; b) List volume and throughput expectations of the software and state explicitly which are merely target figures or goals and which are absolutely necessary for the software system; c) Safeguards against entry of viruses; d) State qualitative expectations of the system (for example, required accuracy) separated into absolute and approximate objectives; e) State objectives relative to policy, tradition, industrial practices and management dhtctives; f) Classify the objectives according to priority.
+A-2.1.2
+
+specification describes functions dedicated to the prevention of the release of radioactivity under accident conditions, and their initiation conditions. The document should include function and initiation conditions foc a) Emergency shutdown; b) Other safety functions, the necessary calculations,.their physical background c) Functions that prevent plant damage, the necessary calculations, their physical background; and d) Functions that have minor safety relevance. The description should state the relationship of these functions to the total plant concept and the control function executed by other systems. A-2.2 Computer System Configuration
+A-2.2.1 The quantitative reliability requirements for individual actions,'functions and sequences of action or for handling particular disturbances, transients and accident situations should be considered, taking account of classes of safety relevance.
+
+The hardware and software shall comply with the single "failurecriterion. A-2.2.2 To avoid common-mode failure effects and to increase system reliaiiiity, the following factors are relevant: 12
+
+If the computer system is used for supervising and controlling nuclear reactor, the
+
+IS 15398:2003
+
+Safety systems rcquimmsnts to be Sstisfid by the computer system k r-------------------------------~ Computer system spccithation I ~ , I Hsrdwsre * , I requirements I I * I , ---------------------------------------------------., 4 I o I Intcgrstiosl mquiremcnts rcquiremenb "6 > 4 --- ,--- .----.1 `b : t 1
+
+q_ < . . . . . . . . . . . . . ------------------------
+
+&l
+Build
+
+*
+
+4
+
++
+System integration I }
+
+9-I
+Design 1 COdhg 4 1! > + -- I I L 1 FIG. 1 SYSTEM DEVELOPMENT LIFE CYCLE
+
+k
+
+z
+
+a) Defence-indepth; b) Graceful degradation; c) Management of failures in general; d) Functional diversity and if necessary software diversity; and e) Spatial separation and moduiarization, decoupling, logical separation. A-2.2.3 The design shall take account ofi a) Interaction between the different blocks and separate units; b) Hierarchy of functions; c) System structuring criteria; d) System software configuration; e) Interface design principles; and f) System adaptability, changeability and the expansion capability of interfaces.
+A-23 A-23.1 a) Man-Machine Interaction
+
+b) c)
+
+d)
+
+e) f) @
+
+h)
+
+The basic principles include: No computer system failure shall appropriate human control actions; inhibit
+
+j)
+
+Man-machine interfaces shall be identified; Formal procedures and a clear syntax for human interactions with the computer system shall be defined The human procedures within the system, which are likely to be bottlenecks or are likely to cause undue problems with the system such as human operation, which could enter errors, shall be identifiti, l%ecomputersystem shall'checkanymanualinput for syntacticComctneasand semanticplausibili~, Inappropriate operator control actions should be signakd; From identified interfaces and problems areas, a &scription of human engineering factors, "which could have a significant effect on human performance, shall be derived; The human procedures that will require significant training or elaborate aids shall be identified, and The entire system shall be reviewed and analyzed to ensure that the automated portions
+
+13
+
+IS 15398:2003
+
+of the system are designed to aid and support the human portions and not the reverse. A-2.3.2 The requirements for human actions to the computer system include: a) The operator shall be able to check basic system functions on-line; b) No modification for software shall be made during plant operation, without following a strictly controlled procedure; c) The procedures for introduction, modification and display of parameters shall be exactly defined, simple and easy to comprehend; d) Appropriate `menu' techniques shall be -provided; and e) Manual interaction shall not delay basic safety actions beyond specified limits. A-2.3.3 The requirements for computer system displays include: a) Computer system shall not mislead the operator; b) Computer system shall report its own defects and failures to the operatov c) Use of colours, flashing signals, alerting signals etc. shall follow a clear scheme; and d) Information displayed and its format shall follow ergonomic principles.
+A-2.4 Items Relating to Interfaces Man-Machine Interface) (Other than
+
+A-2.5.2 All variables necessary to execute the function -shall be stated with regard to the following
+
+items: a) Input domain and output range; b) Relationship between the internal representation of the variable and its corresponding engineering units value, c) Input accuracy and noise limits; and d) Output accuracy. A-2:5.3 Particular emphasis shall be placed on the description of functions with regard to safety, and those requiring a complex software design, and those needed to control or govern complex physical mechanisms. A-2.5.4 A detailed description of all system functions shall be provided relating them to each other and to system inputs and outputs. Diagrams shall be provided depicting functional and inputioutput relationships. The description of such functions shall include, as far as applicable: a) Reasons for particular functions; b) Conditions which cause each function to operate (accident detection); c) Sequences of tasks, actions and events; d) Starting conditions, systems status at initiation of function; e) Further possible extensions of that function; and f) Details of the verification procedure.
+A-2.5.5 The performance stated, including: of the system shall be
+
+The following items should be considered: a) Independency and decoupling; b) Prevention of transmission failures and of failure propagation; c) Strict control of interactions between systems or sub-systems of different safety relevance, including handshake mechanisms, communication protocols, failure checks, message formats, and message throughpu~ d) Resource constraints; and e) Appropriate reference to more detailed documents. The incorporation of the computer systems in the safety systems and their relationship with the safety actuation systems shall be precisely described. A-2.5 Description of System Functions
+A-2.5.1 The complete list of system functions shall be
+
+a) Worst case, best case, planned level of performance in any respect, including accuracy; b) Irrational input signals due to noise or sensor failure; c) Timing; d) Other existing constraints and compulsory conditions; e) All calculations particular to the application or application-dependent data manipulations that must be made on the dam, f) Input/output handling functions, synchronization communication protocol; and !3) Input validation functions such as format validation, field validation, logic checks and source validation. A-2.5.6 The system data structure and relationships should be described including: a) Database characteristics, maintenance and updating; b) All information retrieval functions; c) Identification of all data elements that will be required to arrive at the specified output;
+
+given. The number of items to be described depends on the complexity of the function. The description shall include as a minimum: a) Aim of each function; b) Relevance to the system reliability; and c) All input/output variables.
+
+14
+
+IS 15398:2003
+d) e)
+
+f)
+
+Classification of related datas elements into groups; Data group activity relationships, relationship between each data group and the inputs and outputs of the system; and Classification of data groups which are more critical than others in terms of access requirements.
+Constraints Between
+
+A-2.7 Deaeription of Special Operating Conditions
+
+A-2.6 Descri~tion of Hardware and Software A-2.6.1 a)
+
+The following items shall be described: Operating characteristics in general (word length, exchange types, speed .etc); in many
+
+cases a reference to the equipment manufacturer manuals is sufficient b) Special equipment operating characteristics (particular drivers, data-communications equipment, etc); c) Arithmetic constraints; d) Requirements of proven software packages; e) Requirements of hardware self-supervision; and f) At least a reference to the hardware requirements document shall be made. A-2.6.2 The postulated failure causes of the hardware should be carefully examined to determine where the principle for diversity could be used effectively to avoid common-mode failures. This diversity may be: a) Functional diversity in which several different means are used to accomplish a particular task; b) Equipment diversity in which hardware from different suppliers is used. A-2.6.3 The reciprocal requirements betwem hardware and software shall be determined with respect to failure detection and reaction on failure indications. Documentation of all hardware requirements which impact software is necessary to provide the basis for hardware/software integration and computer system validation. The interface between software or hardware at one level of safety significance and at higher levels shall be described. A-2.6.4 In some software systems it may be advisable to describe the "following items in addition to those already mentioned: a) SpatiaI separation of software and modularization due to the hardwaxe structure chosen; b) Effects of the multi-processor structure on software, effects of the linkage between the processors; c) Tlmetffects of digital processing; d) Real time monitors; and e) System expansion capabilities and system adaptability.
+
+At least the following conditions shall be considered: a) Plant commissioning and refueling (in case of reactors); b) System initialization, including setting the system into operation, providing the necessary starting values etc; c) System switch-off, removal from service; d) Re-try procedures implemented in the system; e) Graceful degradation if errors in the softwiue are recognized and if hardware failures are detected, in particular if certain input or output devices are not available; f) System re-configuration and re-initialization after the whole system or some parts have been out of service; and g) Reference to necessary operator actions. A-2.8 Self-supervision
+A-2.8.1 Appropriate automated actions should be taken at failures considering the following factors:
+
+a) Failures shall be identified to a reasonable degree of detail and isolated to the narrowest environmen~ b) Fail-safe output shall be guaranteed as far as possible; c) If such a guarantee cannot be given, system output shall violate only less essential safety requirements; d) The consequences of failures shall be rhinimizd, e) Remedial procedures, such as, fall back, re-try, system recovery, should be considered for inclusion; o Reconstruction of obliterated or incorrectly altered data may be tried; and g) Information on failures shall be provided for the operating staff. A-2.8.2 The system shall be designed such that appropriate self-supervision is feasible. Design principles used to assist this include: a) Mochdarization; b) Intermediate plausibility checks; c) Use of redundancy and diversity; diversity may be implemented as functional diversity or software diversity; d) Provision of sufficient execution time and memory space for self-checking purposes as specified in the system specification documenc e) Incorporation of permanent test facilities; and f) Failure simulation may be used to confirm the adequacy of self-supervision features.
+
+15
+
+IS 15398:2003 A-2.8.3 System self-checking shall not prevent timely system reactions in any circumstance. A-2.9 Presentation Requirements of Software Functional A-2.9.2 The software requirements document shall distinguish clearly between essential performance requirements and less stringent targets. A-2.9.3 The software requirements document is intended to be used by: a) Authors, that is, plant specialists;
+
+A-2.9.1 The software functional requirements shall be presented in a manner, which is easy to understand The presentation shall be for all user groups.
+
+sufficiently detailed, free from contradiction, and non-redundant as far as possible. The document shall be free of implementation details, complete, consistent and up-to-date.
+
+b) c) d) e)
+
+Customer, client or final useu Sofiware system development team; Software system verification team; and Assessors and licensing personnel.
+
+ANNEX
+
+B and 6.4.2)
+(DESIGN AND CODING) OF
+
+(Clauses 1.3,6.1 .2,6.2.4,6.3.1
+DETAILED
+
+RECOMMENDATIONS FOR THE DEVELOPMENT SAFETY RELATED SOFTWARE
+
+B-1 The recommendations are listed in the following clauses. The indicated priority or importance shows
+
+marked by `x'. If in addition to this a minor help can be used this is marked additionally by `O':
+
+the significance of the individual requirements. `1` means the highest significan~ '3' the lowest. A project should select recommended criteria according to the priority indicated for each main heading and sub-heading in order.
+If the implementation of a specific requirement can be facilitated by computer hardware, a special programrne or the operating system, this is usually
+
+A reference is given in the `Check' column to the material which allows confirmation that a recommendation has been met, as follows: a, `D' stands for documentation; b) `C' for written code; `H' signifies verification is hardly possible; c, and `T' means verification is possible during `) programme testing.
+
+16
+
+B-2 DESIGN PROCEDURES B-2.1
+Item
+
+Changdabiiity
+Pn"ority or Importance Realization by or i% or with the h Operti"ng System Special Programme User Programme Programme Document
+
+p of
+Hardware Check
+
+Good Against/ Goodfor
+
+a
+
+Software design shall easily allow changes
+
+2
+
+x
+
+D
+
+Good against -- Necessity of complete re-design at late developrm%tstages Good for -- Reaching flexibility
+
+aa
+
+At an early design stage it should be identified which characteristics o~the s~tlware to be developed and its functional requirements are likely to change during its life cycle During further design stages modules stiould be chosen such that the most probable modifications resuh in the change of one or two modules only Modihatilhy shouldbe carefullycounterbalancedwith resultingoverheadin run time and memory space
+
+2
+
+x
+
+D
+
+ab
+
+2
+
+x
+
+D
+
+Good for -- Ease of modifications
+
+1
+
+x
+
+D
+
+ac
+
+Geod against -- Getting too bulky systems
+
++
+4
+
+B-2.2 Top-Down Approach
+Item
+Recommen&tiori Oper@"ng System b Realization by or im or with the Help of Special Programrne User Progr-e Programme Document Hardware Check GoodAgainstiGood for
+
+A topdown approach shall be used in design
+
+2
+
+x
+
+D
+
+ba
+
+General aspects should precede specific ones
+
+2
+
+x
+
+D
+
+Good against -- Design errors generally Good for -- Completeness of design Good for -- Consistency of the system and completeness of design Good for -- Consistency of the system and finding problem areas as early as possible Good for -- Coordination prngramming of
+
+bb
+
+At each level of refinement the whole system should be completely described and verified
+
+3
+
+x
+
+D
+
+bc
+
+Areas of dit%culty shauld be identified as far as possible at an early stage in the design procedure Principal decisions should be discussed documented as soon as possible and
+
+3
+
+x
+
+D
+
+M
+
+3
+
+x
+
+D
+
+Goodagaimt-Running intodif&rdties at theerldofthedevebJpmerrt Good against -- Duplicating work Good for -- Careful design
+
+be
+
+After any major decision affecting other system parts, the alternatives should be considered and tbeirrisks be documented
+
+3
+
+x
+
+D
+
+Item
+
+Priority or Importance
+
+Realization by or ifi or with the Help of Operating System Special Programme User Programme Programmt Document Hardware Check
+
+Good Against/ Goodfor
+
+bf
+
+Consequences for other system parts which are implied by individual decisions should be identified The interval between levels should be small enough to permit aclearunderstarrding of the decision process involved within the step The programme design and development should proceed using one or more higher level descriptive formalism, such as used in mathematical logic, set theory, pseudo ccdc, decision tables, logic diagrams or other graphic aids or problem oriented languages As far as possible automatic development aids should be used Documentation should be such that the specifier is able to understand and check Wfr the design and the programme Cndirw should be amorw? the finaf steDstaken
+
+3
+
+x
+
+D
+
+Good against -- Duplicating work Good for -- careful design Good against -- Errors due to too large steps
+
+bg
+
+3
+
+x
+
+D
+
+bh
+
+2
+
+x
+
+D
+
+Gcmdagainst-- Misinterpretation or inaccuracy
+
+bi
+
+3
+
+x x x
+
+D D
+
+Good against -- Human mistakes Good for -- Saving effort Good for -- Maintenance and consistency with specification Good against -- Inconsistencies
+
+bk
+
+2
+
+c
+2
+
+l--
+
+00
+
+bl
+
+x
+
+0
+
+H
+
+kern
+
+Recommendation
+
+Priority or Importance
+
+Realization by or in, or with the h Operti"ng System Special Progranrme User Pro@rnrne Prograrrrrne Document
+
+1
+
+of Check
+
+Goad Against/ Goadfor
+
+Hardware
+
+c
+ca
+
+The intermediate product shafl be continuously verified (see A-1) It should be shown that each level of refinement is complete and consistent in itself It should be shown that each level of ref~ment consistent with the previous level is
+
+1
+
+x x
+
+D D
+
+Good for -- Finding errors as soon as possible, completeness of design Gcd against -- Necessity of later changes Good against -- Forgetting aspcts
+
+cb
+
+x
+
+D
+
+cc
+
+Consistency checks should be made by neutral personnel `fheae peraonirel should only mark &ticiencies and not remnrrrend any action
+
+x
+
+H
+
+Good against -- Common errors with programming Good against -- Personal identification with the progtamme Good for -- Maintaining critical attitude
+
+cd
+
+x
+
+H
+
+B-2.4 Changes During Development
+kern
+Recommendation Prioriry or Importance Realization by or in, or with the Help of Operating System Special Programrne User Progr-e Prograrmne Document Hardware Good Against/ Goodfor
+
+check
+D Good against -- Introducing new errors due to changes Good for -- Avoiding bidden far distant effects Good for -- Recognizing all effects of the change Good against -- Hidden errors in module due to change
+
+d
+
+Changes which rire necessary during programme development shall begin at the earliest design stage which is stiI1relevant to the change Changes should proceed from the general stage to the more specific stages If any module is changed, it should be re-tested according to the principles described earlier, before it is re-integrated into the system In addition the environment of the changed module should be re-tested, as far as it is affected by the change Documentation of major changes should include the requirements, code parts, data areas, control flow characteristics and time aspects that were affected or not affected Changes affecting already tested parts or the work of other persons should be evaluated and reviewed prior to incorporation
+
+1
+
+x
+
+&
+
+2
+
+0
+x x
+
+x
+
+D
+
+0%
+
+1
+
+x
+
+D
+
+c
+1
+
+de
+
+0
+
+x
+
+D
+
+Good against -- Hidden errors in module environment due to change
+
+d
+
+2
+
+x
+
+D
+
+Good for -- Traceability of change effects
+
+&
+
+2
+
+x
+
+D
+
+Good against -- Hidden far distant effects 1
+
+is valid for changes that affect the work of only one person and for modifkations that affect the whole system. NOTE -- This procedure
+
+B-25
+Item
+
+System Re-confiition
+Recommendation Priority or Importance Realization by or ifi or with the Help of Oper&"ng system Special Programme User Programme Progranrrne Document Hardware Check GoodAgainst/Good for
+
+e
+
+The experience gained with any system to be adapted
+
+1 1
+
+0 0
+
+x x
+
+o
+x
+
+D D
+
+Gcoctfor -- Statistical verification Good against -- Neglecting usable parts Good for-Recognizing failed parta
+
+for new applications shall be taken into accbunt
+ea The state of the system should be assessed before
+
+adaptation
+
+Item
+
+Priority or Importance
+
+Realization by or in, or with the E Operating System Special Programme User Prograrrone Programme Document Hardware Check
+
+Good Against/ Goodfor
+
+eb
+
+One should rather try to use system parts or modules with extensive operating experience than to formally verify new ones Decided changea or amendments should ptbceed as tvcommended in B- 1 (b) and B- 1 (d) At code level each change should be made separately Already verified parts or mddules should be left unchanged
+
+2
+
+x
+
+D
+
+Good against -- Unnecessary additional effort
+
+ec
+
+1
+
+x
+
+x
+
+D
+
+Good for -- Getting a clean system
+
+ed
+
+2
+
+x
+
+D
+
+Good for -- Identifying errors soon
+
+ee
+
+2
+
+x
+
+c
+
+Good against -- Producing new errors Good for -- Saving verification effort
+
+B-3 SOFI'WARE STRUCTURE B-3.1 Control and Access Structure
+Item Prioriry or hportarwe Realization by or inj or with th.4fi Oper&"ng System Special Progratrone User Programme Programme Document
+!J
+
+of
+Check
+
+Good Against/ Goodfor
+
+Hardware
+
+a Oa
+
+Pmgrammes and ptograrnrne parts shall be grouped systematically
+
+1 1
+
+0
+
+x
+
+0
+
+D D
+
+Good for -- Cleat system structure Good for -- Testability
+
+Specific system operations should be performed by specific parts The sotlwate should be partitioned so that aspects which handle such functions as: a) computer external hrtetfaces (for example, device rhiving, interrupt handling); b) real time signals (for example, clock); C) parallel processing (for example, scheduler); d) store allocation; e) special functions (for example, utilities); f) mapping standard timctions on to the particular computer hardwb, are separated fmm application prograrnmes with well defined interfaces between them
+
+0
+
+o
+
+x
+
+c
+
+ab
+
+2
+
+0
+
+x
+
+0
+
+D
+
+c
+
+Grrcd for -- Clear system structure, testabdity
+
+Item
+
+Recommendation
+
+Priority or Importance
+
+Realization by or in, or with the Help of Operating System Special Prograrrrme User Programme Progratnme Documenr Hardware Check
+
+Good Against/ Goodfor
+
+UC
+
+The programme structure should pdrmit the implementation of anticipated changes with a minimum of effort (see B-2.1) it should be made dear which structuring methods am being used In one processor the progranrme system should work aequentirilly,as far as possible
+
+2
+
+x
+
+D
+
+Good for -- System adaptability
+
+ad
+
+1
+
+x
+
+D
+
+Good for -- Undetatarrdability
+
+ae
+
+1
+
+x
+
+x
+
+c D
+
+Good against -- Confusion due to timing problems or different interrupt sequences Gcmdfor -- Understandability
+
+af
+
+A prograrnme or a programme part should be broken down into clear and intelligible rnoduies when it contains mote than 100executable statements
+
+1
+
+o
+
+x
+
+c D
+
+Item
+N
+
+Recommendation
+
+Priority or Importance
+
+Realization by or i~ or with the Help of Operating System o Special Programnre User Progrartrme Programtne Document Hardware Check
+
+Good Agairrss/Goodfor
+
+b
+
+Modules shall be clear and intelligible Each module should con-espondto a specific function A module should have only one entry. Although multiple exita may be sometimes necessary, single exita are recommended No module should exceed a limit specified for the particular system (for example, 50 or.100 statements, or the amount of coding which can be placed on one page. only under special circumstances are longer modules allowed) The interfaces between modules should be as simple ss Psible. u~form throughout the system and fuIly documented
+
+1 1 1
+
+x x x
+
+0
+
+D, C D c c
+
+Good for -- Understandability Good for -- Testability Goad for -- Ease of verification
+
+bo
+bb
+
+be
+
+2
+
+x
+
+c
+
+Good against -- Bulky modules Good for -- Meeting ergonomic facts
+
+M
+
+1
+
+x
+
+c D
+
+Good agairkt -- Errors in interfaces, which are normally difficult to detect
+
+[fern
+
+Recommendation
+
+Priority or Importance
+
+Realization by or in, or with the Help of Operating System Special Programme User Programme Pro,gramme Document Hardware Check
+
+Good Against/ Goodfor
+
+be
+
+The number of input and output parameters of modules should be limited to a minimum
+
+1
+
+x
+
+c D x D c
+
+Good against -- Errors in interfaces, which are normaflydifficult to detect Good for-- Understanding meaning of parameters
+
+bf
+
+h should be clearly stated which interface data are only used, only dekned or re-defined Operating System
+Recommendation
+
+2
+
+B-3.3
+Item
+
+Priority or Importance
+
+Realization by or in, or with the Help of Operating System Special Programme User Prograrnme Program Document Hardware Check
+
+Good Against/ Goodfor
+
+c
+
+Operating system use shall be restricted
+
+1
+
+x
+
+x
+
+x
+
+D
+
+Good against -- Failures due to operating system errors Good for -- Ease of system verification Good against -- Hidden errors
+
+ca
+
+only thoroirghly tested operating systems should be used; preferably the existing operating experience should be quantitatively known
+
+1
+
+x D
+
+cb
+
+Ifpoasible no operating system should be used If an operating system is considered necessary its use should he restricted to a few simple functions It shoufd contain only the necessary functions
+
+1 1 x
+
+x x
+
+x o
+
+c c
+
+Good for -- Analytical verification Good for -- Getting a thoroughly tested operating system Good against -- Dead code
+
+cc
+
+cd
+
+1
+
+x
+
+o
+
+D, C
+
+ce
+
+One particrddr operating system function should be called afways in a similar way Device drivers should be taken from the operating system rather than specially developed Operating system functions should be rigorously defined and should have well defined interfaces If a dedicated operating system or a dedicated part is developed for a special safety application, these recommendations should be followed
+
+2
+
+x
+
+o
+
+c
+
+Good for -- Statistical verification due to frequent call Good against -- Additional programming and test effort Good against -- Misunderstanding during using
+
+d
+
+2
+
+x
+
+x
+
+c
+
+%
+
+1
+
+0
+
+D
+
+ch
+
+1
+
+x
+
+o
+
+x D c Gcod for -- Ease of verification
+
+Item
+
+Recommendation
+
+Priority or Importance
+
+Realization by or in, or wirh the Help of Operating System Special Programme User Programme Programme Document Hardware
+
+Ii
+
+-- Check
+
+Good Against/ Good for
+
+ci
+
+New releases should be treated according to B-2.4 and
+
+x
+
+o
+
+B-2.5
+ck
+
+D c x D
+
+Good against -- Introducing new errors 1 Good for -- Statistical verification due to frequent call
+
+Other standardized progrhrnmes or programtrie parts should be treated as operating systems
+
+1
+
+x
+
+B-3.4 Execution Time
+Item Recommendation Priority or Importance Realization by or in, or with the Help of Operating System Special Programme User Programme Programme Document Hardware Check Good Against/ Goodfor
+
+d
+
+Technical process behaviour influence on execution time shall be kept low The execution time of any system or part of a system under peak load conditions should be short compared to the execution time beyond which the system safety requirements are violated
+The results prcduced by a sequential programme shall not be dependent on either a) the time taken to execute the programme, or b) the time (referenced to an independent `clock') at which exeeution of the programme is initiated
+
+1 1
+
+x x
+
+D T T
+
+Good against -- Unintelligible timing problems Good against -- Necessity of late design changes
+
+a%
+
+w w
+db
+
+1
+
+x
+
+D T
+
+Good against -- Unintelligible tinring problems
+
+de
+
+Executionof sequentialprograrnmes which receive or transmit data fronr/to other sequential programmed shall be synchronized with those other programmed The programmed should be designed so that operations are performed in a correct sequence independent of their speed of execution Run time differences dependbrg on input parameters should be small Run time differences de~nding on input parameters should be documented
+
+1
+
+x
+
+x
+
+x
+
+c
+
+Good against -- Unintelligible timing problems
+
+&
+
+1
+
+x
+
+x
+
+D
+
+Gcal against -- Synchronization problems and run time problems Good for -- Analysis Good for -- Ease of run time estimation and run time verification Good for -- Ease of run time estimation and run time verification
+
+de
+
+1
+
+x
+
+T
+
+df
+
+2
+
+x
+
+x
+
+D
+
+Recommendation
+
+Pn'ority or Importance
+
+Realization by or in, or with the Help of Operating System Special Programme User Programme Programme Document Hardware Check
+
+Good Against/ Goodfor
+
+Codeparta for which execution time depends on input parameters should be short The amount of parameters read during one computation cycle should be constant
+
+3
+
+x
+
+c
+
+Good for -- Reaching de
+
+3
+
+x
+
+D c T
+
+Good for -- Keeping run time differences short
+
+B-3.5 Interrupt
+Item Recommendation Pn"on"tyor Importance Realization by or in, or with the Help of Operating System x Special Prograrrone User Programme x Progranone Document Hardwhre x Goad Against/Goad for
+
+Check c D Good against -- Synchronization problems and run time problems Good for -- Analysis Gocd for -- Ease of understanding of special configurations Gcd against -- Synchronization problems and mn time problems Geod for -- Analysis Good against -- Run time problems
+
+e
+
+The use of interrupts shall be restricted
+
+1
+
+ea
+
+Interrupts may be used if they simplify the system
+
+x
+
+x
+
+c D
+x
+
+eb
+
+Software handling of irderrupts must be inhibited during critical pats (for example, time critical, critical to data changes) of the executed function If interrupts are used, parts not interruptible should have a defined maximum computation time, so that the maximum time for which an irrternrptis inhibited can be calculated Interrupt usage and masking shall be thoroughly documented 1
+
+x
+
+x
+
+c D
+
+ec
+
+x
+
+x
+
+c D T
+
+ed
+
+1
+
+x
+
+x
+
+x
+
+D
+
+God for -- Systim vrdidation
+
+B-3.6 Arithmetic
+Item
+
+Expressions
+Recommendation Priority or Importance Realization by or itrj or with the Help of Operating System Special Programme User Prograrnme Programrne Document Hardware Check GoadAgainst/Good for
+
+f
+
+Simple arithmetic expm.ssionsshall be used instead of complex onea
+
+2
+
+x
+
+c D
+
+Good against -- Side effects Good for -- Easy testing
+
+Item
+
+Pn"on"tyor Importance
+
+Realization by or itrj or with the Help of Operating System Special Programnre User Progranone Progranrme Document Hardware Check
+
+GbodAgainst/Good
+
+for
+
+fa
+
+Decisions should not depend on voluminous arithmetic calculations As far as possible, simplified previotisly verified arithmetic expressiona should be used If voluminous arithmetic expressions are used, they should be coded so that thc+irconsistency with the specified arithmetic expression can be shown easily from the code
+
+2
+
+x
+
+c D c D c
+
+Good for--Finding reversefunction calculating path expressions Good for -- Showing relationship between intended function and code Good for -- Progratnrne anrdysis
+
+P
+
+2
+
+x
+
+fc
+
+3
+
+x
+
+B-4 SELF-SUPERVISION B-4.1 Plausibility
+Item
+
+Checks
+Priority or Importance Realization by or im or with the Help of Operating System Special Progr-e User Progromme x Programrne Document Hardware Check Good Against/ Goodfor
+
+w w
+
+a
+
+Plausibility checks shall be performed (defensive programrning) The correctness orplausibihty forintermediateresuks should be checked as often as possible, at least to within a small percentage of computer capacity (redundancy) Where safety related results are involved identical results shordd be evahratal using different methods (diversity) Re-try procedures should be used
+
+2
+
+c D c D
+
+Yet undetectederrors Good against-- Good for -- Statistical verification Good against-- Yetundetectedermrs Good for -- Statisticrd vetilcation
+
+Oa
+
+2
+
+x
+
+ab
+
+2
+
+x
+
+c D
+
+Goodagaitrst-- Yetundetectedermrs Good for -- Statisticrd verification
+God against -- faults hardware
+
+Oc
+
+3
+
+x
+
+c D T c D
+
+$madic
+
+ad
+
+The ranges ofi a) input variables; b) output variables; c) intermediate parameters; d) should be checked, including array bound checking
+
+2
+
+x Geoda@rat-Yet undetdderrors Good for -- Statistical verification
+
+Item
+
+Recommendation
+
+Priority or Imponance
+
+Realization by or inj or ith the H Operating System Special Programme User Programme x x Programme Document
+
+of
+Hardware Check
+
+Good Against/ Goodfor
+
+b ba
+
+If a failure is detected the system shall produce a well defined output If possible, complete and correct error recovery techniques should be used
+
+1
+3
+
+D T
+
+Gocd against -- Fault propagation Good against -- System breakdown due to minor failures
+
+c
+D T
+
+bb
+
+Even if correct error recovery cannot be guarrmteed, failure detection must lead to well-defined output
+
+1
+
+x
+
+o
+
+D T D T
+
+Good for -- Equipment safety
+
+bc
+
+If error recovery techniques ate used the occurrence of any error shall be reported
+
+1
+
+x
+
+x
+
+Good against -- Accumulation of errors Good for -- Early error removal Good against -- Accumulation of errors Good for -- Early error removal
+
+bd
+
+The occurrence of a persistent error affecting the system function shall be recorded
+
+1
+
+x
+
+x
+
+D T
+
+N
+
+m
+
+B-4.3 Memory Contents
+Item Recommendation Pribrity or Importance Realization by or in, or with the h Operating System Special Programme User Prograrrrme Programme Document
+
+p of
+Hardware Check
+
+c
+
+Memory contents shafl be protected or monitored Memory space for constants and instructions shall be protected or supervised against changes
+
+1
+
+0 o
+
+x x
+
+o 0
+
+D T D T
+
+Good against -- Unauthorized changes of a ficensed system Good against -- Propagation of addressing errors or hardware faults, inchuiing intermittent faults Good against -- Propagation of addressing errors or hardware faults, including intermittent faults Good for -- Maintaining system integrity in its licensed form
+
+ca
+
+1
+
+cb
+
+Unauthorized prevented
+
+reading and writing should be
+
+1
+
+0
+0
+
+x
+
+0
+
+D T
+
+cc
+
+`fire system should be secure against code or data changes by the plant operator
+
+1
+
+x
+
+0
+
+D
+
+B-4.4 Error Checking
+Item
+Recommendation Priority or Importance Realization by or in, or with the Help of Operating System Special Programme User Programme x Programme Document Hardware Check Good Against/ Goodfor
+
+d
+
+Error chectdng shall be performed at a detailed co&rg level Counters and reasonableness traps (relay runners) should insure that the progranrme structure has been run through correctly `f'hecomctnessof anykindofparametcrtrinsfershordd he checkedjincludingparameterstype verification When addressing an array its bounds should be checked
+
+1 1 0
+
+c T c T
+
+Good against -- Failure propagation Good against -- Specific control flow errors, intermittent hardware faults Good against -- Errors in interface design, data flow design errors Gcd against -- Data flow errors, too high loop repetition numbers
+
+h
+
+x
+
+db
+
+1
+
+0
+
+x
+
+x
+
+c D c D T c D T
+
+dc
+
+1
+
+0
+
+x
+
+x
+
+(U
+
+Called routines shotild check whether the calling module is entitled to do so
+
+3
+
+x
+
+Good against -- Control flow design errors
+
+x
+
+x x
+
+[
+
+de
+
+The run time of critical parts should be monitored (for example, by a watchdog timer)
+
+2
+
+D T
+
+Good against -- Control flow design errors, too high loop repetition numbers Good for -- Plausibility intermediateresults of
+
+L
+
+df
+
+Assertions should be used
+
+3
+
+x
+
+c D
+
+B-5 DETAILED
+
+DESIGN AND CODING
+
+B-5.1 Branches and Loops ,
+Item Recommendation
+
+k
+a Oa
+
+Priority or Importance
+
+Realization by or im or with rhe Help of Operating System Special Proxramme User ProKranrrne Programme Document Hardware
+
+I
+
+Good Against/ Goodfor
+
+I
+I
+
+Check
+
+Branches and loops should he handled cautiously
+
+1
+2
+
+I
+I
+
+I
+I
+
+S(
+
+I
+x
+
+I
+
+c D H
+
+I I
+I
+
+Good for -- Understandable and verifiable control flow Good against -- Dlftictdties with control flow anafysis Good for-- Readability
+
+Conditional and unconditional branches should be
+
+avoided as far as they obscure the relationship between problem structure and programme structure, as much sequential code as possible should be used
+
+I
+
+I
+
+I
+
+Item
+
+Recommendation
+
+Prion"tyor Importance
+
+Realization by or in, o} with rhe Help of Opeirzh"ng System Special Programme User Programme Programnre Document Hardware Check
+
+Good Against/ Goodfor
+
+ab
+
+Backward going brancks should be avoided, loop statements should be used instead (only for higher level languages) Bmrrcks into 100pa,modules or subroutines must be barred Branc&s out of loops should be avoided, if they do not lead exactly to the end of the loop. Exception: failure exist In modules with complex structure, macros, procedures or subroutines should be used so that structure stands out clearly As a special measure to support ptogramme proving and verification computed GOTO or SWITCH statements A well as label variables should be avoided Where a list of alternative btanches orcaaecontrded statements are used, the list of branch or case conditions must be m exhaustive list of poaaibllities. lle concept of a `defardt branch' should be reserved for failure handling Loops shmdd ordy be used with constant maximum loop variable ranges
+
+1
+
+x
+
+c
+
+Good against -- Difficulties with control flow analysis Good for -- Readability Good against -- Difficulties with control flow analysis Good for -- Readability Good against -- Difficulties with control flow analysis Good for -- Readability Good against -- Difficulties with control flow analysis Good for -- Readability Good for -- Ease of understanding, because of near neighbourhood between condition and its code
+
+ac
+
+1
+
+x
+
+c
+
+ad
+
+3
+
+x
+
+c
+
+ae
+
+3
+
+x
+
+D c
+
+af
+
+2
+
+x
+
+c
+
+N 00 ag
+
+2
+
+x
+
+c
+
+Good for -- Clarifying exclusive or
+
+ah
+
+1
+
+x
+
+Good against -- Run time problems, violating array boundaries Goad for-- Surveyablepath number
+
+B-5.2 Subroutines
+Item
+
+and Procedures
+Recommendation Pn"oriry or l~*-e Operating System Realization by or i% or with the Help of Special Programnre User Prograrnrne Programnre Document Hardware Check GoodAgainst/Good for
+
+b
+
+Subroutines or procedures should be organized as simply as possible
+
+1
+
+x
+
+c
+
+Good against complexity
+
+-- Unnecessary
+
+x
+
+z
+
+ampm]s ioaIsKsaqj ,(3!JEIO ,(oqJ~! `pasn aq pInoqs sdoo[ puv sampa.xud JOsqqwwa!H
+
+x x
+
+z z
+pSp!OAt! aq ppoqs s.wawe.mdpan~A SJn@J30W
+
+x 3
+
+I
+
+I
+
+z z
+mnwdlq
+10 @iO.Ud
+
+Uo.pupualuluo>ay
+
+[p?3Jo 3 x I
+
+U@ aqj mo[Io3.@rqxaww! p[noqs W@ um]a au qxa 31ne~ap :uoqdmxg "[p auqnmqns qoea JoJ ]u!od auo f[uo 0] umlaJ ppwqs saugnoJqnS
+
+3
+
+x
+
+I
+
+3
+
+x
+
+I
+
+]upd ~ua auo .l[uo a,.wqp[noqs saupnmqns (anpm PUSaweu kq lpn~o Supqtu ou %qdwnxa JOJ) WJO~XUlls aql aAeq p~OqS sJalawemd IIV juawuoqAua qa~ m sxaawemd J!aq] e!A ,([aA!sn[2x3aleo!ununuoo p[noqs ,faq~
+w~awemd
+
+3
+
+x
+
+3
+
+x
+
+1
+
+3
+
+x Uwls,q 8u.puladO
+
+jo Jaqwnu umupqw
+
+e K[uo amq p[noqs KaqJ
+
+aWW7dluI 10 @10-Ud
+
+uoppWuuuo3ay
+
+B-5.4 Addressing
+Item
+
+and Arrays
+Priority or Importance Realization by or in, or with the Help of Operating System Speciaf Programme User Programme x Programme Document Hardware Check Good Against/ Goodfor
+
+d
+
+Simple addressing techniques shafl be used Only one addressing technique should b used for each data type Bulky computations of indexes should be avoided Arrays should have a fixed, predefine length The numter of dimensions in every array reference should equal the number of dimensions in its corresponding declaration
+
+1 3
+
+c c
+
+Good for -- Ease of data flow anafysis Good for -- Uniform interface to data base Good for- UhdeMandabledata flow Good against -- Run time difficulties, complex control flow Good fcr-- Eaaeofdataflowanatysis Good for -- Understanding addressirw mocess
+
+G%
+
+x
+
+db k (U
+
+i
+1 1
+
+x x x
+
+c c c
+
+B-5.5 Data Structures
+Item Recommendation Pn"on"tyor Importance Realization by or in, or with the Help of Operating System Special Programme User Programme Programme Document Hardware Good Against/ Goodfor
+
+Check D Good for -- Data flow anafysis, intuitive comprehension of the significairceof data elements Good against -- Errors in data use, artMcird ti~ng problems Good for--Traceability of data flow God for-- Intuitivecomprehension of data element
+
+u
+
+o
+
+e
+
+Data s~ctures and naming conventions shafl be used uniformly throughout the system Variables, arrays and memory da should have a singfe purpose and structure. The use of equivalence tectilques shoufd be avoided Each variable's name should reffed a) ~ (my, var'iable,constant); b)regmnof vafidity(facaf.sfobalpm~ mod~e); c) kind (input output, intemaf, derived, coun~ army Iiargth); d) sigtilcance. System parameters that can change should be identified and their values assigned at a weff defd outstanding code position Constants and variables should be Iccated in diffemrt parts of the memory
+
+1
+
+x
+
+c
+x D c c
+
+ea
+
+1
+
+eb
+
+1
+
+x
+
+ec
+
+1
+
+x
+
+D c
+
+Good for -- System understanding, changes
+
+ed
+
+2
+
+x
+
+c
+
+Good against -- Poisoning of data hnd code Good for -- Hardware selfsuoervision they should be accessed via standard resource
+
+NOTE -- Matsyreaf time pmgmmme systems make use of a utriverardlyaccessible `datake' handfingpmecdmm or via communication with standard resource manipulating tasks.
+
+or similar resource. When such gfobal data structures are d
+
+B-5.6 Dynamic Changes
+Item Recommendation ph'ority or Importance Realization by or in, or with the Help of Operating System Special Progranrme User Programme Programme Document Hardware Check Goad Against/Good for
+
+f
+
+Dynamic instruction changes shall be avoided
+
+1
+
+x
+
+c
+
+Good for -- Control flow analysis
+
+B-5.7
+Item
+
+Intermediate
+
+Tests
+Recommendation Prion"ty or Imponance Realization by or in, or with the Help of Operating System Special Programnre User Progranun4 Programme Document Hardware Check Good Against/ Goodfor
+
+t? ga
+
+Intermediate tests shall he performed during the programme development
+The approach to testing should follow the approach to design (for example, during top down design testing should be made by using simulation of not yet existing system parts -- stubs --; after completion of system development this should be followed by bottom up integration testing)
+
+1 1
+
+x x
+
+o
+
+D D
+
+Gmd for -- Finding errors as soon as possible Good for -- FMirrg errors as soon as possible
+
+w
+
+gb
+
+Each module should be tested thoroughly before it is integrated into the system and the test results documented A formal description of the test inputs and results (teat protoeo]) should be pllrdlled Coding errors which are detected during programme testing should be recorded and analysed Incomplete testing should lw recorded In order to facilitate the use of intermediate test results during final vrdidation the former degree of testing achieved should be recorded (for example, all paths through the module tested)
+
+1
+
+x
+
+x
+
+o
+
+D
+
+Good against -- Difflcrdties after integration Good for -- Change management Goad dgainst-- Duplicationof work Good for -- Speeding up licensing Good for .-- Detection of some design errors Good for-- Clarity Good against- Duplieationof work
+
+gc
+
+1
+
+0
+
+x
+
+D
+
+gd
+
+3
+
+x
+
+D
+
+ge d
+
+3 2 x
+
+x
+
+D D
+
+B-6 LANGAUGE B-6.1
+[tern
+
+DEPENDENT
+
+RECOMMENDATIONS
+
+Sequences and Arrangements
+Recommemiation Priority or Importance Realization by or i~ or wirh the h
+7
+
+of
+
+Good Against/ Goodfor
+
+Operating
+System
+
+Special Prograrnme
+
+User Programme
+
+Prograrnnre Document
+
+Hardware
+
+Check c c Good for -- Getting a uniform and intelligibleshageoftmgmmmelistings
+
+a
+
+Detailed rules shall be elaborated for the arrangement of various language constructs The recommendations should include sequence of declarations Sequence of initkdiaations Sequence of non-executable coddexecutable code Sequence of parameter types Sequence of formats
+
+2 2
+
+Oa
+
+Ob ac ad ae
+
+2 2 2 2
+
+c c c c
+
+B-6.2
+
+Comments
+Recommendation Priority or Importance Reo&ation by or i~ or with the Help of Operating System Special Programme User Progranrme Programrne Document Hardware Check Good Against/Good for
+
+L
+b
+
+Item
+
+Relationa between comments and executable or non-executable code shall be fixed by detailed rules
+
+3
+
+c
+
+Good against -- DKticuMes with both writing and understanding comments Good for -- Getting meaningful comments
+
+fkl bb
+
+It should be made clear what has to be commented The position of comments should be uniform Form and style of comments should be uniform
+
+3 3
+
+c c
+
+[
+
+bc
+
+B-6.3 Assembler
+
+E
+c
+
+Item
+
+Recommendation
+
+Priority or Importance
+
+Realizath
+opem"ng
+
+by or in or with the Help of Programme Document Hardware
+
+Good Against/Good
+
+for
+
+Systerti
+
+If an assembler language is used, extended pmgmmming ndea shall be followed
+
+I
+
+1
+T c:
+
+Good against -- Difficulties as=mblermwarmnitw
+
+of
+
+Item
+
+Priority or Importance
+
+Realization by or in, or wirh rhe h Operating System Special User x Programme Document
+
+)
+
+of Hardware Check
+
+Good Against/ Goodfor
+
+ca
+
+Branching instmctions using address substitution must nd be used. Branch table contents should be constant All indirect addressing should follow the same scheme Indirect shifting should be avoided
+
+1
+
+x
+
+c
+
+Good against -- Branches whose gord cannot be identified from the code at the branching point Good for -- Clarity of ultimately addreasbd memory locations Good for -- Seeing immediately how far shift goes Good for -- Ease of finding ultimately addressed locations Good for -- Understanding macro's function the
+
+cb
+
+1
+
+x
+
+c
+
+cc
+
+1
+
+x
+
+x
+
+c
+
+cd
+
+Multiple substitutions or multiple indexing within a single machine instruction should be avoided The same macro should always b called with the same number of parameters Labels should M referred to by names rather than by absolute or relative addresses Subroutine call conventions should be uniform throughout the system and specified by further rules
+
+1
+
+x
+
+x
+
+c
+
+ce
+
+2
+
+x
+
+c
+
+d
+
+1
+
+x
+
+c
+
+Good for -- Associating a meaning with the branching goal Good against -- Arbitrary parameter types and locations
+
+%
+
+1
+
+x
+
+c
+
+B-6.4
+Item
+
+Coding Rules
+Priority or Importance Realization by or in, or with the Help of Ope~"ng Sysrem Special Programme User Programme Programme Document Hardware Check GaodAgm"nst/Gaad for
+
+I
+
+d
+
+I Detailed coding rules shall be issued
+It should be made clear, where and how code lines me Module layout should be fixed umformly Further details should be.regulated according to need
+
+3
+
+Good for -- Uniform and understandable shape of programme listing c Good for -- Identification of blocks
+
+2
+
+3
+
+3 3
+
+c H
+
+Good for -- Understanding module structure
+
+IS 15398:2003
+
+ANNEX
+
+C
+
+(Clauses 1.3 and 6.4.1)
+OUTLINE C-1 GENERAL C-1.l Summary Methodology FOR THE SOFTWARE PERFORMANCE SPECIFICATION
+
+INFORMATION and Reference to Design
+
+c-3.5 Algorithm C-3.6 Data Requirements a) b)
+Input/Output Internal Requirements
+
+C-1.2 Summary and Reference Functional Requirements C-1.3 Reference Specifications C-1.4 Reference to Hardware
+
+to Software Performance Plan
+
+c-3.7 Performance
+
+to Software Validation
+
+C-2 SYSTEM DESIGN LEVEL
+C-2.1 c-2.2 C-2.3 C-2.4 C-2.5 C-2.6 C-2.7 System Survey System/Sub-System External Interfaces Global Data Definition Diagnostics Recovery Reference to Integrated Testing Plan Control Flow
+
+a) Accuracy, b) Timing, c) Hardware Imposed Constraints, and d) Security and Access Controls. C-.3.8 Encoded Error Detection C-3.9 Initialization
+C-3.1O Reference Plan to Module or Sub-System Test
+
+C-3.11 Requirements Console
+
+for Interface with Operator
+
+C-4 DATA BASE SPECIFICATION C-4.1 C-4.1.1 C-4.1.2 to Software Functional C-4.1.3 C-4.2 to Other Modules C-4.2.1 C-4.2.2 C-4.2.3 C-4.2.4 Description Identification Conventions Survey of Organization Logical Characteristics Identification Definition Relationship to Other Sets Access Control and Security
+
+C-3 SUB-SYSTEM C-3.1 Function
+
+DESIGN LEVEL
+
+C-3.2 Traceabdity Requirements
+
+C-3.3 Control Flow, Interface and Branch Limitation C-3.4
+a)
+
+Operating
+
+Conditions
+
+b)
+
+Interruptability Relocatability
+
+34
+
+IS 15398:2003
+
+ANNEX
+
+D
+
+(Ckme.s 1.3 and 6.2)
+LANGUAGE, TRANSLATOR, LINKAGE EDITOR, ETC
+
+D-O For a safety related application of a language, its translator and linkage edhor, the following more detailed recommendations are given in addition to
+
+Similarly the aspects that apply to emulators. translators and linkage editors should be recognized during the selection and formal specification of design
+
+those from the main part of this standard. These recommendations also apply to any other auxiliary system programme. Recommendations for translators apply likewise to interpreters, cross compilers and
+D-1 GENERAL
+Item a
+
+tools and their use. recommended criteria indicated.
+
+A project should select according to the priority
+
+I
+
+"Recommendations
+
+Priority
+
+Translator, linkage editor and loader should be thoroughly tested prior to us~ operation is considered very important Reliability data of sufficient quality about translator, linkage editor and loader should be available In cases where auxiliary system programmed are used, such as, aids, documentation systems and the like, they should be appropriately tested before being employed Language syntax should be completely and unambiguously defined Semantics should be well and completely specified and understandable High level languages should be used rather than machine-oriented ones Both the spread of a language and its problem adequacy are considered important The recommendations of Annex B should be supported in general and as far as possible Readability of produced code is more important than writeability during programming Syntactic notations should be uniform; for the same concept not more than one notation should be allowed The language should avoid error prone features Produced programmed should be easy to maintain Input parameters, output parameters and transient parameters should be syntactically distinct
+I
+
+1
+
+b c
+
+2 1
+
+d e f g h i k 1 m n o
+
+2 1 2 2 1 2 2 2 2 2 3
+
+An optional output that is reviewable should be provided at all stages of the translation process
+
+D-2 ERROR HANDLING
+
+I
+
+Item a
+
+I
+
+Recommendations
+
+Prion"ty
+
+Language translator and linkage editor should provide for detection of as many programming errors as possible during translation time or on-line execution During on-line execution, exception handling should be possible The language may provide assertions Errors likely to cause an exception during execution time should include: a) b) c) d) e) f) exceeding of array boundaries; exceeding of value ranges; access to variables that are not initialised; failing to satisfy assertions; truncation of significant digits of numerical values; and passing of parameters of wrong type.
+
+2
+
+b c d
+
+2 3
+
+1 1 3 2 2 1
+
+35
+
+[rem e
+f
+
+I
+
+Recommendations
+
+I
+
+Prioritv
+
+I
+
+If any error is detected during translation or linkage time, it should be reported without any attempt at correction If it is not clear whether any roles have been violated, a warning should be issued During translation time, parameter types should be checked
+
+2 3 3
+
+g
+
+D-3 DATA AND VARIABLE
+
+HANDLING
+Recommendations Priofily
+
+a
+b c d
+
+rhe range of each variable should be determinable at translation time t%e precision of each floating point variable and expressionahouid be determinable at translation time No implicit conversion between types should take place should be determinable l%e type of each variable, array, record componen~ expression, function andparameter N translation time Variables, arrays, parameters, etc, should be explicitly declared, including theii types Variable types should distinguish between inpu~ output, transient procedure and subroutine parameters Variable names of arbhmry length should be aliowed As fat as possible, type checking should take place during translation time rather than execution time At translation time, it should be checked whether anassignment is allowed to any particular data itcm
+
+1
+2 2 2
+
+e f g h i
+
+1
+2
+
+3 2
+
+D-4 ON-LINE
+Item I
+
+ASPECTS
+Recommendations Priority
+
+a
+
+During expression evaluation, external assignment should not be allowed to any variable that is accessible i the scope of the expression Used computing time should be examinable on-line On-1ineerror capture should be provided (see D-2).
+
+1
+
+b
+
+3 1
+
+c
+
+36
+
+IS 15398:2003
+
+ANNEX
+
+E
+
+(Clauses 1.3 and 7.2. 1.2)
+SOFTWARE E-1 SOFTWARE TESTING ACTIVITIES TESTING
+
+This clause is intended to provide guidance for software testing. Depending on the programme to be tested, the individual kinds of tests are more or less effective in finding programme errors. A set of complementary testing approaches may be used,
+
+of all tests nor all individual tests can be executed in a particular application. At the sub-system level, the software is partially integrated into the system. The sub-system level tests assure the proper integration of the software modules. A distinction must be made between the case in which data flow dependency exists among the software modules and the case in which it does not. Testing shall be done to provide assurance that all independent arcs in the sub-system are correctly followed. Test cases at the borders of input domains and at the limits of module operational region should be used. The same test data set utilized at module level should be used. Results should be checked with pre-calculated values. Parameters should be inputand output from the sub-system in the same manner as in the safety system. Where practical, the sub-system level testing should involve the actual hardware. At the system level, the software is completely integrated in the hardware. The system test assures proper integration of sub-systems. Testing should be performed by running programmed together with a realistic simulator, or with a realistic version of the system to be monitored or controlled by the safety systems. This test of the.complete system shall be performed in accordance with the performance statements given in the functional requirements specification. Beyond the testing activities described above a systematic timing check should be performed. E-3 STATISTICAL APPROACHES a) Statistical approaches should be utilized to complement systematic approaches. The behind statistical general assumptions approaches are: 1) Sequence and number of test runs does not influence the result of a single test run; 2) Test run is supervised so perfectly that each faulty run or failure `is detected as such; 3) Number of test runs is large, for example, more than 1 (XIQand 4) Nearly no errors or failures are detected. b) Statistical approaches are performed foc 1) testing-loop bodies, -given that the loop structure has been systematically analyzed;
+
+including a combination of statistical and systematic testing. Statistically selected data could be applied to search for forgotten cases. Supplementary (manual) techniques, however, will be code inspection (desk checking) and use of mathematical proofs. For each application the verification plan may include these different techniques and put them into a suitable order. A review of possible methods is given in E-4.1. When necessary, different approaches and different criteria for test data selection -within one approach should be chosen for different programme parts in order to determine whether a particular part is free from errors or determine the probability that it fails is below a certain acceptance level. The selection depends on the internal structure of a programme part, the level of reliability required, the demands imposed on it during plant operation and the available testing tools. Software testing should give consideration to different levels of software design (for example, module, sub-system and system levels). E-2 SYSTEMATIC APPROACHES Each module should be tested in a systematic way according to well-defined test criteria which specify what is to be tested (for example, all statements, all arcs, all paths). Automatic testing tools should be used as much as possible in deriving test cases. Test results are checked with expected results derived from the programme module specification-s. Parameters should be input to and output from the module in the same manner as in the safety system. According to E-4.2 the classes of possibly remaining errors can be determined and as a consequence it will be possible eventually to proceed with the testing using a different approach. E-4.2 is a check-list, which can be interpreted according to the needs of each special case. Due to the enormous variety of possible practical cases it is not possible to recommend any combination of the tests indicated for a particular class of applications. It is, however, indicated which tests should be performed under all circumstances. On the other hand, it is evident that neither all combinations
+
+37
+
+IS 15398:2003
+
+2)
+
+3)
+
+4)
+
+the verification of standard functions provided by individuals or organizations other than the software developer, if sufficient operational data are available; the verification of operating systems which are inherently difficult to analyze due to their interactive nature and optimised design, if sufficientoperational data are available; the verification of the interface between standard programming and newly developed software, if it is not possible
+
+to systematically analyze this interface exhaustively. In E-4.3, the prerequisites marked: Al means it is assumed that no errors or failures are detected during `n' test runs; and A2 means it is assumed that knowledge about programme internals is needed from results of programme analysis. Dependent on the results of the systematic tests the statistic tests should be selected carefully. Normally an appropriate mixture will be best for each specific case.
+
+38
+
+E-4 TESTING METHODS E-4.1
+No.
+
+Overview of Verification
+Method
+
+Method --
+Aim Problems During Application, Major Disadvantages Cost and Effort Compared with Development Cost Result Relationship to Other Me(hook Assessment
+
+I
+
+--
+Probabilistic figure, for example, MTBF Uses probability theory as No. 2 Difficult to use for safety applications
+
+1
+
+Supervision of testing promdure
+
+To derive a reliability figure without additional effort
+
+a) Smafl additional
+
+effortforapplicatia
+b) No detailed knowledge from tes object required
+
+a) Reliability figures to he gained not sufficient b) practical cases behave only rough]: according to theory
+
+small
+
+--
+a) Number of required test cases very high, if meaningful results are to be obtained b) Cost for test can be much higher Same kind reasoning as No. Probabilistic figure, for example, availability per demand or risk per programme life time of Can be reasonably applied in a short form complementiwy toprogranrmeanalysis
+
+2
+
+Statistical testing
+
+2.1
+
+According to demand
+
+To derive a reliability figure without looking into the code's details
+
+No detailed knowledge from test object required
+
+To provide a test profile that represents input states with the same probability as the online operation
+
+2.2
+
+According correctness
+
+to
+
+To provide a test profile that Hits any programme property with equal probability Provide a basis for comparison with specifications Rigorous statement on correctness achievable No formalism available for finding loop assertions or lcop invarianta; error prone [n the same order of magnitude or higher
+
+Probabilistic figure, for example, limit for still contained errors
+
+--
+Correct/not correct, as far as proof is correct
+
+--
+Possibly the only reasonable way for general `WHILE' Imps
+
+3
+
+Some aspects to be used with analysis
+
+..
+
+No.
+
+Method
+
+Aim
+
+MajorAdvantages
+
+Problems During Applic&"on, Major Disadvantages
+
+Cost ondEffort Compared with Development Cost
+
+Result
+
+Relationship to Other Methoa3
+
+Assessment
+
+4
+
+Programme malysis
+
+Brings good results with simple programmed
+
+some programrne constructs are difficult to arialyze
+
+Free from some specific error types as far as analysis was deep enough Slightly less than development coat
+
+Same kind of thinking from programme proving is used
+
+4.1
+
+Manual analysis
+
+To provide a basis for a meaningful test or fora comparison with specifications As above some-times restricted to some vaguer quality measurement
+
+canbeperformed
+without additional tools
+
+krrorprone
+
+Should be used if no automatic tool available
+
+4.2
+
+Automated anafysis
+
+a) Only limited hand work
+
+b) Results quickly obtained
+
+a) Many tools require Depending on the additional hand work available tool, much lower than b) Some results of development coat kuch tOOk arE Mlcldt to interpret
+
+a) Should be used as wi&ly as possible b) Moat promising approach
+
+IS 15398:2003 E-4.2 E-4.2.1
+No. 1
+
+Systematic General
+
+Tests
+
+Kind of Test
+
+Kind of Detected Errors
+
+To be Perj40rrned
+
+1
+
+Remarks
+
+)
+
+Cases representative for All, but with no guarantee for Always programme behaviour in being exhaustive general, its arithmetic, timing
+
+It is assumed that the system works correctly, if the cases are executed correctly
+
+--i-
+
+All individually and explicitly Forgotten functions detected Always primarily, if required a) Can be an exhaustive test, ii completely functions are specified in detail funcrkns are@ completely specified requirements separate
+
+I I
+3
+
+I
+Hardware and software interface design errors Always Always All, but with no guarantee
+
+b) Does not say much on timing problems
+
+I
+
+All input variables in extreme Timing errors, but with no Always guarantee. Overflow, positions (crash test) underflow
+
+Z ;
+No. 1
+
+Especially valuable, if simulator of technical process is available
+
+All, as far as ever relevant
+
+technical process can sho~ with respect to the software
+
+If technical process behaviour Only feasible, if process is well known and not too behaviour is simple, caution manifold with changes
+
+E-4.2.2 Path Testing
+Kind of Test Kind of Detected Errors To be Pe~orrned Remarks
+
+Every statement executed at Inaccessible code least once
+
+Always Contains 5; can be exhaustive, if no loops no timing problem Purely combinatorial problem on programme mapped structure.
+
+2
+
+Every outcome of every branch Errors in control flow, with no Always guarantee of completeness executed at least once
+
+2a 2b
+
+Every predicate term exercised Errors in control flow and data lf combhation of tests 8 and 12 Contains 8; included is not applied combination of 8 and 12 to each branch flow Each loop executed with Errors in loop control and array Always, if programme contains loops minimum, maximum and at data handling least one intermediate number of repetitions Every path executed at least All the erroneous control flow If combhatorial problem. once Only feasible for modules
+
+in
+
+3
+
+Contains 8: remember that eaci new loop repetition leads to t new path
+
+E-4.2.3
+No.
+1
+
+Data Movement Testing
+Kind of Test Kind of Detected Errors To bs Pe~omred Remarks
+
+Every assignment to each Errors in data flow, but with no Arrays used memory place executed at least guarantee once Every reference to each Errors in data flow, exhaustive Arrays used memory place executed at least in special cases once All mappings from input to All data flow errors output executed at least once each Contains 10 in most cases Only reasonable in connection with 10
+
+2
+
+3
+
+Always for individual segments Only feasible for modules Possibly covered by 8,9 or 7
+
+41
+
+IS 15398:2003
+
+E-4.2.4 Timing Testing
+No. 1 Kind of Test Kind of Detected Errors To be Pe#ormed Remarks
+
+ChecEtngof all time constraints Timing errors, computing time Always too long Maximum combinations sequences possible of interrupt Organizational errors If number not too large
+
+2
+
+2a
+
+All significant combinations of Organizational errors interrupt sequences
+
+Always
+
+E-4.2.5
+No. 1
+
+Miscellaneous
+Kind of Test Kind of Detected Errors To be Pesfortned Remarks
+
+Check for correct position for Erroneous sub-divisionof input If analogue input is used all boundaries of the input data data space space Check for sufficient accuracy Numerical errors, errors in If word length of computer is short; complicated arithmetic of arithmetical calculations at algorithms, rounding errors used all critical points Only for programmed: test of Incorrect data transfer between Always module interfaces and module modules interaction Every module invoked at least Incorrect control flow and Always incorrect data flow between once - modules, with no guarantee Every invocation to a module Always exercised at least once
+
+Number and kind of input data sub-areas to be found by analysis
+
+2
+
+3
+
+Test aid welcome
+
+3a 3b
+
+E-4.3 Statistical Tests
+No. Kind of Test Kind of Detected Errors To be Pe~orrned Remarks
+
+1
+
+Each input data combination Failure probability-perdemand with same probability as during p S (2.99/n) with on-line application, n test runs p = 95% ps (4.6/n) with
+p = 99%
+
+)etailed knowledge lperationconditions
+
+of
+
+2
+
+Each input data combhration Failure probability per arbitrary with equal probability, n runs run, formulae as in row 1 given above Each programme property Probability of error of an Only reasonable and distinct programme parts tested with equal probability, n arbitrary prograrnme property, formulae anafysable properties tested as in row 1 given above
+n runs such that any potential Probability error is detected with equal probabllityp, during one run
+
+3
+
+f n
+
+(nowledge on detailec mogramme structure in ordc] o ensure equal probability %obabilityp~ to touch an errm mown in order to ensure equal mobability
+
+4
+
+to detect
+
+an Diftlculty to estimatcp,
+
+~
+5
+
+As 3, N programme properties Probability to test each n test runs, nNrandom .seIectior programme property at least once of properties with return n-1 P = 1 + ~ (-1~ (N/J) [(N- l)/NJn
+j=l
+
+n order to ensure wobability
+
+equa
+
+6 n
+
+test points randomly Mean distance of two test Useful to test correctness distributed in k - dimensional points in direction of an positions of boundaries sub-domains programme input domain ;::W axis
+
+42
+
+IS 15398:2003
+
+ANNEX
+
+F
+
+(Clauses 1.3,4.1 .8,6.4.1 and 8.1.1)
+LIST OF DOCUMENTS F-1 DOCUMENTS
+kfilestones
+
+NEEDED
+
+RELATING
+
+TO SOFTWARE
+
+PRODUCTION
+Clause
+
+Nameof Document
+Safety systems requirements for digital systems Software requirements specification (functional and reliability requirements) Quality assurance plan Detailed recommendations (programme development) Software verification plan System integration plan Software performance specification Design verification report Software test spccitlcation Specification of periodic test procedures Software test repxt Periodic tests, test coverage assessment Integrated system verification, test report Computer system validation plan Training programme Computer system validation report Training plan User manual Commissioning test plan Commissioning test report 4 4 3.2 5.3 6.2.1 7.1,7.2
+
+Ml M2
+
+M3
+
+5,5.4.1 6.2.2 6.2.3.1 4.8, 10.3 6.2.3.2 10.3.2 7:7 8 10.2.1 8.1 10.2.2 10.2.2 10.1.1 10.1.1
+
+M4 M5
+
+M6
+
+M7
+
+F-2 DOCUMENTS
+
+RELATING
+
+TO SOFTWARE
+Name of Document
+
+MODIFICATIONS
+Clause
+
+Anomaly report Software modification request
+
+9.3.1 (MA) (% 9.3,1 (MA)
+
+Software mrxhtication report (::) 9.3.1 (MA) 9.3.4 (MA) 9.2 9.3.4
+
+Software modification report, `field document' Software modification control history (PR): Document issuedduringproduction phase. (MA): Document issuedduringmaintenance phase.
+
+43
+
+F-3 DOCUMENTATION F-3.1 Software Generation
+
+ORGANIZATION
+
+RELATING
+
+TO THE SOIWWARE
+
+REALIZA~ON
+
+System Requirements Milestones----*
+
+software Requirements
+Ma-----------+
+
+Software Design M3 -
+
+Software life cvcld Coding Hardware/Sofhvare Integration
+--------* M4 --_---------.--*
+
+Computer System Vali&tion
+--- >
+
+Commissioning
+
+Exploiti IMaintenance
+
+M2 `---------*
+
+M5___
+
+M6
+
+61
+Deiivery I
+
+--..----- ---
+
+M7
+
+safety systems requiremqlts I
+
+reeommeti]ons
+
+-- software software
+
+requhement
+
+-b
+
+performance specification
+
++ .
+
+Failure mode analysis
+
+1
+
+I
+
+----l-
+
+software
+
+/'t
+
+ml
+!
+f
+
+test software
+
+- h-k---l Sonware
+r
+
+I
+.
+
+I
+
+I
+
+verification plan
+
+specification I 1
+
+testreport 1
+
+F-3.2 System Integration
+
+$'3tem Requirements
+
+software Requirements
+
+Software Design
+
+Sofhvare life cycle Coding HardwareKofhvare Integration M3 ----------NM`--------------*
+
+Computer System Validation M6
+
+Commissioning
+
+Exploitl Ma@tenance
+
+Milestones -----
+
+Mr-----------+
+
+M2 ----------+
+
+M5 `-------------b I
+Verification of failure mode analysis
+
+Delivery
+I )----------+
+
+*
+
+M7
+
+system integrationplan
+
+b
+
+Integration system verifmtion test report
+
+I
+Computer system validationplan I Computer system validation reooft
+
+-LEE=
+
+F-3.3 Modifkation
+..
+
+software Design Milestones----+ M~-----------* M:
+---------+
+~3,.___-*
+
+Software life cycle Hardware/Sotlware Computer system Commi*Coding !oning Validation Integration
+M:.-----------.
+MS ---------------
+
+Exploit/ Maintenance
+
+M:
+
+I
+
+i
+
+I--kG-l
+L
+4 )-------P
+
+M
+
+1 Production I
+
+*
+
+EEiiiE1'
+
+Software I
+
+modification request
+software
+
+q
+
+Documentation
+Related
+
+tothe
+~
+
+soh'are modification
+
+modification report
+
+55 u
+report software modMeation request
+Sofiware
+
+Anomaly
+
+moMkation
+
+~ + Somvare
+
++ soflwnre modMcation `fielddocument' / *
+
+modification controlhistory
+
+IS 15398:2003
+
+ANNEX G
+(Foreword)
+
+COMMITTEE
+
+COMPOSITION
+
+Nuclear Instrumentation Sectional Committee, LTD 26
+Organization Representative(s)
+
+Indira Gandhi Cerrtre for Atomic Research, Ka!pakkam Atomic Energy Regulatory Board, Mumbai Atomic Minerals Division, Hyderabad Bhabha Atomic ResearchCentre,Mumbai
+
+Centre for AdvancedTechnology,Indore Electronics Corporation of India Lknited, Hyderabad Indian Institute of Technology, Kanpur Indian Plasma Research Institute, Gandhinagar Ministry of Defence (DRDG), New Delhi Nuclear Power Corporation, Mumtil Nuclear Science Centre, New Delhi PLA Electro Appliances Ltd, Mumbai Saha Institute of NuclearPhysics,Kolkata Variable Energy Cyclotron Centre, Kolkara BIS Directorate General
+
+SWAMI~ATHAN (Chairman) (Alternate) SHRI S. A. V. SATHYAMURTHY SHRI P. R. KMSHNAMURTHY (Alternate) SHRIP. HAJRA SHRtR. SRSEHARI DRS. K. KATARSA SHRI DEBASHIS DAS(Alternate 1) SHtUP. K. MUKHOPADHYAY (Alterrrate 11) SHRtB. J. VAIDYA (Alternate) SHRtA, G. BHUJALE DRM. S. R. MURTY PROF S. QURESHI PROF P. MUNSHI (Alternate)
+SHFU P. DR ANURAG SHYAM SHRIG. C. BHOLA SHRIS. RAMAKMSHNAN
+
+SHRI R. Y. Ap@Altet?zate) K. BHOWMIK SHRtN. R. SHAH (Alternate) SHRI K. K. M. NAIR
+DR R. DR SUVFWDU BOSE DR PRATAP BHATrACHARYA (Alternate) SHRIN. K. MUKHOPADHYAY SHRIVUAI, Director &Head (LTD)
+
+[Representing Director General (Ex-oflcio)]
+Member Secretary
+SHRI PRAVEEN KUMAR
+
+DeputyDirector(LTD),BIS
+
+47
+
+Bureau of Indian Standards BIS is a statutory institution established under the Bureau of Indian Standards Act, 1986 to promote harmonious development of the activities of standardization, marking and quality certification of goods and attending to connected matters in the country. Copyright BIS has the copyright of all its publications. No part of these publications may be reproduced in any form without the prior permission in writing of BIS. This does not preclude the free use, in the course of implementing the standard, of necessary details, such as symbols and sizes, type or grade designations. Enquiries relating to copyright be addressed to the Director (Publications), BIS. Review of Indian Standards Amendments are issued to standards as the need arises on the basis periodically; a standard along with amendments is reaffirmed when needed; if the review indicates that changes are needed, it is taken should ascertain that they are in possession of the latest amendments `BIS Catalogue' and `Standards: Monthly Additions'. This Indian Standard has been developed `of comments. Standards are also reviewed such review indicates that no changes are up for revision. Users of Indian Standards or edition by referring to the latest issue of
+
+from Doc : No. LTD 26 (1974).
+
+Amendments Amend No.
+
+Issued Since Publication Date of Issue Text Affected
+
+BUREAU OF INDIAN STANDARDS Headquarters : Telegrams : Manaksanstha (Common to all offices) Telephone 23237617 { 23233841 23378499,23378561 { 23378626,23379120 603843 { 609285 22541216,22541442 { 22542519,22542315 28329295,28327858 { 28327891,28327892
+
+Manak Bhavan, 9 Bahadur Shah Zafar Marg, New Delhi 110002 Telephones :23230131,23233375,2323 9402 Regional Offices : Central : Manak Bhavan, 9 Bahadur Shah Zafar Marg NEW DELHI 110002 : 1/14 C.I.T. Scheme VII M, V. I. P. Road, Kankurgachi KOLKATA 700054 : SCO 335-336, Sector 34-A, CHANDIGARH 160022
+
+Eastern
+
+Northern
+
+Southern
+
+: C.I.T. Campus, IV Cross Road, CHENNAI
+
+600113
+
+Western
+
+: Manakalaya, E9 MIDC, Marol, Andheri (East) MUMBAI 400093
+
+Branches
+
+: AHMEDABAD. BANGALORE. BHOPAL. BHUBANESHWAR. COIMBATORE. FARIDABAD. GHAZIABAD. GUWAHATI. HYDERABAD. JAIPUR. KANPUR. LUCKNOW. NAGPUR. NALAGARH. PATNA. PUNE. RAJKOT. THIRUVANANTHAPURAM. VISAKHAPATNAM,
+F'nntedat Prabhat Offset Press, New Delhl-2
+
+

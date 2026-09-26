@@ -1,0 +1,1045 @@
+( Reaffirmed 2004 )
+
+BASIC REFERENCE MODEL OF OPEN SYSTEMS INTERCONNECTION FOR INFORMATION PROCESSING SYSTEMS
+PART 3 NAMING" AND ADDRESSING
+
+UDC
+
+68 l-327-8
+
+@ BIS 1992
+
+BUREAU
+MANAK
+
+OF
+BHAVAN,
+
+INDIAN
+
+STANDARD3
+ZAFAR MARG * Price Group 9
+
+9 BAHADUR SHAH NEW DELHI 110002
+
+April 1992
+
+IS 12373 ( Part 3 ) : 1992 IS0 7498-3 : 1989
+
+Indian Standard
+
+BASIC REFERENCE MODEL OF OPEN SYTEMS INTERCONNECTION FOR INFORMATION PROCESSING SYSTEMS
+PART 3 NAMING AND ADDRESSING
+
+NATIONAL
+
+FOREWORD
+
+This Indian Standard which is identical with IS0 7498-3 : 1989 `Information processing systems - Open systems interconnection - Basic reference model - Part 3 : Naming and Organization for Standardization ( IS0 ) was adopted addressing', issued by the International by the Bureau of Indian Standards on the recommendation of Computer Systems and Interconnection Sectional Committee ( LTD 36 ) and approval of the Electronics and Telecommunication Division Council. In the adopted standard certain terminolcgy and conventions are however not identical those used in Indian Standards. Attention is particularly drawn to the following: Wherever the words `International should be read as `Indian Standard'. Inlthis Indian Standard, the following respective place the following:
+International Standard
+
+to they
+
+Standard'
+
+appear Standards
+
+referring
+
+to this standard, to.
+
+International
+
+are referred
+
+Read in their
+Degree of Equivalence
+
+Indian Standard
+
+IS0 7498 : 1984 Information processing systems - Open systems interconnection - Basic Reference model IS0 7498-4 : 1989 Information prosystems cessing systems - Open referinterconnection - Basic ence model - Part 4 : Management framework IS0 7498/Add 1 : 1984 Information systems - Open processing systems interconnection - Basic Reference modeI- Addendum 1 : Connectionless-mode transmission
+
+IS 12373 : 1987 Basic reference model of open systems interconnection for information processing systems IS 12373 ( Part 4 ) : 1992 Basic reference model of open systems interconnection for information processing system : Part 4 Management framework Amendment No. 2 to IS 12373 : 1987 Basic reference model of open systems interconnection for information processing systems
+
+Identical
+
+Identical
+
+Identical
+
+The technical committee responsible for the preparation of this standard has reviewed the provisions of the following IS0 Standards and has decided that they are acceptable for use in conjunction with this standard: IS0 8348/Add. 2 : 1988 OInformation processing systems - Data communication Network service definition - Addendum 2 : Network iayer addressing ISO/TR 8509 : 1987 Information Service conventions IS0 9545 : 1989 Information Application layer structure processing processing systems systems open systems Open systems interconnection interconnection -
+
+1
+
+t
+
+As in the Original Standard, this Page is Intentionally Left Blank
+
+IS 12373 ( Part 3 ) : 1992 IS0 7498-3 : 1989
+
+Introduction
+This part of the Basic Reference Model for Open Systems Interconnection (IS0 7498) extends the basic architectural concepts of identifiers described in 5.4 of IS0 7498. This part of IS0 7498 states the architectural principles which are followed in the production of any standard which involves the identification (naming) and location (addressing) of objects for the purpose of interconnection within the Open System Interconnection Environment (OSIE). This part of IS0 7498 has sufficient flexibility to accommodate advances in technology and expansion in user demands. This flexibility is also intended to allow the phased transition from existing implementations to OS1 standards.
+NOTE - This part of IS0 7498 is expected to be sub'ect to future expansion, in particular with regard to Mu 1'. tlPeer Data Transmission (MPDT).
+
+framework specified by this part of IS0 7498 should make it possible to provide facilities which give adequate levels of performance, reliability, and integrity and which ease the administration by humans with respect to identifying and locating objects within the OSIE for the purpose of interconnection. The description of naming and addressing for the OSIE given in this part of IS0 7498 is developed in stages. Clauses 1 - 4 provide reference information. basic introductory and
+
+Clause 5 introduces concepts of naming. Clause 6 prescribes, for the OSIE, the objects named, the operation of addressing, and the uses of addressing. Clause 7 prescribes, for the OSIE, the objective of naming and addressing and the mechanisms to be employed to meet that objective. Clause 8 prescribes the principles governing the nature and use of addressing information in (N)services. Clause 9 prescribes the principles governing the nature and use of addressing information in (N)protocols. Clause 10 provides a layer independent description of the layer directory-functions necessary to support the addressing structure established by clauses 7, 8, and 9, based on the general mechanisms and principles established in clauses 5and6. Clause 11 prescribes the use of the directory-functions in each layer. Clause 12 defines the nature of addressing domains and registration authorities. Clause 13 prescribes the registration required for naming in the OSIE. Clause 14 prescribes the requirements facilities in the OSIE. procedures
+
+The architectural principles stated within this part of IS0 7498 ensure that any IS0 standard that involves the identification and location of objects within the OSIE for the purpose of interconnection will: a) avoid any restrictions 1) on:
+
+2) 3)
+
+the functionality that may be made available through current or future International Standards, the functionality of any real open system, the internal design of any real open system: of layer That is, the layer is not
+
+b) preserve the principle independence in the OSIE. internal functioning of one constrained by any other layer;
+
+c) preserve the principle of implementation independence in the OSIE, as expressed in 4.2 of IS0 7498. That is, no real open system (or administrator thereof) is required to know anything about the implementation design of any other real open system (or administration thereof), nor does any real open system impose such knowledge as a condition for communication using OS1 standards; economical support for CD allow interconnection within the OSIE; in particular individual standards produced within the
+
+for directory
+
+NOTE -This part of IS0 7498 provides clarifications of the basic architecture defined in IS0 7498 wherdthis is necessary for a full understandin of the naming and addressing requirements within the &SIE.
+
+3
+
+As in the Original Standard, this Page is Intentionally Left Blank
+
+IS 12373 ( Part 3 ) : 1992 IS0 7498-3: 1989
+
+1
+
+Scope
+
+IS0 9545:-l),
+
+Information processing systems - Open systems interconnection - Application layer structure.
+
+This part of IS0 7498 : a) defines general mechanisms for the use of names and addresses to identify and locate objects in the OSIE; and b) defines the use of these mechanisms within the layered structure of the Basic Reference Model. This part of IS0 7498 extends the concepts and principlcs defined in IS0 7498. This part is not intended to be tither an implementation specification or a basis for appraising the conformance. of actual implementations. The specific form of names and addresses is not within the scope of this part. 2 Normative references
+3.3 This part of IS0 7498 makes use of the following
+
+3
+
+tiefinitions
+
+3.1 This part of IS0 7498 makes use of the following terms defined in IS0 9545: a) application-process-type; b) application-process-invocation.
+3.2 This part of IS0 7498 makes use of the following
+
+terms defined in ISOAX 8509: a) b) c) d) (N)-service-request-primitive, (N)-service-indication-primitive, (N)-service-response-primitive, (N)-service-confirm-primitive.
+
+The following standards contain provisions which, through reference in this text, constitute provisions of this part of IS0 7498. At the time of publication, the editions Indicated were valid. All standards are subject to revision, and parties to agreements based on this part of IS0 7498 are encouraged to investigate the possibility of applyirig the most recent editions of the standards listed below. Members of IEC and IS0 maintain registers of currently valid 1ntemation~Standard.s. IS0 7498:1984, Information processing systems - Open systems interconnection - Basic reference model.
+IS0 7398iAdd. 1: 1984, Information processing systems - Open systems interconnection - Basic Reference Model - Addendum I : Connecrionless-mode transmission. IS0 7498-4:-l ), Information processing systems - Open .v.Ttems interconnection - Basic Reference Model - Part 4: OS1 management framework.
+
+term defined in IS0 8348/Add. 2: a) subnetwork point of attachment. 3.4 For the purpose of this part of IS0 7498, the following definitions apply.
+
+3.4.1 (N)-address: A name unambiguous within the OSIE which is used to identify a set of (N)-serviceaccess-points which are all located at a boundary between an (N)-subsystem and an (N+l)-subsystem in the same open system.
+NOTES 1 This definition of @)-address is different from that in IS0 7498. This definition 1s the.de.fmitive 0~9 and will be moved p Ez98 to replace the exlstmg defmluon when IS0 7498 1s when it 2 A name is unambiguous within a given sco identifies one and only one object within tR" Unambiguity of a name does not preclude the ex%eE?% synonyms. 3.4.2 (N)-address-selector; (N)-selector: An element of addressing information that identifies a set of (N)-SAPS which are all in the same (N)-fubsystem; an (N)-selector value is assigned by the local administration.
+
+IS0 8348/Add. 2: 1988, Information processing systems - Data communication - Nerwork service definition - Addendum 2:,Vetwork layer addressing.
+ISO/TR 8509: 1987, Information processing systems Open systems interconnection - Service conventions.
+
+l)
+
+To bc
+
+published.
+
+IS 12373 ( Part 3 ) : 1992
+
+IS0 7498-3 : 1989
+
+NOTE - The concept of (F&address-selectors the Network Layer. 3.4.3
+
+only applies above
+
+NOTE - A generic-title is a specific form of generic name.
+
+(N)-association:
+
+A
+
+cooperative relation-
+
+(N)-initiator: 3.4.13 which issues an (N-l)-service
+
+An (N)-entity-invocation request primitive.
+
+ship among (N)-entity-invocations.
+NOTE - This may be formed by the exchange of (N)-protocolcontrol-information. 3.4.4
+
+name: A linguistic construct which cor3.4.14 responds to an object in some universe of discourse.
+
+calling-(N)-address:
+
+A parameter which
+
+may appear in an o-service request or indication primitive and which identifies the o-address at the (N)-initiator.
+NOTE - In the service defini$on of a particular layer, su+ parameter may be referred to ei* as a callm `source-address". Throughout this part of IS agJ;%:v: only the term "calling-(N)-address" is used. 3.4.5 a
+
+A registration naming-authority: 3.4.15 authority which allocates names according to specified rules. Where the naming-authority allocates titles, it is known as a title-authority. Where the naming-authority allocates addresses, it is known as an addressing-authority.
+naming-domain: The set of names that 3.4.16 are assignabl,. to objects of a particular type. Where the names are titles, the set is known as a title-domain. Where the names are addresses, the set is known as an addressing-domain. 3.4.17
+
+A parameter which caTErd-(N)-address: may appear in an o-service request or indication primitive which identifies the (N)-address at the o-recipient.
+
+NOTE - In the service deftition of a particular layer. such a parameter may be referred to either as.a `called- N -address" or destination-address". Throughout this part of Ibd 7498, however, only the term "called-(N)-address" is used.
+
+A subset of a naming-subdomain: naming-domain, which is dis_iointfrom all other namingsubdomains of that naming-domain.
+primitive name: A name that identifies Y.4.18 an ob_jcctand which is assigned by a designated namingWhtirity. The internal structure of the name is not requlred to be understood or to have significance to users of the name.
+
+3.4.6
+
+descriptive name: A name that %Pntifies a set of. one or more objects by means 5 d set of assertions concerning the properties of the objects of the set.
+3.4.7
+
+(N)-directory-function: An (N)-function that processes (NJ-addresses, (N-1)-addresses, (?&entitytitles, and (N)-PA1 to provide mappings among these categories of information.
+3.4.8
+
+3.4.19 3.4.20
+tion;
+
+(N)-recipient:
+an (FLl)-service
+
+An (N)-entity-invocation
+indicaticm primitive.
+
+which receives
+
+An active rlement within an (N)-entity: (IV)-subsystem er,.&ying a set of capabilities defined for the @@layer that corresponds to a specific (N)-entitytype (without any extra capabilities being used.}
+
+(N)-protocol-addressing-informaThose clemcnts of (N)-PC1 contain addressing information.
+(N)-PAI: 3.4.2
+
+which
+
+NOTE - This definition of (N)-entity is different from that in IS0 7498. This definition is the definitive one and will be moved to IS0 7498 to replace the existing definition when IS0 7498 is revised.
+
+responding-(N)-address: A parameter 1 which may appear in an o-service response or confirm primitive and which identifies the m-address al the (N)recipient.
+NOTE - In the service definition of a particular layer, such a parameter may be referred to either as a "called-address" or address." Throughout this part of IS0 7498, respondin howeva, o 3 y the term "responding-(N-address" is used.
+
+3.2.9
+
+(N)-entity-invocation: a specific utilization of part or all capabilities of a given (N)-entity (without any extra capabilities being used).
+the existing definition when IS0 7498 is revised.
+
+NOTE - This definition will be moved to IS0 7498 to replace
+3.4.10 (N)-entity-title: A name that is used to
+
+(N)-service-access-point-address; 3.4.22 An (Nj-address that is used to (N)-SAP-address:
+
+identify a single (N)-SAP.
+NOTES -service-access-point-address is different 1 This definition of I&n that in IS0 7490 This definition 1s the definitive one and will be moved to IS0 7498 to replace the existing definition when IS0 7498 is revised. (N)-address is the general term which applies to an set of )-SAPS, includin sets of one and only one (N)-SA B. (N)L? A? address IS on! used where it is necessary to s ecif eclsely that the ad ress ldentlfles one end only one &AI! e; hether an (N)-address is an (N)-SAP address or not is a matter 2
+
+identify unambiguously an (IV)-entity. 3.4.11 (N)-entity-type: a description of a class of O-entities in terms of a set of capabilities defined for the @)-layer.
+NOTE - This definition will be moved to IS0 7498 to replace the existing definition when IS0 7498 is revised.
+
+3.4.12
+
+generic
+
+name:
+
+A narrIe of a set of objects.
+
+6
+
+IS 12373 ( Part 3 ) : 1992 IS0 7498-3 : 1989
+
+local to the (N)-subsystem and is not known to other o systems. Nevertheless, at some layers and because of &ziY possibleuse in subsequent communications, calling-(IV)-addresses single g )-SA k (see 8.4.4 and 8. 5 . The decision whether or
+not to apply this constraint protocol-by-protocol basis. -Q e on a layer-by-layer is ma and res ndin -(N)-addresses ma be constrained to identify a and
+
+relation of identifying. which it is bound.
+
+A name identifies the object to
+
+5.2 Within the context of OSI, names identify particular communications objects in the Open Systems Interconnection Environment (OSIE). There are two dis-
+
+3.4.23 subnetwork-address: An identifier assigned to a subnetwork point of attachment by the registration authority of the subnetwork. 3.4.24 name; synonymous synonym: A name that identifies an object that is also identified by another distinct name. Synonymous generic names are distinct generic names that name the identical set. 3.4.25 system-title: A name, unique within the OSIE, which is used to identify a single real open system .
+
+tinct kinds of names, primitive and descriptive. 5.3 Within any particular universe of discourse, a primitive name is a name assigned by a naming-authority to a specific object. A naming-authority is simply a source of names. The only architectural constraints imposed upon naming-authorities are that all of the names it provides: a) b) are expressed in a prescribed language: and are unambiguous (identify just one object).
+
+4
+
+Abbreviations
+
+For the pu$o+ of this part of IS0 7498, the following abbreviations apply: (N)-CEPI DLS AP NSAP OS! OSIE (N)-PAI (N)-PC1 PhSAP PSAP (N)-SAP SNPA SSAP TSAP (N)-Connection-EndPoint-Identifier Data-Link-Service-Access-Point Network-Service-Access-Point Open Systems Interconnection OS1 Environment (N)-Protocol- Addressing-Information mj-Protocol-Control-Information Physical-Service-Access-Point Presentation-Service-Access-Point @J-Service-Access-Point SubNetwork Point of Attachment Session-Service-Access-Point Transport-Service-Access-Point
+
+5.4 A descriptive name consists of a set of assertions which'are expressed in a formally defined language. The definition of the formal language determines those linguistic constructs which are well-formed descriptive names. A descriptive name may be incomplete, in that many objects satisfy all the assertions, or it may be complete, in that it serves to identify a single object. A complete descriptive name is equivalent to a primitive name in that it unambiguously identifies an object. Primitive names may be components of a descriptive name. 5.5 Although a primitive name is unambiguous, there may bc more than one name that unambiguously identifies the s:i;ne obicct. 5.6 A generic name is a primitive name or a descriptive same that identifies a set comprising more than one obje,ct with the intent that, when a generic name is used to denote an object, the result is that exactly one mcmbcr of the set of objects will be selected. A generic name may be used to identify a set of objects of a particular type, which riced not be located in the same open system. 5.7 A title is assigned to an object where the purpose of the name is to discriminate among different objects and tc; permit retrieval of information associated with an object from a Directory Facility. A title is assigned to u object type where the purpose of the name is to discriminate among dir`feercnt object types and to permit retrieval of information associated with an object type from a Directory Facility. The name may identify a system, application-process, application-process-type, (N)-entity, or (N)-entity-type.
+NOTE - These objects and types are defined in eithu IS0 7498 or IS0 9545.
+
+5
+5.1
+
+Basic concepts of naming
+
+Names are linguistic constructs expressed in some language. They correspond to objects in some universe of discourse. The correspondence between names (in the language) and objects (in the universe of discourse) is the
+
+5.8 , An identifier is assigned to an object where the purpose of the name is only to discriminate among occurences of this object. The name may identify an (N)-
+
+7
+
+IS 12373 ( Part 3 ) : 1992 IS0 7498-3 : 1989
+
+association, an application-process-invocation, or an (N)entity-invocation. y50TF - These objects are defined in either IS0 7498 or IS0
+
+dress is an o-address exactly one (N)-SAP.
+
+which identifies a set containing
+
+6.2.2.2 While (N)-entities are the objects being addressed, the result of communication to an address is communication with an (N)-entity-invocation.
+
+OS1 naming and addressing con6 cepts and the correct use of addresses
+6.1
+6.1.1 The naming of real open systems
+
+6.2.2.3 An (N+l)-entity is located by its binding to one or more (N)-SAPS. An (N)-SAP is identified by one or more (N)-addresses.
+NOTE - A physical-address is used to access a data-link-entity; a data-link-address is used to access a networkentity;
+
+A system-title is a layer independent primitive name, i.e., the same identifier is used within various layers to identify the same real open system. A single real open system is named by one and only one systemtitle . 6.1.2 A system-title is used to identify a real open system as a whole. It may also be used:
+
+a neiwork-eddress is us-4 to accessa transport-en$ty;
+a translxxt-address is used to access a sess~on-enuty;
+
+a session-address is used to accessa presentationentity; and
+
+a presentation-address is used to access an application-entity.
+
+6.2.3
+
+(N)-selectors
+
+a>
+
+in conjunction with other qualifiers to identify specific OS1 resources in the relevant parts of the management information base within the real open system; or as an attribute of a Directory Facility entry b) pertaining to an OS1 resource associated with a
+single real open system.
+
+An (N)-selector is that part of the addressing information which is specific to the (N)-subsystem. (N)-selectors are used to identify (N)-SAPS or sets of @)-SAPS within an end open system, once this end open system is Since the end open system unambiguously identified. is implicitly known at the Network Layer, (IV)-selectors are used above the Network Layer, along with local information, to address the desired (N+l)-entity within the open system. (N)-selector values are exchanged between open systems as part of the @)-PAL
+
+6.2 The naming of an (N)-layer 6.2.1 6.2.1.1 Introduction
+
+and
+
+addressing
+
+of elements
+
+6.3
+
+The
+
+correct
+
+use
+
+of (N)-addresses
+
+Since an (N)-entity-type describes a class of (N)-entities, it needs to be named, but not located. Since (N)-entities and (N)-entity-invocations are active elements within an o-layer, they need to be unambiguously identified and located.
+6.2.1.2
+
+6.3.1 o-addresses have a limited scope. used to distinguish among sets of @)-SAPS, O-SAPS. Addressing rules are not used to structure of a real open system visible to environment.
+
+They are and only make the the OS1
+
+6.3.2 @&addresses are used to identify sets of (N)SAPS in order to locate (N+l)-entities. An (N+l)subsystem is partitioned into (N+l)-entities: to support different (N+l)-protocols or sets a) of (N+ I)-protocols; b) to accommodate security and/or management requirements; and c> in the case of the application-subsystem, to distinguish'between different application-processes and different application-entities of the same application-process.
+
+Within an open system, (N+l)-entities and (NJ-entities are bound together at (N)-service-accesspoints [(Nj-SAPS]. (N)-entities provide services to (N+l)-emitics via the exchange of service primitives at (N)-SAPS.
+
+6.2.1.3 An (N)-entity is identified unambiguously by An (N)-entity-type is identified by an fN)-entity-title. An (N)-entity-invocation is an (N)-entity-type-title. identified by an (N)-entity-invocation-identifier which is unambiguous within the scope of an @&entity. 6.2.2
+6.2.2.1 (N)-addresses 6.3.3
+
+(IV)-addwsesarenotused:
+
+An (N)-address identifies a set of (N)-SAPS which are all located at the boundary between an (N)~iitrsystem and an CN+l)-subsystem. An (N)-SAP-ad-
+
+to distinguish among aspects of protocols a) that are subject to negotiatioh (classes, subsets,
+
+8
+
+IS 12373 ( Part 3 ) : 1992 IS0 7498-3 : 1989
+
+quality of service, protocol versions) or parameter values: to derive routing information above the Netb) work Layer; or
+
+7.1.5 When the operation of an O-association requires it, (N)entity-titles are used to identify (NJ-entities independent of their locations. When the operation of an (N)-association requires it, (N- I)-addresses are used in requests for (N-l)-services to identify the locations of the (N)-entities concerned. Attachment of (N)-entities to (N)-
+
+c>
+
+to distinguish among hardware components. 7.2 SAPS
+
+NOTE - In some configurations, the use of an (N)-address as defined in 6.3.2 can lead to an (N+l)-entity being wholly contained within a single hardware corn Nevertheless, within the OSIE, the (N)-address iJonem' entrfies the (N+l)-entity; it does not identify the hardware component.
+
+7
+7.1
+
+OS1 addressing
+Associations
+
+model
+peer (N)-entities
+
+An @)-entity may provide @I)-services through one or more (N)-SAPS and may use (N-l)-services through one or more (N-I)-SAPS. In consequence an (N)-entity may have the following relationships with (N)-SAPS and (Nl)-SAPS (see Figure 1): an (N)-entity may provide (N)-services through one (N)-SAP making use of (N- I)-services through one (N- l)-SAP;
+
+between
+
+a)
+
+7.1.1 An (IV)-association is a cooperative relationship between two (N)-entity-invocations. Cooperation between (N)-entity-invocations requires the establishment and maintenance of related state information in each (N)entity-invocation. This state information supports an (N)-association between the (b&entity-invocations. 7.1.2 An @)-entity invocation may support one or more independent (N)-associations at any one time. The communications behavior of the (N)-entity-invocation with respect to a specific (N)-association is defined by the (N)-entity and by the state information which is maintained by the (N)-entity-invocation and is specific to that (N)-association. 7.1.3 An (N)-association-identifier is associated with each (N)-association. This identifier is unique within the scope of a pair of cooperating (N)-entity-invocations. It serves to identify the related'state information associated with each (N)-entity-invocation. The identifier has two components, one being determined by each (N)-entityinvocation.
+NOTE - Certain (N)-protocols association-identifiers. may not need explicit (N)-
+
+b) an (N)-entity may provide (N)-services through multiple (N)-SAPS making use of (N-1)-services through one (N- l)-SAP; an (N)-entity may provide (N)-services c) through one (N)-SAP making use of (N-I)-services through multiple (N-I)-SAPS; @ an (N)-entity may provide (N)-services through multiple (N)-SAPS making use of (N-l)services through multiple (N-I)-SAPS;
+NOTES between the SAPIenti conendences identified above and multiplexing. An ( x )-multip "p". exmg function provides for the mappin of several (N)connections onto a single (N- 1 connection. +Le (N)COMeCtiOnS may all terminate in a single b )-SAP or they may terminate in separate (N)-SAPS. Multiplexed (N)-connections are distinuished from each other by elements of N)-PC1 at the service %Jundary and by elements of the (N)-P dt , e.g. an associationidentifier within the (N)-protocol. 1
+
+There is no relationship
+
+7 . 1.4 Two (I+entity-invocations can establish (N-l)connection(s), or can make use of an (N-l)-connectionless service, to support an @)-association. The lifetime of an (N)-association may exceed the lifetime of any supporting (N-1)-connection(s). The binding of an (N)association with (N-l)-connection(s) may change with time.
+NOTE - An (N)-association could be associated with a sequence of (N-l)-connections with a one-to-one binding at an point in time; alternatively in the case of splitting, there could L a onem-many binding at any point in time.
+
+7.3 7.3.1
+
+(N)-addresses
+
+and (N)-SAPS
+
+The OS1 addressing structure allows: a) (N)-addresses to identify the location of an (N+l)-entity without constraining the structure of lower layer subsystems in the open system concerned; and
+
+b)
+
+multiple (N)-entities to be defined within an (N)-subsystem.
+t
+
+IS 12373 ( Part 3 ) : 1992 IS0 7498-3 : 1989
+
+(N)-SAP
+
+(N)-SAP's
+
+Q
+(N)-entity (N-l)-SAP (N-1)-SAP
+
+(a)
+
+w
+
+(N)-SAP
+
+(N)-SAP's
+
+(N-l )-SAP's
+
+(N-1)-SAP's
+
+Figure 1 -
+
+Relationships of (N)-entity to (N)-SAPS and to (N-I)-SAPS
+
+10
+
+IS 12373( Part 3 ) : 1992
+
+IS0 7498-3:
+
+1989
+
+NOTE - The relevant addressing structure allows a presentationaddress to identify the location of an application-entity without constrainin the structure of presentation-, session-, and transport-su %systems within an open system; and allows $e defimtion of a single set of addressing mformation for use m establishing communication with an application-entity in a recipientsystem. 7.3.2
+
+(N)-subsystems are distinguished is an entirely local matter.
+
+(N)-directory-functions 7.4 facilities
+
+and directory
+
+An o-address identifies a set of @)-SAPS all located at the boundary of a single (N)-subsystem. The exact membership of the set is an issue local to that (N)-subsystem. The set membership is not known to other open systems and may change over time.
+7.3.3 The set
+
+of (?I)-SAPS identified by an o-address
+or
+
+may consist of:
+
+7.4.1 (N)-directory-functions process o-addresses, @I-l)-addresses, @)-entity-titles, and @I)-PAI to provide mappings among these categories of information. Information used for these mappings is held by a Directory Facility. It is a local system management responsibility to access the Directory Facility to retrieve the information and make it available to an (IV)-directory-function. 7.4.2 Some of this information represents the logical structure of the local end system and influences local operation. This information is stored locally. Other information represents the logical structure of the remote end system and influences the generation of (N)-PAI. This information may be stored locally or remotely. If it is stored remotely, OS1 protocols are used to access that information.
+
+4
+
+a single (IV)-SAP bound to an (N+l)-entity;
+
+b) multiple (N)-SAPS that are bound to a single (N+l)-entity; or
+
+4
+
+multiple (N)-SAPS that are bound to different (N+l)-entities.
+
+7.3.4 When an O-address is used as a called-(N)-address in a service primitive, the recipient (N)-subsystem will select a single @)-SAP from the set identified by the (N)-address. The selection mechanism is a local issue transparent to the (IV)-initiator. 7.3.5 Open systems are configured to ensure that all of the (N)-SAPS in the set identified by an (N)-address are bound to (N+l)-entities that are of the same type and, therefore, provide the same functions. 7.3.6 It is important to distinguish between the semantics of an o-address and the syntax used to represent an (N)-address within a given open system. (N)-addresses are passed across layer boundaries within open systems as parameters of (N)-service primitives. For (N)-service request/response primitives, the semantics of O-addresses are conveyed to the peer (N)-subsystem and passed across the layer boundary as parameters of the (N)service indication/confirm primitives. Only the semantics of an (N)-address are conveyed by the (I?)-service. The syntax of an @I)-address'isa local issue and different representations may be used in different open systems. 7.3.7 When an (N+l)-entity establishes an (N)-connection with another (N+l)-entity, each (N+l)-entity is given an (N)-connection-endpoint-identifier [@I)-CEPI] by its supporting @I)-entity. (See 5.4.2 of IS0 7498). An (N)-CEPI is a local identifier determined at connection establishment time. An (N)-CEPI cannot be used as a substitute for an (N)-address. In the case that the calling-@I)-address and called-(IV)-address of an (N)connection are identical, the (IV)-connection has two (N)connection-end-points and two (N)-CEPIs (connection of an'(N)-entity to itself). How the two (N)-CEPIs in the
+
+Addressing 8 services
+8.1 Introduction
+
+information
+
+and
+
+(N)-
+
+8.1.1 This clause provides a layer independent description of the use of (N)-addresses in (IV)-service primitives. 8.1.2 (N+l)-entities use (N)-services by issuing (N)service primitives at O-SAPS. Issuing an (N)-service request/response primitive may cause an (IV)-service indication/confirm primitive to be issued at an @I)-SAP to which a peer (N+l)-entity is attached. 8.1.3 The o-address derived from information provided by a Directory Facility may be invalid. An o\r)address derived from the callingl responding-o-address parameter of a previously received (N)-service indication/confirm primitive has to be valid at the time it is issued, but no guarantee can be given for a subsequent use of this address. Therefore, an (N+l)-entity using an @&address should, under all circumstances, check that it has led to communication with the desired correspondent in the (N+l)-layer. It is normally sufficient to do this in the Application Layer by exchanging application-entitytitles. 8.1.4 The use of an @)-address is not sufficient by itself to identify a particular (N+l)-entity-invocation. An (N+l)-entity may be satisfied to communicate with any (N+l)-entity-invocation of the desireB (N+l)-entity at the o-address. In some (N+l)-layers, it may be nec-
+
+11
+
+IS 12373 ( Part 3 ) : 1992 IS0 7498-3 : 1989
+
+essary to reference the (N+l)-entity-invocation using the (N+l)-entity-invocation-identifier.
+8.2 Address parameters
+
+The called-O-address identifies a set of (Nj8.3.6 SAPS at the recipient-@&subsystem. Any one of the (N)-SAPS in this set may be used to support the communication. The resolution of the address to select a particular @&SAP is the responsibility of the recipient @&subsystem. The called-o-address may have been derived 8.3.7 from information obtained from the Directory Facility. In this case, the semantics of the o-address are related to a directory entry published on behalf of the recipient system. The attributes associated with the Directory Facility entry are known within the recipient system. The called-O-address identifies a set of (?+SAPs that provide access to (N+l)-entities which support communication in a manner that is consistent with the information obtained from the Directory Facility. The called-o-address may have been previously 8.3.8 passed as a calling- or responding-(IV)-address parameter by the recipient (N)-subsystem in a previous instance of communication. In this case, the (N)-address identifies the set of (N)-SAPS consistent with the rcquiremcnts concerning calling- or responding-o-addresses described in clauses 8.4 and 8.5. The called-o-address may have been obtained 8.3.9 by private arrangement. In this case, the called-(N)-address identifies a set of (N)-SAPS that provide access to (N+l)-entities that support communication in a manner consistent with that private arrangement. 8.4 Calling-(N)-address
+
+8.2.1 It is important to distinguish between the (N)addresses passed as called-(N)-address parameters and those passed as calling-O-address or responding-(N)-address parameters. 8.2.2 Called-o-addresses are used in the initiation of communication between (N+l)-entity-invocations. The (N+l)-initiator provides the called-(N)-address the semantics of which are conveyed to the peer (N+l)-recipient.
+
+8.2.3 Calling- and responding-(N)-addresses are primarily used for identification and r-11 purposes and may identify the specific O-SAPS used in an instance of communication.
+
+8.3
+
+Called-(N)-address
+
+8.3.1 The call&l-O-address parameter in connectionmode service primitives is equivalent to the destination (N)-address parameter in connectionless-mode service primitives. 8.3.2 The called-o-address is provided by the (N+l jinitiator. The semantics of the o-address are conveyed to the recipient (N)-subsystem and passed to the (N+l)subsystem in an (IV)-service indication primitive. 8.3.3 The called-(w-address conveyed in the (IV)-service indication primitive parameter is not restricted to be the same address as was specified in the associated request primitive. However, an (IV)-service definition may impose such a restriction. 8 .3.4 Above the Network Layer, address processing is confined to end systems: a) at the initiating open system, the processing of the called-(Nj-address is not dependent on the complexity of the address structures supported by the recipient open system; and b) at the recipient open system, the processing of the called-(w-address depends on the complexity of the address structures supported by this system. 8.3.5 In the Network Layer, although some processing of the called-@Q-address may occur in an intermediate system, this processing is not dependent on the complexity of the address structures supported by the recipient open system.
+
+The catling-o-address parameter in connection8.4.1 mode service primitives is equivalent to the source (N)address parameter in conncctionless-mode service primitives.
+
+8.4.2 The calling-(N)-address is provided by the (N+l)-initiator. The semantics of the (Nj-address are conveyed to the recipient (IV)-subsystem and passed to the (N+l)-subsystem in an o-service indication primitive. 8.4.3 Provided (N)-protocol specifications and OS1 management standards do not impose constraints, the recipient (N+l)-subsystem may use the calling-(N)-address in any of the following ways: in a subsequent request a) as a called-o-address primitive that is not related to the initial communication: b) as a called-@&address in a subsequent request primitive that is related to the initial communication, in order to facilitate connection re-establish* ment or splitting;
+
+IS 12373 ( Part 3 ) : 1992 IS0 7498-3 : 1989
+
+c) as a called-(N)-address which is forwarded to some other open system: (9 for management purposes.
+
+layer specific requirements concerning responding-(N)addresses. For example, a layer may require a responding-(N)-address to identify the single (N)-SAP actually used to support the communication. 8.5.6 When the responding-o-address received in an (N)-service confirm primitive is used by the initiating (N)-subsystem as a called-(N)-address in a subsequent (N)-service request primitive, this subsystem should be aware of the possibility that this address may be no longer valid in the sense defined in 8.5.5 and should take appropriate measures.
+
+8.4.4 While valid, the calling-(N)-address will identify a set of (N)-SAPS at the initiating o-entity. The set of Q-SAPS identified may be constrained by layer specific requirements concerning calling-(N)-addresses. For example, a layer may require a calling-O-address to identify the single (N)-SAP actually used to support the original communication. 8.4.5 When the calling-o-address received in an (N)service indication primitive is used by the recipient (N)subsystem as a called-@&address in a subsequent (N)service request primitive, this subsystem should be aware of the possibility that this address may be no longer valid in the sense defined in 8.4.4 and should take appropriate measures.
+
+Addressing 9 protocols
+9.1 Introduction
+
+information
+
+and
+
+(N)-
+
+8.5
+
+Responding-(N)-address is used in @)-service
+
+8.5.1 The responding-O-address response/confirm primitives.
+
+This clause provides a layer independent description of the use of addressing information in (N)-Protocol-Addressing-Information [(N)-PAI]. (N)-PAI are those elements of (N)-PC1 which contain addressing information.
+
+NOTE - Ir! some OS1 service definitionsthe term "called address" is used in response and confii primitives to denote the reqxmding-(N)-addressparameter.
+
+9.2 Addressing
+
+information
+
+in (N)-PA1
+
+8.5.2 The responding-(N)-address is provided by the (N+l)-recipient. The semantics of the (N)-address are conveyed to the initiating (N)-subsystem and passed to the initiating (N+l)-subsystem in a confirm service primitive. 8.5.3 Provided @O-layer protocol specifications and OS1 management standards do not impose constraints, the initiating (N+l)-subsystem may use the resporidingO-address in any of the following ways:
+
+9.2.1 The semantics of an O-address are conveyed by means of (N)-protocol exchanges between (N)-entityinvocations. For some layers, the full semantics of (N)addresses are conveyed in (N)-PAI. In other layers, it is not necessary for the full semantics of @)-addresses to be repre,wnted in the (N)-PA1 and, for these layers, the full semantics of @&addresses are conveyed by a combination of: a) :hc exchange of (N)-PAI; and b) local information about the scope of the (N)-PAI. NCTWS
+1 For example, the network-entitiesexchange network-addresses. In thiscase, the Network-PAI includesthe network-address.
+2 The values of (IV)-PAImay include informationrelevant to the operatio,nof both the (N)-layer and the p+l)-layer. Neverthelza;, ,aar~en layer only makes use of the informtion relevant to
+
+4
+
+as a called-o-address in a subsequent request primitive not related to the initial communication;
+
+b) as a called-O-address in a subsequent request primitive related to this communication, e.g. to facilitate connection re-establishment or splitting;
+
+I ,
+
+.
+
+d
+
+as a called-(N)-address which is forwarded to some other open system; for management purposes.
+
+(9
+
+9.2.2 Below the Network Layer, communicating (N)entities are confined to a single subnetwork. The (N)PAI exchanged need not be globally applicable, since it can be interpreted within the scope of the subnetwork. 9.2.3 At the Network Layer, communicating (N)-entities may be attached to different subnetworks. Consequently, the (N)-PAI exchanged has to be globally applicable. For this reason, the Network-PAIlalone provides for the exchange of the complete semantics of a networkaddress.
+
+8.5.4 The responding-@&address may differ from the called-(N)-address specified in the related (N)-service indication primitive. 8 ,,5.5 While valid, the responding-(N)-address will identify a set of (N)-SAPS at the recipient (N)-entity. The set of (N)-SAPS identified may be constrained by
+
+13
+
+IS 12373 ( Part 3 ) : 1992 IS0 7498-3 : 1989
+
+9.2.4 Above the Network Layer, the scope of the (N)PAI is restricted to the communicating end systems. At these layers, the semantics of the (N)Jaddress comprise: a) the identification of a set of (N)-SAPS; this identification is unambiguous within the scope of the @)-subsystem which contains the (N)-SAPS and is provided by (N)-selectors exchanged in (N)-PAl and local information about the scope of the o-selectors within the @)-subsystem; and b) the identification of the end systems, derived from the Network Layer exchange of network-addresses.
+NOTE - At the Application Layer, titles and identifiers, not addressing informanon are exchanged.
+
+9.4
+
+Network-addresses
+
+and network-PA1
+
+The complete semantics of the network-address is conveyed in the Network-PAI. The network-address is globally applicable and is issued by the appropriate registration authority.
+
+(N)-Addresses 9.5 Network Layer
+
+and
+
+(N)-PA1
+
+above
+
+the
+
+9.3 Assignment (N)-PA1
+
+of values
+
+to elements
+
+of
+
+9.5.1 (N)-selectors are unambiguous within the scope of an (N)-subsystem. The values of (N)-selectors are chosen by the local administration of an open system and there is no requirement for an OS1 addressing authority, although the chosen values has to be known by systems which want to communicate. When an @Q-selector identifies a set of @I)-SAPS, the resolution of that (N)-selector is the responsibility of the recipient @)-subsystem.
+NOTES All (N)-entities refer to a particular set of (N)-SAPS in the i.e. the (N)-selector value which is associated with k?"s~"oyi 1N)-SAPS IS the same regardless of the (N)-entity which handles the communication). 2 The way unambiguity is achieved is a local matter. Local administratton of the open system may decide to achieve that oal b defining (N)-selectors that are unique within the sco of &e (&subsystem. In such a case, the semantics of the selector is directly derived from the value carried in the (N)- I% , re ardless of the (N)-entity which handles the communication. & ere (N)-selectors are unambiguous within the scope of the (N) subsystem, without being unique within that scope, additional information local to the reci ient open system, is necessary in particular, the semantics of tKe (N) - selector depend on the (I4)entity whrch handles the communication). 1
+
+9.3.1 Layer protocol specifications define elements of (N)-PA1 to be used for the exchange of addressing information. Different elements of (N-)-PA1are used to convey the semantics of:
+- called-(N>addresses, - calling-(?I)-addresses, and
+
+- responding-(N)-addresses. 9.3.2 The values of the elements used to convey calling-(N)-address semantics are provided by the (N)initiator. These values may be retained by the recipient @&subsystem and used in a subsequent request primitive to convey called-(N)-address semantics to the original initiating (N)-subsystem. 9.3.3 The values of the elements used to convey responding-o-address semantics are provided by the recipient (b&subsystem. These values may be retained by the initiating (N)-subsystem and used in a subsequent (N)-service request primitive to convey called-(N)-address semantics to the recipient (N)-subsystem. 9.3.4 The values of the elements used to convey caliedo-address semantics may be obtained: a) from a Directory Facility, b) by private arrangement, or
+c) from previously (,?V)-ZKfdRSWS
+
+9.5.2 Protocol specifications may designate (N)-PA1 as optional and therefore it may be absent. Since the (N)PA1 in an (N)-protocol is the (N)-selector, the (N)selector may be absent. There is no distinction between the absence of an (N)-selector and the presence of a nil @)-selector value in connectionless-mode operation. In connection mode operation, the absence of an (N)-selector is equivalent to the presence of a nil (N)-selector value for calling- and called-(N)-addresses. For responding-(N)-addresses, the absence of an (N)-selector indicates that the responding-(N)-address is equivalent to the called(N)-address. N(z-g a)
+Wikinnltyers which use the
+
+Type-Length-Value (TLV)
+
+"absence of selector" means that no parameter of the type used to convey this selector is present;
+
+issued (calling-) responding-
+
+b) the "ml selector value " corresponds to a zero value for the length field of the parameter which is of the type used to conveythisselector; and if the parameter type which corresponds to the type c) used to convey the selector is resent and if the associated parameter length is not zero, j: en the selector value is net TIdered as ml whatever the encoding of this value might 9
+
+14
+
+IS 12373 ( Part 3 ) : 1992 IS0 7498-3 : 1989
+
+9.53 The nil @&selector value (or the absence of a value) is only used in (IV)-PAI to convey called-(NWdress semantics when the nil value has been specified: a) by a value from an entry in a Directory Facility;
+
+10
+10.1
+
+(N)-directory-functions
+Introduction
+
+a
+b) as the (IV)-PAI used to convey the semantics of a previously issued calling/responding-(Laddress;
+
+a
+c) by private arrangement.
+
+10.1.1 @)-directory-functions process (N)-addresses, (N-l)-addresses, @I)-entity-titles, (N)-PAI, and possibly routing information to provide mappings among these categories of information. These functions are performed by the @)-entity within the o-layer during connection establishment or connectionless data transmission:
+
+4
+
+9.5.4 The (IV)-recipient uses the nil (N)-selector value according to local information to select an (N)-SAP. NOTE- The use of a nil (N -selector value does not preclude the
+ues by the local administrationof an use of other (N)-selector v a.I open system.
+
+when an (N)-service request primitive is received from the (N+l)-layer, or an (N-1)-service confirmation primitive is received from the (N-I)-layer (the initiator (N)-directory-functions); and
+
+b) when an (N-l)-service indication primitive is received from the (N-l)-layer, or an (N)-service response primitive is received from the (N+l)Alayer (the recipient (N)directory-functions). 10.1.2 Information on these mappings may be' held by local system management and made available for access by (N)-directory-functions or it may be held by a Directory Facility. If information is needed from a Directory Facility, it is obtained by local system miagement and made available to (N)-directory-functions. 10.2 The initiator (N)-directory-functions
+
+9.6
+
+Obtaining
+
+(N)-PA1
+
+9.6.1 Information about application-entities is obtainti from the Application Title Directory Facility (see clause 14). Included in this information is a single tuple specifying the addressing @)-PA1 values required to access the application-entities through a PS'AP, The tuple is of the form: (P-selector, S-selector, T-selector, list of network-addresses) NOTE - Each of the (N)-PAI values derived from the tuplemay
+be used by the relevant (N)-recipient to identify a set of (N)SAPS. The fact that the (N)-addressing intkmation may identify a set of (N)-SAPS is known only by the recipient (N)-subsystem.
+
+10.2.1 The parameters of the initiator (N)-directoryfunctions used for connection establishment or connectionless data transmission are: a) the called-(N)-address supplied by the (N+l)layer, (CALLED-@)-ADDRESS); b) the calling-o-address supplied by the (N+l)layer, (CALLING-w-ADDRESS); c) the called-(N)-entity-title supplied by the (N)layer, (CALLED-(N)-ENTlTY-TITLE); d) the called-(N- 1)-address generated by an initiator (N)-directory-function, (CALLED-(N-l)-ADDRESS); e) the responding-(X)-PA1 supplied by the (N-l)layer, (RESPONDING-(N)-PAI); t) the responding-(7%I)-address supplied by the (Nl)-layer, (RESPONDING-(N-I)-ADDRESS); and g) information (LOCAL) made available by local system management to the (N)-directory-functions on loading, quality of service requirements, and other local information.
+
+9.6.2 All of the network-addresses of the list belong,to a single open system. At the initiating open system, one of the network-address values is selected by local system management for a given instance of communication. 9.6.3 The T-selector is the single T-selector value that, when used in transport-PAI, identifies the set of TSAPs at the open system to which the set of network-addresses in the tuple applies. The selector value is equally valid regardless of which network-address is used. 9.6.4 The S-selector is the single S-selector value that, when used in session-PAL identifies the set of SSAPs at the open system to which the set of network-addmsses in the tuple applies. The selector value is equally valid regardless of which network-address is used. 9.6.5 The P-selector is the single P-selector value that, when used in presentation-PAI, identifies the set of PSAPs at the open system to which the set of networkaddresses in the tuple\Applies. The selector value is equally valid regardless of which network-address is used.
+
+-15
+
+IS 12373 ( Part 3 ) : 1992 IS0 7498-3 : 1989
+
+NOTE - A layer need not use all of these parameters for its initiator(N)-directory-functions.
+
+4 The Initiator Addressing Function 4 - IAF4. For this function,
+
+10.2.2 Taking these parameters as input the initiator (N)-directory-functions generate the following information: a) the called-(N)-PAI to be carried in (N)-PCI, (CALLED-(N)-PAI); b) the calling-(N)-PAI to be carried in (N)-PCI, (CALLING-(N)-PAI); c) the calling-(N-1)-address to be passed in the (NI)-service request primitive, (CALLING-(N-l)ADDRESS);
+NUTE - The choice of the (N-l)-SAP at which this (N-l)service request primitive is issued is a local matter. Thus choice has to be consistent with the calling-(N-l)-address.
+
+l) the input parameters are: RESPONDING(N-l>ADDRESS and RESPONDING-m-PAI; 2) the output is: DRESS. RESPONDING-(N)-ADFor this
+
+e) The Initiator PAI Function 1 - IPFl. function,
+
+1) the input parameter is: CALLED-(N)-ADDRESS; 2) the output is: CALLED-(N)-PAI. f) The Initiator PA1 Function 2 - IPF2. For this function, I) the input parameters is: CALLING-(N)ADDRESS; 2) the output is: CALLING-(N)-PAI.
+
+4 the called-(N-l)-address to be passed in the (N1)-service-request-primitive, (CALLED-(N-l)-ADDRESS); and e) the responding-(IV)-address to be passed in the confirmation primitive, (N)-service (RESPONDING-@)-ADDRESS);
+
+g) The Initiator For this function.
+
+Routing Function
+
+1 - IRFl.
+
+r) routing information, FORMATION).
+
+(ROUTING
+
+IN-
+
+1) the input parameters are: CALLED-(N)ADDRESS and LOCAL, 2) the output is: ROUTING INFORMATION.
+
+NOTE- The nature of the ROUTING INFORMATION and
+its use b the m-layer dependon the detailedarchitectureof the routmg function withm the O-layer.
+
+10.23 There are seven initiator (IV)-directory-functions. a) The Initiator Addressing Function 1 - IAFl. For this function, 1) the input parameters are: CALLED-(N)ENTITY-TITLE and LOCAL; 2) the output is: CALLED-(N-l)-ADDRESS. b) The Initiator Addressing Function 2 - IAF2. For this function, 1) the input parameters are: CALLED-(N)-ADDRESS and LOCAL; 2) the output is: CALLED-(N-l)-ADDRESS. c) The Initiator Addressing Function 3 - IAFJ. For this function, 1) the input parameters are: CALLED-(N-l)ADDRESS, CALLING-(N)-ADDRESS and LOCAL; 2) the output is: CALLING-(N-l)-ADDRESS.
+
+10.3
+
+The recipient
+
+(N)-directory-functions
+
+10.3.1 The parameters of the recipient (N)-directoryfunctions used for connection establishment or connectionless data transmission are: a) the called-(N-1)-address supplied by the (N-l)layer, (CALLED-(N-I)-ADDRESS); b) the calling-(N-l)-address supplied by the (N-l)layer, (CALLING-(N-I)-ADDRESS); c) the called-(N)-PA1 (CALLED-(N)-PAI); carried in the (N)-PCI,
+
+(9 the calling-(N)-PA1 carried in the (N)-PCI, (CALLING-(N)-PAI); e) the responding-(N)-address supplied by the (N+l)-layer, (RESPONDING-@I)-ADDRESS); and f) information (LOCAL) locally known, identifying the scope of (IV)-PAI.
+9
+
+16
+
+IS 12373 ( Part 3 ) : 1992 IS0 74983 : 1989
+
+NOTE - A layer need not use all of these parameters recipient (Ntdxectory-functions. 10.3.2 Taking these
+
+for its
+
+11
+
+Addressing
+
+in specific OS1 lagers
+and the Applica-
+
+parameters as input the recipient (N)-directorytfunctions generate the following information: a) the called-(N)-address to be passed in the (N)service indication primitive, (CALLED-(Nj-ADDRESS):
+NOTE -The choice of the (N)-SAF' at which this @)-service indication primitive is issued is a local matter. This choice must be consistent with the called-(N)-address.
+
+11.1 Application-processes tion Layer
+
+This clause is concerned with the naming of elements 6f A Application-processes and the Application Layer. complete description of these elements is given in IS0 9545. Application-processes 11.1.1 tion Layer elements and Applica-
+
+b) the calling-o-address to be passed in the (N)service indication primGive (CALLING-(N)-ADDRESS); c) the responding-(N- I)-address to be passed in the (N-1)-service response primitive, (RESPONDING(N-I)-ADDRESS); and @ the responding-(N)-PAI (RESPONDING-(N)-PAI). carried in (N)-PCI,
+
+11.1.1.1 Application-processes are identified by application-process-titles that are unambiguous throughout the OSIE. An application-process-title is a single name which, for convenience, may be structured internally. In particular, for some application-processes`the internal structure of the application-process-title may be based on system-title. NOTES
+se of stmcturing an application-process-title from a 1 nePy. system-tit e 1s to make it possible to register a plicationprocesses within the system on which they rest .Be once its system-title has been reglstered. 2 Application-process-titles can have synonyms. That i!, an application-process may be known to one or more applicatlonprocesses by different application-process-titles.
+
+10.3.3 There are four recipient (NV-directory-functions. a) The Recipient Addressing Function 1 - RAFI.. For this function, 1) the input parameters are: CALLED-(N)PAI, CALLED-(N-l)-ADDRESS, and LOCAL; 2) the output is: CALLED-(N)-ADDRESS. b) The Recipient Addressing Function 2 - RAFZ. "or this function, 1) the input parameters are: CALLING-(N7 PAI and CALLING-@I-l)-ADDRESS; 2) the output is: CALLING-N-ADDRESS. c) The Recipient Addressing Function 3 - RAF3. For this function, 1) the input parameters are: CALLED-(N-l)ADDRESS and LOCAL; 2) the outpdr 1s: RESPONDING-(N-l)-ADDRESS. d) The Recipient PA1 Function - RPFl. function, For this
+
+11 .l. I. 2 Application-entities are identified by application-entity-titles that are unambiguous throughout the OSIE. An application-entity-title is composed of an application-process-title and an application-entity-qualifier. This division into two components pefihits the user of the application-entity-title to obtain information specific to the application-process or to the applicationentity. The application-entity-qualifier is unambiguous within the scope of the applicatiori_process. Each application-entity-title is associated wi& a presentationaddress
+NOTE .- Applica$on-entity-titles can have synonyms. That is, an a@ication-entlty may be known to one or more applicationentitxs by different apphcation-entity-titles.
+
+11.1.1.3 Where application-process-invocations have to be identified, this is done by means of applicationprocess-invocation-identifiers that are unambiguous within the scope of an application-process, An application-process-invocation is identified unambiguously within the OSIE by the application-process-invocationidentifier qualified by the application-process-title. 11.1.1.4 Where application-entity-invocations have to be identified, this is done by means of application-entity-invocation-identifiers that are unambiguous within the scope of a pair: (application-process-invocation, application-entity). An application-entity-invocation is identified unambiguously within the OSIE by the application-entity-invocation-identifier qualified by the appli-
+
+1) the input paramett.i is: RESPONDING-(N)ADDRESS; 2) the output is: RESPONDING-(N)-PAI.
+
+17
+
+IS 12373 (-Part 3 ) : 1992 IS0 7498-3 : 1989
+
+cation-entity-qualifier, the application-process-invocation-identifier. and the application-process-title. NOTE - The following table provides a summary of the identifiers described above:
+
+Such titles may be for use in future communication. recognized by a recipient system as naming specific reThis is a matter for sponding-application-entities. agreement between the communicating applications. If required in establishing an application11.1.2.4 association, the application-entity-invocations may exchange the following identifiers as part of the application-PC1 exchanged to establish the application-association:
+
+APT APII 28
+
+= = =
+
+~hCauCm-entityqualifia = applkaticmcntity-mvocation-idenufk
+
+application-pocess-title app+a@on-pmcess-invocatbn-identifier
+
+- application-process-invocation-identifier, - application-entity-invocation-identifier, - application-association-identifier. 11.1.3 Application rectory-functions Layer use of (N)-di-
+
+Where application-associations have to be 11.1.1.5 identified, this is done by means of application-association-identifiers that are unambiguous within the scope of the application-entity-invocations at the endpoints of the association. 11.1.1.6 Where application-process-types have to be identified, this is done by means of an application-process-type-title that is unambiguous throughout the OSIE., An application-process-type-title may be used to denote the distributed processing capabilities of an application-process. Where application-entity-types have to be 11.1X.7 identified, this is done by means of an application-entitytype-title that is unambiguous throughout the OSIE. An application-entity-type-title may be used to denote the communications capabilities of an application-entity. 11.1.1.8 At any instant of time, each application-entity-title is bound to a single presentation-address that identifies the set of PSAPs to which the application-enThis binding is recorded in the tity is attached. Application Title Directory Facility (see clause 14). 11.1.2 Application-association
+
+11.1.3.1 In the initiating system, on request from the application-process, the application-entity :
+
+a) uses IAFl to derive the called-presentation-address (which is passed in a presentation-service request primitive) from the called-application-entitytitle and from local information; and b) uses IAF3 to derive the calling-presentation-address (which is passed in a presentation-service request primitive) and the local PSAP through which the presentation-service request primitive is issued from the called-presentation-address and from local information.
+NOTES 1 The choice of the PSAP at which this primitive is issued is a local matter. This choice has to be consistent with the calling-presentation-address.
+
+2
+
+At the Application parameter does not apply.
+
+Layer, the calling-(N)-address
+
+11.1.2.1 In order for an application-entity-invocation to establish an application-association with another application-entity-invocation, it uses the presentationaddress of the called application-entity to establish a presentation-connection or to use the presentation connectionless-mode service. This presentation-address may be obtained from the application-directory-function, IAFl, using the called-applicationentity-title. 11.1.2.2 If it is necessary to confii that the required application-entity is still attached to the PSAP identified by the presentation-address, then the initiating application-entity-invocation may pass the called-applicationentity-title as a part of the application-PC1 exchanged to establish the application-association. 11.1.2.3 Application-entity-invocations may exchange calling- and responding-application-entity-titles
+
+11.1.3.2 The initiator application-directory-function, Where a IAFl, yields a single presentation-address. generic application-entity-title (e. g., application-entitytype-title) is used as the called-application-entity-title, resolution of this title to a single presentation-address is the responsibility of the recipient local system. In the recipient system, on receipt of a 11.1.3.3 presentation-service indication primitive, the applicationentity uses RAF3 to derive the responding-presentationaddress from the called-presentation-address and from local information.
+
+11.2
+
+Presentation
+
+Layer
+
+11.2.1 In the initiating system, on receipt of a presentation-service request primitive, the presentation-entity: t
+
+18
+
+IS 12373( Part 3 ) : 1992 IS0 7498-3 : 1989
+
+a) uses IAF2 to derive a called-session-address (which is passed in a session-service request primitive) from the called-presentation-address and from local information; bj uses IAF3 to derive the calling-session-address (which is passed in a session-service request primitive) and the local SSAP through which the session service request primitive is issued from the calledsession-address, the calling-presentation-address, and local information;
+NOTE - The choice of the SSAP at which this primitive is issued is a local matter. This choice has to be consistent with the calling-session-address.
+
+11.3
+
+Session Layer
+
+11.3.1 In the initiating system, on receipt of a session-service request primitive, the session-entity:
+
+a) uses IAF2 to derive a called-transport-address (which is passed in a transport-service request primitive) from the called-session-address and from local information; bj uses IAF3 to derive the calling-transport-address (which is passed in a transport-service request primitive) and the local TSAP through which the transport-service request primitive is issued from the called-transport-address, the calling-session-address and local information;
+NOTE - The choice of the TSAP at which this primitive is issued is a local matter. This choice has to be consistent with the calling-transport-addzsddress. 4 uses IPFl to derive the called-session-selector (which is sent in session-PAI) from the called-session-address; and
+
+cj uses IPFl to derive the called-presentationselector, (which is sent in presentation-PAI), from the called-presentation-address; and
+
+c9 uses IPF2 to derive the calling-presentationselector, (which is sent in presentation-PAI), from the calling-presentation-address. 11.2.2 In the recipient system, on receipt of a sessionservice indication primitive, the presentation-entity:
+
+a) uses RAF1 to derive the called-presentationaddress from the called-presentatioielector (which is received in presentation-PAI) the called-sessionaddress, and from local information:
+NOTE - Local informa. :on ma be used to resolve a calledpresentation-selector, ?t re rers to a set of PSAPs to a smgle PSAP.
+
+(9 uses IPF2 to derive the calling-session-selector (which is sent in session-PAX) from the calling-session-address.
+11.3.2 In the recipient system, on receipt of a transport-service indication primitive, the session-entity:
+
+b) uses RAP2 to derive the callii :-presentationaddress from the calling-presentation-selector (which is received in presentation-PAI) and from the callingsession-address; uses RAP3 to derive the responding-sessionaddress from the called-session-address and from local `information; and
+
+a) uses RAF1 to derive the called-session-address from the called-session-selector (which is received in session-PAI), the called-transport-address, and from local information;
+NOTE - Local information may be used to resolve a called session-selector that refers to a set of sessionSAPs to a single session-SAP.
+
+4
+
+b) uses RAF2 to derive the calling-session-address from the calling-session-selector (which is received in session-PAI) and from the calling-transport-address; c) uses RAF3 to derive the respcmding-transportaddress from the called-transport-address and from local information; and dl uses RPFl to derive the responding-session-slector (which is sent in session-PAI) from the responding-session-address, which is received in a session-service response primitive.
+11.3.3 In the initiating system for connection-mode operation, on receipt of a transport-service confrrrnation primitive, the session-entity uses IAF4 to derive the responding-session-address from the responding-sessionselector (which is received in session-PAI) and from the responding-transport-address which is r&eived in the transport-service confirmation primitive.
+
+uses RPFl to derive the responding-presentation-selector (which is sent in presentationPAI) from the responding-presentation-address (which is received in a presentation-service response primitive).
+
+(9
+
+11.2.3 In the initiating system for connection-mode operation, on receipt of a session-service confirmation primitive, the presentation-entity uses IAF4 to derive the responding-presentation-address from the respondingpresentation-selector (which is received in presentationPAI) and from the responding-session-address received from the session-service confirmation primitive.
+
+19'
+
+IS 12373 ( Part 3 ) : 1992 IS0 7498-3 : 1989
+
+11.4
+
+Transport
+
+Layer
+
+11.4.1 In the initiating system, on receipt of a transport-service request primitive, the transport-entity: a) uses IAF2 to derive a called-network-address (which is passed in a network-service request primitive) from the called-transport-address and from local information: b) uses IAF3 to derive the calling-network-address (which is passed in a network-service request primitive) and the local NSAP through which the service primitive is issued from the called-network-address, the calling-transport-address and local information; NOTE - The choice of the NSAP at which this primitive is
+issued is a local matter. This choice has to be consistent with lhe calling-neWork-uMress. c) uses IPFl to derive the called-transport-selector (which is sent in transport-PAI) from the calledtransport-~, and
+
+11.4.3 In the initiating system for connection-mode operation, on receipt of a network-service confirmation primitive, the transport-entity uses IAF4 to derive the responding-transport-address from the ~responding-transport-selector (which is received in transport-PAI) and from the responding-network-address received in the network-service confirmation primitive. 11 .S 11.51 Network Layer
+
+Introduction
+
+uses IPFZ to derive the calling-transport-selector (which is sent in transport-PAI) from the callingnnilspolt-address.
+
+4
+
+11.5.1.1 The internal architecture of the Network Layer is complex. At each higher layer of the OS1 architecture, an instance of communication (i.e. communication over a connection-mode, or a connectionlessmode data transmission) involves only a single pair of peer entities, which are located in end systems and communicate by means of a peer protocol. Within the Network Layer, however, communication often requires the participation of network-entities not only in the end system; but in intermediate systems as well. The necessary interactions between network-entities may be achieved through the operation of single protocols between pairs of network-entities, or may need more complicated combinations of layered protocols within the Network Layer. 11.5.1.2 The task of the network-directory-functions is, for any instance of communication, to use the calledand calling-network-addresses, together with other infbrmation, to determine which network-entities participate in the communication (this determination may be achieved by other methods). 11.5.2 11.5.2.1 Properties of network-addresses
+
+11.4.2 In the recipient system, on receipt of a network-service indication primitive, the transport-entity: a) uses RAF1 to derive the called-transport-address from the called-transport-selector (which is received in a transport-PAI), the called-network-address, and from local information;
+NOTE - Local informationmay be used to resolve a calledtram rt-selector that refers to a set of TSAPs to a single TSAr
+
+Introduction
+
+The properties are stated in terms of network-addresses. Since network-addresses refer to sets of NV&`-addresses, they extend naturally to a single NSAP-address. 11.5.2.2 Global non-ambiguity
+
+b) uses RAF2 to derive the calling-transport-address from the calling-transport-selector (which is received in transport-PAI) and from the calling-network-Xklress; c) uses RAF3 to derive the responding-networkaddress l?om the called-network-address and from local information: and (9 uses RPFl to derive the responding-transportselector (which is sent in transport-PAI) from the responding-transport-address (which is received in a transport-service response primitive).
+
+At any instant of time, a network-address identifies just A set of one set of NSAPs in the global domain. NSAPs may have more than one network-address, i.e., synonyms may exist. 11.5.2.3 Global applicability
+
+It is possible at any set of NSAPs to identify any other set of NSAPs, in any end system, by means of the network-address of the other set of NSAPs. If the other set of NSAPs has synonymous network-addresses, any of the synonyms will identify the set of NSAPs. In particular, therefore,
+
+20
+
+IS 12373 ( Part 3 ) : 1992 IS0 7498-3 : 1989
+
+a) a network-address identifies the same set of NSAPs whenever it is used: b) any network-address may be used anywhere to identify the same set of NSAPs; c) a network-service user, when it receives a calling-network-address in a network-service indication primitive, may use that network-address in another instance of cominunication with that set of NSAPs. For a set of NSAPs with synonymous network-addresses, in some circumstances the possibility of communication may depend upon which synonym is used.
+NOTE - The global applicability of network-addresses does not imply that a commumcation to a given set of NSAPs can alw,ays be made. Restrictions can occur because of lack of physlcal media, lack of directory (routing) information, security pmcedures, or charging requirements.
+
+NOTES 1 To give an exam le. where the real subnetwork is a public data network, an S rs PA 1s called a DTE/DCE interface, and its SNPA-a&hess is called a M'E-adrlrass. 2 In the case of two real subnetworks attached at an SNPA, different SNPA-addresses may be assigned by the authorities of the two real subnetworks to that SNPA.
+
+11.5.3.4 An SNPA is not a service-access-ooint, and Conan SNPA-address is not a network-address. figurations of physical equipment determine the relationships between NSAPs and SNPAs in the Network Layer. Since a real end system may be attached, possibly multiply, to more than one real subnetwork, the relationships between NSAPs and SNPAs may be manyto-many and complex. 11.5.3.5 The determination of the NPAI for different Network Layer protocols is an important Network Layer addressing operation. In many circumstances, multiple protocols are needed to support one instance of communication in the Network Layer. The type of addressing information that each such protocol conveys, and how it is used, are determined by the role of the protocol in the complete protocol structure.
+
+11.5.2.4
+
+Route
+
+independence
+
+Network-service users cannot derive routing information from a network-address. They cannot control the Network Layer5 *ice of route by means of network-addresses, i.e. by choice ti synonym. Similarly they canr not deduce from the network-addresses the route that was used by the network-service provider. 11.5.3 Network-addresses and SNPAs
+
+11.5.4 functions
+
+Network
+
+Layer
+
+use
+
+of
+
+directory
+
+11.5.3.1 Given the requirement to provide communications between two sets of NSAPs, it is a Network Layer function to determine which network-entities have to participate and how they must operate together. In general this function requires the use of Network Layer Directory Facilities. 11.5.3.2 Network-entities exist within end open systems and intermediate systems. In the real world, end open systems are realized by real end systems; intermediate systems are realized by real subnetworks or by (real) interworking units. An important concept in the relationships between such equipment is that of the Subnetwork Point of Attachment (SNPA) and the associated SNPA address. 11.5.3.3 A SNPA is a point of attachment between a real subnetwork and another piece of equipment, which may be a real end system, an in&working unit or another real subnetwork. Points of attachment to a real subnetwork may be identified within the context of the real subnetwork by an address assigned by the administrative authority of the real subnetwork. This address, both in the real world and in abstract usage, is referred to as the Subnetwork Point of Attachment Address, the SNPA-address or simply subnetwork address.
+
+1154.1 At the Network Layer, the network-directoryfunctions directly derive the network-address from the network-PAL 11.5.4.2 In the initiating system, on receipt of a network-service request primitive, the network-entity: a) uses IRFl and IAF2 to derive the called-datalink-address (which is passed in a data-link-service request primitive) from the called-network-address and local information; b) uses IRFl and 1AF3 to derive the calling-datalink-address (which is passed in a data-link-service request primitive) and the local DLSAP through which the data-link-service primitive is issued from the calling-network-address, the called-network-address, the called-data-link-address, and &al information;
+
+4
+
+uses LRFl and IPFl to derive the called-network-PA1 and the called-subnetwork-address information from the called-network-address and local information;
+
+(D uses IRFl and IPF2 to derive the calling-network-PA1 and the calling-subnetwork-PAI from the called-network-address, the calhng-network-address and local information. t
+
+21
+
+IS 12373 ( Part 3 ) : 1992 IS0 7498-3 : 1989
+
+11.5.4.3 In the recipient system on receipt of a data-, link-service indication primitive, the network-entity: a) uses RAF1 to derive the called-network-address from the called-network-PA& and from local information; NOTE- Local information may be used to resolve a callednetwork-address (that refers to a set of NSAF's) to a single NSAP. b) uses RAF2 to derive the calling-network-address from the calling-network-PAI; c) uses RAF3 to derive the responding-data-linkaddress from the called-data-link-address and from local information. 4 uses RPFl to derive the responding-networkPA1 from the responding-network-address which is received in a network-service response primitive. 11.5.4.4 In the initiating system, for connectionmode operation, on receipt of a data-link-service confirmation primitive, the network-entity derives the responding-network-address directly from the responding network-PAI. 11.5.4.5 Routing is required within the Network Layer when communication between a pair of sets of NSAP's is relayed by a chain of network-entities. Routing functions use the network-address of a called set of NSAPs to select a sequence of relay entities forming a path to the called-network-address. 11.6 11.6.1 Data Link Layer Introduction
+
+common Data-Link Layer, and within this scope the data-link-address must be equally valid regardless of which physical-address is used. 11.6.2 functions Data-Link Layer use of directory-
+
+11.6.2.1 In the initiating system, on receipt of a datalink-service request primitive, the data-link-entity: a) uses IAF2 to derive a called-physical-address, (which is passed in a physical-service request primitive) from the called-data-link-address, and from local information; b) uses IAF3 to derive the calling-physical-address, (which is passed in a physical-service request primitive), and the local PhSAP (through which the physical-service primitive is issued), from the calledphysical-address, the calling-data-link-address, and local information.
+NOTE - The choice of the F'hSAP at which this primitive is issued is a local matter. This choice has to be consistent with the calling-physical-address.
+
+c) uses IPFI to derive the called-data-link-PA1 from the called-data-link-address; (D uses IPF2 to derive the calling-data-link-PA1 from the calling-data-link-address; 11.6.2.2 In the recipient system, on receipt of a physical-service indication primitive, the data-link-entity: a) uses RAF1 to denve the called-data-link-address from the called-data-link?AI, the called-physical-address, and from local information: NOTE - Local information may he used to resolve the called-data-link-address (that refers to a set of DL.SAPs) to a single DLSAP. b) uses RAF2 to derive the calling-data-link-address from the calling-data-link-PA1 and the callingphysical-address; and
+
+11.6.1.1 A data-link-address identifies a set of DataLink-Service-Access-Points (DLSAPs). The network entides bound to these DLSAPs are thus located by means of that data-link-address. Such a binding has to be known to the initiating open system. It may be recorded in the Network Address Directory Facility. NOTE - For some data-link protocols. data-link-addresses are
+implicit, that is the semantics of the data-link-addresses are not h sically carried in the DiiI. The use of these implicit dataHX- addresses is consistent with the characterization of nil selectors in 9.5.2. 11.6.1.2 A data-link-entity may be bound to more
+
+c) uses RPFl to derive the responding-data-linkPA1 from the responding-data-link-address which is received in a data-link-scrvicc response primitive. 11.6.2.3 In the initialing system, for connectionmode operation, on receipt of a physical-service confirmation primitive, the data-link-entity derives the responding-data-link-address from the responding-data-linkPAX and, possibly, the responding-physical-address.
+
+than one DLSAP and more than one Physical-SAP (PhSAP), thus creating a many-to-many correspondence between DLSAPs and PhSAPs. NOTE - This correspondence may be constrained to simpler
+configurationsthroughdata-link-proto specification.
+
+11.7
+
+Physical
+
+Layer
+
+11.6.1.3 Data-link-addresses need only be unique within the scope of the set of open systems attached to a
+
+11.7.1 A physical-address idcntifiis a set of PhSAPs.
+The data-link-entities
+bound to these PhSAPs
+
+are thus
+
+IS 12373 (Part 3):1992 IS0 7498-3 : 1989
+
+located by means of that physical-address. Such a binding may be recorded in the Network Address Directory racinLy. 11.7.2 Physical-addresses need only be unique within the scope of open systems attached to a common physical medium communication path. Therefore, (IV)-directory-functions are not used at the Physical Layer.
+NOTE - Physical-addresses may be implicit.
+
+main naming-authorities must comply with to meet the registration requirements.
+NO? - There ark a numberof ways by which the procedures for a namq-authonx, may ensure that names registered by a subauthonty are unam 1guou.s.Particular examples are: a) the allocation of a subset of names from the total set controlled by the naming-authority; b) the definition of a name component to be added to the name de&mined by the sub-authority.
+
+12
+
+Naming
+
+domains
+
+and authorities
+
+12.7 The establishment of naming-authorities requires agreement on the rules for specifying names within the naming-domain and for the creation of further subdomains. 12.8 Within a hierarchy of naming-authorities the operation of each authority is independent of that of the other naming-authorities at the same level, subject only to any common rules established by the registration procedures imposed by the parent authorities. 12.9 A user of a naming-authority may request an allocation of names from a naming-authority, leaving the choice of names to the naming-authority. Alternatively, a user of a naming-authority may request an allocation of particular names. The naming-authority may grant that request if it chooses (provided the names have not previously been issued). The user of a naming-authority may interpret the names issued by a naming-authority in any way it chooses. The use of a name can be terminated and then the name re-tised at a later time. The precise rules and constraints on the re-use of a name to cnsure that no ambiguity results are specified by the procedures for the naming-authority.
+
+12.1 A Naming Authority allocates names according to specified rules. A Naming Authority merely dispenses names but does not perform the binding of names to the objects they name. Naming-domains may be hierarchically de12.2 composed into naming-subdomains. The naming-domain at the top of the hierarchy is known as a global naming-domain. Each subset (subdomain) of a global naming-domain is put under the control of a naming-authority and does not intersect with other subsets allocated to different naming-authorities. 12.3 The global naming-domain is the set of all possible names, within the OSIE, for objects of a specific type. For example, the set of all application-entity-titles. Independent global naming-domains may exist within the OSIE for objects of different types. 12.4 The global naming-domain may be partitioned (hierarchically decomposed) into naming-subdomains. Thus. any naming-s&domain is also a naming-domain.
+12.5 Names taken from different subdomains of the
+
+Registration 13 naming within OS1
+
+procedures
+
+for
+
+global naming-domain may be bound to the same object. Thus, synonyms may arise.
+NOTE - The r uirements for synonyms have been recognized, in articular in % e naming of network-service-access-points synonymous network-addresses). application-entities synonymous application-entity-t.itles).and application-processes 1synonymous application-process-titles).
+
+13.1 The operation of naming within OS1 requires the establishment of registration procedures: for the assignment of titles which are upama) biguous throughout th&OSIE for the following objects: 1) 2) 3) 4) real open systems (system-title), application-processes, application-process-types, applic&ion-entity-types; and
+
+12.6 Each naming-domain is administered by a naming-authority. A naming-authority is a registration au+hority, which only registers names and only has an administrative role. Although naming-authorities register the use of names, they do not participate in the binding of the name to an object. A naming-authority may register names itself or it may partition the naming-domain into naming-subdomains and delegate to a subdomain naming-authority, the responsibility for naming within each naming-s&domain. The procedures for a naming-authority ensure the registration of unambiguous names and, if necessary, provide any rules that subdo-
+
+b) for the assignment of network-addresses -which are unambiguous throughout the OSIE.
+
+23
+
+IS 12373 ( Part 3 ) : 1992 IS0 7498-3 : 1989
+
+13.2 Registered titles or addresses may or may not have synonyms: a) a single real open system has only one systemtitle; b) a single application-process than one application-process-title; may have more
+
+application-entity-type-title. Descriptive names will be given in a standard descriptive language. 14.2.2 The Application Title Directory Facility supports both generic application-process-titles (e.g. application-process-type-titles) and non-generic application-process-titles. The Application Title Directory Facility supports both generic application-entity-titles (e.g. application-entity-type-titles) and non-generic application-entity-titles. Using a generic application-process-title as 14.2.3 input to the Application Title Directory Facility results in the return of a list of the associated application-process-titles. Any of these may then be subsequently used as input to the Application Title Directory Fact%. Using a generic application-entity-title as input to the Application Title Directory Facility results in the return of a list of the associated application-entity-titles. Any of these may then be subsequently used as input to the Application Title Directory Facility. 14.2.1 Using a non-generic application-process-title as input to the Application Title Directory Facility, results in the return of the list of application-entity-titles for the application-entities belonging to the applicationprocess. 14.2.5 Using a non-generic application-entity-title as input to the Application Title Directory Facility results in the associated addressing information in the form of the tuple: (P-selector, S-selector, T-selector, (list of Network Addresses)) The Application Title Directory Facility is 14.2.6 composed of two different components: a) a "name resolver" which can resolve an application-process-title/application-entity-title that is a descriptive name into the application-process-title/application-entity-tide that is the primitive name of the application-process/application-entity; and b) a "directory" that returns the information associated with an application-process-tide/application-entity-title that is a primitive name. 14.3 The Network Address Directory Facility
+
+c) a single NSAP may be identified by pore than one nehvork-address.
+
+14
+14.1
+
+Directory facility
+Introduction
+
+requirements
+
+14.1.1
+
+Two Directory Facilities are required:
+
+a) the Application Title Directory Facility that processes either an application-process-title or an application-entity-title and returns addressing information, as described in 14.2; and b) the Network Address Directory Facility that processes a network-address and provides the information used below the network-service boundary to access the remote NSAP, as described in 14.3.
+NOTE - In the case where a real o n system provides both Directory Facilities, the retrievfif informanon from both Directory Facilities may be made in a single inquiry.
+
+14.1.2 Directory Facilities and the information held by them may be centralized or distributed, and nonreplicated, partially replicated or fully replicated. Where communications are needed among Directory Facilities and systems which use these facilities, these communications utilize the normal OS1 communication methods available to all application-processes. 14.1.3 Although, the user of a primitive name need not be aware of the structure of the name, e.g., the structure resulting from the registration authority, the Directory Facility may physically and logically organize Directory Facility information according to that structure. 14.2 The Facility Application Directory
+
+Title
+
+14.2.1 The input to the Application Title Directory Facility is an application-process-title or an applicationentity-title. This may be a primitive name or a descriptive name. If it is a descriptive name, it is not necessarily complete, i.e., some attributes may be "don't cares". Possible attributes for a descriptive name are the system-title, the application-process-type-title, and the
+
+The input to the Network Address Facility is a networkaddress which is a primitive name. Using a network-address as input to the Network Address Directory Facility results in the associated addressing information necessary at the Network Layer and the layers below. 9
+
+24
+
+Bureau of Indian Standard
+BIS is a statutory institution established under the Bureau oj Indian Standards Act, 1956 to promote harmonious development of the activities of standardization, marking and quality certification of goods and attending to connected matters in the country. Copyright
+
+BIS has the copyright of all its publications. No part of these publications may be reproduced in any form without the prior permission in writing of 81s. This does not preclude the free use, in the course of implementing the standard, of necessary details, such as symbols and sizes, type Director or grade designations. Enquiries relating to copyright be addressed to the ( Publications ), BIS. Revision of Indian Standards Indian Standards are reviewed periodically and revised, when necessary and amendments, if any, are issued from time to time. Users of Indian Standards should ascertain that they are in possession of the latest amendments or edition. Comments on this Indian Standard may be sent to BIS giving the following reference:
+Dot : No. LTD 36 ( 1533 )
+
+Amendments
+
+Issued Since Publicatiou
+
+Amend No.
+
+Date of Issue
+
+Text Affected
+
+BUREAU OF INDIAN Headquarters
+:
+
+STANDARDS
+
+Manak Bhavan, 9 Bahadur Shah Zafar Marg, Telephones i 331 01 31, 331 13 75
+
+New Delhi 110002 Telegrams i Manaksanstha ( Common to all Offices ) Telephone I 311 01 31 331 13 75 37 86 62 53j 38 43 235 02 16
+
+Regional Offices I Central : Manak Bhavan, 9 Bahadur Shah Zafar Marg NEW DELHI 110002 Eastern : l/14 C. 1. T. Scheme VII M, V. 1. P. Road, Maniktola CALCUTTA 700054 Northern Southern Western : SC0 445-446, Sector 35-C, CHANDIGARH 160036
+
+: C. I. T. Campus, IV Cross Road, MADRAS 600113
+: Manakalaya,
+
+E9 MIDC, Marol, Andheri ( East ) 6 32 92 95 BOMBAY 400093 Branches : AHMADABAD, BANGALORE, BHOPAL, BHUBANESHWAR, COIMBATORE, FARIDABAD, GHAZIABAD, GUWAHATI, HYDERABAD, JAIPUR, KANPUR, LUCKNOW, PATNA, THIRUVANANTHAPURAM. .
+
+Printed at Printwell Printers, Aligarb, India
+
+
