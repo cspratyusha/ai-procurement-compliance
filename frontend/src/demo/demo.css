@@ -1,0 +1,634 @@
+/**
+ * Demo Mode styling.
+ *
+ * Scoped entirely to `.demo-*` classes and the `[data-demo]` attribute on
+ * <html>, so nothing here can affect the application when the demo is idle.
+ * Colours come from the app's own tokens where it makes sense, so the overlay
+ * looks like part of the product in both light and dark themes.
+ */
+
+:root {
+  --demo-z: 9000;          /* above the app's modal layer (--z-modal: 50) */
+  --demo-dim: 0.58;        /* how much the unhighlighted UI recedes */
+  --demo-ring: #C89B3C;    /* spotlight ring — warm, matches the accent */
+}
+
+/* ─────────────────────────── the overlay layer ─────────────────────────── */
+
+.demo-layer {
+  position: fixed;
+  inset: 0;
+  z-index: var(--demo-z);
+  /* The layer must never intercept a click meant for the app. Only the HUD
+     opts back in, below. */
+  pointer-events: none;
+}
+
+/* ──────────────────── dim veil + spotlight cut-out ─────────────────────── */
+
+.demo-veil {
+  position: absolute;
+  inset: 0;
+  opacity: 0;
+  transition: opacity 420ms ease;
+}
+
+/* Only dim once there is something to dim *around*. */
+.demo-veil.has-focus { opacity: 1; }
+
+/**
+ * The hole in the veil.
+ *
+ * A single enormous spread shadow paints everything outside this box, so the
+ * highlighted element keeps its true colours while the rest of the UI drops
+ * back. Cheaper and sharper than an SVG mask, and it animates smoothly
+ * because only the box's own geometry changes.
+ */
+.demo-spotlight {
+  position: absolute;
+  box-shadow:
+    0 0 0 9999px rgba(12, 11, 9, var(--demo-dim)),
+    0 0 0 2px var(--demo-ring),
+    0 0 22px 4px rgba(200, 155, 60, 0.45);
+  transition:
+    top 380ms cubic-bezier(0.34, 0.9, 0.3, 1),
+    left 380ms cubic-bezier(0.34, 0.9, 0.3, 1),
+    width 380ms cubic-bezier(0.34, 0.9, 0.3, 1),
+    height 380ms cubic-bezier(0.34, 0.9, 0.3, 1),
+    border-radius 260ms ease;
+}
+
+/* A slow breath on the ring, so the eye finds it without being pulled away. */
+.demo-spotlight::after {
+  content: '';
+  position: absolute;
+  inset: -5px;
+  border: 1.5px solid rgba(200, 155, 60, 0.55);
+  border-radius: inherit;
+  animation: demo-breathe 2.4s ease-in-out infinite;
+}
+
+@keyframes demo-breathe {
+  0%, 100% { opacity: 0.25; transform: scale(1); }
+  50%      { opacity: 0.8;  transform: scale(1.012); }
+}
+
+/* ───────────────────────────── the cursor ──────────────────────────────── */
+
+.demo-cursor {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 26px;
+  height: 26px;
+  /* No CSS transition on transform: the engine drives every frame itself, so
+     a transition here would fight it and lag behind the true position. */
+  will-change: transform;
+  z-index: 2;
+}
+
+.demo-cursor-arrow {
+  position: absolute;
+  top: 0;
+  left: 0;
+  filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.35));
+}
+
+/* The circular glow that keeps the pointer findable on a busy screen. */
+/* Centred on the arrow's tip (top-left of the box), not on the box. */
+.demo-cursor-glow {
+  position: absolute;
+  top: 4px;
+  left: 4px;
+  width: 42px;
+  height: 42px;
+  margin: -21px 0 0 -21px;
+  border-radius: 50%;
+  background: radial-gradient(
+    circle,
+    rgba(200, 155, 60, 0.34) 0%,
+    rgba(200, 155, 60, 0.14) 48%,
+    rgba(200, 155, 60, 0) 72%
+  );
+  box-shadow: 0 0 0 1.5px rgba(200, 155, 60, 0.42);
+  transition: transform 160ms ease, opacity 160ms ease;
+}
+
+/* The press: glow tightens and brightens, like a button taking the weight. */
+.demo-cursor.is-pressing .demo-cursor-glow {
+  transform: scale(0.66);
+  background: radial-gradient(
+    circle,
+    rgba(200, 155, 60, 0.6) 0%,
+    rgba(200, 155, 60, 0.2) 55%,
+    rgba(200, 155, 60, 0) 75%
+  );
+}
+
+.demo-cursor.is-pressing .demo-cursor-arrow {
+  transform: scale(0.9);
+  transition: transform 120ms ease;
+}
+
+/* ─────────────────────────── click ripple ──────────────────────────────── */
+
+.demo-ripple {
+  position: absolute;
+  width: 14px;
+  height: 14px;
+  margin: -7px 0 0 -7px;
+  border-radius: 50%;
+  border: 2px solid rgba(200, 155, 60, 0.9);
+  animation: demo-ripple 620ms cubic-bezier(0.2, 0.7, 0.3, 1) forwards;
+  z-index: 1;
+}
+
+@keyframes demo-ripple {
+  0%   { transform: scale(0.4); opacity: 0.95; border-width: 3px; }
+  70%  { opacity: 0.35; }
+  100% { transform: scale(4.6); opacity: 0; border-width: 1px; }
+}
+
+/* ────────────────────────── narration panel ───────────────────────────── */
+
+.demo-caption {
+  position: absolute;
+  left: 28px;
+  bottom: 28px;
+  max-width: min(468px, calc(100vw - 340px));
+  padding: 15px 20px 17px;
+  border-radius: 10px;
+  background: rgba(16, 15, 13, 0.9);
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(200, 155, 60, 0.28);
+  box-shadow: 0 10px 34px rgba(0, 0, 0, 0.36);
+  animation: demo-rise 360ms cubic-bezier(0.2, 0.8, 0.3, 1);
+  z-index: 3;
+}
+
+/* Which act of the tour this is — orients a viewer who joined halfway. */
+.demo-caption-act {
+  margin: 0 0 7px;
+  font-size: 0.625rem;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: #C89B3C;
+}
+
+.demo-caption-text {
+  margin: 0;
+  color: #FAF8F4;
+  font-size: 1rem;
+  font-weight: 550;
+  line-height: 1.42;
+  letter-spacing: -0.008em;
+}
+
+.demo-caption-sub {
+  margin: 7px 0 0;
+  color: rgba(250, 248, 244, 0.74);
+  font-size: 0.8125rem;
+  line-height: 1.5;
+}
+
+/* The longer "why this matters" line, set quieter than the sub above it. */
+.demo-caption-detail {
+  margin: 9px 0 0;
+  padding-top: 9px;
+  border-top: 1px solid rgba(255, 255, 255, 0.11);
+  color: rgba(250, 248, 244, 0.56);
+  font-size: 0.75rem;
+  line-height: 1.55;
+}
+
+@keyframes demo-rise {
+  from { opacity: 0; transform: translateY(12px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+/* ──────────────────────── indicator + controls ────────────────────────── */
+
+.demo-hud {
+  position: absolute;
+  right: 22px;
+  bottom: 22px;
+  width: 268px;
+  padding: 13px 15px 11px;
+  border-radius: 10px;
+  background: rgba(16, 15, 13, 0.92);
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  box-shadow: 0 10px 34px rgba(0, 0, 0, 0.38);
+  /* The one part of the overlay that must be clickable. */
+  pointer-events: auto;
+  z-index: 4;
+  animation: demo-rise 360ms cubic-bezier(0.2, 0.8, 0.3, 1);
+}
+
+.demo-hud-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  margin-bottom: 10px;
+}
+
+.demo-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 0.6875rem;
+  font-weight: 600;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  color: #E8C878;
+}
+
+.demo-badge.is-paused { color: rgba(250, 248, 244, 0.6); }
+
+.demo-badge-dot {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: #D8483C;
+  box-shadow: 0 0 0 3px rgba(216, 72, 60, 0.22);
+  animation: demo-pulse 1.7s ease-in-out infinite;
+}
+
+.demo-badge.is-paused .demo-badge-dot {
+  background: rgba(250, 248, 244, 0.45);
+  box-shadow: none;
+  animation: none;
+}
+
+@keyframes demo-pulse {
+  0%, 100% { opacity: 1; }
+  50%      { opacity: 0.35; }
+}
+
+.demo-hud-step {
+  font-size: 0.6875rem;
+  font-variant-numeric: tabular-nums;
+  color: rgba(250, 248, 244, 0.5);
+}
+
+.demo-progress {
+  height: 3px;
+  border-radius: 2px;
+  background: rgba(255, 255, 255, 0.13);
+  overflow: hidden;
+}
+
+.demo-progress-fill {
+  display: block;
+  height: 100%;
+  border-radius: 2px;
+  background: linear-gradient(90deg, #C89B3C, #E8C878);
+  transition: width 420ms cubic-bezier(0.3, 0.8, 0.3, 1);
+}
+
+.demo-hud-actions {
+  display: flex;
+  gap: 7px;
+  margin-top: 11px;
+}
+
+.demo-hud-hint {
+  margin: 8px 0 0;
+  font-size: 0.625rem;
+  text-align: center;
+  color: rgba(250, 248, 244, 0.34);
+}
+
+/* ───────────────────────────── buttons ────────────────────────────────── */
+
+.demo-btn {
+  flex: 1;
+  padding: 7px 8px;
+  white-space: nowrap;
+  border-radius: 6px;
+  border: 1px solid rgba(255, 255, 255, 0.16);
+  background: rgba(255, 255, 255, 0.07);
+  color: #FAF8F4;
+  font: inherit;
+  font-size: 0.75rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: background 150ms ease, border-color 150ms ease;
+}
+
+.demo-btn:hover {
+  background: rgba(255, 255, 255, 0.14);
+  border-color: rgba(255, 255, 255, 0.26);
+}
+
+.demo-btn.is-primary {
+  background: #C89B3C;
+  border-color: #C89B3C;
+  color: #14120E;
+  font-weight: 600;
+}
+
+.demo-btn.is-primary:hover { background: #D8AB4C; border-color: #D8AB4C; }
+
+.demo-btn.is-stop {
+  color: #F4A79E;
+  border-color: rgba(216, 72, 60, 0.4);
+}
+
+.demo-btn.is-stop:hover {
+  background: rgba(216, 72, 60, 0.18);
+  border-color: rgba(216, 72, 60, 0.6);
+}
+
+.demo-btn:focus-visible {
+  outline: 2px solid #E8C878;
+  outline-offset: 2px;
+}
+
+/* ──────────────────────── completion / error card ─────────────────────── */
+
+.demo-toast {
+  position: absolute;
+  left: 50%;
+  bottom: 40px;
+  transform: translateX(-50%);
+  width: min(460px, calc(100vw - 40px));
+  padding: 18px 20px;
+  border-radius: 11px;
+  background: rgba(16, 15, 13, 0.95);
+  backdrop-filter: blur(12px);
+  box-shadow: 0 14px 44px rgba(0, 0, 0, 0.45);
+  pointer-events: auto;
+  z-index: 5;
+  animation: demo-rise 380ms cubic-bezier(0.2, 0.8, 0.3, 1);
+}
+
+.demo-toast.is-done  { border: 1px solid rgba(200, 155, 60, 0.4); }
+.demo-toast.is-error { border: 1px solid rgba(216, 72, 60, 0.45); }
+
+.demo-toast-body {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.demo-toast-body strong {
+  color: #FAF8F4;
+  font-size: 0.9375rem;
+  font-weight: 600;
+}
+
+.demo-toast-body span {
+  color: rgba(250, 248, 244, 0.7);
+  font-size: 0.8125rem;
+  line-height: 1.5;
+}
+
+.demo-toast-note {
+  color: rgba(250, 248, 244, 0.45) !important;
+  font-size: 0.75rem !important;
+}
+
+.demo-toast-actions {
+  display: flex;
+  gap: 8px;
+  margin-top: 14px;
+}
+
+/* ───────────────────── the demo's own file chooser ─────────────────────── */
+
+/**
+ * Deliberately not a replica of any operating system's dialog.
+ *
+ * Its job is to make the upload legible — a viewer sees the file being picked
+ * rather than a filename appearing from nowhere — and it carries a "Demo Mode"
+ * tag so nobody mistakes it for part of the product.
+ */
+.demo-picker {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: min(430px, calc(100vw - 48px));
+  transform: translate(-50%, -50%);
+  border-radius: 12px;
+  overflow: hidden;
+  background: #FBFAF8;
+  border: 1px solid rgba(20, 18, 14, 0.16);
+  box-shadow: 0 24px 64px rgba(0, 0, 0, 0.42), 0 2px 8px rgba(0, 0, 0, 0.18);
+  z-index: 6;
+  animation: demo-picker-in 260ms cubic-bezier(0.2, 0.9, 0.3, 1);
+}
+
+.demo-picker.is-opening { animation: demo-picker-in 260ms cubic-bezier(0.2, 0.9, 0.3, 1); }
+
+@keyframes demo-picker-in {
+  from { opacity: 0; transform: translate(-50%, -50%) scale(0.96); }
+  to   { opacity: 1; transform: translate(-50%, -50%) scale(1); }
+}
+
+.demo-picker-bar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 11px 14px;
+  background: #F1EFEA;
+  border-bottom: 1px solid rgba(20, 18, 14, 0.1);
+}
+
+.demo-picker-title {
+  font-size: 0.8125rem;
+  font-weight: 600;
+  color: #24221D;
+}
+
+.demo-picker-tag {
+  font-size: 0.625rem;
+  font-weight: 600;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: #8A6A28;
+  background: rgba(200, 155, 60, 0.16);
+  border: 1px solid rgba(200, 155, 60, 0.36);
+  border-radius: 4px;
+  padding: 2px 6px;
+}
+
+.demo-picker-body { padding: 12px 14px 14px; }
+
+.demo-picker-path {
+  margin: 0 0 10px;
+  font-size: 0.6875rem;
+  color: #7A776E;
+}
+
+.demo-picker-row {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 10px 11px;
+  border-radius: 7px;
+  border: 1px solid transparent;
+  transition: background 180ms ease, border-color 180ms ease;
+}
+
+.demo-picker-row.is-selected {
+  background: rgba(200, 155, 60, 0.15);
+  border-color: rgba(200, 155, 60, 0.55);
+}
+
+.demo-picker-meta {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  min-width: 0;
+}
+
+.demo-picker-name {
+  font-size: 0.8125rem;
+  font-weight: 500;
+  color: #24221D;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.demo-picker-size {
+  font-size: 0.6875rem;
+  color: #7A776E;
+}
+
+.demo-picker-foot {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 8px;
+  padding: 11px 14px;
+  background: #F1EFEA;
+  border-top: 1px solid rgba(20, 18, 14, 0.1);
+}
+
+.demo-picker-cancel,
+.demo-picker-open {
+  font-size: 0.75rem;
+  font-weight: 500;
+  padding: 6px 15px;
+  border-radius: 6px;
+}
+
+.demo-picker-cancel {
+  color: #56544D;
+  border: 1px solid rgba(20, 18, 14, 0.18);
+  background: #fff;
+}
+
+/* Disabled until the file is selected, so the sequence reads correctly. */
+.demo-picker-open {
+  color: rgba(255, 255, 255, 0.75);
+  background: #9A968C;
+  border: 1px solid transparent;
+  transition: background 180ms ease, color 180ms ease;
+}
+
+.demo-picker-open.is-ready {
+  color: #fff;
+  background: #24221D;
+}
+
+/* Dark theme: the chooser follows the app's theme rather than staying light. */
+html[data-theme='dark'] .demo-picker {
+  background: #1E1E1A;
+  border-color: rgba(255, 255, 255, 0.14);
+}
+
+html[data-theme='dark'] .demo-picker-bar,
+html[data-theme='dark'] .demo-picker-foot {
+  background: #26251F;
+  border-color: rgba(255, 255, 255, 0.09);
+}
+
+html[data-theme='dark'] .demo-picker-title,
+html[data-theme='dark'] .demo-picker-name { color: #F2F0EB; }
+
+html[data-theme='dark'] .demo-picker-path,
+html[data-theme='dark'] .demo-picker-size { color: #9A968C; }
+
+html[data-theme='dark'] .demo-picker-cancel {
+  color: #C9C6BE;
+  background: #2E2D26;
+  border-color: rgba(255, 255, 255, 0.14);
+}
+
+html[data-theme='dark'] .demo-picker-open.is-ready {
+  background: #E8C878;
+  color: #17160F;
+}
+
+/* ───────────────────────── the Start Demo button ──────────────────────── */
+
+/* A small live dot, so the control reads as "play" rather than "submit". */
+.demo-start-dot {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: currentColor;
+  opacity: 0.75;
+  flex: none;
+}
+
+/* ──────────────────────── app-wide demo behaviour ─────────────────────── */
+
+/**
+ * While the demo drives the app, the user's own pointer and keyboard must not
+ * reach it — an accidental click mid-recording ruins the take. The overlay's
+ * own HUD and the file input the demo writes to are exempted.
+ *
+ * Programmatic events still land: `pointer-events: none` blocks hit-testing
+ * for real input devices, not `dispatchEvent` on a resolved element, which is
+ * how the engine clicks.
+ */
+html[data-demo='running'] body > #root {
+  pointer-events: none;
+  user-select: none;
+}
+
+html[data-demo='running'] [data-demo-ignore='true'] {
+  pointer-events: auto;
+}
+
+/* Scrollbars are ugly in a recording and the demo scrolls for you. */
+html[data-demo='running'] { scrollbar-width: none; }
+html[data-demo='running'] ::-webkit-scrollbar { display: none; }
+
+/* ─────────────────────────── accessibility ───────────────────────────── */
+
+/* Someone who asks for less motion still gets the demo, minus the flourishes.
+   Cursor travel is kept: it is the point of the feature, not decoration. */
+@media (prefers-reduced-motion: reduce) {
+  .demo-spotlight::after,
+  .demo-badge-dot { animation: none; }
+
+  .demo-caption,
+  .demo-hud,
+  .demo-toast { animation: none; }
+
+  .demo-ripple { animation-duration: 300ms; }
+}
+
+/* Narrow screens: stack the caption and HUD so neither covers the other. */
+@media (max-width: 720px) {
+  .demo-caption {
+    left: 12px;
+    right: 12px;
+    bottom: 132px;
+    max-width: none;
+  }
+
+  .demo-hud {
+    right: 12px;
+    left: 12px;
+    width: auto;
+    bottom: 12px;
+  }
+}
