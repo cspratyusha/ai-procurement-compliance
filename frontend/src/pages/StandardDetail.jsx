@@ -5,28 +5,9 @@ import { EmptyState } from '../components/Primitives';
 import { AddButton } from '../components/SpecBasket';
 import { getStandard, getRelated, getAmendments, ApiError } from '../api/client';
 import './detail.css';
+import { sectorLabel as labelFor } from '../data/sectors';
 
-const SECTOR_LABEL = {
-  electrical_cables: 'Electrical cables',
-  electrical_installations: 'Electrical installations',
-  cement_building_materials: 'Cement & building materials',
-  steel_pipes_fittings: 'Steel pipes & fittings',
-  structural_steel: 'Structural steel',
-  plastic_pipes: 'Plastic pipes',
-  ppe: 'Personal protective equipment',
-  geotechnical: 'Geotechnical & soils',
-  water_quality: 'Water & sanitation',
-  textiles: 'Textiles & apparel',
-  timber_furniture: 'Timber & furniture',
-  machinery_equipment: 'Machinery & equipment',
-  chemicals: 'Chemicals',
-  food_agriculture: 'Food & agriculture',
-  packaging: 'Packaging',
-  rubber_leather: 'Rubber & leather',
-  measurement_testing: 'Measurement & test methods',
-};
-
-const sectorLabel = (slug) => SECTOR_LABEL[slug] ?? (slug || '—').replace(/_/g, ' ');
+const sectorLabel = (slug) => labelFor(slug, '—');
 
 /** BIS publishes the official record; we link to it rather than reproduce it. */
 const bisSearchUrl = (number) =>
@@ -108,7 +89,7 @@ export default function StandardDetail() {
           <EmptyState
             icon="search"
             title="Not in the current corpus"
-            body={`${decoded} is not among the standards loaded by the engine. The pilot corpus covers a few sectors only — see the coverage note in the README.`}
+            body={`${decoded} is not among the standards loaded by the engine. It may be newer than the published archive the corpus was built from.`}
             action={<Link to="/app/catalogue" className="btn btn-secondary btn-sm">Browse what is covered</Link>}
           />
         </div>

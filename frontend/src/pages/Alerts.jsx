@@ -4,6 +4,7 @@ import Icon from '../components/Icon';
 import { EmptyState } from '../components/Primitives';
 import { getAlerts, ApiError } from '../api/client';
 import './query.css';   // .notice — shared with the query screen
+import { sectorLabel as labelFor } from '../data/sectors';
 
 /**
  * Standards-hygiene findings, computed from the corpus.
@@ -41,12 +42,7 @@ const SEVERITY = {
 };
 
 /** Sector keys are stored as `electrical_cables`; show them as words. */
-const SECTOR_ACRONYMS = { ppe: 'PPE' };
-function sectorLabel(key) {
-  if (!key) return 'Uncategorised';
-  if (SECTOR_ACRONYMS[key]) return SECTOR_ACRONYMS[key];
-  return key.replace(/_/g, ' ').replace(/^./, (c) => c.toUpperCase());
-}
+const sectorLabel = (key) => (key ? labelFor(key) : 'Uncategorised');
 
 export default function Alerts() {
   const [state, setState] = useState('loading'); // loading | ready | error

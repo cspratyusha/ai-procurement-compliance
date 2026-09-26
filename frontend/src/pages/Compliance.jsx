@@ -7,6 +7,7 @@ import Icon from '../components/Icon';
 import { EmptyState } from '../components/Primitives';
 import { getCorpusHealth, getStats, getAlerts, ApiError } from '../api/client';
 import './query.css';   // .notice — shared with the query screen
+import { sectorLabel as labelFor } from '../data/sectors';
 
 /**
  * Corpus health — how complete the data the engine serves actually is.
@@ -34,12 +35,7 @@ const readVar = (name, fallback) => {
   return getComputedStyle(document.documentElement).getPropertyValue(name).trim() || fallback;
 };
 
-const SECTOR_ACRONYMS = { ppe: 'PPE' };
-function sectorLabel(key) {
-  if (!key) return 'Uncategorised';
-  if (SECTOR_ACRONYMS[key]) return SECTOR_ACRONYMS[key];
-  return key.replace(/_/g, ' ').replace(/^./, (c) => c.toUpperCase());
-}
+const sectorLabel = (key) => (key ? labelFor(key) : 'Uncategorised');
 
 function ChartTooltip({ active, payload, label }) {
   if (!active || !payload?.length) return null;

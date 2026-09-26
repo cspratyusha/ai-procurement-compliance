@@ -3,28 +3,8 @@ import { Link } from 'react-router-dom';
 import Icon from '../components/Icon';
 import { EmptyState } from '../components/Primitives';
 import { listStandards, ApiError } from '../api/client';
+import { sectorLabel } from '../data/sectors';
 
-const SECTOR_LABEL = {
-  electrical_cables: 'Electrical cables',
-  electrical_installations: 'Electrical installations',
-  cement_building_materials: 'Cement & building materials',
-  steel_pipes_fittings: 'Steel pipes & fittings',
-  structural_steel: 'Structural steel',
-  plastic_pipes: 'Plastic pipes',
-  ppe: 'Personal protective equipment',
-  geotechnical: 'Geotechnical & soils',
-  water_quality: 'Water & sanitation',
-  textiles: 'Textiles & apparel',
-  timber_furniture: 'Timber & furniture',
-  machinery_equipment: 'Machinery & equipment',
-  chemicals: 'Chemicals',
-  food_agriculture: 'Food & agriculture',
-  packaging: 'Packaging',
-  rubber_leather: 'Rubber & leather',
-  measurement_testing: 'Measurement & test methods',
-};
-
-const sectorLabel = (slug) => SECTOR_LABEL[slug] ?? (slug || '').replace(/_/g, ' ');
 
 const ALL = 'All sectors';
 
@@ -102,9 +82,8 @@ export default function Explorer() {
         <div>
           <h1 className="page-title" data-demo-target="catalogue-title">Standards catalogue</h1>
           <p className="page-sub">
-            Everything the engine can currently search. This is a pilot corpus, not the
-            full BIS catalogue — if a product category is not listed here, the engine
-            cannot recommend a standard for it.
+            Every standard the engine can search, taken from the published BIS documents.
+            A standard that is not listed here cannot be recommended.
           </p>
         </div>
       </div>
@@ -194,7 +173,7 @@ export default function Explorer() {
               <EmptyState
                 icon="search"
                 title="Nothing matches"
-                body="No standard in the pilot corpus matches that. Try a broader term, or clear the sector filter."
+                body="No standard in the corpus matches that. Try a broader term, or clear the sector filter."
               />
             </div>
           ) : (

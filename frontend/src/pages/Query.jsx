@@ -13,6 +13,7 @@ import {
 } from '../components/CertificationBadge';
 import { DISMISS_REASONS } from '../data/catalogue';
 import './query.css';
+import { sectorLabel } from '../data/sectors';
 
 const EXAMPLES = [
   'PVC insulated copper cable for indoor panel wiring',
@@ -29,27 +30,6 @@ const LANGUAGE_EXAMPLES = [
 ];
 
 /** Sector slugs from the backend rendered as readable labels. */
-const SECTOR_LABEL = {
-  electrical_cables: 'Electrical cables',
-  electrical_installations: 'Electrical installations',
-  cement_building_materials: 'Cement & building materials',
-  steel_pipes_fittings: 'Steel pipes & fittings',
-  structural_steel: 'Structural steel',
-  plastic_pipes: 'Plastic pipes',
-  ppe: 'Personal protective equipment',
-  geotechnical: 'Geotechnical & soils',
-  water_quality: 'Water & sanitation',
-  textiles: 'Textiles & apparel',
-  timber_furniture: 'Timber & furniture',
-  machinery_equipment: 'Machinery & equipment',
-  chemicals: 'Chemicals',
-  food_agriculture: 'Food & agriculture',
-  packaging: 'Packaging',
-  rubber_leather: 'Rubber & leather',
-  measurement_testing: 'Measurement & test methods',
-};
-
-const sectorLabel = (slug) => SECTOR_LABEL[slug] ?? (slug || '').replace(/_/g, ' ');
 
 /**
  * How a result is labelled.
@@ -396,7 +376,6 @@ export default function Query() {
           <h1 className="sr-only">New query</h1>
 
           <div className="prompt-greet">
-            <span className="greet-mark" aria-hidden="true"><Icon name="sparkle" size={24} /></span>
             <p className="greet-title">What are you procuring today?</p>
             <p className="greet-sub">
               Describe it in plain words. The engine finds the applicable Indian Standards
