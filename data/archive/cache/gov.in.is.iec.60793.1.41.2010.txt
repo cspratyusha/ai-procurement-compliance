@@ -1,0 +1,726 @@
+IS/IEC 60793-1-41 : 2010
+
+Hkkjrh; ekud
+
+�dkf'kd rarq
+Hkkx 1 ekiu fof�k;k� vkSj ijh{k.k �f�;k,�
+vuqHkkx 41 cSaMfoM~Fk
+
+Indian Standard OPTICAL FIBRES
+PART 1 MEASUREMENT METHODS AND TEST PROCEDURES Section 41 Bandwidth
+
+ICS 33.180.10
+
+� BIS 2013
+
+BUREAU OF INDIAN STANDARDS
+MANAK BHAVAN, 9 BAHADUR SHAH ZAFAR MARG NEW DELHI 110002 April 2013 Price Group 9
+
+Fibre Optics, Fibres, Cables and Devices Sectional Committee, LITD 11
+
+NATIONAL FOREWORD This Indian Standard (Part 1/ Sec 41) which is identical with IEC 60793-1-41 : 2010 `Optical fibres -- Part 1-41: Measurement methods and test procedures -- Bandwidth' issued by the International Electrotechnical Commission (IEC) was adopted by the Bureau of Indian Standards on the recommendation of the Fibre Optics, Fibres, Cables and Devices Sectional Committee and approval of the Electronics and Information Technology Division Council. The text of IEC Standard has been approved as suitable for publication as an Indian Standard without deviations. Certain conventions are, however, not identical to those used in Indian Standards. Attention is particularly drawn to the following: a) Wherever the words `International Standard' appear referring to this standard, they should be read as `Indian Standard'. b) Comma (,) has been used as a decimal marker while in Indian Standards, the current practice is to use a point (.) as the decimal marker. In this adopted standard, reference appears to certain International Standards for which Indian Standards also exist. The corresponding Indian Standards which are to be substituted in their respective places are listed below along with their degree of equivalence for the editions indicated: International Standard IEC 60793-1-20 : 2001 Optical fibres -- Part 1-20 : Measurement methods and test procedures -- Fibre geometry IEC 60793-1-42 : 2007 Optical fibres -- Part 1-42 : Measurement methods and test procedures -- Chromatic dispersion IEC 60793-1-43 : 2001 Optical fibres -- Part 1-43 : Measurement methods and test procedures -- Numerical aperture IEC 60793-1-49 : 2006 Optical fibres -- Part 1-49 : Measurement methods and test procedures -- Differential mode delay Corresponding Indian Standard IS/IEC 60793-1-20 : 2001 Optical fibres: Part 1 Measurement methods and test procedures, Section 20 Fibre geometry IS/IEC 60793-1-42 : 2007 Optical fibres: Part 1 Measurement methods and test procedures, Section 42 Chromatic dispersion IS/IEC 60793-1-43 : 2001 Optical fibres: Part 1 Measurement methods and test procedures, Section 43 Numerical aperture IS/IEC 60793-1-49 : 2006 Optical fibres: Part 1 Measurement methods and test procedures, Section 49 Differential mode delay Degree of Equivalence Identical
+
+do
+
+do
+
+do
+
+For the purpose of deciding whether a particular requirement of this standard is complied with, the final value, observed or calculated, expressing the result of a test or analysis, shall be rounded off in accordance with IS 2 : 1960 `Rules for rounding off numerical values (revised)'. The number of significant places retained in the rounded off value should be the same as that of the specified value in this standard.
+
+IS/IEC 60793-1-41 : 2010
+
+Indian Standard OPTICAL FIBRES
+PART 1 MEASUREMENT METHODS AND TEST PROCEDURES Section 41 Bandwidth
+
+1
+
+Scope
+
+This part of IEC 60793 describes three methods for determining and measuring the modal bandwidth of multimode optical fibres (see IEC 60793-2-10, IEC 60793-30 series and IEC 60793-40 series). The baseband frequency response is directly measured in the frequency domain by determining the fibre response to a sinusoidaly modulated light source. The baseband response can also be measured by observing the broadening of a narrow pulse of light. The calculated response is determined using differential mode delay (DMD) data. The three methods are: � � � Method A � Time domain (pulse distortion) measurement Method B � Frequency-domain measurement Method C � Overfilled launch modal bandwidth calculated from differential mode delay (OMBc) Methods A and B can be performed using one of two launches: an overfilled launch (OFL) condition or a restricted mode launch (RML) condition. Method C is only defined for A1a.2 (and A1a.3 in preparation) multimode fibre and uses a weighted summation of DMD launch responses with the weights corresponding to an overfilled launch condition. The relevant test method and launch condition should be chosen according to the type of fibre.
+NOTE 1 These test methods are commonly used in production and research facilities and are not easily accomplished in the field. NOTE 2 OFL has been used for the modal bandwidth value for LED-based applications for many years. However, no single launch condition is representative of the laser (e.g. VCSEL) sources that are used for gigabit and higher rate transmission. This fact drove the development of IEC 60793-1-49 for determining the effective modal bandwidth of laser optimized 50 � m fibres. See IEC 60793-2-10:2004 or later and IEC 61280-4-1:2003 or later for more information.
+
+2
+
+Normative references
+
+The following referenced documents are indispensable for the application of this document. For dated references, only the edition cited applies. For undated references, the latest edition of the referenced document (including any amendments) applies. IEC 60793-1-20, Optical Fibres � Part 1-20: Measurement methods and test procedures � Fibre geometry IEC 60793-1-42, Optical fibres � Part 1-42: Measurement methods and test procedures � Chromatic dispersion IEC 60793-1-43, Optical fibres � Part 1-43: Measurement methods and test procedures � Numerical aperture IEC 60793-1-49:2006, Optical fibres � Part 1-49: Measurement methods and test procedures � Differential mode delay
+
+1
+
+IS/IEC 60793-1-41 : 2010
+
+3
+
+Terms and definitions
+
+For the purposes of this document, the following terms and definitions apply. 3.1 bandwidth (�3 dB) value numerically equal to the lowest modulation frequency at which the magnitude of the baseband transfer function of an optical fibre decreases to a specified fraction, generally to one half, of the zero frequency value. The bandwidth is denoted in this document as f 3 dB .
+NOTE It is known that there can be various calculations, sometimes called markdowns, to avoid reporting extremely high values associated with "plateaus". For example the 1,5 dB frequency, multiplied by 2 is one treatment used in IEC 60793-1-49. If such a calculation is used it should clearly be reported.
+
+3.2 transfer function discrete function of complex numbers, dependent on frequency, representing the frequencydomain response of the fibre under test
+NOTE Method A determines the frequency response by processing time domain data through Fourier transforms. Method B can only measure the transfer function if an instrument which measures phase as well as amplitude is used. Method C is similar to Method A as it uses Fourier transforms in a similar manner. The transfer Function is denoted in this document as H(f) .
+
+3.3 power spectrum discrete function of real numbers, dependent on frequency, representing the amplitude of the frequency-domain response of the fibre under test
+NOTE Methods A and C determine the power spectrum from the transfer function. Method B determines the transfer function by taking the ratio of the amplitude measured through the fibre under test and the reference. The power spectrum is denoted in this document as | H(f) | .
+
+3.4 impulse response discrete function of real numbers, dependent on time, representing the time-domain response of the fibre under test to a perfect impulse stimulus. The impulse response is derived, in all methods, through the inverse Fourier transform of the transfer function. The impulse response is denoted in this document as h(t) .
+
+4
+4.1
+
+Apparatus
+Radiation source Method A � Time domain (pulse distortion) measurement
+
+4.1.1
+
+Use a radiation source such as an injection laser diode that produces short duration, narrow spectral width pulses for the purposes of the measurement. The pulse distortion measurement method requires the capability to switch the energy of the light sources electrically or optically. Some light sources shall be electrically triggered to produce a pulse; in this case a means shall be provided to produce triggering pulses. An electrical function generator or equivalent can be used for this purpose. Its output should be used to both induce pulsing in the light source and to trigger the recording system. Other light sources may self-trigger; in this case, means shall be provided to synchronize the recording system with the pulses coming from the light source. This may be accomplished in some cases electrically; in other cases optoelectronic means may be employed.
+
+2
+
+IS/IEC 60793-1-41 : 2010
+
+4.1.2
+
+Method B � Frequency domain measurement
+
+Use a radiation source such as a continuous wave (CW) injection laser diode for the purposes of the measurement. The frequency domain measurement method requires the capability to modulate the energy of the light sources electrically or optically. Connect the modulation output of the tracking generator or network analyzer through any required driving amplifiers to the modulator. 4.1.3 Method C � Overfilled launch modal bandwidth calculated from differential mode delay (OMBc)
+
+Use a radiation source as described in IEC 60793-1-49. 4.1.4 For methods A and B
+
+a) Use a radiation source with a centre wavelength that is known and within � 10 nm of the nominal specified wavelength. For injection laser diodes, laser emission coupled into the fibre shallexceed spontaneous emission by a minimum of 15 dB (optical). b) Use a source with sufficiently narrow linewidth to assure the measured bandwidth is at least 90 % of the intermodal bandwidth. This is accomplished by calculating the normalized intermodal dispersion limit, NIDL (refer to Annex A). For A4 fibre, the linewidth of any laser diode is narrow enough to neglect its contribution to bandwidth measurement. c) For A1 and A3 fibres, calculate the NIDL (see Annex A) for each wavelength's measurement from the optical source spectral width for that wavelength as follows:
+
+NIDL = where:  IDF NIDL
+
+IDF , in GHz�km 
+
+is the source Full Width Half Maximum (FWHM) spectral width in nm, is the Intramodal Dispersion Factor (GHz�km�nm) from Annex A according to the wavelength of the source. is not defined for wavelengths from 1 200 nm to 1 400 nm. The source spectral width for these wavelengths shall be less than or equal to 10 nm, FWHM.
+
+NOTE The acceptability of a NIDL value depends upon the specific user's test requirements. For example, a 0,5 GHz�km NIDL would be satisfactory for checking that fibres had minimum bandwidths greater than some value less than 500 MHz�km, but would not be satisfactory for checking that fibres had minimum bandwidths greater than 500 MHz�km. If the NIDL is too low, a source with smaller spectral width is required.
+
+d) The radiation source shall be spectrally stable throughout the duration of a single pulse and over the time during which the measurement is made.
+4.2 4.2.1 4.2.1.1 Launch system Overfilled launch (OFL) OFL condition for A1 fibre
+
+Use a mode scrambler between the light source and the test sample to produce a controlled launch irrespective of the radiation properties of the light source. The output of the mode scrambler shall be coupled to the input end of the test sample in accordance with Annex D. The fibre position shall be stable for the complete duration of the measurement. A viewing system may be used to aid fibre alignment where optical imaging is used. The OFL prescription in Annex D, based on the allowed variance of light intensity on the input of the fibre under test, can result in large ( > 25 %) variations in the measured results for high bandwidth ( > 1 500 MHz�km) A1a fibres. Subtle differences in the launches of conforming equipment are a cause of these differences. Method C is introduced as a means of obtaining an improvement.
+
+3
+
+IS/IEC 60793-1-41 : 2010
+
+Provide means to remove cladding light from the test sample. Often the fibre coating is sufficient to perform this function. Otherwise, it will be necessary to use cladding mode strippers near both ends of the test sample. The fibres may be retained on the cladding mode strippers with small weights, but care shall be taken to avoid microbending at these sites.
+NOTE Bandwidth measurements obtained by the overfilled launch (OFL) support the use of category A1 multimode fibres, especially in LED applications at 850 nm and 1 300 nm. Some laser applications may also be supported with this launch, but could result in reduced link lengths (at 850 nm) or restrictions on the laser sources (at 1 300 nm).
+
+4.2.1.2
+
+OFL condition for A3 and A4 fibres
+
+OFL is obtained with geometrical optic launch in which the maximum theoretical numerical aperture of the fibre is exceeded by the launching cone and in which the diameter of the launched spot is in the order of the core diameter of the fibre. The light source shall be able to excite both low-order and high-order modes in the fibre equally.
+NOTE A mode scrambler excites more or less all modes. Mode excitation is very sensitive to the source/mode scrambler alignment and the interaction with any intermediary optics such as connectors or optical imaging systems. A light source with large NA and core diameter will only excite meridional modes or LP 0,m modes.
+
+4.2.2 4.2.2.1
+
+Restricted mode launch (RML) RML condition for A1b fibre
+
+The RML for bandwidth is created by filtering the overfilled launch (as defined by Annex D) with a RML fibre. The OFL is defined by Annex D and it needs to be only large enough to overfill the RML fibre both angularly and spatially. The RML fibre has a core diameter of 23,5 � m � 0,1 � m, and a numerical aperture of 0,208 � 0,01. The fibre shall have a gradedindex profile with an alpha of approximately 2 and an OFL bandwidth greater than 700 MHz�km at 850 nm and 1 300 nm. For convenience, the clad diameter should be 125 � m. The RML fibre should be at least 1,5 m in length to eliminate leaky modes; and it should be less than 5 m in length to avoid transient loss effects. The launch exiting the RML fibre is then coupled into the fibre under test. Provide means to remove cladding light from the test sample. Often the fibre coating is sufficient to perform this function. Otherwise, it will be necessary to use cladding mode strippers near both ends of the test sample. The fibres may be retained on the cladding mode strippers with small weights, but care shall be taken to avoid microbending at these sites.
+NOTE 1 In order to achieve the highest accuracy, tight tolerances are required on the geometry and profile of the RML fibre. In order to achieve the highest measurement reproducibility, tight alignment tolerances are required in the connection between the launch RML fibre and the fibre under test to ensure the RML fibre is centred to the fibre under test. NOTE 2 Bandwidth measurements obtained by a restricted mode launch (RML) are used to support 1 Gigabit Ethernet laser launch applications. The present launch is especially proven for 850 nm sources transported over type A1b fibres.
+
+4.2.2.2
+
+RML condition for A3 fibre
+
+RML condition for A3 fibre is created with geometrical optic launch which corresponds to launch NA = 0,3. Spot size shall be larger or equal to the size of core.
+4.2.2.3 RML condition for A4 fibre
+
+The RML for A4 fibre shall correspond to NA = 0,3. It can be created by filtering the overfilled launch with a mandrel wrapped mode filter, shown in Figure 1. The mode filter shall be made with the fibre of the same category as the fibre under test. In order to avoid redundant loss, the length of fibre should be 1 m. The diameter of the mandrel should be 20 times as large as that of the fibre cladding and the number of coils may be 5.
+
+4
+
+IS/IEC 60793-1-41 : 2010
+
+NOTE Do not apply any excessive stress in winding fibre on to the mandrel. The wound fibre may be fixed to the mandrel with an adhesive. Unwound parts of fibre should be set straight.
+
+OFL condition Fibre under test
+
+Figure 1 � Mandrel wrapped mode filter 4.2.3 Differential mode delay (DMD) launch
+
+The DMD launch shall comply with the launch requirements of IEC 60793-1-49.
+4.3 Detection system
+
+The output optical detection apparatus shall be capable of coupling all guided modes from the test sample to the detector active area such that the detection sensitivity is not significantly mode-dependent. A device shall be available to position the specimen output end with sufficient stability and reproducibility to meet the conditions of 4.6 below. An optical detector shall be used that is suitable for use at the test wavelength, linear in amplitude response, spatially uniform to within 10 %, and sufficiently large to detect all emitted power. An optical attenuator may be used to control the optical intensity on the detector. It shall be mode-independent as well. The detection electronics as well as any signal preamplifier shall be linear in amplitude response (nonlinearities less than 5 %) over the range of encountered signals. The detection system for Method C shall comply with the requirements of IEC 60793-1-49.
+4.4 Recording system
+
+For the time domain (pulse distortion) measurement (method A), use an oscilloscope suitably connected to a recording device, such as a digital processor, to store the received pulse amplitude as a function of time. For temporal measurements, data taken from the oscilloscope display shall be considered secondary to those derived from the recorded signal. For the frequency domain measurement (method B), use a tracking generator-electrical spectrum analyzer combination, scalar network analyzer, vector network analyzer or an equivalent instrument to detect, display and record the amplitude of the RF modulation signal derived from the optical detector. This shall be done in such a manner as to reduce harmonic distortion to less than 5 %. The recording system for Method C shall comply with the requirements of IEC 60793-1-49.
+
+5
+
+IS/IEC 60793-1-41 : 2010
+
+4.5
+
+Computational equipment
+
+For the time domain (pulse distortion) method (method A) and overfilled launch bandwidth calculated from differential mode delay (method C) or if impulse response is required from method B, computational equipment capable of performing Fourier transforms on the detected optical pulse waveforms as recorded by the waveform recording system shall be used. This equipment may implement any of the several fast Fourier transforms or other suitable algorithms, and is useful for other signal conditioning functions, waveform averaging and storage as well.
+4.6 Overall system performance
+
+NOTE This subclause provides a means of verifying system stability for the duration of a measurement or the system calibration period, depending on the method used (A, B or C, see subclauses 6.1, 6.2 and IEC 60793-1-49, respectively).
+
+The measurement system stability is tested by comparing system input pulse Fourier transforms (method B) or input frequency responses (method A) over a time interval. As shown in Annex B, a bandwidth measurement normalizes the fibre output pulse transform by the system calibration transform. If a reference sample is substituted for the fibre sample, the resultant response, H(f) , represents a comparison of the system to itself over the time interval. This normalized system amplitude stability is used to determine the system stability frequency limit (SSFL). The SSFL is the lowest frequency at which the system amplitude stability deviates from unity by 5 %. If method A-1 or B-1 is employed, it shall be determined on the basis of one remeasurement at a time interval similar to that used for an actual fibre measurement. If method A-2 or B-2 is employed, it shall be determined over substantially the same time interval as that which is used for periodic system calibration (see 6.1.2). In this latter case, the time interval may influence the SSFL. To determine the SSFL, attenuate the optical signal reaching the detector by an amount equal to or greater than the attenuation of the test sample plus 3 dB. This may require the introduction of an attenuator into the optical path, if an attenuator, such as might be used for signal normalization and scaling, is not already present. Also, normal deviations in the position and amplitude of the pulse or frequency response on the display device shall be present during the determination of the SSFL.
+
+5
+5.1
+
+Sampling and specimens
+Test sample
+
+The test sample shall be a known length of optical fibre or optical fibre cable.
+5.2 Reference sample
+
+The reference sample shall be a short length of fibre of the same type as the test sample, or cut from the test sample. Except A4 fibre, the reference length shall be less than 1 % of the test sample length or less than 10 m, whichever is shorter. For A4 fibre, the reference length shall be 1 to 2 m. In case of RML, the output of the mode filter is the reference.
+5.3 End face preparation
+
+Prepare smooth, flat end faces, perpendicular to the fibre axis.
+
+6
+
+IS/IEC 60793-1-41 : 2010
+
+5.4
+
+Test sample packaging
+
+For A1 fibres, the deployment (spool type, wind tension, and other winding characteristics) can affect the results by significant values. It is normal to conduct most quality control measurements with the fibre deployed on spools in a manner that is suitable for shipment. The reference deployment, however, is one in which the fibre is stress-free and in which microbending is minimized. Mapping functions can be used to report the expected value that would be obtained from a reference deployment measurement based on measurements of the fibre as deployed on a shipping spool. The mapping function shall be developed from measurements of a set of fibres that have been deployed both ways and which represent the full range of bandwidth values of interest. For A4 fibre, test sample shall be wound into coils with diameter of at least 300 mm, free from any stress. It shall be certain that the test sample is free from both macro- and microbending and that the energy distribution at the output of the launching system is substantially constant.
+5.5 Test sample positioning
+
+Position the input end of the test sample such that it is aligned to the output end of the launch system to create launching conditions in accordance with sub-clause 4.2. Position the output end of the test sample such that it is aligned to the optical detector.
+
+6
+6.1
+
+Procedure
+Method A � Time domain (pulse distortion) measurement Output pulse measurement
+
+6.1.1
+
+a) Inject power into the test fibre and adjust the optical attenuator or detection electronics, or both, such that one entire optical pulse from the fibre is displayed on the calibrated oscilloscope, including all leading and trailing edges having an amplitude greater than or equal to 1 % or -20 dB of the peak amplitude. b) Record the detected amplitude and the calibrated oscilloscope sweep rate. c) Record the fibre output pulse and calculate the Fourier transform of this pulse, per Annex B. d) Determine the input pulse to the test sample by measuring the signal exiting the reference sample. This may be accomplished by using a reference length cut from the test sample or from a similar fibre.
+6.1.2 Input pulse measurement method A-1: reference sample from test sample
+
+a) Cut the test fibre near the input end according to 5.2. Create a new output end face, per 5.3, and align the end with respect to the optical detector as outlined in 6.1.1 a). Do not disturb the input end. b) Apply the cladding mode stripper, if used (see 5.2). c) If an optical attenuator is used, read just for the same displayed pulse amplitude as outlined in 6.1.1 a). d) Record the system input pulse using the same oscilloscope sweep rate as for the test sample, and calculate the input pulse Fourier transform per Annex B.
+6.1.3 Input pulse measurement method A-2: periodic reference sample
+
+a) The following system calibration procedure employing the periodic reference sample shall be performed over substantially the same time interval as used to determine the SSFL (see 4.6). In most cases where adequate preparation of mode scrambler, laser diode, and alignment equipment has been made, it is acceptable to use a reference sample not taken from the test sample.
+
+7
+
+IS/IEC 60793-1-41 : 2010
+
+b) Prepare input and output ends per 5.3 on a reference sample of the same fibre class and same nominal optical dimensions as the test sample. c) Align the input and output ends as outlined in 5.5 and, if an optical attenuator is used, adjust to obtain the correct displayed pulse amplitude. d) Record the system input pulse using the same oscilloscope sweep rate as for the test sample, and calculate the input pulse Fourier transform per Annex B.
+6.2 6.2.1 Method B � Frequency domain measurement Output frequency response
+
+a) Sweep the modulation frequency, f, of the source from a low frequency, to provide an adequate DC zero reference level, to high frequency in excess of the 3 dB bandwidth. Record the relative optical power exiting the test specimen as a function of f; denote this power as P out (f). If a network analyzer and the impulse response is desired, the high frequency should exceed -15 dB point and the phase out (f) should be recorded.
+NOTE A function related to P out (f), such as log P out (f), may be recorded to finally obtain | H(f) | in 7.1.
+
+b) Determine the input modulated signal to the test sample by measuring the signal exiting the reference length of the fibre. This may be accomplished using a reference length from the test sample (method B-1; preferred method to be used in case of conflict in test results) or from a similar fibre (method B-2).
+6.2.2 Method B-1: Reference length from test specimen
+
+a) Cut the test sample near the input end and prepare flat end faces (see 5.3) at this newly created output end. Strip the cladding modes from the output end if necessary. Do not disturb the launching conditions to this short length. b) Sweep the modulation frequency, f, of the source from a low frequency, to provide an adequate DC zero reference level, to a high frequency in excess of the 3 dB bandwidth. Record the relative optical power exiting the reference length as a function of f; denote this power as Pin (f).
+6.2.3 Method B-2: Reference length from similar fibre
+
+a) If the apparatus exists to position a fibre at the same place in the mode scrambler output as was the input of the test sample, then another short length of fibre having the same nominal properties of the test sample may be substituted as the reference. Use the reference fibre to replace the test sample. Apply a cladding mode stripper, if necessary, and align the output end in front of the detector. b) Sweep the modulation frequency, f, of the source from a low frequency, to provide an adequate DC zero reference level, to a high frequency in excess of the 3 dB bandwidth. Record the relative optical power exiting the reference length as a function of f; denote this power as Pin (f).
+NOTE A function related to P in (f), such as log P in (f), may be recorded to finally obtain | H(f) | in 7.2.
+
+6.3
+
+Method C � Overfilled launch modal bandwidth calculated from differential mode delay (OMBc)
+
+a) Measure the differential mode delay of fibre in accordance with IEC 60793-1-49. b) Calculate the overfilled modal bandwidth according to the formulae B2 of IEC 60793-1-49:2006" using weights given here in Table 1. Linear interpolation of the weight value shall be applied for any radial position of the actual scan that is known to lie between the integer positions listed in Table 1.
+NOTE Table 1 weightings are only applicable for A1a fibres at 850 nm.
+
+8
+
+IS/IEC 60793-1-41 : 2010
+
+Table 1 � DMD weights for calculating overfilled modal bandwidth (OMBc) from DMD data for 850 nm only
+r ( � m) 0 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 21 22 23 24 25 DMD weights for OMBc 0 0,00073 0,00157 0,00253 0,00362 0,00487 0,00631 0,00795 0,00983 0,01198 0,01443 0,01725 0,02046 0,02414 0,02836 0,03317 0,03869 0,04500 0,05221 0,06047 0,06992 0,08073 0,09310 0,10725 0,12345 0,14197
+
+7
+7.1
+
+Calculations or interpretation of results
+-3 dB frequency, f 3 dB
+
+Calculate the frequency response, H(f). Calculate the -3 dB fibre bandwidth, f3 dB , in accordance with Annex B. If the measured - 3 dB frequency exceeds the NIDL (as calculated in 4.1.4) divided by the fibre length, L, in km, report the measured result. In this case, it is preferable to show that the measurement result may have been limited by the equipment, as shown in Example 1.
+EXAMPLE 1 A fibre 2,2 km long has a length-normalized measured -3 dB frequency of 2,2 GHz�km, but the measurement system has a NIDL of 2 GHz�km at this wavelength. Preferably, the result is reported as " > normalized measured value" (" > 2,2 GHz�km", in this example). Similarly, the actual measured value is preferably reported as " > {measured value}" (" > 1,0 GHz", in this example). The " > " sign shows that the measured value may have been limited by the test set. If the measured -3 dB frequency exceeds the SSFL (as determined in 4.6), report the result as being greater than the SSFL as shown in Example 2.
+
+9
+
+IS/IEC 60793-1-41 : 2010
+
+EXAMPLE 2 A fibre 2,2 km long has a measured -3 dB frequency of 0,95 GHz (2,09 GHz�km), which is greater than the SSFL for the test set, 0,9 GHz (1,98 GHz�km for this fibre length). Report the result as " > (SSFL)" (" > 0,9 GHz", here). Report the length-normalized result as " > (SSFL times the sample length in km" (" > 1,98 GHz�km", here). The " > " sign is required to show that the measured value is limited by the test set.
+
+7.2
+
+Calculations for optional reporting methods
+
+Other reporting methods may be required by a detail specification in lieu of f 3 dB . Refer to the appropriate Annex: B.1: Fibre transfer function, H(f) B.2: Power spectrum,  H(f) C.1: Fibre impulse response, h(t) C.2: RMS impulse response, exact method C.3: RMS impulse response, difference of squares approximation
+
+8
+
+Length normalization
+
+It may be desirable to normalize the bandwidth or pulse broadening to a unit length, such as GHz�km, or ns/km. If the bandwidth or pulse broadening is normalized to a unit length, the length dependence formula used shall be reported.
+
+9
+9.1
+
+Results
+Information to be provided with each measurement
+
+Report the following information with each measurement: - - - - - - - -
+9.2
+
+test procedure number and method used; launch conditions used (RML or OFL, DMD); test date; test sample identification; test results: f 3 dB (7.1) or results of other reporting methods as required by the detail specification; source wavelength (nominal or actual); sample length; length normalization formula, if used.
+Information available upon request
+
+The following information shall be available upon request: - - - - - - source: type, actual source wavelength, maximum specified or actual spectral width (FWHM) - state if not measured; description of mode scrambler and launch apparatus; normalized intermodal dispersion limit (NIDL), for each measurement wavelength; detector type and operating conditions; details of computational procedure to calculate bandwidth or other reporting methods; method of stripping cladding light;
+
+10
+
+IS/IEC 60793-1-41 : 2010
+
+- - -
+
+date of latest calibration of test equipment; title of test; test personnel.
+
+10 Specification information
+The detail specification shall specify the following information: - - - - number and type of samples to be tested; test procedure number; reporting method to be used, if other than 7.1; test wavelength(s).
+
+11
+
+IS/IEC 60793-1-41 : 2010
+
+Annex A (normative) Intramodal dispersion factor and the normalized intermodal dispersion limit
+A.1 Intramodal dispersion factor, IDF
+
+This test method is intended to measure the intermodal bandwidth of a fibre. However, additional dispersion caused by interaction of the laser spectrum with the fibre chromatic dispersion can reduce the measured value. The purpose of the IDF is to provide a means of limiting this source of measurement error. IDF has units of GHz�km�nm, and is the frequency at which the measured bandwidth drops to 90 % of the intermodal bandwidth, per nanometer of source linewidth, per kilometer of fibre length. See A.3 for the derivation of the IDF. The data in Table A.1 represents the highest expected dispersion for any of the commercially available category A1 fibres, based on nominal dispersion performance. For table data lower than 1 200 nm, dispersion is greatest with fibre of maximum  0 (0,29 NA fibre). For table data greater than 1 400 nm, dispersion is greatest with fibre of minimum  0 (0,20 NA fibre). Here  0 is the zero-dispersion wavelength. IDF is not used between 1 200 nm and 1 400 nm.
+Table A.1 � Highest expected dispersion for commercially available A1 fibres
+ (nm) 780 790 IDF (GHz  km  nm) 1,31 1,37  (nm) IDF (GHz  km  nm)  (nm) IDF (GHz  km  nm)
+
+800 810 820 830 840 850 860 870 880 890
+
+1,44 1,50 1,57 1,64 1,72 1,79 1,88 1,96 2,05 2,14
+
+1 000 1 010 1 020 1 030 1 040 1 050 1 060 1 070 1 080 1 090
+
+3,54 3,71 3,90 4,09 4,30 4,52 4,76 5,02 5,30 5,60
+
+1 400 1 410 1 420 1 430 1 440 1 450 1 460 1 470 1 480 1 490
+
+23,18 21,15 19,49 18,09 16,90 15,87 14,98 14,20 13,50 12,89
+
+900 910 920 930 940 950 960 970 980 990
+
+2,24 2,34 2,45 2,56 2,68 2,80 2,93 3,07 3,22 3,37
+
+1 100 1 110 1 120 1 130 1 140 1 150 1 160 1 170 1 180 1 190
+
+5,92 6,27 6,65 7,07 7,53 8,03 8,59 9,22 9,92 10,71
+
+1 500 1 510 1 520 1 530 1 540 1 550 1 560 1 570 1 580 1 590 1 600
+
+12,33 11,83 11,37 10,96 10,58 10,23 9,91 9,61 9,34 9,08 8,84
+
+NOTE
+
+Assumptions Used: S 0 =0,09562 ps/(nm �km);  0 = 1 344,5 nm for nominal MMF w/0,29 NA.
+
+2
+
+12
+
+IS/IEC 60793-1-41 : 2010
+
+A.2
+
+Normalized intermodal dispersion limit, NIDL
+
+The maximum bandwidth that can be reported by a test set is limited by the normalized intermodal dispersion limit (NIDL). The NIDL is calculated for each measurement wavelength of a test set according to 4.1.4, using IDF values taken from Table A.1. The source spectral width used in the calculation may be either a maximum value for the device as specified by the device manufacturer, or, preferably, a measured value. Since NIDL is based on the IDF, a measured, length-normalized bandwidth equal to the NIDL is 10 % less than the actual intermodal bandwidth. The error decreases for measured bandwidths less than the NIDL, and rapidly increases above it. The actual error will typically be a few percent less than this because the actual dispersion of the test sample will be less than the value used in the IDF, and the source spectral width may be overstated. Because of these approximations and source spectral instability, correction for chromatic dispersion is not appropriate. NIDL is not defined for wavelengths from 1 200 nm to 1 400 nm because intramodal dispersion in fibre measurements is negligible when used with lasers in this range.
+NOTE The calculations in Table A.1 are derived from an assumption that the spectrum is Gaussian. If this assumption is not valid some care in the interpretation of the table is needed.
+
+A.3
+
+Derivation of the IDF
+
+For the derivation of IDF, the following have been assumed to have Gaussian distributions: 1) chromatic and modal temporal pulse broadening, D chrom and D modal , respectively, 2) all frequency responses (amplitudes) 3) the optical source spectrum, expressed as  s (nm, FWHM). The relationship between dispersion and bandwidth is expressed as:
+
+D=
+
+k BW
+
+(A.1)
+
+where k = 187 for RMS dispersion in ps and -3 dB bandwidth in GHz. Assuming that the chromatic and modal dispersion are independent, the total (measured) dispersion, D meas , can be written:
+
+D meas = D 2 chrom + D 2 modal
+Combining A.1 and A.2 produces the following result:
+ BW 2 meas   BW 2 chrom    BW 2 meas +   BW 2 modal     =1  
+
+(A.2)
+
+(A.3)
+
+Let  represent an error in the measurement caused by chromatic dispersion such that BWmeas = (1-  ) BWmodal The chromatic bandwidth (in GHz) can be calculated as: (A.4)
+
+13
+
+IS/IEC 60793-1-41 : 2010
+
+BWchrom =
+
+440 D( )L s
+
+(A.5)
+
+where D( ) is the fibre chromatic dispersion coefficient (in ps/(nm�km)) at wavelength  , and L is fibre length in km. D( ) is defined in IEC 60793-1-42. Combining A.3, A.4 and A.5 provides the definition of IDF: 440 2 -  2 D( )
+
+IDF = BWmeas L s = Specifically, for  = 0,1 (10 % error),
+
+(A.6)
+
+IDF = for D( ) in ps/(nm�km).
+
+192 (GHz  km  nm) D( )
+
+(A.7)
+
+14
+
+IS/IEC 60793-1-41 : 2010
+
+Annex B (normative) Fibre transfer function, H(f), power spectrum, |H(f)|, and f 3 dB
+
+B.1
+B.1.1
+
+Fibre transfer function
+Method A � Time domain (pulse distortion) measurement
+
+The time domain measurement begins with the input pulse, a(t), and the output pulse, b(t) . The input pulse and fibre output pulse Fourier transforms shall be calculated using the following formula.
+
+A( f ) =
+
+-  a(t )e -  b(t )e
++
+
++
+
+- j 2ft
+
+dt
+
+(B.1)
+
+B( f ) = Where a(t) is the temporal input pulse, b(t) is the temporal output pulse,
+
+- j 2ft
+
+dt
+
+(B.2)
+
+A(f) is the input pulse Fourier transform, and B(f) is the fibre output pulse Fourier transform. For the time domain method, the fibre transfer function shall be calculated as: H( f ) = B( f ) A( f ) (B.3)
+
+NOTE
+
+A(f), B(f) and H(f) are vectors of complex numbers usually expressed as real and imaginary pairs.
+
+B.1.2
+
+Method B � Frequency-domain measurement
+
+When a network analyzer or equivalent phase-measuring equipment is used, the transfer function is calculated as: A( f ) = Pin ( f )  [cos( in ( f )) + i sin(( in ( f ))] B( f ) = Pout ( f )  [cos( out ( f )) + i sin(( out ( f ))] (B.4) (B.5)
+
+H( f ) =
+
+B( f ) A( f )
+
+(B.6)
+
+where A(f), B(f), and H(f) are as defined in Equation B.1.
+
+15
+
+IS/IEC 60793-1-41 : 2010
+
+B.2
+B.2.1
+
+Power spectrum
+Method A � Time domain (pulse distortion) measurement
+
+From the time domain (pulse distortion) measurement, the frequency response in dB, |H(f)|, is calculated as follows:
+
+  H ( f ) = 10 Log10  Re( H ( f ))2 + Im( H ( f ))2  - 10 Log10 [Re( H (0)) ]  
+
+(B.7)
+
+where Re(x) and Im(x) are the real and imaginary parts of complex number x and the subtraction of the zero frequency term normalizes the power spectrum to be zero dB at zero frequency.
+B.2.2 Method B � Frequency-domain measurement
+
+For the frequency domain method, the frequency response in dB, H(f), calculation may be simplified to the following:
+
+P ( f )  Pout (0)  H ( f ) = 10 Log10  out  - 10 Log10    Pin ( f )   Pin (0) 
+where � � P in (f) is the input frequency response measured in 6.2.2 and P out (f) is the output frequency response measured in 6.2.1
+
+(B.8)
+
+and the subtraction of the zero frequency term normalizes the power spectrum to be zero dB at zero frequency.
+B.2.3 �3 dB Frequency
+
+The -3 dB (optical power) frequency, f3 dB , shall be determined as the lowest frequency at which |H(f) | = �3 dB. Interpolation shall be employed to determine f 3 dB .
+
+16
+
+IS/IEC 60793-1-41 : 2010
+
+Annex C (normative) Calculations for other reporting methods
+
+C.1
+
+Fibre impulse response, h(t)
+
+The impulse response of the test fibre, h(t), shall be calculated as h(t ) =
+
+- H ( f )e
+
++
+
+j 2ft
+
+df
+
+(C.1)
+
+where H(f) is the complex fibre transfer function (see Annex B). At high frequencies, H(f) will have poor signal to noise if aliasing requirements are reasonably met during data acquisition. To produce a sufficiently quiet impulse response, filtering (i.e. attenuating) of this high frequency noise is required. Any applied filter should not significantly distort the impulse response, and so should have a low-pass cut-off at frequencies no lower than the -15 dB point of the fibre transfer function.
+NOTE In order to perform this calculation for frequency domain measurements, Method B, phase information should also be gathered for accurate impulse response calculations. This may be accomplished by the use of an electrical network analyzer rather than an electrical spectrum analyzer.
+
+C.2
+
+RMS impulse response, exact method
+
+The RMS pulse broadening shall be calculated from the test fibre impulse response, h(t) (see C.1), as:
+
+ rms = C 22 - C12
+with
+
+(C.2)
+
+Cn = 
+where n= 0, 1, 2, ...
+
++
+
+0
+
+t n h (t ) dt
+
+(C.3)
+
+C.3
+
+RMS impulse response, difference of squares approximation
+
+The RMS impulse response shall be calculated on the basis of the root mean square difference of input and output pulses as:
+
+ r .m.s. =
+where
+
+2 B -2 A
+
+(C.4)
+
+ B is the r.m.s. fibre output pulse width,  A is the r.m.s. input pulse width.  A and  B shall be calculated according to the equations given in C.2, where h(t) is replaced by a(t) and b(t) for  A and  B , respectively.
+
+17
+
+IS/IEC 60793-1-41 : 2010
+
+Annex D (normative) Mode scrambler requirements for overfilled launching conditions to multimode fibres
+
+D.1
+
+Introduction
+
+This procedure describes light launch conditions to the test fibre for the purpose of achieving a uniform overfilled launch with a laser diode or other light sources. Light launch conditions are established through the use of a mode scrambler. The mode scrambler is positioned between the light source and test fibre to produce a radiation distribution overfilling the test fibre core and numerical aperture, irrespective of the spatial radiation properties of the light source. For many mode scrambler designs, however, the launching conditions produced depend on the source/mode scrambler alignment and the interaction with any intermediary optics such as connectors or optical imaging systems. If the source or any component in the optical system is changed, the qualification tests shall be repeated. When applied to information transmission capacity measurements, the overfilled launch gives good measurement reproducibility; it is not intended to necessarily give the best bandwidth prediction for concatenated lengths. Also, a particular light source/mode scrambler combination may be satisfactory for one size core diameter and numerical aperture test fibre, but not for another.
+
+D.2
+D.2.1
+
+Apparatus
+Light source
+
+Use a light source such as a laser diode.
+D.2.2 D.2.2.1 Mode scrambler General
+
+A "mode scrambler" is a device, which is positioned between the light source and test fibre to control launching conditions. A particular mode scrambler design is not specified. It should be emphasized that the performance of these scramblers depends upon the launch optics and fibre sizes (core and NA) used in the actual construction.
+EXAMPLES The two designs given in Figure D1 are for illustration purposes only. Other designs may perform as well.
+
+18
+
+IS/IEC 60793-1-41 : 2010
+
+Laser diode and launch optics
+
+Step 1m
+
+graded 1m Fusion splices
+
+Step 1m
+
+Launch optics or aligned butt joint
+
+Fibre under test
+
+a)
+
+Laser diode and launch optics
+
+Optional macrobends
+
+Step 2m
+
+Launch optics or aligned butt joint Fibre under test
+
+b)
+
+Figure D.1 � Two examples of optical fibre scramblers D.2.2.2 Step-graded-step
+
+The mode scrambler in Figure D.1 a) is a series combination of 1 m lengths of step-, graded-, and step-index fibres spliced together. See references [ 5 ] and [6] for information concerning fabrication of mode scramblers according to the step-graded-step design.
+D.2.2.3 Step with bends
+
+The mode scrambler in Figure D.1 b) utilizes a single length of step-index fibre. See references [7] and [8] for further information concerning the fabrication of step-index fibre mode scramblers. In some instances macroscopic, serpentine bends or wrapping several turns of the step-index fibre around a mandrel will make the mode scrambler less sensitive to the laser diode alignment.
+D.2.2.4 Test apparatus to qualify mode scrambler
+
+To qualify the mode scrambler, it is necessary to measure near- and far-field radiation patterns of the output of the mode scrambler when coupled to the light source of D.2.1. Appropriate test apparatus is described in IEC 60793-1-20 and IEC 60793-1-43. If the qualification tests are performed on an image of the mode scrambler output, the appropriate test apparatus may differ from that described in IEC 60793-1-20 and IEC 60793-1-43.
+D.2.2.5 Micropositioning device/optics
+
+Apparatus to couple light from the mode scrambler to the test fibre is needed. This may be a micropositioner along with optics to image the mode scrambler output to the input end of the test fibre. Spatial resolution and position repeatability shall be high enough to guarantee reproducible coupling conditions. Alternatively, a temporary splice to butt-couple the mode scrambler output to the input end of the test fibre may be employed.
+D.2.3 Cladding mode strippers
+
+If the mode scrambler is used in applications where fibre attenuation is measured, apply a cladding mode stripper to the test fibre unless the fibre buffer coating is sufficient to strip cladding light.
+
+19
+
+IS/IEC 60793-1-41 : 2010
+
+D.3
+
+Sampling and specimens
+
+The test sample includes the optical source and mode scrambler device. Also included are positioning devices, associated optics such as connectors and optical imaging systems, and fibre to be used in the measurement system.
+
+D.4
+D.4.1
+
+Procedure
+Qualification of mode scrambler General
+
+D.4.1.1
+
+The mode scrambler, regardless of design, shall be sufficient to reliably reproduce the launching conditions of D.4.1.2 and D.4.1.3 and D.4.1.4 to the test fibre. If the launching conditions to the test fibre remain stable enough to meet the required launching conditions for all subsequent measurements, the qualification tests need not be made in situ and shall not be required for every test using the mode scrambler. Such stability may be obtained, for example, by permanently pigtailing or permanently connectorising the source to the mode scrambler. For many mode scrambler designs, however, the launching conditions produced depend on the source/mode scrambler alignment and interaction with any intermediary optics such as connectors or optical imaging systems. If the source or any component in the optical system is changed, the qualification tests shall be repeated.
+D.4.1.2 Launch spot on test fibre
+
+With the light source coupled to the mode scrambler fibre, the near-field radiation pattern which excites the test fibre core shall vary by less than 25 % across the test fibre core area. Speckles effects shall be avoided. If the core diameter of the test fibre is not known, it shall be determined by IEC 60793-1-20. If the mode scrambler is connected directly to the test fibre, the near-field radiation pattern which excites the test fibre core shall be measured. If the mode scrambler output is optically imaged onto the test fibre input, the launched near-field distribution shall be determined and referenced to a near-field defined by IEC 60793-1-20.
+D.4.1.3 Launch radiation angle to test fibre
+
+With the light source coupled to the mode scrambler fibre, the angular intensity distribution which excites the test fibre shall be measured. The launch numerical aperture, defined as the sine of the half-angle at which the launched angular intensity has decreased to 5 % of the maximum value, shall exceed the 5 % numerical aperture of the test fibre. If the 5 % numerical aperture of the test fibre is not known, it shall be determined by one of the procedures of IEC 60793-1-43. If the mode scrambler is connected directly to the test fibre, the angular intensity distribution from the mode scrambler fibre which excites the test fibre core shall be measured in accordance with IEC 60793-1-43. If the mode scrambler output is optically imaged onto the test fibre input, the launched angular intensity distribution shall be determined and referenced to a far field defined by IEC 60793-1-43.
+D.4.1.4 D.4.1.4.1 Additional requirements on launch using restricted measurements Overview
+
+In order to achieve a truly uniform launch distribution, one of the following tests shall be performed and its requirements met. This is in addition to the measurements of D.4.1.2 and D.4.1.3. Either the near field is re-measured while the far-field exiting the mode scrambler is restricted (D.4.1.4.2) or the far field is re-measured while the near field exiting the mode scrambler is restricted (D.4.1.4.3).
+D.4.1.4.2 Near-field measurements with restricted far field
+
+The requirements of clause D.4.1.2 (launch spot) shall still be met when the numerical aperture launched by the mode scrambler (that is, the launch angle) is decreased by more
+
+20
+
+IS/IEC 60793-1-41 : 2010
+than 50 %. An appropriate way to test for this is to use a standard single-mode fibre which has an NA of approximately 0,1; this is less than half the NA of the mode scrambler under test, which is typically 0,3. An additional near-field measurement is performed by scanning the single-mode fibre across the mode scrambler output to confirm that the near field still meets the requirement of D.4.1.2.
+D.4.1.4.3 Far-field measurements with restricted near-field
+
+The requirements of clause D.4.1.3 (launch radiation angle) shall still be met when the spatial extent launched by the mode scrambler (spot size) is decreased by more than 50 %. An appropriate way to test for this is to use an aperture placed in an image plane of the mode scrambler output. An additional far-field measurement is performed with the aperture restricting the image to confirm that the far field still meets the requirement of D.4.1.3.
+D.4.2 D.4.2.1 Alignment of test fibre in mode scrambler output General
+
+If the qualification tests of section D.4.1 were performed on an image of the mode scrambler output, use Method A for alignment. If the tests were performed directly on the mode scrambler output, use either Method B or C for alignment.
+D.4.2.2 Method A - Imaging optics
+
+If launching optics are used to image light from the mode scrambler output to the test fibre (Figure D.1), then a technique using micropositioners and lenses shall be employed to center the test fibre core in the image of the mode scrambler output. The qualification tests for the mode scrambler shall include any influence from the imaging optics such as image or launch angle magnification. In case of conflict, this method or Method B which follows shall be preferred.
+D.4.2.3 Method B - Demountable splice
+
+If launching optics are not used, then the mode scrambler output may be connected to the test fibre by a temporary splice which aligns the mode scrambler to the core of the test fibre and brings the end faces into close contact. In this case, the core diameter of the mode scrambler fibre shall be greater than or equal to that of the test fibre.
+D.4.2.4 Method C - Butt coupling
+
+If launching optics are not used, and the test fibre is butt-coupled to the output end of the mode scrambler, then the test fibre shall be moved in the plane perpendicular to the axis to maximize coupled power.
+D.4.3 Measurement test
+
+After the mode scrambler has been qualified, and the output coupled to the test fibre by method A, B, or C, the fibre parameter test can begin.
+
+D.5
+
+Calculations or interpretation of results
+
+The mode scrambler qualification uses the pass/fail criterion mentioned in the previous clauses. No further calculations are necessary.
+
+D.6
+D.6.1
+
+Results
+Information to be provided with each measurement
+
+Report the following information with each measurement:
+
+21
+
+IS/IEC 60793-1-41 : 2010
+
+- - - - -
+
+date of test; identification of procedure used; sample identification; method of mode scrambler alignment: Method A, B, or C; wavelength of test.
+Information available upon request
+
+D.6.2
+
+The following information shall be available upon request: - - - - detailed description of mode scrambler/light source; proof of mode scrambler qualification with data showing uniformity of launch spot over test fibre core and launch numerical aperture relative to test fibre; name(s) of test personnel; test equipment used and date of latest calibration.
+
+22
+
+IS/IEC 60793-1-41 : 2010
+
+Bibliography
+[1] IEC 60793-2-10 1, Optical fibres � Part 2-10: Measurement methods and test procedures �Product specifications � Sectional specification for category A1 multimode fibres IEC 60793-2-30, Optical fibres � Part 2-30: Product specifications � Sectional specification for category A3 multimode fibres IEC 60793-2-40, Optical fibres � Part 2-40: Product specifications � Sectional specification for category A4 multimode fibres M. HORIGUCHI, Y. OHMORL, H. TAKATA, Profile Dispersion Characteristics in High-Bandwidth Graded-Index Fibres, Applied Optics Vol. 19, No. 18, p. 3 159, 15 Sept. 1980 LOVE, W.F., Novel mode scrambler for use in optical-fibre bandwidth measurements. Tech. Digest, Topical Meeting on Optical Fibre Communications, March 6-8, 1979, Washington, D.C.; Paper ThG2, p. 118. KOBAYASHI, I., Bandwidth measurement in multimode optical fibres. Tech. Digest, Symposium on Optical Fibre Measurements, Nat. Bur. Stand. (U.S.) Spec. Publ. 597, p. 49-54; 1980. TANIFUJI, T., et al., Baseband-frequency-response measurement of graded-index fibre using step-index fibre as an exciter. Electron. Lett., no. 7, p. 204; March 29, 1979. FRANZEN, D.L. AND DAY, G.W., Measurement of optical fibre bandwidth in the time domain. Nat. Bur. Stand. (U.S.) Tech. Note 1019; Feb. 1980.
+
+[2]
+
+[3]
+
+[4]
+
+[5]
+
+[6]
+
+[7]
+
+[8]
+
+___________
+
+------------------ 1 To be published.
+
+23
+
+Bureau of Indian Standards BIS is a statutory institution established under the Bureau of Indian Standards Act, 1986 to promote harmonious development of the activities of standardization, marking and quality certification of goods and attending to connected matters in the country. Copyright BIS has the copyright of all its publications. No part of these publications may be reproduced in any form without the prior permission in writing of BIS. This does not preclude the free use, in course of implementing the standard, of necessary details, such as symbols and sizes, type or grade designations. Enquiries relating to copyright be addressed to the Director (Publications), BIS. Review of Indian Standards Amendments are issued to standards as the need arises on the basis of comments. Standards are also reviewed periodically; a standard along with amendments is reaffirmed when such review indicates that no changes are needed; if the review indicates that changes are needed, it is taken up for revision. Users of Indian Standards should ascertain that they are in possession of the latest amendments or edition by referring to the latest issue of `BIS Catalogue' and `Standards: Monthly Additions'. This Indian Standard has been developed from Doc No.: LITD 11 (3193). Amendments Issued Since Publication ______________________________________________________________________________________ Amendment No. Date of Issue Text Affected ______________________________________________________________________________________ ______________________________________________________________________________________ ______________________________________________________________________________________ ______________________________________________________________________________________ ______________________________________________________________________________________ BUREAU OF INDIAN STANDARDS Headquarters: Manak Bhavan, 9 Bahadur Shah Zafar Marg, New Delhi 110002 Telephones: 2323 0131, 2323 3375, 2323 9402 Website: www.bis.org.in Regional Offices: Central : Manak Bhavan, 9 Bahadur Shah Zafar Marg NEW DELHI 110002 Telephones 2323 7617 2323 3841 2337 8499, 2337 8561 2337 8626, 2337 9120 260 3843 260 9285 2254 1216, 2254 1442 2254 2519, 2254 2315 2832 9295, 2832 7858 2832 7891, 2832 7892
+
+Eastern : 1/14, C.I.T. Scheme VII M, V.I.P. Road, Kankurgachi KOLKATA 700054 Northern : SCO 335-336, Sector 34-A, CHANDIGARH 160022 Southern : C.I.T. Campus, IV Cross Road, CHENNAI 600113 Western : Manakalaya, E9 MIDC, Marol, Andheri (East) MUMBAI 400093
+
+Branches: AHMEDABAD. BANGALORE. BHOPAL. BHUBANESHWAR. COIMBATORE. DEHRADUN. FARIDABAD. GHAZIABAD. GUWAHATI. HYDERABAD. JAIPUR. KANPUR. LUCKNOW. NAGPUR. PARWANOO. PATNA. PUNE. RAJKOT. THIRUVANATHAPURAM. VISAKHAPATNAM.
+Published by BIS, New Delhi
+
+

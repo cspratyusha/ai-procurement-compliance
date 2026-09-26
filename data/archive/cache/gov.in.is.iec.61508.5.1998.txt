@@ -1,0 +1,1028 @@
+IS/lEe 61508-5 : 1998
+
+~/~/~ ~wan-~~~
+cpI~wan
+
+Indian Standard
+
+FUNCTIONAL SAFETY OF ELECTRICAU ELECTRONIC/PROGRAMMABLE ELECTRONIC SAFETY-RELATED SYSTEMS
+PART 5 EXAMPLES OF METHODS FOR THE DETERMINATION OF SAFETY INTEGRITY LEVELS
+
+ICS 25.040.40
+
+� BIS 2008
+BUREAU OF INDIAN STANDARDS
+MANAK BHAVAN, 9 BAHADUR SHAH ZAFAR MARG NEW DELHI 110002
+October 2008
+
+Price Group 9
+
+ISIJEC 61508-5 : 1998
+
+CONTENTS
+Page
+
+Cla use
+
+1 2 3
+
+Scope Normative references .......... .......... ......... ....... ........ ...... ..... ....... ....... ......... ........... ..... .. Defin itions and abbreviat ions ......... .................................. ....................... ...................
+
+1 3 3
+
+Annexes A Risk and safety integrity - General concepts .... .... ...... ....... ALARP and to lerable risk concepts Determ ination of safety int egrity levels : a quantitat ive method Determination of safety integrity leve ls - A qualitative method: risk graph Determination of safety integrity leve ls - A qua lita tive method: hazardous event severity matrix ... Bibl iography.... ................. ..... ......... .......... ............ ..... ...... ........ ......... ........ .......... ....... 4 10 13 16 21 23
+
+B
+C D E
+F
+
+Figures 1 A.1 A.2 A.3 15.1 C.1 D.1 D.2 E.1 Overall framework of th is standard Risk reduction : general concepts Risk and safety integrity concepts Allocation of safety requ irements to the E/E/PE safety-related systems . other technology safety-related systems and external risk reduction facilit ies Tolerable risk and ALARP Safety integrity allocation : example for sa fety-re lated protection system Risk graph : general scheme Risk graph: example (illustrates general pr inciples only) Hazardous event severity matrix: example (illustrates general pr inc iples on!y) .. . .. .. . .. .. .. .
+2
+
+7 7
+
+9
+11
+
+15 18 19
+22
+
+Tables B.1 B.2 D.1 Risk classification of accidents Interpretation of risk classes Example data relating to example risk graph (figure D.2) .. . .. 12 12 20
+
+ISIIEC 61508-5 : 1998
+Industrial Process Measurement and Control Sectional Committee, ETD 18
+
+NATIONAL FOREWORD This Indian Standard (Part 5) which is identical with IEC 61508-5 : 1998 'Functional safety of electricaVelectronic/programmable electronic safety-related systems - Part 5: Examples of methods for the determination of safety integrity levels' issued by the International Electrotechnical Commission (IEC) was adopted by the Bureau of Indian Standards on the recommendation of the Industrial Process Measurement and Control Sectional Committee and approval of the Electrotechnical Division Council. The text of IEC Standard has been approved as suitable for publication as an Indian Standard without deviations. Certain conventions are, however, not identical to those used in Indian Standards. Attention is particularly drawn to the following: a) Wherever the words 'International Standard' appear referring to this standard, they should be read as 'Indian Standard'. b) Comma (,) has been used as a decimal marker, while in Indian Standards, the current practice is to use a point (.) as the decimal marker. In this adopted standard, references appear to certain International Standards for which Indian The corresponding Iridian Standards, which are to be substituted in their respective places, are listed below along with their degree of equivalence for the editions indicated:
+Standards also exist.
+
+International Standard
+
+Corresponding Indian Standard
+
+Degree of Equivalence .
+
+IEC 61508-1 : 1998 Functional safety IS/IEC 61508-1 : 1998 Functional safety of of electricaVelectronic/programmable electrical/electron ic/programmable electronic electronic safety-related systems safety-related systems: Part 1 General Part 1: General requirements requirements IEC 61508-2 : 2000 Functional safety of electrical/electronic/programmable electronic safety-related systems Part 2: Requirements for electrical/ electronic/programmable electronic safety-related systems IS/IEC 61508-2 : 2000 Functional safety of electrical/electronic/proqrarnmable electronic safety-related systems: Part 2 Requirements for electrical/ electron ic/programmable electronic safety-related systems
+
+Identical
+
+do
+
+IEC 61508-3 : 1998 Functional safety IS/IEC 61508-3 : 1998 Functional safety of of electricaVelectronic/programmable electricaVelectronic/programmable electron ic electronic safety-related systems safety-related systems: Part 3 Software Part 3: Software requirements requirements IEC 61508-4 : 1998 Functional safety of electricaVelectronic/programmable electronic safety-related systems Part 4: Definitions and abbreviations IEC 61508-6 : 2000 Functional safety of electricaVelectronic/programmable electronic safety-related systems Part 6: Guidelines on the application of IEC 61508-2 and IEC 61508-3 IS/IEC 61508-4 : 1998 Functional safety of electricaVelectronic/programmable electron ic safety-related systems: Part 4 Definitions and abbreviations IS/IEC 61508-6 : 2000 Functional safety of electrical/electronic/programmable electronic safety-related systems: Part 6 Guidelines on the application of IEC 61508 -2 and IEC 61508-3
+
+do
+
+do
+
+do
+
+ii
+
+ISIIEC 61508-5: 1998
+International Standard Corresponding Indian Standard Degree of Equivalence
+
+lEG 61508-7 : 2000 Functional safety of electrical/electronic/programmable electronic safety-related systems Part 7: Overview of techniques and measures ISO/lEG Guide 51 : 1990') Guidelines for the inclusion of safety aspects in standards
+
+IS/lEG 61508-7 : 2000 Functional safety of electrical/electronic/ programmable electronic safety-related systems: Part 7 Overview of techniques and measures IS/ISO/lEG Guide 51 : 2005 Safety aspects - Guidelines for the inclusion in standards
+
+Identical
+
+Technically Equivalent
+
+The technical committee has reviewed the provisions of the following International Standard referred in this adopted standard and has decided that it is acceptable for use in conjunction with this standard:
+International Standard Title
+
+lEG Guide 104 : 1997
+
+Guide to the drafting of safety standards and the role of Committees with safety pilot functions and safety group functions
+
+Only the English language text in the International Standard has been retained while adopting it in this Indian Standard, and as such the page numbers given here are not the same as in the lEe Standard. For the purpose of deciding whether a particular requirement of this standard is complied with, the final value, observed or calculated, expressing the result of a test, shall be rounded off in accordance with IS 2 : 1960 'Rules for rounding off numerical values (revisecf)' . The number of significant places retained in the rounded off value should be the same as that of the specified value in this standard.
+
+I)
+
+Since revised in 2005.
+
+iii
+
+ISIIEC 61508-5: 1998
+
+INTRODUCTION
+Systems comprised of electrical and/or electronic components have been used for many years to perform safety functions in most appl icat ion sectors . Compute r-based sys tems (generical ly referred to as programmable electronic systems (PESs)) are be ing used in all app licat ion sectors to perform non-safety functions and , increasingly, to perform safety funct ions. If computer system technology is to be effectively and safely exploited, it is essent ial that those responsible for mak ing decisions have sufficient guidance on the safety aspects on wh ich to make those decis ions . This International Standard sets out a generic approach for all safety lifecycle activities for systems comprised of electrical and/or electronic and/or programmable electronic components (electrical/electronic/ programmable electron ic systems (E/E/PESs)) that are used to perform safety funct ions . This unified approach has been adopted in order that a rat ional and cons istent technical policy be developed for all electrically-based safety-related systems. A major objective is to facilitate the development of application sector standards . In most situations , safety is ach ieved by a number of protective systems wh ich rely on many technologies (for example mechan ical, hydraulic, pneumatic, electrical, electronic, programmable electronic). Any safety strategy must therefore consider not only all the elements within an individual system (for example sensors, controlling devices and actuators) but also all the safety-related systems making up the total combination of safety-related systems. Therefore, while this International Standard is concerned with electrical/electronic/programmable electronic (E/E/PE) safety-related systems, it may also provide a framework within which safety-related systems based on other technologies may be cons idered .
+
+It is recognised that there is a great var iety of E/E/PES applications in a variety of application sectors and covering a wide range of complexity, hazard and risk potentials. In any particular application, the required safety measures will be dependent on many factors specific to the application. This Standard, by being generic , will enable such measures to be formulated in future application sector international standards .
+This International Standard: cons iders all relevant overall , E/E/PES and software safety lifecycle phases (for example, from initial concept, through des ign, implementation, operation and maintenance to decommissioning) when E/E/PESs are used to perform safety functions ; has been conceived with a rapidly developing technology in mind; the framework is sufficiently robust and comprehensive to cater for future developments; enables application sector international standards, dealing with safety-related E/E/PESs, to be developed; the development of application sector international standards, with in the framework of this International Standard, should lead to a high level of consistency (for example, of underlying principles, terminology etc.) both with in application sectors and across application sectors; this will have both safety and economic benefits;
+provid~s a method for the development of the safety requ irements specification necessary to achieve the required functional safety for ElE/PE safety-related systems ;
+
+-
+
+iv
+
+ISIIEC 61508-5: 1998
+uses safety integrity levels for spec ifying the ta rget level of safety mtegrrty for the safety functions to be implemented by the E/E/PE safety-re lated systems ; adopts a risk-based requirements ; approach
+fo r
+
+the
+
+determ ination
+
+of
+
+the
+
+safety
+
+rnte qn ty leve l
+
+sets numerical target fa ilure measures for E/E/PE safety-re lated systems wh ich are Imked to the safety Integrity levels ; sets a lower limit on the target fa ilure measures, In a dangerous mode of tar lure . that can be claimed for a single E/E/PE safety-related system ; for E/E/PE safety-related systems operating in : a low demand mode of operation, the lowe r limit is set at an average probabihtv of failure of 10--5 to perform its des ign function on demand ; a high demand or continuous mode of operation , the lower limit a dangerous failure of 1o-g per hour;
+IS
+
+set at a probability of
+
+NOTE - A single E/E/PE safety-re lated system does not necessarily mean a single-channel architecture
+
+adopts a broad range of principles, techniques and measures to achieve functional safety for E/E/PE safety-related systems , but does not use the concept of fall safe which may be of value when the failure modes are well defined and the level of complexity is relatively low . The concept of fail safe was considered inappropriate because of the ful l range of complexity of E/E/PE safety-related systems that are within the scope of the standard .
+
+v
+
+ISIIEC 61508-5: 1998
+
+Indian Standard FUNCTIONAL SAFETY OF ELECTRICAU ELECTRONIC/PROGRAMMABLE ELECTRONIC SAFETY-RELATED SYSTEMS
+PART 5 EXAMPLES OF METHODS FOR THE DETERMINATION OF SAFETY INTEGRITY LEVELS
+
+1
+1.1
+
+Scope
+This part of IEC 61508 prov ides info rmation on the underlying concepts of risk and the relationsh ip of risk to safety integrity (see annex A) ; a number of methods that will enable the safety integrity levels for the E/E/PE safety-re lated systems, other techno logy safety-re lated systems and external risk reduction fac il ities to be determined (see annexes B, C, 0 and E) .
+
+1.2 The method selected will depend upon the applicat ion sector and the spec if ic circumstances under considerat ion . Annexes B, C, 0 and E illustrate quantitative and qualitative approaches and have been simplified in order to illustrate the underlying pr inc ip les. These annexes have been included to illustrate the general principles of a number of me thods but do not provide a definitive account. Those inte ndi ng to apply the methods ind icated in these annexes should consult the source material referenced .
+NOTE - For more in formali on on the approaches Illust rated in annexes e, 0 and E, see references [4 J, [2J and [3 J respect ively in annex F. See also reference [5] In annex F fo r a description of an add it ional approach .
+
+1.3 Parts 1, 2, 3 and 4 of th is standard are basic safety publ ications, although th is status does not apply in the context of low complex ity E/E/PE safety-related systems (see 3 .4.4 of IEC 61508-4) . As bas ic safety publ ications , they are intended for use by techn ical comm ittees in the preparation of standa rds in accordance with the pr inciples contained in IEC Gu ide 104 and ISO/IEC Guide 51. One of the respons ibilit ies of a techn ical committee is, wherever applicable, to make use of bas ic safety publicat ions in the preparation of its own publ ications . IEC 61508 is also intended for use as a stand -alone standard.
+NOTE - In the USA and Canada , until the proposed process sector Implementation of IEC 61508 (i .e IEC 61511) is publ ished as an internati onal standard In the USA and Canada , exist ing nat ional process safety standards based on IEC 61508 (i.e . ANS IIISA S84.01 -1996) can be applied to the process sector instead of IEC 61508 .
+
+1.4 Figure 1 shows the overall framework for parts 1 to 7 of IEC 61508 and indicates the role that IEC 61508 -5 plays in the achievement of functional safety for E/E/PE safety-related systems .
+
+ISIIEC 61508-5: 1998
+
+I PART
+
+requirement
+
+Development of the overall safety requirements (concept, scope definition, hazard and risk analysis (ElElPE safety-related systems, other ---I PART 5 f - echnology safety-related systemsand Risk based approachel external risk reduction facilities) to the development of the safety integrity 7.1 to 7.5 requirements
+
+-
+
+I
+
+Ir
+
+PART 1
+Allocation of the safety requirements to the E1E1PE safety-related systems
+
+7.6 .1
+r-
+
+-----l PART 7'LOverview of techniques and measures
+
+Definitions and abbreviations
+
+---lPART
+Guidelines for the application of parts2and3
+~
+
+Realisation phasefor ElElPEsafetyrelated systems ..
+
+~
+
+Realisation phasefor safety-related software
+
+Documentation
+
+Clause 5 and annexA
+
+JPART .::I.
+
+JPART.3l
+Management of functional safety Clause 6
+
+PART 1
+Installation and commissioning and safety validation of ElEJPE safety-related systems
+7.13 and 7.14
+
+Functional safety assessment ClauseS
+
+,Ir
+I",.
+
+''9"
+
+Operation and maintenance, mOdification and retrofit, decommissioning or disposal of ElEJPE safety-related systems
+
+7.15 to 7.17
+
+Figure 1 - Overall framework of this standard
+
+IsnEC 61508-5: 1998
+
+2
+
+Normative references
+
+The following normative documents contain provis ions which, through reference in this text, const itute provisions of this International Standard . At the time of publication , the ed itions indicated were val id . All normat ive documents are subject to rev ision, and parties to agreements based on th is International Standard are encouraged to investigate the possibility of applying the most recent ed itions of the normative documents indicated below. Members of IEC and ISO maintain registers of currently val id Internat ional Standards. IEC 61508-1: 1998 , Functional safety of electrical/electronicaI/programmable electronic safetyrelated systems - Part 1: General requ irements IEC 61508-2 , - Functional safety of electrical/electronical/programmable electronic safetyrelated systems - Part 2: Requirements for electrical/electronical/programmable electronic safety-related systems 1) IEC 61508-3:1998 , Functional safety of electrical/electronical/programmable electronic safetyrelated systems - Part 3: Software requirements IEC 61508-4: 1998, Functional safety of electrical/electronical/programmable electronic safetyrelated systems - Part 4: Definitions and abbreviations of terms IEC 61508-6,- Functional safety of electrical/electronical/programmable electronic safetyrelated systems - Part 6: Guidelines on the application of parts 2 and 3 1) IEC 61508-7, - Functional safety of electrical/electronical/programmable electronic safetyrelated systems - Part 7: Overview of techniques and measures 1) ISOIIEC Gu ide 51: 1990, Guidelines for the inclusion of safety aspects in standards IEC Guide 104:1997, Guide to the drafting of safety standards, and the role of Committees with safety pilot functions and safety group functions
+
+3
+
+Definitions and abbreviations
+
+For the purposes of this standard, the definitions and abbreviations given in part 4 apply.
+
+1)
+
+To be publ ished.
+
+3
+
+ISIIEC 61508-5: 1998
+
+Annex A (informative) Risk and safety integrity - General concepts
+
+A.1
+
+General
+
+This annex provides information on the underlying concepts of risk and the relationship of risk to safety integrity.
+
+A.2
+
+Necessary risk reduction
+
+The necessary risk reduction (see 3.5.14 of IEC 61508-4) is the reduct ion in risk that has to be achieved to meet the tolerable risk for a specific situation (which may be stated either qualitatively1) or quantitativelysl). The concept of necessary risk reduction is of fundamental importance in the development of the safety requirements specification for the E/E/PE safetyrelated systems (in particular, the safety imeyrity requirements part of the safety requirements specification). The purpose of determining the tolerable risk for a specific hazardous event is to state what is deemed reasonable with respect to both the frequency (or probability) of the hazardous event and its specific consequences. Safety-related systems are designed to reduce the frequency (or probability) of the hazardous event andlor the consequences of the hazardous event . The tolerable risk will depend on many factors (for example, severity of injury, the number of people exposed to danger, the frequency at which a person or people are exposed to danger and the duration of the exposure) . Important factors will be the perception and views of those exposed to the hazardous event. In arriving at what constitutes a tolerable risk for a specific application, a number of inputs are considered. These include: guidelines from the appropriate safety regulatory authority; discussions and agreements with the different parties involved in the application; industry standards and guidelines; international discussions and agreements; the role of national and international standards are becoming increasingly important in arriving at tolerable risk criteria for specific applications; the best independent industrial, expert and scientific advice from advisory bodies; legal requirements, both general and those directly relevant to the specific application.
+
+-
+
+' ) In achieving the tolerable risk, the necessary risk reduction will need to be established . Annexes D and E of lEe 61508-5 . out~ine qualitative methods. although in the examples quoted the necessary risk reduction is Incorporated Implicitly rather than stated explicitly.
+2)
+
+For example, th~t the hazardous event , leading to a specific consequence, shall not occur with a frequency greater than one In lOS h.
+
+4
+
+ISIIEC 61508-5: 1998
+
+I
+
+A.3
+
+Role of E/ElPE safety-related systems
+
+I
+
+E/E/PE safety-related systems contribute towards meeting the necessary risk reduction In order to meet the tolerable risk . A safety-related system both implements the required safety functions necessary to achieve a safe state for the equipment under control or to maintain a safe state for the equipment under control , and is intended to achieve . on its own or with other E/E/PE safety-related systems. other technology safety-related systems or external risk reduction facilities. the necessary safety integrity for the required safety functions (3.4 .1 of lEG 61508-4) .
+NOTE 1 - The first part of the denrutron specties that the satety -retatod system must perform the safety f unctions which wou ld be spec ified in the safety funct ions requirements spec itrcauon For example . the safety functions requ irements specincanon may state that when Ihe temperatura reaches x, varve y shall ope n to allow water to enter the vessel. NOTE 2 - The second pa rt of the det rmnon specifies that the safety Iuncuons must be performed by the saretv related systems with the degree of confidence appropriate to the appl ication , in order that the tolerab le nsk wil l be achieved .
+
+I
+
+I
+
+I
+
+I
+
+I
+I
+
+A person could be an integral part of an E/E/PE safety-related system . For example, a person could receive information. on the state of the EUG. from a display screen and perform a safety action based on this information. E/E/PE safety-related systems can operate in a low demand mode of operat ion or high demand or continuous mode of operation (see 3 .5.12 of lEG 61508-4).
+
+I
+I
+
+A.4
+
+Safety integrity
+
+I I
+I
+
+Safety integrity is defined as the probability of a safety-related system satisfactorily performing the required safety functions under all the stated conditions within a stated period of time (3 .5.2 of lEG 61508-4) . Safety integrity relates to the performance of the safety-related systems in carrying out the safety functions (the safety functions to be performed will be specified in the safety functions requirements specification) . Safety integrity is considered to be composed of the following two elements . Hardware safety integrity; that part of safety integrity relating to random hardware failures in a dangerous mode of failure (see 3 .5 .5 of lEG 61508-4) . The achievement of the spec ified level of safety-related hardware safety integrity can be estimated to a reasonable level of accuracy, and the requirements can therefore be apportioned between subsystems using the normal rules for the combination of probabilities . It may be necessary to use redundant architectures to achieve adequate hardware safety integrity. Systematic safety integrity; that part of safety integrity relating to systematic failures in a dangerous mode of failure (see 3.5.4 of lEG 61508-4) . Although the mean failure rate due to systematic failures may be capable of estimation, the fa ilure data obtained from design faults and common cause failures means that the distribution of failures can be hard to predict. This has the effect of increasing the uncertainty in the failure probability calculations for a specific situation (for example the probability of failure of a safety-related
+
+I
+I
+
+5
+
+ISIIEC 61508-5: 1998
+protection system). A Judgement therefore has to be made on the selection of the best techniques to minimise this uncertainty. Note that it is not necessarily the case that measures to reduce the probability of random hardware failure will have a corresponding effect on the probability of systematic failure. Techniques such as redundant channels of identical hardware, which are very effective at controlling random hardware failures, are of little use in reducing systematic failures. The required safety Integrity of the E/E/PE safety-related systems, other technology safetyrelated systems and external risk reduction facilities, must be of such a level so as to ensure that the failure frequency of the safety-related systems is sufficiently low to prevent the hazardous event frequency exceeding that required to meet the tolerable risk, and/or the safety-related systems modify the consequences of failure to the extent reqLlired to meet the tolerable risk. Figure A.1 illustrates the general concepts of risk reduction. The general model assumes that there is an EUe and an EUe control system; there are associated human factor issues; the safety protective features comprise external risk reduction facilities, E/E/PE safety-related systems, other technology safety-related systems.
+NOTE - Figure A 1 is a generalised risk model to illustrate the general principles. The risk model for a specific application will need to be developed taking into account the specific manner in which the necessary risk reduction IS actually being achieved by the E/E/PE safety-related systems and/or other technology safety-related systems and/or external risk reduction tacuities The resulting risk model may therefore differ from that shown in figure A.1.
+
+The various risks indicated in figure A.1 are as follows: Eue risk: the risk existing tor the specified hazardous events for the EUe, the EUe control system and associated human factor issues - no designated safety protective features are considered in the deterrnination of this risk (see 3.2.4 of lEe 61508-4); tolerable risk; the risk which is accepted in a given context based on the current values of society (see 3.1.6 of lEG 61508-4); residual risk: in the context of this standard, the residual risk is that remaining for the specified hazardous events for the EUC, the EUe control system, human factor issues but with the addition of external risk reduction facilities, E/E/PE safety-related systems and other technology safety-related systems (see also 3.1.7 of lEe 61508-4). The EUe risk is a function of the risk associated with the EUe itself but taking into account the fisk reduction brought about by the EUe control system. To prevent unreasonable claims for the safety integrity of the EUe control system, this standard places constraints on the claims that can be made (see 7.5.2.5 of IEC 61508-1). The necessary risk reduction is achieved by a combination of all the safety protective features. The necessary risk reduction to achieve the specified tolerable risk, from a starting point of the EUe risk, is shown in figure A.1.
+
+6
+
+IS/lEe 615 08-5 '
+
+19 ~ 8
+
+Residual risk
+
+Tolerab le risk
+
+EUC
+risk
+
+Necessary risk reduc tion Actua i risk red uct ion
+Partial risk covered by other technology safety-related systems Part ial risk covered by E/E/PE safety-re lated syste ms Part,a l r isk covered by external nsk reduction facililles
+
+Increasing r isk
+
+Risk reduction achieved by all safety-re lated systems and ex ternal r isk reducllon fac,lit,es
+
+Figure A.l - Risk reduction : general concepts
+
+Externl' nlk reduction Ilcilities
+
+E1EJPE
+salety-rellted syslems
+
+Othe r tec hnology sale ty -relaled systems
+
+Necessary risk reduction
+
+EUC and the EUC control system
+
+Salety integrity 01 external risk reduction lacili lles and S'.Ifety-related syatems matched to the necessary risk reduction
+
+�
+
+Figure A.2 - Risk and safety integrity concepts
+
+7
+
+ISIIEC 61508-5: 1998
+
+A.5
+
+Risk and safety integrity
+
+It is important that tne distinction between risk and safety integrity be fully appreciated . Risk is a measure of the probability and consequence of a specified hazardous event occurring . This can be evaluated for different situations (EUG risk, risk required to meet the tolerable risk, actual risk (see figure A.1� . The tolerable risk is determ ined on a societal basis and involves consideration of societal and political factors . Safety integrity applies solely to the E/E/PE safety-related systems, other technology safety related-systems and external risk reduct ion facilities and is a measure of the likelihood of those systems/facilities satisfactorily achieving the necessary risk reduction in respect of the specified safety functions . Once the tolerable risk has been set, and the necessary risk reduction estimated , the safety integrity requ irements for the safety-related systems can be allocated (see 7.4, 7 .5 and 7.6 of lEG 61508-1).
+NOTE - The allocation is necessarily iterative in order to optimize the design to meet the various requirements.
+
+The role that safety-related systems play in achieving the necessary risk reduct ion is illustrated in figures A.1 and A.2.
+
+A.6
+
+Safety integrity levels and software safety integrity levels
+
+To cater for the wide range of necessary risk reductions that the safety-related systems have to achieve , it is useful to have available a number of safety integrity levels as a means of satisfying the safety integrity requirements of the safety functions allocated to the safetyrelated systems. Software safety integrity levels are used as the basis of specifying the safety integrity requirements of the safety functions implemented by safety-related software. The safety integrity requirements specification should specify the safety integrity levels for the E/E/PE safety-related systems. In this standard , four safety integrity levels are specified , with safety integrity level 4 being the highest level and safety integrity level 1 being the lowest. The safety integrity level target failure measures for the four safety integrity levels are specified in tables 2 and 3 of lEG 61508-1 . Two parameters are specified, one for safety-related systems operating in a low demand mode of operation and one for safety-related systems operating in a high demand or continuous mode of operation.
+NOTE - For safety-related systems operating in a low demand mode of operation, the safety integrity measure of interest is the probability of failure to perform its design function on demand. For safety-related systems operating in a high demand or continuous mode of operation, the safety integrity measure of interest is the average probability of a dangerous failure per hour (see 3.5.12 and 3.5 .13 of IEC 61508-4) .
+
+A.7
+
+Allocation of safety requirements
+
+The allocation of safety requirements (both the safety functions and the safety integrity requ irements) to the E/E/PE safety-related systems, othe r technology safety-related systems and external risk reduction facilities is shown in figure A.3 (this is identical to figure 6 of lEG 61508-1) . The requirements for the safety requirements allocation phase are given in 7.6 of lEG 61508-1. The methods used to allocate the safety integrity requ irements to the E/E/PE safety-related sy.ste~s, other technology safety-related systems and external risk reduction facil ities depend, primarily, upon whether the necessary risk reduction is specified explicitly in a numerical manner or in a qualitative manner. These approaches are termed quantitative and qualitative methods respectively (see annexes S, G, D and E).
+
+8
+
+ISIIEC 61508-5: 1998
+
+Allocation of each safety function and Its associated fety integrity requirement Method of specifying safety integrity requirements
+
+a)
+
+Necessary risk reduction
+
+III.
+
+I
+
+i
+
+Other technology
+
+safety-rel8ted system,
+
+b)
+
+Necessary risk reduction
+
+III.
+
+EJEJPE
+satety-rel8ted system
+
+EJEJPE
+lI8fety-rel8ted system
+
+'1
+
+'2
+
+c)
+
+Safety integrity I I I .
+levels
+
+EJEJPE
+
+safety-rel8ted system
+
+'1
+
+..
+
+safety-rel8ted system
+
+..
+
+EJEJPE
+
+'2
+
+For design requirements tor indit!id1M1 EIEIPE Sl/fety-reIattKJ systems _lEe 61508-2
+
+NOTE 1 - Safety integrity requirements are associated with each safety function before allocation (see 7.5.2.6 of lEe 61508-1) NOTE 2 - A safety function may be allocated across more than one safety-related system.
+
+Figure A.3 - Allocation of safety requirements to the ElEIPE safety-related systems, other technology safety-related systems and external risk reduction facilities
+
+9
+
+IS/lEe 61508�5: 1998
+
+Annex B
+(in to rm a tiv e)
+
+ALARP and tolerab le risk concepts
+
+B.1
+
+General
+
+Th is annex considers one part ic ular approac h to the achi ev em en t of a to lerab le risk . The intent ion IS not to provide a definitive accoun t of the meth od bu t ra ther an illu st rat ion of the general princ ip les . Those intending to app ly the methods indi cated In this annex shou ld cons ult the source material referenced .
+
+B.2
+8.2.1
+
+ALARP model
+Int rod uc t io n
+
+Subclause A .2 outl ines the ma in tests tha t are applied in regulat ing industrial risks and indi cates that the act ivit ies invol ve determ in ing whethe r a) the risk is so great that it must be refused altogether, or b) the risk is , or has been made . so sma ll as to be insi gni ficant, or c) the risk falls between the two sta tes specif ied in a) and b) above and has been reduced to the lowest practicable level, bea ring in m ind the benefi ts resulting from its acceptance and taking into account the costs of any further reducti on. With respect to c), the ALARP pr inc iple requ ires that any risk must be reduced so far as is reasonably practicable, or to a level wh ich is as low as reasonably practicable (these last 5 words form the abbreviation ALARP) . If a risk falls between the two extremes (i .e . the unacceptable reg ion and broad ly acceptable reg ion) and the ALARP principle has been appl ied , then the resulting risk is the tolerable risk for that specific appl ication. This three zone approach is shown in figure B .1 . Above a certain level, a risk is regarded as intolerable and cannot be justified in any ordinary circumstance. Below that level , there is the tolerabil ity region where an activ ity is allowed to take place provided the associated risks have been made as low as reasonably practicable . Tolerable here is different from acceptable : it indi cates a willingness to live with a risk so as to secure certain benefits, at the same time expecting it to be kept under rev iew and reduced as and when this can be done. Here a cost benef it assessment is required either explicitly or implici tly to weigh the cost and the need or otherw ise for additional safety measures . The higher the risk, the more proportionately would be expected to be spent to reduce it. At the limit of tolerability, expend iture in gross disproportion to the benefit would be justified. Here the risk will by definition be substantial, and equ ity requires that a considerable effort is justified even to achieve a marginal reduction. Where the risks are less sign if icant , the less proportionately, need be spent to reduce them and at the lower end of the tole rability reg ion , a balance between costs and benef its will suffice.
+
+10
+
+ISIIEC 61508-5: 1998
+Below the to lerability reg ion, the levels of risk are regarded as so insignificant that the regu lator need not ask for further improvements . Th is is the broadly acceptable reg ion where the risks are smal l in comparison with the everyday risks we all experience. Wh ile in the broadly acceptable region, there is no need for a detai led working to demonstrate ALARP ; it is, however, necessary to remain vigilant to ensure that the risk rema ins at this level.
+
+Intolerable region The ALARP or tolerability region
+(Risk is undertaken only if a benefit is desired)
+
+Risk cannot be Justified except in extraordinary circumstances. Tolerable only if further fisk reduction is impracticable or if Its cost is grossly disproportionate to the improvement gained .
+
+As the nsk is reduced, the less, proportionately, it is necesSBI)' to spend to reduce it further to satisfy ALARP The concept of diminishing proportion IS shown by the triangle .
+
+Broadly acceptable region
+(No need for detailed working to demonstrate ALARP)
+
+It is necessary to maintain assurance that risk remains at this level.
+
+Negligible risk
+
+Figure 8 .1 - Tolerable risk and ALARP
+
+The concept of ALARP can be used when qualitative or quant itat ive risk targets are adopted. Subclause B.2.2 outlines a method for quantitative risk targets. (Annex C outlines a quantitative method and annexes D and E outline qualitative methods for the determination of the necessary risk reduct ion for a specific hazard . The methods indicated could incorporate the concept of ALARP in the decision making.)
+NOTE - Further informa tion on ALARP is given in reference [4) in annex F .
+
+B.2.2
+
+Tolerable risk target
+
+One way in wh ich a tolerable risk target can be obtained is for a number of consequences to be determined and tolerable frequenc ies allocated to them . This matching of the consequences to the toterable frequencies would take place by discussion and agreement between the interested' parties (for example safety regulatory authorities, those producing the risks and those exposed to the risks) .
+
+11
+
+ISIIEC 61508-5: 1998
+To take into account ALARP concepts, the matching of a consequence with a tolerable frequency can be done through risk classes . Table B.' is an example showing four risk classes (I, /I, /II. IV) for a number of consequences and frequencies . Table B.2 inte rprets each of the risk classes using the concept of ALARP . That is, the descriptions for each of the four risk classes are based on figure B.'. The risks within these risk class definitions are the risks that are present when risk reduction measures have been put in place. W ith respect to figure B.' , the risk classes are as follows: risk class I is in the unacceptable region: risk classes /I and III are in the ALARP region. risk class II being just inside the ALARP region; risk class IV is in the broadly acceptable region. For each specific situation, or sector comparable industries, a table similar to table B.' would be developed taking into account a wide range of soc ial, political and economic factors. Each consequence would be matched against a frequency and the table populated by the risk classes . For example. frequent in table B.' could denote an event that is likely to be continually experienced, which could be specified as a frequency greater than , a per year. A cr itical consequence could be a single death and/or multiple severe injuries or severe occupational illness.
+Table B.' - Example of risk classification of accidents
+Frequency Catastrophic Frequent Probable Occasional Remote Improbable Incredible
+I I
+
+Consequence Critical
+I
+
+Marginal I II III III IV IV
+
+Neglig ible II III III IV IV IV
+
+I II III III IV
+
+I II III IV
+
+NOTE 1 - The actual population with risk classes I, II , III and IV will be sector dependent and will also depend upon what the actual frequencies are for frequent, probable, etc . Therefore, this table should be seen as an example of how such a table could be populated, rather than as a spec ification for future use . NOTE 2 - Determination of the safety integrity level from the frequencies in this table is outlined in annex C.
+
+Table B.2 - Interpretation of risk classes
+Risk class Class I Class II Class III Class IV Intol erable risk Undes irable risk . and tolerable only if risk reduction is impracticable or if the costs are grossly disproportionate to the improvement gained To lerable risk if the cost of risk reduction would exceed the improvement gained Negligible risk Interpretation
+
+'2
+
+ISIIEC 61508-5: 1998
+
+Annex C (informative) Determination of safety integrity levels: a quantitative method
+
+C.1
+
+General
+
+This annex outlines how the safety integrity levels can be determ ined if a quantitative approach is adopted and illustrates how the info rmation contained in tables such as table B.1 can be used . A quantitative approach is of particular value when: the tolerable risk is to be specified in a numerical manner (for example that a specified consequence should not occur with a greater frequency than one in 10 4 years) ; numerical targets have been specified for the safety integrity levels for the safety-related systems. Such targets have been specified in this standard (see tables 2 and 3 of IEC 61508-1). This annex is not intended to be a definitive account of the method but is intended to illustrate the general principles. It is particularly applicable when the risk model is as indicated in figures A.1 and A.2.
+
+C.2
+
+General method
+
+The model used to illustrate the general principles is that shown in figure A.l . The key steps in the method are as follows and will need to be done for each safety function to be implemented by the E/E/PE safety-related system :
+o
+
+-
+
+determine the tolerable risk from a table such as table B.1; determine the EUC risk ; determ ine the necessary risk reduct ion to meet the tolerable risk ; allocate the necessary risk reduct ion to the E/E/PE safety-related systems, other technology safety-related systems and external risk reduction facilities (see 7.6 of IEC 61508-1).
+
+Table B.1 is populated with risk frequencies and allows a numerrcal tolerable risk target (FI) to be specified. The frequency associated with the risk that exists for the EUC, including the EUC control system and human factor issues (the EUC risk), without any protective features. can be estimated using quantitative risk assessment methods. This frequency with which a hazardous event could occur without protective features present (Fnp) is one of two components of the EUC risk; the other component is the consequence of the hazardous event. Fnp may be determined by analysis of failure rates from comparable situations; data from relevant databases; calculation using appropriate predictive methods.
+
+13
+
+ISIIEC 61508-5: 1998
+This standard places constraints on the minimum failure rates that can be claimed for the EUC control system (see 7.5.2.5 of IEC 61508-1). If it is to be claimed that the EUC control system has a failure rate less than these minimum failure rates, then the EUC control system shall be considered a safety-related system and shall be subject to all the requirements for safetyrelated systems in this standard.
+
+C.3
+
+Example calculation
+
+Figure C.1 provides an example of how to calculate the target safety integrity for a single safety-related protection system. For such a situation
+
+PFD avg
+where
+
+:0;
+
+Ft / Fnp
+
+PFD avg is the average probability of failure on demand of the safety-related protection system, which is the safety integrity failure measure for safety-related protection systems operating in a low demand mode of operation (see table 2 of IEC 61508-1 and 3.5.12 of IEC 61508-4);
+is the tolerable risk frequency; is the demand rate on the safety-related protection system. Also in figure C.1: C is the consequence of the hazardous event;
+
+-
+
+Fp is the risk frequency with the protective features in place.
+
+It can be seen that determination of Fnp for the EUC is important because of its relationship to PFD avg and hence to the safety integrity level of the safety-related protection system. The necessary steps in obtaining the safety integrity level (when the consequence Cremains constant) are given below (as in figure C.1), for the situation where the entire necessary risk reduction is achieved by a single safety-related protection system which must reduce the hazard rate, as a minimum, from Fnp to Ft : determine the frequency element of the EUC risk without the addition of any protective features (Fnp); determine the consequence C without the addition of any protective features; determine, by use of table B.1, whether for frequency Fnp and consequence C a tolerable risk level is achieved. If, through the use of table B.1, this leads to risk class I, then further risk reduction is required. Risk class IV or III would be tolerable risks. Risk class II would require further investigation;
+NOTE - Table B.1 is used to check whether or not further risk reduction measures are necessary, since it may be possible to achieve a tolerable risk without the addition of any protective features.
+
+-
+
+determine the probability of failure on demand for the safety-related protection system (PFD avg ) to meet the necessary risk reduction (t.R). For a constant consequence in the specific situation described, PFD avg ::: (F t / Fnp ) ::: t.R; for PFDav g ::: (F t / Fnp ) , the safety integrity level can be obtained from table 2 of IEC 61508-1 (for example, for PFD avg ::: 10-2 - 10-3 , the safety integrity level::: 2).
+
+-
+
+14
+
+I
+ISIIEC 61508-5: 1998
+
+I
+
+I
+Risk< Rt
+where
+
+Rt
+
+=~ X C
+
+I
+
+---...
+
+r;
+
+L-.
+
+Sefety-releted protection system required to Bchieve the necessary risk reduction
+
+I
+
+--J
+
+NecBssary risk reduction (All)
+
+EUC and the EUC control system
+
+Sefety integri ty of setety-releted protection system matched to the necessary risk reduction
+
+�
+
+I I I I I
+
+Figure C.l - Safety integrity allocation: example for safety-related protection system
+
+I I I I I I I I
+
+15
+
+ISIIEC 61508-5: 1998
+
+Annex D (informative) Determination of safety integrity levels - A qualitative method: risk graph
+
+0.1
+
+General
+
+Th is annex describes the risk graph method , which is a qualitative method that enables the safety integrity level of a safety-related system to be determined from a knowledge of the risk factors associated with the EUC and the EUC control system. It is particularly appl icable when the risk model is as indicated in figures A.1 and A.2 . Where a qualitative approach is adopted, in order to simplify matters a number of parameters are introduced which together describe the nature of the hazardous situation when safetyrelated systems fail or are not available. One parameter is chosen from each of four sets, and the selected parameters are then combined to decide the safety integrity level allocated to the safety-related systems. These parameters allow a meaningful graduation of the risks to be made, and contain the key risk assessment factors .
+
+This annex is not intended to be a definitive account of the method but is intended to illustrate the general principles. Those intending to apply the methods indicated in this annex should consult the source material referenced.
+
+0.2
+
+Risk graph synthesis
+
+The following simplified procedure is based on the following equation :
+
+R= f x C
+where
+
+R is the risk with no safety-related systems in place;
+f is the frequency of the hazardous event with no safety-related systems in place; C is the consequence of the hazardous event (the consequences could be related to harm associated with health and safety or harm from environmental damage) . The frequency of the hazardous event f is, in this case, considered to be made up of three infl uencing factors : frequency of, and exposure time in, the hazardous zone; the possibility of avoiding the hazardous event; the probability of the hazardous event taking place without the addition of any safety-related systems (but having in place external risk reduction facilities) - this is termed the probability of the unwanted occurrence .
+
+16
+
+ISIIEC 61508-5: 1998
+This produces the following four risk parameters: consequence of the hazardous event (C) ; frequency of, and exposure time in, the hazardous zone (F) ; possibility of failing to avoid the hazardous event (P) ; probability of the unwanted occurrence (W) .
+
+0.3
+
+Other possible risk parameters
+
+The risk parameters specified above are considered to be sufficiently generic to deal with a wide range of applications. There may, however. be applications which have aspects which require the introduction of additional risk parameters . For example, the use of new technologies in the EUC and the EUC control system. The purpose of the additional parameters would be to more accurately estimate the necessary risk reduction (see figure A .1).
+
+0.4
+
+Risk graph implementation: general scheme
+
+The combination of the risk parameters described above enables a risk graph such as that shown in figure 0.1 to be developed. With respect to figure D.1: CA < Ce < Ce < Co; FA < Fe: PA < Pe ; Wl < W2 < W3 . An explanation of this risk graph is as follows. Use of risk parameters C. F and P leads to a number of outputs Xl, X2. X3... Xn (the exact number being dependent upon the specific application area to be covered by the risk graph). Figure 0.1 ind icates the situation when no additional weighting is applied for the more serious consequences . Each one of these outputs is mapped onto one of three scales (W" W2 and W3 ) . Each point on these scales is an indication of the necessary safety integrity .that has to be met by the E/E/PE safety-related system under consideration. In practice . there will be situations when for specific consequences, a single E/E/PE safetyrelated system is not sufficient to give the necessary risk reduction . The mapp ing onto W l , W2 or W3 allows the contribut ion of other risk reduction measures to be made. The offset feature of the scales for W l, W2 and W3 is to allow for three different levels of risk reduct ion from other measures . That is. scale W3 provides the min imum risk reduction contributed by other measures (i.e. the highest probability of the unwanted occurrence taking place). scale W2 a medium contribution and scale Wl the maximum contribution. For a specific intermediate output of the risk graph (i.e. Xl. X2... or X6) and for a specific W scale (i.e . W l, W2 or W3) the final output of the risk graph gives the safety integrity level of the E/E/PE safety-related system (i.e . 1. 2, 3 or 4) and is a measure of the required risk reduction for this system . This risk reduction. together with the risk reductions achieved by other measures (for example by other technology safety-related systems and external risk reduction fac ilit ies) which are taken into account by the W scale mechanism, gives the necessary risk reduction for the specific situation.
+
+The parameters indicated in figure 0 .1 (CA. Ce. Ce. CD. FA. Fe. PA. Pe. Wl , W2. W3). and their weightings. would need to be accurately def ined for each specific situation or sector comparable industries. and would also need to be defined in application sector international standards.
+
+17
+
+ISIIEC 61508-5: 1998
+
+0.5
+
+Risk graph example
+
+An example of a risk graph implementation based on the example data in table 0 .1, is shown in figure 0 .2 . Use of the risk parameters C, F, and P lead to one of eight outputs . Each one of these outputs is mapped onto one of three scales (W 1 , W2 and W3) . Each point on these scales (a, b , c, d, e, f. g and h) is an indication of the necessary risk reduction that has to be met by the safety-re lated system.
+NOTE - Further inform ation on thi s risk graph im plementa tion is given in reference [2 ] in annex F.
+
+X,
+
+i I I
+i
+i
+
+~
+
+W2
+
+~
+
+a
+1 2
+
+--a
+1 2
+
+---
+
+I~
+I~
+IPs
+I~
+
+--a
+1 2
+
+I~
+
+I~
+
+Pe Iii
+~
+
+I~
+
+3
+4 b
+
+I~ I~
+
+IP
+
+A
+
+3
+4
+
+I~
+
+3
+
+C = Consequence risk parameter
+
+F
+
+=Frequency and exposure time risk parameter
+
+P = Possibility of failing 10avoid hazard risi<parameter
+W = Probability of the unwanted occurrence
+
+- =No safety requirements 8 =No special safety requirements b =A single E1E1PES is not sufficient 1, 2, 3, 4 =Salety inlegnty level
+
+Figure 0.1 -
+
+Risk graph: general scheme
+
+18
+
+IsnEe 61508-5: 1998
+
+c,
+P,
+
+.-a
+I-b
+I-C
+
+w,
+
+W. r--
+
+w,
+
+"'-
+
+Start ing po int for risk reduction estimation
+
+p
+
+� ,....b
+
+C,
+P,
+
+"'d
+f--
+
+"'C
+
+p.
+F,
+
+e
+
+,....d
+
+C:!
+C.
+
+"'f
+f--
+
+"'I I--
+
+F.
+
+g
+
+10-
+
+�
+
+"'h
+L..-.
+
+L..!.
+
+..C
+
+b I-d f0e f
+
+a
+
+"',....-
+
+r--
+
+. , b o Co d o � o f, g, h rapr...nt the nec....rymin imum rl . k reduction . Th � link ' * - n the nee....ry mln im um rl . k reduction and t he aaf.ly Integrity I.vel I. ahown in th. labl�.
+
+I.-
+
+C = Consequence risk parameter
+
+Nec....ry min imum ri.k reduction
+
+)
+
+Safely integrity level
+
+F = Frequency and exposure lime risk parameter P = Possibility of avoiding hazard risk parameter
+W
+
+a be d � f
+0
+
+No safety requirements No special safety reouirements 1 2 3 4 An E1E1PE SRS is not sufficient
+
+=Probability of the unwanted
+
+occurrence a, b , C ... h = Estimates of the required risk reduction lor the SRSs
+
+h
+
+Figure 0 .2 - Risk graph : example (illustrates general principles only)
+
+19
+
+ISIIEC 61508-5 : 1998
+Table 0 .1 - Example da ta re lating to example risk graph (figure 0 .2)
+Risk parameter Consequence (C) Classification Commen ts 1 The cla ssi fication system has been deve loped to deal with injury and death to people. Other class ification schemes would need to be developed for environmental or material dam age .
+
+C, C2 C3 C4
+
+Minor injury Se rious pe rma nent injury to one or more persons ; death to one pe rson Deat h to several people Very many people killed Rare to more often expo su re in the hazardous zone Frequen t to pe rmanent exposure in the hazardous zone Poss ible under certain cond itions Almost impossi ble
+
+2 For the interpretation of C" �; . C3 and C 4 , the
+
+consequences 01 th e accide nt and normal he aling shall be taken into account.
+
+Frequency 01, and exposure tim e in . the hazardous zone (F)
+
+F, F2
+
+3 See co mmen t 1 abo ve .
+
+Poss ibility 01 avoiding the hazardous eve nt (p)
+
+P, P2
+
+4 This paramete r takes into account
+ope ration 01a process (superv ised (i.e, opera ted by skilled or unsk illed persons) or unsupervised) ; (for examp le suddenly, quickly or slowly);
+
+- rate of development of the hazardous even t - ease of recognition of danger (for example seen
+immediately. detected by technical meas ures or detected without technical measures);
+
+- avoidance of hazardous event (for example escap e
+routes possible , not poss ible or poss ible under certain conditions) ; actual safe ty exper ience (such experience may exist with an identical EUC or a simil ar EUC or may not exist ).
+
+Probability of the unwan ted occurrence (W)
+
+WI
+
+A very s ligh t probability tha t the unwanted occu rrences will come to pass and on ly a few unwan ted occ urre nces are likely A sl ight probability that the unwanted occurrences will come to pa ss and lew unwanted occurrences are likely A relati vel y hi gh proba bility that the unwanted occurrences will come to pas s and frequent unwa nted occ urrences are lik el y
+
+5 The purpose of th e W lacto r is to es timate the frequency 01the unwanted occu rrence tak ing place withou t the addit ion of any safety-related sys tems (E/E/PE or other technology) but including any external risk reduction facilities.
+
+W2
+
+6 If little or no experience exists of the EUC, or the EUC contro l system , o r of a sim ilar EUC and EUC co ntro l sys tem , the estimation of the Wfacto r may be made by ca lcul at ion. In such an event a worst case prediction shall be made.
+
+W3
+
+20
+
+ISIIEC 61508-5 : 1998
+
+Annex E
+(informative)
+
+Determination of safety integrity levels - A qualitative method: hazardous event severity matrix
+
+E.1
+
+General
+
+The numeric method described in annex C is not applicable where the risk (or the frequency portion of it) cannot be quantified. This annex describes the hazardous event severity matrix method, which is a qual itative method that enables the safety integrity level of an E/E/PE safety-related system to be determined from a knowledge of the risk factors associated with the EUC and the EUC control system. It is particularly applicable when the risk model is as indicated in figures A.1 and A.2. The scheme outlined in this annex assumes that each safety-related system and external reduction facil ity is independent. This annex is not intended to be a definitive account of the method but is intended to illustrate the general principles of how such a matrix could be developed by those having a deta iled knowledge of the specific parameters that are relevant to its construction. Those intend ing to apply the methods indicated in this annex should consult the source material referenced .
+NOTE - Further informati on on the hazardous event matrix is given in reference [3] in annex F.
+
+E.2
+
+Hazardous event severity matrix
+
+The following requ irements underpin the matrix and each one is necessary for the method to be valid : a) the safety-related systems (E/E/PE and other technology) together with the external risk reduction facilities are independent: b) each safety-related system (E/E/PE and other technology) and external risk reduction fac ilities are cons idered as protection layers which provide, in their own right , part ial risk reduct ions as indicated in figure A.1 ;
+NOTE 1 - This assumption is valid only if regu lar proof tests of the protection layers are carried out .
+
+c) when one protection layer (see b) above) is added, then improvement in safety integrity is ach ieved ;
+
+one order of magnitude
+
+NOTE 2 - Th is assumption is val id only if the safety -re lated systems and external risk reduction fac ilities ach ieve an adequate level of independence .
+
+d) only one E/E/PE safety-related system is used (but this may be in combination with an other technology safety-related system and/or external risk reduction facilities), for which this method establishes the necessary safety integrity level.
+
+ISIIEC 61508-5: 1998
+The above cons iderations lead to the hazardous event severity matrix shown in figure E.1. It should be noted that the rnatnx has been populated with example data to illustrate the general princ iples For each spec ific situat io n, or sector comparable ind ustries , a matrix sim ilar to figure E. 1 would be developed
+
+Number of independant SRSs and external risk reduction facilities [E]
+(InCludi ng tho E/E / PE SRS bOlng crass .neo )
+
+3
+2
+
+(C) (C]
+
+(C] (C)
+
+(C]
+
+(C)
+
+IC]
+
+IC]
+
+IC]
+
+SIL 1 SIL 1 SIL 3 (B]
+
+SIL 1
+
+IC] SIL 1 SIL 2
+SIL 1 SIL 2 SIL 3 IB]
+
+SIL 1 SIL 2
+
+SIL 1 SIL1 SIL2
+
+SIL3 SIL 3 SIL 3 (B] (A] IB]
+
+Low Med High Event likelihood [0]
+
+Low Med High Event likelihood [0]
+
+Low Med High Event likelihood [0]
+
+Minor
+
+Serious
+
+Extensive
+
+Hazardous event severity
+1.0.1
+
+One SIL 3 E/E/PE safety-related system does not prov ide suff icient risk reduction at this risk level. Addtl lona l nsk reduct ion measures are requireo. [BI One SIL 3 E/E /PE sa fety �related system may not provide suffic ient risk reduct ion at this risk level. Hazard and nsk ana lys's IS required to deterTTline whether add itional risk reduclton measures are necessary. IC! An Independent E/EtPE safety�related system is probably not requ ired . [OJ Event hkellhood IS the hkehhood that the hazardous event occurs without any safety related systems or elCtemai fisk reduction faCIlitIes [EI SAS = safety-related system . Event hkellhood and the total number of independent protection layers are dehned In reialton to the speclhc appl icat ion .
+
+Figure E.1 - Hazardous event severity matrix: example (illustrates general principles only)
+
+22
+
+ISIIEC 61508-5: 1998
+
+Annex F
+(informative)
+
+Bibliography
+
+(1)
+
+ANSIIISA S84: 1996, Application of safety Instrumented Systems lor the Process Industries
+
+(2)
+(3)
+
+Grundlegende SicherheJtberatungunge fur MSR - Scnutretnncntunqen DIN V 19250. Beuth Verlag, Berlin, FAG, 1994 Guidelines for safe automation of chemical process, published by the Center for Chemical Process safety of the American Institute of Chemical Englneenng. ISBN 0-8969-0554- 1. 1993 Tolerability of risk from nuclear power stations. Health and Safety Executive (UK) publication. ISBN 011 886368 1 Development guidelines for vehicle based software, The Motor Industry Reliability Association, Watling St. Nuneation, Warwickshire, CV10 OTU, United Kingdom. 1994, ISBN 09524156 0 7
+
+(4) (5)
+
+23
+/lolG",,-1I6 Oq>n of 81S'2OOI-1I10 2iJC4-J<lO_
+
+Bureau of Indian Standards BIS is a statutory institution established under the Bureau of Indian Standards Act, 1986 to promote harmonious development of the activities of standardization, marking and qual ity certification of goods and attending to connected matters in the country . Copyright BIS has the copyright of all its publications. No part of these publicat ions may be reproduced in any form without the prior permission in writing of BIS. Th is does not preclude the free use, in course of implementing the standard, of necessary deta ils, such as symbols and sizes , type or grade designations . Enquiries relat ing to copyright be addressed to the Director (Publications), BIS. Review of Indian Standards Amendments are issued to standards as the need arises on the basis of comments. Standards are also reviewed periodically; a standard along with amendments is reaffirmed when such review Indicates that no changes are needed; if the review indicates that changes are needed, it is taken up for revision . Users of Indian Standards should ascertain that they are in possession of the latest amendments or edition by referr ing to the latest issue of 'BIS Catalogue' and 'Standards : Monthly Additions' . This Indian Standard has been developed from Doc : No. ETD 18 (5683). Amendments Issued Since Publication Amendment No . Date of Issue Text Affected
+
+BUREAU OF INDIAN STANDARDS
+Headquarters: Manak Bhavan, 9 Bahadur Shah Zafar Marg , New Delhi 110 002 Telephones : 23230131,23233375,23239402 Website : www.bis .org.in Regional Offices: Central : Manak Bhavan, 9 Bahadur Shah Zafar Marg NEW DELHI 110 002 1/14, C.IT Scheme VII M, V.I.P. Road, Kankurgachi KOLKATA 700054 Telephones 23237617 { 23233841 23378499,23378561 { 2337 8626 , 2337 9120 2603843 { 2609285 22541216,22541442 { 22542519,22542315 2832 9295, 2832 7858 { 2832 7891 , 2832 7892
+
+Eastern :
+
+Northern : SCO 335 -336 . Sector 34 -A. CHANDIGARH 160022
+
+Southern : C.I.T . Campus, IV Cross Road. CHENNAI 600 113
+
+Western : Manakalaya. E9 MIDC. Mar ol. Andher i (East) MUMBAI 400093
+
+Branches: AHMEDABAD . BANGALORE. BHOPAL. BHUBANESHWAR. COIMBATORE. FARIDABAD. GHAZIABAD. GUWAHATI. HYDERABAD. JAIPUR. KANPUR . LUCKNOW. NAGPUR. PARWANOO. PATNA. PUNE . RAJKOT. THIRUVANANTHAPURAM. VISAKHAPATNAM.
+
+Prinle<l by lhe M...-ger. Govt.
+
+oIlndi~
+
+Pres� .
+
+F~dab~
+
+

@@ -1,0 +1,1438 @@
+lS/lEC 60958-4:2003
+
+$m?7RTWl%5 *
+
+m W-c-l$w
+a=J!nfm (*4)
+
+w-P'T4=mwlfam
+
+Indian Standard DIGITAL AUDIO INTERFACE
+PART 4 PROFESSIONAL APPLICATIONS (TA4)
+
+ICS 33.160.30
+
+@ BIS 2007
+
+BUREAU
+MANAK A/./gsfsf 2007
+
+OF
+
+INDIAN
+
+STANDARDS
+ZAFAR MARG Price Group 7
+
+BHAVAN,
+
+9 BAHADUR SHAH NEW DELHI 110002
+
+Radio Communication
+
+Sectional
+
+Committee,
+
+LTD 20
+
+NATIONAL
+
+FOREWORD
+
+This Indian Standard (Part 4) which is identical with IEC 60958-4 (2003) `Digital audio interface -- Part 4: Professional applications' issued by the International E!ectrotechnical Commission (lEC) was adopted by the Bureau of Indian Standards on the recommendation of the Radio Communication Sectional Committee and approval of the Electronics and Information Technology Division Council, The text of IEC Standard has been approved as suitable for publication as an Indian Standard without deviations. Certain conventions are, however, not identical to those used in Indian Standards. Attention is particularly drawn to the following: a) Wherever the words `International be read as `Indian Standard', Standard' appear referring to this standard, they should
+
+b) Comma (,) has been used as a decimal marker, while in Indian Standards, practice is to use a point (.) as the decimal marker.
+
+the current
+
+In this adopted standard, reference appears to certain International Standards for which Indian Standards also exist. The corresponding Indian Standards which are to be substituted in their places are listed below along with their degree of equivalence for the editions indicated: International Standard Corresponding Indian Standard Digital audio Degree of Equivalence Identical
+
+IEC 60958-1 (2004) Digital audio interface -- Part 1: General IEC 60958-3 (2003) Digital audio interface -- Part 3: Consumer applications lSO/lEC 646:1991 Information technology -- ISO 7-bit coded character set for information interchange
+
+lS/lEC 60958-1 : 2004 interface: Part 1 General
+
+lS/lEC 60958-3 : 2003 Digital audio interface: Part 3 Consumer applications IS 10315: 1997 7-bit coded character set for information interchange
+
+do
+
+do
+
+The technical committee responsible for the preparation of this standard has reviewed the provisions of the following International Publications and has decided that they are acceptable for use in conjunction with this standard: International Standard Title Sound system equipment -- Part 12: Application for broadcast and similar use J.17 :1988 V. 11 :1996 Pre-emphasis used on sound programme circuits of connectors
+
+IEC 60268-12 (1987) ITU-T Recommendation ITU-T Recommendation
+
+Electrical characteristics for balanced-double current interchange circuits operating at data signaling rates up to 10 Mbit/s
+
+For the purpose of deciding whether a particular requirement of this standard is complied with, the final value, observed or calculated, expressing the result of a test or analysis, shall be rounded off in accordance with IS 2 : 1960 `Rules for rounding off numerical values (revised)'. The number of significant places retained in the rounded off value should be same as that of the specified value in this standard.
+
+lS/lEC 60958-4:2003
+INTRODUCTION
+The interface specified in this standard is primarily intended to carry monophonic or stereophonic programmed at a 48 kHz sampling frequency and with a resolution of up to 24 bits per sample. It may alternatively be used to carry signals sampled at other rates such as 32 kHz, 44,1 kHz, or 96 kHz. Note that conformity to this interface specification does not require equipment to utilize these. rates and also that the capability of the interface to indicate other sample rates does not imply that it is recommended that equipment supports these rates. To eliminate doubt, equipment specifications should define the supported sampling frequencies. The format is intended for use with shielded twisted-pair cables over distances of up to 100 m without transmission equalization or any special equalization at the receiver and at frame rates of up to 50 kHz. Longer cable lengths and higher frame rates may be used with cables better matched for data transmission, or with receiver equalization, or both. In both cases, the clock references and auxiliary information are transmitted along with the audio data. Provision is also made to allow the interface to carry non-audio data.
+
+lS/lEC 60958-4:2003
+
+Indian Standard DIGITAL AUDIO INTERFACE
+PART 4
+1 Scope
+interface for the
+
+PROFESSIONAL
+
+APPLICATIONS
+
+(TA4)
+
+This International Standard specifies the professional application of the interconnection of digital audio equipment defined in IEC 60958-1. .
+
+2
+
+Normative
+
+references
+
+The following referenced dOGUmtMtS are indispensable for the application of this document. For dated references, only the edition cited applies. For undated references, the latest edition of the referenced document (including any amendments) applies. IEC 60268-12:1987, Sound broadcast and similar u,ke IEC 60958-1, IEC 60958-3, Digital Digital system equipment � Part 12." Application of connectors for
+
+audio interface audio interface Information
+
+� Part 1: General � Part 3: Consumer � ISO 7-bit applications coded character set for information
+
+lSO/l EC 646:1991, interchange
+
+technology
+
+ITU-T Recommendation
+
+J. 17:1988,
+
+Pre-emphasis
+
+used on sound-programme
+
+circuits double-current inter-
+
+ITU-T Recommendation V. 11:1996, Electrical characteristics for balanced change circuits operating at data signaling rates up to 10 Mbit/s
+
+3
+
+Terms
+
+and definitions
+and definitions given in IEC 60958-1 apply to this part of IEC 60958
+
+The terms
+
+4 4.1
+
+Interface
+General
+
+format
+
+The interface
+
+format
+
+as defined
+
+in IEC 60958-1
+
+shall be used. shall, for
+
+For historical reasons, preambles "B", " M" and "W", as defined in 4.3 of IEC 60958-1, use in professional applications, be referred to as "Z", "X" and "Y", respectively. 4.2 Validity bit
+
+For this standard, the validity bit shall be used to indicate whether the main data field bits in the sub-frame are suitable for conversion to an analogue audio signal using linear PCM coding.
+
+iS/lEC 60958-4:2003
+5
+5.1
+
+Channel
+General
+
+status
+
+The channel status for each audio signal carries information associated with that audio signal; thus it is possible for different channel status data to be carried in the two sub-frames of the digital audio signal. Examples of information to be carried in the channel status are: length of audio sample words, number of audio channels, sampling frequency, sample address code, alphanumeric source and destination codes, and pre-emphasis. Channel status information is organized in a 192-bit block, subdivided into 24 bytes, O to 23 (see Table 1). The first bit of each block is carried in the frame with preamble The individual bits of a block are numbered O to 191. numbered "Z"
+
+The primary application is indicated by channel status bit O.
+For the professional
+NOTE does For consumer not apply.
+
+applications
+dlg!tal audio
+
+described
+
+here, this first channel
+channel status
+
+status bit equals
+"O and this part
+
+"1
+of IEC 60958
+
+equ(pment,
+
+this f!rst
+
+bit equals
+
+Secondary 5.2
+
+applications
+
+may be defined
+
+within the framework
+
+of these primary
+
+applications
+
+Professional
+
+linear
+
+PCM application of the channel status data is defined in this clause and summarized
+
+The specific In Table 1,
+
+organization
+
+The significance of byte O, bit O is such that a transmission from an interface conforming to IEC 60958-3 ("consumer use") can be identified. Also, a "professional use" transmission, defined in this part of IEC 60958, can be correctly identified by a "consumer use" receiver. Connection of a "consumer use" transmitter with a "professional use" receiver or vice versa might result in unpredictable operation. Thus, the byte definitions in this clause apply only when blt O = "1 and bit 1 = "O (professional linear PCM use of the channel status block).
+
+lS/lEC 60958-4:2003
+Table
+Byte
+
+1-
+
+Channel
+
+status
+
+data format
+
+for professional
+
+linear PCM application
+
+o
+Blt
+
+~="1
+1 F B1t 9 h
+
+/b="o
+1
+
+Ic
+2 3 4 la
+
+Id 5
+
+e 6 7
+
+1
+2
+
+,.
+12 13
+Ii ]1
+
+9
+
+10 Ii 1
+
+11
+
+14
+
+15
+
+Btt
+3
+Bit
+
+16 k I 24 0
+
+17
+
+1.s
+
+19
+
+20
+
+21
+
+22
+
+23 "="0
+
+[m
+1
+
+,,,
+
+~=!!,
+
+25
+
+26 P 34
+
+27 q 35
+
+28
+
+29
+
+30
+
+31 r
+
+4
+BII
+
+32
+
+33
+
+36
+
+37
+
+38
+
+39
+
+5
+BIt
+
+Reserved
+40
+
+but undefined
+41
+
+at present
+42 43 44 45 46 47
+
+6
+Bat
+
+Alphanumeric channel origin data
+48 49 50 51 52 53 54 I 55
+
+7
+Blt
+
+Alphanumeric
+56 I 57 1 I 65
+
+channel
+
+origtn
+[ 58 I I 66
+
+data
+I 59 I [ 67 I [ 60 I 168 I 76 i 61 1i 69 I 77 ~ I 69 .. 1 I 70 I 70 I 6? ". I I 71 J 79
+
+8
+Bit
+
+Alphanumeric channel ortgin data
+64
+
+9
+Bit
+
+Alphanumeric
+72 73
+
+channel channel
+SI channel 89 channel 97 channel 105
+
+orlgm
+74
+
+data
+75
+
+10
+bit
+
+Alphanumeric
+80 Alphanumeric blt 68 Alphanumeric b!t 96 Alphanumeric b,t 104
+
+destination
+82 destination 90 destinahon 98 destination 106
+
+data
+83 data 91 data 99 data 107 I 08 109 110 111 100 101 f 02 to3 92 93 94 95 84 05 86 67
+
+11 12 73 14
+b,t
+
+Local
+112 Local b,t 120
+
+sample
+
+address
+113
+
+code
+114 code I 122
+
+(32-bit
+
+binary)
+115 116 117 118 119
+
+15 16
+b,!
+
+sample
+
+address I 121
+
+(32-bit
+
+binary) j 123 I 124
+I
+
+I 125
+I
+
+[ 126
+1
+
+I 127 1 } 135 -. I 143
+
+Local
+128
+
+sample
+
+address address
+T37
+
+code
+I 130 1
+
+(32-bit (32-bit
+
+binary)
+[ 131 I I 132 1 140 I 133 I 141 I 134 I 142
+
+\ 129
+
+i
+
+17
+b,t
+
+Local
+136
+
+sample
+
+code
+138
+
+binary)
+139
+
+18
+b,t
+
+Time of day code
+144 Time b,! 152 Time b,t 160 Time blt 168 Reliability b,! 176 Cyclic b,! 184 of day of day of day 145 code 153 code 161 code 169 flags I 177 redundancy I 185 use
+
+(32-bN binary)
+146 (32-bit binary) 154 (32-bit binary) 162 (32-bit binary) 170 171 172 173 174 ?75 163 164 165 166 167 155 156 157 158 159 147 148 149 150 151
+
+19 20 21 22 23
+
+I 176
+
+1 179
+
+I 160
+
+I 161
+
+I 162
+
+1 183
+
+check
+
+character
+I 186 I 187 I 186 I 189 indication channel channel of alignment number number mode mode reference undefined signal at present scaling flag but number I 190 level [ 191
+
+a: b: c. d. e. f. 9 h
+I
+
+of channel status block linear PCM identification audio signal pre-emphasis lock indication sampling frequency channel mode
+user use source bits management sample length bits of auxtllary word
+
+j:
+k: 1: m, n: o: p: q: r
+
+multichannel multichannel digital reserved sampling sampling audio
+
+frequency frequency
+
+3
+
+lS/lEC 60958-4:2003
+Byte Bit O State O Use of channel "1 status block use of channel status block (note 1)
+
+Professional
+
+Bit 1 State
+
+Linear "O
+,4 1
+
+PCM identification Audio sample word represents linear PCM samples (note 1) other than
+
+Audio sample word used for purposes linear PCM samples
+
+NOTE
+
+1
+
+The functions
+
+of channel
+
+status
+
+bits O and 1 are defined
+
+in IEC 60958-1
+
+Bits 2 to 4 Bit State
+
+Encoded 234 "o 00 "1 00 "1 1 0 "1 1 ~
+
+audio signal pre-emphasis.
+
+Pre-emphasis not indicated. Receiver defaults emphasis with manual override enabled. No pre-emphasis Receiver manual Receiver override manual
+
+to no preis disabled. override
+
+50 INI 5 I.IS pre-emphasis. is disabled.
+
+ITU-T Recommendation J.17 pre-emphasis insertion loss at 800 Hz). Receiver manual disabled.
+
+(with 6,5 dB override is
+
+All other states of bits 2 to 4 are reserved until further defined.
+
+and shall not be used
+
+Bit 5 State
+
+Lock indication "o "1 Default, lock condition not indicated. unlocked.
+
+Source sampling
+
+frequency
+
+Bits 6 to 7 Bit State
+
+Encoded 67 "o o "o 1 "1 o "1 1
+
+sampling
+
+frequency
+
+Sampling frequency 48 kHz and manual
+
+not indicated. Receiver defaults override or auto set is enabled. Receiver Receiver Receiver manual manual manual override
+
+to
+
+48 kHz sampling frequency. or auto set is disabled. 44,1 kHz sampling frequency. auto set is disabled. 32 kHz sampling frequency. auto set is disabled.
+
+override override or
+
+or
+
+NOTE 2 The Indication of sampling frequency, or the use of one of the sampling frequencies that can be indicated The 00 state of bits 6 to 7 may be used if the In this byte, IS not a requirement for operation of the }nterface. transmitter does not support the indication of sampling frequency, if the sampling frequency is unknown, or If the In the latter case for some sampling sample frequency IS not one of those that can be Indicated in this byte. frequencies byte 4 may be used to indicate the correct value NOTE 3 frequency When bits 8 to'11 In byte 1 Indtcate single-channel double-sampling of the audio signal IS twice that Indicated by bits 6 to 7 in byte O. frequency mode, the sampling
+
+4
+
+lS/lEC 60958-4:2003
+Byte 1 are signal led by setting bits 8 to 11 of byte 1 of channel status,
+
+The six modes of transmission
+q
+
+Two-channel mode: In two-channel in consecutive sub-frames. Channel
+
+mode, the samples from both channels are transmitted 1 is in sub-frame 1 and channel 2 is in sub-frame 2.
+
+q
+
+Stereophonic mode: In stereophonic mode, the interface is used to transmit stereophonic signals, and the two channels are presumed to have been simultaneously sampled. The left, or "A", channel is in sub-frame 1 and the right, or "B", channel is in sub-frame 2.
+
+q
+
+In monophonic mode, the transmitted bit rate remains Single-channel mode (monophonic): at the normal two-channel rate and the audio sample word is placed in sub-frame 1. Time slots 4 to 31 of sub-frame 2 either carry the bits identical to sub-frame I or are set to logical "O A receiver normally defaults to channel 1, unless manual override is provided. In some applications requiring two channels where one of the Primary/secondary mode: channels is the main or primary channel while the other is a secondary channel, the primary channel is in sub-frame 1 and the secondary channel is in sub-frame 2.
+iWdfichanne/ mode: The one or two channels carried on the interface are part of a larger group. Channel identification within this group is in byte 3. Sjng/e-channe/ doub/e-samp/jng frequency mode." Sub-frames 1 and 2 carry successive samples of the same signal. The sampling frequency of the signal is double the frame repetition rate and is double the sampling frequency indicated in byte O (but not double the rate indicated in byte 4, if that is used). Manual override is disabled. Bits 8 to 11 Bit State Encoded 891011 "0000 "0001 "0010 "0011 "'0100 "0101 and "0110 "0111 "1000" "1001 "1111 All other states further defined. Mode not indicated. Receiyer defaults to two-channel mode and manual override is enabled, Two-channel disabled. mode. Receiver manual override Receiver is manual channel mode
+
+q
+
+q
+
+q
+
+Single-channel mode (monophonic). override is disabled. Primary/secondary Receiver manual
+
+mode (sub-frame 1 is primary), override is disabled.
+
+Stereophonic mode (sub-frame 1 is left channel). Receiver manuaJ-override is disabled. Reserved for user-defined applications.
+
+Single-channel double-sampling frequency vector to byte 3 for channel identification. Single-channel double-sampling stereophonic left, Single-channel double-sampling stereophonic right, Multichannel frequency frequency
+
+mode � mode � mode �
+
+mode. Vector to byte 3, and shall not be used until
+
+of bits 8 to 11 are reserved
+
+5
+
+lS/lEC 60958-4:2003
+Bits 12to15 Bit State Encoded 12131415 "0000 "0001 "0010 "0011 "0100 All other states further defined. Byte 2 Default, user data format structure. is undefined. Preamble standard, "B" indicates the start user bits management
+
+192-bit block of the block. Reserved
+
+for the AES18
+
+User-defined. User data conforms to the general defined in IEC 60958-3. of bits 12 to 15 are reserved user data format as
+
+and shall
+
+not be used until
+
+Bits 16to 18 Bit
+State
+
+Encoded use of auxiliary sample bits 161718
+"o 00 Maximum audio sample word length is 20 bits (default). Use of auxiliary sample bits is not defined. Maximum audio sample word length is 24 bits. Auxiliary sample bits are used for main audio sample data. Maximum audio sample word length is 20 bits. Auxiliary sample bits in this channel are used to carry a single coordination signal, Reserved for user-defined applications and shall not be used until
+
+"o 01
+"o 10
+
+"o 1 1 All other states further defined.
+
+of bits 16 to 18 are reserved
+
+Bits
+
+19 to
+
+21
+
+Encoded 192021
+
+audio sample
+
+word length of transmitted
+
+signal Audio sample word length, if maximum length is 20 bits (indicated by bits 16 to 18 above). Word length (default), 19 bits 18 bits 17 bits 16 bits 20 bits not indicated
+
+Bit
+
+Audio sample word length, if maximum length is 24 bits (indicated by bits 16 to 18 above). Word length (default). 23 bits 22 bits 21 bits 20 bits 24 bits not indicated
+
+State
+
+"0 00 "o 01 "o 10 "o 1 1
+
+"1 00 "1 01
+
+All other states of bits 19 to 21 are reserved until further defined.
+
+and shall not be used
+
+NOTE 4 The default state of bits 19 to 21 Indicates that the number of active bits within the 20-bit or 24-bit coding range is not specified by the transmitter. The receiver should default to the maximum number of bits specified by the coding range and enable manual override or auto set NOTE 5 The non-default state of bits 19 to 21 indicates the number of bits within the 20-blt or 24-bit coding range which might be active This IS also an indirect expression of the number of LSBS that are certain to be Inactive, which IS equal to 20 or 24 minus the number corresponding to the blt state. The rece!ver should disable manual override and auto set for these blt states NOTE
+In time
+
+6 Irrespective of the audio sample word length as Indicated by any of the states slot 27 of the transmitted sub-frame as speclfled In 32 1 of IEC 60958-1
+
+of bits 19 to 21, the MSB IS
+
+6
+
+lS/lEC 60958-4:2003
+Bits 22 and 23 Bit State Indication 2223 `co o "o 1 Alignment level not indicated (default) code (refer to code (refer to of alignment level
+
+Alignment level is 20 dB below maximum SMPTE RP155).
+
+"1 o
+
+Alignment level is 18,06 dB below maximum EBU R68). Reserved for future use
+
+"1 1
+
+Byte 3 Bit 31 Multichannel mode control bit
+
+State
+
+"o
+c'1
+of the remaining
+
+Undefined multichannel Defined multichannel
+bit states depends
+
+mode (default),
+
+modes. on the state of bit 31.
+
+The definition
+
+When bit 31 is O: Bits 24 to 3'1
+Bit
+
+Channel number
+24 25 26 27 28 29
+
+30 x MSB
+
+31 o
+
+State
+
+x LSB
+
+x
+
+x
+
+x
+
+x
+
+x
+
+The channel
+
+number
+
+is the value of the byte plus one.
+
+When
+Bits Bit 24
+
+bit 31 is 1:
+to
+
+31
+
+Channel
+24
+
+number
+25
+
+and multichannel
+26 27
+
+number 28 `f 29 Y 30 Y 31 1
+
+State
+
+x LSB
+
+x
+
+x
+
+x MSB
+
+The channel number is one plus the numeric "X" taken as a binary number. The bits multichannel mode as follows.
+Bits 28 to
+
+value of the bits shown by shown by "'t" define the
+
+30
+
+Multichannel 282930 "o 00
+
+mode number
+
+Bit State
+
+Multichannel mode O. The channel bits 24 to 27. Multichannel mode 1. The channel by bits 24 to 27.
+
+number number
+
+is defined is defined is defined is defined number
+
+by
+
+"1 00
+"O 10
+
+Multichannel mode 2, The channel, number bits 24 to 27, Multichannel mode 3. The channel by bits 24 to 27. User defined multichannel mode. is defined by bits 24 to 27, of bits 28 to 30 are reserved -- +----�-- number
+
+by
+
+"1 10 "1 1 1
+All other states further defined.
+
+The channel
+
+and are not to be used until
+
+7
+
+IWEC60958-4:2003
+Byte 4
+
+`
+
+Bits 32 to 33 Bit State
+
+Digital audio reference 3233 "0 o "o 1 "1 o "1 1
+
+signal
+
+Not a reference
+
+signal
+
+(default).
+
+Grade 1 reference Grade 2 reference Reserved
+
+signal. signal. defined.
+
+and not used until further
+
+Bit 34
+
+Reserved
+
+and set to "O until further
+
+defined
+
+Bits 35 to 38
+
+Sampling
+
+frequency
+
+Bit State
+
+35363738
+
+"0000 "1000
+"0100
+"1100
+
+Not indicated 24 kHz 96 kHz 192 kHz Reserved. Reserved. Reserved. Reserved. Reserved 22,05 kHz 88,2 kHz 176,4 kHz Reserved. Reserved. Reserved. User defined.
+
+(default)
+
+"'0010 "1010 "0110 "1110 "0001 "1001 "0101 "1101 "0011 "1011 "0111" "1111
+
+(for vectoring)
+
+Bit 39 State '10 6'1
+
+Sampling No scaling
+
+frequency (default)
+
+scaling
+
+flag
+
+Sampling frequency is 1/1 .001 times that indicated in Dits 35 to 38 or bits 6 to 7.
+
+either
+
+Byte
+
+5 Reserved and set to "0 until further defined
+
+Bits 40 to 47
+
+8
+
+lS/lEC 60958-4:2003
+Bytes 6 to 9 channel origin data. First character in message is byte 6.
+
+Alphanumeric Bits 48 to 79
+
+7-bit lSO/l EC 646 (ASCII) data with no parity bit. LSBS are transmitted first with "O in bit 7. Non-printing control characters (codes 01 to 1 F hex and 7F hex) are not permitted. Default value is "O (code 00 hex, ASCII" null),
+
+Bytes
+
+10 to 13 channel destination. First character in message is byte 10
+
+Alphanumeric Bits 80 to 111
+
+7-bit lSO/lEC 646 (ASCII) data with no parity bit. LSBS are transmitted first with "O in bit 7. Non-printing control characters (codes 01 to 1 F hex and 7F hex) are not permitted. Default value is "O (code 00 hex, ASCII null),
+
+Bytes
+
+14 to 17 address code (32-bit binary with LSBS first). Value is of first sample of current
+
+Local sample block. Bits l12to
+NOTE block,
+
+143
+
+LSBS are transmitted
+
+first. Default
+index
+
+value is "O
+and increments by 192 for each successive
+
+7 This has the same function as a recording unless a discontinuity or edit occurs.
+
+counter
+
+Bytes
+
+18 to 21 address code (32-bit binary with LSBS first). Value is of first sample of
+
+Time-of-day sample current block. Bits 144 to 175
+
+LSBS are transmitted
+
+first. Default
+
+value is "O
+
+NOTE 8 This IS the time of day laid down during the source encoding of the signal. It remains unchanged during subsequent operations, and increments by 192 for each successive block, unless a discontinuity or edit occurs. A value of all zeros for the binary sample address code is, for transcoding to real time, or to time codes in particular, to be taken as mldnlght (r. e 00 h, 00 m, 00 s, 00 frame). Transcoding of the binary number to any conventional time code requires accurate sample frequency information to prowde a sample time accurate to tl sample per[od.
+
+Byte
+
+22
+
+Flag used to identify whether the information carried by the channel status data is reliable, According to the following list, if data is reliable the appropriate bits are set to "O (default); if the data is unreliable, the bits are set to "1
+Bits 176-179
+
+Reserved,
+
+and set to "O until further
+
+defined,
+
+Bit 780 Bit 181 Bit J82 Bit 183
+
+Bytes O to 5. Bytes 6 to 13, Bytes 14 to 17. Bytes 18 to 21.
+
+9
+
+lS/lEC 609584:2003
+Byte 23 status data cyclic redundancy is: check character (CRCC).
+
+Channel Generating
+
+polynomial
+
+G(X) = X8 + X4 + X3 + X2 +1
+
+The CRCC conveys information to test valid reception of the entire channel status data block (bytes O to 22 inclusive), For serial implementations, the initial condition of all "1 s should be used in generating the check bits with the LSBS transmitted first. Default value is logical "O for "minimum" implementation of channel status only (see 7,2.1).
+
+6 6.1
+
+User data
+General value of the user bits is "O
+
+The default 6.2
+
+Application by the user. are indicated by "the channel status byte 1, bits
+
+User data bits may be used in any way desired Possible formats 12to 15. for the user data channel
+
+7 7.1
+
+Implementation
+General
+
+To promote compatible operation between items of equipment built to this standard, it is necessary to establish which information bits and operational bits need to be encoded and sent by a transmitter and decoded by an interface receiver, Documentation shall interface transmitters 7.2 Transmitter be provided describing and receivers. the channel status features supported by the
+
+Transmitters shall follow all the formatting and channel coding rules established in this standard. Alorrg with the audio sample word, all transmitters shall correctly encode and transmit the validity bit, user bit, parity bit, and the three preambles. The channel status shall be encoded to one of the implementations given in 7.2.1, 7.2.2, and 7.2.3. These three implementations are defined as minimum, standard, and enhanced. These terms are used to communicate in a simple manner the level' of implementation of the interface transmitter involving the many features of channel status. Irrespective of the level of implementation, all reserved states of bits defined in clause 4 shall remain unchanged, 7.2.1 Minimum implementation of channel status
+
+The minimum implementation represents the lowest level of implementation of the interface that meets the requirements of this standard. In the minimum implementation, transmitters shall encode and transmit channel status byte O bit O with a state of logical "1 signifying "professional use of channel status block". All other channel status bits of byte O to byte 23 inclusive shall be transmitted with the default state of all logical "O s. In this circumstance, the receiver shall adopt the default conditions specified in bytes O to 2,
+
+10
+
+lS/lEC 60958-4:2003
+If additional bytes of channel status (which do not fully conform to the standard implementation, given in 7.2.2) are implemented as required by an application, the interface transmitter shall be classified as a minimum implementation of channel status. It should be noted that the. minimum implementation imposes severe operational restrictions on some receiving devices that may be connected to it. For example, receivers implementing byte 23 will normally show a cyclic redundancy check error when the default value of logical "O is received as the CRCC. Also, reception of the default value for byte O bits 6 to 7 might cause improper operation in receiving devices that do not support manual override or auto-set capabilities. 7.2.2
+
+Standard implementation
+
+of channel status
+
+The standard sufficient for conforming to implementation in byte O, byte 7.2.3
+
+implementation provides a fundamental level of implementation that should prove general applications in professional audio or broadcasting. In addition to the requirements described in 7.2.1 for the minimum implementation, a standard interface transmitter shall correctly encode and transmit all channel status bits 1, byte 2, and byte 23 (CRCC) in the manner specified in this standard, implementation of channel status
+
+Enhanced
+
+The enhsnced implementation shall correctly encode and transmit other channel status bits in addition to conforming to the requirements described in 7.2.2 for the standard implementation. 7.3 Receivers
+
+Implementation in receivers is highly dependent on the application. Proper documentation shall be provided on the level of implementation of the interface receiver for decoding the transmitted information (validity, user, channel status, parity) and on whatever subsequent response is made by the equipment of which it is a part.
+
+8 8.1
+
+Electrical General
+
+requirements
+
+The type of transmission meet the required quality 8.2 8.2.1 Balanced General line
+
+line and timing accuracy or purpose of use.
+
+of the transmitted
+
+signal
+
+wave
+
+form
+
+shall
+
+characteristics
+
+The electrical parameters of the interface are based on those defined in ITU-T Recommendation VI 1 which allow transmission of balanced-voltage digital signals up to a few hundred meters in length. In order to improve the balance of the transmitter or the receiver, or both, beyond that recommended by the ITU-T, a circuit conforming to the general configuration shown in Figure 1 may be used. Although equalization transmission. may be used at the receiver, there shall be no equalization before
+
+The frequency range used to qualify the interface electrical parameters is dependent on the maximum data rate supported. The upper frequency is 128 times the maximum frame rate.
+
+11
+
+lS/lEC 60958AI :2003
+The interconnecting cable shall characteristic impedance of I1OQ frame rate.
+Line driver zs=llof2 4
+
+be balanced at frequencies
+
+and screened (shielded) with a nominal from 100 kt-lz to 128 times the maximum
+
+Interconnecting
+
+cable
+
+Line
+
+receiver
+
+Zc=llocl
+
+ZL=I1OQ b
+
+NOTE
+
+1
+
+Holding
+
+closer
+
+tolerances can increase
+
+for
+
+the
+
+characteristic lengths
+
+impedance
+
+of
+
+the
+
+cable,
+
+and
+
+for
+
+the
+
+driving
+
+and
+
+terminating
+
+impedances,
+
+the cable
+
+for reliable
+
+transmission
+
+and for higher
+
+data rates.
+
+NOTE 2 Closer Itself can reduce NOTE 3 distances
+
+tolerances for the both electromagnetic
+
+balanceof the driviru Impedance, the terminatingimpedance,and for the cable
+susceptibility loss at higher and emissions. frequencies can improve the reliability of transmission for greater
+
+Using cable having lower and higher data rates.
+
+Figure 8.2.2 8.2.2.1
+
+4 � Simplified
+
+example
+
+of the configuration
+
+of the circuit
+
+(balanced)
+
+Line driver Output
+
+characteristics impedance
+
+The line driver shall have a balanced output with an internal impedance of 110 Q with a relative from 100 kHz to 128 times the maximum frame rate, when tolerance of *2O Yo, at frequencies measured at the output terminals. 8.2.2.2 Signal amplitude
+
+across a The signal amplitude shall lie between 2 V and 7 V peak-to: peak, when measured resistor of 110 Q with a relative tolerance of *I `A connected to the output terminals, without any interconnecting cable present. 8.2.2.3
+
+Balance
+shall be more than component at the output terminals from 100 kHz to 128 times the maximum frame rate. 30 dB below the
+
+Any common-mode signal at frequencies 8.2.2.4
+
+Rise and fall times
+
+points, shall be The rise and fall times, determined between the 10 YO and 90 ?40 amplitude between 5 ns and 30 ns when measured across a 110 Q resistor connected to the output terminals, without any interconnecting cable present: NOTE Operation toward the lower limit of 5 ns may improve the received signal eye pattern, but may increase EMI at the transmitter. lEC/CISPR standards and local regulations regarding EMI should be taken into account. 8.2.2.5 Output interface jitter to the device and jitter being passed through from
+
+Output jitter is a combination of jitter intrinsic the timing reference of the device.
+
+12
+
+lS/lEC 60958-4:2003
+8.2.2.5.1 Intrinsic jitter
+
+The peak intrinsic output jitter measured at all the transition zero crossings shall be less than 0,025 unit interval (Ul) (see UI definition in IEC 60958-1) when measured with the intrinsic jitter measurement filter. NOTE This apphes both when the equipment is locked a modulated dlgltal audio signal) and when the equipment
+to an effectively IS free-running. jitter-free timing reference (which may be
+
+The intrinsic jitter measurement filter is shown in Figure 2, It is a minimum-phase high-pass filter with a 3 dB frequency of 700 Hz, a first order roll-off to 70 Hz and with a pass-band gain of unity.
+
+10
+
+0
+
+m -0
+c .-- G �lo
+
+-20
+70 Hz,
+
+-20
+
+dB
+i I I I
+
+-30
+
+I
+
+10
+
+100
+
+IX 103
+Jitter
+
+IX 104
+frequency
+
+IX 105
+Hz
+
+IX 106
+
+IX 107
+
+Figure
+
+2-
+
+Intrinsic
+
+jitter
+
+measurement
+
+filter
+
+8.2.2.5.2
+
+Jitter
+
+gain
+
+or peaking reference input to the signal output shall be less than
+
+The sinusoidal jitter gain from any timing 2 dB at all frequencies.
+
+NOTE It IS recommended that, where ptter attenuation IS provided, it should be such that the sinusoidal jttter gain falls below the jitter attenuation mask shown in Figure 3. It IS dfiirable that the equipment specification states whether the equtpment does or does not have jitter attenuation within this specification. (The mask imposes no addlttonal Ilmlt on low-frequency litter gain The Ilmit starts at the input jitter frequency of 500 Hz where it is O dB, and falls to �6 dB at and above 1 kHz )
+
+10
+
+I
+
+I
+
+r
+
+5 � 500 Hz, O dB o
+
+co u ~ m m z = 5
+
+.5 1000 I-Iz, �6 dB -lo 0,1 I 1' JMer frequency I 10 kHz L 100
+
+Figure 3-
+
+Jitter attenuation 13
+
+mask (optional)
+
+ISIIEC 60958-4:2003
+8.2.3 8.2.3.1
+The receiver
+
+Line receiver Terminating
+shall present
+
+characteristics impedance
+a substantially resistive impedance of 110 (2 with a relative tolerance
+
+of +20 0/0 to the interconnecting cable over the frequency band from 100 kH~ to 128 times the maximum frame rate when measured across the input terminals. The application of more than one receiver to any one line might create transmission errors due to the resulting impedance mismatch. 8.2.3.2 Maximum input signals with a signal of which the peak-
+
+The receiver shall correctly interpret the data when presented to-peak voltage, measured in accordance with 8,2,2.2, is 7 V.
+NOTE The first edition of the IEC 60958 specification for balanced
+
+line driver
+
+amplitude
+
+was
+
+10 V peak-to-peak
+
+rnax~rnurr,
+
+8.2.3.3
+
+Minimum
+
+input signals the eye
+
+The receiver shall correctly sense the data when a random input signal produces diagram characterized by a Vmln of 200 mV and Tmln of 0,5 UI (see Figure 4).
+Tm,n = 0,5 UI
+
+,n = 200 mV
+
+Figure 48.2.3.4
+Equalization
+
+Eye diagram
+
+Receiver
+
+equalization
+
+may be applied in the receiver to enable an interconnecting cable longer than 100 m to be used. A suggested equalizing characteristic for operation at a frame rate of 48 kHz is shown in Figure 5. The receiver shall still meet the requirements specified in 8.2.3.2 and 8,2.3.3.
+
+12 10 8 6 4 2 n -'0,1 0,3 1,0 3,0
+Frequency
+
+10
+MHz
+
+Figure 5- A suggested equalizing characteristic for the receiver operating at a frame rate of 48 kHz 14
+
+lS/lEC 60958-4:2003
+8.2.3.5 Common-mode rejection of a common-mode signal of up to
+
+There shall be no data errors introduced by the presence 7 V peak atfrequencies from d,c, to 20 kHz, 8.2.3.6 Receiver jitter tolerance
+
+An interface data receiver should correctly decode an incoming data stream with any sinusoidal jitter defined by the jitter tolerance template shown in Figure 6.
+
+100
+200
+
+Hz, 10 UI
+
+5
+
+,0
+
+1 8000 Hz, 0,25
+.' UI
+
+0,1
+10
+
+1
+100 IX
+
+I 103 Jitter
+
+I IX 104 frequency IX
+
+I 105 Hz IX
+
+I 106 Ix lo'
+
+.
+
+NOTE inverse
+
+The template requires a jitter tolerance of 0,25 UI peak to peak at high of frequency below 8 kHz to level off at 10 UI peak to peak below 200 Hz
+
+frequencies,
+
+increasing
+
+with
+
+the
+
+Figure 68.2.4 Connectors
+
+Receiver
+
+jitter tolerance
+
+template
+
+The standard connector for both outputs and inputs shall be the circular latching connector described in IEC 60268-12 (this type of connector is normally called XLR).
+
+three-pin
+
+An output connector fixed on an item of equipment shall use male pins with a female The corresponding cable connector shall thus have female receptacles with a male shell.
+
+shell.
+
+An input connector fixed on an item of equipment shall use female pins with a male shell. The corresponding cable connector shall thus have male pins with a female shell. The pin usage shall be:
+q
+
+pin 1: pin 2: pin 3:
+
+cable shield or signal earth; signal; signal. polarity of pins 2 and 3 shall not affect operation of the interface as such,
+
+. .
+
+The relative
+
+Equipment manufacturers including the terms "digital
+
+should clearly label digital audio inputs and outputs audio input" or "digital audio output" as appropriate.
+
+In cases where panel space is limited and the function of the connector might be confused with an analogue signal connector, the abbreviation DI or DO should be used to designate digital audio inputs and outputs, respectively.
+
+15
+
+lS/lEC
+
+60958-4:2003
+Bibliography
+
+SMPTE Recommended Practice television tape recorders.
+
+RPI 55-1997,
+
+Audio
+
+levels
+
+for digital
+
+audio
+
+records
+
+on digital
+
+EBU Technical Recommendation R68-1992, ment and in digital audio recorders.
+
+Alignment
+
+levels
+
+in digital
+
+audio production
+
+equip-
+
+16
+
+Bureau of Indian Standards 61S is a statutory institution established under the Bureau of /nc/iarI Standards
+marking and quality harmonious development of the activities of standardization, and attending to connected matters in the country. Act, 1986 to promote certification of goods
+
+Copyright 61S has the copyright of all its publications. No part of these publications may be reproduced in any form without the prior permission in writing of BIS. This does not preclude the free use, in course of
+implementing designations. Review the standard, relating of necessary details, such as symbols and sizes, type BIS. or grade Enquiries to copyright be addressed to the Director (Publications),
+
+of Indian
+
+Standards
+
+Amendments also reviewed indicates that for revision. amendments Additions'.
+
+are issued to standards as the need arises on the basis of comments. Standards are periodically; a standard along with amendments is reaffirmed when such review no changes are needed; if the review indicates that changes are needed, it is taken up Users of Indian Standards should ascertain that they are in possession of the latest or edition by referring to the latest issue of `BIS Catalogue' and `Standards: Monthly
+
+This Indian Standard
+
+has been developed
+
+from Dot: No. LTD 20 (2037). Issued Since Publication Date of Issue Text Affected
+
+Amendments Amendment No.
+
+BUREAU OF INDIAN STANDARDS
+Headquarters: Manak Bhavan, 9 Bahadur Shah Zafar Marg, New Delhi 110002 Telephones 23230131,23233375, 23239402 Website: Regional Offices: Central : Manak Bhavan, 9 Bahadur Shah Zafar Marg NEW DELHI 110002 1/14, C.I.T. Scheme Vll M, V.I.P. Road, Kankurgachi KOLKATA 700054 160022 23378499, 23378626, www.bis.org.in Telephones 23237617 { 23233841 23378561 23379120 2603843 { 2609285 22541216,22541442 22542519, 22542315
+
+Eastern :
+
+{
+
+Northern : SCO 335-336, Sector 34-A, CHANDIGARH
+
+Southern : C.I.T. Campus,
+
+IV Cross Road, CHENNAI 600113 {
+
+Western : Manakalaya, E9 MlDC, Marol, Andheri (East) MUMBAI 400093
+
+~ 28329295,28327858 ~ 28327891,28327892
+
+Branches: AHMEDABAD. BANGALORE. BHOPAL. BHUBANESHWAR. COIMBATORE. FARIDABAD. GHAZIABAD. GUWAHATI. HYDERABAD. JAIPUR. KANPUR. LUCKNOW. NAGPUR. PARWANOO. PATNA. PUNE. RAJKOT. THIRUVANANTHAPURAM. VISAKHAPATNAM.
+
+Printed at: AkashdeepPrinters,
+
+New Delhi-2.
+
+

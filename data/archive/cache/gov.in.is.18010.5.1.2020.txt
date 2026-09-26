@@ -1,0 +1,1760 @@
+Ia HAF IS 18010 (Part 5/Sec 1) : 2020 
+Indian Standard 
+
+
+aftanes Tëtacst Sot 
+atas CIES HIST HEATH 
+Mehta Tech 
+UM 5 Yeah Gett AAN ( IEEE 802.15.4 ) 
+aa 1 fates 
+
+
+Unified Digital Infrastructure 
+Unified Last Mile Communication 
+Protocols Stack 
+
+
+Part 5 Network Access Layer ( IEEE 802.15.4 ) 
+
+
+Section 1 Specification 
+
+
+ICS 35.100.10; 35.100.20 
+
+
+© BIS 2020 
+
+
+anda get aa 
+BUREAU OF INDIAN STANDARDS 
+HAR WH, 9 SENAR TH Ari, ay ect 110002 
+
+
+Vee MANAK BHAVAN, 9 BAHADUR SHAH ZAFAR MARG 
+NEW DELHI-110002 
+www.bis.gov.in www.standardsbis.in 
+
+
+December 2020 Price Group 6 
+
+
+Smart Infrastructure Sectional committee, LITD 28 
+
+
+FOREWORD 
+
+
+This Indian Standard was adopted by Bureau of Indian Standards on recommendation of the Smart Infrastructure 
+Sectional Committee, and approval of the Electronics and Information Technology Division Council. 
+
+
+This standard is one of the series of Indian Standards on ‘Last mile communication protocols’. Other standards 
+published so far in the series are: 
+
+
+Part 1 Unified digital infrastructure — Unified last mile communication protocols stack — Reference 
+architecture (UDI — ULMCPS - RA) 
+
+
+The development of a series of standards for a unified digital infrastructure across the country was motivated 
+by the smart cities initiative of Government of India. A defining feature of smart cities is the ability of various 
+components and systems to function efficiently in an integrated manner as well as independently. A unified, smart, 
+and secure digital infrastructure will facilitate efficient integration of various systems and applications/services 
+across the city. 
+
+
+The Standard IS 18000 ‘Unified digital infrastructure ICT reference architecture (UDI — ICTRA)' 
+(under development) defines a comprehensive ICT reference architecture for a resilient, secure and sustainable 
+digital infrastructure for smart cities, districts, states or nations. 
+
+
+IS 18010 (Part 1) “Unified last mile communication protocols stack — Reference architecture (ULMCPS RA)’ 
+is an integral part of the UDI — ICTRA and the reference architecture described in IS 18010 (Part 1) enables a 
+seamless exchange of information among devices that operate using different communication technologies and 
+deployed under different topologies. 
+
+
+This Standard establishes the network access layer of ULMCPS RA and specifies the physical and medium 
+access control layers based on IEEE 802.15.4 — 2020 specifications customized to comply with Indian spectrum 
+regulatory notifications in the de-licensed Sub GHz 865 — 867 MHz band. 
+
+
+The composition of the committee responsible for the formulation of this standard is given at Annex C. 
+
+
+CONTENTS 
+
+
+0 INTRODUCTION 
+
+1 SCOPE 
+
+2 REFERENCES 
+
+3 TERMINOLOGY 
+
+4 SYMBOLS AND ABBREVIATIONS 
+
+
+5 SUN FSK PHY LAYER SPECIFICATION 
+5.1 PPDU Format 
+5.2 FEC 
+5.3 Modulation and Coding 
+54 Data Whitening 
+6 PHY LAYER RF REQUIREMENTS 
+6.1 Transmit Spectral Mask 
+6.2 Radio Specification 
+7 MAC LAYER SPECIFICATION 
+
+
+7.1 Constants 
+
+7.2 MAC PIB 
+
+7.3 Data Structures 
+
+7.4 Information Elements 
+
+7.5 Security 
+
+7.6 Channel Access 
+
+7.7 Frame Exchange Patterns 
+8 MARKING 
+
+
+8.1 Marking 
+82 Standard Mark 
+8.3 BIS Certification Marking 
+
+
+ANNEXA (PHY PICS) 
+A-1 PLP CAPABILITIES 
+A-2 RF CAPABILITIES 
+
+ANNEX B (MAC PICS) 
+
+
+ANNEX C COMMITTEE COMPOSITION 
+
+
+IS 18010 (Part 5/Sec 1) : 2020 
+
+
+Page No. 
+
+
+N N N YN NAAA UUU Q 
+
+
+00 
+
+
+o0 
+
+
+IS 18010 (Part 5/Sec 1) : 2020 
+
+
+FIGURES 
+
+
+Fig. 
+Fig. 
+Fig. 
+Fig. 
+Fig. 
+Fig. 
+Fig. 
+
+
+RAN LN FP GA HA ra 
+
+
+Fig. 
+
+
+TABLES 
+
+
+Table 1 
+Table 2 
+Table 3 
+Table 4 
+Table 5 
+Table 6 
+Table 7 
+Table 8 
+Table 9 
+
+
+Reference Protocol Stack 
+
+ULMCPS Reference Architecture 
+
+Data Frame Format 
+
+Data Frame Control Format 
+Acknowledgement Frame Format 
+Acknowledgement Frame Control Format 
+Header IE Frame Format 
+
+Payload IE Frame Format 
+
+
+Preamble Lengths per Operating Modes 
+PHY Operating Modes and Symbol Rates 
+PHY Operating Modes and Symbol Rates 
+Radio Specification 
+
+MAC Constants 
+
+MAC PIB’s 
+
+PHY Packet 
+
+Radio Frequency (RF) 
+
+MAC Frames 
+
+
+Page No. 
+
+
+o oo A WWW N N 
+
+
+IS 18010 (Part 5/Sec 1) : 2020 
+
+
+0 INTRODUCTION 
+
+
+The rapid growth in communication technologies for last more than four-five decades has provided the users 
+with multiple choices with their respective diversities and USPs for different applications and use cases. As a 
+result, stakeholders of different ecosystems have chosen different technologies and protocols to meet their 
+respective applications needs. In some cases, even different segmented stakeholders of a common ecosystem have 
+developed/adopted different, communication technologies, protocols, data semantics and standards. 
+
+
+The siloed way of deploying the IoT/M2M infrastructure is not desirable and need was felt to have a harmonized 
+common last-mile communication architecture approach. In a smart city scenario, to enable interoperability 
+between divergent devices as well as applications while maintaining identity and access control, it is desirable to 
+have common last-mile communication architecture. This will also ensure feasibility in the sharing of data with 
+ensured security and privacy. 
+
+
+The unified last mile communication protocols stack reference architecture is an integral part of the unified digital 
+infrastructure ICT reference architecture and it layouts the contours of unified communication for ‘Smart City’ 
+and ‘Digital Infrastructure’. 
+
+
+The key characteristic of “Last-Mile” communication technologies and their respective communication protocols 
+defined as one of the principal constituents of the unified digital infrastructure reference architecture is the need to 
+connect heterogeneous devices with heterogeneous applications while maintaining the necessary interoperability 
+across all such devices (irrespective of the diversity in the PHY and Link-Layer Technologies) and offer a seamless 
+view to the Applications. They should also allow connectivity to existing infrastructures and to the internet. 
+
+
+The ULMCPS reference architecture (Fig. 2) is derived from the well-established and globally accepted 
+standard — the OSI Model (Fig. 1). The Standard OSI model has been improvised to ensure the multiple 
+communication technologies can work in homogenous manner. 
+
+
+| OSI Model Layers ) BIS UDI LMCPS 
+Application e End User Application E N 
+
+s Data Representation and Encryption BIS UDI LMCPS-Application 
+e Inter-host communication CS 3 E 
+ee = 
+3 
+e End to end connection & reliability 3 
+BIS UDI LMCPS-Network & Transport S 
+| Network e] e Path Determination and IP KR J 3 
+Pesan 5 
+Ell e Interface between the Data link and Network Layer BIS-UDI LMCPS-Network Access Interface 2 
+
+BIS UDI LMCPS-Network Access — 
+Physical e Media, Signal & Binary Transmission 
+
+
+Fic. 1 REFERENCE PROTOCOL STACK 
+
+
+iii 
+
+
+IS 18010 (Part 5/Sec 1) : 2020 
+
+
+Application 
+(CoAP, LWM2M, ...) 
+
+
+Transport 
+(UDP, TCP, ...) 
+
+
+Ayundes 
+
+
+Network 
+(IPv6, ICMPV6, ...) 
+
+
+T 
+2 
+Z 
+Zi 
+= 
+D 
+o 
+E 
+Leg 
+D 
+CO 
+CH 
+N 
+SE 
+x 
+CO 
+Le 
+N 
+os 
+= 
+
+
+fe 
+
+
+Network Access Interface 
+(6LOWPAN, RFC 2464, RFC 5072, ...) 
+
+
+Network Access 
+IEEE Cellular 
+802.11 
+
+
+Fic. 2 ULMCPS REFERENCE ARCHITECTURE 
+
+
+This Standard establishes the network access layer of ULMCPS reference architecture and specifies the physical 
+and medium access control layers based on IEEE 802.15.4 — 2020 specifications customized to comply with 
+Indian spectrum regulatory notifications in the de-licensed Sub GHz 865 — 867 MHz band. 
+
+
+iv 
+
+
+IS 18010 (Part 5/Sec 1) : 2020 
+
+
+Indian Standard 
+
+
+UNIFIED DIGITAL INFRASTRUCTURE UNIFIED LAST 
+MILE COMMUNICATION PROTOCOLS STACK 
+
+
+PART 5 NETWORK ACCESS LAYER ( IEEE 802.15.4 ) 
+
+
+Section 1 Specification 
+
+
+1 SCOPE 
+
+
+1.1 This Standard (Part 5/Sec 1) establishes the network 
+access layer of unified last mile communication 
+protocol stack reference architecture (ULMCPS RA) 
+and specifies requirements the physical layer and 
+medium access control layer for the communication 
+devices deployed in digital infrastructure. 
+
+
+1.2 This standard is based on IEEE 802.15.4 — 2020 and 
+customized to comply with Indian spectrum regulatory 
+notifications in the de-licensed Sub GHz 865 — 867 
+MHz band. 
+
+
+The current specification adds the SUN-FSK 
+modulation schemes only. Other modulation schemes 
+defined in IEEE 802.15.4-2020 may be considered 
+in the future revisions of this standard based on the 
+requirements. 
+
+
+1.3 This standard is applicable for constrained 
+application with for low-data-rate wireless connectivity 
+with fixed, portable, and moving devices with no battery 
+or very limited battery consumption requirements. 
+
+
+2 REFERENCES 
+
+
+The standards given below contain provisions which, 
+through reference in this text, constitute provisions of 
+this standard. At the time of publication, the editions 
+indicated were valid. All standards are subject to 
+revision, and parties to agreements based on this 
+standard are encouraged to investigate the possibility 
+of applying the most recent editions of these standards: 
+
+
+IS No./Other Title 
+Publication 
+IS 18010-1 Unified digital infrastructure — 
+Unified last mile communication 
+protocols stack — Reference 
+architecture 
+IEEE Std. IEEE Standard for 
+802.15.4™ - Low-Rate Wireless Personal 
+2020 Area Networks (WPANS) 
+
+
+IS No./Other Title 
+Publication 
+EUI 64 Guidelines for 64-bit Global 
+Identifier (EUI-64) Registration 
+Authority 
+IEEE Std IEEE Recommended Practice for 
+802.15.9™ - Transport of Key Management 
+2016 Protocol (KMP) Datagrams 
+3 TERMINOLOGY 
+
+
+For the purpose of this standard, the definitions given in 
+IS 18000 and IS 18010 (Part 1) shall apply in addition 
+to the following: 
+
+
+3.1 Digital Infrastructure Device — Different 
+communication devices used in smart infrastructure. 
+Like sensor nodes, gateway, relay nodes, etc. 
+
+
+3.2 LMCP Device — Communication device 
+deployed in the digital infrastructure that achieves the 
+last mile connectivity. 
+
+
+4 SYMBOLS AND ABBREVIATIONS 
+
+
+a) CRC Cyclic Redundancy Check 
+
+b) FCS Frame Check Sequence 
+
+c) FEC Forward Error Correction 
+
+d) FHSS Frequency Hopping Spread 
+Spectrum 
+
+e) FSK Frequency Shift Keying 
+
+f) PHR PHY Header 
+
+g) PHY Physical Layer 
+
+h) PPDU PHY Protocol Data Unit 
+
+j)  PSDU PHY Service Data Unit 
+
+k) SUN Smart Utility Network 
+
+m) SFD Start-of-frame Delimiter 
+
+n) LMCP Last Mile Communication 
+Protocol 
+
+p) LMCP-PHY Last Mile Communication 
+
+
+Protocol — Physical Layer 
+
+
+IS 18010 (Part 5/Sec 1) : 2020 
+
+
+q) LMCP-NAL Last Mile Communication 
+Protocol — Network Access 
+Layer 
+
+r) SHR Synchronization Header. See 
+[IEEE 802.15.4]. 
+
+s) AR Acknowledge Request. See 
+[IEEE 802.15.4]. 
+
+t) [MAC] Medium Access and Control 
+
+s) MPDU MAC Protocol Data Unit. 
+
+v) MSDU MAC Service Data Unit. 
+
+w) SHR Synchronization Header. See 
+[IEEE 802.15.4]. 
+
+y) PICS Protocol implementation 
+
+
+Conformance Statement 
+
+
+5 SUN FSK PHY LAYER SPECIFICATION 
+
+
+The PHY layer shall use Frequency Shift Keying (FSK) 
+Modulation derived from the subset of IEEE Std. 
+802.15.4™ - 2020 SUN FSK PHY. 
+
+
+LMCP devices shall support the SUN FSK PHY. The 
+Protocol implementation conformance statement 
+(PICS) for the Physical Layer implementation is 
+provided in ANNEX A. 
+
+5.1 PPDU Format 
+
+
+PPDU format shall be supported as described in 
+Fig. 19-1 of section 192 of IEEE Std. 
+802.15.4™ - 2020, with the following configuration: 
+5.1.1 Preamble Field 
+
+
+The preamble pattern shall be as defined for 2-FSK in 
+19.2.3.1 of IEEE Std. 802.15.4™ - 2020. 
+
+
+The preamble shall be set to as shown in Table 1. 
+Table 1 Preamble Lengths per Operating Modes 
+( Clause 5.1.1) 
+
+
+SINo. Operating Modes Preamble Length (Bytes) 
+UI (2) (3) 
+i) 1 8 
+ii) 2 8 
+iii) 3 12 
+5.1.2 SFD 
+
+
+When FEC is disabled, the SFD shall contain the value 
+specified for uncoded PHR+PSDU with phy Sun Fsk 
+Sfd set to zero as described in Table 19-2 of 19.2.3.2 of 
+IEEE Std. 802.15.4™ - 2020. 
+
+
+When FEC is enabled, the SFD shall contain the value 
+specified for coded PHR+PSDU with phy Sun Fsk Sfd 
+set to zero as described in Table 19-2 of 19.2.3.2 of 
+IEEE Std. 802.15.4™ - 2020. 
+
+
+5.1.3 PHR 
+
+PHR format shall be as described in Fig. 19-4 of 19.2.4 
+of IEEE Std. 802.15.4™ - 2020. The fields of the PHR 
+shall be set to the following as described below in this 
+section. 
+
+The mode switch field shall be always set to zero upon 
+transmission and ignored upon reception. 
+
+FCS shall be set to 4-octet, the FCS type field shall 
+be set to 0. Packets received with the FCS field set to 
+1 may be discarded. 
+
+The data whitening field shall be set to 1 (data whitening 
+enabled). Packets received with the data whitening field 
+set to 0 shall be discarded. 
+
+
+The frame length field shall be set to as described in 
+19.2.4 of IEEE Std. 802.15.4™ - 2020. 
+
+
+All reserved fields shall be set to zero upon transmission 
+and ignored upon reception. 
+
+
+5.2 FEC 
+
+
+FEC is optional and may be supported. 
+
+
+If FEC is supported, it shall be compatible with the 
+non-recursive and nonsystematic code (NRNSC) as 
+defined in 19.3.5 in IEEE Std. 802.15.4™ - 2020. 
+
+
+5.3 Modulation and Coding 
+
+
+The modulation for the FSK PHY shall be 2-level 
+FSK. A device shall support operating mode # 1 and 
+operating mode # 2 as described in Table 2. A device 
+may additionally support operating mode #3 as 
+described in Table 2. 
+
+
+5.3.1 Symbol Rate and Modulation Index 
+
+
+This section describes modulation and channel 
+parameters for all the operating PHY modes supported 
+with respective modulation index. 
+
+
+Table 2 PHY Operating Modes and Symbol Rates 
+( Clauses 5.3 and 5.3.1 ) 
+
+
+SI No. PHY Operating Symbol Rate Modulation 
+Modes (ksymbol/s) Index 
+(1) (2) (3) (4) 
+i) Operating Mode# 1 50 0.5 
+ii) Operating Mode# 2 100 0.5 
+iii) Operating Mode # 3 150 0.5 
+
+
+5.3.2 Freguency Bands and Channel Parameters 
+
+
+The channel center freguency Chan Center Freg 
+shall be as described in 10.1.3.9 of IEEE Std. 
+802.15.4TM - 2020 by the following formula: 
+
+
+Chan Cente Freq = Chan Center Freq 0 + 
+(Num Chan x Chan Spacing) 
+
+
+Where Chan Center Freq 0 is the first channel center 
+frequency in MHz, Chan Spacing is the separation 
+between adjacent channels in kHz, Num Chan is the 
+channel number from 0 to Total Num Chan —1, and 
+Total Num Chan is the total number of channels for 
+the available frequency band. The parameters Chan 
+Spacing, Total Num Chan, and Chan Center Freq 0 for 
+different frequency bands and modulation schemes are 
+specified in Table 3. 
+
+
+Table 3 PHY Operating Modes and Symbol Rates 
+( Clause 5.3.2 ) 
+
+
+Freq Band PHY Modes ChanSpacing Total Chan 
+(MHz) (kHz) Num Center 
+Chan Freg0 
+(MHz) 
+865-867 Operating 100 19 865.1 
+Mode #1 
+Operating 200 10 865.1 
+Mode #2 
+and #3 
+5.4 Data Whitening 
+
+
+Data whitening shall be performed as defined in 19.4 of 
+IEEE Std. 802.15.4™ - 2020. 
+
+
+6 PHY Layer RF Reguirements 
+
+
+6.1 Transmit Spectral Mask 
+
+The transmit spectral mask value shall be as defined in 
+19.6.6 of IEEE Std. 802.15.4™ - 2020. 
+
+6.2 Radio Specification 
+
+
+A node shall comply with the radio specifications as 
+given in Table 4. 
+
+
+Table 4 Radio Specification 
+
+
+( Clause 6.2 ) 
+Radio Specification Value Section Reference 
+Parameter in IEEE Std. 
+802.15.4™ - 2020 
+Transmit frequency +20 ppm e 
+tolerance 
+Transmit spectral As defined in 19.6.6 
+mask/ACPR 19.6.6 of IEEE Std. 
+802.15.4™ - 2020 
+Transmit deviation + 30 percent 19.3.4.2 
+tolerance 
+Transmit zero + 12.5 percent 19.3.4.3 
+crossing deviation 
+Adjacent channel 10 dB 
+rejection 
+19.6.8 
+Alternate channel 30 dB 
+rejection 
+Minimum receiver ` As specified in 19.6.7 
+sensitivity 19.6.7 
+Average symbol +100 ppm 8 
+
+
+rate tolerance 
+
+
+IS 18010 (Part 5/Sec 1) : 2020 
+
+
+7 MAC LAYER SPECIFICATION 
+
+
+The MAC sub-layer shall be constructed using data 
+structures defined in IEEE Std. 802.15.4™ - 2020. 
+
+
+The MAC sub-layer shall operate in non-beacon 
+enabled mode (no periodic beacon frames are defined) 
+and hence, no contention free period exists. All channel 
+access shall operate using contention access mode. The 
+IEEE Std. 802.15.4™ - 2020 association procedures 
+shall not be used. Short addressing is not within scope 
+of this specification. 
+
+
+LMCP devices shall use EUI-64 based MAC address 
+as defined in IEEE Std. 802.15.4™ - 2020. The data 
+and enhanced acknowledge frames shall be used and 
+extended with a set of information elements. 
+
+
+The protocol implementation conformance statement 
+(PICS) for the media access layer implementation is 
+provided in Annex B. 
+
+
+7.1 Constants 
+
+
+Table 5 contains definitions of constants used for 
+the data link layer. The LMCP device shall use the 
+constants with the values defined in Table 5. 
+
+
+Table 5 MAC Constants 
+( Clause 7.1 ) 
+
+
+Name Description Value 
+
+
+Address which identifies all 
+nodes within radio range. 
+
+
+Broadcast address 
+value 0 x FFFF. 
+FFFF. FFFF. FFFF 
+
+
+Broadcast 
+address 
+
+
+Response 
+delay 
+
+
+For the any non ACK | No sooner than 
+frame exchange pattern, | 1 ms and no later 
+the Response Delay is | than 5 ms 
+
+the time from the end of 
+the last symbol of the 
+previous frame to the start 
+of the first symbol of the 
+preamble of the subsequent 
+frame, observed at the local 
+antenna. 
+
+
+Note this value applies 
+for both secured and 
+non-secured frames. 
+
+
+Tack The time at which a frame | No sooner than 
+acknowledgement shall | 1 ms and no later 
+be transmitted, measured | than 5 ms 
+
+from the time between 
+reception of the last symbol 
+of the received frame 
+and transmission of the 
+first symbol of the PPDU 
+preamble of the response 
+frame. 
+
+
+7.2 MAC PIB 
+
+
+Table 6 contains definitions of constants used for the 
+data link layer. 
+
+
+IS 18010 (Part 5/Sec 1) : 2020 
+
+
+Table 6 MAC PIB’s 7.3 Data Structures 
+
+( Clause 7.2 ) 7.3.1 Frame Formats 
+Name Description Value Only IEEE Std. 802.15.4™ - 2020 data and enhanced 
+Mac Extended | The extended address | As per section acknowledge frames shall be used. Other frame types 
+Address assigned to the device. | 8.4.3 of IEEE Std. | SHOULD be discarded, and the node shall continue 
+
+
+802.15.4™ - 2020 
+
+
+normal operation. 
+Mac Max Be The maximum value of | As per section 
+the back off exponent, | 8.4.3 of IEEE Std. 7.3.1.1 Data frame 
+BE, in the CSMA-CA | 802.15.4™ - 2020 
+
+
+algorithm, aš definid in All the frame exchange done from upper layer is 
+
+
+Section 6.2.5.1 of IEEE done using data frame as defined in section 7.3.2 of 
+Std. 802.15.4™ - 2015. IEEE Std. 802.15.4™ - 2020. 
+Mac Max Csma | The maximum number | As per section| The data frame shall be formatted as illustrated in 
+Backoffs of backoffs the | 8.4.3 of IEEE Std. Fig. 3. 
+CSMA-CA algorithm | 802.15.4™ - 2020 
+will attempt before The addressing field shall be set as EUI-64 source or 
+declaring a channel destination address as indicated in frame control field. 
+
+
+access failure. 
+
+
+- S - If the frame is sent as a secured frame, the Security 
+mac Max Frame | The maximum number | As per section | field in the frame control field SHALL be set to 1, an 
+Retries of retries allowed after | 8.4.3 of IEEE Std. a : K . 
+a transmission failure. | 802.15.4™ - 2020 auxiliary security header shall be included and security 
+Mac Min Be The minimum value of | As per section level, key Id mode, key 3 ource and key index hel ds 
+the backoff exponent | 8.4.3 of IEEE Std. shall echo the corresponding fields of the frame being 
+
+
+(BE) in the CSMA-CA | 802.15.4™ - 2020 acknowledged. See section 7.5 for further details. 
+
+
+ce ene IE field shall be populated if the IE Field is set to 1 in 
+in Section 6.2.5.1 p 1 
+of IEEE Std. frame control filed. See section 7.4 for further details. 
+
+
+802.15.4™ - 2015. Data payload shall be set as it is received from the 
+
+
+Mac Pan Id The identifier of the | As per section upper layer. 
+
+
+PAN on which the | 8.4.3 of IEEE Std. 
+device is operating. | 802.15.4™ - 2020 The FCS field shall be set to the 4-octet value as 
+
+
+If this value is Oxffff, calculated in IEEE Std. 802.15.4™ - 2020. 
+
+
+Me device: aS nee The frame control field of the data frame shall be 
+
+
+associated. e ‘ 
+— formatted as shown in Fig. 4. 
+Mac Security | Indication of whether | TRUE, FALSE ae 
+Enabled the MAC  sublayer Below are the values to be set of the individual fields: 
+e ere ee a) Frame type field shall be set as 1 (data frame); 
+indicates that security b) The security field MAY be set to either 1 or 0; 
+i bled, hil ; 
+» an a F AS c) Frame pending field shall be set as 0; 
+indicates that security d) The AR field MAY be set to either 1 or 0; 
+is disabled. : 
+e) The PAN ID Compression field MAY be set to 
+either | or 0, 
+
+Octets 2 0/1 Variable 6 Variable Variable 4 
+Frame Control = | Sequence Number | Addressing Fields = | AUX Security Header = | IEs = (see below) | Data Payload | FCS 
+(see Fig. 4) (see below) (see below) (see below) 
+
+Fic. 3 Data FRAME FoRMAT 
+Frame Control 
+wwa a | z s| x 7 € | o l o e ee 
+Frame | Security Frame AR= PAN ID Reserved | Sequence IEs Destination | Version Source 
+Type Pending=0 | 1/0 | Compression =0 Number Present | Addressing =2 Addressing 
+= =1/0 Suppression Mode = 3/0 Mode = 3/0 
+=1/0 
+
+
+Fic. 4 Data FRAME CONTROL FORMAT 
+
+
+f) The reserved field MAY be set to either 1 or 0; 
+
+
+g) The sequence number suppression field MAY be 
+set to either 1 or 0; 
+
+
+h) The IE present field MAY be set to either 1 or 0. 
+
+
+j) The destination addressing mode shall be set to 
+3 if the source address is present otherwise set 
+to 0; 
+
+
+k) Version field shall be set as 2; and 
+
+
+m) The source addressing mode shall be set to 3 if the 
+source address is present otherwise set to 0. 
+
+
+7.3.1.2 Acknowledgment frame 
+
+
+The acknowledgment frame, when requested, is used to 
+confirm frame reception. 
+
+
+The acknowledgement frame shall be formatted 
+as an enhanced acknowledge defined in IEEE Std. 
+802.15.4™ - 2020 section 7.3.3 as shown in Fig. 5. 
+
+
+The destination address shall be set to the EUI-64 
+source address of the frame being acknowledged. 
+
+
+The source address field shall be set to the EUI-64 
+MAC address of the transmitting node. 
+
+
+The FCS field shall be set to the 4-octet value as 
+calculated in IEEE Std. 802.15.4TM - 2020. 
+
+
+The frame control field of the acknowledgement frame 
+shall be formatted as shown in Fig. 6. 
+
+
+If an acknowledgement frame is sent in response to a 
+secured frame, the security field shall be set to 1, an 
+auxiliary security header shall be included and security 
+level, key Id mode, key source and key index fields 
+shall echo the corresponding fields of the frame being 
+acknowledged. See section 7.5 for further details. 
+
+
+If an acknowledgement frame is sent in response to 
+a non-secured frame, the security field shall be set to 
+0 and the Auxiliary Security Header shall be omitted 
+from the acknowledgement. 
+
+
+The sequence number suppression field shall echo 
+
+
+the value from the frame being acknowledged. When 
+
+
+present, the sequence number field shall echo the value 
+from the frame being acknowledged. 
+
+
+IS 18010 (Part 5/Sec 1) : 2020 
+
+
+7.3.2 Bit Order of Transmissions 
+
+
+Unless otherwise specified the following conventions 
+shall be used in frame format descriptions in this 
+standard. Frame format figures shall follow the 
+conventions used in IEEE Std. 802.15.4™ - 2020. 
+
+
+Each frame is described as a specific sequence of fields 
+depicted in the order in which they are transmitted 
+by the PHY, from left to right, where the leftmost bit 
+shall be transmitted first in time. Bits within each field 
+are numbered from 0 (leftmost and least significant) 
+to k — 1 (rightmost and most significant), where the 
+length of the field is k bits. Fields that are longer than a 
+single octet shall be sent to the PHY in the order from 
+the octet containing the lowest numbered bits to the 
+octet containing the highest numbered bits. 
+
+
+Character string values, when specified, are treated 
+with left-to-right orientation. The octet containing the 
+leftmost character shall be transmitted first. 
+
+
+Extended address values are 64-bit extended universal 
+identifiers as defined in EUI64. The EUI-64 shall be 
+transmitted in descending index order as depicted 
+in EUI64, with eui[7] transmitted first and eui[0] 
+transmitted last. 
+
+
+7.4 Information Elements 
+
+
+Several Information Elements (IEs) are to be support 
+in the operation of this network. These IEs defined fall 
+into two categories: 
+
+
+a) Header IEs (HIEs). MAC management information 
+carried in the frame header; and 
+
+
+b) Payload IEs (PIE). MAC management information 
+carried in the frame payload. 
+
+
+The choice of a management IE being implemented as 
+a HIE or PIE is based on several factors: PIEs can be 
+much longer than a HIE, PIEs can be secured as part of 
+the payload content, etc. 
+
+
+In addition to the special defined Information Elements, 
+the node employs the MPX-IE as defined in IEEE Std. 
+802.15.9™ - 2016 to support MSDU protocol dispatch 
+and optional Layer 2 fragmentation (6LoWPAN 
+fragmentation being mandatory). 
+
+
+Octets: 2 0/1 8 
+
+
+8 6 Variable 4 
+
+
+Destination Address = 
+(see below) 
+
+
+Frame Control = 
+(see below figure) 
+
+
+Sequence Number = 
+(see below) 
+
+
+Source Address = 
+(see below) 
+
+
+IEs FCS 
+(see below) 
+
+
+AUX Security Header = 
+(see below) 
+
+
+Fic. 5 ACKNOWLEDGEMENT FRAME FORMAT 
+
+
+Frame Control 
+
+
+Bit:0-2 3 4 5 6 3 8 9 10-11 12-13 14-15 
+Frame Security = | Frame AR PAN ID Reserved | Sequence IEs Destination | Version | Source 
+Type (see below) | Pending | =0 Compression | =0 Number Present | Addressing | =2 Addressing 
+= =0 =i Suppression = | = 1 Mode = 3 Mode = 3 
+
+(see below) 
+
+
+Fic. 6 ACKNOWLEDGEMENT FRAME CONTROL FORMAT 
+
+
+5 
+
+
+IS 18010 (Part 5/Sec 1) : 2020 
+
+
+If an IE not defined by this specification is encountered 
+in a frame, that IE MAY be ignored, and the rest of 
+the frame shall be processed as normal including any 
+additional IEs. 
+
+
+7.4.1 Header Information Elements (HIEs) 
+
+
+A HIE shall adhere to the format of the header 
+information element described in 7.421 of 
+IEEE Std. 802.15.4™ - 2020 (Fig. 7). 
+
+
+The Element ID field shall be set to the HIE Identifier 
+value (0 x 2A). 
+The Type field shall be set to 0 (short). 
+
+
+The FAN defines the IE Content field as a HIE Sub ID 
+field followed by a HIE Content field. 
+
+
+7.4.2 Payload Information Elements (PIEs) 
+
+
+A PIE shall adhere to the format of the MLME 
+information element described in 7.4.3.3 of 
+IEEE Std. 802.15.4™ - 2020 (Fig. 8). 
+
+
+The Group ID field shall be set to the PIE Identifier 
+value (0 x 04). 
+
+
+A PIE MAY only contain one or more Nested-IEs 
+defined in this clause. Each sub-IE shall conform to the 
+long or short Nested-IE format defined in clause 7.4.4.1 
+of IEEE Std. 802.15.4™ - 2020. 
+
+
+7.5 Security 
+
+
+FAN nodes shall implement AES-CCM* based 
+Frame Security as specified in section 9 of IEEE Std. 
+802.15.4™ - 2020. 
+
+
+7.5.1 Auxiliary Security Header 
+
+
+The auxiliary security header shall be encoded as 
+described in section 9.4 of IEEE Std. 802.15.4™ - 2020 
+and shall be populated as follows: 
+
+
+a) Security Control Field: 
+1) Security level shall be set to 6 (ENC-MIC-64); 
+
+
+2) Key identifier mode shall be set to 0x01 
+(key indicated by the key index field); and 
+
+
+3) Frame counter suppression shall be set to 0. 
+
+
+b) Frame counter shall be encoded as described in 
+section 9 of IEEE Std. 802.15.4™ - 2020. 
+
+
+c) Key identifier field: 
+1) Key source field shall be omitted; and 
+
+
+2) Key index field is handled as per the upper 
+layer. 
+
+
+The MAC Layer shall support multiple security 
+keys handling as defined in section 9 of 
+IEEE Std. 802.15.4™ - 2020 
+
+
+The border router signals the current active key index 
+to be used for transmission/encryption via the key 
+index field of the auxiliary security header of the 
+PAN configuration frame (which the border router 
+originates). Once the border router has transitioned to a 
+new key index (likely due to the expiration of an older 
+key), the border router shall not reuse that key index 
+until the associated key material has been replaced. 
+
+
+7.5.2 CCM* Nonce and Frame Counter 
+
+
+The FAN uses AES-CCM* to secure frames. An input to 
+the AES-CCM* calculation is the CCM* nonce, which 
+is composed of the source address of the transmitter, 
+the transmitter’s frame counter for the specific key 
+used, and the security level. The source address used 
+in the nonce shall be in the octet order described in 
+Annex C of IEEE Std. 802.15.4™ - 2020. To ensure 
+replay protection, the CCM* nonce and therefore the 
+frame counter value shall not be used more than once 
+with a specific Key. 
+
+
+A node shall maintain a frame counter for each Key. 
+The frame counter shall be set to 0 before the first use 
+of the Key and shall be incremented with each unique 
+transmission secured using the Key. If the frame counter 
+saturates, the associated key shall not be further used. 
+
+
+7.6 Channel Access 
+
+Nodes shall operate in non-beacon mode. 
+
+Unslotted CSMA-CA and CCA Mode 1 shall 
+be implemented (as described in IEEE Std. 
+802.15.4™-2020 sections 6.2.5.1 and 10.2.8 
+
+
+respectively). 
+
+
+The following channel access mechanisms shall be 
+employed: 
+
+
+Octets: 2 1 Variable 
+Bit: 0-6 7-14 15 
+Length Element ID = 0 x 2A Type = 0 WH-IE Sub ID WH-IE Content 
+Fic. 7 HEADER IE FRAME FORMAT 
+Octets: 2 Variable Variable Variable 
+Bit: 0-10 11-14 15 
+Length Group ID = 0 x 04 Type = 1 First Nested Sub IE | Second Nested Sub IE 
+
+
+Fic. 8 PAYLOAD IE FRAME FORMAT 
+
+
+6 
+
+
+a) Asynchronous Frame Transmissions 
+
+
+1) CSMA/CA shall not be used before 
+asynchronous frame transmissions. 
+
+
+2) CCA Mode | may be used before asynchronous 
+frame transmissions. If CCA indicates a 
+channel is busy, then the channel shall be 
+skipped and the next channel in the frame 
+transmission sequence attempted. 
+
+
+b) Frame Transmissions 
+1) Upper layer to indicate details on weather 
+CCA to be used or not before transmission of 
+specific frame. 
+
+
+c) CSMA/CA and/or CCA shall not be used before 
+acknowledgement frame transmissions. 
+
+
+d) Broadcast Frame Transmissions 
+
+
+1) CSMA/CA shall be used with CCA mode 1 for 
+all broadcast transmissions. 
+
+
+7.7 Frame Exchange Patterns 
+
+
+The following terms are used to describe the data 
+exchange patterns supported by the FAN MAC. 
+
+
+7.7.1 Received Frame 
+
+
+A frame shall be considered “received” if the frame 
+CRC is valid and (only when included in the frame) 
+the frame destination address matches the EUI-64 of 
+the receiving node. If secured, the security integrity 
+check field of a received frame shall be validated as 
+a prerequisite to any further processing by the MAC. 
+
+
+Following the transmission of a frame (assuming a 
+single radio), a node shall adhere to the following 
+priority channel listening scheme: 
+
+
+IS 18010 (Part 5/Sec 1) : 2020 
+
+
+If the node had transmitted a frame requesting an ACK, 
+the node shall continue to listen for the continuation of 
+the ACK on the same channel as the transmission. 
+
+
+8 MARKING 
+
+
+8.1 Marking 
+The LMCP device shall be marked with the following 
+information: 
+
+a) Manufacturer’s name; 
+
+b) Operating frequency; 
+
+c) Modulation; 
+
+d) Data rate supported; and 
+
+e) Country of manufacture. 
+
+
+In case if the marking is not possible due to the size of 
+the device or any other constraints, the marking shall be 
+done on the package. 
+
+
+8.2 Standard Mark 
+
+
+The device may also be marked with the following 
+additional information: 
+
+
+a) Address of the manufacturer; and 
+b) Trademark/trade name. 
+
+
+8.3 BIS Certification Marking 
+
+
+The product(s) conforming to the requirements of 
+this standard may be certified as per the conformity 
+assessment schemes under the provisions of the 
+Bureau of Indian Standards Act, 2016 and the Rules 
+and Regulations framed thereunder, and the products 
+may be marked with the Standard Mark. 
+
+
+IS 18010 (Part 5/Sec 1) : 2020 
+
+
+The features and functionalities used in Physical layer 
+shall be as given in A-1 and A-2. 
+
+
+A-1 PLP CAPABILITIES 
+
+
+The requirement for the PLP is described below in 
+
+
+ANNEX A (PHY PICS) 
+( Clause 5 ) 
+
+
+Table 7. 
+Table 7 PHY Packet 
+(Clause A-1 ) 
+Item Item Reference Support 
+Number Description 
+PLP 1 Transmission of | 11 of IEEE Std. M 
+PPDU packets | 802.15.4™ - 2020 
+PLP 2 Reception of | of IEEE Std. M 
+PPDU packets | 802.15.4™ - 2020 
+PLP3 PSDU size 11.2 of IEEE Std. M 
+802.15.4™ - 2020 
+A-2 RF CAPABILITIES 
+
+
+The requirements for the PHY RF capabilities are 
+
+
+described below in Table 8. 
+
+
+B-1 The details of the features and functionalities 
+used in Media Access layer shall be as given below in 
+
+
+Table 9. 
+
+
+Table 8 Radio Frequency (RF) 
+( Clause A-2 ) 
+
+
+Item Item Description Reference Support 
+Number 
+RF 1 SUN PHYs 
+RF 1.1 SUN-FSK Clause 5 M 
+RF 1.3 | Transmit and | 10.1 of IEEE Std. M 
+receive using CSM | 802.15.4™ - 2020 
+RF 2 SUN PHY operating modes 
+RF 2.1 | Operating mode | Clause 5.3 M 
+#1 and #2 for the 
+frequency ` bands 
+866 MHz in Table 3 
+RF2.2 | Operating mode #3 | Clause 5.3 O 
+for the frequency 
+bands 866 MHz in 
+Table 3 
+RF 3 SUN-FSK Options 
+RF 3.1 | SUN-FSK FEC 19.3.5 of IEEE Std. O 
+802.15.4™ - 2020 
+RF 3.2 | SUN-FSK 19.3.6 of IEEE Std. O 
+interleaving 802.15.4™ - 2020 
+RF 3.3 | SUN-FSK data 19.4 of IEEE Std. M 
+whitening 802.15.4™ - 2020 
+RF 3.4 | FCS Length 7.2.11 of IEEE Std. M 
+support for 4-octet | 802.15.4™ - 2020 
+
+
+ANNEX B (MAC PICS) 
+( Clause 7 ) 
+
+
+Table 9 MAC Frames 
+( Clause B-1 ) 
+
+
+Item Number Item Description Reference Support 
+MF 1 Data 7.3.2 of IEEE Std. 802.15.4™ - 2020 M 
+MF 2 Enhanced Acknowledgment 7.3.3 of IEEE Std. 802.15.4™ - 2020 M 
+MF 3 IEs 7.4 of IEEE Std. 802.15.4™ - 2020 M 
+
+MF 3.1 Header IE 7.4.2 of IEEE Std. 802.15.4™ - 2020 M 
+MF 3.2 Payload IE 7.4.3 of IEEE Std. 802.15.4™ - 2020 M 
+
+
+IS 18010 (Part 5/Sec 1) : 2020 
+
+
+ANNEX C 
+( Foreword ) 
+COMMITTEE COMPOSITION 
+
+
+Smart infrastructure Sectional Committee, LITD 28 
+
+
+Organization 
+
+
+Indian Institute of Science, Bengaluru 
+
+
+Amravati Smart City Development Corporation 
+Limited, Mumbai 
+
+
+ARM, Noida 
+
+
+Centre for Development of Telematics, 
+New Delhi 
+
+
+Criterion Network Labs, Bengaluru 
+Cyan Connode Private Limited, Bengaluru 
+
+
+E-Goverments Foundation, Bengaluru 
+Ericsson India Private Limited, Gurugram 
+ESRI, Noida 
+
+
+European Project SESEI 
+Hawlett Packard Enterprise 
+IEEE India, Bengaluru 
+
+
+India Smart Grid Forum, New Delhi 
+
+Indian Institute of Science, Bengaluru 
+
+Intel India Technology Private Limited, 
+Bengaluru 
+
+Ministry of Housing and Urban Affairs, 
+
+New Delhi 
+
+MoHUA Smart Cities Handholding team 
+
+
+Narnix Technolabs Private Limited, New Delhi 
+
+
+National Smart Grid Mission, Ministry of Power, 
+Gurugram 
+
+
+PHYTEC Embedded Private Limited, Bengaluru 
+
+
+Pune Smart City, Pune 
+
+
+Qualcomm India Private Limited, Bengaluru 
+
+
+Representative(s) 
+
+
+ProF BHARADWAJ AMRUTUR (Chairman) 
+
+
+SHRI SIDDHARTH GANESH 
+
+
+SHRI KUMAAR GUHAN 
+
+
+SHRI AURINDAM BHATTACHARYA 
+SHRIMATI ANUPAMA CHOPRA (Alternate) 
+
+
+SHRI JAYAPRAKASH KUMAR 
+SHRI KRISHNA Kumar Louati (Alternate) 
+
+
+SHRI DEEPAK NIMARE 
+Suri MANISH WIDHANI (Alternate) 
+
+
+SHRI KRISHNAKUMAR THIAGARAJAN 
+SHRI SENDIL KUMAR DEVAR 
+
+
+Suri VIJAY KUMAR 
+SHRIMATI SEEMA JosHi (Alternate I) 
+Suri RupesH Kumar (Alternate II) 
+
+
+SHRI DINESH CHAND SHARMA 
+Suri R. DEVARAJAN 
+
+
+SHRI SRIKANTH CHANDRASEKARAN 
+Suri Munir MonammeD (Alternate) 
+
+
+Suri REJI KUMAR PILLAI 
+SHRIMATI PARUL (Alternate) 
+
+
+SHRI VASANTH RAJARAMAN 
+
+
+SHRI C. SUBRAMANIAN 
+SHRI ANANTHA NARAYANAN (Alternate I) 
+SHRI SIDHARTHA Monanty (Alternate Il) 
+
+
+SHRI KUNAL KUMAR 
+SHRI PADAM VIJAY 
+Suri N. KISHOR NARANG 
+
+
+SHRI MR ARUN MISRA 
+Suri GYAN PraKAsH (Alternate I) 
+SHRIMATI Kumub Wapuwa (Alternate ID 
+
+
+Suri B. Varras Rao (Vasu) 
+
+
+Suri ManNovit BOSE 
+
+
+Dr VINOSH BABU JAMES 
+Dr Punit Ramon (Alternate) 
+
+
+IS 18010 (Part 5/Sec 1) : 2020 
+
+
+Organization Representative(s) 
+Renesas Electronics, Bengaluru RAVINDRA CHATURVEDI 
+SAURABH Goswami (Alternate) 
+Schneider Electric’s industrial software SHRI GOURAV KUMAR HADA 
+business-AVEVA, Mumbai SHRIMATI SANGEETA GARG (Alternate) 
+Secure Meters Limited, Gurugram SHRI ANIL MEHTA 
+
+
+SHRI PUNEET KHURANA (Alternate I) 
+Suri Kaustusu Pari. (Alternate ID 
+Suri Utram Komorya (Alternate UD 
+
+
+Shrama Technologies Private Limited SHRI AMARJEET KUMAR 
+
+
+Siemens Limited, Mumbai Suri Ravi MADIPADGA 
+Suri PRADEEP Kapoor (Alternate I) 
+Suri VIKRAM GANDOTRA (Alternate II) 
+Suri MANOJ BELGAONKAR (Alternate MI) 
+
+
+Standardization Testing and Quality Certification Surimati LIPIKA KAUSHIK 
+
+
+(STQC) 
+System Level Solutions (India) Private Limited, SHRI DIPEN PARMAR 
+
+Anand Suri Foram Moni (Alternate) 
+Tata Consultancy Services Limited, Mumbai SHRI RAMESH BALAJI 
+
+Suri DEBASHIS MITRA (Alternate) 
+
+Tejas Networks Limited, Bengaluru Dr Kanwar Jit SINGH 
+Telecommunication Engineering Center, SHRI RAJEEV KUMAR TYAGI 
+
+Department of Telecommunications, SHRI Senn. Kumar (Alternate I) 
+
+New Delhi Suri Utram Cuanp (Alternate II) 
+In Personal Capacity PROF SUPTENDRANATH SARBADHIKARI 
+BIS Director General SHRIMATI REENA GARG, SCIENTIST ‘F’ AND HEAD (ELECTRONICS AND IT) 
+
+
+[ REPRESENTING DIRECTOR GENERAL ( Ex-officio ) | 
+
+
+Member Secretary 
+
+
+Suri MANIKANDAN K. 
+Scientist ‘D’ (ELECTRONICS AND IT), BIS 
+
+
+10 
+
+
+IS 18010 (Part 5/Sec 1) : 2020 
+
+
+LITD 28/P1 Last Mile Communication Protocols 
+
+
+Organization Representative(s) 
+
+Sharma Technologies Pvt Ltd SHRI AMARJEET KUMAR (Convener) 
+Narnix Technolabs Pvt Ltd, New Delhi Suri N. KISHOR NARANG 
+ARM, Noida SHRI KUMAAR GUHAN 
+
+SHRI JOTHI KUMAR (Alternate) 
+Kalkitech SHRI NIRMAL THALIYIL 
+Intel India Technology Pvt Ltd, Bengaluru SHRI C. SUBRAMANIAN 
+Secure Meters Ltd, Gurugram SHRI UTTAM KOTDIYA 
+Itron India Pvt Ltd SHRI KUNAL SHAH 
+CDoT SHRI AURINDAM BHATTACHARYA 
+E-Goverments Foundation, Bengaluru SHRI KRISHNAKUMAR THIAGARAJAN 
+Indian Institute of Science, Bengaluru SHRI ABHAY S. 
+Genus SHRI KAMAL LAMBA 
+Cyan Connode Pvt Ltd SHRI DEEPAK NIMARE 
+
+Suri Matt Kern (Alternate) 
+Sen Ra Suri Kuso MISRA 
+Tata Communications Ltd Suri RAKESH TRIVEDI 
+
+
+Suri ANAND NADAR (Alternate) 
+
+
+11 
+
+
+Bureau of Indian Standards 
+
+
+BIS is a statutory institution established under the Bureau of Indian Standards Act, 2016 to promote harmonious 
+development of the activities of standardization, marking and quality certification of goods and attending to 
+connected matters in the country. 
+
+
+Copyright 
+
+
+BIS has the copyright of all its publications. No part of these publications may be reproduced in any form without 
+the prior permission in writing of BIS. This does not preclude the free use, in the course of implementing the 
+standard, of necessary details, such as symbols and sizes, type or grade designations. Enquiries relating to 
+copyright be addressed to the Director (Publications), BIS. 
+
+
+Review of Indian Standards 
+
+
+Amendments are issued to standards as the need arises on the basis of comments. Standards are also reviewed 
+periodically; a standard along with amendments is reaffirmed when such review indicates that no changes are 
+needed; if the review indicates that changes are needed, it is taken up for revision. Users of Indian Standards 
+should ascertain that they are in possession of the latest amendments or edition by referring to the latest issue of 
+‘BIS Catalogue’ and ‘Standards: Monthly Additions’. 
+
+
+This Indian Standard has been developed from Doc No.: LITD 28 (13503). 
+
+
+Amendments Issued Since Publication 
+
+
+Amend No. Date of Issue Text Affected 
+
+
+BUREAU OF INDIAN STANDARDS 
+
+
+Headquarters: 
+
+Manak Bhavan, 9 Bahadur Shah Zafar Marg, New Delhi 110002 
+
+Telephones: 2323 0131, 2323 3375, 2323 9402 Website: www.bis.gov.in 
+
+Regional Offices: Telephones 
+
+Central : Manak Bhavan, 9 Bahadur Shah Zafar Marg | 2323 7617 
+NEW DELHI 110002 2323 3841 
+
+Eastern: 1/14 C.I.T. Scheme VII M, V.I.P. Road, Kankurgachi | 2337 8499, 2337 8561 
+KOLKATA 700054 2337 8626, 2337 9120 
+
+Northern : Plot No. 4-A, Sector 27-B, Madhya Marg | 265 0206 
+CHANDIGARH 160019 265 0290 
+
+Southern : C.I.T. Campus, IV Cross Road, CHENNAI 600113 | 2254 1216, 2254 1442 
+
+2254 2519, 2254 2315 
+
+Western : Manakalaya, E9 MIDC, Marol, Andheri (East) 2832 9295, 2832 7858 
+
+MUMBAI 400093 2832 7891, 2832 7892 
+
+
+Branches : AHMEDABAD. BENGALURU. BHOPAL. BHUBANESHWAR. COIMBATORE. 
+DEHRADUN. DURGAPUR. FARIDABAD. GHAZIABAD. GUWAHATI. 
+HYDERABAD. JAIPUR. JAMMU. JAMSHEDPUR. KOCHI. LUCKNOW. 
+NAGPUR. PARWANOO. PATNA. PUNE. RAIPUR. RAJKOT. VISAKHAPATNAM. 
+
+
+Published by BIS, New Delhi 
+
+

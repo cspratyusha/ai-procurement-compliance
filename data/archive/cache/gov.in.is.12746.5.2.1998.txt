@@ -1,0 +1,2607 @@
+is, 12746 ( Part S/Set 2) : 1996 IEC 870-5-2 (1992) fv#w7vF
+
+( Reaffirmed 2006 )
+
+Indian Standard
+
+TELECONTROL
+
+EQUIPMENT
+Link Transmission
+
+AND SYSTEMS
+
+PART 5 TRANSMISSION Section 2
+
+PROTOCOLS Procedure
+
+ICS 33.200
+
+0 BIS 1998
+
+BUREAU
+MANAK
+
+OF
+
+INDI,AN
+
+STANDARDS
+ZAFAR MARG
+
+BHAVAN,
+
+9 BAHADUR SHAH NEW DELHI 110002
+
+June
+
+1998
+
+Price Group
+
+14
+
+Power System Control and Associated Communications Sectional Committee, LTD 25
+
+NATIONAL FOREWORD This Indian Standard which is identical with IEC Pub 870-5-2 (1992 `Telecontrol equipment and systems - Part 5 : Transmission protocols, Section 2 : Link transmission procedures', issued by the International Electrotechnical Commission (IEC), w'as adopted by the Bureau of Indian Standards on the recommendation of Power System Control and Associated Communications Sectional Committee (LTD 25) and approval of the Electronics and Telecommunication Division Council. The text of the IEC standard has been approved as suitable for publication as Indian Standard without deviations. Wherever the words `International Standard' appear referring to this standard, they should be read as `Indian Standard'. CROSS REFERENCES In this Indian Standard, the following International Standards are referred to. Read in their respective places the following:
+International Standard Corresponding Indian Standard Degree of Equivalence
+
+IEC 50 (371) : 1984 International Electrotechnical Vocabulary (IEV) Chapter 371: Telecontrol IEC 870-5-l : 1990 Telecontrol equipment and systems - Part 5 : Transmission protocols Section 1 : Transmission frame formats
+
+IS 1885 (Part 50) : 1985 Electrotechnical vocabulary: Part 50 Telecontrol (first
+revision)
+
+Technically Equivalent
+
+IS 12748 (Part 5/Set 1) : 1993 Telecontrol equipment and systems: Part 5 Transmission protocols, Section 1 Transmission frame formats
+
+Identical
+
+The concerned technical committee has reviewed the provisions of IEC 870-l -1 : 1988 `Telecontrol equipment and systems - Part 1: General considerations - Section 1: General principles', referred in this adopted standard and has decided that it is acceptable for use in conjunction with this standard. Only the English language text in the International Standard has been retained while adopting it in this .`lndian Standard.
+
+IS 12746 ( Part 5/Set 2 ) : 1996 IEC 870-5-2 ( 1992 )
+
+CONTENTS
+
+Page
+
+Scope and object ................................................................................................................ 1.1 1.2
+
+5
+
+5 Scope ........................................................................................................................ Object ....................................................................................................................................5
+
+Normative references ......................................................................................................................6 Formats and structures of standard transmission frames ......................................................... 6 3.1 3.2 3.3 3.4 Format FT 1 .l .......................................................................................................................7 Format FT 1.2 ....................................................................................................................... 8 Format FT 2 ...........................................................................................................................9 10 Format f=T3 ..........................................................................................................................
+
+Service primitives and elements of transmission procedures .................................................. 11 4.1 SEND/NO REPLY service .................................................................................................. 12 4.1 .l 4.1.2 4.2 Service primitives ...................................................................................................12 Transmission procedure ........................................................................................ 13 Service primitives ................................................................................................... 13 Transmission procedure ........................................................................................ 13
+1U
+
+SEND/CONFIRM service ................................................................................................... 13 4.2.1 4.2.2
+
+4.3
+
+REQUEST/RESPOND service .......................................................................................... 4.3.1 4.3.2
+
+Service primitives ................................................................................................... 14 Transmission procedures ...................................................................................... 14 ..............................................................................................................15
+
+Unbalanced transmission 5.1
+
+Specification of length, control and address fields .......................................................... 15 5.1 .l 5.1.2 5.1.3 Length field ..............................................................................................................15 Control field .............................................................................................................16 Address field ...........................................................................................................18
+
+5.2 5.3
+
+Unbalanced transmission services ................................................................................... 19 Unbalanced transmission procedures .............................................................................. 20 5.3.1 5.3.2 53.3 5.3.4 5.3.5 SEND/NO REPLY procedures ............................................................................ 20 Undisturbed SEND/CONFIRM procedures ........................................................ 20 Disturbed SEND/CONFIRM procedures ............................................................ 20 Undisturbed REQUEST/RESPOND procedures .............................................. 21 Disturbed REQUEST/RESPOND procedures ................................................... 21
+
+1
+
+IS 12746( PartS/Sec 2):1998 IEC 870-5-2 ( 1992 ) Clause Page
+
+6
+
+Balanced transmission 6.1
+
+...................................................................................................................29
+
+Specification of length, control, and address fields ......................................................... 29 6.1 .I 6.1.2 6.1.3 Length field ..............................................................................................................29 Control field .............................................................................................................29 Address fiefd ...........................................................................................................32
+
+6.2 6.3
+
+Balanced transmission services ......................................................................................... 33 Balanced transmission procedures ................................................................................... 34 6.3.1 6.3.2 6.3.3 6.3.4 SEND/NO REPLY procedures ..................................................................... Undisturbed SEND/CONFIRM procedures Undisturbed procedures with data flow control ................................................ Disturbed SEND/CONFIRM procedures ..................................................... .................................... .. ..... .......
+34
+
+...................................................... 34
+34, 34
+
+Annex A - Time out interval for repeated frame transmission
+
+41
+
+Tables 1
+2
+
+Unbalanced transmission, function codes of control field in messages sent from primary (PRM = 1) .......... ..... ............ .. .... ............ ................................ ........................ Unbalanced transmission, function codes of control field in messages sent from secondary (PRM = 0) . ................ ....... .............. ............ ................. ......... ...... .. .. .. . .. .. . .. Balanced transmission, function codes of control field in messages sent from primary (PRM = 1) ..... .. .................... .... ........ ............................ ............ .. ............ ........ Balanced transmission, function codes of control field in messages sent from secondary (PRM = 0) .. ....... .........._.............................. ............ .............. ............. .......
+
+17 17
+
+3
+4
+
+31 31
+
+Figures 1 2 3 4 5 6 7 Relationship between service primitives and transmission procedures .._.._............_..............................................._.. for basic link services .... ..............................._
+11
+
+Example of the interaction between a polling procedure and an eventinitiated transmission ............ ...................... ............................................_...._._.................... 19 Unbalanced transmission procedures, undisturbed SEND/CONFIRM procedures .. .......... Unbalanced transmission procedures, disturbed SEND/CONFIRM procedures ..... ... ....... Unbalanced transmission procedures, undisturbed REQUEST/RESPOND procedures ... Unbalanced transmission procedures, undisturbed REQUEST/RESPOND procedures ... Unbalanced transmission procedures, undisturbed REQUEST/RESPOND procedures . . 22
+23
+
+21 25 26
+
+2
+
+IS 12746 ( Part 5/Set 2 ) : 1998 IEC 870-5-2 ( 1992 )
+
+Figures (wnthued)
+8
+
+Unbalanced REQUEST/RESPOND transmission procedures, disturbed REQUEST frame ....... ......... ....... ..... .......... .. ....... ........ ............ ......... ... ...._._....... Unbalanced REQUEST/RESPOND transmission procedures, disturbed RESPOND frame ... .. .......... ..... .. ................. ....... ............................ .................... Example of the interaction of service primitives and transmission procedures in a balanced system ...... .. ..... .. .. .............................*...........................................-............. Balanced transmission procedures, undisturbed SEND/CONFIRM procedures .............. Balanced transmission procedures, data flow control ...................................................... Balanced transmission procedures, disturbed SEND frame ............................................. Balanced transmission procedures, disturbed SEND and ignored CONFIRM frame ....... Balanced transmission procedures, disturbed CONFIRM frame ........... ............ ........ ..... .. Balanced transmission procedures, disturbed channel in one direction ...........................
+
+27 28
+
+9 10
+
+33 35 36 37 38
+
+11 12 13 14 15 16
+
+39
+
+40
+
+Al A2 A.3 A4
+
+Unbalanced transmission procedures, disturbed primary frame ...................................... Unbalanced transmission procedures, disturbed secondary frame .................................. Balanced transmission procedures, disturbed primary frame ........................................... Balanced transmission procedures, disturbed secondary frame ......................................
+
+43 44 47 48
+
+3
+
+As in the Original Standard, this Page is Intentionally Left Blank
+
+IS 12746 ( Part 5ISec 2 ) : 1996 EC 670-5-2 ( 1992 )
+
+Indian Standard
+
+TELECONTROL
+
+EQUIPMENT AND SYSTEMS
+PROTOCOLS
+
+PART 5 TRANSMISSION
+
+Section 2 1 1 .l
+
+Link Transmission
+
+Procedure
+
+Scope and object
+Scope applies to telecontrol equipment and systems for monitoring and controlling geographically with coded widespread
+
+This section of IEC 870-5 bit serial data transmission processes.
+
+The defined link procedures are restricted to message transmission sequences operating with size 1 windows. This means that the link layer of the primary station (station that initiates a message transfer) accepts a request for a new message transfer only when a previously accepted request for a message transfer is terminated either successfully or with an error indication. The procedures are applicable to balanced and unbalanced transmission in telecontrol systems using half duplex or duplex transmission channels.
+
+1.2
+
+Object
+
+The standard transmission procedures defined by this section are applicable to point-tomultipoint-partyline and multipoint-ring point, multiple point-to-point, multipoint-star. configurations as described in 4.4 of IEC 870-l -1. The data transmission functions in these systems link transmission services, namely: 1. SEND/NO REPLY 2. SEND/CONFIRM are composed of three basic types of
+
+3. REQUEST/RESPOND of
+
+The two services SEND/CONFIRM and REQUEST/RESPOND consist of a sequence non-separable dialogue elements between requesting stations and responding stations.
+
+The protocol defined in this section accepts and processes only a single link transmission service at a time in each direction of a bidirectional communication system. Each transmission' service is terminated either successfully or with error reports before the next transmission service begins. This means that the window size for successive packet transfers is 1 and the specified error recovery for the transmission services SEND/CONFIRM and REQUEST/RESPOND Utilize the stop-and-wait method for automatic repeat requests (ARC).
+
+5
+
+.
+
+IS
+
+12746
+
+IEC 870-5-2
+
+( Part Ei/Sec 2 ) : 1998 ( 1992 )
+
+In point-to-point configurations equipped with duplex channel operation, the defined protocol supports balanced transmission procedures, that is simultaneous data transmission services in both directions of the communication link. This enables outstations to report spontaneous events to the control station as they occur, without having to be polled. This reduces reporting delays and leads to faster data acquisition. However, the use of an individual duplex communications channel to each outstation leads to increased equipment costs.
+
+2
+
+Normative references
+
+The following standards contain provisions which, through reference in this text, constitute provisions of this section of IEC 870-5. At the time of publication, the editions indicated were valid. All standards are subject to revision, and parties to agreements based on this section of IEC 870-5 are encouraged to investigate the possibility of applying the most recent editions of the standards indicated below. Members of IEC and IS0 maintain registers of currently valid International Standards.
+
+IEC 50(371): control.
+
+1984, International
+
+Electrotechnical
+
+Vocabulary' (IEV) - Chapter 371: Tele-
+
+IEC 870-l -1: 1988, Telecontrol equipment and systems - Part 1: General considerations Section one: General principles. IEC 870-S-l : 1990. Telecontrol equipment and systems - Part 5: Transmission Section One: Transmission frame formats. protocols
+
+-
+
+-
+
+3
+
+Formats and structures of standard transmission frames
+against resiII, specified transmission in the range FT 1.2, FT 2 transmission used on any the frames is
+
+The transmission procedures defined in this section provide protection dual (i.e. undetected) transmission errors in the range of integrity class in IEC 870-5-1, if the transmission frame format FT 1 .l is used and if the rules specified by that section are observed. Residual transmission errors of integrity class I2 are achieved if one of the transmission frame formats or FT 3, specified by that section, are utilized and if the corresponding rules are observed. Only one chosen transmission frame format may be given physical communications channel in a system. The order of fields in generally as follows:
+
+Length (one octet) Control (one octet)
+
+Address (one or more octets, by agreement) Link user data (n octets)
+
+0
+
+IS 12746 ( Part 5/Set 2 ) : 1998 IEC 870-5-2 ( 1992 ) 3.1
+
+Format FT 1.1
+
+Frame with variable length
+
+Frame with fixed length (Note 1)
+
+Single character (called `single control character' in IEC 870-5-l)
+
+(Note 2)
+
+c
+A
+
+User data
+
+Link
+USM
+
+data
+
+L: length field range: 0...127 L specifies the number of subsequent user data octets including the control and address fields C: A: control field address field, optional
+
+NOTES 1 There is no special frame with a fixed length; the variable length frame is used in all cases.
+
+2 The shaded fields have already been defined in IEC 870-5-l. The unshaded fields are the `user data' of the frame as indited in IEC 870-5-l.
+
+7
+
+IS 12746 (Part 5/Set 2) : 1998 IEC 870-5-2 ( 1992 )
+
+3.2
+
+Format FT 7.2
+
+Frame
+
+with
+
+Frame
+
+with
+
+Single character (called `single control character" in IEC 870-5-l)
+
+variable length
+
+fixed length
+
+.....
+
+:.:...:.:.:.:.:...:.:.~~..:::.::..:::.::.::~
+
+Notes
+
+1 and
+
+4
+
+) ... ...... ............. ...... ......
+
+User data C A User data Link user data (Note 3)
+
+T
+I
+c
+
+(Note
+
+1)
+
+(Note
+
+1)
+
+(Notes
+
+1 and
+
+2)
+
+I
+
+A
+
+(Note
+
+1)
+
+Note 1)
+
+L:
+
+length field range: the number
+
+0...255 of subsequent user data octets including the control and address fields
+
+L specifies C: A:
+
+control field address field, optional
+
+NOTES 1 Specified data octets are represented in hexadecimal notation, in which
+
+bits with weights bits with weights
+
+27 . . 2' denote the lett hexadecimal character and 2s . . 20 denote the right hexadecimal character, 1000 8 begins, as defined in IEC 870-5-l. with the least significant bit 20
+
+0110 e.g.: 68 H = 6 The sequence
+
+of bit transmission
+
+2 3
+
+Reserved
+
+for special use by agreement.
+
+A fixed number of user data octets is specified per system.
+
+The shaded fields have already been defined in IEC 870-5-l 4 The unshaded fields are the "user data' of the frame as indicated in IEC 870-5-t.
+
+IS 12746 ( Part 5/Set 2 ) : 1996 IEC 870-5-2 ( 1992 )
+
+3.3
+
+Format FT 2
+Frame with variable length Frame with fixed length Single character (called `start character 2" in IEC 870-5-l) (Note 1)
+
+(Notes 1 and
+
+User data
+
+User data
+
+(Note 2)
+
+Link user data
+
+(Note 2)
+
+(Note 2)
+
+Link user data
+
+(Note 2)
+
+(Note 2)
+
+Link user data
+
+(Note 2)
+
+L: length field range: 0...255 L specifies the number of subsequent user data octets including the control and address octets and excluding the CRC-check octets L = 0 specifies a fixed frame length with at least 2 user data octets L > 0 specifies a variable frame length with L user data octets C: control field A: address field, optional CRC-check: Cyclic Redundancy Check NOTES
+1
+
+Specified data octets are represented in hexadecimal notation, 0111 7 with the most significant bit.
+1, subclause 6.2.4.3.1, R3).
+
+0010 e.g. 27 H = 2
+
+The sequence of bit transmission begins, as defined in IEC 87051,
+2
+
+Up to 15 user data octets are completed by a CRC-check
+
+octet (see IEC 8706
+
+3 The shaded fields have already been defined in IEC 870-5-l. The unshaded fields are the `user data' of the frame as indicated in IEC 870-5-l.
+
+IS 12746 ( Part S/Set 2 ) : 1998 IEC 670-5-2 ( 1992 )
+
+3.4
+
+Format FT 3
+Frame with variable length Frame with fixed length Single character (called `start character 2" in IEC 870-5-l)
+1)
+
+(Note 1)
+
+(Note
+
+(Note 2)
+
+(Note 2)
+
+(Note 2)
+
+II
+
+Link user data
+
+(Note 2)
+
+L: length field range: 0...255 L specifies the number of subsequent user data octets including the control and address octets and excluding the CRC-check octets L = 0 specifies a fixed frame length with at least 2 user data octet L r 0 specifies a variable frame length with L user data octets C: control field A: address field, optional CRC-check: Cyclic Redundancy Check NOTES 1 Specified data octets are represented in hexadecimal notation, -0101 6 &#&G!XOIOO 6 4
+
+e.g. 05 l-l = -0000 0
+
+The sequence of bit transmission begins, as defined in IEC 870-5-1. with the most significant bit. 2 3 Up to 16 user data octets are completed by a CRC-check octet (see IEC 870-5-l. subclause 6.2.4.4.1, R3). The shaded fields have already been defined in IEC 870-5-l
+
+The unshaded fields are the "user data' of the frame as indicated in IEC 870-5-l
+
+IS 12746 ( Part 5/Set 2 ) : 1998 EC 870-5-2 ( 1992 ) 4 Service primitives and elements of transmission procedures
+
+The data communication "service primitives"
+
+is described
+
+by crossing the interface between the service user and the link layer, and associated of the link between communicating stations.
+
+"transmission
+
+procedures"
+
+The contents of the service primitives in this section.
+
+(parameters,
+
+conditions,
+
+etc.) are not standardized
+
+Service primitives
+
+Service primitives
+
+REQ (D) SEND/ NO REPLY (Sl)
+
+I
+
+-END
+
+(D)
+
+IND (D) b
+
+REQ( 0) I SEND/ CONFIRM (52)
+
+SEND (0) -
+
+IND (D) b
+
+REQ IND REQUEST/ RESPOND (S3) 4 CON (D) 4 D = data w 1 TIME & RESP (D)
+
+Figure 1 - Relationship between service primitives procedures for basic link services
+
+and transmission
+
+11
+
+IS
+
+12746
+
+(
+
+Part YSec
+( 1992 )
+
+2 )
+
+: 1996
+
+IEC
+
+670-5-2
+
+Figure 1 shows error free transmission procedures of basic link services. Transmission errors are only detected by receiving stations. A secondary station receiving a disturbed SEND or REQUEST frame does not reply. This is detected' by the primary station timing out, because the expected CONFIRM or RESPOND frame is not received. Also a primary station receiving a disturbed CONFIRM or RESPOND frame ignores it and consequently detects the error.
+
+There are four types of primitives conditions, namely: request primitive REQ:
+
+that may contain user data and sets of parameters
+
+and
+
+a request issued by the service some procedure In the link layer;
+
+user to invoke
+
+cohfirmation primitive CON:
+
+a confirmation issued complete the procedure request;
+
+by the link layer to previously invoked by a
+
+indication primitive IND:
+
+a indicatian issued by the link layer to announce the wish to deliver data to the service user, or to invoke some service user procedure;
+
+response primitive RESP:
+
+a response
+
+issued
+
+by the service
+
+nounce the completion of a procedure invoked by an indication. NOTE - Confirmations
+or responses can be positive or negative, as appropriate
+
+user to anpreviously
+
+to the circumstances.
+
+Typical contents follows: user data;
+
+of the service
+
+primitives
+
+are parameters,
+
+conditions
+
+and user data as
+
+types of transmission negative/positive
+
+service (function code, e.g. SEND/CONFIRM); or responses;
+
+confirmations
+
+DFC (data flow control); ACD (access demand); number of repetitions (e.g. 3); error);
+
+error status (e.g. after a repeated transmission status of the layer (e.g. restart conditions). 4.1 4.1.1 SEND/NO REPLY service Service pcimitives
+
+- Primary station The link layer accepts the request primitive REQ (SEND/NO REPLY) given by the link user when it is able to transmit the message. If the link layer is not able to transmit the message (disconnection from line or error state) a negative confirmation primitive CON (negative, SEND/NO REPLY, error status) is returned.
+
+12
+
+IS 12746 ( Part S/Set 2 ) : 1998 IEC 870-5-2 ( 1992 ) - Secondary station announces the reception of the
+
+An indication primitive IND (no response required) message to the service user of the secondary station. 4.1.2 Transmission procedure
+
+The specified SEND frame (see tables 1 and 3) is transmitted cedure of a previous service is terminated
+
+when the transmission
+
+pro-
+
+After the transmission of the frame a line idle interval is provided whose length is specified as an interval between frames upon detection of a transmission error (see IEC 870-5-1, subclause 6.2.4.1, transmission rule R4 for FT 1 .l frames, subclause 6.2.4.2.1, transmission rule R4 for FT 1.2 frames, subclause 6.2.4.3.1, transmission rule R5, for FT 2 frames and subclause 6.,2.4.4.1, transmission rule R5 for FT 3 frames).
+
+The line idle interval may be reduced below these figures by using the carrier off condition to represent idle line. 4.2 4.2.1 SEND/CONFIRM service
+
+Service primitives
+
+- Primary station The link layer accepts the request primitive REQ (SEND/CONFIRM, number of repetitions) and invokes the SEND/CONFIRM procedure, unless it is unable to transmit the message, in which case it returns a negative confirmation primitive CON (negative SEND/CONFIRM, error status) to the service user.
+
+If a negative acknowledgement is received from the secondary station, a negative confirmation primitive CON (negative SEND/CONFIRM, error status) is returned to the user. A negative confirmation primitive is also returned to the user if the maximum number of repeated message transmissions expires without success.
+
+- Secondary
+
+(confirming)
+
+station
+
+An indication primitive IND (no response required) announces the reception of the message to the user at the confirming station if a SEND frame which is not a repeat of the previously received frame is received in the designated destination. 4.2.2 Transmission procedure when the transmission pro-
+
+The specified SEND frame (see tables 1 and 3) is transmitted cedure of a previous service is terminated. When it is received correctly by the secondary mitted to the primary station.
+
+station a positive CONFIRM (ACK) is trans-
+
+If the confirming station is unable to accept the message, e.g. due to an overload situation (unavailable buffer memory), a negative CONFIRM frame (NACK, message not accepted) is transmitted.
+
+13
+
+IS 12746 ( Part 5/Set 2 ) : 1998 IEC 870-5-2 ( 1992 ) 4.2.2.1
+
+Protection against loss and against duplication
+
+of message transmission
+
+In the primary station the frame count bit (FCB. see 51.2) is alternated with each new SEND/CONFIRM service. The service is terminated when an error free CONFIRM frame is received. If the CONFIRM frame is disturbed or timed out, then the SEND frame is repeated unchanged FCB bit. The maximum number of repetitions is a specified parameter. with
+
+In the secondary station a copy of the confirm message returned to the primary station is stored. If the value of the FCB bit in the next SEND frame is alternated from the previous one (as expected), then the memorized confirm message is cleared and may be overwritten; otherwise, the received message is discarded and the memorized CONFIRM frame is transmitted again. On receiving a reset command, which has an FCB equal to zero (see tables 1 and 3), the secondary station will be set to expect the next frame primary to secondary with FCV = valid (FCV=l, see 5.1.2) to have the opposite setting of FCB, i.e. FCB equal to one.
+
+4.3 4.3.1
+
+REQUEST/RESPOND Service primitives
+
+service
+
+- Primary (requesting)
+
+station
+
+The link layer accepts the request primitive REQ (REQUEST/ RESPOND, number of repetitions) and invokes the REQUEST/RESPOND procedure after a previous transmission procedure is terminated, unless it is not able to transmit the message, in which case it returns a negative confirmation primitive CON (negative REQUEST/RESPOND, error status) to the user. If the procedure ends with the requested response from the secondary station. layer gives a confirmation primitive CON (response to request) to the user. the link
+
+If a negative acknowledgement is received from the secondary station (data are not available), the link layer gives a negative confirmation primitive CON (negative response to request, error status) to the user. A negative confirmation primitive CON (negative response to request, transmission error) is also returned to the user if the maximum number of repeated request transmissions expires without success. - Secondary (responding) station
+
+When a REQUEST frame is received the link layer issues an indication primitive IND to the user. If the requested data are available, the'link user returns a response primitive RESP with the data to the link layer; otherwise, it returns the response primitive RESP (requested data not available).
+
+4.3.2
+
+Transmission
+
+procedures 1) is transmitted when the transmission
+
+The specified REQUEST frame (see table procedure of a previous service is terminated. 14
+
+IS 12746 ( Part 5/Set 2 IEC 870-5-2 ( 1992 )
+
+) : 1998
+
+On receiving
+
+a REQUEST frame the secondary
+
+station will send
+
+a RESPOND
+
+frame (see table 2) with the requested data if available:
+
+a RESPOND
+
+NACK frame "requested
+
+data not available"
+
+if the data are not available.
+
+4.3.2.1
+
+Protection against loss and against duplication
+
+of message transmission
+
+In the primary station the frame count bit FCB is alternated with each new REQUEST/ RESPOND service. If an error-free RESPOND frame (RESPOND, NACK frame or NACK single character) is received, then the service is terminated by returning the received reply to the user.
+If the RESPOND
+
+with unchanged
+
+frame is disturbed or timed out, then the REQUEST frame is repeated FCB bit. The maximum number of repetitions is a specified parameter.
+
+In the secondary station the received frame count bit and the transmitted response are buffered locally. If a REQUEST frame is received with an alternated FCB bit, then the memorized response may be cleared. However, if a REQUEST frame with the same FCB bit is received, then the same response is repeated.
+5 Unbalanced transmission
+
+Unbalanced transmission procedures are used in supervisory control and data acquisition (SCADA) systems in which a master station controls the data traffic by polling outstations sequentially. In this case the master station is the primary station that initiates all message transfers while the outstations are secondary stations that may transmit only when they are polled.
+
+The following link:
+
+transmission
+
+services,
+
+initiated
+
+by the primary station, are supported
+
+by the
+
+SEND/NO REPLY
+
+mainly used for global messages in control loops;
+
+and for cyclic setpoints
+
+SEND/CONFIRM
+
+mainly used for control commands and setpoint commands;
+
+REQUEST/RESPOND
+
+used for polling; sequences for cyclic updating functions.
+
+of this service
+
+may be used
+
+5.1 5.1.1
+
+Specification Length field
+
+of length, controol and address fields
+
+The length field is as defined in 6.2.4 of IEC 870-5-l
+
+and also in this section
+
+in 3 1 to 3.4
+
+IS 12746 ( Part 5/Set 2 ) IEC 870-5-2 ( 1992 ) Control field
+
+: 1998
+
+5.1.2
+
+The control field contains information that characterizes the direction of the message, the type of the service provided and supports control functions for suppressing losses or duplications of messages.
+MSB LSB
+
+Control field rlRES
+
+1
+
+Primary
+
+to secondary
+
+Bit:
+
+LL
+PRM 0 8 7 6
+
+ACD
+
+DFC
+
+Function Secondary to primary
+
+I
+5
+
+I
+4 3 2 1
+
+RES: FCB:
+
+reserved frame count bit: 0.1 = alternating per station. bit for successive SEND/CONFIRM or REQUEST/RESPOND services
+
+The frame count bit is used to delete losses and duplications of information transfers. The primary station alternates the FCB bit for each new SEND/CONFIRM or REQUEST/RESPOND transmission service directed to the same secondary station. Thus the primary station keeps a copy of the frame count bit per secondary station. If an expected reply is timed out (missing) or garbled, then the same SEND/CONFIRM or REQUEST/RESPOND service is repeated with the same frame count bit.
+
+In case of reset commands (see table 1) the FCB bit is always zero, and upon receipt of these commands the secondary station will always be set to expect the next frame primary to secondary with FCV = valid (FCV=l) to have the opposite setting of FCB. i.e. FCB equal to one.
+
+FCV:
+
+frame count bit valid:
+
+0 = alternating 1 = alternating
+
+function of FCB bit is invalid; function of FCB bit is valid.
+
+SEND/NO REPLY services, broadcast messages and other transmission services that ignore the deletion of duplication or loss of information output do not alternate the FCB bit and indicate this by a cleared FCV bit.
+
+DFC:
+
+data flow control:
+
+0 = further messages are acceptable; 1 = further messages may cause data overflow. stations indicate to the message initiating (primary) station that an immediate
+
+Secondary succession ACD: Access
+
+(responding)
+
+of a further message
+
+may cause a buffer overflow. class 1 and 2;
+
+demand:
+
+There are two classes of message data provided, namely 0 = no access demand for class 1 data transmission; 1 = access demand for class 1 data transmission.
+
+Secondary
+
+stations
+
+indicate
+
+to the primary station the wish for class 1 data transmission.
+
+NOTE - Class 1 data transmission Class 2 data transmission is typically
+
+is typically used for events or for messages with high priority. used for cyclic transmission or for low priority messages.
+
+PRM:
+
+primary message:
+
+0 = message 1 = message
+
+from secondary
+
+(responding)
+
+station:
+
+from primary (initiating)
+
+station.
+
+16
+
+IS 12746 ( Part S/Set 2 ) : 1998 IEC 870-S-2 ( 1992 ) Table 1 - Unbalanced transmission, function codes of control field in messages sent from primary (PRM = 1)
+Function anh No. 0 1 2 3 4 5 6-7 6 9 10 11 12 - 13 14 - 15 REQUEST for access demand REQUEST/RESPOND REQUEST/RESPOND REQUEST/RESPOND expected expected expected
+
+Frame type SEND/CONFIRM SEND/CONFIRM SEND/CONFIRM SEND/CONFIRM exfhcted expected expected expected
+
+Service function
+
+FCV
+
+Reset of remote link
+
+0 0
+
+Reset of user process Reserved for balanced transmission procedure User data User data Reserved Reserved for special use by agreement Expected response specifies access demand Request status of link Request user data class 1 Request user data class 2 Reserved Reserved for special use by agreement
+
+1 0
+
+SEND/NO REPLY expected
+
+0 0 1 1
+
+Table 2 - Unbalanced transmission, function codes of control field in messages sent from secondary (PRM = 0)
+Function FNo. 0 1 2-5 6-7 6 9
+10 11 RESPOND
+
+type
+
+service function
+
+CONFIRM CONFIRM
+
+ACK: positive acknowledgement NACK: message not accepted, link busy Reserved Reserved for special use by agreement
+
+RESPOND
+RESPOND
+
+User data NACK: requested data not available
+
+Reserved Status of link or access demand
+
+12 13 14 15
+
+Reserved Reserved for special use by agreement Link service not functioning Link service not implemented
+
+17
+
+IS 12746 ( Part 5/Set 2 ) : 1998 IEC 870-5-2 ( 1992 )
+
+5.1.3
+
+Addiess field
+
+The address field specifies the station address. It is transmittad in frames from stations that initiate a data transmission service ("primary stations") to receiving stations ("secondary stations") and specifies the destination address. The address field of frames transmitted by secondary stations specifies the source address.
+
+Address field: MSB LSB
+
+Bit: LSB: Least significant bit MSB: Most significant bit
+
+6
+
+7
+
+6
+
+5
+
+4
+
+3
+
+2
+
+1
+
+The number of address octets is system dependent (by agreement between vendo*and user). Address range with i octets: 0 to 28i - 1. The first transmitted address octet contains the least significant address bits. Broadcast address (message to all stations) = 28i - 1.
+
+Group addresses should be defined by agreements between users and vendors.
+
+18
+
+IS 12746 ( Part S/Set 2 ) : 1998 IEC 870-5-2 ( 1992 )
+
+5.2
+
+Unbalanced
+
+transmission
+
+services
+
+The interaction of service primitives and associated transmission procedures (described in clause 4) for the polling function is shown in figure 2. The example shows the transmission of two events from the secondary station and of a command from the primary station, corresponding with figures 6 and 3.
+
+Station
+
+A (primary REQ
+
+station) > r
+
+Station
+
+B (secondary ~~- (REQ) (CON) )
+
+station)
+
+Service user including polling 4
+
+CON (IND) 4 Link
+4 )
+
+Service user
+
+Link
+
+IND RESP Service primitives
+
+Link
+
+(RESPL
+Service primitives
+
+transmission procedures
+
+REQ n
+
+REQUEST
+
+n IND n
+)
+
+Requested not avaIlable
+
+data
+
+RESPOND CON n REQ n+l (class 1) REQUEST
+
+n
+
+4
+
+RESP
+
+n
+
+n+l
+
+(class
+
+1) IND n+l (class (Dl 1) a) w
+
+_D1a _D1b Two access demands of data
+class
+
+`) RESPOND Dl a CON n+l REO n+l
+class outputs station 1 from n+l
+
+n+l
+
+(Dl) ACD = 1
+
+RESP
+
+n+l
+
+(01) (class 1) REQUEST n+l (class
+
+1) IND n+l (class (Dl 1) b)
+
+1 in
+n+l
+
+station
+
+RESPOND CON n+l (Dl) 4
+
+n+l
+
+(Dl)
+
+RESP
+4
+
+n+l
+
+_Dlb
+
+REQ n+2 Command (C) 10 station m CON n+2
+
+REQUEST
+
+n+2 IND n+2 RESP n+2 Requested data not available
+
+RESPOND
+
+n+2
+
+REQm(C)
+
+_
+
+SEND m (C)
+CONFIRM m
+
+IND
+
+m {C)
+
+_
+
+Command in statron
+
+(C) m
+
+`)
+
+Response horn station n+l with. data class 1 and access demand bit = 1.
+
+NOTE - n, n+l. n+2, etc., is a sequence of addresses as defined by the polling procedure.
+
+Figure
+
+2 -
+
+Example of the interaction between and an event-initiated transmission
+
+a polling
+
+procedure
+
+<IS 12746 ( Part 5/Set 2 ) : 1998 IEC 870-5-2 ( 1992 )
+
+5.3
+
+Unbalanced
+
+transmission
+
+procedures
+
+In figures 3 to 9 a white box represents a correctly received frame. A grey box represents a frame which is not correctly received. An arrow indicates a causal relationship.
+
+5.3.1
+
+SEND/NO REPLY procedures
+
+The transmission of a, SEND data fram.e without reply follows the transmission rules described in 4.1. 5.3.2 Undisturbed SEND/CONFIRM Figure 3 shows examples procedures
+
+This procedure is composed of a non-separable sequence of two transmission frames (see figure 3) a SEND data frame transmitted by the primary station, followed by a CONFIRM frame returned by the addressed secondary station. If the SEND data frame is accepted by the secondary station, it transmits a positive acknowledgement (CONFIRM). The CONFIRM frame may be a single character, as indicated in the top example of figure 3, or a frame .with fixed length, particularly if the confirmation is used to inform the primary station on particular states of the secondary station, such as indicating the wish for transmission of data class 1 (see second example [SEND data to secondary station address m] in figure 3).
+
+Note that the positive acknowledgement indicates to the primary station only that the frame was accepted without a detected error and that there was no data overflow condition in the link layer of the addressed receiving station. This does not, however, guarantee the successful execution of the intended command. To protect critical commands against loss, the provision of return information (see IEV 371-02-05) from the application layer is indispensable. If the SEND data frame is correctly received but is not accepted by the secondary station (e.g. due to an overflow condition), a frame with fixed length "NACK" (negative acknowledgement) is returned and the service user in the primary station is notified correspondingly. 5.3.3 Disturbed SEND/CONFIRM Figure 4 shows examples procedures
+
+If the SEND data frame is corrupted on the transmission path, then there is no response and the primary station repeats the SEND data frame with unchanged frame count bit in the control field of the frame after time out (see first example in figure 4).
+
+If the CONFIRM frame is corrupted (second example in figure 4), then the primary station also repeats the SEND data frame with unchanged frame count bit after time out. The secondary station recognizes the repeated data transmission by the unchanged frame count bit and thus discards the data and transmits the previous CONFIRM frame again.
+
+20
+
+IS 12746 ( Part S/Set 2 ) : 1996 IEC 670-5-2 ( 1992 )
+
+5.3.4
+
+Undisturbed REQUEST/RESPOND Figures 5, 6 and 7 show examples
+
+procedures
+
+Figure 5 shows examples of REQUEST/RESPOND procedures in which the requested data are not available in the addressed station. This procedure is used, for example for polling secondary stations for events or status changes. If no events are registered after a previous corresponding poll, the secondary station returns a negative acknowledgement (NACK). The corresponding RESPOND frame may be a single character frame or a frame with fixed length for indicating special states to the primary station.
+
+In the second polling example of figure 6 it is assumed that the primary station requests data class 1 from secondary station n+l and that the amount of data class 1 waiting for transmission exceeds a specified limit of the RESPOND frame. In this case the secondary station indicates the wish for further data class 1 transmission in the control field. If the primary station accepts the continuation it sends a further REQUEST frame to the. same secondary station with an altered frame count bit (in contrast, the repeated REQUEST frame to the same secondary station contains the unaltered frame count bit on receiving no response or a corrupted response, see figu:es 8 and 9).
+
+In figure 7, the primary station polls data class 2 from station n. The secondary station returns the requested data and indicates in the control field the demand'for data class 1 transmission. The primary station proceeds by polling the same station for data class 1 with an altered frame count bit and then continues with polling of data class 2 from the next secondary station.
+
+5.3.5
+
+Disturbed REQUEST/RESPOND Figures 6 and 9 show examples
+
+procedures
+
+Figure 8 shows the consequence of a disturbed REQUEST frame: since the disturbed REQUEST frame causes no response, the primary station repeats the REQUEST frame with an unaltered frame count bit to the same secondary station after time out.
+
+Figure 9 shows the consequence of a disturbed RESPOND frame: the primary station repeats the REQUEST frame with an unaltered frame count bit to the same secondary station after time out. The secondary station, which is obliged to keep a copy of the previously transmitted RESPOND frame, recognizes the REQUEST for a repeated frame transmission by the unaltered frame count bit and transmits the previously transmitted response again.
+
+21
+
+IS 12746 ( Part 5/Set 2 ) : 1998 IEC 870-5-2 ( 1992 )
+
+Station A to station S
+
+Station B to station A
+
+SEND data
+
+ACK single character
+
+SEND bata
+
+I
+Polling of data class 1 caused by access demand bit I 1
+
+ACK with access demand bit = 1
+
+Data class 1 with access demand bit = 0
+
+SEND data
+
+NACK with indications
+
+Figure 3 - Unbalanced transmission procedures, undisturbed SEND/CONFIRM procedures 22
+
+IS
+
+12746
+
+(
+
+Part 5/Set 2 ) : 1998
+( 1992 )
+
+IEC 870-5-2
+
+Station A to station B
+
+Station B to station A
+
+t
+
+data frame e.g. with frame count bit = 1
+
+Time out
+
+ERROR
+
+No response
+
+Repeated SEND data frame with frame count bit = 1 n
+
+SEND ADDR o n
+
+ACK single character
+
+SEND data frame e.g. with frame count bit = 0
+
+SEND ADDR = m
+
+Tim& out
+
+Disturbed or missing ACK single character
+
+ERROR Repeated SEND data frame with frame count bit = 0 SEND ADDR o m
+
+The number of repetitions is a parameter
+
+F
+23
+
+CONFIRM
+
+The repeated data reception is recognized by the unmodified frame count bit. The repeated data are discarded and confirmed
+
+Figure 4 - Unbalanced transmission procedures, disturbed SEND/CONFIRM procedures
+
+IS 12746 ( Part 5/Set 2 ) : 1996 IEC 870-5-2 ( 1992 )
+
+Station A to station 8
+
+Station 6 to station A
+
+Polling of data
+
+REQUEST ADDR = 1
+
+t
+
+NACK single character (request data not available)
+
+Polling of data
+
+RESPOND ADDR = 2
+
+NACK with access demand bit = 0 (request data not available)
+
+Polling of data
+
+REQUEST ADDR = 3
+
+NACK single character (request data not available)
+
+Polling of data
+
+REQUEST ADDR = n
+
+NACK single character (request data not available)
+
+Figure 5 - Unbalanced undisturbed
+
+transmission procedures, REQUEST/RESPOND procedures 24
+
+IS 12746 ( Part S/Set 2 ) : 1998 IEC 870-5-2 ( 1992 )
+
+Station
+
+A to station
+
+B
+
+I
+
+Station
+
+B to station
+
+A
+
+NACK single character (request data not available)
+
+Polling class 1.
+
+of data
+
+REQUEST frame e.g. with frame count bit = 0
+
+RESPOND ADDR = n+l
+
+Data class 1 with access demand bit = 1
+
+Polling
+
+of data frame
+
+class 1. REQUEST
+
+with frame count bit = 1
+
+ADDR
+
+= n+l
+
+RESPOND ADDR = n+l
+
+Data class access
+
+1 with bit = 0
+
+demand
+
+Polling class
+
+of data
+
+1
+I
+
+REQUEST ADDR = n+2
+
+NACK access (request
+
+with demand data bit = 0 not available)
+
+Figure 6 - Unbalanced undisturbed
+
+transmission procedures, REQUEST/RESPOND procedures 25
+
+IS 12746 ( Part 5/Set 2 ) : 1996 IEC 670-5-2 ( 1992 )
+
+Station
+
+A to station
+
+B
+
+Station
+
+B to station
+
+A
+
+/ Polling of data class 2. * t REQUEST frame FIIII e$g. with frame count bit = 1
+
+REQUEST AODR = n * Data class RESPOND ADDR = n access bit = 2 with
+
+demand
+
+1
+
+&
+Polling of data class 1. REQUEST frame with frame count bit = 0 REQUEST ADDR = n
+
+RESPOND ADDR = n
+
+Data class 1 with access demand bit = 0
+
+Polling class 2
+
+of data
+
+REQUEST ADDR II: = n+l
+
+Figure 7 - Unbalanced transmission procedures, undisturbed, REQUEST/RESPOND procedures
+
+26
+
+IS 12746 ( Part 5/Set 2 ) : 1998 IEC 870-5-2 ( 1992 )
+
+Station
+
+A to station
+
+B
+
+Station
+
+B to station
+
+A
+
+t
+
+count bit = 1
+
+No response Time out
+
+Repeated REQUEST with frame frame REQUEST ADDR rI n
+
+count bit = 1
+
+RESPOND ADDR = n
+
+Data
+
+Polling of data
+
+REQUEST ADDR = n+l
+
+RESPOND
+
+NACK single character
+(request data not available)
+
+The number of repetitions is a parameter
+
+Figure
+
+8 - Unbalanced REQUEST/RESPOND disturbed REQUEST frame
+
+transmission
+
+procedures,
+
+2.7
+
+IS
+
+12746
+
+IEC 870-5-2
+
+( Part 5/Set 2 ) : 1998 ( 1992 )
+
+Station A to station S
+
+Station 6 to station A
+
+Time out Disturbed or missing response
+
+ERROR Repeated REQUEST frame with frame count bit = 1 REQUEST ADDR = n
+
+RESPOND ADDR = n
+
+Repeated response because of unmodified frame count bit
+
+Polling of data
+
+NACK single character (request data not.available)
+
+The number of repetitions is a parameter
+
+Figure 9 - Unbalanced REQUEST/RESPOND disturbed RESPOND frame 28
+
+transmission
+
+procedures,
+
+IS 12746 ( Part 5/Set 2 ) : 1998 IEC 870-5-2 ( 1992 )
+
+6
+
+Balanced transmission
+
+If balanced transmission procedures are used, each station may initiate message transfers. Because such stations may act simultaneously as primary and secondary stations, they are called combined stations. In the following, the combined station is called either primary or secondary station according to its described functions. The balanced transmission procedure is restricted to point-to-point (see 4.4.1 of IEC 870-l-l and IEV 371-06-08) and multiple point-to-point configurations (see 4.4.2 of IEC 870-l-l and IEV 371-08-07). 6.1 6.1 .l. Specification of length. control, and address fields Length field and also in this section in 3.1 to 3.4.
+
+The length field is as defined in 6.2.4 of IEC 870-5-I
+
+6.1.2
+
+Control field
+
+The control field contains information that characterizes the direction of the message, the type of the service provided and supports control functions for suppressing losses or duplications of messages.
+
+29
+
+IS 12746 ( Part 5/Set 2 ) : 1998 IEC 8-/O-5--2 ( 1992 ) -
+
+MSB
+
+LSB
+
+Control field
+
+FCB
+
+FCV
+
+23
+
+2*
+
+2'
+
+2'
+
+Primary to secondary
+
+RES
+
+DFC
+
+Function Secondary to primary 4 3 2 1
+
+Bit:
+
+8
+
+7
+
+6
+
+5
+
+RES: DIR:
+
+reserved physical transmission direction: 1 = station A to station B 0 = station B to station A or REQUEST/RESPOND services
+
+FCB:
+
+frame count bit: 0.1 = alternating bit for successive SEND/CONFIRM per station.
+
+The frame count bit is used for suppressing losses and duplications of information transfers. The primary station alternates the FCB bit for each new SEND/CONFIRM or REQUEST/RESPOND transmission service directed to the same secondary station. Thus the primary station keeps a copy of the frame count bit per secondary station. If an expected reply is timed out (missing) or garbled, then the same SEND/CONFIRM or REQUEST/RESPOND service is repeated with the same frame count bit.
+
+In case of reset commands (see table 3) the FCB bit is always zero, and upon receipt of these commands the secondary station will always be set td expect the next frame primary to secondary with FCV = valid (FCV=l) to have the opposite setting of FCB, i.e. FCB equal to one.
+
+FCV:
+
+frame count bit valid:
+
+0 = alternating' function of FCB bit is invalid; 1 E alternating function of FCB bit is valid.
+
+SEND/NO REPLY services, broadcast messages and other transmission services that ignore the deletion of duplication or loss of information output do not alternate the FCB bit and indicate this by a cleared FCV bit. DFC: data flow control: 0 = further messages are acceptable; 1 = furthermessages may cause data overflow.
+
+Secondary (responding) stations indicate to the message initiating (primary) station that an immediate succession of a further message may cause a buffer overflow.
+
+PRM: primary message:
+
+0 = message from secondary (responding) station; 1 = message from primary (initiating) station.
+
+30
+
+IS 12746 ( Part 5/Set 2 ) : 1998 IEC 870-5-2 ( 1992 )
+
+Table 3 - Balanced transmission, function codes of control field in messages sent from primary (PRM = 1)
+Function code No. 0 1 2
+
+Frame type
+
+Service function
+
+FCV
+
+SEND/CONFIRM SEND/CONFIRM SEND/CONFIRM
+
+expected expected expected expected
+
+Reset of remote link Reset of user process Test function for link
+
+0 0
+
+1
+
+I
+
+3 4
+
+I SEND/CONFIRM
+
+I User data I User data
+Reserved
+Reserved Reserved for special use by agreement for u&al&wed status of link transmission procedure
+
+I
+IO
+
+'
+
+I I
+
+I
+I
+
+I SEND/NO REPLY expected
+
+I
+
+5
+6-7
+
+I
+1
+
+I
+
+I
+
+-
+
+I
+
+6
+9
+
+I
+1 REQUEST /RESPOND expected
+
+Request Reserved
+
+10 11 12- 13
+14
+
+I
+
+for unbalanced transmission procedure
+
+I
+I I
+
+Reserved for unbalanced transmission procedure Reserved Reserved for special use by agreement
+
+- 15
+
+Table 4 - Balanced transmission, function codes of control field in messages sent from secondary (PRM = 0)
+Function cod0 No. 0
+1
+
+Frame type
+
+service ful#ion
+
+CONFIRM CONFIRM
+
+ACK: positive acknowledgement NACK: message not accepted, link busy Reserved Reserved for special use by agreement Reserved for unbalanced transmission procedure Reserved for unbalanced transmission procedure
+
+2-5 6-7 6 9 10
+11 12 13 14 15 RESPOND
+
+'
+
+Reserved
+Status of link Reserved Reserved for special use by agreement not functioning not implemented
+
+Link service Link service
+
+31
+
+IS 12746 ( Part 5/SeC 2 ) : 1998 IEC 870-5-2 ( 1992 ) 6.1.3 Address field field specifies the station address. The address field may be
+
+If it is used, the address omitted.
+Address field:
+
+MSB
+
+LSB
+
+Bit: LSB: MB: Least significant bit Most significant bit
+
+8
+
+7
+
+G
+
+5
+
+4
+
+3
+
+2
+
+1
+
+The number of address octets is system dependent (by agreement between vendor and user). Address range with i octets: 0 to Zai - 1. The first transmitted address octet contains the least significant address bits.
+
+32
+
+IS 12746 ( Part 5/Set 2 ) : 1998 IEC 870-5-2 ( 1992 )
+
+6.2
+
+Balanced transmission
+
+services
+
+Th$ interaction of service primitives and associated transmission procedures (described in clause 4) is shown in figure 10. The example shows the transmission of messages in both directions simultaneously, corresponding with figure 11.
+
+Station
+
+A I,"LU
+
+Station
+
+B
+
+Service user
+
+Link layer
+
+Service user
+
+I
+
+I
+
+Service
+
+primitives
+
+Service
+
+primitives
+
+Access
+demand
+
+SEND
+
+I
+
+REQ
+
+Access demand Data output
+
+IND Data IND 4
+
+output
+
+CONFIRM
+
+Access
+demand IND Data output
+
+CONFIRM
+
+1
+Figure 10 - Example of the interaction of service primitives transmission procedures in a balanced system
+
+TIME
+
+and
+
+33
+
+IS 12746 ( Part 5/See 2.) : 1998 IEC 870-5-2 ( 1992 )
+
+6.3
+
+Balanced transmission
+
+procedures
+
+Balanced transmission procedures are restricted to point-to-point configurations equipped with a duplex channel operation. In these applications, both stations involved have equal access rights, i.e. there is no master slave relation assigned to the stations.
+
+In figures 1 I to 16, a white box represents a correctly received frame. A grey box represents a frame which is not correctly received. An arrow indicates a causal relationship.
+
+6.3.1
+
+SEND/NO REPLY procedures independently and simultaneously rules stated in 4.1. for message
+
+Both stations may use the duplex channel transmission by observing the transmission 6.3.2 Undisturbed SEND/CONFIRM Figure 11 shows examples
+
+procedures
+
+The transmission of SEND data frames may be initiated independently from both stations; however, the receipt of the associated CONFIRM frame is the condition for continuing with a following SEND data procedure 6.3.3 Undisturbed procedures with data flow control Figure 12 shows examples
+
+The secondary station indicates with DFC bit = 1 to the primary station that further ,messages may cause a buffer overflow. In this case, the primary station may transmit periodically repeated requests for the status of the link, until the secondary station indicates by DFC bit = 0 that further messages are acceptable.
+
+6.3.4
+
+Disturbed SEND/CONFIRM procedures Figures 13, 14. 15 and 16 show examples
+
+If the SEND data frame is disturbed and thus no CONFIRM frame is received within the time out, the SEND data frame is repeated with the unaltered frame count bit (see figure 13). The same procedure is performed if the CONFIRM frame is disturbed (see figure 15). If the SEND data frame is disturbed, the receiving station waits until it has detected a specified interval of line idle before accepting another frame. If a CONFIRM frame occurs during this interval, it will be ignored by the receiving station. In this case, the SEND data frames of each station are repeated with the unaltered frame count bit (see figure 14).
+
+Figure 16 shows the error recovery
+SEND data frame transmission
+
+procedure
+
+if a CONFIRM frame and a subsequent
+
+from one station are disturbed.
+
+34
+
+IS
+
+12746
+
+(
+
+Part 5/Set 2 ) : 1998
+( 1992 )
+
+IEC 870-5-2
+
+Station A to station B
+
+Station
+
+B to station A
+
++
+
+SEND data
+
+SEND
+
+SEND data
+
+ACK single character
+
+ACK single
+character
+
+SEND data
+
+SEND
+
+SEND
+
+SEND
+
+data
+
+ACK single character
+
+CONFIRM
+
+ACK with indications
+
+SEND data
+
+1
+SEND
+ACK single character
+
+SEND
+
+SEND
+
+data
+
+ACK single character
+
+pi&-j-
+
+Figure
+
+11 -
+
+Balanced transmission procedures, undisturbed SEND/CONFIRM procedures 3.5
+
+IS 12746(Part5/Sec2):1996 IEC 870-5-2 ( 1992 )
+
+Station
+
+A to station
+
+B
+
+Station
+
+B to station A
+
++ t
+
+SEND
+
+data
+
+I
+status
+
+SEND
+
+ACK with data flow control bit = 1, further messages cause may data overflow
+
+REQUEST of link
+
+I
+
+I
+
+REQUEST
+
+rl
+SEND
+
+SEND
+
+data
+
+ACK single chhracto:
+
+Response with data flow control bit = 1. further messages may cause data overflow
+
+REQUEST of link
+
+status
+
+1
+REQUEST
+
+Response with data flow control
+
+SEND
+
+data
+
+a
+SEND
+
+I
+
+bit = 0. further RESPOND
+
+I
+
+messages acceptable
+
+are
+
+I
+
+CONFIRM
+
+ACK single
+
+I
+
+character
+
+Figure 12 - Balanced
+
+transmission
+
+procedures,
+
+data flow control
+
+36
+
+IS 12746( PartS/Sec 2):1996 IEC 670-S-2 (1992)
+
+Station A to station B
+
+Station B to station A
+
+t
+
+SEND data e.g. with frame count bit = 0
+H
+
+Disturbed SEND data frame e.g. with frame count bit = 1
+
+ERROR Specified line idle interval ACK single character SEND data with frame count bit =
+
+1
+
+ACK single character
+
+Time out
+
+,I_SEND ACK with indications
+
+Repeated SEND data frame with frame count bit = 1
+
+The number of repetitions is a parameter
+
+Figure
+
+13 - Balanced transmission procedures, disturbed SEND frame
+
+37
+
+IS 12746 ( Part 5/Set 2 ) : 1996 IEC 670-5-2 ( 1992 )
+
+Station A to station B
+
+Station B to station A
+
+SEND data e.g. with frame count bit = 0
+
+SEND
+
+Disturbed SEND data frame e.g. with frame count bit = 1
+
+Specified line idle interval
+
+ACK single character (ignored, see A. 1.2)
+
+Time out
+
+Time out
+
+Repeated SEND data frame with frame count bit = 0 tl
+
+SEND
+
+\
+
+ACK with indications
+
+k
+
+J-J
+CONFIRM
+
+SEND
+
+Repeated SEND data frame with frame count bit = 1
+
+ACK single character
+
+The number of repetitions is a parameter
+
+Figure 14 - Balanced transmission procedures, disturbed SEND and ignored CONFIRM frame
+
+38
+
+IS
+
+12746
+
+(
+
+Part 5/Set 2 ) : 1998
+( 1992 )
+
+IEC 870-5-2
+
+Station
+
+A to station
+
+B
+
+Station
+
+B to station
+
+A
+
+SEND
+
+data
+
+c
+SEND
+or
+
+SEND data
+frame frame bit = 1 e.g. with count
+
+\
+
+Disturbed missing
+
+ACK single character ERROR \
+
+1
+
+CONFIRM
+
+I 1
+
+ACK single
+character
+
+SEND data
+
+SEND
+
+ACK single
+character
+
+Time out
+
+SEND data
+
+SEND
+
+3
+SEND
+
+Repeated
+
+SEND
+
+data frame with frame count bit = 1
+
+ACK' single character
+
+ACK single character
+
+The number is a parameter
+
+of repetitions
+
+Figure 15 - Balanced transmission procedures, disturbed CONFIRM frame
+
+39
+
+IS 12746 ( Part S/Set 2 ) : 1996 .IEC 670-5-2 ( 1992 )
+
+Station
+
+A to station
+
+B
+
+Station
+
+B to station A
+
+I
+
+I
+
+SEND data frame e.g. with frame count bit = 1 SEND
+
+\
+
+ElSEND CONFIRM ?I SEND
+
+SEND
+
+data frame
+
+e.g. with frame count bit = 1
+
+Disturbed or missing ACK single character
+
+ACK single character
+
+Disturbed
+
+SEND
+bit = 0
+
+data frame with
+
+frame count
+
+No response Time out ERROR Repeated SEND
+
+,1
+
+data frame with frame count bit = 1. The repeated data reception is recognized by the unmodified FCB bit. data and The repeated are discarded confirmed
+
+ACK single character
+
+Time out 4
+
+Repeated
+
+SEND SEND
+
+data frame with frame count bit = 0
+
+The number of repetitions is a parameter
+
+ACK single character
+
+Figure 16 - Balanced transmission procedures, disturbed channel in one direction
+
+40
+
+IS 12746 ( Part 5/Set 2 ) : 1998 IEC 870-5-2 ( 1992 )
+
+Annex
+
+A
+
+(normative)
+Time out interval
+
+for repeated frame transmission
+
+In the case of a correctly acknowledged transmission, the primary station may transmit its next frame immediately. However, REQUEST frames or SEND frames that expect immediate CONFIRM frames are repeated if the expected RESPOND (or CONFIRM) frames are not detected.
+
+The duration of the time out interval for the repeated frame transmission that starts after the transmission of the frame in the primary station depends on system specific parameters. The calculation of the time out interval for unbalanced (figures A.1, A.2) and balanced (figures A.3, A.4) procedures is based on worst-case conditions. It does not depend on information content of frames.
+
+A.1 Unbalanced transmlsslon procedures
+NOTE In this subclause and in A.2
+
+uppercaseT
+
+refers to a specified parameter
+
+and lower case t refers to an ob-
+
+served variable.
+
+- Disturbed
+
+primary frame, case 1 (see figure A.l).
+
+The secondary station B that detects a disturbed frame requires a minimum time T,, of line idle before it is ready to receive a new frame. The required minimum number of line idle bits that constitutes the time interval T,a is specified in 6.2.4 of IEC 870-5-l for the different transmission frame formats. In each case the number of line idle bits is specified in such a way that this sequence never occurs in a frame (even allowing for 3 bit errors). This means that the time out interval To must fulfill the condition:
+
+-
+
+Disturbed
+
+primary frame, case 2 (see figure A.l).
+
+If an undisturbed frame is received in the secondary station, then the RESPOND frame (or CONFIRM frame) is received in the primary station A after a loop delay, that is composed of the following time intervals:
+tLD where
+1LD
+
+=
+
+tDAB
+
++ `R + tDBA
+
+is the loop delay; is the signal is the reaction is the signal delay time for data from station A to statjon B:
+
+toAB tR tOB,,
+
+time of the station delay
+
+B to reply to requests; B to station A
+
+time for data from station
+
+This means that the time out interval must fulfill the condition:
+
+41
+
+IS 12746 ( Pert 5/Set 2 ) : 1998 IEC 870-5-2 ( `1992 )
+
+- Disturbed secondary frame, case 1: maximum time out interval (see figure A.2). If a constant time out interval is used, i.e. a time out interval that does not depend on the actual length of the response frame, then this interval must fulfill the condition:
+
+TO where T LBA is the longest frame from secondary
+
+'
+
+tLD + TLBA
+
+to primary station.
+
+In systems with wide dynamic ranges of the length of responding frames, this condition of the time out interval may be very long. In these systems, it may be preferred to adjust the time out interval T, to the actual length of the responding frame.
+
+- Disturbed secondary frame, case 2: matched time out interval (see figure A.2). If the time ou? interval is matched to the actual frame length of the responding frame, then the bit stream of the disturbed frame from the secondary station is supervised by the primary statrcn until a line idle interval T,, is detected. This interval is specified in IEC 870-5-l for the different transmission frame formats. The time out condition T, is therefore given by:
+
+where tFBA is the actual leng!h of the frame from station T,, is the prescribed B to station A. of an error in station A.
+
+line idle interval after the detection
+
+42
+
+IS 12746 (Pattfi/Sec2) IEC 870-5-2 ( 1992 )
+
+: 1998
+
+Station
+
+A to station
+
+B
+
+Station
+
+B to station
+
+A
+
+J
+
+It
+
+Case 1: time idle > loop delay
+
+frame
+
+I
+
+`LD
+
+1
+
+b&4
+
+T 18
+
+-
+
+Case 2: time idle > loop delay
+
+TO ' `LD
+
+Figure
+
+A.1 - Unbalanced
+
+transmission
+
+procedures,
+
+disturbed
+
+primary
+
+frame
+
+43
+
+IS 12746 ( Part 5/Set 2 ) : 1998 IEC 870-5-2 ( 1992 )
+
+Station Case
+
+A to station
+
+B T,
+
+Station
+
+B to station
+
+A
+
+1: maximum
+
+time out interval
+
+Frame primary
+
++ t
+
+to secondary
+
+Case
+
+2: matched
+
+IL
+TO' t LD +
+
+TLBA
+
+--s=
+
+I
+
+Repeated frame
+
+primary to secondary
+
+time out interval
+
+T,
+
+Frame primary to secondary
+
+--&DAB
+
+Ttn
+
+'
+
+tLD
+
++
+
+tFBA
+
+-
+
+.
+
+T
+
+' IA
+
+bEA
+
+i
+
+T IA
+
++
+Repeated frame primary to secondary
+
+Figure A.2 -
+
+Unbalanced
+
+transmission
+
+procedures,
+
+disturbed
+
+secondary frame
+
+44
+
+IS 12746 ( Part S/Set 2 ) : 1998 IEC 870-5-2 ( 1992 ) A.2 Balanced transmission procedures
+
+in balanced transmission procedures the two communicating stations may transmit frames simultaneously. Therefore the following maximum time out intervals may occur:
+
+- Disturbed primary frame. case 1: maximum time out interval (see figure A.3). if the primary frame transmitted by station A is disturbed, the maximum time out interval arises if station B begins to transmit its longest primary frame just at (or shortly before) the beginning of the expected secondary frame from station B. The resulting condition for the time out interval T, is:
+
+TO ' where
+TO
+
+tDAB
+
++ TLPSBA
+
++ `GB
+
++ tDBA
+
+is the maximum
+
+time out interval;
+
+tDAB T LPsBA
+`GB
+
+is the signal delay from station A to station B; is the longest secondary is the gap between frame from station B; transmission frames in station B;
+
+two successive
+
+to0A
+
+is the signal delay from station B to station A.
+
+- Disturbed primary frame, case 2: matched time out interval T, (see figure A.3).
+if the time out interval is matched to the actual frame length of disturbed frames received after the transmission of the primary frame, the time out interval T, is given by:
+
+where T FPSBA is the actual TIA primary frame length from station B; line idle interval after detection of an error in station A.
+
+is the prescribed
+
+- Disturbed secondary frame, case 1: maximum time out interval (see figure A.4). If station A receives a disturbed frame after transmitting a primary frame, the maximum time out interval arises if station B sends a disturbed longest secondary frame and a longest primary frame follows immediately. in this case station A will not only discard that disturbed secondary frame but also the succeeding primary frame, since the interval between two successive frames in station B is (in general) shorter than the interval T,, that is required to resynchronize a new frame. The resulting condition for the time out interval To is:
+
+TO ' where
+
+`LDA
+
++ TLSPBA
+
++ IGB + TLPSBA
+
+tLDA
+
+is the loop delay observed
+
+by station A;
+
+T LSPBA is the longest primary frame from station B.
+
+45
+
+IS 12746 (Part 5/Sec2 IEC 870-5-2 ( 1992 )
+
+j
+
+: 1998
+
+- Disturbed secondary frame, case 2: matched time out interval T, (see figure A.4). If the time out interval is matched to the length of frames that are received with errors detected after the transmission of the primary frame, then the time out interval may extend to:
+
+Tm ' tLDA + TFSPBA + kB where Tlil
+
++ TFPSBA + TIA
+
+is the time out interval matched to the received secondary frame;
+
+TFspeA is the actual secondary frame length from station B.
+
+46
+
+IS 12746 ( Part 5/Set 2 ) : 1998 IEC 870-5-2 ( 1992 )
+
+Station A to station B
+
+Station B to station A
+
+r
+
+Case I: maximum time out interval T,
+
+TO ' tDAB + TLPSBA
+
++ tG8 + tDBA
+
+Frame
+
+Case 2: matched time out interval T,,,
+
+T,
+
+'
+
+bAB
+
++ TFPSEIA + bBA
+
++ TIA
+
+tDOA
+
+t
+
+T IA
+
+Repeated frame primary to secondary
+
+Figure
+
+A.3 - Balanced transmission
+
+procedures,
+
+disturbed
+
+primary frame
+
+47
+
+IS 12746 ( Part 5/Set 2 ) : 1998 IEC 870-S-2 ( 1992 )
+
+Station
+
+A to station
+
+B
+
+Station
+
+S to station A
+
+Case
+
+I: maximum
+
+time out interval
+
+T,
+
+t
+`Cl > $OA "ith tLDA + TLSPEA = tOAB + tGB + TLPSEA
+
+tOAB
+
+t RB
++ `Rfi + tOEA
+
+T LSPBA
+
+Disturbed frame
+
+`00A
+
+_-
+
+Ignored frame because
+tGB -S T,A
+
+b3
+
+T IA
+
+t \
+
+Longest frame primary to secondary
+
+T LPSBA
+
+i
+
+1 tO0A
+
+Case 2: matched
+
+LJ
+Repeated frame primary to secondary time out interval T,
+tLDA + TFSPBA + TFPSSA + TIA
+
+`,n
+
+'
+
++ `GFI
+
+Disturbed frame
+
+where
+
+tL,,A = tDAB + tRB + tOeA
+
+T IA
+v `QBA
+
+ignored frame because
+tGL4 < TIA
+
++T
+
+IA
+
+_
+
+1
+Figure
+
+Repeated frame primary to secondary
+
+A.4 - Balanced
+
+transmission
+
+procedures,
+
+disturbed
+
+secondary
+
+frame
+
+Bureau of Indian Standards BIS is a statutory institution established under the Bureau ofIndianStandards Act, 1986 to promote harmonious development of the activities of standardization, marking and quality certification of goods and attending to connected matters in the country. Copyright BIS has the copyright of all its publications. No part of these form without the prior permission in wriiing of BIS. This does of implementing the standard, of necessary details, such designations. Enquiries relating to copyright be addressed Review of Indian Standards Amendments are issued to standards as the need arises on the basis of comments. Standards are also reviewed periodically; a standard along with amendments is reaffirmed when such review indicates that no changes are needed; if the review indicates that changes are needed, it is taken up for revision. Users of Indian Standards should ascertain that they are in possession of the latest amendments or edition by referring to the latest issue of `BIS Handbook' and `Standards: Monthly Additions'. This Indian Standard has been developed from Dot : No. LTD 25 ( 1740 ). publications may be reproduced in any not preclude the free use, in the course as symbols and sizes, type or grade to the Director (Publications), BIS.
+
+Amendments Issued Since Publication Amend No. Date of Issue Text Affected
+
+BUREAUOFINDIANSTANDARDS Headquarters: Manak Bhavan, 9 Bahadur Shah Zafar Marg, New Delhi 110002 Telephones : 323 01 31,323 33 75,323 94 02 Regional Offices : Central : Manak Bhavan, 9 Bahadur Shah Zafar Marq NEW DELHI 110002 : l/l4 C. I.T. Scheme VII M, V. I. P. Road, Maniktola CALCU`TTA700054 : SC0 335-336, Sector 34-A, CHANDIGARH 160022 Telegrams : Manaksanstha (Common to all offices) Telephone 323 76 17 323 38 41 337 84 99,337 337 86 26,337 85 61 91 20
+
+Eastern
+
+Northern
+
+60 38 43 { 60 20 25 235 02 16,235 04 42 1 2351519,2352315 832 92 95,832 1 832 78 91,832 78 58 78 92
+
+Southern : C. I. T. Campus, IV Cross Road, CHENNAI
+
+600113
+
+Western
+
+: Manakalaya, E9 MiDC, Marol, Andheri (East) MUMBAI 400093
+
+Branches
+
+AHMADABAD. BANGALORE. BHOPAL. BHUBANESHWAR. COIMBATORE. FARIDABAD. GHAZIABAD. GUWAHATI. HYDEFiABAD. JAIPUR. KANPUR. LUCKNOW. NAGPUR. PATNA. PUNE. THIRUVANANTHAPUFIAM.
+Printed at Primtogrqh, New Delhi, Ph : 5726847
+
+

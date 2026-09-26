@@ -1,0 +1,400 @@
+IS/ISO 20022-2 : 2007
+
+Hkkjrh; ekud
+
+fo�kh; lsok,� -- lkoZHkkSfed fo�kh; m|ksx lans'k ;kstuk
+Hkkx 2 iathdj.k fudk;ksa dh Hkwfedk vkSj nkf;Ro
+
+Indian Standard FINANCIAL SERVICES -- UNIVERSAL FINANCIAL INDUSTRY MESSAGE SCHEME
+PART 2 ROLES AND RESPONSIBILITIES OF THE REGISTRATION BODIES
+
+ICS 35.240.40
+
+� BIS 2013
+
+BUREAU OF INDIAN STANDARDS
+MANAK BHAVAN, 9 BAHADUR SHAH ZAFAR MARG NEW DELHI 110002 March 2013 Price Group 7
+
+IS/ISO 20022-2 : 2007
+Banking and Financial Services Sectional Committee, MSD 7
+
+NATIONAL FOREWORD This Indian Standard (Part 2) which is identical with ISO 20022-2 : 2007 `Financial services -- UNIversal Financial Industry message scheme -- Part 2: Roles and responsibilities of the registration bodies' issued by the International Organization for Standardization (ISO) was adopted by the Bureau of Indian Standards on the recommendation of the Banking and Financial Services Sectional Committee and approval of the Management and Systems Division Council. The text of ISO Standard has been approved as suitable for publication as an Indian Standard without deviations. Certain conventions are, however, not identical to those used in Indian Standards. Attention is particularly drawn to the following: Wherever the words `International Standard' appear referring to this standard, they should be read as `Indian Standard'. In this adopted standard, reference appears to certain International Standards for which Indian Standards also exist. The corresponding Indian Standards which are to be substituted in their respective places are listed below along with their degree of equivalence for the editions indicated: International Standard ISO 20022-1 : 2004 Financial services -- UNIversal Financial Industry message scheme -- Part 1: Overall methodology and format specifications for inputs and outputs from the ISO 20022 Repository ISO/TS 20022-3 : 2004 Financial services -- UNIversal Financial Industry message scheme -- Part 3: ISO 20022 Modelling guidelines ISO/TS 20022-4 : 2004 Financial services -- UNIversal Financial Industry message scheme -- Part 4: ISO 20022 XML design rules ISO/TS 20022-5 : 2004 Financial services -- UNIversal Financial Industry message scheme -- Part 5: ISO 20022 Reverse engineering Corresponding Indian Standard IS/ISO 20022-1 : 2004 Financial services -- Universal financial industry message scheme: Part 1 Overall methodology and format specifications for inputs and outputs from the ISO 20022 repository IS/ISO/TS 20022-3 : 2004 Financial services -- Universal financial industry message scheme: Part 3 ISO 20022 modelling guidelines IS/ISO/TS 20022-4 : 2004 Financial services -- Universal financial industry message scheme: Part 4 ISO 20022 XML design rules IS/ISO/TS 20022-5 : 2004 Financial services -- Universal financial industry message scheme: Part 5 ISO 20022 reverse engineering Degree of Equivalence Identical
+
+do
+
+do
+
+do
+
+i
+
+IS/ISO 20022-2 : 2007
+
+Introduction
+In the mid-1990s, it was felt strongly that the International Standard for communication between securities industry participants required an urgent review aiming at (1) reducing the time taken to deliver new standardized Message Sets to the market place and (2) improving "straight through processing" capabilities. ISO 15022 set the principles necessary to provide the different communities of users with the tools to design Message Definitions to support their specific information flows. These tools consisted of    a set of syntax and message design rules; a Data Field Dictionary uniquely identifying Business Elements to be communicated and their technical representation; a Catalogue of Messages built by the industry with the above-mentioned fields and rules.
+
+To address the evolving needs of the industry as they emerge, the Data Field Dictionary and the Catalogue of Messages had been kept outside ISO 15022 though maintained according to it. They were made available by a Registration Authority, which updated them as necessary upon the request of industry participants. The early 2000s saw the widespread growth of IP (Internet Protocol) networking and the emergence of XML (eXtensible Mark-up Language) as the "de facto" open technical standard for electronic communications. It was felt that ISO 15022 needed to be extended to offer the whole financial industry a common platform for the development of messages in a standardized XML syntax. At the same time, to shield the platform from further syntax changes, it was felt necessary to better split messaging into its business dimension, on one hand, and its technical representation, on the other hand. Therefore, while capitalizing on the original ISO 15022 tool set, ISO 20022 proposes  to use a modelling methodology (e.g. based on formal notation such as UML � Unified Modelling Language) to capture, analyse and describe in a syntax-independent way the Business Areas, Business Processes, Business Transactions, Business Actors, Business Roles, Business Information and associated Message Flow Diagrams and Message Definitions which allow the industry to exchange the information required to achieve its business objectives; to define the design rules to be used to convert Message Definitions described in a modelling notation into a standardized syntax representation. At the moment of the publication of ISO 20022 the preferred syntax for all electronic documents (including the subset of electronic STP-messages) is XML [as defined by the World Wide Web Consortium (W3C)]. On request of the financial industry, the design rules can later be extended to cover other future open syntaxes.
+
+
+
+Under this approach, which is in line with the messaging developments undertaken by other industries, the complete models and the derived syntax output are stored in a central Repository (the ISO 20022 Repository), serviced by the Registration Authority. The ISO 20022 Repository offers industry participants access to the following.  A financial Business Process Catalogue, containing     the description of the financial Business Model; the description of financial Business Transactions, including Message Definitions; the Message Schemes represented in an agreed syntax (such as ISO 20022 XML).
+
+A financial Data Dictionary, containing  Business Concepts, Data Types and Message Concepts used in Business Areas, Business Processes, Business Transactions and Message Sets.
+
+ii
+
+IS/ISO 20022-2 : 2007
+
+It is expected that this flexible framework will allow communities of users to build Business Transactions and Message Sets according to an internationally agreed approach and to migrate to the use of a common syntax (such as ISO 20022 XML). If the existing set of Business Transactions and Message Definitions stored in the ISO 20022 Repository does not address their requirements, the communities of users can agree on the use of other Business Transactions and Message Definitions and design them from the items registered in the Data Dictionary. They can submit these Business Transactions and Message Definitions to the Registration Authority. The Registration Authority, with the support of Standards Evaluation Groups, will validate the requests and update the ISO 20022 Repository as necessary and generate the corresponding ISO 20022 syntax output using the agreed ISO 20022 Syntax Design Rules for XML or for other future open syntaxes. Agreement of common financial Business Models and Message Definitions, which address the business requirements of the communities of users and include a common syntax solution (such as ISO 20022 XML), facilitates end-to-end straight through processing. Furthermore, the agreed Business Models and Message Definitions serve as a reference to migrate to an agreed ISO 20022 syntax (such as ISO 20022 XML). Indeed, communities using another syntax may link the content of their Industry Message Sets to items already existing in the ISO 20022 Repository. The relation between these items could be provided to the communities of users as "Convergence Documentation". It is expected that this new, dual split of business standard and technical standard will facilitate the convergence and the development of any required conversion mechanisms. ISO 20022 contains      the overall description of the modelling approach (Part 1); the overall description of the ISO 20022 Repository contents (Part 1); a high-level description of the input to be accepted by the Registration Authority to feed/modify the Repository's Data Dictionary and Business Process Catalogue (Part 1); a high-level description of the Repository output to be made publicly available by the Registration Authority (Part 1); the responsibilities, service levels and procedures for the Registration Bodies, including the role of Standards Evaluation Groups and the supervision by a Registration Management Group and ISO (Part 2); the detailed modelling guidelines to be used to construct ISO 20022 compliant Business Transactions and Message Sets (Part 3); the syntax design rules applied by the ISO 20022 Registration Authority to translate an ISO 20022 compliant Message Definition into an ISO 20022 syntax solution. The actual document shall specify a particular syntax such as "XML Design Rules" for the production of ISO 20022 XML Message Schemes and ISO 20022 XML Message instances (Part 4).
+NOTE 1 The Syntax Message Schemes published by the Registration Authority for the Message Definitions registered into the ISO 20022 Business Process Catalogue constitutes the reference against which Syntax Message Schemes generated by proprietary implementations of the ISO 20022 syntax design rules can be compared in order to validate the compliance of those implementations with the design rules.
+
+ 
+
+
+
+the reverse engineering guidelines explaining how to extract relevant information from existing Industry Message Sets in order to prepare the submission to the ISO 20022 Registration Authority of equivalent ISO 20022 compliant Business Transactions and Message Sets (Part 5).
+
+The ISO 20022 Registration Authority keeps a set of Submission Templates to the Data Dictionary and Business Process Catalogue available outside of ISO 20022. These templates can be used when submitting requests to the Registration Authority for inclusion into the ISO 20022 Repository.
+NOTE 2 Even though ISO 20022 deals with the standardization of the communication between financial industry players, it should be clear that it does not deal directly with any of the seven layers of the ISO Open Systems Interconnect model (OSI model). In fact, one could state that ISO 20022 starts where the OSI-model ends, i.e. ISO 20022 standardizes the content of the "file" (i.e. the message content) that is transported in the OSI Application Layer. The standardization of the message content deals itself with two separate layers: the "syntax layer", i.e. the standardization of the physical representation of the information that is transported, which deals with aspects related to the use of XML, Enhanced 7775,
+
+iii
+
+IS/ISO 20022-2 : 2007
+
+EDIFACT or other syntaxes; and the "semantic layer", i.e. the standardization of the meaning of the information that is transported. Although these layers were already covered in ISO 15022, ISO 20022 makes the standardization of these layers more formal and makes the separation between both layers more explicit and complete. The introduction of this formal approach improves (1) the interoperability and convergence across existing Industry Message Sets, (2) the re-usability across business domains and market practices, and (3) the stability of the standardized Business Transactions and Message Sets. Another important factor in ISO 20022 is the introduction of open syntaxes, such as XML, which removes the necessity to describe the technical specification of a particular syntax (such as Enhanced 7775 in ISO 15022).
+
+iv
+
+IS/ISO 20022-2 : 2007
+
+Indian Standard FINANCIAL SERVICES -- UNIVERSAL FINANCIAL INDUSTRY MESSAGE SCHEME
+PART 2 ROLES AND RESPONSIBILITIES OF THE REGISTRATION BODIES
+
+1
+
+Scope
+
+This part of ISO 20022 specifies the responsibilities of the bodies involved in the registration and maintenance of the ISO 20022 Repository. The Registration Authority (RA)1) is the operating authority responsible for the above-mentioned tasks and is assisted by different Standards Evaluation Groups (SEGs), i.e. groups of industry experts responsible for specific Business Areas of the Repository. The Registration Management Group (RMG) 2 ) is the governing body of the overall registration process and the appeal body for the communities of users, the RA, the SEGs and the Submitting Organizations, and monitors the registration process performance.
+
+2
+
+Normative references
+
+The following referenced documents are indispensable for the application of this document. For dated references, only the edition cited applies. For undated references, the latest edition of the referenced document (including any amendments) applies. ISO 20022-1, Financial services -- UNIversal Financial Industry message scheme -- Part 1: Overall methodology and format specifications for inputs to and outputs from the ISO 20022 Repository
+
+3
+
+Terms and definitions
+
+For the purposes of this document, the terms and definitions given in ISO 20022-1 apply.
+
+4
+
+Structure
+
+4.1 ISO Technical Management Board appoints an organization as the Registration Authority (RA) upon the proposal of ISO Technical Committee ISO/TC 68. The contract, Service Level Agreement, membership, functions and responsibilities of the RA are set out in Clause 5. 4.2 ISO/TC 68 appoints a Registration Management Group (RMG). The Service Level Agreement, membership, functions and responsibilities of the RMG are set out in Clause 6.
+
+1) 2)
+
+See Annex A. See Annex B.
+
+1
+
+IS/ISO 20022-2 : 2007
+
+4.3 ISO/TC 68 appoints a number of Standards Evaluation Groups (SEGs) upon the proposal of the RMG which defines the scope of their responsibility in terms of Business Area(s) or Asset Class(es). The Service Level Agreement, membership, functions and responsibilities of the SEGs are set out in Clause 7.
+NOTE See 6.3.1 for the definition of the scope of an Asset Class and a Business Area.
+
+4.4 Organizations submitting updates to the ISO 20022 Repository (e.g. new message sets or updates to existing message sets) may be a user community or a standards development organisation. The responsibilities of Submitting Organizations are set out in Clause 8.
+
+5
+5.1
+
+Registration Authority (RA)
+Contract
+
+There is a contract between ISO and the organization fulfilling the responsibilities of the RA.
+NOTE 1 The contract between ISO and the RA is not part of ISO 20022.
+
+The Registration Authority (RA) is responsible for maintaining the ISO 20022 Repository, the Submission Templates and for providing access to the information as described in ISO 20022-1.
+NOTE 2 Annex D specifies procedures relating to accessing the Data Dictionary and Business Process Catalogue.
+
+5.2
+
+Service Level Agreement
+
+There is a Service Level Agreement which determines the RA's responsibilities and terms of reference specified in this part of ISO 20022.
+NOTE See Annex C.
+
+5.3
+
+Membership
+
+The initial Registration Authority is specified in Annex A. The organization which provides the RA function undertakes that its interests and those of its members and subscribers cannot take precedence over the general interests of financial industry practitioners throughout the world, especially when addressing the provision of the ISO 20022 Repository.
+
+5.4
+5.4.1
+
+Functions and responsibilities
+General responsibilities
+
+The organization appointed as the RA shall maintain strict confidentiality between the RA operating functions and other parts of its organization. The RA is responsible for the maintenance and publication of the ISO 20022 Repository. The RA is responsible for the overall consistency of the Repository across Business Areas and in that capacity may challenge or reject registration requests that put at risk this cross-consistency or that do not comply with the ISO 20022 specifications. The RA is responsible for applying registration requests to the ISO 20022 Repository. The RA shall explicitly notify the RMG each time repository items are approved by the relevant SEG(s) for publication in the ISO 20022 Repository.
+
+2
+
+IS/ISO 20022-2 : 2007
+
+The RA shall make available to any interested parties the ISO 20022 Repository outputs (as described in ISO 20022-1) in electronic form. The RA shall maintain records of all ISO 20022 Repository item registration requests for a minimum period of three years. The registration requests include all additions, changes and deletions, as well as requests rejected by the RMG or relevant SEG(s) together with the full justification thereof. The RA shall comply with the appeal process administered by the RMG. The RA may refer to the RMG for determination if it regards a request as being frivolous or unreasonable for any reason. The RA shall appoint a non-voting RA delegation to the RMG which shall be expected to attend all meetings. The RA shall submit to the RMG the Registration Authority Report two weeks prior to any scheduled meeting or as required. The report shall summarise the activities of the RA between reporting periods. The RMG shall inform the RA of the scheduled meeting at least four weeks in advance. The RA shall publish on the ISO 20022 website a list of appointed SEGs, their scope and their members. The RA shall publish on the ISO 20022 website a Business Justification Template and the Submission Templates to the ISO 20022 Repository. The RA shall publish on the ISO 20022 website the detailed process flow for registration requests, as approved by the RMG, including a diagrammatical representation. The RA shall publish on the ISO 20022 website operating procedures for the registration bodies, as approved by the RMG. 5.4.2 Responsibilities to Submitting Organizations
+
+The RA shall assist the Submitting Organization with the compilation of the Business Justification before forwarding it to the RMG. When a request is received, the RA validates the request for completeness and consistency as per the template and, if required, informs the Submitting Organization that the submitted Business Justification cannot be incomplete or cannot lack consistency. The RA shall assist the Submitting Organization with the compilation of the Submission Templates. When a request is received, the RA validates the request for completeness and consistency as per the submission template specifications and, if required, informs the Submitting Organization that the submitted Repository registration request cannot be incomplete or cannot lack consistency. With the help of the Submitting Organization, the RA shall generate the expected Repository outputs and additional documentation as required to permit a thorough evaluation of registration requests and related updates to the ISO 20022 Repository by the relevant SEG(s). The RA shall provide assistance for general information and service issues relating to the ISO 20022 Repository. The RA shall notify the Submitting Organization of the appeal process, if the Submitting Organization is dissatisfied with the RA, RMG or SEG decision. 5.4.3 Responsibilities shared with the RMG and the SEGs
+
+The RA shall provide timely response to all requests. This includes acknowledgement, processing and notification of the request(s). The RA shall provide, if required, detailed explanation of all responses in English.
+
+3
+
+IS/ISO 20022-2 : 2007
+
+6
+6.1
+
+Registration Management Group (RMG)
+Service Level Agreement
+
+There is a Service Level Agreement which determines the RMG's responsibilities and terms of reference specified in this part of ISO 20022.
+NOTE See Annex C.
+
+6.2
+
+Membership
+
+The address of the Registration Management Group secretariat is given in Annex B. The list and contact details of the members shall be posted and maintained on the ISO/TC 68 website. The website address is also given in Annex B. The members of the RMG are nominated by P-member countries and Liaison A Organizations of ISO/TC 68 and the relevant ISO/TC 68 subcommittees. Members are approved by ISO/TC 68. The members shall be comprised of experts from not less than seven P-member countries or Liaison A Organizations, and at least five P-member countries. There shall be only one voting member per country or Liaison Organization. Each country or Liaison A Organization is entitled to nominate a delegation of one principal and two alternates to the RMG. No more than two delegates may attend any meeting, and an alternate is entitled to vote only in the absence of the principal delegate. The organization which performs the RA function shall appoint a non-voting RA delegation to the RMG which shall be expected to attend all meetings. The convenor of each SEG shall be an "ex-officio" non-voting member of the RMG and shall be expected to attend all meetings. The RMG may appoint other individuals as non-voting members, as required. The RMG shall appoint a convenor and vice-convenor from its voting membership. Each of the voting members shall serve for a period of three years, after which time ISO/TC 68 may renew the membership or ask the relevant country or Liaison Organization to nominate a replacement. ISO/TC 68 shall, in consultation with the relevant ISO/TC 68 subcommittees, verify on a regular basis that the membership of the RMG correctly represents the Business Areas that are part of the ISO 20022 Repository. Any significant mismatch in this representation shall result in a correction of the membership.
+
+6.3
+6.3.1
+
+Functions and responsibilities
+General responsibilities
+
+The RMG shall be responsible for approving Business Justifications for any update requests to the ISO 20022 Repository and assign them to the relevant SEG(s), thereby authorising the related work of the RA and SEGs. When the RMG decides to involve more than one SEG in the processing of a request, the RMG shall nominate a Lead SEG that will coordinate the overall validation process. The RMG has overall responsibility for assigning priorities to Business Justifications, for processing by the SEG(s) and RA. The RMG shall define the scope of responsibility of each SEG [i.e. in terms of Business Area(s) / Asset Class(es) subset].
+
+4
+
+IS/ISO 20022-2 : 2007
+
+The SEGs' scopes of responsibility shall be based on meaningful subsets of the financial industry business activities. These subsets take into account the Business Area(s) (e.g. pre-trade, trade, post-trade/presettlement, settlement, post-settlement in the securities industry) and/or the financial asset class(es) (e.g. bonds, equities, funds and derivatives in the securities industry). The RMG shall verify on an ongoing basis that the collection of all existing SEGs represents all Business Areas that are part of the ISO 20022 Repository. The RMG shall set out and approve the detailed operating procedures for the registration bodies, based on ISO 20022. The RMG shall set out and approve the detailed process flow for registration requests, based on the high-level flow described in Clause 9. Based on the RA reports (see 5.4.1), the RMG shall monitor the performance of the RA in accordance with the conditions documented in both the standard and the contract between ISO and the organization appointed as the RA. Based on the SEG reports (see 7.3.1), the RMG shall monitor the performance of the SEGs in accordance with the processes and service levels set out in ISO 20022 and further operating procedures set out and approved by the RMG. The RMG shall submit to ISO/TC 68 a Registration Management Report consisting of the activities of the RMG within the reporting period, including any appeals or complaints acknowledged by the RMG. The report shall be produced at least six weeks prior to ISO/TC 68 meetings. Any request for modification(s) to the standard shall be submitted to the RMG before approval by ISO/TC 68 P-member countries. The RMG shall issue an expert opinion on the business and operational impact of the request that shall be circulated with the modification request to the ISO/TC 68 P-member countries. 6.3.2 Responsibilities shared with the RA and the SEGs
+
+The RMG shall provide timely response to all requests. This includes acknowledgement, processing and notification of the request(s). The RMG shall provide, if required, detailed explanation of all responses in English.
+
+6.4
+
+Decision process
+
+Operational decisions, directly related to the normal operation of the RMG, RA and SEG(s) in conducting business in accordance with this part of ISO 20022 and the scope therein, shall not require ratification by ISO/TC 68. However, they shall be reported in the Registration Management Report submitted by the RMG to the following ISO/TC 68 meeting, or, if not timely enough, in a specific report issued to ISO/TC 68 for that purpose. Governance decisions, which alter or amend the documented operation, procedures or constitution of the RMG, RA and SEG(s) as set out in this part of ISO 20022 and the scope therein, shall be ratified by ballot to ISO/TC 68 P-member countries. Decisions of the RMG shall be made via consensus. In line with the ISO Directives, in case of doubt concerning consensus within the RMG, approval by a two-thirds majority of the RMG members casting a vote may be deemed to be sufficient, although every attempt shall be made to resolve negative votes. Voting shall be conducted either at an RMG meeting or by electronic ballot. The response deadline for electronic ballots will be fixed on a case by case basis, depending on the expected time required by members to form an expert opinion, but shall not be less than 30 days. All voting delegations have an obligation to vote (in favour, against or abstain) on all questions formally submitted for balloting. Delegations that do not reply to a ballot or abstain will not be taken into account in the total number of votes. Decisions of sub-groups, task forces or agents empowered by the RMG must be reported to and ratified by the RMG via written means.
+
+5
+
+IS/ISO 20022-2 : 2007
+
+7
+7.1
+
+Standards Evaluation Group (SEG)
+Service Level Agreement
+
+There is a Service Level Agreement which determines the SEG's responsibilities and terms of reference specified in this part of ISO 20022. The RMG shall define and maintain more detailed operating procedures for the SEGs.
+NOTE See Annex C.
+
+7.2
+
+Membership
+
+An SEG is composed of recognized experts in the related SEG Business Area(s) or Asset Class(es). Those experts shall be nominated by member countries or liaison organizations of ISO/TC 68 and the relevant ISO/TC 68 subcommittees. Experts shall be considered to perform two distinct roles within an SEG. In the first instance, they will act as individual experts in the relevant Business Area(s) or Asset Class(es). When approving a Registration request, the SEG member will be expected to act on behalf of the relevant country or liaison organisation. At a minimum, an SEG shall contain experts representing not less than seven member countries or liaison organizations, among which at least five P-member countries or liaison A organizations are represented on the RMG. On an exceptional basis, an SEG may operate when failing to meet this minimum, provided the RMG has endeavoured to recruit additional experts to fulfil the criteria above, and upon failure of this, has sanctioned via a two-thirds majority vote that the SEG may operate. Minimum membership criteria must be achieved, and maintained to enable an SEG to provide robust business driven validation of the registration requests received by the RA. Each SEG appoints a convenor, a vice-convenor and a secretary, from amongst the SEG membership.
+
+7.3
+7.3.1
+
+Functions and responsibilities
+General responsibilities
+
+The main purpose of an SEG is to provide a business driven validation of the candidate UNIFI Repository items that are to be published under the auspices of ISO. The RMG will assign a Business Justification to the relevant SEG(s). The SEG will confirm that the Business Justification falls within its defined scope. The SEG will validate and approve any additions and/or modifications to and/or deletions of registered ISO 20022 Repository items before the RA applies those requests to the Repository. The SEG shall comply with the operating procedures set out and approved by the RMG. The SEG convenor is an ex-officio non-voting member of the RMG and is responsible for all communication to the RMG and the RA. The SEG convenor (or vice-convenor, if the convenor is unable) shall be expected to attend all RMG meetings. The SEG shall submit to the RMG the SEG Report two weeks prior to any scheduled meeting or as required. The report shall summarise the activities of the SEG between reporting periods. The RMG shall inform the SEG of the scheduled meeting at least four weeks in advance. The SEG shall comply with the appeal process administered by the RMG.
+
+6
+
+IS/ISO 20022-2 : 2007
+
+7.3.2
+
+Responsibilities shared with the RA and the RMG
+
+The SEG shall provide timely response to all requests. The SEG shall provide, if required, detailed explanation of all decisions in English.
+
+7.4
+
+Decision process
+
+Decisions of an SEG shall be made on a consensus basis. If several SEGs are involved in a decision, the SEG convenors shall always strive to reach overall consensus under the leadership of the lead SEG convenor. If consensus cannot be reached or in case of doubt, the issue shall be brought to the RMG for resolution.
+
+8
+8.1
+
+Submitting Organizations
+Membership
+
+Organizations submitting ISO 20022 registration requests may be a user community or a standards development organization.
+
+8.2
+
+Responsibilities
+
+Submitting Organizations shall submit a Business Justification to the RMG for every proposal to add, amend or delete items in the ISO 20022 Repository. The purpose of the Business Justification is to clearly define the scope of the business processes relevant to the request. The Business Justification shall identify the future community of users and give an idea of the number of users and the volume of messages. The Business Justification shall comply with the template published by the RA and shall be subject to validation by the RA for completeness and consistency. Within the scope of an authorised Business Justification, Submitting Organizations shall submit a completed submission template to the RA for every addition, amendment or deletion of an ISO 20022 Repository item. This submission shall comply with the template published by the RA or any other form of submission agreed by the RA, and shall be subject to validation by the RA for completeness and consistency.
+
+9
+
+Registration request process
+
+This Clause very broadly specifies the process to be followed by the RMG, the RA and the SEGs for Repository registration requests initiated by a Submitting Organization. The time frame for the different processes outlined below shall be covered by the Service Level Agreement statements outlined in Annex C of this document. A more detailed explanation of the process will be maintained by the RA on the ISO 20022 website, along with a clear diagram showing the four actors (Submitting Organization, RMG, RA, SEG), the documentation (Business Justification, submission templates), other information passed between actors, decision points and flows of responsibility. The process and diagram will only be amended by the RA on explicit instruction from the RMG. The Repository registration request process flow shall be as shown below. a) The Submitting Organization shall complete a Business Justification, in accordance with the Business Justification Template published by the RA, and shall submit it to the RA.
+
+7
+
+IS/ISO 20022-2 : 2007
+
+b) c) d) e) f)
+
+The RA shall validate the submitted Business Justification for completeness and consistency and forward it, by electronic means, to the RMG. The RMG shall reach consensus of its voting members whether to approve or reject the Business Justification. If the Business Justification is approved, the RMG convenor shall inform the RA of the approval; in turn, the RA shall inform the Submitting Organization. The Submitting Organization shall develop the candidate ISO 20022 repository items and complete related submission templates or other submission material agreed by the RA, and submit them to the RA. The RA shall determine the necessary updates/changes to be applied on the Repository items and give the SEG experts access to the expected Repository outputs for validation. Updates may be registered in the Repository as "Provisionally registered". Once the access to the expected Repository outputs is provided by the RA to the SEG(s), the SEG(s) shall validate those expected Repository outputs. Once the RA has received a final approval from the SEG(s), the Repository shall be updated accordingly and the new Repository outputs shall be made publicly available as "registered".
+
+g) h)
+
+10 Ownership of the data
+Organizations that contribute information to be incorporated into the ISO 20022 Repository shall keep any Intellectual Property Rights (IPR) they have on this information. A contributing organization warrants that it has sufficient rights on the contributed information to have it published in the ISO 20022 Repository through the ISO 20022 Registration Authority in accordance with the rules set in ISO 20022. To ascertain a widespread, public and uniform use of the ISO 20022 Repository information, the contributing organization grants third parties a non-exclusive, royalty-free licence to use the published information. On termination of the agreement between ISO and the organization appointed as the RA, ISO may request that a full copy of the ISO 20022 Repository together with a record of all changes be supplied in electronic form.
+
+11 Service level changes
+The Service Level Agreement supporting ISO 20022 is included in Annex C. Any changes to the Service Level Agreement shall require the approval of the RMG.
+
+12 Appeals
+The RMG shall give its decision about an issue raised by a community of users, the RA, any SEG(s), or a Submitting Organization within 30 calendar days of receiving the appeal. A subsequent appeal may be made to ISO/TC 68.
+
+13 Complaints
+Complaints may be sent to the RMG regarding the service provided by the RA or SEGs. All complaints shall be in written form. Complaints shall be service orientated and shall not be considered as part of the appeal process. The RMG shall aim to respond to complaints within 60 calendar days of receipt.
+
+14 ISO/TC 68
+ISO/TC 68 shall have the right to overrule a decision of the RMG by a two-thirds majority vote of its P-members, provided written notification of an appeal against the RMG decision is received within four weeks of that decision.
+
+8
+
+IS/ISO 20022-2 : 2007
+
+Annex A (normative) Designation of the Registration Authority
+
+The organization appointed as the Registration Authority for ISO 20022 shall be: Society for Worldwide Interbank Financial Telecommunication SCRL (SWIFT) Avenue Ad�le, 1 B-1310 La Hulpe Belgium
+
+9
+
+IS/ISO 20022-2 : 2007
+
+Annex B (normative) Registration Management Group
+
+The address of the Registration Management Group secretariat for ISO 20022 shall be: ISO 20022 Registration Management Group c/o Secretariat of ISO/TC 68 Accredited Standards Committee X9, Inc. Financial Industry Standards 1212 West Street, Suite 200 Annapolis, MD 21401 USA e-mail address: cindy.fuller@X9.org Telephone: +1 410 267 7707 Facsimile: +1 410 267 0961 All correspondence shall be forwarded by the ISO/TC 68 Secretariat to all members of the Registration Management Group (RMG) within one week of receipt. The correspondence shall be forwarded by the most expeditious means, e.g. Internet e-mail, fax or secure website, when these contact details have been notified to the Secretariat. The ISO/TC 68 website can be found at http://isotc.iso.org/.
+
+10
+
+IS/ISO 20022-2 : 2007
+
+Annex C (normative) Service Level Agreement
+
+C.1 General
+The Service Level Agreement (SLA) shall be between ISO, the organization appointed as the Registration Authority (RA), the Submitting Organization and the Standards Evaluation Groups (SEGs). ISO shall appoint the Registration Management Group (RMG) to act on its behalf. The Service Level Agreement highlights the registration requests to the ISO 20022 Repository that may be submitted, together with the agreed response times and some legitimate reasons for declining the requests.
+NOTE In the following SLA statements, timing constraints are expressed either in terms of "calendar days" or in terms of "business days" as per the RA's residing country calendar.3)
+
+C.2 Overview
+The RA validates the completeness and consistency of Business Justifications as per the template and returns a positive or negative acknowledgement of receipt. In the event of a positive acknowledgement, the request shall be immediately forwarded by the RA to the RMG. If the request is deemed incomplete by the RA, the acknowledgement shall state the reason(s) for invalidity, e.g. which items are missing, and may offer to assist the Submitting Organization in the compilation of the request. Once the RMG has accepted/rejected the Business Justification forwarded by the RA, the RMG shall inform the RA who shall in turn notify the Submitting Organization of the acceptance/rejection of his/her request. Once a Business Justification is approved, the Submitting Organization shall develop the candidate compliant models using the existing Repository items and proposing new items or updates to existing items, if required. The Submitting Organization shall submit the developed models and all proposed updates to the Repository to the RA using either the registration request submission templates published by the RA on the ISO 20022 website or any other form of submission agreed with the RA. The RA validates the completeness and consistency of the submission. If the request is deemed incomplete by the RA, the acknowledgement shall state the reason(s) for invalidity, e.g. which items are missing, and may offer to assist the Submitting Organization in the compilation of the request. A submission shall be deemed complete by the RA if for all repository items impacted by the submission, a duly filled in4) registration request template has been received. Based on the input received from the Submitting Organization, the RA shall document the expected Repository outputs. The RA shall indicate to the SEG the actual period of time foreseen to implement the requests in the Repository taking into account the current registration request workload at the time (for instance due to possibly concurrent requests received or previous registration requests pending implementation in the Repository).
+
+3) This means that for SLAs expressed in "business days", the official holidays of the RA's residing country are not taken into account for the computation of the time constraint. 4) As per the submission template specifications.
+
+11
+
+IS/ISO 20022-2 : 2007
+
+Once the relevant SEG(s) has/have issued a final approval for the expected Repository outputs and notified the RA thereof, the RA shall in turn notify the Submitting Organization and the RMG of the final approval and give an indication of the date at which the release of the ISO 20022 Repository containing these requests is likely to be made available.
+
+C.3 Detailed SLA between the Submitting Organization, the RA, the RMG and SEGs
+C.3.1 RA Service Level
+The following figures shall be considered as maximum periods of time. The RA shall nevertheless work on a best effort basis to perform under those maximum figures. The RA shall return a positive or negative acknowledgement of receipt of a Business Justification within five business days of the receipt from the Submitting Organization. The RA shall notify the Submitting Organization of the acceptance/rejection of a Business Justification by the RMG within five business days of the acceptance/rejection decision. For validation of submissions for updates to the Repository, if the submission templates are used, the RA shall return a positive or negative acknowledgement of receipt for each request within five business days of the receipt. The time allotted to the RA to deliver the expected Repository outputs to the SEG(s) after submission by the Submitting Organization shall be based on the following periods of time:   five business days per request for the creation of one new or for the update of one single existing Business Concept, Message Concept, Data Type or Data Type Representation in the Data Dictionary. 20 business days per request for the creation of one new or for the update of one single existing Business Area, Business Process, Business Transaction, Message Flow Diagram or Message Definition.
+
+The RA shall notify the Submitting Organization and the RMG of the final SEG approval of updates to the Repository within five business days of the approval notification.
+
+C.3.2 Service Level for RMG and SEGs
+The service levels for the RMG, the SEGs will be set out in the operating procedures maintained by the RMG.
+
+C.3.3 Business Justification
+The Business Justification shall include all the information specified in the template published by the RA on the ISO 20022 website. The RMG may reject a Business Justification in the following, not limitative, list of cases:    if the business processes identified within the Business Justification are outside the scope of ISO 20022; if the business processes identified within the Business Justification are entirely covered by existing Data Dictionary item(s); if the Business Justification is deemed frivolous.
+
+C.3.4 Registration request for Data Dictionary items
+The request to register a new or modify an existing Data Dictionary item shall include all the information that has to be included in the Data Dictionary as specified in the submission templates. The registration request
+
+12
+
+IS/ISO 20022-2 : 2007
+
+shall refer to the relevant Business Justification for the requested update and may also refer to other accompanying requests for related changes to Business Process Catalogue items. The registration request shall also demonstrate why similar existing data elements, if any, do not accommodate the need. The request to modify an existing Data Dictionary item shall highlight the difference with the existing Data Dictionary item. Requests for a new Data Dictionary item shall generally (but not necessarily) relate to the request for the creation of a new Message Definition or for a modification to an existing Message Definition. Requests for deletion of Data Dictionary item(s) are generally (but not necessarily) introduced at the same time as a request for deletion of related Business Process Catalogue item(s). To give users of the ISO 20022 Repository an opportunity to disagree with the deletion, a registered Data Dictionary item to be deleted shall be marked as such for a one-year period, with a "Removal" date. If, within this period, no user is identified or no one has notified the RA of being a user, the Data Dictionary item shall be deleted from the dictionary. The RA or SEG(s) may refuse a request for creation of a new Data Dictionary item in the following, not limitative, list of cases:    if the required information for the Data Dictionary item is missing, incomplete or confusing; if the format does not conform with a relevant ISO standard (e.g. for country codes or currency codes); if the proposed Data Dictionary item is the concatenation of existing Data Dictionary items (e.g. a proposed Business Element is split in the current Data Dictionary into two different Business Elements within the same Business Component); if part of the proposed Data Dictionary item is already covered by existing Data Dictionary item(s) and only the remaining part needs to be catered for; if a Data Dictionary item which meets the request already exists or a Data Dictionary item which can be changed to cover the request already exists.
+
+ 
+
+C.3.5 Registration request for Business Process Catalogue items
+The request for the creation of a new or modification of an existing Business Process Catalogue item shall include all the information which has to be included in the Business Process Catalogue as specified in the submission templates. The request shall refer to the relevant Business Justification for the new Business Process Catalogue item(s) and demonstrate why similar already existing Business Process Catalogue item(s), if any, do not accommodate the need. The request to modify an existing Business Process Catalogue item shall highlight the difference with the existing Business Process Catalogue item. When a new Business Process Catalogue item requires new Data Dictionary items or modifications to existing Data Dictionary items, a specific request for a new Data Dictionary item, or modification, shall be introduced simultaneously for each such Data Dictionary item, according to the procedures set forth in ISO 20022. The period for the RA to determine the updates/changes to be applied on the Repository items (as a result of the newly proposed Business Process Catalogue item) shall not start before the Business Process Catalogue item request and all the related Data Dictionary item requests have been approved by the relevant SEG(s). When the difference with an existing Business Process Catalogue item is minor and the need to have a new Business Process Catalogue item is unclear, the SEG shall investigate the added value of the new Business Process Catalogue item with the Submitting Organization and analyse the possibility of either using an already existing Business Process Catalogue item or updating an already existing Business Process Catalogue item to include the requirements of the Submitting Organization. If the Submitting Organization maintains its request and the SEG remains unconvinced, the SEG shall refer the request to the RMG with a fair description of the pros and cons.
+
+13
+
+IS/ISO 20022-2 : 2007
+
+The RA or SEG may question the need for a new Business Process Catalogue item in the following, not limitative, list of cases:   if there is a Business Process Catalogue item with exactly the same purpose; if there is an existing Business Process Catalogue item that can easily be updated to include the specific requirements and this update has no impact on the users of the existing Business Process Catalogue item (e.g. wider scope).
+
+To give users an opportunity to disagree with the deletion of Business Process Catalogue items, the Business Process Catalogue item to be deleted shall be marked as such for a one-year period. If, within one year, no user is identified or no one has notified the RA of being a user, the item shall be deleted from the Business Process Catalogue.
+
+14
+
+IS/ISO 20022-2 : 2007
+
+Annex D (normative) Accessing the Data Dictionary and Business Process Catalogue
+
+The Registration Authority (RA) shall provide access to the ISO 20022 Repository to interested parties. The exact method and facilities may be modified from time to time provided there is prior written agreement with the Registration Management Group (RMG). The following describes the initial proposals.
+
+D.1 The RA shall make the ISO 20022 Repository outputs (as described in ISO 20022-1) available on the
+Internet. There shall be no restriction on who can access the information.
+
+D.2 The user screens shall include the ISO logo and/or the wording "International Organization for
+Standardization - ISO 20022". When provided in paper form by the RA, it shall include the same information on each page. To be able to oppose misuse of the ISO 20022 repository information as well as to oppose initiatives that seek to jeopardize or even prevent the open implementation of the standard, an accessing third party shall be presented a pop-up screen that contains the text of (or a reference to) the Intellectual Property Right (IPR) policy(ies) of the contributing organization(s) and shall need to click an "I agree" button indicating its knowledge and acceptance of such IPR policy(ies).
+
+D.3 The RA shall ensure that they are capable of satisfactorily handling the peak traffic that they expect to
+receive under normal conditions with reasonable response times. However the RA shall not be obliged to support real-time access to Syntax Message Schemes, e.g. for validating with XML parsers.
+
+D.4 The ISO 20022 Repository information contents available on the Internet, or an agreed substitute
+network, constitutes the official public reference for the ISO 20022 Repository. It shall reflect the current status of the ISO 20022 Repository at the time of the publication, including all versions as required.
+
+D.5 Parties shall normally be able to browse and search the ISO 20022 Repository as a minimum on
+Monday to Friday from 00:00 hours to 23:59 hours UTC (Universal Co-ordinated Time).
+
+D.6 In addition to the ISO 20022 Repository, the RA shall provide general and administrative information
+over the Internet. This will cover:    information on the procedure to submit Repository registration requests for the Data Dictionary and Business Process Catalogue; templates that shall be used for registration request to the Data Dictionary and Business Process Catalogue; information on how to obtain the latest versions of the various parts of ISO 20022, and when they were published.
+
+15
+
+IS/ISO 20022-2 : 2007
+
+Bibliography
+
+[1] [2]
+
+ISO 15022-1, Securities -- Scheme for messages (Data Field Dictionary) -- Part 1: Data field and message design rules and guidelines ISO 15022-2, Securities -- Scheme for messages (Data Field Dictionary) -- Part 2: Maintenance of the Data Field Dictionary and Catalogue of Messages
+
+16
+
+Bureau of Indian Standards BIS is a statutory institution established under the Bureau of Indian Standards Act, 1986 to promote harmonious development of the activities of standardization, marking and quality certification of goods and attending to connected matters in the country. Copyright BIS has the copyright of all its publications. No part of these publications may be reproduced in any form without the prior permission in writing of BIS. This does not preclude the free use, in course of implementing the standard, of necessary details, such as symbols and sizes, type or grade designations. Enquiries relating to copyright be addressed to the Director (Publications), BIS. Review of Indian Standards Amendments are issued to standards as the need arises on the basis of comments. Standards are also reviewed periodically; a standard along with amendments is reaffirmed when such review indicates that no changes are needed; if the review indicates that changes are needed, it is taken up for revision. Users of Indian Standards should ascertain that they are in possession of the latest amendments or edition by referring to the latest issue of `BIS Catalogue' and `Standards: Monthly Additions'. This Indian Standard has been developed from Doc No.: MSD 7 (383). Amendments Issued Since Publication ______________________________________________________________________________________ Amendment No. Date of Issue Text Affected ______________________________________________________________________________________ ______________________________________________________________________________________ ______________________________________________________________________________________ ______________________________________________________________________________________ ______________________________________________________________________________________ BUREAU OF INDIAN STANDARDS Headquarters: Manak Bhavan, 9 Bahadur Shah Zafar Marg, New Delhi 110002 Telephones: 2323 0131, 2323 3375, 2323 9402 Website: www.bis.org.in Regional Offices: Central : Manak Bhavan, 9 Bahadur Shah Zafar Marg NEW DELHI 110002 Telephones 2323 7617 { 2323 3841
+
+Eastern : 1/14, C.I.T. Scheme VII M, V.I.P. Road, Kankurgachi KOLKATA 700054 Northern : SCO 335-336, Sector 34-A, CHANDIGARH 160022 Southern : C.I.T. Campus, IV Cross Road, CHENNAI 600113 Western : Manakalaya, E9 MIDC, Marol, Andheri (East) MUMBAI 400093
+
+8499, 2337 8561 { 2337 2337 8626, 2337 9120 3843 { 260 260 9285 1216, 2254 1442 { 2254 2254 2519, 2254 2315 9295, 2832 7858 { 2832 2832 7891, 2832 7892
+
+Branches: AHMEDABAD. BANGALORE. BHOPAL. BHUBANESHWAR. COIMBATORE. DEHRADUN. FARIDABAD. GHAZIABAD. GUWAHATI. HYDERABAD. JAIPUR. KANPUR. LUCKNOW. NAGPUR. PARWANOO. PATNA. PUNE. RAJKOT. THIRUVANATHAPURAM. VISAKHAPATNAM.
+Published by BIS, New Delhi
+
+

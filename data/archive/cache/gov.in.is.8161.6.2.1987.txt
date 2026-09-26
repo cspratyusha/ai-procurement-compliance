@@ -1,0 +1,301 @@
+( Reaffirmed 2001 )
+
+IS : 8161 ( Part 6/Set 2 ) - 1987
+
+Indian Standard
+GUIDE FOR EQUIPMENT RELIABILITY TESTING
+PART 6 TEST FOR VALIDITY OF A CONSTANT FAILURE RATE ASSUMPTION 2 Kolmogorov-Smirnov Test
+
+Section
+
+Reliability of Electronic and Electrical Components Equipment Sectional Committee, LTDC 3
+Chairman PROP S. SAMPATH Members
+Indian Institute
+
+and
+
+Representing
+of Technology, Kanpur
+
+ADDITIONAL DIRECTOR, STANDARDS Railway Board ( Ministry of Transport ) (S&T),RDSO JOINT DIRECTOR, STANDARDS ( S & T )-III, RDSO ( Alternate ) SHRI S. P. BHATIKAR All India Radio, New Delhi SHRI J. S. SOOD ( Alternate ) SHRI V. C. BHANDARI Instrumentation Ltd, Kota SHRI I. S. SULAKH ( Alternate j ' Hindustan Aeronautics Ltd, Hyderabad SHRI CHARANJIT SINGH` SHRI R. PARTHASARATHY ( Alternate ) DR P. K. DUTTA Peico Electronics and Electricals Ltd, Bombay SHRI S. P. GHOKKALINGARAM ( Alternate ) Ministry of Defence, Electronics Components SHRI P. K. JAIN Standardization Organization, Bangalore SHRI G. S. PAI ( Alternate ) Overseas Communicatiun Services, Bombay SHRI R. K. JAYADEV SHRI DALJIT SINGH ( Alternate ) Indian Electrical Manufacturers* Association, SHRI M. S. KAMATH Bombay SHRI T. C. GOSALIA ( Alternate ) Bharat Elecronics Ltd, Bangalore SHRI C. KRISHNAMURTHY SHRI N. DHANSEKHARAN( Alternate ) Radio Electronic & Television Manufacturers' SHRI S. P_. KULKARNI Association, Bombay SHRI S. M. KHURSALE ( Alternate )
+
+( Continued on page 2 ) @ Copyright 1987
+BUREAU OF INDIAN STANDARDS This publication is protected under the Indian Copyright Act ( XIV of 1957 ) and reproduction in whole or in part by any means except with written permission of the oublisher shall be deemed to be an infringement of copyright under the said Act.
+
+IS : 8161 ( Part 6/Set 2 ) - 1987
+( Continuedfrom &RI page 1 ) Representing Indian Telephone
+
+Members
+LAKSHMINARAYANA
+
+Industries Ltd, Bangalore SHRI V. MUTHAIAH ( Alternate ) Eletronics Corporation of India Ltd, Hyderabad SHRI K. M. MANKAD SHRI B. BHASKAR RAO ( AIternute ) Ministry of Defence ( DGI ) BRIG R. K. MEHRA LT-COL S. P. MURGAI (Alternate ) Directe;;; General of Civil Aviation, New SHRI D. C. M~HTA )
+
+In personal capacity ( Department of Electrical Engineering, Indian Institute of Technology, Kharagpur ) National Test House, Calcutta SHRI B. C. MUKHERJEE SHRI R. N. MUKHERJEE( Alternate ) SHRI K. R. ANANDAKUMARANNAIR Lucas-TVS Ltd, Madras SHRI C. RANGANATHAN( Alternate ) Bhabha Atomic Research Centre, Trombay SHRI D. V. PETKAR SHRI A. K. BABAR ( Alternate ) ISRO Satellite Centre ( ISAC ), Bangalore SHRI K. RAMGOPAL SHRI SIHARAN DE ( Alternate ) Centre for Aeronautical Systems Studies and SHRI P. K. SHUKLA Analysis ( CASSA ), Ministry of Defence Directorate of Technical Development and SHRI R. SOMASUNDARAM Production (AIR) ( Ministry of Defence ), New Delhi SHRI R. S. YADAV ( Alternate )
+
+SHRI R. V. ISRANI ( Alternate DR K. B. MISRA
+
+SHRI H. C. TEWARI SHRI D. P. SINHA ( AIternate DR R. P. WADHWA
+
+Central
+)
+
+Electricity
+
+Authority,
+
+New Delhi
+New Delhi
+
+Department SHRI T. S. VASUDEVAN SHRI A. V. KOUNDINYA ( Alternate ) SHRI E. G. NAGARAJAN ( Alternate ) Director SHRI N. SRINIVASAN, Director ( Electronics ) ( Secretary )
+
+of Telecommunication,
+
+Department
+
+of Electronics,
+
+New Delhi
+Member )
+
+General,
+
+BIS ( Ex-ojikio
+
+Study
+
+of Statistical Electrical
+
+Problems of Reliability Items Subcommittee,
+Peico Electronics
+
+of Electronic LTDC 3 : 1
+& Electricals Ministry
+
+and
+
+Convener DR P. K. DUTTA Members L-r-COL B. S. JAGGI EMEDzkrectorate, of Defence, New Ltd, Bombay
+
+MAJ A. PUNNUCHAMY ( Alternafe ) Ministry of Defence, Electronics SHRI P. K. JAIN Standardization Organization, SHRI G. S. PAI ( Alternate ) Bharat Electronics Ltd, Bangalore SHRI C. KRISHNAMURTHY SHRI N. DHP~NASEKHARAN ( Alternate ) ( Continued
+
+Components Bangalore
+
+on page 10 )
+
+2
+
+IS : 8161( PM
+
+~/SW 2 ) 1987
+
+Indian Standard
+EQUIPMENT
+PART 6
+
+GUIDE FOR RELIABILITY
+
+TESTING
+
+TEST FOR VALID~ITY OF A CONSTANT FAILURE RATE -ASSUMPTION 2 Kolmogorov-Smirnov Test
+
+Section
+
+0.
+
+FOREWORD
+
+0.1 This Indian Standard ( Part 6/Section 2 ) was adopted by the Indian Standards Institution on 19 March 1987, after the draft finalized by the Reliability of Electronics and Electrical Components and Equipment Sectional Committee had been approved by the Electronics and Telecommunication Division Council.
+
+0.2 This standard is one of the series of Indian Standards for equipment reliability testing. This standard gives KolmogorovSmirnov Test for validity of a constant failure rate assumption. To bz able to write a detailed reliability test specification and perform a reliability test, the test engineer will need additional information which are dealt with in detail in other standards in this series. A list of standards envisaged in this series are given on page 11.
+0.3 For the purpose
+
+of deciding whether standard is complied with, the final expressing the result of a test, shall be IS : 2-1960*. The number of significant off value should be the same as that standard.
+
+a particular requirement of this value, observed or calculated, rounded off in accordance with places retained in the rounded of the specified value in this
+
+1. SCOPE 1.1 This standard ( Part 6/Section 2 )' gives Kolmogorov-Smirnbv ( K-S ) test for testing the statistical validity of the constant failure rate
+*Rules for rounding 0-T numerical values ( revised ). 3
+
+IS : 8161 ( Part 6/Set 2 ) - 1987
+
+assumption underlaying the methods used in IS : 8161 ( Part 4 )-1985* and IS : 8161 (Part 7 )-1977'1. 2. KOLMOGOROV-SMIRNOV T-EST
+
+2.1 The validity of many statistical techniques used in the calculation, analysis or prediction of reliability depends upon the distribution of failure times. The techniques are sensitive to the departures from the assumed distributions and may lead to seriously wrong results. Therefore, in order to determine whether or not certain techniques are applicable in a particular situation, some judgement is to be made as to the underlying probability distribution of failures ( or failure times ). The Kolmogorov-Smirnov or `d-test' is one of the tests designed for the purpose. 2.2 The test is accomplished by finding the theoretical cumulative frequency distribution which would be expected under the null hypothesis [F(X)] and comparing it with the observed cumulative frequency distribution [S(X)]. Under the null hypothesis, that the sample has been drawn from the specified theoretical distribution, it is expected that for every value of X, &(X) should be fairly close to F(X), that is, the differences between the theoretical and observed distribution should be small and within the limits of random errors. The point at which these two distributions, theoretical and observed, show the maximum deviation is determined. Let D = Maximum F(X) Sri(X)
+1
+
+2.3 This value of D is calculated and compared with the critical value given in Table 1 for desired level of significance. The null hypothesis is rejected if the ca!culated value of D is greater than the critical value, otherwise not. 3. APPLICATION 3.1 The application of K-S test is described in Table 2 which was designed to test the hypothesis that a complex system having a mixed type of population of components with continuing failed part replacement programme follows an exponential distribution. Column 1 gives the data
+*Guide for estimates and tGuide for rate and mean equipment reliability testing: Part 4 Procedure for determining point confidence limits from equipment reliability determination test. equipment reliability testing: Part 7 Compliance test plans for failure time between failures assuming constant failure rate.
+
+4
+
+IS : 8161 ( Part 6/Set 2 ) - 1987
+
+on time to failure of tested systems where in 81 failures were recorded and the same are arranged in 8 intervals. The frequency falling in each interval is indicated in co1 2 and ~01-3 gives the cumulative frequency. The probabilities in co1 4 are obtained after dividing the respective entry in co1 3 by 81. The theoretical distribution of co1 5 is obtained as a standard exponential function with an MTBF of 43'8 days. ( Total accumulated time 3 548 days and failures 81. ) The difference of observed and expected probabilities is shown in co1 5. The maximum difference 0'042 is less than the tabulated entry at 5 percent level of significance. This indicates that there is no significant difference between the actual observed data and the assumed exponential distribution. The example has been worked out in detail in Appendix A.
+TABLE 1 CRITICAL VALUES OF
+
+D IN THE KOLMOGOROV-SMIRNOV
+LEVEL OF SIGNIFICANCE T__---1 Percent 5 Percent 0.975 0,842 0.708 0.624 0.565 0,521 0.486 0.457 0.432 0.410 0.391 0.375 0.361 0.349 0.338 0.328 0.318 0.309 0.301 0.294 0.27 0.24 0.23 1.36 & 0 995 0.929 0.828 0.733 0.669 0.618 0.517 0.543 0.514 0.490 0.468 0.450 0.433 0.418 0.404 0.392 0.381 0.371 0.363 0.356 0.32 0.29 0.27 1.63 v:
+
+TEST
+
+( Clause 2.3 ) SAMPLE SIZE (n) 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 25 30 35 `I
+
+Over 35
+
+IS : 8161( Part 6/Set 2 ) - 1987
+TABLE 2 EXPONENTIAL
+FREQUENCY (2) 40 24 9 4 1 0 1 2 of difference difference
+
+FIT ON TIME BETWEEN FAILURES DATA (Chlse 3.1 )
+
+INTERVAL (1) 0.5-30.5 30.5-60.5 60 5-90.5 90.5-120.5 120.5-150.5 150.5-180.5 180'5-210.5 2105-240.5 Maximum
+
+CUMULATED OBSERVED EXPECTED DIFFERENCE FREQUENCY PROBABILITY PROBABILITY (3) 40 64 73 77 18 78 79 81 (4) 0.494 0.79 0'901 0.951 0.963 0.963 0'975 1 *ooo and expected (5) 0'502 0.749 0'873 0'936 0.968 ~0.984 0.992 0.996 probability (6) 0'008 0'041 0.028 0'015 0'005 0.021 0'017 0.004 = 0.041 l/n = 0.15 =1.36
+
+between observed
+
+Critical
+
+at 5 percent level of significant-e
+
+4. COMPARISON OF X2 AND K-S TESTS 4.1 The K-S test is more effective when sample size is small and can be used even with too small samples. In case of X2-test, large sample size ( around 30 or more > is required. 4.2 The K-S test is useful only when the assumed distribution is continuous and the distribution parameters are assumed. It is used when the hypothetical distribution is completely specified giving the form and the numerical values of all the parameters of the distribution. The X2-test is applicable to either continuous or discrete distribution_ It is applicable where only the form of the distribution is hypothesized and same parameters remain to be estimated from the sample. It also requires assumption that observed frequencies are normally distributed about their expected frequencies. 4.3 The K-S test can be used for un-grouped partitioned and added. data where as X2-test can be
+
+4.4 The K-S test can be used to test deviations in a given direction whereas X2-test canbe used only for a two sided test. 4.5 The K-S test shall be used where there are good reasons to believe that this is more sensitive test than the X2-test.
+
+6
+
+IS : 8161 ( Part 6/Set 2) - 1987
+
+APPENDIX ( Clause 3.1 )
+ILLUSTRATIVE
+
+A
+EXAMPLE
+
+A-O. Sixteen comp!ex systems having a mixed type of components
+
+population were tested for 221'75 days continuously. During this period, 81 failures were observed. The failed parts were replaced without any loss of time. A `day' was taken as unit for time and failure times were logged. The grouped failure frequency data is as under:
+Time Interval in Days b'5- 30'5 30'S 60'5 60'5- 90'5 No. of Failures Observed 40 24 9 4
+
+,
+
+90'5-120'5 120'5-150'5 150'5-180'5 180'5-210'5 210'5-240'5 The hypothesis that this programme is following failure distribution is to be verified using K-S test.
+A-l. A-l.1 CALCULATION STEP lFAILURE ( MTBF )
+
+1 0 1
+2
+
+an exponential c
+
+FOR MEAN TIME BETWEEN
+
+Accumulated system days = 3 548 days Number of failures observed = 81 3 548 Therefore, MTBF = 81 = 43'8 days.
+
+A-2. STEP 2 -
+
+CALCULATION FOR OBSERVED FAILURE FREQUENCY PROBABILITY h(X)
+
+CUMULATIVE
+
+A-2.1 The observed
+
+cumulative failure frequency is given below in co1 3 by adding total number of failures up to the end of a given time interval as illustrated.
+
+7
+
+IS : 8161 ( Part 6/Set 2 ) - 1987
+
+[ The failure probability given in co1 4 is generated by dividing entry of co1 3 by the total number of failures, that is, 8 I: ]
+Time Interval in Days Number of Observed Failures Observed CumNlative Failures Frequency (3) + 40 = 40 i- 24 = 64 + 9 = 73 + 4 = 77
+
+each
+
+Observed Cumulative Failure Probability S,(X) (4) 0'494 0'790
+
+(1) 0'5 30'5 30'5 60'5 ~60'5- 90'5
+
+90'5-120'5 120'5-150'5 I 505-l 80'5 180'5-210'5 210'5-240'5
+
+(2) 40 24 9 4
+
+0 40 64 73
+
+:, :
+
+77 + 78 + 78 + 79+
+
+1 = 78 0 = 78 1 - 79 2=81
+
+0'901 0'951 0'963 0'963 0'975 1'000 F(X)
+
+A-3. STEP 3 - CALCULATION FOR THEORETICAL CUMULAI IVE FAILURE FREQUENCY PROBABILITY
+
+A-3.1 The following reliability equation describes the relat.ion between MTBF acd time duration during which the reliability is calculated. Also, the probability for given time is probability of success. R(1) = e - t/MTBF where R(t) is probability of success for time, t. Therefore, probability of failure during time, t
+F(X) = 1 _ R(t) = ml_ e - t/MTBF
+
+Here, only t is variable as it is assumed that MTBF is constant. Thus, the cumulative failure probability up to the end of each time interval is calculated below using the above relation:
+Time Interval in Days 0'5-30'5 30'0-60'5 60'5-90'5 90'5- 120'5 End of lTTme Interval 30'5 60'5 90'5 t/MTBF F(X)=(l-e-tlMTBF)
+
+30'5 __ = 0'696 43'8 60'5 ---= 1'380 43'8 90'5 z8= 2'066
+
+0'502 0'749 0'873
+
+120'5
+
+120.5 43.8= . 8
+
+2'751
+
+0'936
+
+IS : 8161 ( Part 6/Set 2 ) - 1987 Time Interval in Days 120 5-150'5 150'5-180'5 180'5-210'5 210'5-240'5 End of Time Interval 150'5 180'5 210'5 240'5 t/MTBF F(x)=(~-~-`/MTBF)
+
+`z= z=
+2i:;=
+
+3'436 4'121 4'806 5'493
+
+0'968 0'984 0'992 0'996
+
+s=
+
+A-4. STEP 4 - CALCULATION FOR CHECKING THE ABSOLUTE DIFFERENCE IN THE OBSERVED AND THEORETICAL CUMULATIVE FAILURE FREQUENCY AND CONCLUSION A-4.1 The difference in S,(X) and F(X) as calculated in step 2 and step 3 are given below: F(X)---&(X) WX) F(X) 0'008 0'494 0'502 0'04 1 0'790 0'749 0'901 0'028 0'873 0'015 0'951 0'936 0'005 0'963 0'963 0'021 0'963 0'984 0'017 `0'975 0'992 1'000 0'004 0'996 Here, the largest difference is 0'041. As there is no entry for the sample size of 81 in the given K-S table, the critical difference at 5 per1'36 where cent level of significance is calculated using the relation 2/n n is the sample size. Therefore, critical difference at = 1'36 _ 1'36 = o.15 5 percent level 2/819 A-5. CONCLUSION A-5.1 As the observed difference value of 0'15, it is concluded that with MTBF = 43'8 days. of 0'041 is less than calculated K-S the data is exponentially distributed
+
+9
+
+IS : 8161 ( Part B/Set 2 ) - 1987 ( Continued frompage 2 )
+Members
+SHRIV.NARAYANA BRIG J. S. RAJU SHRI S. MITRA ( Alternate ) SHRI K. RAMGOPAL SHRI NARAYAN RAO MAI RAJAN MANNIL ( Alternate SHRI T. S. VASUDEVAN
+
+Representing
+Indian Statistical Institute, Calcutta Electronic Regional Test Laboratory New Delhi ( North )*
+
+ISRO Satellite Centre ( ISAC ), Bangalore Ministry of Defence ( DGI ), Bangalore TelecorD:pcation
+
+)
+
+Research
+
+Centre,
+
+New
+
+SHRI K. V. KOUNDINYA ( Alternate )
+
+10
+
+INDIAN STANDARDS ON EQUIPMENT RELIABILITY TESTING IS : 8161 Guide for equipment reliability testing : ( Part 1 )-1976 Principles and procedures ( Part 2 )-1986 Design for test cycles ( Part 3 ) Preferred test conditions for equipment reliability testing : Section I-1986 Indoor portable equipment ( low degree of simulation ) Section 2-1986 Equipment for stationary use in weather protected locations ( high degree of simulation ) ( Part 4 )-I985 Procedure for determining point estimates and confidence limits from equipment reliability determination tests ( Part 5 )-I981 Compliance test plans for success ratio ( Part 6 )-1983 Tests for validity of a constant failure rate assumption Set 2 Kolmogorov-Smirnov test Set 3 Bartlett's test ( under consideration ) ( Part 7 )-1977 Compliance test plans for failures rate and mean time between failures assuming constant failure rate ( Part 8 ) Tests for the validity of a non-constant failure rate assumption ( under considerution ) ( Part 9 ) Compliance test plans assuming Weibull distribution of times of failure ( under consideration ) ( Part 10 ) Compliance test plans assuming normal distribution of times to failure ( under consideration ) (Part 11 )-1983 Flow chart describing preparations for and execution of reliability tests
+
+11
+
+INTERNATIONAL SYSTEM OF UNITS ( SI UNITS 1 Base Units Quantity Length Mass Time Electric current Thermodynamic temperature Luminous intensity Amount of substance Supplementary Units Quantity Plane angle .Solid angle Derived Units Quantity Force Energy Power Flux Flux density Frequency Electric conductance Electromotive force Unit newton joule watt weber tesla hertz siemens volt Pascal Symbol N J W Wb T HZ S V Pa 1N 1J 1W DeJinition = 1 kg,m/s* = 1 N,m 1 J/s Unit radian steradian Symbol rad sr Unit metre kilogram second ampere kelvin candela mole Symbol m kg
+S
+
+A K cd mol
+
+1 Wb = 1 v.s 1T = 1 Wb/m8
+
+1 Hz = 1 c/s( s-1) 1s 1v 1 Pa = 1 A/V = 1 W/A = 1 N/m2
+
+Pressure, stress
+
+

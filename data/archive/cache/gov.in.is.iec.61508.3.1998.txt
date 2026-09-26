@@ -1,0 +1,2549 @@
+rS/llEC 61508-3: 1998
+
+'JfNrf)2/ J11"iCf5
+
+Nwr/~<?fq-~/~ ~wan-~m ~
+qft~Wffi
+'J.Tfir 3 xillfC~~'( qft 3N~
+
+Indian Standard
+FUNCTIONAL SAFETY OF ELECTR~CAU ELECTRONIC/PROGRAMMABLE ELECTRONiC SAFETY-RELATED SYSTEMS
+PART 3 SOFTWARE REQUIREMENTS
+
+ICS 25.040.40
+
+�BIS 2008
+
+B U�REA
+
+(J
+
+0 FIN D I A N 5 TAN DAR D S
+NEW DELHI 110002
+
+MANAK BHAVAN, 9 BAHADUR SHAH ZAFAR MARG
+December 2008
+
+Price Group 13
+
+nSJDEC 61508-3: 1998 .
+
+CONTENTS
+Page
+
+INTRODUCTION :
+
+:
+
+:.......
+
+v
+
+r
+I s.
+
+:
+
+Clause
+
+1 2 3 4 5 6
+
+Scope Normative references Definltlons and abbreviations Conformance to this standard Documentation Software quality management system 6.1 Objectives ;
+
+: : : :
+
+. . . .. . :. : . . .. :.; : : .. .. .. . .. : . .. � ,' .. . :
+
+1
+4
+
+I
+!
+I-
+
+4
+4
+4
+
+5
+
+5
+5 6 6 12 14
+16 22 23 23
+
+I t
+
+6.2 Requirements 7 Software safety Iifecycle requirements 7.1 General 7.2 Software safety requirements specification 7.3 Software safety validation planning
+704 Software design and development
+
+I
+[
+
+I
+
+I
+t
+r
+
+7.5 Programmable electronics integration (hardware and software) 7.6 Software operation and modification procedures 7.7 Software safety validation 7.8 Software modification 7.9 Software verification 8 Functional safety assessment
+
+25
+27
+31
+
+~
+
+,
+
+..
+
+Annex A (normative) Guide to the selection of techniques and measures Annex B (normative) Detailed. tables Annex C (informative) Bibliography :
+I
+
+32 : : :. :... 38 42
+
+l:
+
+I
+
+r
+
+Tables
+1
+co
+
+Software safety lifecycle: overview Software safety requirements specification (see 7.2)
+
+:
+i
+I
+
+.
+..
+
+9
+33 33
+34 34
+
+I a z
+iii
+It)
+
+A.1
+A.2 A.3
+
+w -
+
+Software design and development: software architecture design (see 7-.4.3), . Software design and development: support tools and programming language (see 7.4.4) .~
+704.6)
+
+.. .
+.
+
+co
+
+,(
+
+....
+
+AA Software �design and development: detailed design (see 7:4.5 and
+
+--------
+
+= . - '"-
+
+~ = . _ ~~
+
+- _ . - ---
+
+~~ - - --
+
+--::- - .,.
+
+ISIIEC 61508-3: 1998
+Table
+
+Page
+
+A.5 A.6 A.7
+A.8 A.9
+
+Software design arid development: software module testing and integration (see 704.7 and 7.4.8) ~
+.
+
+.
+
+. . .. ..
+
+35 35 35 36 36 37 38 38
+
+Progra~mable el~ctronics
+
+integration (hardware and software) (see 7.5)
+
+Software safety validation (see 7.7) Modification (see 7.8) Software verification (see 7.9)
+
+;
+~
+
+:: : ;
+.
+
+.. . .. .
+
+A.l0 Functional safety assessment (see clause 8)
+
+a.i
+B.2 B.3 B.4 B.5 B.6 B.7 B.8
+
+Design and coding standards (referenced by table A.4) Dynamic analysis and testinq (referenced by tables A.5 and A.9)
+
+.
+
+.
+
+.
+
+Functional and black-box testinq (referenced by tables A.5, A.6 and A.7) Failure analysis (referenced by table A.l0) Modelling .(referenced by table A.7)
+
+. .
+
+39 39 39
+40 40 40
+41
+
+:..: .. : :
+
+.. .. .
+. :
+
+Performance testing (referenced by tables A.5 and A.6) Semi-formal methods (referenced by tables A; ' l, A.2 and AA) Static analysis (referenced by table A.9) ..:
+~
+
+B.9 - Modular approach (referenced by table A.4)
+Figures 1 2 3 4 5 6 Overall framework of this standard E:/E/PES safety lifecycle (in realisation phase) Software safety Iifecycle (in realisation phase)
+.
+
+.
+
+. : : . .
+
+3
+7
+
+7 8
+
+Relationship between and scope of IEC 61508-2 and 61508-3
+
+.
+
+..
+.. .
+
+Software safety integrity and the development Iifecycle (the V-model) Relationship between the hardware and software architectures of programmable electronics :.;
+
+8
+12
+
+:." ,
+
+Industrial Process Measurement and Control Sectional Committee, ETD 18
+
+NATIONAL FOREWORD This Indian Standard (Part 3) which is identical with IEC 61508-3 : 1998 'Functional safety of electrical/electronic/programmable electronic safety-related systems - Part 3: Software,requirements' issued by the International Electrotechnical Commission (IEC) was adopted by the Bureau of Indian Standards on the recommendation of the Industrial Process Measurement and Control Sectional Committee and approval of the Electrotechnical Division Council. The text of IEC Standard has been approved as suitable for publication as an Indian:Standard without deviations. Certain conventions are, however, not identical to those used in Indian. Standards. Attention is particularly drawn to the following: " a) Wherever the words 'International Standard' appear referring to this standard, they should be read as 'Indian Standard'. b) Comma (,) has been used as a decimal marker; while in Indian Standards, the current practice is to use a point (.) as the decimal marker. In this adopted standard, reference appears to certain International Standards for which Indian Standards also exist. The corresponding Indian Standards, which are to be substituted in their respective places, are listed below along with their degr'ee of equivalence for the editions indicated:
+
+International Standard
+IEC 61508-1 : 1998 Functional safety of electrical/electronic/programmable electronic safety-related systems Part 1: General requirements IEC 61508-2 : 2000 Functional safety of electrical/electronic/programmable electronic safety-related systems Part 2: Requirements for electrical/ ele<;:tronic/programmable electronic safety-related systems
+
+Corresponding Indian Standard
+IS/IEC 61508-1 : 1998 Functional safety of electrlcal/electronlcproqrarnmeble electronic safety-related systems: Part 1- General requirements IS/IEC 61508�2 : 2000 Functional safety of electrical/electronic/programmable electronic safety-related systems: Part 2 ReQ.uirements for electricaV , electronic/programmable electronic safety-related systems IS/IEC 61508-4 : 1998 Functlonal l safety of electricaVelectronic/programmable electronic safety-related systems: Part 4 Definitions " and abbreviations . IS/IEC 61508-5 : 1998 Functional safety of electricaVelectronic/programmable electronic safety-related systems: Part 5 Examples of methods for the determination of safety integrity levels . ' IS/IEC 61508-6 : 2000 Functional safety of electricaVelectronic/programmable electronic safety-related systems: Part 6 Guidelines on the application of IEC 61508-2 and IEC 61508-3
+
+Degree of Equivalence
+Identical
+
+I
+
+l
+I
+
+I
+
+, ". do
+
+isc 6150~-4 : 1998. Functional safety of electricaVejectronic/programmable electronic safety-related systems Part 4: Definitions and abbreviations
+IEC 61508-5 : 1998 Functlonalsafety of electrical/electronic/programmable electronic safety-related systems " Part 5: Examples of methods for the determination of safety integrity' levels. lEy 61508 c6 : 2000 Functional safety . of electrical/electronic/programmable electronic safety-reJatedsystems Part 6: Guidelines on the appllcatlon of IEC 61508-2 and IEC 61508-3
+
+do
+
+do
+
+do
+
+iii
+
+ISIIEC 61508
+
+c3:
+
+1998
+Corresponding Indian Standard
+IS/lEG 61508-7 : 2000 Functional safety of electrlcal/electronlc/ programmable electronic safety-related systems: Part 7 Overview of techniques and measures,
+
+. International Standard
+lEG 61508-7 : 2000 Functional safety ~of electrical/electronic/programmable electronic safety-related systems Part ,7: Overview of techniques and measures
+
+Degree of Equivalence
+Identical
+
+ISO/lEG Guide 51 : 1990 1) 'Guidelines � . ISIISO/IEG Guide 51 : 2005 Safety aspects for the inclusion of safety aspects in - Guidelines for their inclusion in standards standards
+
+Technically Equivalent
+
+The .technical committee has reviewed the provisions of the following International Standard referred in this- adopted standard and has decided that it is acceptable for use in conjunction with this standard:
+
+International Standard
+lEG Guide 104 : 1997
+
+Title
+Guide to the drafting of safety standards, and the role of Gommittees with safety pilot functions and safety group functions
+
+Only the English language text of the International Standard has been retained while adopting it in this Indian Standard, and.as such the page numbers given here are not the same as in the-lEG Standard. For the purpose of deciding whether a particular requirement of this standard is complied with, the final value, observed or calculated, expressing the result of a test, shall be rounded off in accordance with IS 2 : 1960 'Rules for rounding off numerical values (revised)'. The number of significant places retained in the rounded off value should be the same as that of the specified value in this standard.
+
+iv
+
+INTRODUCTION
+Systems comprised of electrical and/or electronic components have been used for many years to perform safety functions in most application sectors. Computer-based systems (generically referred to as programmable electronic systems (PESs)) are being used in all application sectors to perform non-safety functions and , increasingly, to perform safety functions. If computersystem technology is to be effectively and safely exploited, it is essential that those responsible for making decisions have sufficient guidance on the safety aspects on which to make those decisions. This International Standard sets out a generic approach for all safety Iifecycle activities for systems comprised of electrical and/or electronic and/or programmable electronic components (electrical/electronicl programmable electronic systems (E/E/PESs)) that are used to perform safety functions. This unified approach has been adopted in order that a rational and consistent technical policy be developed for all electrically-based safety-related systems. A major objective is to facilitate the development of application sector standards . In .most situations, safety is achieved by' a number of protective systems which rely on many technologies (for example mech~n'lcal, hydraulic, pneumatic, electrical, electronlc, programmable electronic). Any safelty strategy must therefore consider not only all the elements within an individual.system (tot example sensors, controlling devices and actuators), but also all the safety-related systems mak ing up the total combination of safety-related systems. Therefore , while this International Standard is concerned with electricaJl,electronicl programmable electronic (E/E/PE) safety-related systems , it may also provide a framework within which safety-related systems based on other technologies may be considered. It is recognized that there is a great variety of E/E/PES applications in a variety of application sectors and covering a wide range of complexity, hazard and risk potentials. In any particular application, the required safety measures will be dependent on many factors specific to the application., This International Standard, by being generic, will enable such measures 'to be formulated in future application sector international standards. ' This International Standard considers all relevant overall, E/E/PES and software safety lifecycle phases (for example, from initial concept, through design, implementation, operation and maintenance to decommissioning) when E/E/PESs are used to perform safety functions; has been conceived with a rapidly developing technology in mind; the framework is sufficiently robust and comprehensive to cater for future developments; enables application sector international standards, dealing with safety-related E/E/PESs, to be developed; the development of application sector international standards, within the framework of this International Standard, should lead to a high level of consistency (for example, of. underiying principles, terminology etc.) both within application sectors and across application sectors; this will have both safety and economic benefits; . provides a method for the development of the safety requirements specification necessary to achieve the required functional safety for E/E/PE safety-related systems;
+"
+
+.
+
+a z
+iii iii
+ID N
+CD
+
+co
+
+-
+
+uses safety integrity levels for ~pecifying the target level of safety integrity for the satety fUnl?tions to be implemented by the E/E/PE safety-related systems;
+
+.
+
+T-
+
+v
+
+IS/lEe 61508-3: 1998
+adopts a' risk-based approach requirements; for the determination of the safety integrity level
+
+sets numerical target- failure measures Ior E/E/PE safety-related systems which are linked to the safety-integrity levels; sets a lower limit on the target failure measures, in a dangerous mode of failure, that can be claimed for a single E/E/PE safety-related system; for E/E/PE safety-related systems operating in - I
+o
+
+a low demand mode of operation, the lower limit is set at an average probability of 'failure of 10-5 to perform its design function on demand, a high demand or continuous mode of operation, the lower limit is set at a probability of a dangerous failure of 10-9 per hour: ,
+
+e
+
+NOTE - A singl~ E/E/PE safety-related system does not necessarily mean a single-channel architecture.
+
+-
+
+adopts a broad range of principles, techniques and measures to achieve functional safety for E/E1PE safety-related systems, but does not use the concept of fail safe, which may be of value when the failure modes are well defined and the level of complexity is relatively low. The concept of fail safe was considered inappropriate because of the full range of . complexity of E/E/PE safety-related systems that are within the scope of the standard.
+
+, .
+
+Indian Standard
+FUNCT~ONAL SAFETY OF ELECTR!CAU .ELECTRONiC/PROGRAMMABLE ELECTRONIC SAFETY-RELATED SYSTEMS
+PART 3 SOFTWARE REQUIREMENTS
+
+1
+1.1
+
+Scope
+This part of lEG 61508 and
+
+a) is intended (0 be utilised only after a thorough understandinq of. lEG 61508-1 lEG 61508-2;
+
+b) applies-to any software forming part of a safety-related system or used to develop a safetyrelated system within the scope of lEG 61508-1 and lEG 61508-2. Such software is termed safety-related software. Safety-related software includes operating systems, system software, software in communication networks, human-computer interface functions, support tools . and firmware as well as application programs. Application programs include high level ' programs, low level programs and - special purpose' programs in limited variability lanquaqes (see 3.2.7 of lEG 61508-4)..
+
+-
+
+c) requires that
+
+the software safety functions and software safety integrit~ levels are s/?ecified.
+
+NOTE 1 - If this has already been done as part of the specification of the E/E/PE safety-related systems (see 7.2 of IEC 61508-2); then it does not have to be' repeated inthis part. NOTE 2 ....: SPE1cifying the software safety (unctions and software safety integrity levels is an iterative procedure; see figures 2 and 6. ' NOTE 3- See clause 5 and ann'e'iA oflEC"6'1508-1 'for documentation 'structure. The documentation structure may take account of company procedures, and of the working practices of specific application' sectors.
+
+d) establishes requirements for safety Iifecycle phases and activities which shall be applied during the design and development of the safety-related software (the software safety Iifecycle model). These requirements include the application of measures and techniques, which are graded against the safety integrity level, for the avoidance of and control of faults and failures in the software. : . e) provides requirements for information relating to the software safety validation to be passed to the organisation carrying out the E/E/PES inteqration. f) provides requirements for the preparation' of information and procedures concerning software needed by the user for the operation and maintenance of the E/E/PE safetyrelated system.
+
+g) provides requirements to be met by the organisation carrying out modifications to safetyrelated software. h) provides , in conjunction with lEG 61508-1 and lEG 61508-2, requirements for support tools such as development and design tools, tanquaqetranstatore, testing and debugging tools, configuration management tools. NOTE 4- Figures 4 and l? show the relationship' between-lEG 61508�2 and lEG 61508-3 .
+
+I,
+
+1
+
+IS/lEe 61508
+
+D3:
+
+1998
+
+1.2 lEG 61508-1, lEG 61508-2, lEG 61508-3 and lEG 61508-4 are basic safety publications. " although this status does not apply . in- the context of low complexity E/E/PE safety-related systems (see 3.4.4 of lEG 61508-4) . As basic safety publications, they are intended for use by technical committees in the preparation of standards in accordance with the principles contained in lEG Guide 104 'and ISOIIEG Guide 51. One of the responsibilities of a technical committee is, wherever applicable, to make use of basic safety publications in the preparation of its own publications, lEG 61508 is also intended for use as a stand-alone standard.
+NOTE - In the USA and Canada, untilthe proposed process sector implementation of IEC 61508 (l.e . IEC 61511) is published as an international standard in the USA and Canada, existing national process safety standards based on IEC 61,508 (Le. ANSIIISA S84,01-1996) can be applied to the process sector instead of IEC 61508 . '
+
+.
+
+1.3 Figure 1 shows the overall framework of parts 1 to 7 lEG 61508, and indicates the role that J:fSG 61508-3 plays in the achievement of functional safety for E/E/PE safety-related systems, Annex A of lEG 61508-6 describes the application of lEG 61508-2 and lEG 61508-3.
+
+.2
+
+�
+
+I
+
+rI
+
+Development of the overall safety requirements (concept, scope ~il'l ' ~~='<'~' definition, hazard and risk analysis) (EIEIPE safety;related systems, other i==iPAR'F teahnology sa~ety.related syste~~ and Risk'based approaches external risk reduction facIlities) to the developmpnt of 7.1 to 7.~ . the safety Integrity requirements
+
+T
+
+~
+
+I
+
+rI
+
+Allocation of the safety requirements to the EIEIPE safety-related systems 7.6
+J D1U1T 7L....-Overview of techniques and measures IRT nlt -- -Guidelines for the application 'of parts2and3
+11J=~=====d
+
+Definitions and abbreviations
+
+Realisation L"t. Realisation phase for ~ phase for E1E1PE safety- , safety-related software reiated systems ,~
+
+Documentation
+
+, Clause 5 and annexA
+
+-JPART2L- ~
+I
+
+Management of functional safety
+
+Clause 6 Installation and commissioning and safety validation of EIEIPE " safety-related sy~tems
+7.13 and Z-14
+
+Functional safety assessment
+
+ClauseS
+
+InA
+
+PTn;
+
+Operation and maintenance, modification and retrofit, decommissioning or disposal of ' ElElPEsafety-related systems 7.15 to 7.17
+
+Figure 1 - Overall framework of this standard
+
+I
+.!
+
+I
+
+3
+
+�SJlEC "51508--3: 1998
+2 Normative references
+
+The following. normative documents contain provisions which, through reference in this text, constitute provisions of this part of lEG 61508. At the time of publication, the editions indicated 'were valid. All normative documents are subject to revision, and parties to agreements based on this part of lEG 61508 are encouraged to investigate tlie possibility of applying the most recent editions of the norrnative.documents indicated below, Members of lEG and ISO maintain registers of currently valid International Standards. lEG 61508-ff998, Functional safety of electricallelectronicallprogrammable electronic safetyrelated systems - Part 1: General requirements lEG 61508-2, - Functional safety of e/~ctrical/electronical/programmableelectronic safetyrelated systems - Part 2 : Requirements for electrical/electronical/programmable electronic safety.-related systems 1) lEG 61508-4: 1998, Functional safety of electrical/electronical/programmable electronic safetyrelated systems - Part 4: Definitions and abbreviations of terms lEG 61508-5:1998, Functional safety of electricallelectronicallprogrammable electronic safetyrelated systems - Part 5: Examples of methods' for the determination of safety integrity levels lEG 61508-6: - , Functionel safety of electricallelectronicallprogrammable electronic safetyrelated systems - Part 6: Guidelines on the application of parts 2 and 3 1) lEG 61508-7:. - , Functional safety of electrical/electronical/programmable eiectronic safetyrelated systems - Part 7: Overview of techniques and measures 1) ISOIIEG Guide 51 :1990, Guidelines for the inclusion of safety aspects in standards lEG Guide 104:1997, Guide to the drafting of safety standards, and the role of Committees with safety pilot functions and safety group functions
+.
+
+.
+
+3
+
+Detinltlcns and abbreviations
+
+For the purposes of this standard, the definitions and abbreviations given in lEG 61508-4 apply.
+:
+o.
+
+:
+
+",,--
+
+. .
+
+,
+
+I.
+
+4
+
+Conformance to this standard . \
+
+.
+.
+.
+
+The requirements for conformance to this standard are given-in clause 4 of lEG 61508-1.
+
+"-,
+i
+
+5
+
+Documentation
+
+The objectives and requirements for, documentation are given in clause 5 of IEC 61508-1 .
+
+iSIIEC 6150&-3: ~ 998
+
+6
+6.1
+
+Software quality management system
+Objectives
+
+The objectives are as detailed in 6.1 of IEC 61508-1. 6.2 Requirements
+
+6.2.1 The requirements are as detailed in 6.2 of IEC 61508-1 with the following additional - requirements. 6.2.2 The functional safety planning shall define tlie strategy for the software procurement, development, integration, verification, validation and rnodiflcatlon to the extent required by the safety integrity level of the E/E/PE safety related system.
+NOTE - The philosophy of 'this approach is to use the functional safety planning as an opportunity to customise this standard to take account of the varying safety integrity which is required in the E/E/PE safety-related system components. 7.4:2.8 of part 3 should be taken into account when E/E/PE safety-related system components of differing safety integrity levels are to be used together. .
+
+6..2.3
+
+Software configuration management should
+
+a) apply administrative and"technical controls throughout the software safety Iifecycle, in order, to manage software changes and thus ensure that the specified requirements for software safety continue to be satisfied ; b) guarantee that all necessary 'operations have been carried out to demonstrate that the required software safety integrity. has been achieved; c) maintain accurately and. with unique identification all configuration items which are necessary to maintain the integrity of the E/EipE safety-related system . Configuration items include at least the following: safety analysis and requirements; software specification- and design documents; software source code modules; test plans and results; pre-existing software components and packages which are to be incorporated into the E/E/PE safetyrelated system ; all tools and development environments which are used to create or test, or carry out any action on, the software of the E/E/PE safety-related system;
+<
+
+d) apply change-control procedures to prevent unauthorized modifications ; to document modification requests; to analyse the impact of a proposed modification, and to approve or reject the request; to document the details of, and the authorisation for, all approved modifications; to' -establish configuration baseline at appropriate points in the software development, and to document the (partial) integration testing which justifies the baseline (see 7.8); to guarantee the composition of , and .the building of, all software baselines (including the rebuilding of earlier baselines);
+NOTE 1 - Manaqernent decis ion and authority is needed to guide and enforce the use of .adrninlstrativa and technical controls. .
+
+e) document the following information to permit a subsequent audit: configuration status, release status, the justification for and approval of all modifications. and the details of the modification; ' . . f) formally document the release of safety-related' software. Master 'copies of the software 'and all associated documentation should be kept to permit maintenance and modification throughout.the operatlonallifetime o.f the released software.
+
+NOTE 2 - For further information on configuration management, see ISO/lEe 12207.
+
+5.
+
+RS/IEC 61508
+
+a3:
+
+1998
+
+7
+7.1
+
+Software safety lifecycle requirements
+General Objective
+
+7.1.1
+
+The objective of the requirements .of this subclause is to structure the development of the software into defined phases and activities (see table 1 and figures 2 to ~). 7.1.2 Requirements
+
+.
+
+7.1.2.1 A safety lifecycle for the development of software shall be selected and specified during safety planning in accordance with clause 6 of lEG 61508-1.
+NOTE - A safety Iifecycle model which satisfies the requirements of clause 7 of IEC 61508�1 may be suitably customised for the particular needs of the project or organisation :
+
+7.1.2.2 Quality and safety assurance procedures shall be integrated into safety Iifecycle activities. 7.1.2.3 Each phase of the software safety lifecycle shall be divided into elementary activities with the scope, inputs and outputs specified for each phase.
+NOTE 1 - For further information on lifecycle phases, see ISOIIEC 12207 . NOTE 2 - Clause 5 of IEC 61508�1 considers the outputs from the safety lifecycle phases. In the development of some E/E/PE safety-related systems, the output from some safety lifecycle phases may 'be a distinct document, while the documented outputs from several phases may be merged. The essential requirement is that the output of the safety Iifecycle phase be fit for its intended purpose. In simple developments, some safety lifecycle phases may also be merged (see 7.4 .5) .
+
+7.1.2.4 Provided that the software safety lifecycle satisfies the requirements of figure 3 and table 1, it is acceptable to tailor thedepth, number and work-size of the phases of the V-model (see figure 5) to take account of the safety integrity and the complexity of the project.
+NOTE - The full list of lifecycle phases in table 1 is suitable for large newly developed systems. In small systems, it might be appropriate, for example. ito merge the jihasee of software system design and architectural design.
+
+7.1.2.5 -It is acceptable to order the software project differently from the organization of this standard (i.e. use another software safety Iifecycle model), provided all the objectives and requirements of this clause are met.
+
+.
+
+.
+
+7.1.2.6 For each lifecycle phase. appropriate techniques and measures shall be used. Annexes A and B (guide to the selection of techniques and measures) give recommendations. Selecting techniques from annexes A and B does not guarantee by itself that the required safety integrity will be achieved . 7.1.2.7 The results of the activities in the software safety Iifecycle shall be documented (see clause 5). 7.1.2.8 If at any stage of the software safety Iifecycle, a change i~ required pertaining to an earlier Iifecycle phase, then thatearlier safety Iifecycle phase and the following phases shall be repeated. . .
+
+.
+
+-
+
+.
+"
+
+6
+
+I
+E/E/~ES
+
+safety lifecycle
+:~~, ElEJPES safety requirements
+~ )~:
+
+I
+
+specification
+
+!-
+
+;
+
+Safety functions ." ~" (~ ' :' requirements .~ specification
+
+Safety Integrity requirements a ecificatlon
+
+(
+
+One EIEIPESsafaty IIfecycle for each ElElPE safety-related system
+
+To box 14 in figure 2 of rsc 61508-1
+
+Figure 2 - E/E/PES safety Iifecycle (in -realisation phase)
+
+.\
+
+Software safety Jifecycle
+
+lifecycle (see figure 2)
+
+~~~s
+
+�
+
+II
+
+I
+
+i3 !?: lJ)
+iii
+to &0
+
+o
+
+co
+
+To box 121n figure 2 of IEC 61508-1
+
+To bolt 14 In figure 2 of IEC 61508-1
+
+.
+
+I
+
+Figure 3 - Software
+
+safe~y Iifecycle
+
+(in realisation phase)
+
+7
+
+ISIIEC 61508�3: 1998
+
+,.ElEJPES safety requirements speclflcatlcn
+.._ m
+
+~"
+
+"""-
+
+. .. . . . . -. - --�----f I Scope of
+!
+IEC 61508-2,
+
+EJEJPES architecture
+
+~
+
+"
+
+��
+
+� �_
+
+t� _ . . ����.�.��1
+~
+
+I
+Hardware safety requirements
+
+d9
+
+i}
+l
+
+i
+
+Scope of' IEC 61508�
+
+Software safety requirements
+
+ele~~a;;~~~:d~~re Non'h~~::::able
+Programmable . Non-programmable herdware design electronics design end development . and development
+
+~
+
+I
+I
+r
+
+I
+
+!
+Software design and development
+
+I
+Programmable electronics Integration (hardware.and software)
+
+H--'!-----e!
+
+Figure 4 - Relationship between and scope of IEC 6158-2 .an d IEC 61508-3�
+
+E1E1PES 'safety requirements � specification
+
+Software safety requirements specification
+
+EJEIPES architecture
+
+Integration testing
+(components, 8UOOyntcmo IlI\d progllUlllllllllle ulocltonicll)
+
+----+
+- --- -L>-
+
+Output Verification
+
+Figure 5 - Softwaresafety.integrity and the development Iifecycle (the V-model)
+
+.:
+
+8 ..
+
+Table 1 - Software safety ~ifecyc!e: overview
+safety Iifecy'cle phase Figura 3 Title
+,
+
+Oblectives
+
+Scope
+
+Inputs (information subclause required) Requirements
+<
+
+Outputs (information produced)
+
+b. O M : .
+number
+
+.
+
+.
+
+PES; Software system .
+
+-
+
+9.1
+
+Software safety To specify the requirements for software safety in terms of the requirements requirements for software safety specification functions and the requirements for softwa re safety integrity; To specify the requirements for the software safety functions for each ElEiPE safety-related system necessary to implement the required . safety functions; To spec ify the requirements for software sa fety i ntegrity for each. ElEiPE safE1ty-related system necessary to achieve the safety integrity level speci fied for each safety function allocated to that ElEiPE safety-related system .
+
+7.2.2
+
+Software safety ElEiPES . requirements safety requirements specification . specification (IEC 61508-2).
+
+...
+
+-
+
+...
+
+9.2
+
+Software safety To develop a plan for validating the software salety. validation planning
+
+PES ; software system .
+
+7.3.2
+
+Software safety requirements spec ification. Softwa re safety requirements specification; ElEiPES hardware architecture design (from IEC 61508 -2).
+
+Software safety validation plan.
+
+9.3
+
+. PES; Software design Architecture: softwa re and To create a software architecture system . development that fulfils the specified requ irements for software safety with respec t to the required safety' integrity I~vel;
+
+7.4.3
+
+Software architecture design descrip tion; software architecture integration test specification ; software/ programmable electronics integration test specification (the same as IEC 61508:2 requires). Development tools and coding standards;
+~
+
+.
+
+To review and evaluate the requirements placed on the software by the hardware arch itectu re of the ElEiPE safety-relate'! system, including the significance of ElEiPE hardware/software interactions for safety of the equipment unde r control.
+
+.
+
+9.3
+
+SoftWare design and development
+
+Support tools and programming languages:
+
+.
+
+PES; software system ; support tools; programming language.
+
+7.4.4
+
+To select a suitable set of tools, including languages and comp ilers, for the required safety integ rity -levsl, over the whqle safety lifecycle of tne software which assists v.eri( ication , validation, assessment and modification.
+
+Software safety requirements specification; software architecture design description .
+
+selection of development tools.
+
+9
+
+ISIIEC 61508-3: 1998
+Table 1 (continued)
+safety lifecycle phase
+I
+I
+
+Objectives
+
+Scope
+
+RequireInputs ments (information subclause required)
+
+Outputs .(information produced)
+
+Figure 3 box number
+
+Title
+
+9.3
+
+Software design and development
+
+7.4.5 Detailed design and development Major components (software system design): and To design and implement software subsystems that fulfils the specified requirements of software for software safety with respect to architectural the required safety integrity level, design. which is analysable and verifiable, and which is capable of being safely modified.
+Detailed design and development Software system (individual software module design. design): To design and implement software that fulfils the specified requirements for software safety with respect to the required safety integrity level, which is analysable and verifiable, and which is capable of being safely modified.
+
+SoftWare architecture design description; support tools and coding standards.
+
+Software system design specification; software system integration test specification .
+
+9.3
+
+Software design and deve lopment
+
+7.4.5
+
+Software Software module system design design specification; specification; support tools and coding standards. software module test specification
+
+9.3
+
+Software design arid development
+
+Detailed code implementation: To design and implement software that fulfils the specified requirements for software safety with respect to the required safety integrity level, which is analysable and verifiable, and which is capable of being safely modified. Software module testing: To verify that the requirements for software safety (in terms of the required software safety functions and the software safety integrity) have been achieved - to show that each software module performs its intended function and does not perform unintended functions. Software integration testing:
+
+Individual software modules.
+
+7.4.6
+
+~
+
+Software Source code module design listing; specification; code review report. support tools and coding standards.
+
+9.3
+
+Software design and development
+
+Software modules.
+
+7.4.7
+
+Software Software module module test test results; specification; . verified and tested software modules . source code listing; code review report.
+
+9.3
+
+Software design and development
+
+To verify that the requirements for software software safety (in terms of the system . required software safety functions and the software safety integrity) have been achieved - to show that all software modules, components and subsystems interact correctly to perform their intended function and do not perform unintended functions.
+
+Software 7.4.8 architecture;
+
+Software Software system system integration test integration test results; specification. verified and tested software system.
+
+10
+
+Table 1 (concluded)
+Safety lifecycle phase Figure 3 box number 9.4 Title Objectives Scope Inputs Require(Information ments required) subclause Outputs (Information produced}
+
+.
+
+'
+
+Programmable To integratethe software onto the target programmable electronic electronics hardware; integration (hardware and software) To combinethe software and hardwarein the safety-related programmable electronicsto ensure their compatibilityand to meet the requirements of the intended safety integrity level.
+
+Programmabie electronics hardware; integrated software.
+
+7.5:2
+
+Software architecture integrationtest specification; programmable electronics integration test specification . (the same as iec 61508-2 requires); integrated programmable electronics.
+
+Software architecture integrationtest results; programmable electronics integrationtest results; verified and'tested integrated programmable electronics.
+
+J
+
+~
+
+9.5
+
+Software operation and modification procedures
+
+To provideinformation and As above procedures conceming software necessaryto ensurethat the functional safety of the E1E/PE safety-related system is maintained during operation and modification.
+
+7.6.2
+
+All above, as relevant.
+
+Softwareoperation and modification procedures.
+
+9.6
+
+Softwaresafety To ensure that the integrated As above validation system complieswith the specified requirements for software safety at the intenQed safety integrity level. � Software modification To make corrections" enhancements or adaptationsto the validatedsoftware, ensuring that the requiredsoftware safety integrity level is sustained.
+/
+
+7.7.2
+
+Software safety validation plan. Software modification procedures; software modification .request.
+
+Softwaresafety validation results; Validated software. Software modification impact analysis results; software modificationlog.
+
+-
+
+As above
+
+7.8.2
+
+-
+
+Software verification
+
+To the extent required by the Depends on. 7.9.2 safety integrity level. to test and phase evaluate!he outputsfrom a given SOftw~fety Iifecyclephaseto ensu correctness and ccnslstency with respect to the outputs and standardsprovided as input to th~t phase. To investigateand arrive ata All above judgement on the functional safety phases � achieved by the E1E1PE safetyrelated systems. 8
+
+Appropriate Appropriate verification report verification plan (depends (depends onphase) . on phase).
+
+-
+
+Software functional safety assessment
+
+Software functional safety assessment plan.
+
+Software functionalsafety assessment report.
+
+11
+
+ISIIEC 61508-3: 1998
+
+'7.2
+
+. .
+
+Software safety requirements specttlcatlcn
+
+NOTE 1 - See also tables A.1 and B.7. NOTE 2 -. This phase is box 9.1 of figure 3.
+
+7.2.1
+
+Objectives
+
+7.2.1.1 The first objective of the requirements of this subclause is to specify the requirements .for software safety- In terms of the requirements for software safety functlcns and the requirements for software safety integrity. 7.2.1.2 The second objective of the requirements of this subclause is to specify the requirements for the software safety functions for each E/E/PE safety-related system necessary to implement the required safety functions. 7.2.1.3 The third objective of the requirements of this subclause is to specify the requirements for software safety integrity for each E/E/PE safety-related system necessary to achieve the safety integrity level specified for each safety function allocated to that E/E/PE safetyrelated system.
+
+Sensors
+Architectures shown are examples and could be: single channel; dual channel;
+
+1002,1003,2002
+etc.
+
+I
+
+I~~ H ~'" ~.
+I
+
+li. 'NP j
+
+.. I I "
+!,
+
+.J � l~ ;P. I I bfPEll hi
+E '
+PE
+-,
+
+�Logic system Final elements
+
+n
+
+Nt>
+
+I
+
+. I~--,.
+
+~~I
+
+Programmable electronics architecture
+
+Generic and application specific PE embedded software ~!? ~pp!ic;a~i~ns software � I , ...... features in PE hardware. I--------.:.-,;,;;;.;;.~;;;...:~~..;;...:-----~ Examples include: Examples include:\ ExampleS? include: - input/output functions; communications diagnostic tests;. drivers; : - derived functions (for redundant processors; fault handling; i example sensor checking dual I/O cards. if not provided as a service executive software. of the embedded software).
+
+Key
+
+'~ /non-programmabJe devices
+ANI
+81W
+
+PE
+
+programmable electronics
+
+hardware software MooN M out of N (for example 1002 is 1 out of 2) �
+
+Figure 6 -
+
+Relationship between the hardware anq software architectures of programmable eteetrentea
+
+12�
+
+~S/IEC
+
+61508
+
+a3:
+
+1998
+
+7.2.2
+
+Requirements
+
+NOTE - These requirements will in most cases be achieved by a combination of generic embedded software and application specific software. It is the 'combination of both that is required to provide 'the features that satisfy the following subclauses. The exact div ision between generic and application specific software depends on the chosen software architecture (see 7.4.3 and figure 6). ' ,
+
+7.2.2.1 If the requirements for software safety have already been specified in the requirements for the E/E/PE safety-related system. (see 7.2 of lEG 61508-2), -then the specification of software safety requirements need not be repeated . . 7.2.2.2 The specification of the requirements for software safety shall be derived from the specified safety requirements of the E/E/PE safety-related system (see IEC 61508-2), and any requirements of safety planning (see clause 6). This information shall be made available to the software developer. .
+NOTE:'" This requ irement does not mean that there will be no iteration between the developer of the E/E/PES and
+
+ihe developer of the software (IEC 61506 -2 and IEC 61506-3) . As the software safety requirements and' the
+software architecture (see 7.4 .3) become more precise, there may be an impact on the E/E/PES hardware architecture, and for this reason 'close co-operation between the hardware and software developer is essential. See figure 4. � \
+
+7.2.2.3 The specification of the requirements for software safety shall be sufficiently detailed to allow the design and implementation to achieve the required safety integrity, and t,o allow an assessment of functional safety to be carried out. .
+NOTE - The level of detail of the specification may vary with the complexity of the application,
+
+7.2.2.4 The software developer shall review the information in 7.2.2.2 to ,ensure that the requirements are adequately specified. In particular the software developer shall. consider the following:
+a) safety functions; , b) configuration or architecture of the system:' . c) hardware safety integrity requirements (programmable electronics. sensors. and actuators); d) software safety integrity requirements; e) capacity arid response time performance; f) equipment and operator interfaces.
+
+7.2.2.5 The software developer shall establish procedures for resolving any disagreements over the assignment of the software safety integrity level. 7.2.2.5 To the extent required by the safety integrity level. the specified requirements for software safety shall be expressed and structured so that they are
+a) clear, precise, unequivocal. verifiable. testable, maintainable and feasible. commensurate . with the safety integrity level; b) traceable back to the specification of the safety requirements of the E/E/PE safety-related system ; . c) free of terminology and descriptions which are ambiguous and/or not understood by those who will utilize the document at any stage of the software safety lifecycle. .
+
+7.2.2.7 If not already adequately defined in specified safety requirements -of the E/E/PE safety-related system. all relevant modes of operation of the EUC shall be detailed in the . specified requirements for software safety.
+13
+
+iSliEC 6150a..3: 1998
+NOTE - This requirement will in most 'cases be achieved by a combination of generic embedded software and application spec ific software. It is the combination of both that is required to provide the features that satisfy the requirement. The exact division between generic and application specific software depends on the chosen software architecture (see 7.4.3 and figure 6).
+
+7.2.2.8 The software' safety requirements specification shall specify and document any safetyrelated or relevant constraints between the hardware and the software.
+
+7.2.2.9 ' To the extent required by the description of the E/E/PE hardware architecture design,
+the software safety requirements specification shall consider the following: a) software self-monitoring (for examples see e.2.5 and e.3.10 of lEe 61508-7); b) monitoring of the programmable electronics, hardware, sensors, and c) periodic testing of safety functio.ns while the system is running; d) . en~bling safety functions to be testable when the EUe is operational.
+~ctuators;
+
+7.2.2.10 When the E/E/PE safety-related system is required to perform non-safety functions, then the specified requirements for software safety shall clearly identify these functions. 7.2.2.11 The software safety requirements specification shall express the required safety 'properties of the product, but not of the project. With reference to 7.2.2.1 to 7 .2.2.10, the following .s h a ~1 be specified as appropriate :
+a) the requirements for the software safety functions: functions that enable the EUe to achieve or maintain a safe state; functions' related to the detection} annunciation and management of faults in the programmable electronics hardware; functions related to the detection, annunciation and management of sensor and actuators faults;
+softw~re
+
+functions related to the detection, annunciation and management of faults in the itself (software self-monitoring);
+
+-
+
+functions related to the periodic testing of safety functions on-line ; functions related to the periodic testing of safety functions off-line; functions that allow the PES to be safely.modified; interfaces to non safety-related functions; capacity and response time performance; interfaces between the software and the PES.
+NOTE 1 - Interfaces include both off-line and online programming facilities.
+
+.
+
+.
+
+b) the requirement for the software safety integrity: the safety integrity level(s) for each of the functions in a) above.
+. NOTE 2 - See annex A of IEC 61508-5 for information concerning the allocation of safety integrity to software components .
+
+7.3
+
+Software safety validation planning
+
+. NOTE - This phase is box 9.2 of figure 3.
+
+7.3.1
+
+Objective
+
+The objective of the requirements of this subclause is to develop a plan for validating the software safety.
+
+ISIIEC
+7.3.2 Requirements
+
+61508~3:
+
+1998
+
+7.3.2.1 Planning shall be carried out to specify the steps, both proceduraf and technical , that will be used to demonstrate that the so.ftware satisfies its safety requirements (see 7.2). 7.3.2.2' The plan for validating the software safety shall consider the following: a) details of when the validation shall take place; b) details of those who shall carry out the validation; c) identification of the relevant modes of the EUC operation including
+
+.
+
+.
+
+-
+
+preparation for use including setting and adjustment; 'start up; teach; automatic; manual; semi-automatic; steady state of operation;
+
+-
+
+re-settlnq: shut down; maintenance;
+reasonablyxoreseeable abnormal conditions;
+
+d) identification of the safety-related software which needs to be 'validated for each mode of EUC operation oefore-commissioninq 'commences ; e) the technical strategy for the validation (for example analytical methods, statistical tests etc.) (see 7.3.2.3); f) In accordance with item e), the measures (techniques) and procedures that shall be used for confirming that each safety .function conforms with the specified requirements for the software safety functions' (see 7.2), and the specified reqLiirements for software safety integrity (see 7.2);
+
+g) specific reference to the specified requirements for software safety (see 7.2); h) the required environment in which the validation activities are to take place (for example for tests this would. include calibrated tools-and equipment); i) ... the pass/fail criteria (see 7.3.2.5);
+
+j)
+
+the policies and procedures for evaluating the results of the validation, particularly failures.
+(;>0 the
+
+NOTE - These requirements are based
+
+general requirements of 7.8 of lEG 61508-1.
+
+7.3.2.3 The technical strateqy for the validation of safety-related software (see table A.7) shall include the following information: . a) choice of manual or automated techniques or both ; b) choice of static or dynamic techniques or both; b) choice of analytical or statistical techniques or both. 7.3.2.4 As part of the procedure for validating safety-related software, the scope and contents of the planning for validating the software safety shall be reviewed with the assessor or with a party representing the assessor, if required by the safety integrity level (see 8.2.12 of IEC 61508-1) . This procedure shall also make a statement concerning the presence of the assessor during testing. 7.3.2.5 The pass/fail criteria for accomplishing software validation shall include
+
+a) the required input signals with their sequences and their values ;
+
+15
+
+IS/lEe
+
+61508~3:
+
+1998,
+
+b) the anticipated output signals with their sequences and their values; and c) other acceptance criteria, for example memory usage, tjming and value tolerances . 7.4
+
+So ftware design and development
+
+NOTE - This phase is box 9.3 of figure 3.
+
+7.4.1
+
+Objectives
+
+7.4.1.1 The firs t objective of the requirements of this subclause is to create - a software architecture that fulfils the specified requirements for software safety (see 7.2) with respect to the required safety integrity level. 7.4.1.2 The second objective of the requirements of this subclause is to review and evaluate the requirements placed on the software by the hardware arch itecture of the E/E/PE safetyrelated system, including the significance of E/E/PE hardware/software interactions for safety of the equipment under control. 7.4.1.3 The third objective of the requirements of this subclause is to select a suitable 513t of tools. including languages and compilers, for the required safety integrity level. over the whole safety Iifecycle of the software which assists verification, validation, assessment and modification. 7.4.1..4 The fourth objective of the requirements of this subclause is to design and implement software that fulfi ls the specified requirements for software safety (see 7.2) with respect to the required sa,fety integrity level , which is analysable and verifiable, and which is capable of being safely modified. 7.4.1.5 The fifth objective of the requirements of this subclause is to verify that the requirements for software safety (in terms of the required software safety functions and the software safety integrity) have been achieved. 7.4.2
+
+General requirements
+
+7.4.2.1 Depending on the nature of the .sottware development, responsibility for conformance with 7.4 can rest with the supplier alone, or with the user alone. or with both. The division of responsibitity shall be determined during safety planning (see clause-6). 7.4.2.2 In accordance with the required safety integrity level. the des ig_n method chosen shall possess features that facilitate: a) abstraction. modularity and other feature? which control complexity; b) the expression of: functionality, information fl?w between components, sequencing and time related information, timing constraints, concurrency, data structures and their properties, design assumptions and the ir dependencies; c) comprehension by developers and others who need to understand the design; d) verification and validation.
+NOTE - See also the tables in annexes A and B.
+
+16
+
+tSIiEC 61508-3: 1998
+7.4.2.3 Testability and the capacity for safe modification shall be considered during the design
+activities in order to facilitate implementation of these properties in the final safety-related system.
+NOTE - Examples include maintenance modes .in machinery and process plant.
+
+7.4.2.4 The design method chosen shall possess features that facilitate software modification.
+Such features include modularity, information hiding and encapsulation. '
+
+7.4.2.5 The design representations shall be based on a notation which is unambiguously
+defined or restricted to unambiguously defined features.
+
+7.4.2.6 As far as practicable the design shall minimise the safety-related part of the software. 7.4.2.7 Where the software is to implement both safety and non-safety functions, then all of the software shall be treated as safety-related. unless adequate independence between ' the functions can be ~emonstrated in the design" . . 7.4.2.8 Where the software is to implement safety functions of different safety integrity levels,
+then all of the software shall De treated as belonging to the highest safety integrity level, unless adequate independence between the safety functions of the different safety integrity levels can be sho.wn in the design. Th.e j.ustification for independe~ce shall be documented.
+NOTE - The software safety integrity level must be at least as high as the safety integrity level of the safety tunctlon to which it belongs. However, the safety integrity level of a software component can be lower than the safety integrity level of the the safety function to which the software component belongs, if the component is used in comb ination with other hardware components such that the safety integrity level of the combination at least equals that of the the safety function.
+
+7.4.2.9 As far as practicable, the design shaltInclude software functions to execute proof tests and all diagnostic tests in order to fulfil the safety integrity requirement of the' E/E/PE safety-related system (as set out in ~EC 61508-2).
+
+.
+7.4.2.10 The software design shall .include, commensurate with the required safety integrity
+level, self-monitoring of control flow and data flow. On failure detection, appropriate' actions shall be taken. See table A.2 and table A.4.
+
+7.4.2.11 If standard or previously developed software is to be used as part of the design (see tables A.3 and A.4) then it shall be clearly identified. The software suitability in satisfying the specification of requirements for software safety (see 7.2) shall be' justified. Suitability shall be based upon evidence of satisfactory operation in a similar application or having been subject to the same verification and validation procedures as would be expected for any newly developed software. Constraints from the previous software' environment (for example operating system and compiler dependencies) should be evaluated.
+NOTE Th~
+
+justification may be devetoped during safety planning (see clause 6),
+
+7.4.2.12 This subclause (7.4-) shall, in so far as it is appropriate, apply to data including any
+data generation languages:
+
+17
+
+nS/ll~C 6~ 50&-3: ~ 998
+
+7.4.3
+
+Requirements for software architecture
+
+NOTE 1 - See also tables A.2 and B.7. NOTE 2 - The software architecture defines the major components and subsystems of the software, how they are interconnected, and how the required attributes , 'particularly safety integrity, will be achieved. Examples of major software components include operating systems, databases.Lplant inpuVoutput SUbsystems, communication subsystems, application program(s) , programming and diagnostic tools etc. NOTE 3 - In certain industrial sectors the software architecture would be called a function description or functional design specification (although these documents could also include the hardware). NOTE 4 - For user application programming in limited variability languages particularly in PLCs (see annex E of IEC 61508�6) the architecture is provided by the supplier as a standard feature of the PLC. The supplier would, 'under this standard, be required to assure the user of the compliance of his products to the requirements of 7.4 . The user tailors the PLC to the application by using the standard programming facilities, for example ladder logic. The requirements of 7.4.3 to 7.4 .8 still apply . The requirement to define and document the architecture can be seen as information that the user would use to select the PLC (or equivalent) for the application. NOTE 5 - At the other extreme, in certain embedded applications using a full variability language, for example a microprocessor controlled machine, the architecture will need to be created especially for the application (or class of application) by the supplier. The user usually has no programming facilities. In these circumstances, responsibility for assuring compliance with 7.4 rests with the supplier. NOTE 6 - There are systems falling in between the. two types of systems mentioned in notes 4 and 5, and responsibility for compliance will therefore be shared between the user and the supplier. NOTE 7 - From a safety viewpoint, the software architecture phase is where the basic safety strategy is developed for the software .
+
+7.4.3.1 Depend ing on the nature of the software development, responsibility for conformance with 7.4.3 can rest with the supplier alone, or with the user alone, or with both (see notes above). The division of responsibility shall be documented during safety planning (see clause 6). 7.4.3.2 The proposed software architecture design shall be established by the software supplier and/or developer, and a description of the software architecture design shall be detailed. The description shall a) select and justify an integrated set of techniques and measures necessary during the software safety Iifecycle phases to satisfy the specification of requirements for software safety at the required safety integrity level (see 7.2). These techniques and measures include software design strategies for both fault tolerance (consistent with the . hardware) and fault avoidance, including (where appropriate) redundancy and diversity; b) be based on a partitioning into components/subsystems , for each of which the following informatio~ shall be provided: whether they are new, existing or proprietary; whether they have been previously verified, and if yes, their verification conditions; whether each subsystem/component is safety-related or not; the software safety integrity level of the su.bsystem/component; c) determine all software/hardware interactions and evaluate and detail their significance; d) use a notation to represent the architecture which is unambiguously defined or restricted to unambiguously defined features; e) select the design features to be used for maintaining the safety integrity of all data. Such data may include plant input-output data, communications data, operator interface data, maintenance data and internal database data; f) specify appropriate software architecture integration tests to ensure that the software architecture satisfies the specification of requirements for software safety at : the required safety integrity level (see 7.2).
+
+18
+
+nSIll~c
+
+IS'll 50&-3: 1199$ .
+
+7.4.3.3 Any changes required to the specified safety requirements of the E/E/PE safetyrelated system after applying 7.4.3.2 ' shall be agreed with the E/E/PE developer and documented.
+NOTE - There will inevitably be iteration between the hardware and software architecture (see figure 5) and there is therefore a need to discuss with the hardware developer such issues as the test specification for the integration of the programmable electronics hardware and the software (see.7.5). .
+
+7.4.4
+
+Requirements for support tools and programming
+
+la~guages
+
+NOTE 1 - See also table A.3. NOTE 2 - The selection of development tools will depend on the nature of the software development activities and the software architecture (see 704.3) .
+
+.
+
+.
+
+-
+
+For user application programming in a limited variability language, at low levels of safety integrity, the req uired tools and programming languages may be limited to the standard PLC languages, editors and loaders. Responsibility for compliance with 70404 will therefore ma inly rest with the supplier. At higher levels of safety integrity, restricted subsets of the PLC language may be necessary, and verification and validation tools such as code analysers and simulators needed . Responsibility will ;est with both the supplier and the user in these circumstances. Tools for embedded appllcations using a full variability language will necessarily have to be more comprehensive even at low levels of safety integrity. Respons ibility for conformance with 70404 wi!! rest here mainly with the software developer. This includes the PLC supplier who would use full variability languages in providing the low variability language for user application programming.
+
+7.4.4.1 Depending on the nature of the software development, responsibility for conformance with 7.4.4 can rest with the supplier alone, or with the user alone, or with both (see note 2 above). The division of responsibility shall be documented during safety planning (see clause 6). ' 7.4.4.2 A suitable set of . integrated tools, including languages, compilers, configuration management tools, and when applicable, automatic testing tools, shall be selected for the required safety integrity level. The availability of suitable tools (not necessarily those used during initial system development) to supply the relevant services over the whole lifetime of the E/E/~E safety-related system should be considered. 7.4.4.3 To the extent required by the safety integrity level, the programming language . selected shall: .
+a) have a translator/compiler which has either a certificate of validation to a recognised national or international standard, or it shall be assessed to establish its fitness for purpose; b) be completely and unambiguously defined or restricted to unambiguously defined features;
+
+c) match the characteristics of the application;
+d) contain features that facilitate the detection of programming mistakes ;
+e) support features that match 'the design method. .
+
+7.4.4.4 When 7.4.4.3 cannot be satisfied, then a justification for an alternative language used shall be documented during software arch itecture design description (see 7.4.3). The justification shall detail the fitness for purpose of the language, and any additional measures which address any identified shortcomings of the language.
+
+19
+
+fiSIDEC 51508--3: 1998
+7.4.4.5 Coding standards shall be
+
+a) reviewed as fit for purpose by the assessor; and b) used for the development of all safety-related software. 7.4.4.6 The coding standards shall specify gooa programming practice. proscribe unsafe language features (for example. undefined language features. unstructured designs. etc.) and specify procedures for source code documentation. As a minimum . the following information should be contained in the source code,docujnentation: a) legal entity (for example company, author(s), etc.): b) description; c) inputs and outputs; d) configuration management history. 7.4.5 Requirements for detailed design and develo.pment
+
+NOTE 1 - See also tab les A.4, B.1, B.7 and B.9. NOTE 2 - Detailed design is defined here to mean software system design - the partitioning of the'major components in the architecture into a system of software modules, individual software module design, ana coding. In small applications, software system design and architectural design may be combined. NOTE 3 - The nature of detailed design and development will vary with the nature of the software development � activities and the softwarg architecture (see 7.4 .3). For user application programming using a limited variability language, for example ladder logic and function blocks, detailed design can be considered as configuring rather than programming . However it is still good practice to design the software in a structured way, including org~nising the software into a modular structure that separates out (as far as possible) safety-related parts ; including range checking and other features that prov ide protection against data input mistakes; using previously verified software modules; and providing a design that facilitates future software modifications.
+
+7.4.5.1 Depending on the nature of the software development. responsibility for conformance with 7.4 .5 can rest with the supplier alone, or with the user alone, or with both (see note 3 above). The divis ion 'of responsibility shall be documented during safety planning (see clause 6). 7.4.5.2 The following information should be available prior to �the start of detailed design: the specification of requirements for software safety (see 7.2); the description of the software architecture design (see 7.4.3); the plan for validating the software safety (see 7.3). 7.4.5.3 The software should be produced to achieve modularity. testability, and the capacity for safe modification. . 7.4.5.4 For each major component/subsystem in the description of the software architecture design (see 7.4.3), further refinement of the design shall be based on a partitioning into software modules (l.e, the specification of the software system design). The design of each software module and the tests to be applied to each software module shall ' be specified.
+NOTE. - For standard or previously developed software. components or software modules, no' design or test specification is needed if it can be shown that they fulfil the requirements of 7.4 .2.11.
+
+7.4.5.5. Appropriate software system integration tests should be specified to ensure that the software system satisfies the specified requirements for software safety at the required safety integrity level (see 7.2) .
+
+20
+
+IS/lEe 61508-3: ~f398
+7.4.6 Requirements for code, implementation
+
+NOTE - See alsotables AA, B.1, B.7 and B:9.
+
+7.4.6.1
+
+The source code shall
+
+a) be readable, understandable and testable; b) ' satisfy the specified requirements for software module design (see 704.5); c) satisfy the specified requirements of the coding standards (see 7.4.4); d) satisfy all relevant requirements specifieddurinq safety planning (see clause 6). 7.4.6.2 Each module of software code should be reviewed.
+
+NOTE - Code review is a verification activity (see 7.9) .
+
+7.4.7
+
+Requirements for software module testing
+
+NOTE 1 - .See also tables A.5, B.2, B.3 and B.6. NOTE 2 - Testing that the software module correctly satisfies its 'test specification is a verification activity (see 7.9) . It is the combination of code review and software module testing that provides assurance that a software' module satisfies its associated specification, i.e. it is v~rified.
+
+7.4.7.1
+
+Each software module shall be tested as specified during software design (see 7.4.5).
+
+7.4.7.2 These tests shall show that each software module performs its intended function and does not perform unintended functions .
+NOTE 1 - This does not imply testing of all input combinations, nor of all output cornbinatlcns . Testing all equivalence classes (see C.5.? of IEC 61508-7) or structure based testing (see C.5.8 of IEC 61508-7) may be sufficient. Boundary value analysis (see C.5.4 of IEC 61508-7), control flow analysis (see C.5 .9 of IEC 61508-7) or sneak circuit analysis (see C.5.,11 � of IEC 61508-7) may reduce the amount of test cases to an acceptable number. Analysable programs (see C.2.7 of IEC 61508-7) make the requirements easier to fulfil. NOTE 2 - Where the development uses formal methods (see C.2.4 of IEC 61508-7). formal proofs (see C.5.13 of IEC 61508-7) or assertions (see C.3.3 of IEC 61508-7). such tests may be reduced in scope. NOTE 3 - Statistical evidence may be used as well (see annex 0 of IEC 61508-7).
+
+7.4.7.3
+
+The results of the software module testing shall be documented.
+
+7.4.7.4 The procedures for corrective action on failure of test shall be specified. . 7.4.8 Requirements for software lnteqratlon testing
+
+NOTE 1 - See also tables A.5, B.2, B.3" and B.6. ,NOTE 2 -:- Testing that the software is correctly integrated is a verification activity (see 7.9).
+
+7.4.8.1 Software integration tests shall be specified concurrently during the design and development phase. 7.4.8.2 The specified software integration tests shall specify the following:
+
+a) the division of the software into manageable integration sets; b) test cases and test data; c) types ottests to be performed; d) test environment, tools, configuration and programs; e) test criteria on which the completion of the test will be judged; and f) , procedures for corrective action on failure of test.
+21
+
+lSIlEC 61508-3: 1998
+7.4.8.3 The software shall be tested in accordance with the specified software integration tests. These tests shall show that all software modules and software components/subsystems interact correctly to perform their intended function and. do not perform unintended functions. .
+NOTE 1 - This does not i mply testing of all input combinations. nor of all output combinations. Testing all equ ivalence classes (see C.5 .7 01 IEC 61508-7) or str uctu re based testi ng (see C.5 .8 01 IEC 61508-7) m~y be sutficient, Bo undary value analysis (see C.5.4 01 IEC 61508-7) . contro l fl ow ana lys is (see C.5 .9 ol lEC 61508-7) or sneak circuit analysis (see C.5 .11 of IEC 61508-7) may reduce the amo unt of test cases to an acceptable number. II de velopment is carr ied o ut leadi ng to analysable prog rams (see C.2.7 01 l Ee 61508-7) , th e requi rements are easier to lulf iL . NOTE 2 - Where the development uses formal methods (see C.2.4 ollEC 61508-7). lormal prootstsee C.5 .13 01 IEC 61508-7) or assertions (see C.3 .3 ol lEC 61508-7) , such test s may be reduced in scope. NOTE 3 - Statis tical evidence may be used as well (see annex D oIIEC' 61508-7) .
+
+7.4.8.4 The results of software integration testing sha ll be documented, stating the test resu lts , and whether the objectives and cr iteria of the tes t criteria have been met. If there is a fa ilu re, the reaso ns for the failur.e sha ll be doc.umented . 7.4.8.5 During software integrati on, any modification or change to the software shall be sub ject to an impact analysis which shall determine all software modules impacted, and the necessary re-verification a~d re-design activ ities .
+\
+
+7.5
+
+Programmable electronics integration (hardware and software)
+
+NOT E 1 - See also tabl es A.6. B.3 and B.6 . NOTE 2 - T his phase is box 9.4 01 fi gur e 3.
+
+7.5.1
+
+Objectives
+
+7 .5.1.1 The first ob jective of the req uirements of this subc lause is to integrate the software onto the target programmable electronic hardware. 7.5.1.2 The second ob jective of the requirements of this subclause is to combine the software and hardware in the safety-related programmable electronics to. ensure the ir compatibility and to mee t the requirements 0) the intended safety integrity leve l.
+NOTE 1 - Testing tha t the software is correc tly integrated wit h the programmable ~Iectronic ha rdware is a . ' v erificati o n act ivity (see 7 .9). NOTE 2 - Depending on the nature of th e app lication these ac tiv ities may be co mb ined with 7.4.8.
+
+7.5.2
+
+Requirements
+
+7.5.2.1 Integration tests shall be specified during the des ign and deve lopment phase to ensure the compatib ility of the ha rdware and sof tware in the safety-related programmable electronics .
+NOTE - Close co -operation wit h the developer of the E/E/PES may be requ ired in order to deve lop the integrati on
+~~ .
+
+.
+
+7.5.2.2 The integrati on tests fo r programmable electronics (hardware and. software) shall specify the foll owi ng: . a) the spl it of the sys tem into integration leve ls; b) test cases and test data; c) types of tests to be performed; d) test env ironment including tools, support software and configuration description; e) test cr iter ia ~n whi ch the completion of the test will be judged. .
+
+22 .
+
+nSIJIEC 5il508-3: 1998
+7.5.2.3 The specified integration tests for programmable electronics (hardware and software) shall distinguish between those activities which can be carried out by the developer on his premises and those that require access to the user's site. 7.5.2.4 The specified integration tests for programmable electronics (hardware and software) shall distinguish between the following activities: a) merging of software system on to the target programmable electronic hardware; b) E/E/PE integration, i.e, adding interfaces such as sensors and actuators; c) total integration of the EUC and E/E/PE safety-related system.
+NOTE - Items b) and c) are covered by lEG 6150B�1 and lEG 6150B-2 and are included here to put item a) in context and for completeness.
+
+7.5.2.5 The software shall be integrated. with the safety-related programmable electronic hardware in accordance with the specified integration tests for programmable electronics (hardware and software). ' 7.5.2.6 During the integration testing of the safety-related programmable electronics (hardware and software), any modification or change to the integrated system shall be subject to an impact analysis which shall determine all software modules impacted. and the necessary re-verification activities. 7.5.2.7 Test cases and their results shall be documented for subsequent analysis. 7.5.2.8 The integration testing of the safety-related programmable electronics (hardware and software) shall be documented, stating the test results, and whether the objectives and criteria "Of the test criteria have been met. If there is a failure, the reasons for 'the failure shall be documented. Any resulting modification or 'change to the software shall be subject to an impact analysis 'which shall determine all software components/modules impacted, and the necessary re-verification and -re-desiqn activities. 7.6
+Software operation and modification procedures
+
+NOTE 1 - See also table A.B. NOTE 2 - This phase is box 9.5 of figure 3.
+
+7.6.1
+
+Objective
+
+The objective of the requirements of this subclause is to provide information and procedures concerning software necessary to ensure that the functional safety of-the E/E/PE safety-related system is maintained during operation and modification. 7.6 .2
+Requirements
+
+The requirements are given in 7.6 of IEC 61508-2 and 7.8 of this standard.
+NOTE - In this standard software (unlike hardware) is not capable of being maintained: it is always modified .
+
+7.7
+
+Software safety va lidation
+
+NOTE '1 - See also tables A.7, B.3 and B.5. NOTE 2 - This phase is box 9.6 of figure 3.
+
+23
+
+BSIBIEC 61503-3: 1998
+7.7.1 Objective
+
+The objective of the requirements' of this subclause is to ensure that the integrated system complies with the specified requirements for software safety (see 7.2) at the intended safety
+
+inteqrity..~ever. 7.7.2 Requirements
+
+7.7.2.1 If the compliance with the requirements for software safety has. already been established as part for the E/E/PE safety-related system (see 7 .7 of lEG 61508-2), then the . validation need not be repeated . 7.7.2.2 The validation activities shall be carried out as specified during software safety validation planning (see 7.3). 7.7.2.3 The results of software safety validation shall be documented. 7.7.2.4 For each safety function, software safety validation shall document the following results:
+a) a chronological record of the validation activities; b) the vers ion of the software safety validation plan (see 7.3) being used ; c) the safety function being validated (by test or analysis), together with reference to the software safety validation plan (see 7.3); d) tools f)
+a~d
+
+equipment used together with calibration data;
+
+e) the results of the validation act ivity; discrepancies between expected and actual results.
+
+7.7.2.5 When discrepancies occur between expected ' and actual results , the analysis made and the decisions taken on whether to continue the validation , or to issue a change request and return to an earlier part of the development lifecycle, shall be documented as part of the results of the software safety validation.
+NOTE': The requirements of 7.7.2.2 to 7.7.2.5 are based on the general requirements of 7.14 of lEe 61508-1.
+
+7..".2.6 The vali?ation of safety-related. software shall meet the following requirements: . a) testing shall be the main validatlon method for software; animation and modelling may be used to supplement ~he validation activities; b) the software shall be exercised by simulation of input signals present during normal operation, anticipated occurrences, undesired conditions requiring system action;
+'
+
+.
+
+d) the supplier and/or developer shall make available the documented resufts of the software safety validation and a11 pertinent documentation to the system developer to enable him to meet the requirements of lEG 61508-1 and lEG 61508-2 of this standard,
+
+7.7.2 .7
+
+Software tool qualification requirements are as follows :
+
+a) all equipment used for validation shall be qualified accordlnq to a spec ification traceable to an international standard (if available), ~r to a n/~tional standard (if available), or to a well recognized procedure; , .
+
+24
+
+ISIIEC 6150g...3: 1998
+b) equipment used for software validation shall be qualified appropriately and any tools used, hardware or software, shall be shown to be suitable for purpose'.
+NOTE - [n this standard, qualification is the activity which illustrates that a particular specification is met, rather than the generic conformance testing procedures which_ would apply to any specification. .
+
+7.7.2.8
+
+Software validation result requirements are as follows:
+/
+
+a) the tests shall show that all of the specified requirements for software safety (see 7.2) are , correctly performed and the software system does not perform unintended functions; .
+J
+
+b) test cases and their results shall be documented for subsequent analysis and independent assessment as required by the safety integrity level (see 8.2.12 of IEC 61508-1); c) the documented results of software safety validation shall state either that the software has passed the validation or the reasons fqr its failure. 7.8
+Software modification
+
+NOTE 1 - See also table A.8. NOTE 2 - This phase is box 9.5 of figure 3.
+
+7.8.1
+
+Objective
+
+.
+
+,
+
+The objective of the requirements of this subclause is to make corrections, enhancements or adaptations to the validated software, ensuring that the required software safety integrity level is sustained. . .
+NOTE - In this standard software (unli.ke hardware) is not capable of being maintained; it is always modified.
+
+7.8.2
+
+Requirements
+
+7.8.2.1 Prior to carryinqout any software modification, software modification procedures shall be made available .(see 7.16 of IEC 61508-1). '
+NOTE 1 - Subclauses 7.8.2.1 to 7.8.2.9 apply primarily to changes occurring during the operational phase, of the software. They may also apply during the programmable electronics integration and overall installation and commissioning phases (see 7.13 of IEC 61508-1). NOTE 2 - An example of a modification procedure model is shown in figure 9 of IEC 61508-1.
+
+7.8.2.2 A modification shall' be . initiated only on the issue of an authorised software modification request under the procedures specified during safety planning (see clause 6) which details the fo!lowing , a) the hazards which may be affected; b) the proposed change; c) the reasons for change.
+NOTE - The reason for the request for the modification could arise from, for example functional safety below that specified; systematic fault experience; new or amended' safety legislation; modifications to the EUC or its use; modification to the overall safety requirements; analysis of operations and maintenance performance, indicating that the performance is below target; routine functional safety audits.
+
+.25
+
+--------
+
+IS/lEe 61508-3: 1998
+7.8.2.3 An analysis shall be carried out on the impact of the proposed software modification on the functional safety of the E/E/PE safety-related system
+a) to determinewhether or not a hazard and risk analysis is required; b) to determine which software safety Iifecycle phases will need to be repeated.
+
+7.8.2.4 The impact analysis results obtained iinI7.8.2.3 shall be documented. 7.8.2.5 All modifications which have an impact on the functional safety of the E/E/PE safetyrelated system shall initiate a return to an appropriate phase of the software safety Iifecycle. All subsequent phases shall then be carried out in accordance with the procedures specified for the specific phases in accordance with the requirements in this standard. Safety planning (see clause 6) should detail all subsequent activities.
+
+.
+
+\
+
+NOTE - It may be necessary to implement a full hazard and risk analysis, which may generate a need for different safety integrity levels than currently specified for the safety-related systems and external risk reduction facilities.
+
+7.8.2.6 The safety planning for the modification of safety-related software shall include the following information:
+a) identification of staff and specification of their required competency; b) a detailed specification for the modification; c) verification planning; d) scope of revalidation and testing of the modification to the extent required by the safety ' integrity level.
+
+7.8.2.7 7.8.2.8
+
+Modification shall be carried outas planned. Details of all modifications shall be documented, including references to
+
+a) the modification/retrofit request; b) the results of the 'impact analysis which assesses the impact of the proposed software modification on the functional safety, and the decisions taken with associated justifications: c) software configuration management history; d) deviation from normal operations and conditions; e) all documented information affected by the modification activity.
+
+7.8.2.9 Information (for example a log)' on the details of all modifications shall be documented. The documentation shall include the reverification and revalidation of data and results.
+NOTE - Subclauses 7.8.2.1 to 7.8.2.9 apply primarily to changes occurring during the .operati onal phase of the software. They may also apply during the' programmable electronics integration and overall installation and commissioning phases (see 7.13 of IEC 61508-1).
+
+-..
+
+,7.8.2.10 The assessment of the required modification or retrofit activity shall tie dependent on the results of the impact analysis and the software safety integrity level.
+
+~
+
+.,
+26
+
+nslU~c
+
+615Q&-3: 1998
+
+7.9
+
+Software verification
+
+NOTE - See also tables A.9 �.B.2 and B.8 .
+
+7.9.1
+
+Objective
+
+The objective of the requirements of this subclause is, to the extent required by the safety integrity level, to test and evaluate the outputs from a given software safety lifecycle phase to ensure correctness and consistency with respect to the outputs and standards provided as input to that phase.
+NOTE 1 - This subclause considers the generic aspects of verification which are common to several safety Iifecycle phases. This subclause does not place additional requirements for the testing element of verification in 7.4 .7 . (software module testing}; 7.4.8 (software integration) and 7.5 (programmable electronics integration) which are verif ication activities in themselves. Nor does this subclause require verification in addition to software validation' (see 7.7) , which in this standard is the demonstration of conformance to the safety requirements specification (endend verification). Checking whether the safety requ irements specification is itself correct is carried out by domain experts. NOTE 2 - Depending on the software architecture. responsibility for the verification activity may be split between all organisations involved in the development and modification of the software. .
+
+7.9 .2 7.9.2.1
+
+Requirements
+
+The verification of software shall be planned (s~e 7.4) concurrently with the development, for each phase of 'the software safety Iifecycle, and this information shall' ba.documented .
+
+7.9 .2.2 The software verification planning shall refer to the criteria, techniques and tools fo-bEl
+used in the verification activities, and shall address a) the evaluation of the safety integrity requirements; ' b) the selection and documentation of verification strategies, activities and techniques;
+
+~----..
+
+c) the selection and utilisation of verification tools (test harness, special test software, input/output simulators etc.) ;
+d) the evaluation of verification results; e) the corrective actions to be taken.
+
+7.9.2.3 The software verification shall be performed as planned.
+NOTE - Selection of techniques , measures . for verification and the degree of independence of the verification activities will depend upon a number of factors and may be specified in application sector standards. The factors could include, for example size of -project: degree of complexity; degree of novelty of design; degree of novelty of technology.
+
+7.9.2.4
+
+Evidence shall . be documented to show that the phase beinq verified has, in all respects, been satisfactorily completed .
+
+7.9.2.5 After each verification, the verification documentation should include
+a) identification of items to be verified; b) identification of the information against which the verification has been done; c) non-conformances.
+,
+
+.
+
+NOTE - Examples of non-conformances include software modules, data structures, and algorithms poorly .adapted to the problem .
+
+27
+
+HSII~CG1�08a3:
+
+1998
+
+7-.9.2.6 All essential information from phase N of the software' safety Iifecy.cle needed for the correct execution of the next phase N+1 shall be available .and should be verified. Outputs from' phaseN include ' , ,
+a) adequacy of the specification, design description, or code in phase N tor .functionality, safety integrity, performance and ~lher requirements of safety planning (see clause 6), readability by the development team, testability for further verification, safe. modification to permit further evolution; b) adequacy of the validation planninqand/or tests specified for phase N for specifying and describing the design of phase N; c) check -tor incompatibilities between the tests specified in phase N, and the tests specified in the previous phase N-1, the outputs within phase N. Subject to 7.1 .2 .1, the following verification activities shall be performed:
+
+.
+
+-
+
+7.9.2.7
+
+a) verification of software safety requirements (see 7.9.2.8); b) verification of software architecture (see 7.9.2.9); c) verification of software system design (see 7.9.2.10); d) verification of software module design (see 7.9.2.11); e) verification of code (see 7.9.2.12); f) data verification (see 7.9.2.13); g) software module testing (see 7.4.7); h) software integration testing (see 7.4.8); i) j) programmable electronics integration testing (see 7.5); software safety requirements testi~g (software validation) (see 7.7) .
+
+7.9.2..8 Software safety requirements verification: once the software safety requirements have , been specified (see 7 .2), and before the next phase, software design and development begins, verification shall ' . a) consider whether the specified software safety requirements (see 7.2) adequately fulfil the specified E/E/PES safety requirements (see IEC 61508-2) for functionality, safety integrity, performance, and any other requirements of safety planning; b) consider whether the software safety validation planning (see 7.3) adequately fulfils the' specified software safety requirements (see 7.2); c) check for incompatibilities between the specified software safety requirements (see 7.2), and the specified E/E/PES safety requirements (see IEC 61508-2), the specified software safety requirements (see 7..2), and the software safety validation : planning (see 7.3).
+
+28
+
+7.9.2.9 Software architecture verification: after the software architecture design has been
+established, verification shall a)' consider whether the description of the software architecture' design (see 7.4.3) adequately fulfils the specified software safety requirements (see 7.2); b) consider whether the specified tests of the software architecture integration (see 7.4.3) are adequate for the description oJ the software architecture design (see 7.4.3); c) consider whether the attributes of each 'major component/subsystem .is adequate with reference to
+
+.
+
+.
+
+feasibility of the safety performance required; 'testability for fur-ther verification; readability by the development and veriflcatlon team; safe modification to permit further evolution; the description of the software architecture design (see 7.4.3),' and the specified softwar~ safety requirements (see 7.2), . the description of the software architecture design (see 7.4.3), and the specified tests of the software architecture integration (see 7.4.3), the specified tests of the software architecture integration (see 7.4.3), and the software safety validation planning (see 7.3), d) check for incompatibilities between the following
+
+7.9.2.10
+
+Software system design verification: after the software system design has been specified, verification shalf consider whether the specified software system design (see 7.4,,5) adequately fulfils the software architecture design (see 7.4.3);
+-,
+
+a)
+
+b) consider whether the specified tests of the ' software system integration (see 7.4.5) adequately fulfil the specified software system design (see 7.-:~.5);
+c) consider whether the attributes of each major component of the specified software system design (see 7.4.5) are adequate with reference to feasibility of 'the safety performance required; testability for further verification; readability by the development 'and verificatioh team; �safe modification to permit further evolution;
+NOTE - The softwaresystem integration tests may be spsoifil:id as part of the software arohiteoture integration .: tests..
+
+d) check for incompatibilities between
+
+the specified software system design (see 7.4.5), and the description of the software architecture design (see 7.4.3), the description of the software system design (see 7.4.5), and-the specified tests. of the software system integration (see 7.4 ~5), the specified tests of the software system integration (see 7.4.5) and the specified tests of the architecture lnteqration (see 7.4.3). .
+
+29
+
+7.9.2.11 Software module design' verification: after the design of each software module has been specified, verification shall a) consider whether the specified software module design (see 7.4.5) adequately fulfils the specified software system design (see 7.4.5); b) consider whether the .speclfled tests for each softw~re module (see 7.4.5) are adequate for the specified software module design (see 7.4.5); c) consider whether the attributes of each software module are adequate with reference to feasibility of the safety performance required (see 7.2); testapility for further verification; readability by the development and verification team; safe modification to permit further evolution; d) check for incompatibilities between the specified software module design (see 7.4.5), and the specified software system design (see 7.4.5), . (for each software module) the specified software module design (see l.4.5), and the specified software module tests (see 7.4.5) , the specified software module tests (see 7.4.5) , and the specified tests of the software system integration (see 7.4.5) .
+
+.
+
+,
+
+7.9.2.12 Code v.erification:' the source code shall ' be verified by static methods to ensure conformance to the specified design of the software module (see 7.4.5), the required coding standards (see 7.4.4), and the requirements of safety planning (see 7.3).
+NOTE - In)he early p~ases of the software safety Iifecycle. verification is static (for example inspection , review, formal proof etc) . Code verification includes such techniques as software inspections and walk-throughs. It is the combination of the results of code verification and software module testing that provides assurance that each software module satisfies its associated specification. From then onwards testing becomes the primary means of verificatiqi}. .
+
+7.9.2.13
+
+Data verification
+
+a)" The data structures specified during design shall be verified for compJeteness; self-consistency; protection against alteration or corruption'; consistency with the functional requirements of the data-driven system .
+
+b) The application data shall be verified for consistency with the. data structures; completeness;
+com~atibility with the underlying system software (for example sequence of execution;
+
+run-time, etc.); and
+
+=
+
+correctness of the data values.
+NOTE - An ,example of a~plication dat~ is a parts program for a numerically controlled machine. System software (typically a collection of subroutrnes) acts as an interpreter to the application data. In other contexts this application data would be considered an application program : '
+
+30
+
+--,-~========-======='===='-=====================~
+
+~S/~EC
+
+61508--3: 1~98
+
+c) All modifiable parameters shall be verified for protection against invalid or undefined initial values; erroneous, inconsistent or unreasonable values; unauthorised changes;' data corruption. d) All plant interfaces and associated software (i.e, sensors and actuators, and off-line interfaces: see 7.2.2.11) shall be verified for detection of anticipated interface failures; tolerance to anticipated interface failures.
+
+e) All communications interfaces and associated software shall be verified for an adequate Jevelof failure detection; protection against corruption; data validation.
+
+8
+
+Functional safety assessment
+
+8.1 The objective and requirements .of clause 8 of lEG 61508-1 apply to the assessment of safety-related software.
+
+8.2 Unless otherwise stated in application sector international standards, the miriimum level of independence of those carrying out the functional safety assessment shall be as specified in 8".2.12 of lEG 61508-1.
+8.3 An assessment of functional safety may make use of the results of the activities of table A.10.
+NOTE - Selecting techn iques from annexes A and B does not guarantee by itself that 'the required safety integrity will be achieved (see 7.1.2.6) . The assessor should also consider: the consistency and the complementary of the chosen methods, languages and tools for the whole development cycle ; whether the developers use methods, languages and tools they fUlly understand; whether the methods, languages and tools are well-adapted to the specific problems encountered during development.
+
+. :'" .
+
+31
+
+-~=====
+
+, .
+
+"
+
+ISIlEC 61508-3: 1998
+
+Annex A, (normative)
+Guide to the selection of techniques and measures
+
+Some of the subclauses of this standard have an associated table', for example 7.2 {software safety requirements specification) is associated with table A.1. More detaited tables in annex.B expand upon some of the entries in the tables of annex A. for example table B.2 expands on the topic of dynamic analysis and testing in table A.5. See lEG 61508--7 for an overview of the specific techniques and measures referenced in annexes A and B. With each technique or measure in the tables there is a recommendation for safety integrity levels 1 to 4, These recommendations are as follows. HR: the technique or measure is highly recommended for' this safety integrity level. If this technique or measure is not used then the rationale behind not using it should be detailed during the safety plannlnq and agreed with the assessor. the technique or measure is recommended for this safety integrity level as a lower recommendation to a HR recommendation. the technique or measure has no recommendation for or against being used. NR: the technique or measure is positively not recommended for this safety integrity level. If this technique or measure is used then the rationale behind using it should be detailed during the safety planning and .agreed with the assessor.
+
+.-
+
+-
+
+R:
+
+Appropriate techniques/measures' shall be selected according to the safety integrity level. Alternate or equivalent techniques/measures are indicated by a letter following the number. Only one of the alternate or equivalent techniques/measures has to be satisfied. The ranking of the techniques and measures' lsIlnked to the concept of effectiveness used in lEG 61508-2. For all other factors being equal, techniques which are ranked HR will be more effective in either preventing the introduction ot systematic faults during software development, or (for the case of the software architecture) more effective in controlling residual faults in the' ' software revealed during execution than techniques ranked as R. Given the lame number of factors that affect software safety integrity it is not possible to give an algorithm for combining the techniques and. measures that will be correct for any given applicatlon. However. guidance on the use of the tables by way of two worked examples is � gWen in lEG 61508-6. . .
+
+,
+
+,
+
+.,/-
+
+For a particular application, the appropriate combination of techniques or measures are to be stated during safety planninq, with appropriate techniques or measures being selected unless the note attached to the table makes other requirements. Initial gUida.nce on the interpretation of the tables for user application programming is given in lEG 61508.:6. ' . ,
+r-
+
+32
+
+IsnEe 61508-3: 1998
+Table A.1 - Software safety requirements specification. (see 7.2)
+Technique/Measure*
+1 2a 2b Computer-aided specification tools ' Semi-formal methods Formal methods including for example, CCS , CSP, HOl, lOTOS, OBJ, temporal logic, VDM and Z
+
+Ref.
+8.2.4
+,.
+
+SIL1
+R R
+
+SIL2
+R R R
+
+SIL3
+HR HR R
+
+SIL4
+HR HR HR
+
+Table 8.7 C.2.4
+
+---
+
+NOTE 1 - The software safety requirements specification will always require a description , of the problem in 'n at ural lang'uage and any necessary mathematical notation that reflects the application. NOTE 2 - The table reflects additional requirements for specifying the software safety requirements clearly and precisely.
+*
+
+Appropriate techniques/measures shall be selected according to ' the safety integrity level. Alternate or equivalent techniques/measures are indicated by a letter following the number. Only one of the alternate or equivalent techniques/measures has to be satisfied .
+
+Table A.2 - Software design and development: software architecture design (see 7.4.3)
+Technique/Measure*
+1 Fault detection and diagnosis Error detecting and correcting codes Failure assertion programming Safety bag techniques Diverse programming Recovery block
+
+Ref
+C.3.1 C.3.2 C.3.3 C .3.4 C.3.5 C.3.6 C.3 .7 C .3.8 � C.3 .9 C.3.10 C.3.11 / C.3.12 C.3.13 C.2.1 Table B.7 C.2.4 B.2.4
+
+SIL1
+
+SIL2
+R R R R R R R R R R R NR NR HR R R R
+
+SIL3
+HR R R R R R R R R R HR NR NR HR HR R HR
+
+SIL4
+HR HR HR R HR R R R HR HR HR NR NR HR HR HR HR
+
+--R R
+
+2
+3a 3b 3c 3d
+
+--R R R R R
+
+3e . Backward recovery 3f 3g 3h
+4
+
+Forward recovery Re-try fault recovery mechanisms Memorising executed cases Graceful degradation Artificial intelligence - fault correction Dynamic reconfiguration Structured methods including for example , JSD, MASCOT, SADT and Yourdon . Semi-formal methods Formal methods including for example, CCS, CSP, Hal, LOTOS, OBJ, temporal logic , VDM and Z Computer-aided specification tools
+
+--R
+
+5 6 7a 7b 7c 8
+
+----HR R
+
+--R
+
+NOTE - The measures in this table concerning fault tolerance (control of failures) should be considered with the requirements for architecture and control of failures for the hardware of the programmable electronics in IEC 61508-2 .
+*
+
+Appropriate techn iques/measures shall be selected according to. the safety integrity level . Alternate or equivalent techniques/measures are indicated by a letter following the number. Only one of the alternate or equivalent techniques/measures has to be satisfied.
+
+33
+
+Table A,3 - Software de.sign and de"elopme.n~: support tools and programming language(see 7.4.4}
+Technique/Measure e 1 2
+3
+
+Ref
+
+SIL1 HR HR
+
+SIL2 HR HR
+
+SIL3 HR HR HR HR HR HR HR HR
+
+SIL4 HR . HR HR HR HR HR HR HR
+
+Suitable programming language Strongly typed programming language language subset Cert if icated tools
+
+CA.6
+CA.1 CA .2 CA.3 CAA CA.3 CAA
+
+--R HR R HR R
+
+--- .
+
+4a
+
+HR HR HR HR HR
+
+4b � Tools : increased confidence from use 5a 5b Certificated translator Translator: increased conf idence from use Library of trusted/verified software modules and components
+
+6
+
+C.4.S
+
+.
+
+-
+
+Appropriate techniques/measures shall be selected according to the safe ty integrity If!v ~ 1. Alternate or equivalent techn iques/measures are indicated by a letter follow ing the number . Only one of the alternate or equivalent techniques/measures has to be satisfied .
+
+Table A.4 - Software design and development: detailed design (see 7.4.5 and 7.4.6) (This includes software system design, sottware module design and coding)
+r
+
+Technique/Measure"
+
+Ref C.2.1 Table B.7
+C.2A
+
+SIL1\ HR ' \ R
+
+SIL2 HR HR R R R HR � HR HR HR
+
+SIL3 HR HR R HR HR HR HR HR HR
+
+SIL4 HR HR � HR HR HR HR HR HR HR
+
+1a ':l b 1c 2 3 4 5
+
+Structured methods includ ing for example . JSD . MASCOT! SADT and Yourdon Semi-formal methods Formal methods including for example, CCS , CSP, HOl, lOTOS, OBJ , temporal logic, VDM and Z Computer-aided des ign tools Defensive programming Modular approach Design and botl ing standards Structured programming Use of trus ted/verified software modules and components (if available)
+
+--R
+
+B.3.5 C.2.5 Table B.9 Table 8 .1 . C.2.7 C.2.10 CA .5
+
+--HR R HR R
+
+6
+7
+
+. App.ropriate
+
+techniques/measures shall be selected according to the safety integ rity leve l. Alternate or equ~valent techn.iques/measures are indicated by a letter following the number . Only one of the alternate or equivalent techniques/measures has to be sat is fied.
+
+l
+
+.
+
+34
+
+Table .1\.5 - Software design and development : software module testing and integration (see 1.4.7 and 7.4.8)
+Technique/l\Iieasure~
+
+Ref C.5.1 B.6.5 Table B.2 C.5.2 B.5.1 B.5.2 Table B.3 C.5.20 Table B.6 C.5.3.
+
+SIL1
+
+SIL2
+
+SIL3
+
+SIL4
+
+1 2 3
+
+Probabilisti.c testing Dynamic analysis and testing Data record ing and analysis Functional and black box tes ting
+
+...
+R HR HR R
+
+R HR HR HR R
+R
+
+R HR. HR HR
+.
+
+HR HR HR HR ' HR . ' HR
+
+4
+
+5
+
+Performance testing Interface testing
+
+HR HR
+
+s:
+
+A
+
+NOTE 1 - Software module and integration testing are verification act ivities (see table A.9).
+
+. A numbered tec hnique/measu re shall be selected according to the safety integrity leve l.
+.
+Technique/Measure"
+1
+
+NOTE 2 - Appropriate technlques/rneasures shall be selected according to the safety integrity level.
+
+Table 1\.6 - Prog rammable electronics ilJtegration (hardware and software) (see 7:5)
+
+..
+
+Ref B.5 .1 B.5.2 Table B.3 C.5.20 Table B.6
+
+SIL1
+
+SIL2
+
+SIL3
+
+SIL4
+
+Functional and black box tl;lsting
+
+HR R
+
+HR R
+
+HR HR
+
+HR HR
+
+2
+
+Performance testing
+
+NpTE 1 - Programmable electronics integration is a verif icat ion activity (see table A.9).
+
+. A.numbered technique/measure shall be selected according to the safety integrity level .
+Table A.7 - Sottwaresatetv val idation (see 1.7)
+Technique/Measure�
+r
+
+NOTE 2 - Approp riate techn iques/measures shall be selected according to the safety
+
+integri~
+
+level.
+
+Ref C.5.1 TableB.5 B.5.1 B.5.2 TableB.3
+
+SIL1
+
+SIL2
+
+SIL3
+
+SIL4
+
+~
+
+L
+
+J
+
+1 2 3
+
+Probabilistic testing Simulation/modelling Functional and black-box testing
+
+...... R HR
+
+.
+
+R R HR
+
+R HR HR
+
+HR HR HR
+
+.
+
+A numbered technique/measure shall be selected accord ing to the safety integr ity level.
+
+N.OTE - Appropriate techn iques/measures shall be selected accord ing to the safety integrity level.
+
+35
+
+~" " ""''-.~
+~
+
+...... ":>-
+
+ISflEC
+
+61508~3:
+
+1998
+Table
+
+~
+
+. .. .
+
+A.a -
+
+Modification (see 7.8)
+.~ .
+
+Technique/Measure" 1 2 3 4
+5
+
+Ref C.5.23 C.5.23 C.5 .23
+.
+
+-- SIL1
+'HB HR R
+
+SIL2 HR
+
+SIL3 HR HR HR ,- .t.!,R
+
+SIL4 FIR �, ~ �RR HR HR HR HR
+
+Impact analysis Reverify changed software module Reverify affected software modules Revalidate comp lete system Software conf igura tion management Data recording and analysis
+,
+
+. . HB
+.HR R
+~ /"R R
+
+. ~C . 5 . 23
+
+--HR
+
+C.5.~ -- 'HA_
+C.5 .2
+
+." HR
+HR
+
+.
+
+6
+
+" A 'nurnbered techn ique/measure shall be selected according to the safety in~ity level.
+
+,. ,.-'''---Appropriate techn iques/measures shall be. selected. according to the safety inf~gr!!~ level ' ..
+
+.
+
+- ' .s.:
+HR
+
+-
+
+---.".
+
+Table A.9 - Software
+Techn';que/Measure" Formal proof
+~
+
+veri~~~ation (see
+
+7.9)
+SIL1
+\
+
+'
+
+~~~
+
+~,.
+SIL3 R
+
+-~ - - ""'O",-
+
+\_ ------
+
+.
+
+Ref C.5.13 C.5.1 B.6.4 Table B.8 B.6.5 table B.2
+
+. SIL2
+
+SIL4 HR
+
+2
+,3
+4
+
+Probabilistic testing Static analysis Dynamic analysis and testing
+
+., R
+
+~_
+
+HR
+"
+
+R
+
+HR
+
+HR
+
+Software module tes\ing and integration
+Programmable electronics integration testing
+
+See table A.5 See table A.6 See table A.7
+
+Software system testing (validation)
+
+NOTE; .1 - For convenience all verification activities have been drawn',together under this table . However, this does , not-place additional requirements for the dynamic testing element 0 verification in table A.5 and table A.6 which .' -a re verification activities in themselves. Nor does this table require verification testing in a.ddition to software validation (see table A.7), which in this standard is the demonstration of conformance to the safety requirements specification (end-end verification). NOTE 2 - Verification crosses the boundaries of IEC 61508�1 , IEC 6~508-2 and IEC 61508-3 . Therefore the first verification of the safety-related system is against the earlier system, level specifications. NqTE 3 - In the early phases of the software safety Iifecycle verification is static, for example Inspection, review, , formal proof. When code is produced dynamic testing becomes possible. It is the combination of both types of information that is required for verification. For example code verification of a software module by static means includes such techniques as software inspections , walk-throughs. static analysis, formal proof. Code verification by dynamic means includes functional testing, white-box testing, statistical testing . It is the combination of both types of evidence that provides assurance that each software module satisfies its associated specification. � A numbered techn ique/measure shall be selected according to the safety integrity level. Appropriate techniques/measures shall be selected according to the safety integrity level.
+
+-.,.. '
+
+ISIIEC 61508
+Table.t\.1.0 - Functional safety assessment (see clause 8)
+AssessmentITechnique* 1 Checklists Decision/truth tables Software complexily metrics . Failure analysis Common cause lailure analysis of diverse software (if diverse software is actually 'used) Reliability block diagram Ref 8.2.5 C.6.1 C.5.14 Table 8.4 C.6.3 C.6.5
+SIL1 SIL2 SIL3
+
+03:
+
+'i 998
+
+I
+
+SIL4
+
+R R R R
+
+R R R R R R
+
+R R R HR ' HR R
+
+R R
+
+2
+
+3
+4
+5
+
+.
+
+R HR HR R
+
+-_.
+R
+
+.
+
+6
+
+Approprtata techniques/measures shall be selected according to the safety integrity level.
+
+.
+'
+
+37
+
+Arm~]t ~
+
+(normative)
+
+NOTE - The references indicate detailed descriptions of techniques/measures in ~C 61508-7. Table B.1 - Design and coding standards (referenced by table A.4) Technique/Measure"
+1
+
+Ref C.2.6.2 C.2.6.3 C.2.6.3 C.2.6.4 C.2.6.5 C.2 .6.6 C.2.6.7 C.2.6.2
+
+SIL1 HR R
+
+SIL2 HR HR R R R R R HR
+
+SIL3 HR HR HR HR HR HR HR HR
+
+SIL4 HR HR HR HR HR _HR HR HR
+
+Use of coding standard No dynamic objects No dynamic variables Online checking of the installation of dynamic variables Limited use of interrupts Limited use of pointers Limited use of recursion No unconditional jumps in programs in higher level languages
+
+2 3a 3b
+4
+
+----.
+R
+
+5 6 7
+
+--.
+
+-_R
+
+NOTE - Measures 2 and 3a do not need to be applied. if a compiler is used which ensures that sufficient memory for all dynamic variables and objects will be allocated before runtime, or which inserts runtime checks for the correct online allocation of memory. � Appropriate techn iques/measures shall be selected accord ing to the . safety integrity level. Alternate or equivalent teChniques/measures are indicated by a letter following the, number. Only one of the alternate or equivalent teChniques/measures has to be satisfied. .
+
+Table B.2 - Dvnamic analysts and testing (referenced by tables A.S and A.9) Technique/Measure"
+1
+
+Ref C.5.4 C.5.5 C.5 .6 C.5.20 C.5.7 C.5.8
+
+SIL1
+
+SIL2 HR R R R R R
+
+SIL3 HR R R R R HR
+
+SIL4 HR R R HR J-:lR HR
+
+Test case execution from boundary value analysis Test case execution from error guessing Test case execution from error seeding Performance modelling Equivalence classes and input partition testing Structure-based testing'
+
+,
+
+R R
+
+2 3
+
+--R R R'
+
+4
+5~
+
+6
+
+.
+
+NOTE - The analysis for the test cases is at the subsystem level and is based on the specification and/or the specificatfon and the code. . . Appropriate techntques/measures shall be selected according to the safety i[ltegrity level.
+
+38
+
+Table B.3 - Functional and black-box testing (referenced by tables A.S. A.6 and A.7)
+Technique/Measure� 1 2 Test case execution from cause consequence diagrams Prototyping/animation Boundary value analysis Equivalence classes and input partition testing Process simulation Ref B.6.6.2 C.5.17 C.5.4 C.5.7 C.5.18 SIL1 51L2 511.3 SIl.4
+
+----R R R
+
+..-
+
+R R HR HR R
+
+R R HR HR R
+
+--HR HR R
+
+3
+4
+
+5
+
+NOTE 1 - The analysis for the test cases is at the software system level and is based on the specification only . . NOTE 2 - The completeness of the simulation will depend upon the safety integrity level, complexity and . application.
+r
+
+Appropriate techniques/measures shall be selected according to the safety integrity level.
+
+Table 8.4 - Failure analysis (referenced by table A.10)
+Technique/Measure� 1a 1b 2 3
+4
+
+Ref B.6.6.2 B.6.6.3�
+
+SIL1
+
+SIL2
+
+SILa
+
+SIL4
+
+Cause consequence diagrams Event tree analysis Fault tree analysis Failure modes, effects and criticality analysis Monte-Carlo simulation
+
+R R R R
+R
+
+R R R R R
+
+R R HR HR R
+
+R R HR HR R
+
+.
+
+B.6.6.5 B.6.6.4 C.6.6
+
+.
+
+NOTE - Preliminary hazard analysis should have already taken place in order to categorise the software into the most appropriate safety integrity level. Appropriate techniques/measures shall be selected according to the safety integrity level. Alternate or equivalent techniques/measures are indicated by a letter following the number. Only one of the alternate or equivalent techniques/measures has to be satisfied.
+
+Table B.~ - Modelling (referenced by table A.7)
+
+.
+1 2 3
+4
+
+Technique/Measure�
+
+Ref C.2.2 B.2.3.2 C.2.4 . C.5.20 B.2.3.3 C.5.17 C.2.3
+
+SIL1
+
+SIL2
+R
+
+SIL3
+
+SIL4
+
+Data flow diagrams Finite state' machines Formal methods Performance modelling Time Petri nets Prototyping/animation Structure diagrams
+
+R
+
+R HR R HR HR R R
+
+R HR HR HR HR R HR
+
+---
+
+R R HR R R R
+
+.
+
+--R
+
+5 6 7
+
+--R R
+
+NOTE - If a specific technique is not listed in the table, it must not be assumed that it Is exclUded from consideration. It should conform to this standard. -,
+*
+
+Appropriate techniques/measures shall be selected according to the
+
+sa~ety
+
+integrity level.
+
+39
+
+Table B.6 - Performance testing (referenced by tabl es A.5 and A.6)
+Techn ique/Measure~
+
+Ref C.5.21
+
+SIL1
+
+SIL2
+
+SIL3
+
+SIL4
+
+1
+
+� Avalanche/stress testing Response tim ings and memory constraints Performance requirements
+
+R HR HR
+
+R HR. HR
+
+HR. HR HR
+
+HR HR HR �
+
+.
+
+2
+
+C.5.22 C.5 .19
+
+.
+
+3 '
+
+Appropriate techniques/measures shall be selected accord ing to the safety integrity level.
+
+Table B.7 - Semi-formal methods (referenced by tables A.1, A.2 and A.4)
+Technique/Measure"
+1
+
+Ref see note below see note below C.2.2 8 .2.3.2 8 .2.3.3
+
+SIL1
+
+SIL2
+
+SIL3
+
+SIL4
+
+Logic/function block diagrams Sequence diagrams
+
+R R R
+
+R R R
+
+. HR HR R � HR HR HR
+
+HR HR 'R HR HR HR
+
+2 3
+
+.
+Data flow diagrams Finite sta te machines/state transition diagrams Time Petri nets Decision/truth tables
+
+4
+5
+6
+
+A
+R
+
+A A
+R
+
+.
+
+C.6.1
+
+A
+
+.
+
+NOTE - Logic/function block diagrams and sequence diaqrarns are described in IEC 61131-;3. Appropriate techniques/measures shall be selected according to the safety integrity leve l.
+,
+
+Table B.8 - Static analysis (referenced by table As)
+Tecl'!nique/Measureo '1 2 3
+4
+
+Ref C:5 .4 B.2.5 C.5.9 C.5, 10 C.5.5 .
+
+SIL1
+
+SIL2
+
+SIL3
+
+SIL4
+
+Boundary value analys is Checklists ' Control flow analys is -, Data flow analys is Error gu 7ssing .Fagan inspections Sneak circultanatysls Symbolic, execut ion Walk -throughs/design reviews
+.
+
+R
+
+R
+
+HR
+
+HR
+
+A
+R R
+
+A
+HR HR
+
+A
+HR HR
+
+A
+HR
+
+.
+
+HR
+
+5 6
+
+A
+
+A
+R
+
+A A
+R HR HR
+
+A
+HR
+
+.
+
+C.5. 15 C.5.11 C.5.12 C.5.16
+
+7
+8
+
+-_ . .. R HR
+
+-.R HR
+
+A
+HR HR
+
+.
+
+9
+
+Appropriate techniques/measures shall be.selec ted according to thesatety integrity level.
+
+40
+
+nSIlEC 6150&-3: 1998
+Table B.9 -J\ilodularapproach (referenced by table A.4)
+Technique/Measure�
+1
+
+Ref e .2.9
+
+51L1
+
+51L2
+
+511.3
+
+51L4
+
+Soflware module size lim it Information hiding/encapsulation
+Par~meter
+
+HR R R HR HR
+
+HR HR R HR HR
+
+2
+
+.
+
+e.2.B e.2.9 e .2.9 e .2.9
+
+HR HR R HR HR
+
+HR HR R HR HR
+
+3 � i
+l
+{
+
+number limit
+
+4
+
+One entry/one exil point in subroutines and function~ Fully defined interlace
+
+~
+
+5
+
+.
+
+j
+J
+
+.
+
+NOTE - For information on all these techniques except information hiding/encapsulation, see e.2.9 of lEe 61508-7. No single technique is Iike!y to be sufficient. All appropriale techn iques shall be.considered.
+
+!
+
+. 41
+
+IS/BEe
+
+61l508~3:
+
+1998
+
+Anne)! C (informative)
+
+, Bibli ography
+
+lEG 61151 :1992', Nuclear instrumentation - Amplifiers and preamplifiers used with detectors of ionizing radiation - Test procedures ISO/lEG 12'207:1995, Information technology - Software life cycle processes ANSIIISA S84:1996, Application ofsafety instrumented systems for the process industries
+
+\
+
+.,
+\
+GMGIPN-156 BIS/NP/OB-300
+
+42
+� I
+
+Bureau of indian Standards BIS is a statutory institution established under the Bureau of Indian Standards Act, 1986 to promote harmonious development of the activities of standardization, marking and quality certification of goods and-attending to connected matters in the country. Copyright 81S has the copyright of ali its publications. No part of these publications may be reproduced in any form without the prior permission in writing of BIS. This does not preclude the free use, in course of implementing the standard, of necessary details, such as symbols and sizes, type or grade designations. Enquiries relating to copyright be addressed to the Director (Publications), BIS. "'RevIew of Indian Statttiards Amendments are issued to standards as the need arises on the basis of comments. Standards are also reviewed periodically; a standard along with amendments is reaffirmed when such review indicates that no changes are needed; if the review indicates that changes are needed, it is taken up for revision. Users of indian Standards should ascertain that they are in possession of the latest amendments or edition by referring to the latest issue of 'BIS Catalogue' and 'Standards: Monthly Additions'. This Indian Standard has been developed from Doc: No. ETD 18 (5681). Amendments
+~sslled Since
+
+=-. -'
+
+I
+,l
+
+Publication Text Affected
+
+--------Amendment No.
+
+Date of Issue
+
+BUREAU OF INDIAN STANDARDS
+Headquarters: Manak Bhavan, 9 Bahadur Shah Zafar"Marg, New Delhi 110002 Telephones: 2323 0131,23233375,23239402 Website: www.bis.org.in Regionai Offices: Central: Manak Bhavan, 9 Bahadur Shah Zafar Marg NEW DELHI 110 002 Eastern: 1/14, C.I.T. Scheme VII M, V.i.P. Road, Kankurgachi KOLKATA 700 054 Telephones { 2323 7617 23233841
+
+23378499,23378561 { 2337 8626, 2337 9120 260 3843 { 2609285 2254 1216, 2254 1442 { 2254 2519, 22542315 '{ 2832 9~95, 2832 7858 2832 7891, 2832 7892
+
+; .. { :.;
+~
+
+2"1
+
+Northern : SCO 335-336, Sector 34-A, CHANDIGARH 160 022
+
+Southern: C.LT. Campus,
+
+tv Cross Road, CHENNAI 600 113
+
+Western : Manakalaya, E9 M iDC, Marol, Andherl (East) MUMBAI 400 093
+Branches:AH~EDABAD.
+
+en
+
+UL
+
+.....
+
+BANGALORE. BHOPAL. SHUBANESHWAR. CO!MBATORE. FARIDABAD. GHAZiABAD. GUWAHATl. HYDERABAD. JAIPUR. KANPUR. LUCKNOW. NAGPUR. PARWANOO. PATNA. PUNE. RAJKOT. THIRUVANANTHAPURAM. VISAKHAPATNAM.
+
+a co
+
+�i Z o
+
+lD
+
+PR!NTED BYTHEGENERAL
+
+MANAGER~ GOVT. OFINDIA PRESS, NASHIK-422 006
+
+

@@ -1,0 +1,926 @@
+IS 12746 ( Part 5/Set 3 ) : 1998 IEC 870-5-3 ( 1992 )
+( Reaffirmed 2006 )
+
+Indian Standard TELECONTROL
+Section
+
+EQUIPMENT
+3 General Structure
+
+AND SYSTEMS
+Data
+
+PART 5 TRANSMISSION PROTOCOLS
+of Application
+
+ICS 33.200
+
+Q BIS 1998
+
+BUREAU
+
+OF
+
+INDIAN
+
+STANDARDS
+
+MANAK BHAVAN, 9 BAHADUR SHAH ZAFAR MARG NEW DELHI 110002 July 1998 Price Group 8
+
+Power System Control and Associated Communications Sectional Committee, LJD 25
+
+NATIONAL FOREWORD This Indian Standard which is identical with IEC Pub 870-5-3 (1992) `Jelecontrol equipment and systems - Part 5 : Transmission protocols - Section 3 : General structure of application data' issued by the International Electrotechnical Commission (IEC) was adopted by the Bureau of Indian Standards on the recommendation of Power Systems Control and Associated Communications Sectional Committee (LJD 25) and approval of the Electronics and Telecommunication Division Council.
+
+The text of the IEC standard has been approved as suitable for publication as Indian Standard
+without deviations. Wherever the words `International Standard' appear referring to this standard, they should be read as `Indian Standard'. CROSS REFERENCES In this Indian Standard, the following International Standards are referred to. Read in their respective places the following: tnternationai Stanciarci Corresponding Indian Standard IS 1885 ( Part 50 ) : 1985 Electrotechnical vocabulary : Part 50 Jelecontrol ( first revision ) IS 12746 (Part 5/Set 1) : 1993 Jelecontrol equipment and systems : Part 5 Transmission protocols, Section 1 Jransmission frame formats IS 12746 ( Part YSec 2) : 1992 Jelecontrol equipment and systems : Part 5 Transmission protocols, Section 2 Jransmission frame formats IS 12372 ( Part 1) : 1987 Basic reference model of open systems interconnection for Information Processing Systems Degree of Equivalence Technically Equivalent
+
+( 371 ) : 1984 IEC 50 International Electrotechnical Vocabulary (I EV) - Chapter 371 : Jelecontror 870-5-l : 1990 IEC Jelecontrol equipment and systems Part 5 : Transmission protocols Section 1 : Transmission frame formats
+
+Identical
+
+870-5-2 : 1992 IEC Jelecontrol equipment
+and systems - Part 5 : Transmission protocols Section 2 : Link transmission procedures IS0 7498 : 1984 Information procession systems-Open Interconnection Systems Basic Reference Model
+
+do
+
+do
+
+( Cotliinucd
+
+011
+
+third cover
+
+)
+
+IS 12746 ( Part 5/Set 3) : 1998 IEC 870-5-3 ( 1992 )
+
+Indian Standard TELECONTROL EQUIPMENT AND SYSTEMS
+Data PART 5 TRANSMISSION PROTOCOLS Section 3 General Structure of Application
+
+1
+
+Scope and object
+equipment controlling and systems with coded bit geographically widespread
+
+This section of IEC 870-5 applies to telecontrol serial data transmission for monitoring and processes.
+
+This section specifies rules for structuring application data units in transmission frames of telecontrol systems. These rules are presented as generic standards that may be used to support a great variety of present and future telecontrol applications. The layout is designed to limit the organizational overhead for standard data aquisition and supervisory control tasks to a necessary minimum with possible extensions for special tasks. From this point of view, it is appropriate to admit application specific or system specific choices of data presentation, of address structures and of chaining mechanisms for information objects in a frame. The corresponding arrangements can be, in most cases, assumed to be known by the communicating stations and thus need not burden the transmission frame.
+
+This section describes the general structure of application data without specifying details about information fields and their contents. It describes basic rules to specify application data units. Definitions and coding specifications of individual information used in telecontrol applications are defined in IEC 870-5-4. elements that are frequently
+
+Compatibility between devices complete application profiles. A complete application -
+
+of different
+
+suppliers
+
+can only be reached
+
+by defining
+
+profile consists of: of the physical interface;
+
+the specification
+
+a subset of IEC 870-5-l ; a subset of IEC 870-5-2; of the application of the application data units, functions based on both, IEC 870-5-3 and
+
+- the specification IEC 870-5-4; the specification
+
+based on IEC 870-5-5.
+
+1
+
+IS 12746 ( Part 5/Set 3 ) : 1996 IEC 670-5-3 ( 1992 ) 2 Normative references
+
+The following normative documents contain provisions which, through reference in this text, constitute provisions of this section of IEC 870-5. At the time of publication. the editions indicated were valid. All normative documents are subject to revision, and. parties to agreements based on this section of IEC 870-5 are encouraged to investigate the possibility of applying the most recent editions of the normative documents indicated below. Members of IEC and IS0 maintain registers of currently valid International Standards. IEC 50(371): Telecontrol. 1984, International Electrotechnical Vocabulary (IEV) Chapter 371:
+
+IEC 870-l -1: 1988, Telecontrol equipment and systems - Part 1: General considerations Section One: General principles. IEC 870-5-l : 1990, Telecontrol equipment and systems - Pati 5: Transmission Section One: Transmission frame formats. IEC 870-5-2: 1992, Telecontrol equipment and systems - Part 5: Transmission Section 2: Link transmission procedures.
+
+-
+
+protocols -
+
+protocols -
+
+IEC 870-5-4. Telecontrol equipment and systems - Part 5: Transmission protocols Section 4: Definition and coding of application information elements (in preparation). IEC 870-5-5. Telecontrol equipment and systems - Part 5: Transmission Section 5: Basic application functions (under consideration). protocols
+
+-
+
+-
+
+IEC 870-6, Telewntrol equipment and systems - Part 6: Telecontrol protocols with /SO and CCITT standards (under consideration). IS0 7498: 1984, information Reference Model. processing
+
+compatible
+
+systems - Open Systems Interconnection
+
+- Basic
+
+ISO/IEC 8824: 1990, information technology - Open Specification of Abstract Syntax Notation One (ASN. 1).
+
+Systems
+
+Interconnection
+
+-
+
+3
+
+Definitions apply:
+
+For the purposes of this section of IEC 870-5, the following definitions
+
+3.1
+
+data unit: Information
+
+entity that has a common cause of transmission.
+
+3.2 data unlt type: Information field at the beginning of an application data unit that identifies the type and the length of data unit and implicitly or explicity specifies the structure of the application data unit and the structure, type and number of information objects. 3.3 InformatIon object: A well-defined piece of information, definition or specification which requires a name in order to identify its use in an instance of communication (see 3.31 of ISO/IEC 8824). 2
+
+IS 12746 ( Part 5/Set 3 ) : 1996 IEC 670-5-3 ( 1992 ) 3.4 Information element: A well-defined variable example measured value or double-point information. 3.5 unstructured address: identify an information entity. A chosen quantity which is indivisible, for
+
+member of a set of numbers
+
+that is used to
+
+3.6 structured address: An address that is composed of more than one number, each number being chosen from a different set of numbers. It is used to identify an information entity. 4 Relation to the IS0 reference model is orientated on the ISO-OSI-model of open
+
+The data model specified systems interconnection.
+
+in this section
+
+The application data structures defined in this section can be used with either model 1, the IS0 reference model, or model 2, the enhanced performance architecture (EPA).
+Layer
+
+I
+I
+
+APPLICATION
+
+7
+
+APPLICATION
+
+6
+
+TRANSPORT
+
+I
+
+I
+
+NETWORK I LINK
+
+I
+
+LINK
+
+PHYSICAL
+
+I
+model
+
+PHYSICAL
+
+Model 1: IS0
+
+reference
+
+Model 2: Enhanced performance architecture (EPA)
+
+Figure 1 - Reference models
+
+Transmission frames that are compatible with the basic reference model as defined in IS0 7498 (7 layer structure, see model 1 in figure 1) are defined in the IEC 870-6 series.
+
+For telecontrol systems that require particularly short reaction times in networks with reduced transmission bandwidths, an enhanced performance architecture (EPA) has been designed. Frames based on this architecture use only three layers, namely the physical, the link and the application layer, see model 2 in figure 1. Protocols that are based on the EPA reference model are defined in IEC 870-5 series.
+
+IS 12746 ( Part fi/Sec 3 ) : 1996 IEC 670-5-3 ( 1992 ) The structure of the information shown in the following figures. in transmission frames using model 1 and model 2 is
+
+Li PDU
+
+Ak
+
+see IEC 870-6 PROTOCOL CONTROL INFORMATION FOR Link user
+
+I
+
+I
+
+'
+
+I
+
+LAYERS 3 TO 6
+
+Figure 2 - Frame structure
+
+using reference model 1
+
+LINK PROTOCOL CONTROL INFORMATION
+
+t see IEC 870-5-l and 8<0-5-2
+
+I
+
+I
+5
+
+Link user data 4
+
+APPLICATION
+
+PROTOCOL
+
+DATA UNIT
+
+Figure 3 - Frame structure
+
+using reference model 2
+
+Structure of application
+
+data and a service data unit.
+
+A PDU is composed of a protocol control information
+
+(N)-protocoldata-unit: A unit of data specified in an (N)-protocol and consisting of (N)-protocolinformation and possibly (N)-user-data (see 5.6.1.3 of IS0 7498).
+
+(N)-protocolcontrol-information: Information exchanged between (N)-entities, using an (N-l)connection, to coordinate their joint operation (see 56.1 .I of IS0 7498). (N)-service-data-unit: An amount of (N)-interface-data whose identity one end of an (N)-connection to the other (see 5.6.1.7 of IS0 7498). is preserved from
+
+4
+
+IS 12746 (Part 5/Set 3) : 1998 IEC 870-5-3 ( 1992 )
+
+The relationships following figure:
+
+among the data units,
+
+for reference
+
+model 2, are illustrated
+
+in the
+
+APPLICATION (USER) PROCESS +,
+
+the IEC 870-5 protocols
+
+APPLICATION (LAYER 7)
+
+I
+
+"-?,
+Figure 4 - Relationships
+
+LPDU = LINK PROTOCOL DATA UNIT
+
+LSDU
+
+= LINK SERVICE
+
+DATA
+
+UNIT
+
+LPCI
+
+= LINK PROTOCOL INFORMATION
+
+CONTROL
+
+among data units
+
+IS 12746 ( Part S/Set 3) : 1996 IEC 670-53 ( 1992 ) The general structures of APPLICATION control application is shown in figure 5. PROTOCOL DATA UNITS (APDU) used in tele-
+
+ALU APPLICATION PROTOCOL DATrN"
+
+/
+
+~;;~;~~~~;
+
+1
+
+A single ASDU with added APCI information forms an APDU
+
+j
+
+APPLI~;J"ICE
+
+1
+
+APCI APPLICATION PROTOCOL CONTROL INFORMATION ASDU APPLICATION SERVICE DATA UNIT APCI APPLICATION PROTOCOL ApDU APPLICATION PROTOCOL DAT. JNIT CONTROL INFORMATION ASDU APPLICATION SERVICE DATA UNIT
+
+Blocking, i.e. several ASDUs with added APCI information form an APDU
+
+APCI APPLICATION PROTOCOL CONTROL INFORMATION ASDU APPLICATION SERVICE DATA UNIT etc.
+
+NOTE - APCI is permitted but not defined in the IEC 870-5 protocols. APCI will be used in the IEC 870-6 series of standards.
+
+Figure 5 - General Structure of an APPLICATION DATA UNIT APDU
+
+PROTOCOL
+
+A telecantrol
+
+frame may contain more than one APCVASDU as shown in figure 5.
+
+1s 12746 ( Part Ei/Sec3) : 1998 IEC 870-S-3 ( 1992 ) 5.1 APPLICATION SERVICE DATA UNIT
+
+The APPLICATION SERVICE DATA UNIT consists of the DATA UNIT IDENTIFIER and INFORMATION OBJECTS. The general structure of an APPLICATION SERVICE DATA , UNIT is shown in figure 6:
+
+If the DATA UNIT IDENTIFIER is not present, at least one INFORMATION OBJECT has to be present ASDU APPLICATION SERVICE DATA UNIT
+
+OPTIONAL
+
+Figure 6 - General structure of an APPLICATION
+
+SERVICE DATA UNIT
+
+A COMMON TIME TAG OF the ASDU can be located as a last INFORMATION OBJECT. The presence of a COMMON TIME TAG is defined in the DATA UNIT IDENTIFIER.
+
+5.1 .I
+
+DATA UNIT IDENTIFIER a a
+
+The DATA UNIT IDENTIFIER (see figure 7) consists of a TYPE IDENTIFICATION, LENGTH OF ASDU (optional), a VARIABLE STRUCTURE QUALIFIER (optional), CAUSE OF TRANSMISSION (optional) and a COMMON ADDRESS OF ASDU (optional)
+
+The combination of TYPE IDENTIFICATION, LENGTH STRUCTURE QUALIFIER is called DATA UNIT TYPE.
+
+OF
+
+ASDU
+
+and
+
+VARIABLE
+
+t
+
+DAsTAUNIT IDEINTIFIER
+
+I
+
+I
+
+TYPE IDE NTIFICATION
+
+i
+DATA UNIT TYPE
+
+If the DATA UNIT IDENTIFIER is present, TYPE IDENTIFICATION is the only non-optional field
+
+~1
+l-
+
+Optional
+
+Figure 7 - General structure of the DATA UNIT IDENTIFIER
+
+7
+
+IS 12746(Part6/Sec3):1998 IEC 870-53 ( 1992 )
+
+The TYPE IDENTIFICATION is a code which unambiguously identifies the ASDU's type within the collection of all possible types for a profile or a system. If present, the LENGTH OF ASDU indicates the total length of the ASDU in octets. If present, the VARIABLE STRUCTURE QUALIFIER indicates variations of structure for specific ASDUs which can vary in different instances of communication. The TYPE IDENTIFICATION enables the receiving application service to send each data unit to the correct application process for handling the indicated type of data unit. The TYPE IDENTIFICATION enables the receiving application process to see what type of data is contained in the data unit and to determine its structure from a local table. If the DATA UNIT lDENTlFlER is present, the TYPE IDENTIFICATION is the only non-optional field element.
+
+The CAUSE OF TRANSMISSION explicitly defined.
+
+may also be included in the DATA UNIT TYPE if it is not
+
+If a COMMON ADDRESS OF ASDU is defined then it is always located in front of the INFORMATION OBJECT(s). 5.1.2 INFORMATION OBJECTS OBJECT(s). The general structure of
+
+The ASDU can include one or more INFORMATION an INFORMATION OBJECT is shown in figure 8.
+
+Figure 8 - General structure of an INFORMATION
+
+OBJECT
+
+An INFORMATION OBJECT may consist of an INFORMATION OBJECT IDENTIFIER, which may include the INFORMATION OBJECT TYPE and the INFORMATION OBJECT ADDRESS, and a SET OF INFORMATION ELEMENTS. An INFORMATION OBJECT TYPE may be defined if there are different which are not defined in the DATA UNIT TYPE. The INFORMATION OBJECT ADDRESS is defined in 5.1.3 and 5.1.4. ELEMENTS is defined in 5.1.5. object structures
+
+The SET OF lNFORMATlON
+
+Every INFORMATION OBJECT may be optionally complemented with a TIME TAG OF \NFORMATlOt3 003ECT. \t a `TIME TAG OF \WORMATION OWECT is specilied, \nen i\ is always inserted at the end of the INFORMATION OBJECT.
+
+8
+
+IS 12746 ( Part 5/9x 3 ) :1998 IEC 870-5-3 ( 1992 ) Figures 6, 7 and 8 show the general structure of ASDUs including INFORMATION OBJECTS. The associated information contents of the field elements are globally specified in table 1. Optional field elements can be deleted. Therefore, it is not mandatory to implement the complete structure of the ASDU. In case of reductions, the information `of optional field elements may be integrated into selected field elements. The chosen structures are specified by application profiles.
+
+Table 1 - Information contents specified by field elements of the APPLICATION SERVICE DATA UNIT
+ASDU Field element of ASDU Information contents of types for the
+
+- Type of ASDU within collection profile or system
+
+Each type shall have a single basic selection of the following, implicit in its TYPE lDENT/NCATlON number: - Structure of DATA UNIT IDENTIFIER (if not fixed per system or application profile) - Kind of INFORMATION OBJECTS: single element, sequence or combination of elements (if not individual per object) - Information element description, (if not individual per object) - Structure of time information truncation) format, type,
+
+TYPE IDENTIFXATION
+
+(e.g. resolution, per
+
+DATA UNIT TYPE DATA UNIT IDENTIFIER
+
+- Time tag common for all objects or individual object
+
+- Details of addressing scheme (common address and/or information object addresses, addresses structured or unstructured) - Additional source or destination address provided or not provided, structured or unstructured LENGTH OF ASDU Number of octets of ASDU (including all fields)
+
+VARIABLE STRUCTURE QUALIFIER
+
+Number of INFORMATION OBJECTS
+
+- Number of information elements in a SET OF INFORMATION ELEMENTS Chosen object types
+
+CAUSE OF TRANSMISSION COMMON ADDRESS INFORMATION OBJECT TYPE INFORMATION OBJECT ADDRESS SET OF INFORMATION ELEMENTS TIME TAG OF INFORMATION OBJECT INFORMATION OBJECT COMMON TIME TAG
+
+- Periodic, spontaneous, general interrogation, restart, station initialisation, test, etc. - Address associated with all objects in ASDU (as specified in TYPE IDENTIFICATION) Only necessary if not defined in DATA UNIT TYPE
+
+INFORMATION OBJECT
+
+- If called for in DATA UNIT TYPE or INFORMATION OBJECT TYPE See 51.5
+
+-
+
+Only if there is an individual
+
+time per object common
+
+- As specified in TYPE IDENTIFICATION. time for all objects
+
+Is
+
+12746
+
+(
+
+Part 5/Set 3 ) : 1998
+( 1992 )
+
+IEC 870-5-3 5.1.3
+
+Identification
+
+of INFORMATION
+
+OBJECTS
+
+In telecontrol systems it is necessary to support a great variety of possible arrangements for the identification of INFORMATION OBJECTS. Simple telecontrol systems identify INFORMATION OBJECTS just by physical addresses. Addresses are often structured such that they represent images of the controlled process. This variety of concepts is considered in general by appropriate standard data models. Detailed definitions or selections of standard data models are specified by individual standard profiles for particular applications.
+
+To achieve high data transmission efficiencies in a great variety of telecontrol processes a general data structure, as shown in figures 6, 7 and 8 is defined. An INFORMATION OBJECT is generally identified by DATA UNIT TYPE (or INFORMATION OBJECT TYPE) and COMMON ADDRESS OF ASDU (or INFORMATION OBJECT ADDRESS). In a compact presentation concept the COMMON ADDRESS may be included in the DATA UNIT TYPE, which is transmitted with a SET OF INFORMATION ELEMENTS. Other summarizations, such as the combination of DATA UNIT TYPE, CAUSE OF TRANSMISSION and COMMON ADDRESS OF ASDU to a DATA UNIT IDENTIFIER are admitted (see figure 9). Structured addresses with several stages (see figure 10) are also admitted. However, in all these cases the sequence depicted in figures 6, 7 and 8 has to be used.
+
+Index 1
+
+I21
+DATA UNIT IDENTIFIER e.g. 34 --_) 34 DATA UNIT TYPE CAUSE OF TRANSMISSION COMMON ADDRESS OF ASDU + INFORMATION OBJECT X
+
+n
+
+Figure 9 - Example of compact Identification
+
+of INFORMATION
+
+OBJECTS
+
+Every INFORMATION OBJECT is identified by a DATA UNIT IDENTIFIER which may be structured as shown in table 1. The identification of INFORMATION OBJECTS may be arranged by pointers to an identification list of INFORMATlON OBJECTS. Groups of INFORMATION OBJECTS may also be defined by group identifications. This list may also contain additional object attributes to specify fixed assignments to the INFORMATION OBJECTS, such as physical addresses etc., as shown in figure 9. Object attributes can also be defined by INFORMATION ELEMENTS.
+
+IS
+
+12746
+
+IEC 870-5-3
+5.1.4 INFORMATION
+Unstructured
+
+( Part 5/Set ( 1992 )
+
+3 ) : 1998
+
+OBJECTS
+address
+
+address schemes
+Structured address
+
+Address
+
+field length = n
+
+ADDRESS
+
+STAGE
+
+m
+
+n(m)
+
+Address n(i): m:
+
+field length t 5
+
+n(i)
+
+i-1 No. of bits per stage No. of stages
+
+Figure IO - Two types of addresses of INFORMATION
+
+OBJECTS
+
+Unstructured addresses are used to distinguish different means of numbers selected from a single set of numbers.
+
+INFORMATION
+
+OBJECTS
+
+by
+
+Structured addresses identify INFORMATION OBJECTS by taking into account technologic, physical, topologic or geographic structures. This scheme has to define abundant address spaces per stage, to allow for maximum extensions in each stage.
+
+Addresses are assigned to INFORMATION cations of system configurations. 5.1.5
+SETS OF INFORMATION ELEMENTS
+
+OBJECTS
+
+on system generation
+
+or modifi-
+
+Three kinds of SETS OF INFORMATION
+SINGLE INFORMATION ELEMENT
+
+ELEMENTS are distinguished:
+COMBINATION OF INFORMATION ELEMENTS
+
+SEQUENCEOF INFORMATION ELEMENTS
+
+1I
+[ Inform;~~ement
+
+Ob-ect
+
+1
+
+1
+
+1
+
+Information
+
+element
+
+1 I
+
+1 +
+
+I
+Figure 11 - Possible SETS OF INFORMATION
+
+Coda N
+
+ELEMENTS
+
+11
+
+IS 12746 ( Part Ei/Sec 3 ) : 1998 IEC 870-5-3 ( 1992 )
+
+In the first case the SET OF INFORMATION ELEMENTS consists of a SINGLE INFORMATION ELEMENT that is identified by its associated INFORMATION OBJECT ADDRESS or COMMON ADDRESS OF ASDU. SINGLE INFORMATION ELEMENTS are, for example, commands, events, status values or analog values.
+
+In case of SEQUENCE OF INFORMATION ELEMENTS, the SET OF INFORMATION ELEMENTS comprises a well-defined set of equal information elements (for example, measured values of identical format). In this case, the INFORMATION OBJECT ADDRESS or COMMON ADDRESS OF ASDU specifies the associated address of the first information element of the sequence, while the following information elements are identified by a predefined sequential address scheme.
+
+In case of a COMBINATION OF INFORMATION ELEMENTS, the SET OF INFORMATION ELEMENTS comprises a well-defined set of different information elements (for example combination of analog and digital values characterizing the status of a power line feeder). In this case, the INFORMATION OBJECT ADDRESS or COMMON ADDRESS OF ASDU specifies the associated address of the entire INFORMATION OBJECT and the individual information elements are identified by a predefined structural scheme.
+
+Information elements are variable quantities that are presented - when transmitted - by predefined data types and coding. The variable quantities are of the types: boolean, integer, real number, bitstring, octetstring and of compound types. Recommended specifications for frequently used information elements are given in IEC 870-5-4.
+
+6
+
+Guideline
+
+for constructing
+
+APPLICATION
+
+SERVICE DATA UNITS
+
+This clause specifies guidelines for the definition of profiles for constructing specific APPLICATION SERVICE DATA UNITS (ASDUs) whose general structure is defined in the previous clauses of this standard. ASDUs are used for data exchange between the application processes involved in communications via communication services. Profiles constructed on the basis of this standard will contain such ASDUs. In addition, essential basic procedures, which are necessary for data exchange, are specified in IEC 870-5-5.
+
+Each ASDU is composed of field elements defined by the syntactic data types. integer, boolean, bitstring, etc. which are specified in IEC 870-5-4. In addition, semantic definitions for information elements and time tags are also presented in IEC 870-5-4 and specified in the application profiles. The following specification presents field elements by block diagrams with plain text and by using a syntactic description method for declarations of field elements and their functional purpose, that is defined in IEC 870-5-4.
+
+The specification of specific ASDUs based on the general structure is carried out by steps as described below. The specification does not need to include all field elements which are defined in 5.1. For example the VARIABLE STRUCTURE QUALIFIER field may be omitted.
+
+12
+
+IS
+
+12746
+
+IEC 670-5-3
+
+( Part 5/Set 3 ) : 1998 ( 1992 )
+
+Before constructing ASDUs, it is very important to analyze the task of the specific profile to which the ASDU belongs, i.e. a specification defining the kinds of information, the volume of information, the requested accuracies (for example accuracy of measurands: 11 bits + sign), structuring of addresses, etc. need to be known. When these constraints are defined, then the following steps can be executed. As shown in figure 5, several ASDUs may form an APDU. In the simple case, only one ASDU exists per APDU, that means ASDU and APDU are identical.
+
+6.1
+
+First step: selection of field elements of DATA UNIT IDENTIFIER
+
+In the first step, the field elements used in the relevant ASDU are Sel8Ct8d. Optional field elements may be omitted. The sequence of field elements defined in the general structure has to be observed. It is recommended that a common set of field elements should be selected from all ASDUs within one application profile.
+
+Example: For a specific application elements: profile the DATA UNIT IDENTIFIER consists of the following field
+
+TYPE IDENTIFICATION
+
+1
+LENGTH OF ASDU I CAUSE OF TRANSMISSION
+
+I
+
+I DATA UNIT IDENTIFIER I
+
+T I
+I
+
+1
+COMMON ADDRESS OF ASDU I
+
+1
+
+6.2
+
+Second step: Definition of lengths of field elements of DATA UN/T IDENTIFIER
+
+In the second step, the lengths of the field elements are specified. Field elements may consist of one or more octets. Alternatively, one octet may contain two or more field elements or one field element may be assigned to parts of octets. However, if possible it is highly recommended to specify whole numbers of octets per field element. The length of the TYPE IDENTIFICATION shall be the same for all ASDUs in a profile. In addition, lt is recommended to specify the same lengths for all other field elements of the DATA UNIT IDENTIFIER for all ASDUs within a particular profile.
+
+13
+
+IS 12746 ( Part S/Set 3 ) : 1999 IEC 670-5-3 ( 1992 ) Example: For the above-defined specified:
+*
+TYPE IDENTIFICATION
+
+ASDUs of a profile
+
+the following
+
+length
+
+of field elements
+
+are
+
+LENGTH OF ASDU DATA UNIT IDENTIFIER
+
+CAUSE OF TRANSMISSION
+
+COMMON ADDRESS OF ASDU
+
+6.3
+
+Third step: Definition of data types of DATA UNIT IDENTIFIER
+
+In the third step the data types of the field elements are specified. boolean, etc.
+
+Data types are integer,
+
+NOTE - A single field element may consist of several data types. It is recommended to specify unique data type definitions of the field elements of the DATA UNIT IDENTIFIER within a particular profile.
+
+Example: The following data types are defined in this example:
+
+TYPE IDENTIFICATION
+
+Unsigned integer
+
+LENGTH OF ASDU
+
+Unsigned integer DATA UNIT IDENTIFIER
+
+CAUSE OF TRANSMISSION
+
+COMMONADDRESSOF ASDU
+
+2O 2
+16
+
+Unsigned integer -
+
+DATA UNIT IDENTIFIEFt:mCP40(-WPE IDENTIFICATION. OF TRANSMISSION, COMMON ADDRESS OF ASDU} TYPE IDENTIFICATION:=Ul8[1..8] LENGTH OF ASDU:-Ul8[1..8] CAUSE OF TRANSMISSION:=CP8(UI6[1..6], COMMON ADDRESS OF ASDU:=Ul16[1..16] 74 BS2[7..8]}
+
+LENGTH OF ASDU. CAUSE
+
+IS 12746 ( Part S/Set 3 ) : 1998 IEC 870-5-3 ( 1992 )
+
+6.4
+
+Fourth step: Definition of INFORMATION
+
+OBJECTS
+
+Each INFORMATION OBJECT may consist of INFORMATION OBJECT TYPE, INFORMATION OBJECT ADDRESS, SET OF INFORMATION ELEMENTS and TIME TAG OF INFORMATION OBJECT (see figure 8). If individual field elements INFORMATION OBJECT TYPE and INFORMATION OBJECT ADDRESS are needed by a particular profile, then they have to be specified as defined in the steps above. Frequently used information elements and time tags are specified in IEC 870-5-4. As defined in 5.15 the SET OF INFORMATION ELEMENTS may consist of single, sequences or combinations of information elements which are addressed by a COMMON ADDRESS OF ASDU or an INFORMATION OBJECT ADDRESS. In the following examples the information elements are addressed by COMMON ADDRESSES OF ASDU. The syntactic description method of jnformation elements is taken from IEC 870-5-4.
+
+15
+
+IS 12746 ( Part !VSec 3 ) : 1996 IEC 670-5-3 ( 1992 )
+
+Example
+
+1:
+
+SINGLE INFORMATION ELEMENTS (only one information element)
+
+SET OF INFORMATION ELEMENTS
+Or
+
+SET OF INFORMATION ELEMENTS
+
+I s
+
+I
+
+26
+
+Integer
+
+2O
+
+I
+
+SET OF INFORMATION ELEMENTS
+
+ER
+
+2'
+
+Unsigned integer
+
+2O
+
+BITSTRING OF SIZE 2:=BS2[ 1..2] or 8 BIT SIGNED INTEGER:=I8[~..8] or 7 BIT UNSIGNED VALUE WITH ERROR INDICATION:=CP8{Ul7, BSl}
+
+Example
+
+2:
+
+SEQUENCE OF INFORMATION ELEMENTS (several of the same data type)
+
+SET OF INFORMATION ELEMENTS
+
+2 STATUS REGISTERS OF 8 BIT:=2BS8(1 ..S]
+
+SET OF INFORMATION ELEMENTS
+
+2'
+
+Unsigned integer
+
+2O
+
+27
+
+Unsigned integer Unsigned integer
+
+2O 2O
+
+2?
+
+27 6 x 8 BIT UNSIGNED-INTEGER:=6Ul8[1..8]
+
+Unsigned integer
+
+2O
+
+16
+
+IS
+
+12746
+
+IEC 670-S-3 Example 3
+COMBINATION OF INFORMATlON ELEMENTS (several different information elements)
+
+( Part S/Set 3 ) : 1996 ( 1992 )
+
+SET OF INFORMATION ELEMENTS
+
+7 BIT UNSIGNED INTEGER. 1 BITSTRING of size 1, 4 BITSTRINGS BS2[9..10], BS2[11..12], BS2(13..14], BS2[15..16]]
+
+of size 2:=CP16(Ul7[1..7],
+
+BSl(S].
+
+All INFORMATION this way, 6.5
+
+OBJECTS which occur in a particular profile have to be specified in
+
+Fifth step: Assignment of lNFORh4AT/ON OBJECTS to TYPE IDENTIFICATION and definition of semantics
+
+In the fifth step the function interpretations of the values of the field elements are defined.
+
+TYPE IDENTIFICATION The above-defined INFORMATION specified in table 1. Example: OBJECTS are selected by this field element, as
+
+TYPE
+
+IDENTIFICATION
+
+2'
+
+Unsigned
+
+integer
+
+2O
+
+TYPE
+
+IDENTIFICATION:=Ul8[1..8]<0..255>
+
+<Or:= not used <lx= INFORMATION <2x= <3>:INFORMATION etc.
+
+OBJECT1 OBJECT
+
+:8 Single-point 2:s Measurands
+
+information 8 bits
+
+LENGTH OF ASDU The field element specifies the number of octets of an ASDU (including all fields).
+
+Example:
+
+LENGTH
+
+OF ASDU
+
+2r
+
+Unsigned
+
+integer
+
+2O
+
+LENGTH
+
+OF ASDU:-UI8[1..8]<0..255> OF ASDU is specified in octets by the numbers 0 to 255, i.e. by one LENGTH octet UIS.
+
+The LENGTH
+
+17
+
+IS 12746 ( Part 5/Set 3 ) : 1996 IEC 870-5-3 ( 1992 ) CAUSE OF TRANSMISSION This field element assigns different CAUSES OF TRANSMISSION to equal ASDUs, therefore requested or spontaneous data may be transferred with the same DATA UNIT TYPES that are distinguished by this field element.
+
+Example:
+
+CAUSE OF TRANSMISSION
+
+Bitstring 25 82 jB1 Unsigned integer 2'
+
+6 bit Unsigned integer, and 1 bitstring of size 2 CAUSE OF TF?ANSMlSS10N:=CP8(Ul6[1..6]. U16[1..6~<0..63> -co>:= Spontaneous data <l>:= Cyclic data <2r:= Requested data <3>:= etc. BS2(7]:= LS = Local service BS2[8]:= TE = Test LS<O>:= LS<lr:= TEcO>:= TEcl a:= remote local no test test BS2[7..8])
+
+COMMON ADDRESS OF ASDU This structured or unstructured field element (see 51.2) addresses the INFORMATION OBJECT. If the addressed INFORMATION OBJECT has no specific INFORMATION OBJECT TYPE and ADDRESS, then the COMMON ADDRESS OF ASDU addresses directly the SET OF INFORMATION ELEMENTS. Example:
+
+COMMON ADDRESS OF ASDU 16 bit Integer
+
+COMMON ADDRESS OF ASDU:=U116[1..16]<0..65535> An integer with the range 0 to 65535 ELEMENTS. addresses different instances of a SET OF INFORMATION
+
+As demonstrated by these examples it is recommended that tables be defined for each field element of an application profile. The tables should show the total ranges of possible values and define functional interpretation of used values.
+
+( Continued from second cover) The concerned technical committee has reviewed the provisions of following iSO/IEC standards, referred in this adopted standard and has decided that it is acceptable for use in conjunction with this standard: IEC 870-l -1 : 1988 Telecontrol equipment and systems Section 1 : General principles Part 1 General considerations -
+
+IEC 870-5-4 Telecontrol equipment and systems - Part 5 Transmission protocols : Section 4 Definition and coding of application information elements (in preparation) IEC 870-M Telecontrol equipment and systems Basic application functions (under consideration) Part 5Transmission protocols-Section5
+:
+
+IEC 870-6 Telecontrol equipment and systems - Part 6 : Telecontrol protocols compatible with IS0 and CCITT standards (under consideration) ISO/IEC 8824 : 1990 Information technology Open Specification of Abstract Syntax Notation One (ASN.1) Systems Interconnection -
+
+Only the English language text in the International Standard has been retained while adopting it in this Indian Standard.
+
+Bureau of Indian
+
+Standards
+
+BIS is a statutory institution established under the Buremr ofIndian Stmdurdsilct, 1986 to promote harmonious development of the activities of standardization. marking and quality certification of goods and attending to connected matters in the country.
+Copyright
+
+BIS has the copyright of all its publications. No part of these publications may be reproduced in any form without the prior permission in writing of BIS. This does not preclude the free use, in the course of implementing the standard, of necessary details, such as symbols and sizes, type or grade designations. Enquiries relating to copyright be addressed to the Director (Publications), BIS.
+Review of Indian Standards
+
+Amendments are issued to standards as the need arises on the basis of comments. Standards are also reviewed periodically; a standard along with amendments is reaffirmed when such review indicates that no changes are needed: if the review indicates that changes are needed, it is taken up for revision. Users of Indian Standards should ascertain that they are in possession of the latest amendments or edition by referring to the latest issue of `BIS Handbook' and `Standards : Monthly Additions'. This Indian Standard has been developed from Dot : No. LTD 25 ( 1741).
+Amendments Issued Since Publication
+
+Amend No.
+
+Date of Issue
+
+Text Affected
+
+BUREAU
+Headquarters:
+
+OF
+
+INDIAN
+
+STANDARDS
+Telegrams: Manaksanstha ( Common to all offices ) Telephone
+323 70 17 323 3841
+
+Manak Bhavan, 9 Bahadur Shah Zafar Marg, New Delhi 110002 Telephones : 323 01 31, 323 Y4 02, 323 33 75 Regional Offices: Central : Manak Bhavan, 9 Bahadur Shah Zafar Marg NEW DELHI 110002 Eastern : l/14 C. I. T. Scheme VII M, V. I. P. Road. Maniktola CALCUTTA 7000.54 Northern : SC0 335-336, Sector 34-A. CHANDlGARH 160022 Southern : C. 1. T. Campus. IV Cross Road, CHENNAI 600 113 Western : Manakalaya. E9 MIDC, Marol, Andheri (East) MUMBAI 400093
+
+337 84 99. 337 85 61 337 86 26, 337 86 62 I 60 38 43 GO20 2s 23.5 02 16, 235 04 42 23s 15 19,235 27 IS 832c)295,8327X5X I 832 5X 01. X32 7X 92
+
+BHUBANESHWAR. BHOPAL. Branches : AHMADABAD. BANGALORE. COIMBATORE. FARIDABAD. GHAZIABAD. GUWAHATI. HYDERABAD. JAIPUR KANPUR. LUCKNOW. NAGPUR. PATNA. PUNE. THIRUVANANTHAPURAM.
+
+

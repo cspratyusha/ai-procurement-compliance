@@ -1,0 +1,3416 @@
+IS 12746
+
+( Part 5/Set
+
+1 ) : 1993
+
+IEC Pub 870-5-l
+
+( 1990 )
+
+( Reaffirmed 2006 )
+
+wpm1
+
+w7mvihT&
+
+Indian Standard
+TELECONTROL
+PART Section 5 1
+
+EQUIPMENT
+TRASMISSION Transmission Frame
+
+AND SYSTEMS
+Formats
+
+PROTOCOLS
+
+UDC
+
+621'398: 681'327'8
+
+@ BIS 1993
+
+BUREAU
+MANAK
+
+OF
+BHAVAN.
+
+INDIAN
+9 NEW BAHADUR DELHI
+
+STANDARDS
+SHAH ZAFAI? MARG 110002 Price Group 12
+
+August 1993
+
+Power
+
+Line Carrier
+
+Systems
+
+and Associated
+
+Telecontrol
+
+Equipment
+
+Sectional
+
+Committee,
+
+LTD
+
+25
+
+NATIONAL This inti!ian
+
+FOREWCRD
+
+Standard which is identical with IEC Pub 870-5-I ( 1990 ) `Telecontrol equipm@nt Section 1 Transmission frame formats', issued - Part 5 : Transmission protocols, by the jnt+:rnational Electrotechnical Commission ( IEC ), was adopted by the Bureau of Indian Systems and Associated Telecon.n the tccommendation of the Power Line Carrier :.;,ndards trol Equipm,-it Sectional C2mznittee ( LTD 25 ) and approval of the Electronics and Telecommunicbiicn Division Council.
+
+c;rr@systems
+
+The text of the IEC Pub has been approved as suitable for publication not identical cut deviations. Certain conventions are, however, Standards. Attention is particularly drawn to the following: a) b) Wherever the words `International should be read as `Indian Standard'. Comma practice Standard' appear
+
+as Indian to those to this
+
+Standard used in standard, the
+
+withIndian they current
+
+referring in Indian
+
+( , ) has been used as a decimal marker while is to use a point ( . ) as the decimal marker.
+
+Standards
+
+CROSS
+
+REFERENCES standard, reference appears to certain International Standards for which Indian exist. The corresponding Indian Standards which are to be substituted in their below along with their degree of equivalence for the editions indicated: Standard Corresponding Indian Standard Degree of Equiwlence Technically equivalent Identical
+
+In the adopted Standards also pl~e are listed
+
+international
+
+IEC Pub 371 ( 1984 ) International elecrrotcci~nicJI vocabulary, Chapter 371 : Telecontrul IEC Pub 87C-1-1 ( 1988 ) Telecontrol equipment and systems, Pait 1 General consideratitins. Section General One principles IS0 : 1984 Information 3309 processing systems - Data comdata munication -.-- High-level link control procedures - Fran12 structure
+
+IS 1885 ( Part 50 ) : 1985 Flectrotechnical vocabulary : Part 50 Telecontrol IS 12746 ( Part/Set control equipment Part 1 General Section 1 General IS 1): 1993 Teleand systems, considerations, principles
+
+11418 (Part 1 ) : 1986 Information processing systems -Data communication ~ Highlevel data link control procedures - Frame structure
+
+Identical
+
+The concerned Technical Committee responsible for preparation of this standard the provisions of the following International publication and has decided that for use in conjunction with this standard: IEC Pub Section 8'70-5-2 Tclecontrol Two : Transmission text equipment and systems, procedures ( in preparation ) of the International Standard Part 5 Transmission retained
+
+has reviewed in ii ac:cp:aulc protocols while adopting --
+
+Only the English language it in this Indian Starndard.
+
+has bncn
+
+IS 12746 (Part WSec 1) : 1993 IEC Pub 870-S-l (1990)
+
+Indian Standard
+TELECONTROL
+PART Section 5 1
+
+EQUIPMENT
+TRASMISSION Transmission
+
+AND SYSTEMS
+
+PROTOCOLS Frame Formats
+
+INTRODUCTION -This section highlights specific requirements and conditions for data transmission in telecontrol' systems and shows ways to meet those requirements. Existing standards for data transmission protocols are adopted where they fulfil the specific telecontrol requirements.
+
+OSI (Open System Interconnection) reference model of subdivides communication into seven layers, this spenamely the physical layer and cifies standards for the two lowest layers, In particular the document specifies formats for bit serial the link layer. frame transmission which comply with specified classes of data integrity. In terms of the
+
+ISO-CCITT,
+
+which
+
+Publication 870-5-2: Section Two: Transmission paration) will specify further standards for the link layers. This comprises dispositions for data contents services in various traffic modes and for various configurations.
+
+Procedures (in prelayer and for higher within frames, i.e. link - and network
+
+The ultimate purpose of the communication function in process monitoring and control is to achieve maximum system consistency, i.e: there should be no discrepancies between the physical states of process variables and their image in the data base of the telecontrol system. This ultimate goal cannot The laws of causality dictate that the information be achieved completely. about process states is delayed and environmental noise or component All that can be expected is that the failures may falsify the information. communication allows a high degree of system consistency to be maintained. method shall support upgraded For this reason the data transmission reliobie and efficient information throughput in particular for short and urgent messages. The exploitation of the installed bandwidth with respect is the critical measure for telecontrol protocols, to these two qualities because the available bandwidths are limited.
+
+high data integrity and efficient In an imperfect environment, however, increasing demands for data data transmission are conflicting properties: integrity can be fulfilled at the expense of decreasing net speed of informto find an acceptable compromise ation flow. It is necessary, therefore, between these two properties, based on an analysis of the requirements. A pre-supposition for analytical treatment is the objective measurement of the required properties.
+
+IS 12746 (Part S/&c 1) : 1993 IEC Pub 870-5-l (1990)
+
+Data transport is only one function of the total system. The speed and integrity requirements of data transmission shall be chosen to be consistent i.e. all the system parameters with the accuracy of the total system, should be matched. In addition to the required compromise between transmission speed and transmission integrity there are further conditions which influence the choice of an appropriate telecontrol protocol, as shown in the following diagram:
+
+Fonctional
+
+requirements
+
+Required data integrity
+
+Required availability
+
+Required response time
+
+Required accuracy
+
+Telecontrol protocol definitions
+
+Network characteristics
+
+I
+
+Plant
+
+conditions
+
+Geographical Bandwidth (transmission Bit error rate
+
+situation
+
+speed)
+
+Kinds of information transfers Number of messages (system size) One-way/two-way data traffic CsuperLisory/supervisory and control system
+
+Kecommended
+
+protocol
+
+IS12746 (Part5/Secl):1993 IEC PIII, 870-5-l (1990) 1. Scope This series of standards applies to telecontrol equipment and systems with coded bit serial data transmission for monitoriny and controlling This standard covers asynchrogeographically widespread processes. nous data transmission with half duplex and duplex link protocols operating with window size one for message transfers.
+
+2.
+
+Object This section specifies the basic provided by the link plus physical In particular it specifies standards nizing data frames of variable and data integrity requirements. requirements for services to be layers, for telecontrol applications. on coding, formating and synchrofixed lengths which meet specified
+
+The specified block codes are suited for the transmission of bit serial frames over binary symmetric transmission channels using a memoryless bit encoding method. This means that the signal specification of- each transmitted bit shall not depend on signals transmitted before that bit.
+
+Note.-
+
+Recommendations than memoryless pulse duration protocols with deration.
+
+for data transmission services using other bit encoding methods (for example digital modulation (DPDM), HDLC, etc.) and duplex link window sizes greater than one are under consi-
+
+3.
+
+Requirements
+
+for
+
+data
+
+transmission
+
+in telecontrol
+
+systems
+
+According to the cular environmental fulfils the following 3.1
+High data integrity
+
+basic goals conditions, requirements:
+and data
+
+of telecontrol systems it is necessary that
+
+and to the partidata transmission
+
+consistency
+
+Correct data transmission is required in the presence of harsh conditions, such as electromagnetic environmental interferences, differences in earth potential, ageing components and other sources of disturbance and noise incident on the transmission path. Under these conditions it is necessary to provide efficient protection of messages against: undetected undetected bit errors; errors caused by synchronization errors;
+
+frame
+
+3
+
+IS 12744 (Part SiSec 1) : 1993 IEC Pub 870-S-l (1990) undetected gain of noise) ; separation 3.2 Short telecontrol loss of information; information (i.e. simulation of messages by
+
+unintended
+
+or
+
+perturbation transfer time
+
+of
+
+coherent IEV
+
+information. 371-08-16)
+
+(see
+
+Provision of efficient frame messages over uncertain noise
+
+short information transmission times by application of transmission protocols, particularlv for event initiated transmission . paths with limited `bandwidth and with characteristics.
+
+3.3
+
+Support
+
+of bit
+
+oriented
+
+(code
+
+transparent) are bit
+
+data required. sequence
+
+transmission The data structures link profrom the
+
+No code restrictions on tocol accepts and transmits data source.
+
+user data arbitrary
+
+4.
+
+Quantified
+
+rating
+
+of data integrity
+of the data integrity in information by evaluating the contributions of the the non integrity of data. Basically there integrity of data in a receiving station,
+
+A quantitative specification transport systems is achieved complement of data integrity, are two sources causing non namely : (i) residual error rate (see
+
+IEV
+
+371-08-05)
+
+=
+
+number total
+
+of
+
+undetected number of
+
+wrong messages
+
+messages sent
+
+(ii)
+
+rate
+
+of
+
+residual
+
+information
+
+loss
+
+(see
+
+IEV
+
+371-08-09)
+
+=
+
+number
+total
+
+of
+
+undetected
+number of
+
+lost
+messages
+
+messages
+sent
+
+of undetected errors or losses It is emphasized that only rates contribute to the non integrity of information transmission. Detected errors and losses are handled by predefined strategies such as autoThey may affect the matic retransmission or reports to the user. system availability as a whole but, in reporting these errors, the data transmission protocol has fulfilled its function.
+
+IS 12746 (Part S/Set 1) : 1993 IEC Pub 870-5-l (1990) 4.1 Quantitative requirements for data integrity in telecontrol systems
+
+different data integrity classes II, 12 and 13 have been estabfor tekecontrol data transmission. The use of each class depends nature of the data. Figure 1 shows a graphical representation upper limits of the residual error rate R depending on the bit rate (see IEV 371-08-01) for these three classes. The graphs the bit error rate p = 0.5, the case of arbitrary bit reception, where no signal and only noise is received. The slope of the curves for p < lo-' represents the Hamming distance d of the applied coding method. This results from the introduction of double logarithmic scaling in figure 1, and the fact that bit error patterns, with d inverted bits furnish the predominating contribution to residual errors for p < 10-4.
+
+Three lished on the of the error end at
+
+,
+
+100
+
+,
+
+I
+
+I
+
+I
+
+I
+---_--3
+
+I
+
+10-Z
+
+l----/;
+
+2-l
+
+R /
+
+0
+c-v-
+
+/ ,'
+c e-e. -_---_2 8
+
+0. 10 4
+0 / 0 / /
+
+,'
+
+/ ,`/ I
+
+/
+
+/1. /
+
+/' _I/
+
+/
+
+/'
+
+.'
+
+,'
+0 / //
+
+/
+
+10
+
+/)
+
+10 4 Figure 1. Data
+
+IO
+P
+
+? Rll errci,
+
+10
+
+I'
+
+10 '
+
+0 5
+Ii
+1 k's
+
+~~r<`t.l,lt~llll\i classes.
+
+integrity
+
+IS 12746 (kirt5/Ser I): 1993 IK 1'UI~ x70-5-1 (1990) The quality of transmission channels ously. The average bit error probability 1o-4 to achieve required overall data information transfer times. should be supervised continuis supposed to be less than integ .ity values and overall
+
+Minimum Hamming distance 2 is required in the lowest data integrity class I1 while classes I2 and I3 require codes with minimum Hamming distance 4. In addition there is the requirement that in class I3 the residual error rate shall not exceed R = 10-l' for any bit error rate. In order to illustrate the significance of these three data integrity classes we assume a telecontrol channel with white noise causing the bit error rate p = lo-", which specifies low, but not worst case transmission quality.
+
+A system which permanently transmits message blocks of 100 bit at a residual rate of 1 200 bit/s over this channel causes the following message error probabilities (R) and expected mean times (T) between undetected erroneous messages, as shown in the table below.
+
+The relation eous message the relation:
+
+between transfers
+
+expected mean T and residual
+
+time error
+
+between undetected erronprobability R is given by
+
+n T where: n v is the is the message length (in bits) (in bit/s)
+q
+
+(5)
+V .
+
+R
+
+transmission
+
+speed
+
+q
+
+______~~ ~ at
+
+Integrity figures for: n = 100 bit frames v 1 200 bit/s and p lo-'
+q
+
+Data integrity
+class
+
+Residual error rate
+
+Mean time between undetected errors T _______l.-.1 day Cyclic updating telemetering
+
+_ .__-.-_systems;
+
+11
+
+12
+
+26 years
+
+Event initiated transmission; teleindication; telecounting Critical information transmission; telecommands
+
+13
+
+IS 12736 (Part S/SIX 1) : 1993 IEC Pub 870-5-l (19~0) 5. Quantified rating of transmission efficiency
+
+is the ratio of the information The information transfer efficiency content of a message transferred from a data source and accepted as valid by a data sink to the total number of bits used for the message transfer (see IEV 371-08-12). This means that the transmission efficiency of an individual frame is the ratio of correctly transferred information bits k to the total number of bits per frame n.
+
+FRAME
+
+TRANSMISSION
+
+EFFICIENCY
+
+=
+
+k where: k q n is the is the number probability of
+
+. q"/n
+
+information of receiving of bits
+
+bits
+
+per
+
+frame bits including frame of bits delimiters received
+
+correct per frame
+
+is the total number and error check bits is related inverted)
+
+4
+
+/
+
+to the bit error (total number of
+
+rate p = (number bits sent) by:
+
+9 in case of a transmission signal quality supervision. If signal channel"), quality the rate
+
+=
+
+l-p a binary symmetric channel without
+
+over
+
+supervision of receiving
+
+is used ("binary correct bits reduces
+
+symmetric to:
+
+erasure
+
+where: r specifies the ("bit erasure rate of receiving bits with rate", see Appendix A). insufficient signal quality
+
+The information transfer rate bits of information per second accepted as valid by a data sink
+
+is defined transferred (see IEV
+
+by the from 371-08-11):
+
+average a data
+
+number of source and
+
+FRAME TRANSMISSION EFFICIENCY) v bit/s
+
+RATE
+
+= (FRAME
+
+TRANSMISSION
+
+where:
+V
+
+specifies the bit signalling in bits per second.
+
+rate
+
+of
+
+the
+
+transmission
+
+line
+
+expressed
+
+IS 12746 (Part S/Set 1) : 1993 IEC Pub 870-5-l (1990) Calculations of the consider delays caused ment frames and round overall information by transmission of trip intervals. transmission efficiency shall polling frames, acknowledge-
+
+6.
+
+Transmission
+
+protocol
+
+specifications the functions of a 870-l-1, distinct layers according to - reference model of ISO. telecontrol the Open
+
+As described in Publication system are subdivided into System Interconnection (OSI)
+
+This section defines standard transmission
+
+telecontrol standards frame formats of the
+
+of the physical link layer.
+
+layer
+
+and
+
+The physical transmission medium that carries bit serial data interconnects physical entities of telecontrol equipment and systems. The kinds of iransmission media are manifold: private or public cables, Precautions against disturbances radio, powerlines, fibre optics, etc. of the data flow are realized by specifying sufficient signal energy, by providing shields against noise interference and by supervising the signal quality.
+
+System specified
+
+parameters by CCITT.
+
+for
+
+the
+
+various
+
+physical
+
+transmission
+
+media
+
+are
+
+6.1
+
+Physical
+
+layer
+
+(Data
+
+circuit
+
+terminating
+
+equipment
+
+(DCE))
+
+The line coupler converts the bit serial information from the required by the link layer to that required by the transmission Thus the line coupler has typically the following tasks:
+
+form line.
+
+convert provide line; monitor provide add and
+
+signal; galvanic isolation between the station and the transmission
+
+signal bit
+
+quality;
+
+synchronism; frame synchronization, if not done by the link;
+
+remove
+
+detect
+
+transmission
+
+line
+
+busy,
+
+idle
+
+and
+
+incomplete
+
+states. the V and equipment the X (DTE)
+
+CCITT recommends sets of standards, series for interchange circuits between and data circuit terminating equipment
+
+such as of data terminal (DCE).
+
+8
+
+IS 12746 (Part S/Set 1) : 1993 JEC Pub 870-S-l (1990)
+
+The relevant characteristics of this layer concerning data integrity and transmission efficiency are: signalling rate, noise immunity and associated relations with respect to the signal to noise ratio, bit error probability and bit erasure probability (see Appendix A).
+
+6.2
+
+Link
+
+layer
+
+The link layer functions required
+
+accepts, by the
+
+performs and higher layers.
+
+controls
+
+transmission
+
+service
+
+It controls, single noninterruptable frame transmission procedures at of transmissions are reported to higher a time. The success or failure layers as well as observations on the operating states of transmission lines and stations. In particular it performs the following functions:
+
+provides serializes adds and coupler; detects detects monitors
+
+access and
+
+to the
+
+transmission frames; delimiters
+
+medium;
+
+deserializes frame
+
+removes
+
+if
+
+not
+
+performed
+
+by
+
+the
+
+line
+
+frame frame signal
+
+synchronization size errors; distortion
+
+errors;
+
+if not performed
+
+by the
+
+line coupler;
+
+recognizes prevents excessive
+
+frames the time;
+
+addressed from
+
+to a designated transmitting
+
+station; without pause for an
+
+station
+
+protects messages against loss and error within integrity limits by generation and supervision by indicating detected errors and by codes, error recovery procedures;
+
+predetermined data of error detecting controlling certain
+
+reports reports handles
+Note. -
+
+on persistent on the frames status
+
+transmission of the link lengths in
+
+errors; configuration; efficiently; frames typically
+ranae
+
+of different fields
+to
+
+Information
+from one
+
+telecontrol
+
+octet
+
+some hundred
+
+octets.
+
+performs
+priate;
+
+switchover
+
+to a redundant
+
+transmission
+
+line
+
+when
+
+appro-
+
+supports
+
+initiation
+
+and maintenance
+
+functions.
+
+9
+
+IS 12746 (T%rtS/Sec1):1993 IEC Pub 870-S-1 (1990) 6.2.1 Link service classes provided service classes procedures: which may be
+
+Basically, required to
+
+there are the following three be executed as non-interruptable
+
+-----r Link
+service class tSl I
+SEND/NO
+
+-Function Explanation
+
+REPLY
+
+Transmit message; neither acknowledgement nor answer is requested within link layer
+
+52
+
+I
+
+SEND/CONFIRM
+
+Transmit message; acknowledgement is requested within link layer -_
+
+53
+
+REQUEST/RESPOND
+
+Transmit request; a response is requested within the link layer; the response may contain data or a negative acknowledgement
+
+SEND/NO REPLY, is supplied Service class Sl, systems or in simplex transmission systems, where is available. Frame errors detected at the receiver(s) corresponding messages.
+
+in cyclic updating no return channel cause the loss of
+
+Service class S2, SEND/CONFIRM, supports event initiated or spontaThe link layer in the receiving station neous information transfers. if no errors. are detected and the receivchecks the received message: a positive acknowledgement (ACK) is returned ing buffer is available, to the initiator. If the receiving buffer is not available a negative If message frame errors acknowledgement (NACK) may be returned. no answers are generated and the message is discarded. are detected,
+
+will accept another request The link layer of the initiating station upon the receipt of a positive acknowledgement. It may report the receipt of acknowledgements to the higher layer. The message transmission is repeated if no acknowledgement is detected. Special care for incremental types of information, that disturbed shall be taken, acknowledgements shall not cause repetitive information outputs at the receiving stations. Malfunctions of this type can be avoided by using, sequential frame numbers or by prescribing that the for example, receiving stations buffer correctly received messages until they receive
+
+10
+
+IS12746 (Part5/Sec1):1993 IEC Pub 870~5l(1990) a frame which indicates that the initiating station will. not repeat the If a specified number of repetitive previously transmitted frame. message transmissions remains unacknowledged, a "transmission error" is reported to the higher layer at the initiating station and the message is discarded in the link.
+
+Service class S3, REQUEST/RESPOND, supports "Read" operations, The link layer of the receiving station supplies the requested data if available. Otherwise it answers with a negative acknowledgement. No answers are generated upon detection of frame errors.
+
+The link layer of the initiating station repeats the transmission of the requesting frame, if no answer or a disturbed answer is detected. If a specified number of retries is not successful a "transmission error" is reported to the higher layer, otherwise the received answer
+is delivered.
+
+to
+
+Depending information
+
+on link configurations, transmission between
+
+all one
+
+three service classes may initiating station and:
+
+refer
+
+a single a group all The
+initiating
+
+destination of destination
+as
+
+station
+
+(single
+
+address); address); address).
+
+stations destination
+
+(group (global
+
+other
+
+stations
+
+three service classes modes, described in
+
+support Publication
+
+the basic three transmission 870-1-1, Subclause 6.3.2.
+
+--_.__-_-_-Transmission
+
+initiating
+
+mode
+
+Service
+
+class --.-_
+
+Cyclic
+Event
+
+transmission initiated transmission
+
+Class Class
+
+51 - SEND/NO
+
+REPLY
+
+52 - SEND/CONFIRM
+
+(spontaneous
+
+transmission)
+
+Transmission
+
+on
+
+demand --.-
+
+Class -_. -.
+
+53
+
+-
+
+REQUEST/RESPOND
+
+6.2,2
+
+Dialogue The specific addition nization
+
+procedures
+
+variety of applicable dialogue procedures depends largely on Corresponding standards user requirements. require, in to the standards for message framing, coding and synchrosections, standards defined in the following for the
+
+IS 12746 (Part S/Set 1) : 1993 IEC Pub 870-5-l (1990) information content within a frame. It is particularly necessary to specify standard information fields for traffic control (control fields) and station identifications (address fields) within a frame. The following rule describes the general approach for establishing standards in this domain : information field lengths vary by multiples of octets.
+
+Detailed
+
+field
+
+definitions
+
+will
+
+be
+
+specified
+
+in
+
+Publication
+
+870-5-z.
+
+6.2.3
+
+Standard
+
+frame
+
+synchronization
+
+Frame synchronization methods which fulfil the conditions of specified data integrity classes depend on the transmission mode (synchronous or asynchronous operation) and on the channel code (bit signaling method) used in the data circuit. The defined asynchronous channels. standards for frame synchronization are frame transmission over binary, memoryless applicable for transmission
+
+Frame synchronization methods channel encoding methods with under consideration.
+
+for synchronous memory (see note
+
+operation in Clause
+
+and 2)
+
+for are
+
+6.2.4
+
+Standard
+
+frame
+
+formats
+
+This section defines three distinct frame format classes suited for the upgraded requirements of information throughput and data integrity in telecontrol systems with widely different information volumes and various degrees of intelligence in outstations and for the support of supervisory and control functions in different levels of hierarchic systems consisting of outstations, subcentres and main centres.
+
+shown in table 1, The format classes, bit serial frames over binary symmetric memoryless bit encoding method.
+
+are suited transmission
+
+for transmission channels using
+
+of a
+
+Sequences FT1.2, FT2 table 1.
+
+of or
+
+block FT3,
+
+selected from codes, may be combined to
+
+either form
+
+a
+
+format frame
+
+class FTl . 1, as shown in
+
+The format class FTl .l defines a tance 2, which is generated by adding stop bit to 8 information bits. Sequences form FTI .2 of FTl product
+
+block code a start bit,
+
+with Hamming disa parity bit and a
+
+.l blocks supplemented by codes with Hamming distance
+
+a
+
+check 4.
+
+sum
+
+character
+
+12
+
+IS 12746 (Part S/Set 1) : 1993 IEC Pub 870-5-l (1990) The format class FT2 is defined by a block distance 4 that contains up to 15 user data octets check octet. The format class FT3 is defined by a block distance 6 that contains up to 16 user data octets check octets. Shortened versions of FT2 and information field k is reduced in steps of octets information field length of k = 8 bits are admitted. code with supplemented Hamming by one
+
+code with Hamming supplemented by two FT3, in which the down to a minimum
+
+Both frame formats FT1.2 and FT2 fulfil the requirements of data FT2 gives a higher frame transmission efficiency integrity class 12. (see Figure 8.2). FT1.2 gives smaller residual error rates, particularly in the case of high bit error probabilities (see Figure B-1).
+
+Various constant
+
+or
+
+data transport variable frame
+
+services lengths.
+
+require
+
+the
+
+transmission
+
+of
+
+either
+
+Systems using variable frame lengths announce the actual frame size in a length specifying field at the beginning of the data field. With the frame formats FT2 and FT3, the first block which contains the length specification always has a predetermined constant length.
+
+13
+
+IS 12746 (Part 5/Set 1) : 1993 IEC Pub 870-5-l (1990) 6.2.4.1 Format Formats FTl. with 1: frames with Hamming of user distance data. 2
+
+variable
+
+number
+
+Bit sequence on line ---+ Least significant bit
+
+1
+
+2 J
+
+3
+
+4
+
+5
+
+6
+
+7
+
+8
+
+9
+
+10
+
+11
+
+Character
+
+ecification
+
+33:
+P P t 1. 1 t L
+
+k;Ltzata
+
+L-._kI
+
+Stop bit Parity bit (even)
+
+Transmission
+
+rules idle is binary has parity intervals 1. one bit start bit (binary and one stop bit admitted according is required 01, (binary 8 information 1). of minimum a
+
+Rl
+R2
+
+-
+
+Line Each bits,
+
+character one even idle
+
+R3 R4
+
+-
+
+No line frame.
+
+are
+
+between to rule between
+
+characters R7, a frames.
+
+Upon detecting an error interval of 22 line idle bits
+
+R5
+
+-
+
+The actual data octets in a binary
+
+the number of subsequent user block length L, i.e. is specified in the first character. L is a parameter notation which ranges from 0 to 127.
+
+R6
+
+-
+
+The first zero. Start bit, the first interval frame is frame is
+
+transmitted
+
+data
+
+bit
+
+of
+
+the
+
+first
+
+character
+
+(Dl)
+
+is
+
+R7
+
+-
+
+stop bit, even parity bit, the data bit Dl = "0" of upon detecting an error, the line idle character and, The specified by R4 are checked by the receiver. if one of these checks fails, otherwise the rejected, released to the user.
+
+6.2.4.2
+
+Format
+
+FTl.2:
+
+frames lengths 6.2.4.2.1 lines.
+
+with
+
+Hamming and and
+
+distance
+
+4
+
+Frames following the same
+
+with fixed Subclauses transmission
+
+variable 6.2.4.2.2,
+
+lengths, specified by the may be transmitted over
+
+15
+
+IS12746 (I%wtS/Sec1):1993 IEC Pub 870~5-l(1990) 6.2.4.2.1 Format FT 1.2 with fixed number of user data
+
+Bit sequence on line F Least significant bit Start A character
+
+1
+
+2 4
+
+3
+
+4
+
+5
+
+6
+
+7
+
+8
+
+9
+
+10
+
+11
+
+Cheracter i
+
+_ User data octets
+
+Start
+
+bit d Octet
+
+Frames with user of user data octets,
+
+data consist of a start character, a fixed a check sum (CS) and an end character.
+
+number
+
+L
+
+Transmission Rl R2 Line Each bits,
+
+rules idle is binary has parity intervals 1. one bit start bit (binary and one stop bit admitted according is required 0), (binary 8 information 1). of minimum a
+
+character one even idle
+
+R3 R4
+
+-
+
+No line frame.
+
+are
+
+between to rule between
+
+characters R6, a frames. by
+
+Upon detecting an error interval of 33 line idle bits
+
+R5
+
+-
+
+The sequence of user data characters is terminated The check sum is the arithmetic check sum (CS). (sum modulo 256) over all regarding overflows octets. The receiver checks the start : bit, the stop bit and the even
+
+a 8 bits sum disdata user
+
+R6
+
+per,
+
+character:
+
+parity
+
+bit;
+
+per
+
+frame:
+
+the end line
+
+start character, the frame check sum and character and, upon detecting an error, idle interval specified by R4.
+
+the the
+
+The frame is rejected released to the user.
+
+if
+
+one
+
+of
+
+these
+
+checks
+
+fails,
+
+otherwise
+
+it
+
+is
+
+16
+
+IS 12746 (l'art S/Set1):1993 IEC Pub 870~5-l(1990) 6.2.4.2.2 F T 7.2 formats with variable number of user data
+
+Bit sequence on line ------+ Least significant bit
+
+1
+
+2 J,
+
+3
+
+4
+
+5
+
+6
+
+7
+
+8
+
+9
+
+10
+
+11
+
+Character
+
+0 0 10 L L repeated 110 111 P 1 P 1 11 I 2 Header 3 fixed 4 : 1
+
+character Start H
+
+0 0
+0
+
+0
+
+of
+
+length
+
+Start F character
+
+0
+
+0
+
+0
+
+0
+
+10
+
+-_
+
+110 ~~~_____
+
+___ Frame check ---+ sum End character + Start bit
+0
+
+t User data - octets . -7 L 1 P 1 1
+
+Check 0 1 1 0
+
+sum 1 0 0 0
+
+0 T 4
+
+1
+
+Octet
+
+--p-----+
+
+I.-- Stop bit I._-Parity bit (even)
+
+Frames with user data consist of a start characters which specify the number L of user start character, the user data, a frame check end character.
+
+character, two equal data octets, a second sum character and an
+
+L
+
+is a parameter rules R4 and receiver
+
+in
+
+binary
+
+notation
+
+which
+
+ranges
+
+from
+
+0 to 255.
+
+Transmission Rl, R6 per the per R2, R3, The
+
+RS:
+
+see :
+
+Subclause
+
+6.2.4.2.1.
+
+checks
+
+character: start frame: the specified start character at the beginning and at the of the frame header, the identity of the two length specifications L, that the number of received characters is equal to L + 6, the frame check sum, the end character, upon detecting an error, the line idle interval specified by end bit, the stop bit and the even parity bit;
+
+R4.
+
+The frame is rejected released to the user.
+
+if
+
+one
+
+of
+
+these
+
+checks
+
+fails,
+
+otherwise
+
+it
+
+is
+
+17
+
+IS12746 (Part S/Sec1):1993 IEC Pub 870~5l(1990)
+6.2.4.2.3 Two Frame single format of single are control specified. characters
+
+characters
+
+Control
+
+character
+
+I:
+
+Bit sequence
+on line 1 0 2 10 3 4 10 5 6 0 7 8 9 10 11
+
+11111
+
+Control
+
+character
+
+II :
+
+Bit sequence on line +
+
+1 0
+
+2 0
+
+3 10
+
+4
+
+5 0
+
+6 0
+
+7 10
+
+8
+
+9 111
+
+10
+
+11
+
+-
+
+The single control characters particular control information, ledgement . The use of these Publication 870-5-2.
+
+may be used for the transmission of such as for example a positive acknowcontrol characters will be specified in
+
+6.2.4.3
+
+Format
+
+FT2:
+
+frames
+
+with a
+
+Hamming start
+
+distance (1
+
+4 octet). Two distinct
+
+Each frame start characters
+
+begins with are defined:
+
+character
+
+Sturt
+
+character
+
+1:
+
+0
+
+0
+
+1
+
+0
+
+0
+
+1
+
+1
+
+1
+
+Start
+
+cherecter
+
+2:
+
+0
+
+0
+
+0
+
+1
+
+0
+
+10
+
+01
+
+of
+
+The use of procedural
+
+the two protocol
+
+start characters standards.
+
+will
+
+be
+
+specified
+
+by
+
+definitions
+
+6.2.4.3.1
+
+FT2
+
+frames
+
+with
+
+fixed
+
+length with a block octets. check sequence
+
+of
+
+Frames with user data are supplemented 1 octet after each block of 15 user data
+
+IS12746 (Part S/Set 1):1993 IEC Pub 870~5-l(1990) Bit sequence sequence on line -+ Most significant bit
+
+1 4
+
+2
+
+3
+
+4
+
+5
+
+6
+
+7
+
+8
+
+Octets
+
+Start
+
+character
+
+1 : . . 15 max.
+1 :
+
+User
+
+data
+
+octets
+
+Block
+
+1
+
+-____
+Check sequence
+
+User
+
+data
+
+octets
+
+. . .
+max.
+
+Block
+
+2
+
+Check sequence
+
+15
+
+1
+
+Transmission RI R2 R3 Line The
+
+rules idle first 15 is binary octet user of 1. a frame octets is a start are character. by a check sequence
+
+Up to octet. The
+x7
+
+data
+
+completed
+
+R4
+
+-
+
+check
++ x6
+
+sgquence
++ x + x2 +
+
+forms a code 1, completed
+
+generated by the polynomial by an even parity bit over check sequence
+
+all
+
+bits
+
+of
+by
+
+the
+this
+
+generated
+
+The block. specification
+
+8 bits of the are inverted.
+
+R5
+
+-
+
+Upon detecting an error according to rule R6, a minimum line idle interval of L + 3 octets is required if L characterizes the maximum number of user data octets per frame; provided that L is smaller than 45 octets. For L > 45 octets, the interval is at least 48 octets.
+
+R6
+
+-
+
+The receiver checks the signal quality, the start character, the check sequences, the frame length and, upon detecting an the line idle interval specified by R5. The frame is error, rejected if one of these checks fails, otherwise it is released to the user.
+
+19
+
+IS12746 (PartS/Sec1):1993 IEC Pub 870~5-l(1990) 6.2.4.3.2 FT2 frames with variable length
+
+.
+
+The first data block fixed length, beginning sequence and containing
+
+(header) of frames with variable with a start character and ending up to 15 data octets.
+
+lengths is of with a check
+
+The length character, the number of user data
+
+located octets
+
+in the header of fixed length in the body of the frame.
+
+specifies
+
+Bit sequence 1 on line A Most significant bit 1
+
+2
+
+3
+
+4
+
+5
+
+6
+
+7
+
+8
+
+Octets
+
+Start
+
+character ~_II---
+
+1
+
+Length User data
+
+2 1 octets . 15 max.
+
+I Block 0
+
+Header of fixed length
+
+Check
+
+sequence
+
+--
+
+1 :
+
+I
+
+-
+
+I
+Body of variable length
+
+User
+
+data
+
+octets . 15 max. 1 :
+
+T
+Block 1 I
+
+-Check sequence
+
+User
+
+data
+
+octets
+
+Check
+
+sequence
+
+~___._~~ ~~
+
+. 15 max. .-___ 1
+
+Block
+
+T
+
+n
+
+I
+
+Transmission Rl to R6: see
+
+rules subclause 6.2.4.3.1.
+
+6.2.4.4
+
+Format Each Two frame distinct
+
+FT3:
+
+frames with
+
+with
+
+Hamming
+
+distance (2
+
+6 octets).
+
+begins start lt 2;
+
+a start
+
+character are defined:
+
+characters 0 0 0 0
+
+St8rt St8rt
+
+character character
+
+01010
+
+1100100 11101 will be specified by definitions
+
+00010010001 two start standards. characters
+
+of procedural
+
+The use
+
+of the protocol
+
+20
+
+IS12746 (portS/Ser1):1993 IEC Pub 870~5-l(1990) 6.2.4.4.1 Frames with 1 4 Start character : : . . 16 max. Check sequence ~__: 1 2 User data octets . 16 max. : : . . 16 max. Check 6 Transmission Rl R2 Line The rules idle first is binary two octets 1. of a frame represent a start character. sequence : Block 2 Block 1 fixed 2 length 3 4 5 6 7 8 Octets
+
+Bit sequence sequence on line Most significant bit
+
+User
+
+data
+
+octets
+
+__Check sequence
+
+User
+
+data
+
+octets
+
+Block
+
+n
+
+R3
+
+-
+
+Up to 16 sequence. The x16 check + x13
+
+user
+
+data
+
+octets
+
+are
+
+completed
+
+by
+
+a
+
+16
+
+bits
+
+check
+
+R4
+
+-
+
+sequence forms a code generated by the + x12 + xl' + xl0 + x8 + x6 + x5 + x2
+
+polynomial + 1
+
+The cation R5 -
+
+16 bits are
+
+of
+
+the
+
+check
+
+sequence
+
+generated
+
+by
+
+this
+
+specifi-
+
+inverted. R6, a minimum line if L characterizes provided that L is the interval is at
+
+Upon detecting an error according to rule idle interval of L + 6 octets is required the number of user data octets per frame, smaller than 48 octets. For L 1 48 octets, least 54 octets.
+
+R6
+
+_
+
+The receiver checks the signal quality, the start character, the check sequences, the frame length -and, upon detecting an the line idle interval, specified by R5. error, if one of these checks fails, otherwise it is
+
+The frame is rejected released to the user.
+
+21
+
+IS 12746 (Part 5/Set 1) : 1993 IEC Pub 870-5-l (1990)
+
+6.2.4.4.2
+
+Frames
+
+with
+
+variable
+
+lengths lengths is of with a check
+
+The first data block fixed length, beginning sequence and containing
+
+(header) of frames with variable with a start character and ending up to 16 data octets.
+
+The length character, the number of user data
+
+located octets
+
+in
+
+the
+
+header
+
+of
+
+fixed
+
+length
+
+specifies
+
+in the
+
+body
+
+of the
+
+frame.
+
+Bit sequence on line Most significant
+
+1 bit 3 Start
+
+2
+
+3
+
+4
+
+5
+
+6
+
+7
+
+8
+
+Octets
+
+character __~ data octets 16 max. : __1 2 __I Header of fixed length
+
+Length ~~ User
+
+Block
+
+0
+
+Check
+
+sequence
+
+I..-
+
+:
+
+i t
+Block 1
+
+1
+
+:
+User data octets 16 Check sequence max.
+
+I I
+
+__.--.
+
+: :
+
+User
+
+data
+
+octets 16 max.
+
+T
+Block n I
+
+Body of variable length
+
+-_ Check
+
+___________-_ sequence
+
+V
+
+Transmission RI 6.2.5 to R6: see
+
+rules Subclause in 6.2.4.4.1. transmission channels using switched
+
+Synchronization carrier frequency The off. "idle line"
+
+state
+
+is
+
+characterized
+
+by
+
+the
+
+carrier
+
+being
+
+switched
+
+a minimum of m idle bits ("1") shall After switching on the carrier, be transmitted before starting the first frame. m idle bits are sufficient to allow the received carrier to become properly established.
+
+IEC
+
+IS 12746 (Part S/Sec1):1993 Pub 870-S-1(1990)
+("1") shall be trans-
+
+After transmitting the last frame, one mitted before switching off the carrier.
+Note.The duration of
+
+idle
+
+bit
+
+ing an error in Subclause
+represent
+
+the line idle interval necessary 'after detectin a frame may be reduced below the values given 6.2.4, when using the carrier-off condition to the line idle state.
+
+6.2.6
+
+Moin
+
+application
+
+fieids
+
+of
+
+the
+
+defined
+
+format
+
+classes mainly used for integrity requi-
+
+Format class FTl .l simple cyclic updating remen ts .
+
+with Hamming systems with
+
+distance 2 is low class data
+
+Format class FT1.2 with Hamming distance 4 and format class support control systems with upgraded data integrity requirements format class FT3 are suited for systems with particularly high integrity requirements.
+
+FT2 and data
+
+6.2.7
+
+Use
+
+of
+
+HDLC
+
+(High
+
+level
+
+data
+
+link
+
+control)-protocols
+
+The HDLC link specification defined by IS0 3309 is not memoryless and is basically. used for synchronous data transmission. It is suitable for duplex traffic operating with window size greater than one. The use of HDLC frames in telecontrol needs some adaptations. The unmodified HDLC protocols protect frames of variable lengths only with This means that a Hamming distance 1 against undetectable errors. single bit error per frame can produce an undetectable message error. The Hamming distance can be increased to 2 by adding redundancy and additional supervision of variable frame lengths or by admitting only fixed frame lengths. In order to achieve data integrity class I2 or 13, it is necessary to specify appropriate transmission procedures in the layers above the link layer causing further reductions of the transmission efficiency.
+
+33
+
+IS 12746 (Part 5/Set 1) : 1993 IEC Pub 870-S-l (1990) APPENDIX (Refers to transmission Clause 5: efficiency, Physical A of 6.1:
+
+Quantified rating and Subclause layer)
+
+EFFECT OF TRANSMISSION
+
+SIGNAL QUALITY SUPERVISION ON EFFICIENCY AND DATA INTEGRITY
+
+Each data transmission requires the transmission of signal elements, realized by physical parameters like amplitude, frequency, phase, pulse duration, etc. The values of these parameters are restricted to discrete tolerances which are supervised in the receiver: if a parameter exceeds the receiver signals a quality error detection. the prescribed tolerance,
+
+The specification of signal quality tolerances, their implementation as well the used synchronization method establish relations between signal to noise ratio and bit erl-or rate (rate of undetectable bit inversions) and bit erasure rate (rate of bits with insufficient quality) of the used data circuit. as
+
+These simplifying distortion calculated
+
+relations can be measured or may be calculated by channel models. For example the effect of supervision tolerances in a base band binary transmission channel in the following way:
+
+assuming signal may be
+
+If the bit symbols in a binary transmission channel are decoded by a single scan impulse in the centre of a bit cell, then there is no signal whenever a signal transition is and bit errors occur, quality supervision, distorted more than 50% of a bit duration T (see figure A.lu)).
+
+By assuming a normalized r.m.s.
+P=
+
+zero-mean normal, value s = 1 42)) = bit of error
+
+(Gaussian)
+
+distribution
+
+of
+
+noise
+
+with
+
+erfc 1 -
+
+(T/(2
+
+probability a correct x e-" j 0 2 du bit
+
+(al)
+
+q =
+
+p = probability
+
+receiving .
+
+where:
+
+erfc(x)
+
+= 1 - 2/Jn
+
+designates The bit is figure
+
+the
+
+complement
+
+of the
+
+error if the three
+
+function. single scan in the centre of distinct time slots per bit, each (see
+
+signal quality replaced by A.lb)):
+
+is supervised, an inspection
+
+of
+
+one time distortion
+
+characterizes slot - D I q I + D which of a signal transition, and T + D) of the < r 5 permitted
+
+the -
+
+permitted D) of
+
+range
+
+of
+
+two time slots (terize violations signal transition.
+
+D and D < r I (T tolerance range
+
+which characdistortion of a
+
+24
+
+IS12746 (Part S/Sec1):1993 IJX Pub 870-S-1(1990) If a
+
+noise
+
+conditions
+
+for an assessment signal distortions.
+
+of
+
+the
+
+efficacy
+
+of
+
+the
+
+(p + 0.5) tolerance
+
+and may be neglected width 2 D for allowed
+
+With this simplification only the first two terms of the relation of p' furnish relevant contributions to the reduced bit error probability and the relations p' and q' can be expressed in terms of the original bit error probability p (see equation (al)), by:
+
+p' = erfc(2(1 q'= where: Y = erfc -l(x) function
+
+- D/T)
+
+erfc-`(p)) erfc-l(p) )
+
+1 - erfc( (2D/T)
+
+designates x = erfc(y).
+
+the
+
+inversion
+
+of the
+
+complement
+
+of the
+
+error
+
+These two relations describe the binary symmetric erasure which provides three possible evaluations her bit, namely: q' ... correct bit error bit (i.e. undetectable bit inversion)
+
+channel
+
+p' *..
+
+r =
+
+1 - p' - q'
+
+. . . bit
+
+erasure
+
+(i.e.
+
+bad
+
+signal
+
+quality)
+
+The analysed example in which the signal distortion is supervised by one or several decision thresholds may be applied accordingly to the supervision of tolerance ranges of other signal parameters used in various channel encoding methods. The influence of the signal quality supervision on the transmission efficiency and on the residual error rates is depicted in Figure A.2: an FT2-block code with block length n = 128 bit is decoded: without `50%, signal quality quality signal supervision supervision quality (admitted (admitted supervision signal signal (admitted distortion distortion signal tolerance tolerance distortion
+
+with coarse t40%), and
+
+with restricted tolerance 230%).
+
+25
+
+IS12746 (Part S/Sec1):1993 IEC Pub 870-S-1(1990)
+The curves show decreasing tolerance of considerable loss that the residual errors are widths for acceptable signal of transmission efficiency. significantly quality, reduced with however at cost
+
+In all cases, the maximum bility, where the transmission
+
+of
+
+residual efficiency
+
+errors occurs is practically
+
+at a bit zero.
+
+error
+
+proba-
+
+1
+
+1
+
+KM
+
+signal
+
+-T
+
+-T/2
+
+0
+
+T
+
+2T
+
+al
+
+I
+
+Signal distortton probability de,nsity.function
+
+Signal density
+
+dIstortIon function
+
+probablltty
+
+-2T
+
+-T
+
+-Tl2
+
+0
+
+T/k
+
+T
+
+2T
+
+2T
+
+PT q'
+
+0
+
+T bit btt
+
+2T
+
+Decmon ranges: Q: correct bit p: bit error No signal tolerated quality dIstortIon supervision: range k 50%
+
+: correct
+bit error erased
+
+p'
+r'
+
+With slgnal quality tolerated distortion
+
+supervision: range D c
+
++ 50%
+
+Figure
+
+A. 1 - Bit signal detection: a) without and b) with signal quality
+
+supervision.
+
+26
+
+IS 12746 (l'at-t S/Set 1) : 1993 11x Pub 870-5-l (1990)
+
+80
+
+70
+
+30
+
+10-14
+
+20
+
+10-16
+
+10
+
+0
+
+10
+
+20
+
+10-a
+
+10
+
+3
+
+10
+
+2
+
+10
+
+'
+
+0.5
+
+P = biterrorprobability
+
+JXO~XY
+
+Figure
+
+A.2
+
+-
+
+influence of transmission
+
+signal quality supervision on frame efficiency and on data integrity
+
+Frame transmission format Class FT2 -
+
+and data integrity efficiency block code with block length 128
+
+characteristics bits
+
+of
+
+a
+
+~--.-. --___
+Tolerance range of signal quality supervision quality signal _+ftO% ._ supervision Tolerated distortion:
+
+Residual error characteristic RO Rl R2
+
+efficiency characteristic
+
+No signal
+
+Tolerated signal distortion: +30x ~._____.
+
+27
+
+IS 12746 (Pnrt !VSec 1) : 1993
+
+IEC Pub 870~5-l(1990)
+APPENDIX (Refers to Subclause 6.2.4: OF B Standard frame formats) AND
+
+QUANTITATIVE
+
+RATINGS TRANSMISSION
+
+DATA INTEGRITY EFFICIENCY
+
+The mission
+
+quantitative efficiencies
+
+ratings of are derived
+
+residual error probabilities and transfor block codes of each format class.
+
+Actual ratings of efficiencies of protocols dialogue procedures.
+
+residual depend
+
+error probabilities and on further characteristics
+
+transmission of specified
+
+if a frame is composed of i blocks of format class FT In particular, an undetectable error occurs if at least one of with the lengthn bit, the blocks contains an undetectable error and the other blocks contain no detectable errors :
+
+R(iFT) where:
+
+= (R(FT)
+
++ qn)i
+
+- qni
+
+= iR(FT)
+
+if
+
+(1
+
+- q)
+
+<< 0.5
+
+R(FT) designates of format class correct bits.
+
+the FT,
+
+residual and q
+
+error probabili.ty designates the
+
+of an individual block probability of receiving
+
+B. 1
+
+Format
+
+class
+
+FTl.
+
+1
+
+(11,8)-Code Hamming One even distance d = 2 is completed and one stop with one bit ("1"). start bit ("O"), one
+
+information octet parity check bit
+
+B. 1.1
+
+Measure
+
+of
+
+data of
+
+integrity undetectable bit error patterns containing e bit
+
+The errors
+
+number is:
+
+A(FTl.l)e
+
+= 09 , e
+
+e = 2,
+
+4,
+
+6 and
+
+8.
+
+28
+
+IS 12746 (Part 5/Set 1) : 1993 fEC Pub 870-5-l (1990) The resulting residual error ,probabi lity is:
+
+R(FT1.l) where: p q is the is the bit error
+
+= (36p2q7
+
++ 126p4q5
+
++ 84p6q3
+
++ 9P8Sh2
+
+probability of the correct bit transmission of data integrity class II (see
+
+probability fulfils
+
+The Figure
+
+code B.l).
+
+requirements
+
+B . 1.2
+
+Measure
+
+of
+
+block
+
+code
+
+transmission
+
+efficiency
+
+EFF(FT1.l)
+
+= <
+
+ql'
+
+= 0.73
+
+ql'
+
+(see
+
+Figure
+
+B.2)
+
+B .1.3
+
+Measure
+
+of
+
+frame
+
+transmission of i FTl .l length (see
+
+efficiency characters Subclause with 6.2.4.1) a leading has the character following
+
+A frame specifying transmission
+
+composed the frame efficiency:
+
+8i
+
+EFF(iFT1.l)
+
+=
+
+ll(i+l)
+
+9
+
+ll(i+l)
+
+where: i is the number of user data octets.
+
+B. 2
+
+Format
+(Iii
+
+class
++ 11,
+
+FT1.2 8i) - Modified
+d = 4 format FTl. 1 are completed by an arithmetic single parity check product--code
+
+Hamming i user check
+
+distance
+
+data octets of sum character.
+
+B. 2.1
+
+Measure
+
+of
+
+data
+
+integrity rate of parity the single check bits parity as a check check product-code, sum character,
+
+The which is:
+
+residual specifies
+
+error vertical
+
+R(FT1.2)
+
+=
+
+2-i-9
+
+q2i+2(q+p)9i+9
+
+_ ,H,
+
+(I)[(X!?)j
+
++(K!?)9wjj
+
+i+'
+
+_ qlli+l
+
+where: i is the number of user data
+octets for i ' 1.
+
+29
+
+IS 12746 (Part ~/SW 1) : 1993 IEC Pub 870-5-l (1990)
+
+The arithmetic check reduces the residual factor 0.5 characters
+
+sum character specified errors of this code supervision of R(FT1.2) control R'(FT1.2) of by
+
+for format approximately
+
+class by
+
+FT1.2 the end if s the
+
+and the specified cause the reduction -
+
+correct start and the factor qlls, for
+
+specifies the number check sum character
+
+of additional per frame:
+
+characters - except = 0.5 R(FT1.2)q11S.
+
+In case character). In case 2 characters
+
+of
+
+fixed
+
+frame
+
+lengths:
+
+s -
+
+2 (1
+
+start
+
+character,
+
+1
+
+end
+
+of variable specifying
+
+frame length,
+
+lengths: s = 5 1 end character).
+
+(2
+
+start
+
+characters,
+
+Figure B.l shows length with 1 user length with 15 user
+
+the residual data octet data octets
+
+error characteristics (FTl .2, i = 1) and (FT1.2, i = 1s).
+
+for a fixed for a fixed
+
+frame frame
+
+B. 2.2
+
+Measure
+
+of
+
+frame
+
+transmission
+
+efficiency
+
+8'i
+
+EFF(FT1.2) where: i
+S
+
+=
+
+ll(i+s+lI
+
+q
+
+ll(i+s+l)
+
+is
+
+the
+
+number
+
+of
+
+user
+
+data
+
+octets
+
+is the number of check sum character
+
+additional control - per frame
+
+characters
+
+-
+
+except
+
+for
+
+the
+
+Figure B.2 shows the frame transmission efficiency length with 1 user data octet (FT1.2, i = l), and for length with 15 user data octets ( FTl .2, i = 15).
+
+a
+
+for a fixed
+
+frame frame
+
+B .2.3
+
+Motivations The with test Easy format classes most personal equipment. and economic FTl. and 1 and other FTl .2 provide hardware computers, processors compatibility and standard
+
+to
+
+integrate
+
+in
+
+small
+
+and
+
+low-cost
+
+equipment.
+
+The same -commonly terminals, No additional
+
+hardware supports used peripherals, etc. hardware is
+
+software for for example
+
+communication with plotters, printers,
+
+other VDU
+
+required
+
+for
+
+bit
+
+synchronization.
+
+30
+
+IS 12746 (PartS/Src1):1993 IEC Pub 870-5-l (1990) Low residual error cularly at high bit rate error without signal quality rates (see Figure B.l). supervisio`n, parti-
+
+Note.-
+
+requiring transmission of The rules contiguous characters within a frame and the use of 8 bits plus parity per character (in contrast to the commonly used 7 bits plus parity or 8 bits without parity) require careful attention to the host operating system and associated bit serial communication drive routines.
+
+8.3
+
+Format
+
+class
+
+f----_---_--__- k = 8i _._._~
+
++__ ~~___-.___ ---~
+FT2
+n = 8i + 8 ~______~ -)
+
+Bits
+
+--_ ~~. Information
+
+~.
+
+...-
+
+~~ ~~~~ _ __ CS-8 _~______
+
+~~
+
+, +~~___- 8 _+ Check sequence
+
+Bits
+
+(8i
+
++ 8,
+
+8i)
+
+-
+
+Code,
+
+i = 1,
+
+2,
+
+3,
+
+. . . 15
+
+Hamming Generator Extension Inversion
+
+distance
+
+d = 4 X7 + X6 bit + X5 + X2 + 1
+
+polynominal by of an all even check
+
+parity bits.
+
+B .3.1
+
+Motivations Provides the highest frame transmission grity class I2 (see Figure 8.2). Convenient format for stringent performance efficiency for data inte-
+
+requirements. for use with
+
+The frame format (multiple certain standard synchronous
+
+octet format) is suitable multidrop data links.
+
+The BCH-code generated by the specified polynomial and extended by an overall even parity bit defines a (128, 120) non-cyclic 120 information bit, optimum code with distance d = 4, comprising This is the maximum block length for i.e. 15 information octets. block codes with distance d = 4 using 8 check bits.
+
+The specified generator polynomial is selected from the set of totally existing 18 irreducible polynomials of degree 7 such that the number of undetectable bit error paterns with 4 bit errors is minimized for shortened block lengths n = 16 and 24 bits.
+
+31
+
+IS 12746 (Part S/Set1) : 1993 IEC Pub 870-S-l (1990) The inversion of the and sync slip errors one bit transition per 8 check bits provides the block code. improves minimum the protection weight 2 and against at least
+
+B .3.2
+
+Measure
+
+of
+
+data
+
+integrity bit error 128 bits patterns is: containing e bit
+
+The errors
+
+number of undetectable in non-shortened blocks
+
+of
+
+NFW,,,,, e = 4, 6, 8, . . . 122,
+
+= 124, 128
+
++ (-l)e'2
+
+127 i
+
+".;, 11
+
+,
+
+block lenghts For the admitted shortened block codes with a good approximation 8 bits, i = 1, 2, . . . , user data octets, is: number of undetectable bit error patterns
+
+n = 8i + for the
+
+4,
+
+6,
+
+8
+
+. . . n
+
+The
+
+resulting
+
+residual
+
+error
+
+probability
+
+is:
+
+R(FTZ),
+
+= C A(FT2),,,
+e
+
+peqn-e,
+
+e = 4,
+
+6,
+
+8
+
+.. . n
+
+Format class FT2 fulfils the requirements The frame extension of (see Figure B.l). specified for start character, by the multiplication of factor
+
+of data integrity a block code with
+
+class I2 an 8 bits quantified
+
+PCM transmission systems, is q8: R'( FT2) n = R( FT2) n q8.
+
+Figure 8.1 shows the corresponding for frames with 1 user data octet (FT2, 15 user data octets (FTZ, i = 15).
+
+residual i = 1)
+
+error characteristics and for frames with
+
+8.3.3 one
+
+Measure 8 bits
+
+of frame transmission start character and i I
+
+efficiency of a frame, 15 user data octets:
+
+composed
+
+of
+
+EFF(FT2)
+
+= -&-
+
+q8(i+z)
+
+Figure 8.2 octet and for
+
+shows the i = 15 data
+
+frame octets.
+
+transmission
+
+efficiency
+
+for
+
+i = 1
+
+data
+
+32
+
+IS 12746 (Part S/Set 1) : 1993 IEC Pub 870-S-l (1990) B .4
+
+Format
+
+class
+
+FT3
+
+Bits
+
+Bits
+
+(8i
+
++ 16,
+
+&)-Code, distance
+
+i = 1, d = 6 Xl6
+
+2,
+
+3
+
+. . . 16
+
+Hamming Generator x5 + x2
+
+polynomial + 1 of the
+
++ Xl3
+
++ X1'
+
++ Xl1
+
++ Xl0
+
++
+
+x8 +
+
+x6
+
++
+
+Inversion
+
+16 check
+
+bits.
+
+B .4. I
+
+Motivations Format systems. for upgraded data integrity requirements in control
+
+The frame structure (multiple certain standard synchronous
+
+octet format) is suitable multidrop data links.
+
+for
+
+use
+
+with
+
+The specified polynomial generates an Hamming distance d = 6 for block lengths The specified polynomial is selected such that the number of undetectable errors is minimized for shortened than 3 user data octets.
+
+optimum n 5. 151
+
+BCH-code bits.
+
+with
+
+from a set of 8199 polynomials, bit error patterns with 6 bit block lengths containing more
+
+The inversion of sync slip errors, one bit transition
+
+the check bits improves and provides the minimum per block code.
+
+the protection weight 3 and
+
+against at least
+
+8.4.2
+
+Measure The errors
+
+of
+
+data of of
+
+integrity undetectable bit error length n = 8i, i =: 3, 4, patterns containing e 5 . . . 18 is approximately: bit
+
+number in blocks
+
+A(FT3)n The resulting
+
+e P
+
+= 2-15 error
+
+" (e 1
+
+, e = 6, is:
+
+8,
+
+,. ,
+
+residual
+
+probability
+
+R(FT3J,
+
+=
+
+c A(FT3& e
+
+peqn-e
+
+33
+
+IS 12746 (Part S/Set 1) : 1993 IEC Pub 870-S-l (1990) Format class FT3 fulfils the requirements The frame extension of (see Figure B.l). start character, specified multiplication with factor for q16: of data integrity a block code with class 12 a 16 bits by
+
+PCM transmission system is quantified R'( FT3), = R(FT3), q16.
+
+Figure B. 1 shows the corresponding for frames with 1 user data octet (FT3, user data octets (FT3, i = 15).
+
+residual error i = 1) and for
+
+characteristics frames with
+
+15
+
+8.4.3 one
+
+Measure 16 bits
+
+of frame transmission efficiency start character and i I 16 user
+
+of data
+
+a frame, octets.
+
+composed
+
+of
+
+EFF(FT3)
+
+= i it4
+
+ql(i+4)
+
+Figure octet and
+
+8.2 for
+
+shows the i = 15 user
+
+frame transmission data octets.
+
+efficiency
+
+for
+
+i = 1
+
+data
+
+34
+
+IS 12746 (Part S/Set 1) : 1993 IEC Pub 870-S-1(1990)
+
+r ._
+7
+
+4,";
+
+lo--'
+
+0 5 ,w
+
+p z biterrorprobabillty
+
+Figure
+
+8.1
+
+-
+
+Residual errors FT2 and FT3 i is the number
+
+of of
+
+format
+
+classes
+
+FTl .I, FTl .2,
+per block code.
+
+information
+
+octets
+
+IS 12746 (Part S/Set 1) : 1993 IEC Pub 870-S-l (1990)
+
+100
+
+90
+
+FT2
+
+(i=15)
+
+80
+
+70
+
+,s -0" : ._ .o z al 5 `cz E s ; m E ;
+
+FT1.2 60
+
+(1=15)
+
+\
+
+\
+
+50
+
+40
+
+FT2
+
+(1=1)
+
+\
+
+\\
+
+30
+
+FT3 20 FT1.2
+
+ii=ll
+
+\
+
+\\
+
+\
+
+11-l) -
+
+10
+
+0 10 5 10-4 10 3 10-2 10 ' 0.5 .A",? .YV
+
+P = brt error probabdity
+
+Figure
+
+B.2
+
+-
+
+Frame classes i is block the
+
+transmission
+
+efficiency F.T2 of information
+
+of and
+
+format FT3 per
+
+FTl .l, FT1.2,
+number code.
+
+octets
+
+Printed at Dee Kay Printers. New Delhi. India 36
+
+Standard Mark The use of the Standard Mark is governed by the provisions of the Bureau ofIndian Standards Act, 11'34 and the Rules and Regulations made thereunder. The Standard kark on products covered by an Indian Standard conveys the assurance that they have been produced to comp!y with the requirements of tizt standard under a well Jefined system of inspection, testing and quality control which is devised and supervised by BIS and Standard marked products are also coritirru~usiy checked by operated by the producer. D::tails of conditions under BIS for conformrty to that standard as a ftxther safeguard. which a licence for the use of the SIai.dard I\fzrk rnny be Granted to manufacturers ci producers may be obtained from the Bureau of lirdian Standsrds.
+
+_`;.
+
+..y.y;;-__.
+
+.C_
+
+._?
+
+-.
+
+,
+
+_._
+
+-
+
+a
+
+,.,
+
+..-
+
+,
+
+Bureau of Indian Standards BIS is a statutory institution established under the Bureuu of Indian Standarda Act, 1986 to of standardization, marking and quality promote harmonious development of the activities `. certification of goods and attending to connected matters in the country. Copyrigbt No part of these publications may be reproduced BIS has the copyright of all its publications. in any form without the prior permission in writing of BIS. This does not preclude the free use, in the course of implementing the standard, of neces.sary details, such as symbols and sizes, type Enquiries relating to copyright be addressed to the Director or grade designations. ( Publications ), BIS Revision of Indian Standards Amendments are issued to standards as the need arises on the basis of comments. Standards are also reviewed periodica!ly; a standard along with amendments is reaffirmed when such review indicates that no changes are needed; if the review indicates that changes are needed, it is taken Users of Indin Standards should ascertain that they are in possession of the up for revision latest amendments or edition by referring to the latest issue of `BIS Handbook' and `Standards Comments on this Indian Standard may be sent to BIS giving the following Monthly Additions'. reference: Dot : No. LTD 25 ( 1583 ) Amendments Issued Since Publication
+Amend No.
+
+Date of Issue
+
+Text Affected
+
+Headquarters:
+
+,, t
+
+,.dUREAU I
+
+OF INDIAN
+
+STANDARDS
+
+Manak Bhavan, 9 Bahadur &ah Zafar Marg, New Delhi 11002 Telephones : 331 01 31, 331 13 75
+.
+
+Telegrams Common
+
+: Manaksanstha
+
+to
+
+all
+
+Offices )
+
+Regional Offices : Central : Manak Bhavan, 9 Bahadur Shah Zafar Marg NEW DELHI 110002 Eastern : l/14 C. I. T. Scheme VII M, V. I. P. Road, Maniktola CALCUTTA 700054 Northern Southern : SC0 445-446, Sector 35-C, CHANDIGARH 160036
+
+Telephone { 33101 31 331 13 75 37 84 99, c 37 86 26,
+L53 23 84 235 02 16, 235 15 19, 235 04 42 235 23 15
+
+I 53 38 43,
+632 92 95, 632 78,91,
+
+37 85 61 37 86 62
+53 16 4U
+
+: C. 1. T. Campus, IV Cross Road, MADRAS 600113
+
+Western : Manakalaya, E9 MIDC, Marol, Andheri ( East ) BOMBAY 400093
+
+632 78 58 632 78 92
+
+Branch : AHMADABAD. BANGALORE. BHOPAL. BHUBANESHWAR. COIMBATORE. FAKIDABAD. GHAZIABAD, GUWAHATI. HYDERABAD. JAIPUR. KANPUR LUCKNOW. PATNA. THIRUVANANTHAPURAM.
+kin ted at Printwell Printers, Aliparh, Indra
+
+

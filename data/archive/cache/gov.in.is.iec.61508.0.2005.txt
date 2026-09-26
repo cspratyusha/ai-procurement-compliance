@@ -1,0 +1,365 @@
+ISIIEC 61508-0: 2005
+
+~/~/~~wan-~~ <PI~wan
+'qJ1T
+
+0 q;I~i(qq) ~~ ~
+
+3TTt ~ ~ 61508
+
+Indian Standard FUNCTIONAL SAFETY OF ELECTRICAU ELECTRONIC/PROGRAMMABLE ELECTRONIC SAFETY-RELATED SYSTEMS
+PART 0 FUNCTIONAL SAFETY AND IEC 61508
+
+ICS 25.040.40; 29.020
+
+�BIS2008
+
+BUREAU OF INDIAN STANDARDS
+MANAK BHAVAN, 9 BAHADUR SHAH ZAFAR MARG NEW DELHI 110002
+
+November2008
+
+Price Group 6
+
+ISIIEC 61508-0: 2005 CONTENTS
+INTRODUCTION ..
+
+iv
+
+Scope ....
+
+1 1
+
+2
+3
+
+Normative references .. Functional safety . 3.1 3.2 3.3 3.4 What is funct ional safety? .. .. Safety functio ns and safety-related systems .. .. Example of funct ional safety Challenges in achieving functional safety Objectives .. ........ . E/E/PE safety-related systems . . Technical approach ... Safety integrity level s . Example of functiona l safety revis ited Parts framework of IEC 61508 .. . lEG 61508 as a bas is for other standards ... ... lEG 61508 as a stand-alone standard. .. . . Further information ..
+
+2
+2 2 3 3 4 4 4 5 6 6 7 9 9
+
+4
+
+IEC 61508 - Functional sa fety of E/E/PE safety- rela ted systems . ., 4.1 4.2 4.3 4.4 4.5 4.6
+
+4.7
+4.8 4.9
+
+10
+
+Annex A (informative) List of freq uently asked questions from lEG "functional safety" zone . 16
+
+ISIIEC 61508-0: 2005
+Industrial Process Measurement and Control Sectional Committee , ETD 18
+
+NATIONAL FOREWORD This Indian Standard (Part 0) which is identical with IECfTR 61508-0 : 2005 'Funct ional safety of electricaVelectronic/programmable electronic safety-related systems - Part 0: Functional safety and IEC 61508' issued by the International Electrotechnical Commission (IEC) was adopted by the Bureau of Indian Standards on the recommendation of the Industrial Process Measurement and Control Sectional Committee and approval of the Electrotechnical Division Council. The text of IEC Standard has been approved as suitable for publication as an Indian Standard without deviations. Certain conventions are, however, not identical to those used in Indian Standards. Attention is particularly drawn to the following : a) Wherever the words 'International Standard' appear referring to this standard, they should be read as 'Indian Standard'. b) Comma (,) has been used as a decimal marker , while in Indian Standards, the current practice is to use a point (.) as the decimal marker .
+
+In this adopted standard, reference appears to certain International Standards for which Indian Standards also exist. The corresponding Indian Standards , which are to be subst ituted in their respective places, are listed below along with their degree of equivalence for the editions indicated:
+International Standard Corresponding Indian Standard Degree of Equivalence
+
+IEC 61508-1 : 1998 Functional safety of electricaVelectronic/programmable electronic safety-related systems Part 1: General requirements IEC 61508-2 : 2000 Functional safety of electricaVelectronic/programmable electronic safety-related systems Part 2: Requirements for electrical/ electronic/programmable electronic safety-related systems IEC 61508-3 : 1998 Functional safety of electricaVelectroniclprogrammable electronic safety-related systems Part 3: Software requirements IEC 61508-4 : 1998 Functional safety of electrical/electronic/programmable electronic safety-related systems Part 4: Definitions and abbreviat ions IEC 61508-5 : 1998 Functional safety of electricaVelectroniclprogramrnable electronic safety-related systems Part 5: Examples of methods for the determination of safety integrity levels
+
+ISIIEC 61508-1 : 1998 Functional safety of electrical/electronic/programmable electronic safety-related systems : Part 1 General requirements ISIIEC 61508-2 : 2000 Funct ional safety of electrical/electronic/programmable electron ic safety-related systems: Part 2 Requirements for electrical! electronic/programmable electronic safety-related systems IS/IEC 61508-3 : 1998 Functional safety of electrical/electronic/programmable electronic safety-related systems : Part 3 Software requirements IS/IEC 61508-4 : 1998 Functional safety of electrical/electronic/programmable electron ic safety-related systems: Part 4 Definitions and abbreviations IS/IEC 61508-5 : 1998 Functional safety of electrical/electronic/programmable electronic safety-related systems: Part 5 Examples of methods for the determination of safety integrity levels
+
+Identical
+
+do
+
+do
+
+do
+
+do
+
+ii
+
+ISIIEC 61508-0: 2005
+International Standard IEC 61508-6 : 2000 Funct ional safety of electrical/electronic/programmable electronic safety-related systems Part 6: Guidelines on the application of lEG 61508-2 and lEG 61508 -3 lEG 61508-7 : 2000 Functional safety of electrical/electronic/programmable electronic safety-related systems Part 7: Overview of techniques and measures ISO/lEG Guide 51 I I Safety aspects Guidelines for their inclusion in standards Corresponding Indian Standard IS/lEG 61508�6 : 2000 Funct ional safety of electrical/electronic/programmable electron ic safety-related systems: Part 6 Guidelines on the application of lEG 61508-2 and lEG 61508-3 IS/lEG 61508 �7 : 2000 Functional safety of electrical/electronic/ programmable electron ic safety-related systems : Part 7 Overview of techniques and measures IS/ISO/lEG Guide 51 : 2005 Safety aspects - Guidel ines for their inclusion in standards Degree of Equivalence Identical
+
+do
+
+Technically Equivalent
+
+The technical committee has reviewed the provisions of the following International Standard referred in this adopted standard and has decided that it is acceptable for use in conjunction with this standard: International Standard lEG Guide 104 Title The preparation of safety publications and the use of basic safety publications and group safety publications
+
+Only the English language text in the Intemational Standard has been retained while adopting it in this Indian Standard, and as such the page numbers given here are not the same as in the lEG Standard . For the purpose of deciding whether a particular requirement of this standard is complied with, the final value. observed or calculated. expressing the result of a test. shall be rounded off in accordance with IS 2 : 1960 'Rules for rounding off numerical values (revised)'. The number of significant places retained in the rounded off value should be the same as that of the specified value in this standard.
+
+" Since revised in 2005.
+
+iii
+
+ISIIEC 61508-0: 2005 INTRODUCTION
+The purpose of this Technical Report is to introduce the concept of functional safety and to give an overview of the IEC 61508 series of standards . You should read it if you are : � � � wondering whether IEC 61508 appl ies to you, involved in the development of electrical, electronic or programmable electronic systems which may have safety implications, or drafting any other standard where functional safety is a relevant factor.
+
+Clause 3 of th is document gives an informal defin ition of functional safety, describes the relationship between safety functions , safety integrity and safety-related systems, gives an example of how functional safety requirements are derived, and lists some of the challenges in achieving functional safety in electrical, electronic or programmable electronic systems. Clause 4 gives details of IEC 61508, which provides an approach for achieving functional safety. The clause describes the standard's objectives, technica l approach and parts framework . It explains that IEC 61508 can be applied as is to a large range of industrial applications and yet also provides a basis for many other standards
+
+iv
+
+ISIIEC 61508-0: 2005
+
+Indian Standard
+FUNCTIONAL SAFETY OF ELECTRICAU ELECTRONIC/PROGRAMMABLE ELECTRONIC SAFETY-RELATED SYSTEMS
+1 Scope
+
+PART 0 FUNCTIONAL SAFETY AND IEC 61508
+
+This Technical Report introduces the concept of functional safety and gives an overview of the IEC 61508 series .
+
+2
+
+Normative references
+
+The following referenced documents are indi spe nsable fo r the app lication of th is document. For dated references, only the edition cited appl ies . For undated references, the latest ed ition of the referenced document (including any amendments) applies . IEC 61508-1 :1998, Functional safety of electrica l/electronic/programmable electronic safetyrelated systems - Part 1: General requirements IEC 6 1508-2 :2000, Functio nal safety of electrical/electronic/programmable electronic safetyrelated systems - Part 2: Requirements for electrical/electronic/programmable electronic safety-related systems IEC 61508-3 :1998, Functional safety of electrical/elect,'onic/programmable electronic s,afetyrelated systems - Part 3: So ftware requ irements IEC 61508-4 :1998, Functional safety of electrical/electron ic/programmable electronic safetyrelated systems - Part 4: Definitions and abbreviations IEC 61508-5 :1998, Functional safety of electrical/electronic/programmable electronic safetyrelated systems - Part 5: Examples of methods for the determination of safety integrity levels IEC 6 1508-6 :2000, Functional se iety of electrical/electronic/programmable electronic safetyrelated systems - Part 6: Guidelines on the application of lEG 61508-2 and IEC 61508-3 IEC 61508-7 :2000, Functional safety of electrical/electronic/programmable electronic safetyrelated systems - Part 7: Overview of techniques and measures IEC Gu ide 104, The preparation of safety pubiicetions and the use of basic safety publica tions and group safety publications ISOIIEC Guide 51 , Safety aspects - Guidelines for their inclusion in standards
+
+ISIIEC 61508-0: 2005
+3 3.1 Functional safety What Is functional safety?
+
+We begin with a definition of safety. This is freedom from unacceptable risk of physical injury or of damage to the health of people, either directly, or indirectly as a result of damage to property or to the environment.
+
+Functional safety is part of the overall safety that depends on a system or equipment operating correctly in response to itsinputs.
+For example, an overtemperature protection device, using a thermal sensor in the windings of an electric motor to de-energise the motor before it can overheat, is an instance of functional safety. But providing specialised insulation to withstand high temperatures is not an instance of functional safety (although it is still an instance of safety and could protect against exactly the same hazard). Neither safety nor functional safety can be determined without considering the systems as a whole and the environment with which they interact.
+
+3.2
+
+Safety funellons and safety-related systems
+
+Generally, the significant hazards for equipment and any associated control system in its intended environment have to be identified by the specifier or developer via a hazard analysis. The analysis determines whether functional safety is necessary to ensure adequate protection against each significant hazard . If so, then it has to be taken into account in an appropriate manner in the design. Functional safety is just one method of dealing with hazards, and other means for their elimination or reduction, such as inherent safety through design, are of primary importance. The term safety-related is used to describe systems that are required to perform a specific function or functions to ensure risks are kept at an accepted level. Such functions are , by definition, safety functions . Two types of requirements are necessary to achieve functional safety:
+
+� �
+
+safety function requiremellts (What the function does) and safety integrity requirements (the likelihood of a safety function being performed satisfactorily).
+
+The safety function requirements are derived from the hazard analysis and the safety integrity requirements are derived from a risk assessment. The higher the level of safety integrity, the lower the likelihood of dangerous failure . Any system, implemented in any technology, which carries out safety functions is a safetyrelated system . A safety-related system may be separate from any equipment control system or the equipment control system may itself carry out safety functions. In the latter case, the equipment control system will be a safety-related system. Higher levels of safety integrity necessitate greater rigour in the engineering of the safety-related system.
+
+2
+
+ISJlEC 61508-0: 2005
+3.3
+Example of functional safety
+
+Consider a machine with a rotating blade that IS protected by a hinged solid cover The blade is accessed for routine cleaning by lifting the cover The cover IS interlocked so that whenever it is lifted an electrical circuit de-energises the motor and applies a brake In trus way. the blade is stopped before it could injure the operator In order to ensure that safety is achieved, both hazard analysis and risk assessment are necessary. a) The hazard analysis identifies the hazards associated with cleaning the blade. For this machine it might show that it should not be possible to lift the hinged cover more than 5 mm without the brake activating and stopping the blade. Further analysts could reveal that the time for the blade to stop shall be 1 s or less Together, these describe the safety function. b) The risk assessment determines the performance requirements of the safety function The aim is to ensure that the safety integrity of the safety function is sufficient to ensure that no one is exposed to an unacceptable risk associated with this hazardous event The harm resulting from a failure of the safety function could be amputation of the operator's hand or could be just a bruise. The risk also depends on how frequently the cover has to be lifted, which might be many times during daily operation or might be less than once a month The level of safety integrity required increases with the severity of injury and the frequency of exposure to the hazard. The safety integrity of the safety function will depend on all the equipment that IS necessary for the safety function to be carried out correctly, i.e. the interlock, the associated electrical circuit and the motor and braking system. Both the safety function and its safety integrity specify the required behaviour for the systems as a whole within a particular environment To summarise, the hazard analysis identifies what has to be done to avoid the hazardous event, or events, associated with the blade. The risk assessment gives the safety integrity required of the interlocking system for the risk to be acceptable. These two elements, "What safety function has to be performed?" - the safety function requirements - and "What degree of certainty is necessary that the safety function will be carried out?" - the safety integrity requirements - are the foundations of functional safety.
+
+3.4
+
+Challenges in achieving functional safety
+
+Safety functions are increasingly being carried out by electrical, electronic or programmable electronic systems. These systems are usually complex, making it impossible In practice to fUlly determine every failure mode or to test all possible behaviour. It is difficult to predict the safety performance, although testing is still essential. The challenge is to design the system in such a way as to prevent dangerous failures or to control them when they arise. Dangerous failures may arise from � � � � � � incorrect specifications of the system, hardware or software; omissions in the safety requirements specification (e.g. failure to develop all relevant safety functions during different modes of operation); random hardware failure mechanisms; systematic hardware failure mechanisms; software errors; common cause failures;
+
+3
+
+ISIIEC 61508-0: 2005
+� � � human error; environmental influences (e .g. electromagnetic, temperature, mechan ical phenomena) ; supply system voltage disturbances (e.g. loss of supply , reduced vol tages , re-connection of supply) .
+
+IEC 61508 contains requirements to minimise these failures and is described in the next clause .
+
+4
+
+lEe 61508 - Functional safety of E/E/PE safety-related systems
+Objectives
+
+�.1
+
+IEC 61508 aims to �
+i
+
+release the potential of E/E/PE technology to improve both safety and economic performance; enable technological developments to take place within an overall safety framework ; provide a technically sound , system based approach , with sufficient flex ibility for the future ; provide a risk-based approach for determining the required performance of safety-related systems; provide a generically-based standard that can be used directly by industry but can also help with developing sector standards (e .g. machinery, process chemical plants , medical or rail) or product standards (e .g. power drive systems); provide a means for users and regulators to gain confidence when using computer-based technology; provide requirements based on common underlying principles to fac ilitate: improved efficiencies in the supply chain for suppl iers of subsystems and components to various sectors, improvements in communication and requ irements (i.e . to increase clarity of what needs to be specified), the development of techniques and measures that could be used across all sectors , increasing available resources, the development of conformity assessment services if required .
+
+� � �
+
+� �
+
+IEC 61508 does not cover the precautions that may be necessary to prevent unauthorized persons damaging, andlor otherwise adversely affecting , the functional safety achieved by E/ElPE safety-related systems. .
+
+�.2
+
+E/E/PE safety-related systems
+
+IEC 61508 is concerned with functional safety, achieved by safety-related systems that are primarily implemented in electrical andlor electronic andlor programmable electronic (E/E/PE) technologies, i.e. E1E/PE safety related systems . The standard is generic in that it applies to these systems irrespective of their application .
+
+4
+
+IsnEC 61508-0: 2005
+Some requirements of the standard relate to development activities where the implementation technology. may not yet have been fUlly decided. This includes development of the overall safety reqUlr~ments (concept, scope definition, hazard analysis and risk assessment). If there IS a POSSibility that E/E/PE technotcq ies might be used , the standard should be applied so that the funct ional safety requirements for any E/E/PE safety-related systems are determined in a methodical, risk-based manner. Other requirements of the standard are not solely specific to E/E/PE technology, including documentation, management of functional safety, functional safety assessment and competence . All requ irements that are not technology-specific might usefully be applied to other safety-related systems although these systems are not within the scope of the standard . The following are examples of E/E/PE safety-related systems : � � � � � � � � � � � emergency shut-down system in a hazardous chemical process plant ; crane safe load indicator; railway signalling system; guard interlocking and emergency stopping systems for machinery; variable speed motor drive used to restrict speed as a means of protection ; system for interlocking and controlling the exposure dose of a medical radiotherapy mach ine; dynamic positioning (control of a ship's movement when in proximity to an offshore installation ); f1y-by-wire operation of aircraft flight control surfaces; automobile indicator lights, anti-lock braking and engine-management systems ; remote monitoring, operation or programming of a network-enabled process plant; an information-based decision support tool where erroneous results affect safety.
+
+An E/E/PE safety-related system covers all parts of the system that are necessary to carry out the safety function (i.e . from sensor, through control logic and communication systems , to final actuator, including any critical actions of a human operator). Since the definition of E/E/PE safety-related system is derived from the definition of safety, it also concerns freedom from unacceptable risk of both physical injury and damage to the health of people. The harm can arise indirectly as a result of damage to property or the environment. However, some systems will be designed primarily to protect against failures with serious economic implications. IEC 61508 can be used to develop any E/E/PE system that has critical functions, such as the protection of equipment or products .
+
+4.3
+
+Technical approach
+
+IEC 61508 � � uses a risk based approach to determine the safety integrity requirements of E/E/PE safety-related systems, and includes a number of examples of how this can be done ; uses an overall safety lifecycle model as the technical framework for the activities necessary for ensuring functional safety is achieved by the E/EIPE safety-related systems;
+
+5
+
+ISIIEC 61508-0: 2005
+� covers all safety lifecycle act ivities from initial concept, through hazard analys is and risk assessment, development of the safety requirements, specification, design and implementation, operation and maintenance, and modification, to final decommissioning and/or disposal; encompasses system aspects (comprising all the subsystems carrying out the safety functions, including hardware and software) and failure mechanisms (random hardware and systematic); contains both requirements for preventing failures (avoiding the introduction of faults) and requirements for controlling failures (ensuring safety even when faults are present); specifies the techniques and measures that are necessary to achieve the required safety integrity.
+
+�
+
+� �
+
+4.4
+
+Safety integrity levels
+
+IEC 61508 specifies 4 levels of safety performance for a safety function . These are called safety integrity levels. Safety integrity level 1 (SiL1) is the lowest level of safety int egrity and safety integrity level 4 (SIL4) is the highest level. The standard details the requ irements necessary to achieve each safety integrity level. These requ irements are more rigorous at higher levels of safety integrity in order to achieve the required low er likelihood of dangerous failure . An ElE/PE safety-related system will usually implement more than one safety function . If the safety integrity requirements for these safety functions differ, unless there is sufficient independence of implementation between them, the requirements appl icable to the highest relevant safety integrity level shall apply to the entire E/E/PE safety-related system. If a single E/E/PE system is capable of providing all the required safety functions, and the requ ired safety int egrity is less than that spec ified for SIL1, .then IEC 61508 does not apply.
+
+4.5
+
+Example of functional safety revisited
+
+The safety function requirements and the safety integrity requirements constitute the funct ional safety requirements specification. These requirements must be fully determined before designing the E/E/PE safety-related system. In the example described in Clause 3, the functional safety requirements for the spec ific hazardous event could be stated as follows. When the hinged cover is lifted by 5 mm or more, the motor shall be de-energised and the brake activated so that the blade is stopped within 1 s. The safety integrity level of this safety function shall be SIL2 . The funct ional safety requirements spec ification concerns behaviour of the safety-related system as a whole, with in a particular environment. In th is example, the E/E/PE safety-related system includes the guard interlock switch, the electrical circuit, contactors, the motor and the brake .
+
+6
+
+ISilEe 61508-0: 2005
+4.6 Parts framework of lEe 61508
+
+IEC 61508 consists of the following parts, under the general title Functional safety of electrical/electronic/programmable electronic safety-related systems : Part 0 : Part 1: Part 2: Part 3: Part 4: Part 5: Part 6: Part 7: Functional safety and IEC 61508 General requirements Requirements for electrical/electroniclprogrammable electronic safety-related systems Software requirements Definitions and abbreviat ions Examples of methods for the determination of safety integrity levels Guidelines on the application of IEC 61508-2 and IEC 61508-3 Overview of measures and techniques
+
+A requirements map is shown in Figure 1.
+
+7
+
+ISIIEC 61508-0 : 2005
+." �b�.� � .�v.o
+~~
+
+PART 1
+
+requirement
+�� �� VV '.v ............ ;.
+
+Development of the overall safety requ irements (concept, scope definition, hazard and risk analysis) (EJElPE safety-relatedsystems, other ---1 PART 5 ~'technology safety-related systems and Risk based approaches external risk reduction facilities) to the development of 7.1 to 7.5 the safety integrity requirements
+
+-
+
+T
+
+Ii.
+
+PART 1
+
+<
+
+Allocation of the safety reqUirements to the E/E/PE safety-related systems
+.' y '"
+
+7.6
+
+J PART 71l.....Overview of techniques and measures
+
+Definitions and abbreviations
+
+r-Realisation phase for EJEJPE safetyrelated systems
+
+PART6t-
+
+~
+
+_JPART2 l
+
+~
+
+Realisation phase for safety-related software
+
+Guidelines for the application of parts 2and3
+
+-
+
+Documentation
+
+Clause 5 and annex A
+
+.-J PART 3 --r.
+Management of functional safety
+
+.
+
+.
+
+PART 1
+Installation and commissioning and safety validation of E/E/PE safety-related systems
+7.13 lind 7.14
+
+Clause 6
+
+Functional safety assessment
+
+'Clause 8
+
+PART1r.
+Operation and maintenance, modification and retrofit, decommislonlng or disposal of E/EiPE safety-related systems
+
+7.15 to 7.17
+
+Figure 1 - Requ irements map for parts 1 to 7 of lEe 61508
+
+8
+
+I8nEC 61508-0: 2005
+4.7 IEC 61508 as a basis for other standards
+
+Standards writers need to address functional safety in their safety standard if the hazard analys is carr ied out by a Techn ical Comm ittee identifies that this is necessary to adequately protect aga inst a significant hazard or hazardous event. Parts 1, 2, 3 and 4 of IEC 61508 are fEG basic safety publications . One of the responsibilities of IEC Technical Comm ittees is, wherever practicable , to make use of these parts of IEC 61508 in the preparation of the ir own sector or product standards that have E/E/PE safety-related systems within their scope . For more details see fEG Guide 104 and ISO/fEG Guide 51 . IEC 61508 is the bas is for published seetor standards (e.g . process sector) . It is also currently being used as a basis for developing other sector standards and product standards. It is therefore influencing the development of E/E/PE safety-related systems and products across all sectors. Sector spec ific standards based on IEC 61508 : � � � � � � are aimed at system designers, system integrators and users ; take account of spec ific sector practice, which can allow less complex requirements; use sector terminology to increase clarity ; may specify particular constraints appropriate for the sector; usually rely on the requ irements of IEC 61508 for detailed des ign of SUbsystems; may allow end users to achieve functional safety without having to cons ider IEC 61508 themselves .
+
+The basic safety publication status of IEC 61508 described above does not apply for low complexity E/E/PE safety-related systems (see 4.2 of IEC 61508-1). These are EfE/PE safetyrelated systems in which the failure modes of each ind ividual component are well-defined and the behaviour of the system under fault conditions can be completely determined. An example is a system comprising one or more limit switches, operating one or more contactors to deenergize an electric motor, possibly via interposing electromechanical relays .
+
+4.8
+
+lEC 61508 as a stand-alone standard
+
+All parts of IEC 61508 can be used directly by industry as "stand-alone" publications. This includes use of the standard: � � � � as a set of general requ irements for E/E/PE safety-related systems where no application sector or product standards exist or where they are not appropriate; by suppliers of E/E/PE components and subsystems for use in all sectors (e.g . hardware and software of sensors, smart actuators , programmable controllers, data communication); by system builders to meet user specifications for E/E/PE safety-related systems ; by users to specify requirements in terms of the safety functions to be performed together with the performance requirements of those safety functions;
+
+9
+
+ISIIEC 61508-0: 2005
+� � � to facilitate the maintenance of the "as designed" safety integrity of E/E/PE safety-related systems : to provide the techn ical framework for conformity assessment and cert if ication serv ices ; as a bas is for carrying out assessments of safety lifecycle activities. Further information
+
+4.9
+
+Further informati on on IEC 61508 and functional safety, including an extensive set of frequently asked questions (see Annex A), can be found in the "functi onal safety" zone of the IEC web site (http ://www.iec.ch/functionalsafety). If you have a copy of the standard but are not familiar with its contents, you may find it helpful to read the following sections first: � � Annex A of IEC 61508-5, which introduces risk concepts and safety integrity. Figure 2 and Table 1 of IEC 61508-1, which illustrate the overall safety life cycle and list the objectives of each Iifecycle phase. The Iifecycle and phase objectives provide a key to understanding the requirements of Clause 7 of IEC 61508-1. Clauses 6 and 8 of IEC 61508-1 , which conta in requirements relating to management of funct ional safety and functional safety assessment. Annex A of IEC 61508-6 , which gives an eight-page overview of the requ irements in IEC 61508-2 and IEC 61508-3. Figure 2 and Table 1 of IEC 61508-2 and Figure 3 and Table 1 of IEC 61508-3 , which provide a key to understanding the requirements of Clause 7 of IEC 61508-2 and IEC 61508-3 respectively.
+
+� � �
+
+Any particular requirement of IEC 61508 should be considered in the context of its Iifecycle phase (where applicab le) and the stated objectives for the requirements of that phase , clause or subclause. The objectives are always stated immediately before the requirements .
+
+10
+
+ISIIEC 61508-0: 2005
+Annex A (informative) List of frequently asked questions from lEe "functional safety" zone
+Table A.1 lists, frequently asked questions that are answered in the "functional safety" zone of the lEe web site (http ://www.iec.ch/functionalsafety). Other questions may have been added since th is list was published .
+
+Table A.1 - List of frequently asked questions
+Section Scope Is IEC 61508 relevant to me? What systems does IEC 61508 cover? Give me some practical examples How does IEC 61058 apply where E/E/PE technology makes up only a small part of the safetyrelated system? How does IEC 61508 apply to systems whose function is to avoid damage to the environment or severe financial loss? What does IEC 61508 consist of? Can I get hold of the standa rd for free, for example by downloading from the Internet? Now I've obta ined a copy of the standard , how do I go about read ing it? Position in international standards framework How will the standard be pUblished internationally? What is the international status of IEC 61508? How does IEC 61508 f it together with application sector standards? What is a basic safety pub lication? What application sector or subsystem standards based on IEC 61508 are there? How do safety integrity leve ls 1 to 4 in IEC 61508 convert or relate to the categories described in EN 954-1? Can I use IEC 61508 as a stand-alone standard? Will IEC 61508 be revised? Can I submit a comment for the revision process? Regional issues and technical interpretation How can I find information on IEC 61508 specific to my country? Is IEC 61508 also a European Standard? Is application of IEC 61508 compulsory under any IEC Directive? How can I request a technical interpretation for a particular subclause of the standard? How can I contact my national committee? Frequently asked questions
+
+11
+
+ISIIEC 61508-0: 2005
+Table A.1 (contin ued )
+Sec tion Complying w ith th e sta nda rd Frequently asked q uestion s Wh ich requi rements do I need to sati:;fy in order to cla im corr.ptiance wit h the st andar d? How doe s IEC 6 1508 app ly to low compl exity E/E /P E safety-related syst ems? How do the req u iremen ts of IE C 6 1508 ch an ge with respect to the sa fety integrity leve l of the safety func tion s allocated t o the E/E /PE safe ty-rela te d system ? Is it necessary to choose techniqu es and meas ures from those reco mmended in annexes A and B of IEC 61508-2 and IEC 61508-3 in order to comp ly with the standard ? I have con tractua l respons ibility fo r some (but not all) of the development phase s for an E/E /P E safety -related system . What informati on do I ne ed in do cumenta tion fro m other pa rtie s to enable me to comply w ith IEC 61508? Suppliers are quo ting that the ir products conform to IEC 61508 for a spe cific safety inte grity leve l. Does th is mean that us ing these products is suffic ient for me \0 comp ly w ith l EG 61508 ? I supply subsystems , such as sensors or actuators . that are inte nded for use in an E/E/P E safety -related system . What does lEG 61508 mean fo r me? Do I have to use third pa rty ce rtified components in order to comply w ith lEG 61508? Is there any cor relation between the level of independence required for functional saf ety assessment and the need for thi rd party certification? In what ways do I need to con sider the impa ct of huma n act ivit ies on the ope rat io n of an E/E/PE safety. related system ? Can an E/E/PE safety-related system co nta in hardwa re and /o r softwa re that was no t produ ced according to IEC 61508 . and still comply with the standard? Do control systems that place dem ands on a safety- rel ated sys tem have to be them selve s designated as safe ty -re lated systems? How do electromagnetic immunity limits depend on the safety integri ty leve l ? Key concepts What is fun ct iona l safety? What is a safety-rela ted syst em in the co nte xt of lE G 61508? What does E/E/PE mea n? What is a low complexity E/ E/PE safety-related system ? What is a safety integ rity level (SIL)? What does software safe ty integrity mea n in the c ont ext of safety in te grity be:ng defined as probabi lity of failure ? What is mea nt by a SIL system. subsystem or component ? What is functional safety assessment? What is a mo de of operation? What is the diffe rence between low demand mode of operation and high demand or co ntinuous mode of operation? Give me example architectures for the different modes of operation . Does the mode of operation a!Tect how the safety int egrity level is determined? What is the equ ipment under control (EUC)? Hazard and risk analysis Is IEC 61508 onl y concerned about ensu ring safety by imprOVing re liab il ity ? Does IEC 61508 cove r the elim inat ion of hazar ds at source ? Does IEC 61508 requ ire a quantitative risk ana lys is to be carried out in orde r t o d ete rmine safety int egrity levels ? What factors should I take into account whe n plan ning to use a risk graph meth od for determining safe ty integrity levels? How do I take account of hazar ds that are introduce d by the E/E/PE safe ty -related sys tem ?
+
+I
+
+MGIPF- 7!U Dqm . fo
+
+81~U
+
+10 2008-300 Books
+
+12
+
+Bureau of Indian Standards BIS is a statutory institution established under the Bureau of Indian Standards Act, 1986 to promote harmonious development of the activities of standardization, marking and quality certification of goods and attending to connected matters in the country. Copyright BIS has the copyright of all its publications. No part of these publications may be reproduced in any form without the prior permission in writing of 81S. This does not preclude the free use, in course of implementing the standard, of necessary details, such as symbols and sizes, type or grade designations. Enquiries relating to copyright be addressed to the Director (Publications), 81S. Review of Indian Standards Amendments are issued to standards as the need arises on the basis of comments. Standards are also reviewed periodically; a standard along with amendments is reaffirmed when such review indicates that no changes are needed; if the review indicates that changes are needed, it is taken up for revision. Users of Indian Standards should ascertain that they are in possession of the latest amendments or edition by referring to the latest issue of 'BIS Catalogue ' and 'Standards : Monthly Additions'. This Indian Standard has been developed from Doc: No. ETD 18 (5711). Amendments Issued Since Publication Amendment No. Date of Issue Text Affected
+
+BUREAU OF INDIAN STANDARDS
+Headquarters: Manak Bhavan, 9 8ahadur Shah Zafar Marg, New Delhi 110 002 Telephones: 2323 0131, 2323 3375, 23239402 Website: www.bis.org.in Regional Offices: Central : Manak Bhavan, 9 Bahadur Shah Zafar Marg NEW DELHI 110 002 Eastem: 1/14, C.LT. Scheme VII M, V.LP. Road, Kankurgachi KOLKATA 700 054 Telephones 23237617 { 23233841 23378499,23378561 { 2337 8626, 2337 9120 260 3843 { 2609285 22541216,22541442 { 22542519,22542315 2832 9295, 2832 7858 { 2832 7891, 2832 7892
+
+Northern: SCO 335-336, Sector 34-A, CHANDIGARH 160 022
+
+Southern: C.LT. Campus, IV Cross Road, CHENNAI600 113
+
+Western : Manakalaya, E9 MIDC, Marol, Andheri (East) MUMBAI 400 093
+
+Branches: AHMEDABAD. BANGALORE. BHOPAL. BHUBANESHWAR. COIMBATORE. FARIDABAD. GHAZIABAD. GUWAHATL HYDERABAD. JAIPUR. KANPUR. LUCKNOW. NAGPUR. PARWANOO. PATNA. PUNE. RAJKOT. THIRUVANANTHAPURAM. VISAKHAPATNAM .
+Printed by the Mana ger . Govt. o f India Press, Farid abad
+
+

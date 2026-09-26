@@ -1,0 +1,4373 @@
+IS/lEe 62264-2 : 2004
+
+\3�:Pi-Ali~OI ~ xiElc~
+1{f112~ ~
+
+WI
+
+Indian Standard ENTERPRISE-CONTROL SYSTEM INTEGRATION
+PART 2 OBJECT MODEL ATTRIBUTES
+
+ICS 25.040; 35.240.50
+
+C BIS2008
+
+BUREAU OF INDIAN STANDARDS
+MANAK BHAVAN. 9 BAHADUR SHAH ZAFAR MARG NEW DELHI 110002
+
+July 2008
+
+PrIce Group 18
+
+Industrial Process Measurement and Control Sectional Committee. ETD 18
+
+NATIONAL FOREWORD This Indian Standard (Part 2) which is identical with IEC 62264-2 : 2004 'Enterprise-control system integration - Part 2: Object model attributes' issued by the International Electrotechnical Commission (IEC) was adopted by the Bureau of Indian Standards on the recommendation of the Industrial Process Measurement and Control Sectional Committee and approval of the Electrotechnical Division Council. The text of IEC Standard has been approved as suitable for publication as an Indian Standard without deviations. Certain conventions are, however, not identical to those used in Indian Standards. Attention is particularly drawn to the following: a) Wherever the words 'International Standard' appear, referring to this standard, they should be read as 'Indian Standard'. b) Comma (,) has been used as a decimal marker while in Indian Standards, the current practice is to use a point (.) as the decimal marker. The technical committee has reviewed the provisions of the following International Standards referred in this adopted standard and has decided that they are acceptable for use in conjunction with this standard:
+
+International Standard
+IEC 62264-1 : 2003 ISO 10303-1: 1994 ISO 15704 : 2000
+
+Title
+Enterprise-control system integration Part 1 : Medels and terminology Industrial automation systems and integration - Product data representation and exchange - Part 1: Overview and fundamental principles Industrial automation systems architectures and methodologies Requirements for enterprise-reference
+
+For the purpose of deciding whether a particular requirement of this standard is complied with, the final value, observed or calculated. expressing the result of a test, shall be rounded off in accordance with IS 2: 1960 'Rules for rounding off numericaJ values (revised)'. The number of significant places retained in the rounded off value should be the same as that of the specified value in this standard .
+
+ISIIEC 62264-2: 2004
+
+Indian Standard
+
+ENTERPRISE-CONTROL SYSTEM INTEGRATION
+PART 2 OBJECT MODEL ATTRIBUTES 1 Scope
+Tru s pa rt of IEC 6 22 64 . In c o nju nc tio n with IEC 622 64 - 1. spec if ies ge ne riC Interfa ce c ontent between manufa cturing co nt r ol fu nct io ns and oth er en te rp rise func tio n s The Inte rfa ces co ns id er e d are the in terf ac es b etween Level s 3 and 4 of th e hierarchica l model defined In IEC 62264 -1 The goa l is to redu ce the fisk . cost. and errors associated with Implemen ting these Int erfaces Sin ce IEC 62264 covers many domains . and there are many different standards domains . the semantics of th is Standard are described at a level Intended to enable standards to be mapped to these semantics. To this end . trus Standard defines generic interfaces content elements . together with a mechanism for extending those for im p le m e ntat io ns In those the oth er a set of elements
+
+Th e sc op e of th is part o f IEC 62264 is hrnited to the definition of attrrbutes of the IEC 62264-1 object mode ls Th is part of IEC 62264 does not define attributes to represen t the ob ject relationships defined in IEC 62264-1 .
+
+2 Normative references
+The following referen ced documents are indispensable for the application of trus document . For dated re feren c es . only the edition cited applies For undated references . the latest edmon of the referen ced document (Includ ing any amendments ) applies
+
+IE C 6 226 4- 1. Enterprise -Controt System lnteqret ion - Part 1.' Models and terminology
+
+ISO 10 303 -1 .1994 . Industrial automation systems and Integration - Product data representauon and ex chang e - Part t . Ove rview and fundamental pnnctptes ISO 15704 :2000. Industrial automation systems architectures and methodologie s
+Reouirernents for enterorise - reference
+
+3 Terms and definitions
+For the purpose of th is documen t. the terms and definitions g iven in IEC 62264 -1 as well as the following app ly
+
+3 .1
+event representation of a sol icited or unsolicited fact Ind ic a ti ng a state change in the enterprise
+
+ISIIEC 6226+2: 2004 3.2
+product . the desired output or by-product of the processes of an enterprise
+NOTE 1 NOTE 2 A product may be an intermediate product or end product from a business perspect ive . Also def ined in ISO 10303 -1 as: 'a substance produced by a natural or art ific ial process '.
+
+3.3
+property . object denoting an implementation specific characteristic of an entity
+
+4 Object model attributes
+
+".1
+
+General
+
+This clause describes the attributes associated with the objects listed in IEC 62264-1. Tables 3 to 88 in Clause 4 define the attributes of objects defined in IEC 62264-1 , Clause 7. The attributes are an extension to the object information model presented in IEC 62264-1 and are thus a part of the definition of terms . The attributes of this part of IEC 62264 and the object models of IEC 62264 -1 def ine interface content for integration of Level 3 and Level 4 enterprise-control systems. See also IEC 62264-1 , Clause 7.4. In this part of IEC 62264, the word "Class" used as part of an object definition name is to be considered as a category . not as a "Class" in the object-oriented sense .
+EXAMPLE 'Personnel class" is to be considered a "personnel category". in the sense of distinguishing between the kindS of personnel in the rea l world ,
+
+A minimum set of industry-independent information has been defined, in this part of IEC 62264. as attributes . However, values for all attributes may not be required depending on the actual usage of the models. If add itional information . including industry- and applicationspecific information. is needed. it shall be represented as property objects . This mechanism is the extension capability referenced in Clause 1. This solution increases the usability through the use of standard attributes. and allows flexibility and extensibility through the use of properties . This was done to make the standard as widely applicable as possible .
+
+" .2 Attribute extensibility
+For particular applications . the objects defined in the object models will need to be extended through the addition of attributes to object class definitions. Accordingly. this part of IEC 62264 provides for attributes that are application or industry specific. to be modeled in terms of properties and represented in property classes in the model. For example , the personne l class property would be used to define application or industry specific attributes for personnel classes . and person property would be used to contain instance values for the propert ies
+
+".3 Object model structure
+The object models are depicted using the Unified Modelling Language (UML) notational methodology Table 1 defines the UML notations used in the object diagrams .
+
+ISIIEC 62264-2 : 2004
+Tab le 1 - UML notation used
+Symbol D.fln ltlon Defines a pa ck aqe . a c o ll ec tio n of o b je c t mooers s ta te mocets . us e cl a s se s . ana other U M L m ooe rs In th iS doc urn ent a pack age IS us ee 10 spe c n y an external m ocet . such as a produc tion rul e moce i or a re fe re nce to an o the r pa rt of th e model
+
+~",k�g�l
+
+c=J
+Ro le
+
+D e fin es a c las s of obje c ts . e a c n With Ihe sa me t ypes 01 at tr ibute s Eac h o b jec t rs un iq u ely Id entifi a ble or en um er a bl e No opera uo n s or m"lhoa s ar e t.ste o fo r th e cl as se s A tt nbutes With a � - . oetore th e" na me in d icate att nbute s tna t are ge ne ra ll y o ononai In an y u se of th e clas s A n as so c.ano n bet w ee n e le me nts o f a cl a s s and ele m e nt s o f an o the r or the sa me cl a s s E ach assocrano n IS Id e ntifi e d Ma y hav e the e xpe cte a num b er or r a ng e of m em be r s of the subclass . when ' " indi cat e s a n rn det e rrmnate n um be r For exa mp le . 0 ." m e a ns that ze ro or mo re mem be r s of th e subc lass ma y e xis t . Ge nera nza no n (a rr o w po in ts to the super cl a ss) sh ows that an ele me nt of the c las s IS a spe cranzec t ype o f the super cl as s
+
+,,
+Ass oc ,allO~ name Role
+
+o
+
+n
+
+Is a ttpe of
+
+~
+I
+I
+
+--------on ---:>
+Depends Is an agg rega tion
+
+Depend en ce IS a weak a ssoc. anon that shows tha t a m ode ll ing ete rnent d ep e nd s on another model ling element The Ite m at rne ta ll de pen ds o n the it em at the head of the rela nonsrup Aggrega tion (m ade up of ) shows that an e lement o f the class IS made up of e lements o f other classes
+
+00
+
+Is a compos ite O f .
+
+Co mp o sit e shows a strong fo rm of a99re9allo n . wh ich re qu"e s that a parl in st ance be Included In at most one compos ite at a t ime and that the compo site ob je ct has sole responSib ility for dlspoSlllon o f Its parts
+
+4.4
+
+Explanation of tables
+
+4.4.1 Tables of attributes
+This subclause gives the meaning of the attrrbute tables . This includes a listing of the object identifi cation . data types . and presentation of the examples in the tab les
+
+4.4.2 Object identification
+Many ob jects in the inform ation model require unique ident ifications (IDs ) These IDs shall be unique within the scope of the exchanged information . Th is may require translations : from the internal 10 of the source system to the interf ace content 10: from the interface content 10 to the internal 10 of the target system .
+EXAMPLE A Uni t may be id e n tifi ed as "X6 77r In the Int erf ac e co ntent. as res ource "R1000 1'� In the b us mess system. and as "East S ide Reactor � In the control system .
+
+A unique identification set shall be agreed to in order to exchange inform ation The object IDs are used only to identif y objects within related exchanged inform ati on sets The object 10 attributes are not global object IDs or database index att ributes .
+
+3
+
+ISI1EC 62264-2: 2004
+Generally, objects that are elements of aggregations , and are not referenced elsewhere in the model , do not require unique IDs.
+
+4.4.3 Data types
+The attributes presented are abstract representations , without any specific data type specified . A specific implementation will show how the information IS represented . Example 1 Example 2 Example 3 An attribute may be represented as a string in one implementation and as a numeric value in another implementation. A date/time value may be represented in ISO standard implementation and in Jul ian calendar format in another. format in one
+
+A relationship may be represented by two fields (type and key) in database tables or by a specific tag in XML.
+
+4.4 .4 Presentation of examples
+Examples are included with each attribute given . Where multiple examples are used , there are multiple rows in the right hand column. See Table Table 2 below for how the example rows and columns are used .
+
+Table 2 - Example table
+Attribute name Name of first attnbute Description Des cription of fi rst allribute Examples E xamp le #1 for first attribute Example #2 for firs t attribute Example #3 for first attribute Name of second attnbute Desc ription of second at tribute Examp le #1 for second attribute Example #2 for second attribute Example #3 for second attribute Name 01 th ird att ribute Description of th ird attribute E xa mp le # 1 for th ird attribute Example #2 for third allribute E xample #3 for th ird attribute
+
+When an example value is a set of values , or a member of a set of values , the set of values is given within a set of braces ,
+
+n.
+
+The examples are purely fictional. They are provided to further describe attributes in the model. No attempt was made to make the examples complete or representative of any manufacturing enterprise .
+
+4 .4.5 Data relationships
+The models used to document a reference to a resource. in another package. us ing the class or instance. with additional optional specification using properties , are not fully illustrated in the lEe 62264-1 Object model figures . This relationship does not conform to the Unified Modeling Language (UML ) modeling methodology. but was done to keep the diagrams simpler Figure 1 Illustrates how it is currently presented . on the left side , and how it could be more accurately modeled in UML on the right side . UML was used in this standard as a Visualization method and not meant to describe implementations. The simplified relationship diagram method is used for the follOWing objects and their rela tionsh ip to another package :
+
+4
+
+ISIIEC 62264-2: 2004
+Personnel capability Material capability Equ ipment segment capab ility Personnel segment spec ification Ma te rial segment spec if ication Equipment specifica tion Pe rsonnel requirement Material produced requirement Consumable expected Equipment actual Material consumed actual Equipment capab ility Per sonnel segme nt capabi li ty Mat er ial se gment capabilit y Equipment segmen t specifi cat ion Perso nnel specifica tion Material specificat ion Equ ipment requ irement Mate rial cons um ed requ iremen t Personnel actual Material produced actual Co nsumable actual
+
+Res ource
+capabi lity
+
+Resource capabt illy
+
+P d j s
+
+1!:
+
+�
+o�
+
+Resource capability
+property
+
+t.
+O �
+
+t
+~
+<, '
+
+H ! .l
+~
+
+~
+
+.
+
+--_._ . . No te Th e corr espond ence
+re tat ion s h iD IS
+
+t,
+Resource capablilly property
+
+(A
+'. '
+
+-
+
+,i
+o 2..
+
+o " : COfTespot'ld s
+: lo e6eme nt ."
+
+o,
+R 6 $Ou rr;e clIfe90 ry deflnil ion
+
+(~-
+
+~ .9
+
+nc:
+.
+
+-
+
+defmedthrough o ne and onl y one of four reranoos h ip s A A and S. C or C and 0
+�� _0 _ _ . _.
+
+l?)
+o,
+0""'"'
+(j �
+
+, ,
+
+Q �
+
+Re .\.OU rt: ~
+~fl n l h o n
+
+1 1
+
+b,
+
+Re source model
+
+Simplified relationship model
+
+Res ource
+ClII&goty
+property
+
+~"
+
+rl-2....2..1 ... _. _. __ .~ _
+
+l.
+Pe .~ ourc ft
+
+.....,. to
+
+D'Opert,
+
+Detailed relationship model
+Figure 1 - Detailed relationship models
+The correspondence relationsh ip is determ ined through one and only one of four possible relationships : to the resource catagory definition ; to the resource catagory detirut ion and resource catagory property; to the resource defin it ion ; or to the resource defin it ion and resource property. In the model above . the term resource catagory ind icates : personnel class , equipment class. material class . and material definitions . The te rm resource ind icates : person , equ ipment. material lot . and material sublot. The term resource capab ility ind icates the use in the capab ility model , the process segment capability model. the process segment model. the product defin ition model . the production schedule model , and the product ion performance model.
+
+5
+
+ISIIEC 62264-2: 2004
+4.5 Personnel 4.5.1 Personnel model The personnel model contains the information about specific personnel. classes of personnel. and qualifications of personnel. Figure 2 is a modified copy of Figure 14 in Part 1. This corresponds to a resource model for personnel , as given in ISO 15704.
+
+Personnel class
+
+a..n
+O.. n
+Def ined by
+
+Person
+
+~
+
+�
+~
+
+~
+
+�
+__ .!~~t.!.~~ of
+< Record S
+
+O.. n
+Personnel class property
+l .. n
+
+O.. n
+
+______~~e~!~ _____
+
+Person property
+
+O..n
+Qualification test specification
+
+the
+
+O.. n
+< Defines a procedure
+
+O.. n
+Is used to test>
+
+Qualification test result
+
+for how to tes
+
+Figure 2 - Personnel model 4.5.2 Personnel class Table 3 lists the attributes of personnel class. Table 3 - AUributes of personnel class
+Attribute name
+10
+
+Description
+1\ umque identification of a specific personnel class .
+
+Example Widget assembly operator
+
+These are not necessari ly job titles . but identi fy classes that are referenced in other parts of the model. Description I\ddltional information and desc ription about the personnel class . �General information about widget assembly operators ."
+
+6
+
+ISIIEC 62264�2 : 2004
+4.5.3 Personnel class property
+T a b le 4 lis ts th e a ttri b u te s of perso nne l c la s s prop erty
+
+Table 4 - Attributes of personnel c iass property
+Attribut e name Descrip tion example.
+
+1 0
+
+An rdennn canon o f tne spec -tre pro pe rl y i,.,I r'H Que u n c e r t hE:' scope o f the pare nt p et so nn et cl ass Ob jec t Fo r example . th e pro p e rty "ti e s cla s s 1 S a 'Pl y l 'a ''' ' '19 ( w it h va lue s of ye s or no ) ma y be de ll ned un de r se ve rat a ,f ter "n! pe rs o nnel c la ss detrmn o ns . such as tor � lilt ooe rs to t and p ip e inter c la sses . bu t h as a di ff erent IT'ea n ,ng for e a ch class
+
+C !a~~
+
+, c e r t tf , toO
+~~"ft
+
+N'gtlt
+
+'h d ,l" bl ..
+h (;u ' ~
+
+M o n t h l y f:: . pc~u ' e m a ornurr-
+
+De scripuon
+
+Acc rtrona t rntorma n on and cescnouo n ab o ut the per so nn el cl a s s property
+
+" l n d rc a te s the c e r t i fi c a t Ion
+
+l ~ ", t"' !
+
+L.t
+
+the o p erato r ' Ind lc ate s If o pe ra to r . 5 for night sh, ft .
+.1\ a " a b i..
+
+tnc .c at e s th e rr.a xrrnu rr- m on t h l, e xp o su re h o urs rn at c an be usee . V a lue Th e va lue . set 01 values . or range o f the p roperly Tru s presents a range o f poss ibl e n um e n c va lues . a I.s t of po ss ible val u es . or II ma y be err pt v If an y va lue rs va li d {True Fa lse } {Tru e Fa lse )
+
+;0
+
+20 J
+
+Va lu e un it o f mea sure
+
+The un it of measure of the assoc.are c p roperty values . If app li cab le
+
+Bo o lean Bo o lea n
+h
+
+4.5.4 Person A person is a repr ese nt ati on of a spec if ica lly ide nti fi ed indi vi dual. A person may be a member of zero or more personne l c lasse s Tab le 5 lists the attributes o f pe rson
+
+Table 5 - Attributes of person
+Attribute ".m. De.crlptlon
+
+E�� mple.
+
+10
+
+A unique Identification of a specifi c person . wlt h,n th e scope of the inform at ion ex change d (p ro d uc tio n c apability. production schedule . orooucuon performance . et c ) The 1 0 shall be used In other pa ns of the m od el whe n th e person needs to be Id e nti fi e d . SU Ch as the product io n capab ility for th is person . or a produc ti o n re sp onse Id e ntifyi n g the person
+
+99 9 � ' 23-4567
+Jan e W Sm ith - # 2 Emp loyee 23
+
+Oescriptoon
+
+Add itio na l mto rrn atro n about the resource
+
+"P ers on Inf o rm a loon � "Person ,n fo rm atI O"� � P erson .nfo rm ation�
+
+Name
+
+The name of the ind iVid ual. Th is 1 5 meant as an add ihonal 'denlJf'c ah o n of the re source . bu t on ly a s Informatoo n a nd not as a unique value
+
+Jo e S lT'lth III Jane Bu bba
+
+7
+
+ISIIEe 62264-2: 2004
+4.5 .5 Person property
+Table 6 lists the attributes of person property.
+
+Table 6 - Attributes of person property
+Attribute name
+1 0
+
+Description
+
+Examples
+
+An identi fi cati on of the specific property.
+
+Clas s 1 ce rt if ied E xposure hours ava ilable Pager numb er
+
+Des cri p tio n
+
+Add it ional in form ati on abo ut the p erson prop erty .
+
+"Indic a te s if the person is cl ass 1 certifi ed w idge t assembly ope ra tor" "Ind ic a tes number o f e xposure hours available this m o nth " "Pag er number"
+
+Val ue
+
+The va lue. set of values . or ran ge of the property . The value (s ) is as sumed to be with in the range or set of defined va lues for the re lated p ers onnel class property .
+
+True
+
+4
+800- 555 - 12 12 Boolean h Phone number
+
+Valu e un it of measure
+
+The un it of measure of the associated property value . i f app licable .
+
+4.5.6 Qualification test specification
+Table 7 lists the attributes of qualification test specification.
+
+Table 7 - Attributes of qualification test specification
+Attribute n.me Name Description Example
+
+An ,denllf,ca llon of a test for certifying one or more values for one o r more person properties . For example . this may be the name of a document that descnbes or defines the qua lification test .
+
+Class 1 widget assembly certification test
+
+Descnption
+
+Addlltonal informa ti on and descnption about the qua lification test specificat ion .
+
+"Identifies the test for class 1 widget assembly certification returns a true or false value for the class 1 Widget assembly certification property
+
+VerSion
+
+An Identi fi cati on of the ve rsion of the qualification test soecrncanon . In cases where there are multiple versions of a qualification test specification . then the vers ion atlribute shall contain the additional Identificati on i nf orm ati on to d ifferentiate each vers ion .
+
+V23
+
+8
+
+ISIIEC 62264-2
+4 .5 .7 Q ual ificat ion test result Ta ble 8 li sts th e a ttrib ut e s of que td sc suon te st resul t Table 8 - Attributes of qua lification test result
+Allr ib ute name Desc ription Exa mple
+
+2004
+
+ID
+
+A uniqu e In stance Icentof' c allo n tha t records th e res u lt s fro m t h e e xecuuo n of a lest Iden ti fied In a aoe ut.cs t.oo te st soecshc e tion for a su e c rtrc oe rson ( For exa mpl e th i s ma y Jus t be a n umbe r a s siq nec by the tes ting au tn o nt v I Add mona t in fo rm ation and c esc n pu on ab o u t th E'
+
+T5 56 8 7008 27
+
+Oe scnpnon
+
+oue t.t.ceu on les t results
+Da te Resu lt Resu lt unit of meas ur e E xp i rat ion The date and ti m e of t he q u a ut rc an o n tes t The result o f th e qu a l iftca uon tes t F or examp le pas s . fali The unit of m ea sur e of th e asso c ia t e d test re su lt If applicable The date of th e ex puan o n of th e qu a nt rcano n
+
+' R esul1 s from Jo e S wid ge t ass e m bl y Qualof.c at,o n test l o r O ctober 199 9 . 1999- 10-25 13 30 P ass {p a s s fali}
+
+2000- ' 0 - 25 13 30
+
+4 .6
+
+Equipment
+
+4 .6 .1 Equ ipment model The equ ipment model co nta in s the in fo rmat io n about specific equi pmen t. the cl ass e s of equ ipment . equ ipment ca pa bili ty tests . an d ma int enance mto rrna uo n associa ted With equ ipmen t. Th is corresponds to a reso ur ce mode l for equ ipment . as de uned In ISO 15704 :2000 . Figure 3 is a mod if ied copy of Figure 15 in Part 1.
+
+.: M a )" be m a n e u p
+
+(i f
+
+-r I~
+1 1
+
+a ga ' !"lSl
+
+0 "
+
+I
+Has
+
+6
+E QUip m e n t
+
+F
+t..
+r-, m ;;tC p
+
+M a in t en an c e re q ue st
+C
+n
+
+E QUipme n t cl as s
+
+C 0 n
+
+Mit ,. t ~ ~ iJ l
+
+"
+
+O e f lnf"O l1y .. ;
+
+t
+
+,
+
+r
+
+1
+
+Has p ro pe rtie s of>
+
+~~
+
+0
+
+M a intenan ce w orlo: or der
+1 1
+f \ f'
+t")f?
+
+�... aiu e s f or
+
+a ga in..,,' ..
+
+0 n E q ui pm en t cla s s pro perty
+1 n
+
+0 "
+
+0
+
+"
+
+tJ ::n
+
+1<:_
+
+-----------------
+
+M aps to
+
+E o ur pme n t
+
+Maint en an c e
+r e sp o n s e
+
+p rop erty
+0
+
+"
+
+-c K t' <:. 0 r dc,. 1"'H:-
+
+___!e_s~.~;_(\:..t_
+0
+for
+hO ~
+
+En urorne nt
+c apab i lit y l es t re s ult
+
+n
+
+< Def ine s a pr o ce d ur e
+
+I e test
+
+EQUip m e n t c ap abili ty te st spec inc ano r.
+
+0 "
+Is
+~s ed
+
+to re sr -"
+
+Figure 3 - Equ ipment model
+
+ISIIEC 62264-2: 2004
+4.6.2 Equipment class
+Table 9 lists the attributes of equipment class.
+
+Table 9 - Attributes of equipment class
+Attribute name ID Description WJ6672892 Example
+
+A unique identification of a specific equipment class, within the scope of the info rmati on exchanged (p rod uc ti on capabil it y. production schedule . production performa nce . etc .) The ID shall be used in other parts of the model when the equipment class needs to be identified . such as the production capability for this equ ipment class . or a production response identi fying the equ ipment class used .
+
+Description
+
+Add itional inform ation about the equipment class .
+
+�Jigs used to assemble widgets ."
+
+4.6.3 Equipment class property
+Table 10 lists the attributes of equipment class property.
+
+Table 10 - Attributes of equipment class property
+Attribute name Description Examples
+
+ID
+Descnpllon
+
+An Id entific ation of the spe cific property.
+
+Run rate Template size
+
+Additional information about the equipment class property.
+
+"Rang e of run rate for the widget machines : "Range of template sizes for Widget machines. "
+
+Value
+
+The value. set of values. or range of the property .
+
+{1..100} {10.20.30,40 .100 .200 .300}
+
+Value unit 01 measure
+
+The un it of measure of the associated property value . if applicable .
+
+W idgets/h cm
+
+10
+
+ISIIEC 62264-2 : 2004
+4.6 .4 Equ ipment
+T able 11 lists th e attribute s of e cuipment .
+
+Table 11 - Attributes of equ ipment
+Attribute name Description Example
+
+10
+
+A un ique rd entm can on 01 a spe c rn c piece o f equipm ent . w itrun the scope o f the mto rrna uon ex chan ged (p rOdu C/lOn ca pa bi lity . oro aucuon schedule . o ro a u cu on performan ce . etc .) The equ ip men t 10 sha ll b e used in other parts of the model when th e e qu ip me n t need s to be Id entl fre d . su c h a s th e production c ap ab il it y fo r a piece 01 equipment . or a p rod uc tio n response Id en tifying the e quip ment us ed
+
+Jig 347
+
+D e sc ript ion
+
+Add itional int orrnat ron ab o ut the equ ipm ent
+
+"Th IS 15 the east side . no rth b uildon g widge t Jig �
+
+4 .6 .5 Equipment p roperty
+Table 12 li sts th e a tt ributes of eq uip men t p rope rt y .
+
+Table 12 - Attributes of equipment property
+Attr ibute name Descript ion E xample.
+
+10
+
+An id en uu ca n on 01 th e spe crnc pro pe rt y
+
+E qulp m enl name R un rate Template s,ze
+
+D e scription
+
+A dd itro na t mtorrnano n about th e eq usp me nt property .
+
+' Loc al name tor the wldgel machine ' W 'dg et m ak ,ng ave ra ge run rate " "W ldge l JIg template siz e "
+
+V alue
+
+The val ue . set 01 v al u es . or range or the prope rly . The va rue ts ) IS a ssumed to be w,t h,n th e ra ng e o r set o t d ef ined va lues l or th e re lated e q ui p m en t p ro p e rt y
+
+B '9 B ertha
+
+59
+300
+[no: aopu c ab te] W ,cjgetslh
+
+Val ue urut o f m e asur e
+
+The un it 01 m ea su re 01 the a sso c.a te o propert y v alu e . II apploc able .
+
+em
+
+11
+
+ISIIEC 62264-2: 2004
+4.6.6 Equipment capability test specification
+Table 13 lists the attributes of equipment capability test specification.
+
+Table 13 - Attributes of equipment capability test specification
+Attribute name Name Description WAJTT-101 Example
+
+An identification of a test for certifying one or more values for one or more equ ipment properties. For example. this may be the name of a document that describes or defines the capability test.
+
+Description
+
+Add it ional information about the equipment capability test specification. An identification of the version of the capability test specification. In cases where there are multiple versions of an equipment capability test specification. then the version attribute shall contain the additiona l identification information to differentiate each version .
+
+-Widget assembly jig throughput test - returns the run rate for a specific machine1.0
+
+Version
+
+4.6.7 Equipment capability test result
+Table 14 lists the attributes of equipment capability test result.
+
+Table 14 - Attributes of equipment capability test result
+Attribute name
+10
+
+Description
+
+Example
+
+A uruque instance identification that records the results Irom the execution of a test identified in a capability test soecincsuon for a specrtic piece of eautpment. (For example. thrs may lust be a number ass igned by the testing autnonty.} Add ItIonal inform atio n about the equipment capability test result . The date and time of the capability test. The result of the capability test . The urut of measure of the assocrated test result. if applicable . The date of the expiration of the capability .
+
+FQ1 01/01-1 0-2000
+
+Oescnp non
+Date Resu lt Result UOIt of
+measure
+
+"Results from run rate test for JIG 237 for October 1999.1999-10-25 13 :30
+
+48
+Widgets/h 2000-10-2513:30
+
+E. plfall on
+
+12
+
+ISIIEC 62264-2 : 2004
+4 .6 .8 Ma intenance request
+Table 15 list s th e a ttrib utes of me inte ne nc e requ e st
+
+Table 15 - Attributes of maintenance request
+Attribute n am e Description Example
+
+10
+P rob le m R eq ues te d corn plet ron da te R eque ste d p riorit y Reques tor
+
+A unique Idenltfoe r o f a spe crn c ma ,nt e na ll c e re qu e st A c e sc n ou on of t he m aonten an ce Is su e D al e an d time the request expe c ted to be completed
+
+MR -10 01 029 928
+' Lrm rt SWitch XS101 fail ed O N PL C X24 rnpu t tor c eo 10 O FF
+
+IS
+
+20 00 -0 3- 30 1000 E S T
+
+The inttl a lly oe unec prooroty of th e ma lflt ena nc e request
+
+High
+
+A n id entific at io n of the pers on . sy ste m or e qu ip ment ma k in g th e m ainte nance requ e st T he sta tus of ma in t ena nc e req ues t For example submitted . den ied . closed . on work . In re view A n Id e ntific atio n of the person . sy stem . or e qu ip ment revie w ing th e maintenance request Date a nd lime o f m aint en ance re quest su brrus sro n
+
+10 11 2 36663
+
+St atus R e Vie we r
+
+Subm itted
+
+1011 236664 20 00 -0 3� 28 10 33 EST
+
+Su bmiss ron da te
+
+4.6.9 Maintenance work order
+
+Table 16 lists the attributes of ma intenance work o rde r
+Table 16 - Attributes of maintenance work order
+Attribute name Description Example
+
+10
+Planned start P lanned fintsh Responsible person Resou rces Status
+
+A uniq u e id e nune r of a specific ma in tena nc e wo rk or de r The plan ned start date and time for th e maintenance wo rk orde r . T he planned fl nt sh date and ti me fo r the main te nan c e wo rk order . Person o r tu ncn on re spo ns rble for wo rk or d er . or as siq ne o 10 wo rk . Lost of resources needed to perfor m I he wo rk Current st at us of th e wor k orde r . for ex a m pl e � ,n work ' . "n ot started '. and � a ssi g ne d� .
+
+WO - 1001029928 2000 -03 �29 1600 EST 200 0�0 3� 291 8 30 EST
+S ec o nd sh ift m ainten an ce cr ew {Duct ta pe . safel y gl a ss es . breathing a " } A SSig ne d
+
+13
+
+ISIIEC 62264-2: 2004
+4.6.10 Maintenance response
+Table 17 lists the attributes of ma intenance response .
+
+Table 17 - Attributes of maintenance response
+AttrIbute name
+10
+
+Description
+
+Examples
+
+A unique identifier of a response to a spec ific ma intenance worlc order.
+
+MR-1001029928�01 MR -100 1029928�02 MR -1 001 029928-03
+
+Cause
+
+The diagnosis of the fau lt or problem . or reason for maintenance worlc order.
+
+We t floor Bad duct tape Preventive ma intenance
+
+Correction
+
+The action taken to perform the work .
+
+"W et floor sign placed on wet area " "Duct tape rep laced " "F ilters replaced"
+
+Actual start time
+
+The actual start date and time for the work order.
+
+2000�03-29 16:00 EST 2000-03-29 16 :00 EST 2000�03-29 16 :00 EST
+
+Aclual finish time
+
+The actual finish dale and time for the work order. Empty if this is a status update response or work is incomplete.
+
+2000-03-31 18 :30 EST
+
+2000-03-31 18 :30 EST Stalus Status of the work order as of the current update period . "In process" "Suspended" "Completed ' SIal us tIme Time and date stamp for the maintenance response . 2000�03-30 18 :30 EST 2000�03 -30 18 :30 EST 2000�03�30 18 :30 EST ResponSible penon Person or function responsible for response . Second shift maintenance crew 999-12-3456 Bill
+
+14
+
+ISIIEe 62264-2 : 2004
+4.7 Material
+
+4.7 .1 Material model T he material model define s the ac tual m at e ria ls . material definitions . and information abou t cla ss es of ma terial de f in it ions Ma te ria l Information Inc ludes the Inventory o f raw . fini sh ed . and intermed iate mater ials . The curre n t ma terial Informat ion IS conta ined In the rnater ral lot and mater ia l sublo t in fo rmati o n Matena l classes are defined to organ ize materials This co rresp ond s to a resou rce mode l for ma teria l . as defined In ISO 10303 Figure 4 is a copy of Figure 16 in lEG 62264� 1. An add itiona l association QA test spec ificat ion and a ma te rial class property .
+IS
+
+shown between a
+
+Ma te ria l cl a s s
+
+Defines a gro upin g >
+
+0 n
+
+o
+
+n
+
+M at en a l defin itIon
+
+O. "
+1 1 < Defined
+
+,~o e up 0
+
+Ma te r Ia l l o t
+
+M. I~ r l. l
+
+V'
+
+0 n
+
+. ublot
+
+by H as p rope rt ies of>
+
+~~
+
+Has p rope ru e s of>
+
+~~
+
+He. va lues ' o r :>
+
+~~
+
+:
+I I I
+
+?
+I
+
+I
+
+0
+
+"
+
+o. "
+Mater, al c l ass pr operty
+1 .11
+<
+
+0
+
+n
+
+0
+
+"
+
+'______ --
+
+Me y b e m aOa up ot subro ts ,.
+
+feE_ ��_ �_ �Ma y
+ma p to
+
+Ma te na l
+d e f in it ion
+
+1<--_. _------
+
+Ma p. to
+
+MeltH IS l lot
+
+I I
+I I
+
+P ro pe rly
+1 n
+
+prope rt y
+
+I
+
+I, ��' O(. tal. d * tl h a
+
+I
+
+0 0
+
+n
+
+!<
+
+De fin e s a proce d ur e o n for ho..... 10 l est "'---'-c Defin es a pro c ed ure for how 10 te st
+
+Reco rd. th a __ _t.!'~~, ~ ~ _'?f_
+
+Q~I . .I
+
+QA te. 1 speCifiC. han
+
+n
+
+' . Iull
+
+o
+
+II uS.d 10 fe , 1 ,.
+
+n
+
+Figure" - Material model
+
+4.7 .2 Material class
+Table 18 lis ts the attributes of material class .
+
+Table 18 - Attribute. of material cia��
+Attribute name
+10
+
+Description
+
+Example
+
+A unique Idenli ficalion of a spec if ic meterie! class . within the scope of the info rm ali on e Xchanged tproaucuon capabilit y. p roduct io n schedule . production pertormsnce . etc .) The 10 sha ll be used in other parts of the model when the ma te rial clas s needs to be identified . suc h as the production capab,lity for trus material class . or a production re spo nse Identi fying the materia l class used .
+
+Po lyme r sheet s'ock 100 1...
+
+Descript ion
+
+Add itional in form ati on about the materia l clas s
+
+�Solld polymer res in "
+
+15
+
+ISIlEC 62264-2: 2004
+4.7 .3 ".terial class property
+1 able 19 lists the attributes of material class property. Table 19 - Attributes of material class property
+Attribute name
+10
+
+Description
+
+Example
+
+An identific ati on of a specific materia l class property . Add itional information about the material class property. The value . set ot values . or range of the property. The un it of measure of the associated property value . if appl icab le .
+
+Polyethylene sheets
+
+DescriptIon Value Value un it of measure
+
+"Sheet thlckness "
+{5 . 10 . 25} mm
+
+4.7.4 Material definition
+Table 20 lists the attributes of material definition . Table 20 - Attributes of material definition
+Attribute name
+10
+
+Description
+
+Example
+
+A unique identification of a specific material definition . with in the scope of the information exchanged (production capabilit y . production schedule . production performance .
+etc . )
+
+Sheet stock 1443a
+
+The 10 sha ll be used in othe r parts of the model when the meten et de fin it io n needs to be identi fied. such as the production capability fo r this material definition . or a production resp onse identifying the mat erial definition used . Description Add itional Informati on about the mate rial defin ition . ' G6nera l purpose sheet stock
+
+4.7.5 Material definition property
+Table 21 lists the attr ibutes of material definition property. Table 21 - Attributes of material definition property
+Attribute name ID Descri pti on Value Value Unit of measure Description Example
+
+An Identifi c ation of the spec ific material definit ion property. Addi llonal information about the materia l definit ion property. The value . set of values . or range of the property. Tile Unit of measure of the associated property value . if applicable.
+
+1443a5mm 5 mm sheet 5 mm
+
+16
+
+ISIIEC 62264-2
+4.7 .6 Materi al lot
+Ta ble 22 lists th e att ributes of me tor ie t to t
+
+2004
+
+Table 22 - Attributes of material lot
+A ttri but e nam e De5 c r ipt io n Examp le
+
+10
+
+A u ni que �ren un ca no n o f a spe c rt rc maun re t 1 0 1 'A 1trll f ; tr l t-' sco pe of t he .nrorrna u on e xc ha ng ed sti ro o u c u or. c ap ;, t>,ill . o roa u cuo n schedul e . proou cuo n oertomunu: v " Ie I Th e 10 sha l ' be use d In o the r pa rts o f t he m o d e ; " n t" - t h e mete net to t nee ds 10 be Id en ti fie d . su c n as the tnocuct -c � c ap a b Ility for thiS m e t e r ie t 101. or a tn o o uct i o n re soo ns c Iden ti f yll1g th e m e teri e ! 10/ u se d
+
+l.ct,/j8 �9 "
+
+D es c np t ro n S tat us
+
+Add rtro na l rn forrnatro n a b o u t th e m at er ia l lo t Stat u s o f t h e m eteriet 10 1 Fo r e xamp le . re le a se d . ap pr o ve d . broc x eo . in p rocess . 111 Qu a lit y c he ck .
+
+P :ds LFat ' 0 '3 1
+I f; pr o c e s s
+
+~ ~ : p r:� t~ r. :
+
+4.7 .7 Material lot property Table 2 3 lists the attri but es o f meteti e t tot p ropert y Table 23 - Attributes of material lot property
+Attr ibute name De 5c r iption Examp l ��
+
+10
+
+A n rde nnn ca non o f the sp ec rtrc me te ne t 10 1 prope rt y
+
+A ~e r a g e
+
+sh f!et
+
+th , c k n . � ~ s
+
+Deo suv
+
+Oes cnpnon
+
+A dd it iona l mtorma tro n ab out th e m e te ri et l o t pr OPlJrl y
+
+Mea sur e d
+
+t h l c~ n (! ~ s
+
+Me as ure d De n s it v V alue Th e va lue . s e t o f v alu es. o r ran ge a t the pr o pert v
+
+5 .002 345
+
+Va lue Uni t of mea sure
+
+The un it o f m easu r e o f the assoc ia te d prope rt y va l ue . If appli c able
+
+fT'm
+
+9" - "
+
+17
+
+ISI1EC 62264-2: 2004
+4.7 .8 Material sublot
+Table 24 lists the attr ibutes of material sublot.
+
+Table 24 - Attributes of material sub lot
+""rlbute
+nllme
+
+Description
+
+Examples
+
+10
+
+A unoque identificati on of a spec if ic meteris! sublot, within the scope of the info rmation exchanged (p roduction capability. production schedule . production performance etc . ) The 1 0 shall be us ed in other parts of the model when the
+
+1999- 10-2 7-a6 7-6 665 3
+
+metenet subtot needs to be identi fi ed . such as the
+production capabil ity for this materia l sub lot , or a production resp onse identi fyi ng th e material su blot used .
+
+Description Status Storage Locatio n Quan tit y Quantity UOIl at Meas ur e
+
+Additiona l information about the material sublot. Status of the curre nt ma ter ial sublot . For example . released . approved . blocked . in process , in quality check . An Identificat ion of the storage locati on of the materia l sub lo t. The qua ntit y of the material sub lot. The uni t of measure of the assoc iated quantit y, if app licable.
+
+Pallet 2 of 6 Re leased -W arehouse 1 Ra ck 12 Slot 4" 40 Sheets
+
+4.7 .9 QA test specification
+Table 25 lists the attributes of OA test specificat ion .
+
+Table 25 - Attributes of QA test specification
+"ttrlbute "lime
+Name Description Example
+
+An Iclentift catlon of a tes t for c e rtrtyi nq on e or more values lor one or mor e eq UIpment properties . Fo r example . trus may be the name of a document that descn bes or Io sts the cap abili ty test.
+
+STMT - 101
+
+Oescnonon
+
+Addi tiona l information about the OA Test Specification .
+
+"Sheet thickness measurement test - returns the average sheet thi ckness based on a samp le pla n and techn ique for a specific lot 1.0
+
+V ersion
+
+An Identl tlc all on of the vers ion of the QA test spe cifica fion. In c ases where there are mult ipl e vers ions of a QA test sne c.Ircauon . the n the versio n att ribute shall contai n the add it Iona l Identification Information to differentiate each
+ver sro n
+
+18
+
+ISIIEe 62264-2: 2004
+4.7.10 QA test result
+Table 26 lists the attributes of QA test result
+
+Table 26 - Attributes of QA test result
+Attribute name
+10
+
+Description
+
+e�� mple
+HiK10101�10�2000
+
+A unique Instance Identification that records the results from the execution of a test Identified In a OA rest soec.t.ceuon for a lot or sublot IFor example this may Just be a number assigned by the testing autnor.ty I Additional information about the OA Test Result The date of the QA test The value or list of values returned from the performance of the QA test For example. Pass. Fail. 95, Red Green The urnt of measure of the associated test result. If applicable The date of the expiration of the lest results
+
+Description Date Result Result unit of measure Expiration
+
+. Results from thickness test for Pias t.Fab lot on 199910�2S�
+
+1999 � 10�25 11 30
+Pass {Pass, Fall)
+
+2000-10-251330
+
+19
+
+ISIIEC 62264-2 : 2004
+4 .8 Process segment 4 .8 .1 Process segment model
+A process segment is a log ica l grouping of personnel res ourc es . eq uipm en t reso urc es, and material requ ired to carry out a produ ction step. A proces s segme nt de fin es t he needed classes of personnel . equipment. and ma ter ial . and /or it may defin e specific re so urc es . such as specif ic equ ipment needed . A process segmen t ma y defi ne th e q uanti t y of the resource needed . Figure 5 is a copy of Figure 17 in IEC 62264- 1. with a cl arifi cati on of the re lat ionship to the personnel . equipment. and ma ter ial models . and with an add itional ob ject to contain the process segment dependency .
+
+0. ",
+May be m ad e u p of
+
+I
+
+O..n O..n
+
+an exe cu ti o n d epend ency on
+
+-<::
+
+Pr o ce ss segme nt
+
+I
+
+r
+
+~�
+
+Is a coll ecti on of
+
+P roc e s s s egme nt depe ndency
+
+O.n
+Pe rso nn el seg m en t
+
+0 .."
+Equ ip me n t seg m ent spe cif icati on
+
+0 .."
+Maten al segm ent speci fication
+
+0 .."
+P ro ce ss segm ent para m e te r
+
+spe crncanon
+~~ Has propertie s of
+
+~�
+
+Ha s prop ertie s of
+
+~~
+
+Ha s prope rt ies of
+
+O.n
+Pe rsonnel segmenl sp ec lf ,calron pro p ert y
+
+0 .."
+qurpm ent segment spe crtrcauon prope rty O.
+
+0 .. /1
+Ma terial segm ent
+
+soe cincan on
+prop ert y
+
+o ": Co rr espond s : to elem e nt In ,
+I
+
+/I: Cor re spon d s
+: to ele men t in
+I
+I
+
+O n: Co rr e sp onds
+: 10 ele ment in
+I I I ~
+
+' 1 1
+
+"
+
+1
+
+1
+
+Pe rson ne l mod el
+
+Eq uip m en t m ode l
+
+Matenal mod el
+
+Figure 5 - Process segment model
+
+20
+
+IS/lEe 62264-2: 2004
+4.8.2 Process segment
+Table 27 lists the attributes of process segment. Table 27 - Attributes of process segment
+Attribute name ID Description A unique ident ification of a process segment, within the scope of the information exchanged (production capability, production schedule, production performance etc.) The ID shall be used in other parts of the model when the process segment needs to be identified, such as the production capability for this segment , or a production response identifying the segment. Description Additional information about the process segment. Examples Frame milling Top assembly Polish and paint
+
+"Frame milling operation, separately cos ted operation"
+..
+
+"Top assembly operation, separately costed operation " "Polish and paint operation " Location An identification of the associated element of the equipment hierarchy model. Optionally lists the scope of the process segment definition, such as the site or area it is defined for. Element Type A definition of the type of the associated element of the equipment hierarchy model. South shore production line East wing manufacturing line #2 East wing manufacturing line #3
+
+.
+Site Production line Production line uration Duration of process segment, if known. 252 0,85 Duration un it of measure The units of measure of the duration, if specified. min h Days
+
+4.8.3 Personnel segment specification
+Table 28 lists the attributes of personnel segment specification. Table 28 - Attributes of personnel segment specification
+Attribute name Personnel class Person Description Example
+
+.
+
+Identifies the associated personnel class or set of personnel classes of the specification for a specific process segment. Identifies the associated person or set of persons of the specification for a specific process segment. Contains additional information and descriptions of the personnel segment specification definition.
+
+Milling machine operator
+
+{999-55-1212 , 999-55-1234, 999-55-4567} "Li sts the time for journeyman milling machine operators for each widget frame milling process segment." 1,3 h/piece
+
+Description
+
+Quantity Quanti ty unit of measure
+
+Specifies the personnel resource required for the parent process segment, if applicable . The unit of measure of the associated quantity, if applicable.
+
+21
+
+ISIIEC 62264-2: 2004
+4.8.4 Personnel segment specification property
+Table 29 lists the attributes of personnel segment specification property.
+
+Table 29 - Attributes of personnel segment specification property
+Attribute name Property Name Oascnpnon Description Example
+
+An Identification of a property of the associated personnel segment specification . Contains additional Information and descriptions of the personnel segment specification property definition . The valu e. set of values . or range of the property. The Unit of measure of the assoc iated property value , if applicable . Specifies the personnel resource required for the parent process segment. if applicable . The unit of measure of the assoc iated quantity, if app licable .
+
+He ight "Lists the required minimum height of a m illing mach ine operator." 150 cm 1,3 h/piece
+
+Value Value u nit of measure Quantity Quanttty unit of meas ure
+
+4.8.5 Equipment segment specification
+Table 30 lists the attributes of equipment segment specification.
+
+Table 30 - Attributes of equipment segment specification
+Attribute name EqUipment cla ss Equipment DeSCriPt IOn Qu anti ty Quanllty urut
+0 1 measure
+
+Description
+
+Example
+
+lcennnes Ihe assoc iated equ ipment class or set of
+
+eauioment classes of the capab ility for a specific process
+segment
+Idenhfies the associated equ ipment or set of equipment of the capability for a specinc process segment. Contains add itional mformatlon and descriptions of the eauiomen: segment specittcetron definition . Spe crhas the amount of resource s requ ired for the parent pr ocess segment. It applicable . The urut of measure of the associated quantity. If applicable
+
+Mill ing machine
+
+{M ill 15 . M ill 16 . M ill 19} "Equip m ent needed for w idget m ill ing process segment " 1.3 Machine h/piece
+
+22
+
+ISIIEC 62264-2
+4 .8 .6 Equ ipment segment specificat ion property Table 3 1 li sts the att ributes of e ouioment segm ent soe cit.ceu on property Table 31 - Attr ibutes of equ ipment segment spec ification property
+Attribute name Pro p ert y name Descrip tion Eumpl.
+
+2004
+
+An Id entific at io n of a prop erty of the as so c ia ted eou .oment se gmenr ceo etutn � Conta ms ad d it io na l mto rrn auon and cescnpn ons of the eq uip m ent segmenr specif icat ion property delon illo n T h e valu e . set o f v alues . o r rang e 01 the p rope rt y F or exam ple : Vertic a l. H onz ont al. Th e Uni t o f m easure o f the a s so c iat ec pro p erty valu e . If ap pli cab le . S pecifi e s the a m ount of res o u rc es requ ire d for t h e pa re nt process segment . if app licable Th e unit of m ea sure o f the ass o c ra t ec q u an t ity . If app li cable
+
+M il li ng c .rect.on 'On l y ve rt ic a l mli iong m ac h onlf s a re suu ao te lo r w 'dge t m,l long V e rt ic al { v eru c a t. Hon zontal. U n Iversa l } 1.0 Mach ,n e n.prece
+
+Oe scn pno n
+V alue V a lue Unit of measu re Ouant it y Qu antity unit o f me as ur e
+
+4 .8 .7 Material segment specification Table 32 li sts the attributes of material segment specification . Table 32 - Attributes of material segment specification
+Attribute name M a tena l cl a s s Description Ell.mpl��
+
+ldenntres the assoc iate d m eterie t cla ss or set o f meterie t classes of the capa bili ty for a s pec .nc pr ocess se q me nt � Iden t lloe s t he as socrate c mate na l det iruuon or s et of msterist ae tm itions of the c a p a tnu ty fo r a spec in c proce ss se gm ent . " C on ta ins add rtio na l m torm a ti on a nd d es cnptlOns of the met enet se g ment spec strceuon de trruno n .
+
+Pol ym e r sheet st o c k 1001 A R ive t
+
+Ma ten a l de fini tion
+
+She et stock 14 43a R ivet � 10 00 2 ' l i s ts the polym er re qUir ed fo r a w.d ge t milling p r oc es s segment ' ' l ' st s the fl v et m at e rtal r eq Uir ed for a Widget m tlli n g proces s segm en t '
+
+Oescnp tron
+
+Ma te na l us e
+
+l ists the matena l use : m a ten al co n s um e d mate na l produ ced . or c o n s uma ble Spe c rhes t he amo u n t o f r e so ur c e s reqUI r ed lor the p arent process segment . If apptrc abl e . The unit o f m e as u re o f th e as so c ra reo pr ope rt y v alu e . It appli cable .
+
+Matenal c on su m ed Ma tena l con sum ed 0 .3 5
+
+Q u ant ity
+
+6
+Sh ee ts /p ie ce Num b er l p ,ece
+
+Qua nllt y un it of m ea s ur e
+
+. ' T yp Icall y e ither a ma te rial clas s o r mete rie l aettn ition IS spe Cified
+
+23
+
+ISIIEe 62264-2 : 2004
+4.8 .8 Material segment specification property
+Table 33 lists the attributes of material segment specification property .
+
+Table 33 - Attributes of material segment specification property
+Attribute name Property name Oescnpuon Value Value Unit of measure Quantity Quant ity unit of measure Description Example
+
+An Identification of a property of the associated matenal segment spect'tcetton . Contains addit ional mtormation and descriptions of the metertet segment specificatIOn property definition . The v al ue . set of values. or range of the property . The unit of measure of the associated property value . if app licable . Specifies the amount of resources required for the parent process segment . If appl icable . The Unit of measure of the associated property value . if appl icable .
+
+Average surface roughne ss "Lists the min imum polyethylene roughnes s Qual ity .'
+
+66. 748
+Angstroms
+
+0 .10
+Sheets /piece
+
+4.8.9 Process segment parameter
+Table 34 lists the attributes of process segment parameter.
+
+Table 34 - Attributes of process segment parameter
+Attribute name Name Oescnpuon Val ue Unit 01 measure Description Example
+
+Name of the process segment parameter for a specific process segment. Contains add itional information of the process segment parameter The value . set of values . or range of acceptable values . Un it of measure of the values . If applicable.
+
+Milling time "Ra nqe of acceptable mJlling times ."
+
+{5.. 10}
+min
+
+24
+
+ISIIEC 62264-2
+4.8.10 Process segment dependency
+
+2004
+
+Table 35 lists the attributes of process segment oeoenaenc y The process segment dependencies can be used to describe process deperidencre s that are Independent of any particular product
+EXAMPLE It may declare that an Inspection segment must 10110w an assembly segment
+
+Table 35 - Attributes of process segment dependency
+Attribute name
+De scnption
+
+Description
+
+Example
+
+Contains acou.ona: mtorrnauon and de scr.puons 01 the process segment dependency defmltlon for a specific process segment lists the execution dependency constraints of one segment by another segment. Examples of these constraints USing A and B to Identify the segments. or spe crfrc resources Within the segments and T to Identify the time Window Include B cannot follow A B may run In paraliel to A B may not run in parallel to A Start B at A start Start B after A start Start B after A end Start B no later than T (Time wmdowl after A start Start B no earlier than T (Time Window) after A start Start B no later than T i Time wmdow) after A end Start B no earlier than T (Time wmdow) after A end
+
+"Lists the tv(~erlng u1 as serr b.v processes for the Widget assembly process segment
+
+Dependency type
+
+Stan Cte snout no earl ier than T (Time vanoow: after Prooucr.o n end
+
+Time Window Time unit of measure
+
+Time Window used by dependency The units of measure of the lime Window. If specit.eo
+
+2~
+
+min
+
+25
+
+ISIIEC 62264-2: 2004
+4.9 Production capability 4 .9 .1 Production capability model
+Production capability information is the collection of information about all resources for production for selected times . This is made up of information about equipment. material, personnel. and process segments . Production capability describes the names , terms, statuses, and Quantit ies of which the manufacturing control system has knowledge . The production capability information contains the 'vocabulary' for capacity scheduling and ma intenance information . Production capab il ity is defined as a collection of pe rsonnel capabilities , equipment capabilit ies . material capabil ities . and process segment capab ilities . for a given segment of time (current or future), and defined as committed , ava ilable , and unattainable . Figure 6 is a copy of Figure 18 in Part 1, with a clarification of the relationship to the personnel. equipment . and material models .
+
+Production capability
+~ ~ Is a collection of
+
+1
+
+0 ..1/
+
+0 .. /1
+
+0 ..,
+
+0 .. 1/
+
+Personnel capability
+1
+
+Equipment capability
+
+Material capability properties
+
+Process segment capability
+
+~ ~ Has properties of
+0 .1/
+
+~
+
+~Has
+
+of
+0. 1/
+
+~
+
+.Has properties of
+0 .."
+
+Personnel capability property
+
+Equipment capability property
+
+Material capability property
+
+o ": Corresponds : to element In , ,
+'I 1
+
+o ": Corresponds
+: 10 element ,n , ,
+
+o. n : Corresponds
+: to element in
+
+'1 .1
+
+, ,
+
+'1 .. 1
+
+Personnel model
+
+Eq uipment model
+
+Material model
+
+Figure 6 - Production capability model
+
+26
+
+IS/lEe 62264-2
+4 .9 .2 Produ ct ion capab ility
+Ta b le 36 lis ts the at trib u tes of pro du ct i on capabili ty
+
+2004
+
+Tabe 36 - Attributes of product ion capability
+Att r ibute name Descr iption E k.mp le.
+
+10
+
+Gi ves a uni que Insta n ce of a prod u cti o n c ap abil l t~ fo r a spec rneo elem ent of the equ ip m e nt hiera r chy m ooer (lE e 62 2 64 -1 . Subc la use 5 2] le n te rp ll se s it e dl ea pr oce ss c ell. o roo uc tion line . o r proaucuon u nit ) Co ntains a o c i tio nat mt o rrn a non and d e s c r rpn ons o f th e pr od u ct ion c ap ab ility cenru no n
+
+199 9 12 30 � HP C 52 19 9 9
+1 2 3 0� H PC~2
+
+01
+
+1999 '1 2: 30 �H PC 52 0 1 0 2
+. O n e day 5 p ro c uc n on c a pa t, ..li t v f or t he Bo st o n W, dg .. t Co mpany .
+
+Descrip tion
+
+"O n e da y s p roo ucnon c a pabili t y to r the South S ho r e pro d uc tio n pl ant .
+' O n e d a ys produ ct io n c a p a bil it y fo r t he Eas t W lOg IT'an uta ct ur lng l in e ' C a pa crt y type The c ap ac it y t ype : A v artab l e . Una tta m a bre . or Comrrutt e d (S ee IE C 62264�1 . Sub c lause 7 6 6 fo r definit io ns )
+A va ua b te
+
+U na tta in ab le C omm itted
+
+R easo n
+
+G iv es t h e reason fo r th e c a pac rtv type For ex a m ple . If co m m itt ed . t he n committed for p roo uct ro n or f or m a intena n ce : or If u n av ailab le . th en the re a so n fo r t he un avail a bility .
+
+Available t or p ro d u ct io n D ue to po w e r out ag e A va uab te to r m amre na nc.. Bo s to n Wid ge t c om p.l n) S ou t h shore p ro du c t io n r, la n t Ea st wlOg m a nu t actUJl ng li n e ' 2
+Enterp rrse
+
+t.oca no n
+
+An Id e n t ific at io n o f th e a ssoci at ed e le me n t o f t he eq uip m e nt hie ra rc h y mod e l Ze ro o r m or e as re qu ired to .d enh fy t he spec rnc sco pe o f th e pr o d u cti o n c ap a b il it y defin ItIon .
+
+E lement t yp e
+
+A deflOlllon of the type of asso ciate d e le m e n t 0 1 t he e qu ip m ent h ie r a rch y m o d el
+
+Site P ro o uc no n li n "
+
+Start time
+
+T he s ta rt i ng d a te a nd nrn e of the time spa n de fin ing t he c ap abrhty ty p e .
+
+199 9� 12� 29 1 1 5 9 199 9� 12 �301159 1999�1 2 -31 1 1 59
+
+End time
+
+The endmq d a te and ti m e o f t he t ime sp an defin in g th e capabuit y typ e
+
+1999-12 � 30 12 0 0 1999�12 �31 1200 2 00 0 �0 1-0 1 12 00
+
+27
+
+ISI1EC 62264-2 : 2004
+4.9 .3 Personnel capability Table 37 li sts the attr ibu tes of person nel capability . Table 37 - Attributes of personnel capabil ity
+Attribute name Pers onne l class Pers on DesCription Description Examp le
+
+Identifi es the asso cia ted per son nel cl ass of the ca pab ili ty. Identi fi es th e associa te d pe rson of the capab ility . Co ntains add it iona l inf ormati on and des cr ip tio ns of the pe rso nne l capabilIty definition. . The capacity type : Ava ilable . Una tta inable. or Comm itted . Gi ves th e reason for th e capacity type . An Identific ati on of the assoc iated ele ment o f the equ ipment hierarchy model. If om itted . then the capability is associated 10 the parent production capabilit y locatio n. Ze ro or more as required to ide nti fy the specific scope of the production capabil ity def init ion .
+
+Widget assembly machine operator SSN 999-55-1212 -W idget machine operator availa bility ov er t he 2000 Ne w Year bo un da ry" A va ilable Avail able for pro du ctio n So uth sho re p roduc tio n plant
+
+Cap aci t y type Rea son location
+
+Ele m en t type Start lime
+
+A de finIt ion of the type of associ at ed element of the equ ipm ent hi erarchy mod el. The start ing time of th e tim e spa n defi nin g the capacity typ e . If om itted . then the capacity is associated to the parent protiuct io n capabil Ity start tim e.
+
+Site 1999- 12- 30 11:5 9
+
+End nrne
+
+The ending time of the time spa n defining th e capacity type . If ornnred . then the capacity is associa ted to the parent produc tion capability end time .
+
+20 00 -0 1-01 12 :0 0
+
+Quanllly Quanllt y Unit of measur e
+
+Spec ifies the quantity of the pe rsonnel capabil ity defined. if appl icable . The urut o f measure of the assoc iated quanti ty . if app licab le .
+
+48
+h
+
+Where ~ersons are members of multiple personnel classes . then the personnel capability informa tio n presented by personnel class should be used carefully becau se of possible double counts. and personnel resources should be managed at the instance level.
+
+28
+
+ISIIEe 62264-2
+4.9 .4 Personnel capabil ity property
+Ta ble 38 list s th e a tt ribute s of p e rsonne l ce p e tuti tv pr op ert y
+
+2004
+
+Table 38 - Attr ibutes of personnel capability property
+Attribute name
+P ro pe rl y name D e scn ploo n
+
+Descllption
+
+Ellampl��
+
+An Ide nlofocat lon of a pr op e rty of the ass oc ia ted l' e r ~ O nli e l c ap a bI lIty . Con ta ins add mona l .n to rrn auo n and c e scn ou ons of the p er sonne l c a p a bIlI ty prope rt y c etm .uon
+
+Oper at o r level P ackong m acrun e c eru t.e c "Le ve l of op e rato r celt ,f,c at,o n' "l eve l of pa ck ong mac run e op er ator ce rn n c aucn App rent ice Journe ym an
+
+Va lue
+
+The valu e , set of values . o r range of I he propert y
+
+Val ue unit of m e asu re Q uan tity
+
+The unit of m eas ur e o f the as soc ra tec property va lue . If app li cable Spe ci fie s the q uannt v of th e personnel c ao ao uuy detmed . ,f appli c able . The u rut o f measure o f the a ss o cra re c Quantit y
+
+{App ren t ic e. Journe yman . master }
+( A pp re ntrc e J ourn e yma n m a s ter}
+1 16
+
+Ou antit y u nit of me asu re
+
+Da ys h
+
+29
+
+ISIIEC 62264-2: 2004
+4.9.5 Equipment capability
+Table 39 lists the attr ibutes of equ ipment capab ility.
+
+Table 39 - Attributes of equipment capability
+Attribute name EQuipment class EQ'Jlpment Description W idget ji g W idget lathe Identifies the associated equ ipment of the capability . Reactor 101 Lathe machine 15 Descnpllon Contains add itional inform ati on and des cr iptions of the equipment capability definition . ' W idg e t jig co mmi tm e nt o ver the 2000 new year boundary " o ver th e ' W idge t lathe ava ilability .. 2000 new year boundary Capacity type The capacity type : Ava ilable . Unattainable , or Comm itted . Comm itted Unatta inable Reason Gives the reason for the capacity type. Ava ilable for product ion Due to Y2K noncompliance Location An Identification of the .rssociated element of the equ ipment hie rarchy model. If omitted . then the capab il ity is associated to the parent production capability location . Zero or more . as required to identify the specific scope of the production capability definition . Eleme nt type Start nrne A definition of the type of assoc iated element of the equipment hierarchy model. The starting time of the time span defining the capacity type . If omitted . then the capabil ity is associated to the parent production capability start time . End time The ending time of the time span defining the capacity type . If omitted . then the capability is associated to the parent production capability end time . Ouan toty Specrfre s the quantity of the equipment capability defined . i f applicable . The Unit of measure of the associated quantity . if app licable Site 1999-12�30 11 :59 1999-12�3011 :59 South shore p roduction plant Examples
+
+Identifies the associated equ ipment class of the capabil ity.
+
+2000-01-01 12 :00 2000-0 1-01 12 :00
+
+48
+2
+
+Ouantol y urut or measure
+
+h Days
+
+Where equspmen; are members of mult iple equipment classes. then the equipment capab ility information represented by equipment class should be used carefully because of possible double counts . and equipment resources should be managed at the instance level.
+
+30
+
+ISI1EC 62264-2: 2004
+4.9.6 Equipment capability property
+Table 40 lists the attributes of eouipment ceoetntny property
+
+Table 40 - Attributes of equipment capability property
+Attribute name
+Property name Description
+
+Description
+
+Example.
+
+An Identification of a property of the associated equipment capability Contains addillonal intormanon and descriptions of the equuiment ceoebitity property defiruuon
+
+Heating capability Volume "Measure 01 the heating capability' "Measure 01 the equipment volume "
+
+Value
+
+The value. set of values. or range of the property
+
+146 10 000
+
+Value unit of measure Quantity
+
+The unit of measure of the associated property value. II applicable . Specilies the quantity of the equipment capability dell ned If applicable. The unit of measure of the assoc-ated Quantity
+
+W
+
+I
+
+2 12
+Days h
+
+Quantity unit of measure
+
+31
+
+ISIIEC 62264-2: 2004
+4 .9.7 Material capability
+Table 41 lists the attributes of material capability.
+
+Table 41 - Attributes of material capability
+A"rlbute name
+Matenal class Description Examples
+
+Identifies the associated material class of the capability. ",
+
+Po lymer shee t stoc k 1001A Lubri cant oil
+
+Matenal definitIon Material lot
+
+Identifies the associated material definition of the capability.
+
+Sheet sto ck 1443a Lube Oil 8999 1443a 5m m 8999LU -5G
+
+"
+Identifies the associated matenal lot of the capability . � ,
+
+Material sublot Descripnon
+
+Identifies the associated material sublot of the capability ." ,
+
+1443a5mm-SL 1 8999LU-5G-SL 15
+
+Contains additional information and descriptions of the material capability definition.
+
+"Polymer sheet stock comm itment" "Lubric a nt oil commitment over the 2000 new year boundary"
+
+Capacity type
+
+The capacity type : Available . Unattainable. or Comm itted.
+
+Committed Committed
+
+Reason
+
+Gives the reason for the capacity type .
+
+Available for production Available for production
+
+Location
+
+An rdenuhcetion of the associated element of the equ ipment hierarchy mode l. If om itted . then the capabil ity is associated to the parent production capability location . Zero or more as requir ed to idenllfy the specific scope of the producllon capability definition .
+
+South shore production plant Production line 15
+
+Element type
+
+A definItion of the type of associated element of the equ Ipment hierarcny model . Lists the material use: material consumed , material produced. or consumable . The starting lime of the time span defining the capacity type If ormtted . then the capability is assocrated to the parent oro ouction capabIlity start nrne .
+
+Site Production line
+
+Matenal use
+
+Material consumed Material consumed
+
+Start lime
+
+1999-12-30 11 :59 1999-12-30 11 :5 9
+
+End t,me
+
+The end ing lime of the time span defining the capacity type. If omllted . then the capablltty is associated to the parent oroaucuon capabilIty end lime .
+
+2000-01-01 12 :00 2000-01-01 12 :00 2000 155
+
+Quantit y
+
+Spec ifies the quannty of the matenal capabil ity defined , if applicable . The un it of measure of the material quantity. if applicable .
+
+Qua nlity un it of mea sure
+
+Sheets
+
+I
+, . Typ ica ll y a matenal c lass . matenal definitIOn. material 101. or material sublot is specified.
+
+Where materials are members of multiple material classes, then the material capability Information presented by material class should be used carefully because of possible double counts. and material resources should be managed at the instance level.
+
+32
+
+ISIlEC 62264�2 : 2004
+4 .9 .8 Mater ial capab il ity property
+Tab le 42 lis ts the att ribu tes of me teri et ceoetutnv property
+
+Table 42 - Attributes of material capab ility property
+Attribute name P rope rt y na me D es cn pn on Descr ipt ion
+Eumpl ��
+
+A n Iden tification of a property of the a s soc iated m ale ri al capab ility . Contai ns a dd itio na l onform aloo n and c escnouons of the me tene t cap ablil l y p ropert y de fin ition
+
+Conc e nt ra tion pH "Co nc e nu auon o f a c to v eingr edient' � p H of act ive ingr ed Ient'
+
+Va lue
+
+Th e v a lu e . se t of v alu e s . o r ran g e o f the p ro p ert y
+
+50 6 .3
+
+Va lue unit of mea su re Qua ntit y
+
+The unit of measure of the assoc iated prope rt y value , If app lica ble . Spe cif ies th e Qua ntity o f the rna te na t c a pa bil it y de fined . If appli cable . The un it of measure of the ass ociated Quan tit y
+
+�'0
+
+pH
+
+55 2 56 7
+ml
+kl
+
+Qu anti t y unit o f m ea su re
+
+33
+
+ISIIEC 62264-2: 2004
+4.10 Process segment capab ility
+
+4.10 .1 Process segment capability model
+A pr oc e ss segmen t capab ility is a repr esen tati o n o f a log ica l group in g of personnel resources . equ ipment resources . and mate rial that is comm itted , ava ilable , or una va il ab le fo r a defin ed process segmen t for a specific time . Figure 7 is a copy of Figure 19 in lEe 62264 -1 , with a clarification of the relationship to process segments . and the personnel , eq u ipment. and materia l models .
+
+Process __~:>~.:~e~~~s_ ~o_ ~ segment capabi lity
+
+Proces s segme nt
+
+~�
+
+Is a collection of
+
+O.. n
+
+O..n
+
+O.. n
+
+Personne l segment capab ility
+~. Has properties
+
+Equipme nt segmen t capabil ity
+
+Material segmen t capabi lity
+
+of
+O..n
+
+~ � Has properties
+of
+0 ..11
+
+~ If Has properties
+of
+0 .. 11
+
+Personnel segment capab ility property O . " I, Corresponds : to element In
+I 1
+
+Equ ipment segmen t capabi lity prope rty 0..,,: Corresponds : to element in
+IL l
+I I
+
+Materia l segmen t capability property 0..,,: Corresponds : to element in
+I I
+I
+
+11 . 1
+
+1..1
+
+Personne l model
+
+Equ ipment mode l
+
+Materia l mode l
+
+Figure 7 - Process segment capab ility
+
+34
+
+ISIIEC 62264-2
+4.10.2 Process segment capab ility
+
+2004
+
+Table 4 3 lists the att ribu tes of process seg men t capability Pro ce ss seq men t c ap abtl,ty na s an eq utva lent s tr uct u re to the per son ne l. equip ment and mate ria l structure 01 p roo uc t.on ceoebiuty , except th e process seg men t cap a bi lity IS de f in ed fo r a sp ecrnc pr oc e s s se gm l>n t
+
+Table 43 - Attributes of process segment capab ility
+Att ri b u t e name Descr ip tion
+
+example
+
+1 0
+
+A un ique ,denl,f,er of the pr oce s s seg me nr c eo etu tuv wllh '" th e scope of the parent produ ct ion c apa bility Contain s ad d mo n a l intorrnau on a n d d e scn pn on s 01 the p roc ess segment capab il it y ce tm.uon lc e n ti fres the proce ss segment. Th e ca pac ity type A v aila b le . Un attarn ao te o r Com m itted Gi ves the reason for the c ap acit y ty p e A n �ienntrca u o n of the a s so c ia te d e lem ent 01 the equipment hi era rch y model. If omitted . then the c ap abili ty IS a s s oc. ai eo to th e pa rent p ro duc tio n capab ilit y io c au on Zero or m or e as re q uired t o Ident if y Ihe sp ec .nc sc ope o f the production capabil it y cet rmuon .
+
+100 01 04 "D efine s 1he a va ua b re c a p d b dit ) to r tne Widget a s s em c r, p!() ( e s s segm ent' Widg et a ssern brv A ll ail able A v aua nre for pr ocu ct .o n P roou cu o n lone II 1 ~
+
+Oe scnpn on
+
+Pr o cess segment C apac ity type Reason Localion
+
+E le m en t type St a rt time
+
+A de fi nitron o f th e t y p e o f a ss o c rate c e le m e n t 01 t h e equipm ent h ie rarchy model . The s tar ti np time of th e tune span de" ",ng t h e ca oac u, type . If omitted . t h e n t he c ap ability IS as so c ra tec to t he par ent production c apa bili ty star t li me .
+
+P r od ucti o n line 199 9 �1 2 � 30 '15 9
+
+End ti m e
+
+T he e ndi n g t ime of th e tome s pan d ef ini n g the c a p ac it y t ype If omitted . then the c a p abi trt y I S a s s oc ia ted to th e p a rent pro duction capa bi li ty en d time .
+
+200 0 � 01 � 0 1 12 0 0
+
+Pro cess s e g m en t capa bili tie s should be used c ar e fu lly be cause of poss tble double cou nts of resources .
+E XA M P LE A re source m a y b e Shown as ava ua bi e a va ila ble fo r u se i n only a Single p roce ss se g m ent .
+In
+
+m ult ipl e proc es s segme nt s
+
+bu t
+
+In
+
+a ct u al f act . rn a v t,..
+
+35
+
+'SIIEe 62264-2 : 2004
+4.10 .3 Personnel segment capabil ity
+
+Table 44 lists th e attr ibutes of personnel seg ment capab ility .
+
+Table 44 - Attributes of personnel segment capab ility
+Attribute name Personnel class Person Descn ptron Capacity type Reaso n Locati on Description Example
+
+Identifies the se t of associated personnel classes of the capabili ty . Ident if ies the set of ass ociat e d pe rs ons of the capa bility. Con tains additi on al infor mat io n and de sc ript io ns of the personn el segmenl capability definit ion. The capac ity type : Available . Unatt ainabl e . or Co mm itted . Gives the reason fo r the capacity ty pe. An identifi cati on of the assoc iated element of the equ ipment hi erarchy model. If omitted . then th e capab il ity is as sociat ed to the parent produc tion ca pabili ty lo cat ion . Zero or more . as requ ired to identi fy the specif ic sc ope of the productron capabili ty de fin it ion .
+
+Assembly operator
+
+SSN 999 -55 -1212
+Av a ilable pe rso nne l fo r the w idget assembly operat ion A va ilable Av ail a bl e for pr odu c tion Pr od uc tion line #15
+
+Ele men t type Start li me
+
+A spe cif ica tion of the ty pe of associa ted eleme nt of the equipment hiecarchy model. The start ing tim e of the tim e spa n defining th e ca pacity type . If omitted . then the capa bility is associa te d with the pa re nt pro cess segment ca pab ilit y st art tim e.
+
+Prod uc tio n line 1999- 12-3 0 11 :59
+
+End lim e
+
+The end ing tim e of th e time span de fining th e capacity type . If om itted. then th e capability is associa ted with th e pa re nt process segment capability end time .
+
+20 00- 0 1-0 1 12 :00
+
+Qua ntll y Qua nht y Unit
+01 measur e
+
+Spe cifies the quantit y of the pe rso nnel capabi lity de fined . if app li cab le . The un it of measur e of the assoc ia ted qua nt ity . if app li cable .
+
+48
+h
+
+Where persons are members of multiple personnel classes. then the pe rsonnel capab ility inform ati on represented by personnel class should be used carefully because of poss ible double counts . and personnel resources should be managed at the instance level.
+
+4.10 .4 Personnel segment capability property
+Table 45 lists the attributes of personnel segment capability property.
+
+Table 45 - Attributes of personnel segment capability property
+Attr ibute name Propert y nam e Descrip tIon Description An Iden tlf ,call on of a prope rt y of the assoc ia te d p erso nn el seg m ent cap ab ilit y . Contams add lhonal in formation and d esc npti o ns of th e personn el segm ent capa bility p rop ert y def inition . The va lue . set of values . or range of the propert y. The UnJI of me asur e of th e associate d prope rt y value . if appli ca ble . Specifies the Quan tity of th e pe rso nnel capabili ty defined . if app locable The urut of measure o f th e es socrate o Q ua nti ty. if appli cable . Example A ssemb ly apprentice op e ra to rs
+
+Value Value un,t of m easure Quant ity Qu anhty urut o f mea sure
+
+"Num be r of apprentic e as se mbly operato r hours ava ilable for the w idget assemb ly operatio n. Ap pr ent ice <n ot a ppl icable>
+
+24
+h
+
+36
+
+ISIIEC 62264-2: 2004
+4 .10 .5 Equipment segment capability
+Table 46 lists the attribute s of equipment segment cap abIlIty . Table 46 - Attributes of equipment segment capability
+Attribute name Eq uipment c lass EqUipment Des cri ption Capac ity type Reason Locat ion Deac:rlptlon ldennt tes the assoc iated eqUipment class 01 the capab ilit y Ide ntities the associated equipment of the capability Contains additional mtormatron and cescnpnons 01 the equipment segment capability dermmon . The capac ity type : Available . Unallamable. or Commuted Gives the reason for the capacity type . An identification of the assoc iated element 01 the equ ipment hierarchy model. 1/ emitted , then the capability IS assocrated to the parent proouctton capability location. Zero or more as required to identify the specific scope of the production capab ility defmilion Element type Start lime A definition at the type of assoc.ateo element of the equipment hierarchy model. The starting time type . Production line Example W idget assembly JIg J IG 101 ' C om m lll ed a5sembl y JIgs lor Ihe wtdget assembly ope rat -on
+
+Corn rmrtec
+AvaIlable for production Production Ime .15
+
+at the
+
+lime span defining the capacity
+
+1999�12 �301159
+
+If omitted . then the capability is associatec With Ihe parent process segment capability start lime End lime The end ing lime
+
+at the
+
+lime span defmmg the capaclly type .
+
+2000�01 -01 12 .00
+
+If omitted . then the capability is assocrateo With the parent process segment capability end time . Quant ity Quanlity Unit of measure Specifies the Quantity 01 the equ ipment capability defined . II applicable . The Unit of measure of the associated quantrty. if applicable .
+
+1
+h
+
+Where equipment are members of multiple equipment classes. then the equipment capabIlity information presented by equipment class should be used carefully because of possible double counts. and equipment resources should be managed at the instance level
+
+4.10.6
+
+Equipment segment capability property
+
+Table 47 lists the attributes of equipment segment capability property Table 47 - Attributes of equipment .egment capability property
+Attribute name Property name Description Va lue Value Unit of measure Quantity Quantity unit 01 measure Deac:rlptlon An id en ti frc ation of a property of Ihe assocratec eouiomern segment capabIlity . Conta ins addrnonat in lor rnau on and descnpllons 01 the eouuiment segment ca pability property defmlllon The value . set of va lues . or range Jig slatus "C om rmtted w,dgets per hour ' Small {Sm all . Medium . l ar g e } 1 h Exampla
+
+at the
+
+property .
+
+The un it at measure of the associated property value . if applicable . Specifies the quantity 01 the equipment capabIlity defined . If applicable . The unit of measure of the associated quantity .
+
+37
+
+ISIIEC 62264-2 : 2004
+4.10.7 Mater ial segment capab ility
+
+Table 48 lists the attr ibutes of material segment capability .
+Table 48 - Attributes of material segment capability
+Attribute name
+
+Description Identifies lhe associated material class of th e cap ability. a) Identifie s lhe associated material definiti on of th e capabil ity. a) Iden li fles the assoc iated ma teria l lot of the capa bili ty . a) lde nnfie s lhe associat ed mat erial sub lo t of th e capa bil ity . a ) Contains addili on al informatio n and d escr ipt ions of th e mate nal segment capability def inition . The cap acity type: Availabl e . Unattainable. or Comm itted . Gives the reason for the capa c ity type . An identificati on of the asso cia ted element of th e equ ip men t hi erarch y mod el. If omitted . the n the capabilit y is associa ted to the pa rent prod uction cap ab ility location. Ze ro or more as required to identify th e spe ci fic scope of the prod uction cap ability de finitio n. Riv et-10002
+
+Example
+
+Mat enal class Malen al de ftnill on Mate na llot Mate na l
+subtot
+
+Gen eral purpose 2 mm rivet L662 72 L662 72 - SL4 Rivets ava ilable for the widg et asse mb ly operation Ava ilable Ava ilable for p roduct ion Pro d uctio n line # 15
+
+Des cnp tlon
+C a p a crty type
+
+Reas on Location
+
+Ele ment type Matena l use Start time
+
+A de finition of the type of associated element of the equipment hierarchy model. Presents the materia l use : materia l consumed. material pro du ced. or cons umable . The sta rling ti me of the tim e span defining the capac ity ty pe .
+If omitte d . th en the capability is associated wit h the pa ren t pr ocess segment capab ility start time .
+
+Produ ct ion lin e Ma terial consum ed 1999-12-30 11 :5 9
+
+End lim e
+
+The end ing time of the li me spa n def in ing the capacit y ty pe.
+If om itted . then the capability is associated with the parent
+
+200 0-0 1-01 12 :00
+
+process segment capability end li me . Quanlit y Quanlil y unit of me asure Spe cif ies the quan tity of the mat eri al capability defined . if app li cab le . The uno! of measur e of th e associa ted qua ntity, if app licable . 3000 Pieces
+
+a / TYPica ll y. eit her a mare na t class. mate ria l de fin it ion . mate rial /ot . or materia l sublot is spe cif ied .
+
+Where materials are members of mult iple material classes then the material capability informatio n presented by material class should be used carefully because of possible double counts . and material resources should be managed at the instance level.
+
+38
+
+ISIIEC 62264-2: 2004
+4.10.8 Material segment capability property
+Table 49 lists the attributes of meteriel segment capabli"y property
+
+Table 49 - Attributes of material segment capability property
+Attribute name Property name Description Value Value unit of measure Quantity Quantity unit of measure Description Ell8mple
+
+An rcenutrcat.on of a property of the associated meteue!
+segment capability
+
+Length
+
+Contains additional information and descnpnons of the meteriet segment capability property defrrutron The value. set of values. or range of the property The unit of measure of the associated property value. If applicable. Specifres the quantity of the material capabrlity defined. If applicable. The unit of measure of the associated quantity
+
+Length of rivet
+
+254
+mm
+
+200
+Pieces
+
+39
+
+ISIIEC 62264-2: 2004
+4.11 Product definition 4.11.1 Product definition model
+The product definition is information that is shared between product production rule , bill of material , and bill of resou rces . These three external models are represen ted by packages in Figure 8 (also see Figure 21 in IEC 62264-1); their defin itions are beyond the scope of this part of IEC 62264 .
+Has a refere nce to >
+
+I
+
+� .
+I I
+
+: --~;;;~~;;~~~~ ~~~-1
+I I I
+
+I I 1--------------------------1I
+I I I I
+I
+
+: - --- -- - - - - --- - - --- - -- --- -- -- - --- - -- -- -- - - ---- -~
+Has a referenc e to >
+
+I
+
+n
+
+I
+
+I
+
+n
+
+I
+I I
+
+I
+I
+
+Bill of resources (ext ernal)
+Has assocrated � May be made up of An exeeunc n deDende ncvon
+I I
+
+Product defin ition
+Has associated
+
+Product production rule (ext ern al)
+
+Bill of materia l (ext ern al)
+Has associ ated>
+
+T
+1.. n
+
+Has associated > Correspond s
+
+""[n
+
+k
+O..n
+
+O.
+
+.I
+
+0
+
+J
+1.. 1
+
+O.. n
+Ma nu facturing bill
+
+Product segment
+
+O .. n
+
+- - - - --- 3:1
+1..n
+
+to
+
+Pro ces s segmen t
+
+Product segme nt dependency
+
+~s
+O.. n
+
+a couecn on of
+
+o j
+Produc t parameter
+
+O..n
+Equ ipme nt specifica tion
+
+O.. n
+
+1..n
+
+Person nel specificati on
+
+Mat er ia l sp ec if ica tion
+
+0
+O.n
+Personnel spec ifi ca tion property
+
+0
+O..n
+Equ ipment spe cificatio n propert y
+: Corresponds : to elemen t in
+I I
+I
+
+0
+O.. n
+Material spe cifica tion propert y
+Corresponds to ele ment on
+
+o. n
+
+: Corr espond s : to elem en t rn
+I I I
+I
+
+I
+
+: ' .. 1
+
+:1 . 1
+
+Person nel model
+
+Equ ipment model
+
+Ma teria l model
+
+Figure 8 - Product definition model
+
+40
+
+ISIIEC 62264-2: 2004
+4.11 .2 Product definition
+Table 50 lists the attributes of product detin mon
+
+Table 50 - Attributes of product definition
+Attribute name ID Description Example
+
+Uni quely iden tifies the prod uct. The ID shall be used ," other parts of the model when the pr odu ct aetin iuon needs to be 'denllfled .
+
+Export QualIty Wldgltl
+
+Version
+
+An rdent if ication of the version of the product defln lt ,on In cases where there are mul tiple versions of a product defin it io n . then th e version attnbute shall contain the add itional idenllfica tion information to differentiate Itach vers ion .
+
+10
+
+Description
+
+Contains additional information and descnpnons of the product definition.
+
+"Info rm ation defining resources reqUired for production 01 a SIngle 'e xp ort quality w,dgltt �
+
+4.11.3 Manufacturing bill
+Table 51 lists the attributes of manufacturing bill.
+
+Table 51 - Attributes of manufacturing bill
+Attribute name Description Example
+
+10
+Description
+
+A uruque identification of a manufactunng tntt . Contains additional inform ati on of the manufacturing bIll
+
+10000627 "All matltnals required," the manulactunng proceas lor a SIngle widget" {Polymer sheet stock 1001A . nvets)
+
+Material class
+
+Identifies the associated mater ial class or set of matenal classes required for production . Only the material class or the material property IS usually defined .
+
+Matenal de flOllIon Quantity Quantity unit of measure
+
+Identifies the assoc iated material aetimtion or set of material definitions required for production . Specifies the amount of resources required for production The unit of measure of the associated quantity. If applicable .
+
+{Sheet stock 1443a . rl ve t- 1000 2) {10 26) {Sheets/piece number/plltce)
+
+41
+
+ISIIEC 62264-2 : 2004
+4.11.4 Product segment
+Table 52 lists the attributes of product segment.
+
+Table 52 - Attributes of product segment
+Attribute name
+1 0
+
+Description
+
+Example
+
+A unique Identificatio n of a specific product segment w ithin the scope of the Inform ati on exchanged . The 10 shall be used In other parts of the model when the product segment needs to be identi fied .
+
+Final pol ished w idget
+
+Oescrl ploon Duration Du rati on uni t of measure Pro cess segment
+
+Contains add itional Information of the product segment . Du ra tion of product segment. if known . The un it s of measu re of the duration . if specif ied . Identifies the associated process segments . There may be mulnpte alternate process segments that could be used for the product segment.
+
+"A br ightl y polished w idget. "
+
+25
+m in W idget polishing
+
+4.11 .5 Product parameter
+Table 53 lists the attributes of product parameter.
+
+Table 53 - Attributes of product parameter
+Attribut. name Name Oescnpnon Valu e Valu e Unit of measure Description Example
+
+Name ot the product parameter for a specific product segment. Contains add itional in formali on of the product parameter. The va lue . set of values . or range of acceptable values. Uni t of measure of the values . If applicable .
+
+W idget roughness "Rang e of acceptable surface roughness to be manufactured ."
+
+{80 ..2 SOO}
+Angstroms
+
+4.11.6 Personnel specification
+Table 54 lists the attributes of personnel specification .
+
+Table 54 - Attributes of personnel specification
+Attribute neme Person ne l class Person De SCrip tion Quantit y Quan li ty u nit of meas u re Description Example
+
+ld enllfi es the ass oc iated personnel class or set of pers on ne l classes of the specificatio n for a specific product seg ment . Ident ifies the associated person or set of persons of the spe crncatr on for a spec if ic product segment. Contains additional Inform ati on of the personnel spec if IcatIon SpeCi fies the amount of pe rsonnel resources required for the pare nt produc t segment. if applicab le . The un it a! measure of ttle associated Quant ity. If appli cab le
+
+Widget po lisher
+
+999,,12,,3456
+"Poli sh er sk ill requ ired for export Quality polished widget "
+
+0.25
+Ma n h/p lece
+
+42
+
+ISIIEC 62264-2: 2004
+4.11 .7 Personnel specification property
+Table 55 lists the attributes of personnel speciticenon property.
+
+Table 55 - Attributes of personnel specification property
+Attribute name Propert y name Description Description example.
+
+An Id e ntifi c at ion of a property of the associated personnel specification . Contains additional information and cescnpuons of the personnel specification property. The value . set of values . or range of the property . For example : Apprentice . Journeyman . Master . The unit of measure of the associated property value . If applicable . Specifies the amount of personnel resources required . The unit of measure of the associated quantity. if applicable.
+
+Pohshmg ceruhcauon leve l 'Level 01 pOItShmg ski ll certification requuec lor the wldg(Ol pohsner Master {Apprentice . journeyman master } 0.10 Man hlplece
+
+Value Value un it of measure Quantity Quantity unit of measure
+
+4.11.8 Equipment specification
+Table 56 lists the attributes of equipment specification object.
+
+Table 56 - Attributes of equipment specification
+Attribute name Equipment class Equipment Description Quant ity Quantity unit of measure Description example
+
+Identifies the associated equipment class or set of equipment classes of the specificat ion for a specrnc product segment. Identifies the associated eqUIpment or sel of equipment of the specification for a specific proauct segmenl. Contains additional in formation and descriptions of the equ ipment specification . Specifies the amount of equipment resources required for the ,Jarent product segment. if applicable The unit of measure of the associated quantity. If applicable .
+
+Widget Poltshmg Machme
+
+WPM�l0 "Equipment reqUIred to pohsh export quahty Widgets ' 025 min/piece
+
+43
+
+ISIIEC 62264--2: 2004
+" .11.9 Equipment spec ification property
+Table 57 lists the attributes of equ ipment specification property.
+
+Table 57 - Attributes of equipment specification property
+Attribute name Property name Description Value Value unit of measure Quantity Quantity unit of measure Description Polisher type � Wet polisher req uired for export quality w idget pol ish ing ." Wet {Wet.dry} Example
+
+An identification of the asso ciated equipment property or equ ipment class property for a specific product segment. Contains additional information and descriptions of the equ ipment specification property definition . The value. set of values . or range of the property. For example: wet . dry. The un it of measure of the associated property value . if applicable. Specifies the amount of equipment resources required for the parent product seqment, if applicable . The un it of measure of the associated quantity . if applicable.
+
+0 .10
+min lp iece
+
+".11.10 Material specification
+Table 58 lists the attributes of material specification .
+
+Table 58 - Attributes of mmaterial specification
+Attribute name Material class Description Example
+
+Identifies the associated material class or set of material classes of the specification for a specific product segment.
+a)
+
+Abrasives
+
+Malenal definition
+
+Identifies the associatec material defin ition or set of material defin ition of the specification for a specific product segment. a) Contains add rncnat information and descriptions of the matenal specification . Lists the matenat use : matenal consumed , material produced . or consumable . Spec ihas the amount of malenal resources requ ired for the parent product segment. it applicable . The U nit of measure of the as soc iated property value . if applicable.
+IS
+
+Rouge
+
+Descnpllon Matenal use Quanllty Quantity umt of measure
+
+' Poli shi ng material for export quality widget pol ish ing ." Material consumed
+
+10
+glp iece
+
+a ) Typically 81ther a matenal cla ss or matenal definit ion
+
+specified .
+
+44
+
+ISIIEC 62264-2: 2004
+4.11.11 Material specification property
+
+Table 59 lists the attributes of material specification property. Table 59 - Attributes of material specification property
+Attribute name Property name Descnption Value Value unit of measure auantity auantity unit of measure Description Example Gnt size "Measure 01 reQuired gnt size lor export Quality widget pohshmg ,
+{1 300 , 500}
+
+An identification of the associated material property for a specific product segment. Contains additional information and descnpnons of the material specification property. The value, set of values, or range for the associated property. The unit of measure of the associated property value, if applicable. Specifies the amount of material resources required for the parent product segment, if applicable. The unit of measure of the associated property value, if applicable.
+
+Gnt number 5 g/plece
+
+4.11.12 Product segment dependency Table 60 lists the attributes of product segment dependency. The product segment dependencies can be used h) describe dependencies that are product specific.
+EXAMPLE A wheel assembly and a frame assembly that can run
+In
+
+parallel
+
+Table 60 - Attributes of product segment dependency
+Attribute name Description Description Example "Lists the ordenng 01 widget washing dunng the widget assembly product segment" Start ac,d addll'on no later than T (t,me wrndow) after reaction complete end
+
+Contains additional information and descnptrons of the product segment dependency definition for a specific product segment. Lists the execution dependency constraints of one segment by another segment. Examples of these constraints, uSing A and B to identify the segments. or specific resources within the segments, and T to identify the time window, include: B cannot follow A B may run in parallel to A B may not run in parallel to A Start B at A start Start B after A start Start B after A end Start B no later than T (time window) after A start Start B no earlier than T (time window) after A start Start B no later than T (time window) after A end Start B no earlier than T (time window) after A end
+
+Dependency type
+
+Time window Time unit of measure
+
+Time window used by dependency. (See C.l0) The units of measure of the lime window, if specified
+
+25
+min
+
+45
+
+ISIIEC 62264-2: 2004
+4.12 Production schedule 4.12.1 Production schedule model
+
+A production schedule is a request for production . A production sched ule is made up of one or more production reques ts . A produ ction req ues t is a request for production for a single product identifi ed by a production rule . A production request contains the information requ ired by manufacturing to fulfi l scheduled production . A production reque st contai ns at least one segment requirement. even if it spans all production of the product. Figure 9 is a copy of Figure 22 in lEG 62264 -1, wit h a clarification of the rela tionsh ip to product segments , process segments . the personnel , equ ipment, and material models .
+Pro d uct io n sc hed ule
+
+n
+Product prcductron rule
+~
+
+Is ma de up
+
+O~1 1..n
+
+_ _ _ . . ______ __
+
+Correspon ds
+~ o_:_<
+
+Production reque st
+
+Is made up of .
+
+,
+
+n
+
+1
+
+O n
+
+Proce ss or p roduct se gme nt
+
+_____ ____ __ _
+
+cerrescon cs
+!..o _~ ~
+
+Se g men t req u irem e nt
+May contai n
+
+Re qu e sted se gm ent response
+
+C �
+
+C �
+
+o�
+Eq ui pme nt req uir e me nt
+
+o .n
+Matenal p rod uced req uire m ent
+
+0 .1
+Matena l co n sum ed requ ire m e n t
+
+on\
+C o nsu ma ble e xpected
+
+P ro du c tio n
+
+pa rame ter
+: I t Ass oCia ted : 10 .'ltle"
+
+Person ne l reqUir ement
+
+� - -- --_ � .!._~
+
+.
+,
+
+~~
+
+,.
+Personne l requ irement pr op erty
+e le me n l ,"
+
+� ,.
+Equ ipment requ.re rne nt Prope rty
+
+0
+1 .�
+
+,!
+Co rresponds to elemen t 10
+I I I
+
+,J
+C o nsumable ex pected p ro pe rty
+
+,
+~
+e ter
+
+""ate n al producec f" ate "al co ns um e req uirement requ ire m ent Prop e rty pr o pe rt y
+: Corresponos to : element In
+
+e1 1
+
+Pr o cess segm en t par a m eter
+
+Corr e spon d'S to
+
+: Co rresponds to : e leme n t In
+
+n
+
+: ,
+
+;"
+Pe rs onn e l mod el
+
+n ~
+EQUipment mo d el
+
+n~
+Mat er i al model
+
+~--_. _-
+
+Figure 9 - Production schedule model
+
+46
+
+ISIIEC 62264-2: 2004
+4.12 .2 Production schedule
+Table 6 1 lists the attributes of production schedule .
+
+Table 61 - Attributes of production schedule
+Attribute name 10 Description E..ample
+
+A uniq u e identifica lton of the oroauction schedule and could in clude version an d revisro n Identi ficati on The ID sha ll be us ed in oth er parts of the model when the production sche dule ne eds to be id enti fi ed .
+
+1999� 10-27 � A15
+
+Des cr ipt ion Start time End time Event Location Element type
+
+Conta ins add it ional in form ati on and descnptrons of the production s chedule. The starting time fo r the assoc iated production schedule. If applicable . The ending time for the associated proouction schedule . If applicable. The starting condition for the associated production schedule . if applicable . An identification of the assoc iated element of the equipment hierarchy model. A definition of the type of the associated element of the equ ipment hierarchy model. For example : enterpnse . site . area.
+
+' W ldget manufa ct un ng sched ule'
+
+10�28-1999 10 �30-1999
+"Line 2 becomes available ' East wing manufactu nng line " 2 Production hne
+
+4.12.3 Production request
+Table 62 lists the attributes of production request .
+
+Table 62 - Attributes of production reque.t
+Attribute name Description Example
+
+ID
+
+A unique id enti fi cati o n of the production request . The 10 shall be used in other parts of the model when the production request needs to be identified .
+
+1001091
+
+Description
+
+Contains additional information .and descriptions of the production request . Identifies the associated product production rule to be used . if applicable . When production is to be started . If applicable . When production is to be comp leted . If applicable . The starting condition for the associated producuon request. if appl icable . The priority of the request . if applicable
+
+"P roduclt on request for export Quahty widgets for October 29 .
+
+1999 "
+Export Quahty widget
+
+Product product ion rule Starltime End time Event Pr ior ity
+
+1999�10 �27800 UTe 1999�10-271700 UTe
+"Request 1001090 com plete' Highest
+
+47
+
+I5nEC 62264-2: 2004
+4.12 .4 Segment requirement Table 63 lists the attributes of segment requirement object. Table 63 - Attributes of segment requirement
+Attribute name
+10
+
+Description A54 A6646
+
+Examples
+
+A unique identification of the segment requirement within the scope of a production request. An identification of the process segment or product segment associated with the segment requ irement. if applicable. Contains addit ional information and descriptions of the segment requirement.
+
+Segment
+
+Master segment Polish and pa int segment "Master segment. contain ing customer name and final produced material requ irements ." "Polish and paint segment. containing specifications for personnel . materials and equ ipment. "
+
+oescnplton
+
+Ear liest start time Latest end lome Duration
+
+The expected earliest start time of this segment requirement , if applicable . The expected latest ending time of this segment requirement. if applicable. The expected duration of this segment requirement , if applicable . NOTE This shou ld match the assoc iated product segment or process segment duration .
+
+1999-10-27 8:33 UTe 1999-10-27 14:13 UTe 1999-10-27 16:55 UTe 1999-10-27 16:55 UTe 1 15
+
+Duration Unit of meas ure
+
+The Unit of measure of the duration. if appl icable .
+
+h min
+
+There are multiple segments presented in the example. There is one master segment of production that applies to the entire production request . The master segment is made up of multiple nested segments for individually specified and reported segments of production.
+EXAMPLE 1 Information that applies across all segments of the production request. such as a customer name , may be represented as a production parameter in the master segment. EXAMPLE 2 InformatIOn that applies to spec ific segments of production. such as widget po lishing equipment uhltzaloon . may be spec ified as part of the polish and pain t segment.
+
+Each segment requirement corresponds to . or references . a process segment (see 4.8) or product segment (see 4.11 .4) .
+
+48
+
+ISIIEC 62264-2: 2004
+4.12 .5 Production parameter
+Table 64 lists the attributes of production parameter.
+
+Table 64 - Attributes of production parameter
+Attribute name Name Oeacrlptlon The production parameter name . E.amp'" Customer name Widger clock ,peed Polishing finish Description Contains add itional information and descriptions of the production parameter. "Masler segmenl - customer name' ' Minlmum widget clock speed ' 'Poush and paint segment polishing finish ' Value The value, set of values . or range of the value to be used for this parameter. Brldgetts widgets sto re
+
+200
+High gloss Value unit of measure The engineering un its in which the value is used . if applicable . [not applicable) MHz {High gloss . low gloss . satin fin ish)
+
+4.12.6 Personnel requirement
+Table 65 lists the attributes of personnel requirement.
+
+Table 65 - Attributes of perlonnel requIrement
+Attribute name Personnel class Person Deacrlptlon E.ample
+
+Identifies the associated personnel class or set of personnel classes of the requ irement for a specific segment requirement . Identifies the associated person or set of persons of the requirement for a specific segment requirement . Typically either personnel class or person is specified . but not both .
+
+Widget polISher
+
+Gidget
+
+Descript ion
+
+Contains additional information and descript ions of the personnel requirement. Specifies the amount of personnel resources requ ired for the parent segment. if appl icable . Appl ies to each member of the person and personnel class sets . Identifies the unit of measure of the Quantity. if applicable .
+
+"Lists the spec inc po lishing operator assigned to thIS production request 1
+
+Quantity
+
+Quantity unit of measure
+
+Fu ll tome equivalents
+
+49
+
+ISIIEC 62264-2 : 2004
+4 .12.7 Personnel requirement property
+Tab le 66 lists th e attributes o f personnel r equirement prop erty.
+
+Table 66 - Attr ibutes of personnel requirement property
+Attribute name Pr operty name Oesc npnon Descrip tion Example
+
+An Identi fic ati on of the assoc iated person property or per sonnel class p roperty for a spe cifi c segment
+
+Polish ing certi fic atio n le v el
+
+recuirem ent .
+Conta ins add itiona l informat ion an d desc riptions of the p ersonnel requirem e nt pro perty d efi nition . The valu e. se t of values . or ra nge of the propert y. For e xamp le : apprentice. Jou rne ym an . m aster . The unit of me asure of the asso ciat ed prop erty value . if app li cable Spe cifies the amount of personnel re sou rce s req uired for the parent segm ent. If appli ca ble. Identifies th e unit of measure o f the quantity . if ap pli cab le . "Level of polis hing sk ill certi fica tion requ ired for th e widget po tish er " Jou rneyman {App ren tice . jou rn eym a n. ma ster}
+
+Value Valu e unit of measure Qua ntIt y Qua nti ty umt o f m ea sure
+
+1 h
+
+4.12.8 Equipment requirement
+Table 67 lists the attr ibutes of equ ipment requirement.
+
+Table 67 - Attributes of equipment requirement
+Attribute name EQUipm ent Clas s EQUipm ent Desc r ipt ion Example
+
+Identif Ies the associa ted equ ipment cl ass or set of etuu p ment classe s of th e requi rem ent fo r a specific segment req uir ement , Identi fIes the associated equunnent s et of equip ment of the requ irem ent for a spe cif ic segment require me nt. Typica ll y e,ther eq uiom en t cl as s or equ ipmen t rs spe cified . but ne t both .
+
+W idg et po lish ing ma chin e
+
+WP M� 19
+
+Oescnp uon
+
+Contains add itional mto rrnati on and de sc ript ions of the
+ecuno m en! reouiremern,
+
+"Sp eci fies th e ex p ec te d ma ch ine to be used for this pro du ction requ est."
+1
+
+Qua nt/t y
+
+Spe cif ies the amount of equ ipment resourc es requ ir ed fo r the pa rent segmen t. if appl ic abl e . Applie s to ea ch member of the eauiome nt and eauiome n; cl ass se ts . The untl 01 measure o f the associated quantity . if app li cable
+
+Qua ntity urut of measu re
+
+Un its
+
+50
+
+ISIIEC 62264-2: 2004
+4.12.9 Equipment requirement property Table 68 lists the attributes of equipment requirement property. Table 68 - Attributes of equipment requirement property
+Attribute name Property name Description Value Va lue unit of measure Quantity Quantity unit of measure Description Example
+
+A n Id en tific ation of the associated equipment property or equ ipmen t class property for a specific segment requirement . Contains additional information and descriptions of the equipment requ irement property definition. The value . set of values . or range of the associated property. For example : wet . dry . The unit of measure of the associated property value , if applicable. Specifies the amount of equipment resources required for the parent segment, if applicable. The unit of measure of the associated quantity. if applicable.
+
+Po lisher type
+
+�Pollsher reQulled for trus production request ' Dry (Wet . dry}
+
+,
+Units
+
+4.12.10 Material produced requirement Table 69 lists the attributes of material produced requirement . Table 69 - Attributes of material produced requirement
+Attribute name Material class Description Example
+
+Identifies the associated material class or set of metenet classes of the requirement for a specific segment
+
+Widgets
+
+requirement . a)
+Material defin ition Identifies the associated material definition or sel of material definitions of the requirement for a specinc Export Quality Widgets
+
+segment requirement . a)
+Material lot Identifies the associated material lot, or set of material lots of the requirement for a specific segment requirement ,a) Material sublet Identifies the associated material sublet, or set of material sublots of the requirement for a specific segment BWLOT -2282-A BWLOT-2282
+
+requirement. a)
+Description Location Contains additional information and descriptions of the material produced requirement definition . Identifies the proposed location of the produced matenal. if applicable. 'Master segment - number of w idgets to produce ' Fin ished goods Inventory
+
+Quantity
+
+Specifies the amount of material to be produced . if applicable . Applies to each member of the metenet materials definition. or material class sets .
+
+1 500
+
+tot,
+Units
+
+Quanloty unit of measure
+
+Identifies the unit of measure of the quanlity If applicable .
+
+a) Typically a material class . material definition. matenallot. or matenal subtot rs spec .t ree .
+
+51
+
+ISIIEC 62264-2: 2004
+4.12 .11 Material produced requirement property
+Table 70 lists the attributes of material produced requirement property.
+
+Table 70 _ Attributes of material produced requirement property
+Attrlbut. name Property name Descnplion Oescrlptlon Color �Specifies the color for the painted parts for this specific production request . done as the last step in polishing" Red Example
+
+An identification of a property of the associated material produced requirement . Contains additional information and descript ions of the mate"al produced requirement property definition .
+
+Value
+
+The value . set of values . or range of the associated property . For example . red . orange. yellow. green . blue . indigo. violet . The Unit of measure of the associated property value . if applicable . Specifies the amount of material to be produced , if app licable . Identifies the unit of measure of the quantity if app licable .
+
+Value Unit of measure Quantity Quantity unit of measure
+
+{Blue , green. yellow , orange . red , purple . black, White} 100 Units
+
+4.12.12 Material consumed requirement
+Table 71 lists the attributes of material consumed requirement.
+
+Table 71 - Attributes of material consumed requirement
+Attrlbut. name O..crlptlon Examples
+
+Matenal class
+
+Identifies the associated material class or set of material classes of the requirement for a specific segment
+requlfement . a)
+
+Paint
+
+Mate"al definllion
+
+Identifies the associated material definition or set of mllterilll defin itions of the requirement for a specifi c
+segment reqUlrement a
+
+Red paint
+
+)
+GP-RED-42
+
+Matenal lot
+
+Identifies the associated material lo t or set of material lots
+01 the reqUIrement for a specific segment requirement . a)
+
+Mate"al sublot Oe.crlpllon Location Ouant lty
+
+Identifies the associated mate nal sublot, or set of mate rial suotot� of the requ irement for a specific segment requlfement .a ) Contains additional mtorrnauon and descript ions of the mate "al consumed reqinrement property definition . Idenllfjes the location of the material to be consumed. jf applicable Specifies the amount of material resources required for the parent segment. if applicable . Applies to each member of the material sublof maferia/ lot. materials defin ition , or marerial ctss� sets . Identifies the unit of measure of the quantity. if applicable .
+
+GP-RED-42-A
+
+'Paint to be used on painted parts after the polishing ." Floor stock 12
+
+Ou.nhty Unit of measure
+
+355 ml cans
+
+a) TYPIca ll y a m al en al class . malenal definit ion , material lot , or material sublet is specified.
+
+52
+
+ISIIEe 62264-2: 2004
+4.12 .13 Material consumed requirement property Table 72 lists the attributes of material consumed requirement. Table 72 - Attributes of material consumed requirement property
+Attribute name Propert y name Desc nption Description Example Gloss "Lists the spe cific type ot red paint to be used for this production request .. Hig h gloss (High gloss . low gloss . satin fin ish)
+
+An identi fic ati on o f the associated material property or ma lerial class property for a specif ic segment requ irement. Con ta ins add it iona l informati on and descriptions otthe ma teria l consumed requirement property defin ition . The value . set of val ues. or range of the property. For example : flat . satin . high gloss . The un it of measure of the associated property value. if appl icable . Specifies the amount of material resources required for the pa rent segment. if applicable . Identifies the un it of measure of the quanti ty . if appl icable.
+
+Value Value unit of measure Quantity Quantit y un it of measure
+
+6
+355 ml cans
+
+4.12.14 Consumable expected Table 7'.3 lists the attributes of consumable expected. Table 73 - Attributes of consumable expected
+Attribute name Material class Description Tape Example
+
+Identifies t he associated materia l class or set of metertet classes of the requirement for a specific segment requirement . Identifies the associated meteriel definition or set of material definitions of the requirement for a specific segment requirement . Typ ically either mate rial class or material defin ition is specified , but not both .
+
+Material definition
+
+M!lsk ,ng tape
+
+Locat ion Description
+
+Ide ntifies the loca tion of the material to be consumed . if applicable. Contains additional information and descnptions consumable .
+
+Shop floor "E xpected usag e of maskmg tape for polish and parnt seg ment .-
+
+/1: the
+
+Quanhty
+
+Specifies the amount of matenal resources requ ired for the parent segment. if applicable . Appl ies to each member of the material definition, or material class sets . Identifies the unit of measure of the quantity . if applicable .
+
+3
+
+Quantity un it of measure
+
+m
+
+53
+
+ISlJEC 62264-2: 2004
+4.12 .15 Consumable expected property Table 74 lists the attributes of consumable expected property. Table 74 - Attributes of consumable expected property
+Attribute n.me Properl y name Description Tape w idth ' W idth of th e tap e e xpecte d to be used for th is prod uct io n request. � Example
+
+An rcenntication of the property of the assoc iated co ns um ab le exp ected . Contains add iloonal in torrnanon and descript ions of the consumable expecte d p roperty definit ion . The va lue. set of values. or range of the associated properl y. The unit of meas ure of the associated properly valu e. if app licable . Spe cifies the amount of ma terial resources requ ired for the parent segment. if appl icable. Identifies the unit of measu re of the quantity , if applicable .
+
+Oesc npuon
+
+Value Value Uni t of measur e Quantity Oua nn ty Unit of measure
+
+10
+mm
+
+1,5
+m
+
+4.12.16 Requested segment response The identification of the information sent back as a result of the production request is a requested segment response . This information is of the same form as a segment response, but without actual values. (see the 4.13 .4) A requested segment response may include required information , which presents information reported on from production , such as the actual amount of material consumed. A requested segment response may include opt ional information, which presents information that may be reported on from production . such as operator-entered comments .
+
+54
+
+ISIIEC 62264-2: 2004
+4.13 Production performance 4.13.1 Production performance model
+Production performance is a report on requested manufacturing and is a collection of production responses. Production responses are responses from manufacturing that are associated with a production request. There may be one or more production responses for a single production request if the production facility needs to split the production request into smaller elements of work. Figure 10 is a copy of Figure 23 in lEe 62264-1. with a correspondence to a product production rule shown, plus a clarification of the relationship to the personnel, equipment. and material models.
+
+Production performance
+Is made up of ~ 1 n
+
+Production response
+Is made up Of~
+, n
+
+Process segment
+
+Corresponds
+
+~------------~~~~
+
+Segment response
+
+T
+
+May contain
+
+Il..�
+
+0 .. 11
+
+o..�
+Equipment actual
+
+0 .. 11
+
+a
+
+n
+
+o
+
+n
+
+Production data
+
+Personnel actual
+
+Matenal produced ~atenal consumed actual actual
+
+Consumabl. actual
+
+~~
+1 .. /1
+
+0
+1,/1
+
+~~
+1 n
+
+0
+1 n
+
+0
+
+,
+Consumable actual property
+
+Personnel actual property
+: Corresponds 10 : element In
+
+Equipment actual property
+I element in , , , ,
+
+Matenal produced actual property
+
+Matenal consumer actual property
+
+: Corresponds to
+
+,
+
+Corresponds 10
+element in
+
+, , , , , ,
+I
+
+, ,
+Equipment model Matenal model
+
+I I
+
+Personnel model
+
+, , , , , , , , , , , --------,
+I
+I
+
+, , Corresponds to
+elemefll In
+
+Figure 10 - Production performance model
+
+55
+
+ISIIEC 62264-2: 2004
+4.13.2 Production performance Table 75 lists the attributes of production performance. Table 75 - Attributes of production performance
+AttrIbute name
+10
+
+Description
+
+Example
+
+A unique identification of the production performance and could include version and revision identification. The 10 shall be used in other parts of the model when the production performance needs to be identified .
+
+1999-10-27-A 15
+
+Description
+
+Contains additional information and descriptions of the production performance. An identification of the associated production schedule. if applicable. Production performance may not relate to a production schedule . it may be a report on all production for a specific time. or reported on by plant floor events .
+
+"Pro du ct ion performance report on October 27 . 1999 production schedule ." 1999-10-27-A 15
+
+Production schedule
+
+Start time End time Current status Location Element type
+
+The actual starting time of the associated production performance . if appl icable. The actua l ending time of the associated production performance . if applicable . The status of the performance against the production schedu le. if applicable. An identification of the associated element of the equipment hierarchy model. A specification of the type of associated element of the equipment hierarchy model. For examp le : enterprise. site . area .
+
+10-28-1999 10-30-1999 "In work" East wing manufacturing line #2 Production line
+
+~.13.3
+
+Production response
+
+Table 76 lists the attributes of production response. Table 76 - Attributes of production response
+Attribute name Description Example 1001091
+
+ID
+
+An Identification with in the associated production response. The 10 shall be used in other parts of the model when the production response needs to be identified.
+
+Production request
+
+An identification 01 the associated production request . if applicable . Proaucuon response may not relate to a produclion request .
+I! may be a report on all production for a specific time . or
+
+1001091
+
+reported on by plant floor even ts . Product productIon rule Start lime End lime Current status Idenhlies the asso ciated product production rule that was used , il applicable . This may not match the request if alternate speCifications are allowed . . The starting time 01 trus production response. The ending time of this production response . The status 01 the response aga inst the production request II applicable � Export quality Widget
+
+1999-10-278:33 UTC 1999-10-27 16:55 UTe "Complete"
+
+56
+
+ISIIEC 62264-2: 2004
+4.13.4 Segment response Table 77 lists the attributes of segment response . Table 77 - Attributes of segment response
+Attribute name
+10
+
+Description
+
+Example. A54� 1 A6646
+
+Un iquely identifies an instanc e of a process segment executed . NOTE The same process segment may be executed mu ltiple times in production.
+
+Process segment Description
+
+An identification of the process segment associated with the segment response . Contains add it ional information and descriptions of the segment response ,
+
+Mas ter segment Polish and paint segment -Master segment , containing material produced actuals." "Polish and paint segment containing personnel. matenal. and equipment actua ls .
+
+Actual start time Actua l end t ime Current status
+
+The actual start l ime of th is segment response .
+
+1999 -10 -278:33 UTe 1999- 10-27 14:1 3 UTC
+
+The actual end time of this segment response .
+
+1999 -10 -27 16:55 UTC 1999-10-27 16:55 UTC
+
+The status of the segment response aqa .ist the segment request. if appl icable .
+
+"In work '
+"Complete"
+
+There are multiple segments presented in the example. There is one master segment of production that applies to the entire production response . The master segment is made up of multiple nested segments for individually reported segments of production .
+EXAMPLE 1 Information that applies across all segments of the production response . sucn as a final matenal produced . may be represented as a material produced in the master segment . EXAMPLE 2 Information that applies to specific segments of production. such as widget polish ing equipment actually used . may be reported as part of the polish and paint segment.
+
+57
+
+ISIIEC 62264-2: 2004
+4.13.5 Production data
+Table 78 lists the attributes of production data .
+
+Table 78 - Attributes of production data
+Anrlbut. name Name Description Examples
+
+The production data name .
+
+Widget clock spee d Explanation
+
+Description
+
+Contains additional information and descriptions of the proouctior: data .
+
+"List s the average measured clock speed of the produced widgets ." "Explanati on of deviations from expected ."
+
+Value
+
+The value or set of values of the production data .
+
+233 "W idget pol ishing machine WPM -19 was out of servi ce . WPM�20 used instead."
+
+Value un it of measure
+
+The enganeering units in which the value is used. if appl icable .
+
+MHz [not applicable]
+
+4.13.6 Personnel actual
+Table 79 lists the attributes of personnel actual.
+
+Table 79 - Attributes of personnel actual
+Anrlbut. name Perlonnel class Person Description Example
+
+Identifies the assoc iated personnel class or set of personnel ctesses actually used for a specific segment response . Idenllf'es the assocrated person or set of persons actually used for a spec ific segment response . Typ ically either personnel class or person is specified . but not bolh
+
+Widget polisher Gidget
+
+Descnpllon
+
+Contains addillonal information and descriptions of the personnel actual. Specifies the amount of personnel resources used in the parent segment. If applicable . Applies to each member of the person and personnel class sets . Identifies the unit of measure of the Quantity. if applicable .
+
+"Lists the specific polishing operator used in production request. " 1
+
+Quant ity
+
+Quanllty un, t of measure
+
+Full time equ ivalents
+
+58
+
+ISIIEC 62264-2 : 2004
+4.13.7 Personnel actual property Table 80 lists the attributes of personnel actual property. Table 80 - Attributes of personnel actual property
+Attribute name Property name Descript ion Description Example Polishing certification leve l "Level of polishing skill cert ification actually used for the widget polisher ." Master {Apprentice . Journeyman . master} 0.25 h
+
+An identification of the associated person property or personne l class property for a specific segment response . Contains add it ional in formation and descriptions of the personnel actual property defin ition. The value or se t of val ues for the associated property. For examp le: apprentice . j ourn eyman, master. The un it of measure of the associated property value . if applicable . Specifies the amount of personnel resources used in the parent segment , if applicable . Identifi es the unit of measure of the quantity . if appl icable.
+
+Value Value unit of measure Quantity Quantity unit of measu re
+
+4.13.8 Equipment actual Table 81 lists the attributes of equipment actual. Table 81 - Attributes of equipment actual
+Attribute name Equipment class Equipment Description Eumple
+
+Identifies the associated equipment class or set of equipment classes actually used for a specific segment response. Identifies the associated equ ipment or set of equipment actually used for a specific segment response . Typ icall y, eith er equ ipment class or equ ipment is specified . but not both .
+
+Widget polish ing machine
+
+WPM-20
+
+Description
+
+Contains add itional information and descriptions of the equ ipment actual. Specifies the amount of equipment resources used in parent segment, if applicable . Applies to each member of the equ ipment and equipment class sets . Identifies the unit of measure of the quantity, if applicable .
+
+"SpeCifics the actua l mach ine used for this production
+request ."
+
+Quantity
+
+0.05
+
+Quantity unit of measure
+
+Machine h
+
+59
+
+ISIIEC 62264-2: 2004
+4.13.9 Equipment actual property
+Table 82 lists the attributes of equipment actual property.
+
+Table 82 - Attributes of equipment actual property
+Anrlbut. name Property name Descnpnon Value Value umt of measure Quantity Quantity unit of measure Description An identification of the associated equipment property or equipment class property for a specific segment response. Contains additional Information and descriptions of the equipment actual property definition . The value or set of values for the associated property . For example: wet. dry . The unit of measure of the associated property value . if applicable . Specifies the amount of equipment resources used in parent segment , if applicable Identifies the unit of measure of the quantity. if applicable. Example
+
+Polisher type "Actual polisher used for this production segment. " Dry {Wet, dry} 0,05 Machine h
+
+4.13 .10 Material produced actual
+Table 83 lists the attributes of material produced actual.
+
+Table 83 - Attributes of material produced actual
+Anrlbut. name Matenal class Material definition Matenallot Mate"al sublot
+Oescnonon
+
+Description
+
+Example
+
+Identifies the associated material class or set of material classes actually made for a specific segment response .a) ldennnes Ihe associated material definition or set of
+meteris) tiehrntions actually made for a specific segment
+
+Widgets
+
+Export quality widgets
+
+response .a)
+
+Ident ifies the associated material lot or set of material lots actually made for a specific segment response .a) Identifies the associated material sublot or set of material
+sublots actually made for a specific segment response .a)
+
+BWLOT-2282
+
+BWLOT-2282-A
+
+Contains additional information and descriptions of the material produced actuat. Identifies the actual location of the produced material. if applicable Specifies the amount of material produced by the parent segment. Applies to each member of the material lot . materials defmition , or material class sets. Idenhfies the unit of measure of the quantity , if applicable.
+
+"Master segment - number of widgets actually produced." Finished goods invent ory 1498
+
+Locanon Quanhty
+
+Qu.ntlly un,t of measure
+
+Units
+
+a) TYPically a matenal class . matenat def init ion . material lot . or material sublot is specified.
+
+60
+
+ISJlEC 62264-2: 2004
+4.13.11 Material produced actual property
+Table 84 lists the attributes of material produced actual property.
+
+Table 84 - Attributes of material produced actual property
+Attribute name Property name Description Value Value unit of measure Quantity Description Example Color 'Usts the color actually produced. in the polish and paint segment " Red Color 1 002
+
+An identification of the associated material property or material class property for a specific segment response. Contains additional information and descriptions of the material produced actual property definition. The value or set of values for the associated property. For example : red. orange . yellow . green . blue . indigo, violet. The unit of measure of the associated property value, if applicable. Specifies the amount of material produced by the parent segment. Applies to each member of the material lot, materials definition, or material class sets. Identifies the unit of measure of the quantity, if applicable.
+
+Quantity unit of measure
+
+Units
+
+4.13.12 Material consumed actual
+Table 85 lists the attributes of material consumed actual.
+
+Table 85 - Attributes of material consumed actual
+Attribute name Material class Material definition Description Example Paint Red paint
+
+Identifies the associated material class or set of material classes actually used for a specific segment response . a) Identifies the associated material defin ition or set of material definitions actually used for a specific segment response. a) Identifies the associated material lot or set of material lots actually used for a specific segment response . a) Identifies the associated material sublot or set of material sublots actually made for a specific segment response .a) Contains additional information and descriptions of the material consumed actual. Identifies location from which the material was consumed . Specifies the amount of material resources consumed by the parent segment , if appl icable . Applies to each member of the material lot. material sublet, material definition. or material class sets . Identifies the unit of measure of the quantity , if applicable .
+
+Material lot Material subtct Description
+
+GP�RED�42 GP�RED�42�A "Paint to be used to finish the widgets in the polish and paint segment.' Maintenance crib 12
+
+Location Quantity
+
+Quantity urut of measure
+
+355 ml cans
+
+a) Typically a material class , material definition . material lot , or material sublot is spec ified .
+
+61
+
+ISIIEC 62264-2 : 2004
+4.13 .13 Materia l consumed actual property
+Tab le 86 lists th e attributes of material consumed actual pro perty.
+
+Table 86 - Attributes of material consumed actual property
+Attr ibute name Prope rt y name Descnp ll on V alu e Valu e umt of meas ure Qua nll ty Quan tity unit of measur e Description Exa mp le
+
+An Identi ficatio n of the associated rnaren al property or meterist class property for a specific segment respo nse . Con tains add itio nal Information and descriptions of the materi al co ns umed actual property def inition . The value or set of values for th e ass ociated prope rt y. For examp le: lI at. sat in. hig h glo ss . The urut of me a sure of the associ ated pr operty value , if app licab le . Spe cif ies the amou nt of material resources consum ed b y the par ent segment , if appli cab le . Iden tifies the un it of measur e of the quantity, if appl icabl e .
+
+Gloss "li sts the typ e of paint used in production ... High glos s {High gloss , low gloss , sa tin finish }
+
+4
+355 m l cans
+
+4.13 .14 Consumable actual
+Table 87 lists the attr ibutes o f consumable actual .
+
+Table 87 - Attributes of consumable actual
+Attr ibute name Mat en al cl ass Descr iption Examples
+
+Identifies the assoc iat ed rnetene! cl ass or set of materia l classes act ua lly use d for a spe cific seg ment respon se . a) Ide nllfies th e assqc iated ma terial definition or se t of met erie! defmitlons actuall y used fo r a spe cif ic segment response . a ) Co nta ins ad dItiona l informati on and des cript io ns of the con sumabl e act ua l . Ide ntifICatio n of t he locall on fro m wh ich the con sumab le was obtained , If app licable . SpeCifies the amount. of mate ria l resources consu med b y the parent seg m ent. If applicable . Appl ies to each member of the mst en et de fin ition or ma terial class sets . Iden tif ies th e unit of measure of the quantity . if ap plicable.
+
+Tape
+
+Mat en al deflllltion
+
+Masking tape
+
+Des cnp tl on Lo c ation Quantit y
+
+"U sag e of ma sk ing t ape for pol is h a nd pai nt s egm ent : Sho p floor
+
+2.8
+
+Qua ntity Unit of me as ure
+
+m
+
+a ) Typic ally elt he r a mat en al clas s or materi al de finit ion IS specified .
+
+62
+
+ISIIEC 62264-2: 2004
+4.13.15 Consumable actual property Table 88 lists the attributes of consumable actual property. Table 88 - Attributes of consumable actual property
+Attribute name Property name Descript ion Value Value unit of measure Quantity Quantity un it of measure Description Example Tape width -Width of the tape used in production .
+
+An id entific ati on of the associated material property or materia l cla ss property for a specific segment response. Contain s additional informa tion and descriptions of the consumable actual property de finition. The value or set of values for the associated property. The unit of measure of the associated property value , if applicable. Specifies the amount of material resources consumed by the parent segment . if applicable. Identifies the unit of measure of the quantity, if applicable .
+
+10
+Mm
+
+1.2
+m
+
+4.14 Summary of objects Figure 11 provides an informative illustration of how the object models inter-relate . The production informati on presents what was made and what was used . Its elements correspond to information in production scheduling that listed what to make and what to use . The production scheduling elements correspond to information in the product definition that shows what is specified to make a product . The product definition elements correspond to information in the process segment descriptions that present what can be done with the production resources . The slanted rectangles in Figure 11 represent any of the resources (personnel. equipment . or material) or properties of the resources.
+
+63
+
+Produetlon
+
+Product
+
+Production Information
+What to rn.ake and results
+
+~ m ~ ....,
+....,
+
+ClRtbtllty Information
+What IS available
+
+definition Information
+How to specify a product
+
+o CJ) ...., ....,
+
+rr:': ----,
+IQ
+
+.A.
+
+r:A
+
+'I (
+Production schedule
+Wh at to be made and used
+
+.A.
+
+------,
+Production performance
+Wh at was ma de and used
+
+::!!
+
+� .... ....
+I
+
+C ...
+
+Proce�� segment capability
+Wha t can be done with the resources
+
+Production capability
+What resources are available
+
+Ressource
+IdentifIed . personnel, equ ipment ma teria l. and process segment
+
+Resource class
+Categories of personnel. equ ipment and material
+
+2
+
+a .n
+m
+
+0
+
+Produ chon schedule
+
+Produchon performance
+
+3
+0
+Q.
+
+Product ProductKlll capabfllty
+
+~
+
+definition
+
+Production
+response
+
+!.
+:::I
+
+:::I III
+'C III
+
+III
+
+!.
+
+... .. � ..
+
+-
+
+P roc ess
+
+segment
+ca pability
+Coetespon ds
+10
+
+o'
+
+a
+
+Corresponds to a
+
+I
+
+)01".1""'.....
+
+f o rre spond1
+to a
+
+. ~"t""" "" "~ "'..L
+:&
+
+Ma y I rrespond
+
+Segment re sponse
+�
+
+I
+
+�
+
+toa
+
+=.
+
+Corresponds
+
+to a
+
+Ressourc e 7 Personnel . Equipment or Material
+
+ISIIEC 62264-2 : 2004
+
+4.15 list of objects
+T he fol low ing t a ble s pres en t a co m plet e list of the objects discussed
+In
+
+th is standard
+
+Table 89 - Personnel model objects
+P erson P erson prope rty P er s onnel class P er son n el class property Q ualific ation te st specification O ua lificatron tes t result
+
+Table 90 - Equipment model objects
+Equ ip m ent Equ ip m ent p rope rty E qu ip m ent clas s E qu ipm ent class p roperty Equ ipment ca p a bi li ty test spe c ifi ca tio n E qu ipm en t capa bility test res ult Mainte nance reque st Ma in tena nce work order Ma int enance re spon se
+
+Table 91 - Material model objects
+Ma teri al cl as s Ma tena l class p ro p ert y Mat e ria l oe nn iti on Maten al defmit ion pr op erty Ma tena l lot Ma te rial lot prop erty Materia l sub lot QA test sp ecification QA test result
+
+65
+
+ISltEC 62264-2 : 2004
+Table 92 - Process segment model objects
+Process segment P erso nnel segmenl sp ecifIc ation Person nel segment speCificatio n propert y EquIpm ent segment spe cif ic ation EquIp men t segm ent spec inc an on property Matenal segment specific ation M aten al seg ment specification prop ert y P rocess se gmen t dep endency Proc ess segment parameter
+
+Table 93 - Production capabi lity model objects
+P roducnon cap abili ty P erson nel caoa buit v Personne l cap ab ility pro pert y Equipm ent cap abihty Eq uipment ca pab il it y property Matenal ca patnht y Matenal capab ili ty pro pe rty
+
+Table 94 - Process segment capability model objects
+Proce ss se gment ca pa b il ity Pers onn el segment capabili ty Per son nel segment capability p roperty Equ ipm ent seg me nt cap ability Equip men t seg ment c ap abili ty prope rt y Ma te n al segment cap ab ili ty Malena l seg me nt cap aornty property
+
+Tab le 95 - Product definition object models
+Pro du ct dehnl tlo n Manuf aclu nng bIll Pro du ct seg me nt Pro du ct para meter Pe rson ne l sp ecmcan o n Personnel specihcan on pro pert y
+Equ ipm en t sp ec ificatro n
+
+EQuipm ent spec rnc anon pr operty Mat ena l sp ecmc anon Ma l enal sp ec .nc anon pr o perty Pr o duc t segm en t de pend ency
+
+66
+
+ISIIEe 62264-2: 2004
+Table 96 - Production schedule model objects
+Producti on schedule Pr odu cli on request Segment requirement Production parameter Personnel requ irement Personnel requirement property Equipment requirement Equipment requirement property Matenal produced requirement Material produced requirement property Material consumed requirement Material consumed requirement property Consumable expected Consumable expected property Requested segment response
+
+Table 97 - Production performance object models
+Product io n performance Production response Segment response Product ion data Personnel actual Personnel actual property Equipment actual Equipment actual property Matenal produced actual Material produced actual property Material consumed actual Material consumed actual property Consumabl.es actua l Consumables actual property
+
+67
+
+IsnEC 62264-2: 2004
+
+5 Compliance
+An y ass essme nt of compliance of a spe cification shall be qual if ied by the follow ing : a) The use of the term inology defined in IEC 62264-1, Clause 7. b ) The object models supported (personnel. material . equipmen t. process segment , production capab ility . process segment capability. product defin ition . production schedule . and prod uct ion performance ). c ) The use of objects listed in 4 .15 that are supported . d ) The use of the attributes for each supported object. e) The relationships between the supported objects . f) A statement of the total compliance concerning definitions . objects, attributes . and relationships or, in case of partial compliance. a statement identifying explicitly the areas of noncompliance.
+
+68
+
+ISIIEC 62264-2: 2004
+
+Annex A (informative) Use and examples
+
+A.1
+
+Use and examples
+
+This part of IEC 62264 is expected to be used in the specification of interfaces (at level 3 and level 4) between new applications , between legacy applications , or between new applications and legacy applications . That may facilitate the usage of packaged software In a legacy application context , which may be the most powerful initial use of the standard Through the use of this standard. the definition of the interface content may be provided faster and more accurately . In addition , the specification of interface content may be easily reused This will be facilitated by the correct use of compliance assessments, that identify which object models are supported by the interface content specification IEC 62264 -1 defines the categories of information that should be exchanged between business systems and manufacturing operations and control systems . Four (4) categories are defined; � � � � Product definition Production capability production schedule Production performance } Production
+
+Each of these four (4) categories relies on the four (4) resources also defined in IEC 62264-1
+
+�
+
+Personnel Equipment Material Process segment
+
+� �
+�
+
+IEC 62264-1 presents the corresponding UML models . This part of lEe 62264 defines the attributes for the objects contained in the UML models . The UML models are software independent descriptions of the data exchange between bus iness systems and the manufacturing operations and control systems , UML relies on object-oriented methodology. Very briefly , this means that there are classes. subclasses and instances (objects ). A class can for example be "car", and the Instances can be "Mrs Mine 's car" or "M y car". A class has attributes , and the instances have values on the attributes. for example. the class "car" has an attribute "license plate" whereas the Instance "Mrs , Mine's car" has the attribute "li cense plate= ABC 123 " IEC 62264-1 defines the UML models, and thereby also the classes . This part of IEC 62264 defines attributes that should be long to these classes
+
+69
+
+ISJlEC 62264-2: 2004
+Ex';M P ,-E 1 r ''J" re'; 1 sno ...s tn e U" ' L n'od el for pers onnel
+
+P er SJ I" --: e i
+CidS S
+
+;
+,;
+
+Perso n
+O r f ,r ~1 o~
+
+~.
+
+~.
+
+,;
+
+"
+
+0
+
+.
+
+Perso nne l cl ass pr op e rt y
+1
+
+k-
+
+Maps to - - - - -- - ~ - - - - -- - - -
+
+P erso n p rope rty
+C
+
+..
+Qua l if ica t io n
+
+..
+
+< r ec ord s t h e
+
+___l ! ~ ~r:i 01
+lO r
+
+c w t. : :A..I!
+
+c.
+
+1etu"l." a c . oce c cr e
+
+te st sp ec rtrcan on
+
+C
+
+"
+
+Qualificati o n test re sult
+
+I S use d 10 t e s t >
+
+Figure A.1 - Personnel model
+The model shown in Figure A,1 , a copy of Figure 2, defines s ix (6 ) classes ; person, personnel clas s, person propert y, per sonn el class property , qualification tes t specification and qualifica tion te st res ults , This pa rt of lEe 62264 defines the attr ibutes for each of these s ix (6) classes . Table A 1 shows the attributes for person (a cop y of Tab le 5 ).
+
+Table A.1 - Attributes of person
+Attribute n.me
+10
+DescrIptio n A uniqu e Idenll f,c at, on of a s pe c if ic p e rs o n . w ith in the scope of the information e xc ha nged (pro ducti o n ceo etnut� . o rod uct ion sch ed ule , prod uct ion pe rfo rma nce . e tc .) Th e 10 sha ll be used In o the r p art s o f th e m odel whe n th e person need s to be id entifl e d, s uch as t he oroauction capa bIlIty for this p ers o n . o r a pr o d uction re sponse Iden tifying the pe rson . Examples 9 99 - 12 3 -456 7 J an e W Sm it h - #2 Empl oy ee 23
+
+Desc nptio n
+
+Additi ona l in to rrn ano n about th e re so u rc e .
+
+"Pe rso n info rm ation " "P er son i n fo r m a ti on " "P erso n i nfo rma ti on "
+
+N am e
+
+The n am e o f th e mdrvrd ual . ThIs IS m eant as an add urona t i denh fi c a ti o n o f th e resou rce . bu t o nl y as in f orm a ti on a nd not as a uni qu e v al ue
+
+Joh n Sm it h Lou Brown Jane M ine
+
+This means tha t the class person should have 10, description and name as attributes . Figure A.2 shows the class person with the attr ibutes , and two instances for example John Smith and Lou Brown .
+
+70
+
+ISJlEC 62264-2: 2004
+Person 10 Name De scnpt.on
+
+Figure A.2 - Instances of a person class
+In the same manner, there is a class for "personnel class" (personnel class should be thought of as personnel group/category); the instances used depends on the application but could be for example, engineers, night-shift workers, drilling-machine-operators etc. Of course, certain attributes for classes will depend on the application. to support application specific attributes, the "property" should be used. the instances of the properties will define the attributes for the corresponding class. The UML model says that there can be none, one or many properties linked to the corresponding class as shown in Figure A.3
+
+Class
+
+~~
+Has a val ue for
+
+O.. n
+
+Class property
+IE<: '1ll6!04
+
+Figure A.3 - UML model for class and class properties
+This means that all the instances of "Property" will effectively describe attributes to the class Each instance of the class will contain values for the attributes.
+EXAMPLE 2 Certain attributes for Person as well as for personnel class depend on the application. for example. It might be useful to exchange info about a person's date of birth in one application but not In another To sUPPOl1 application specific attributes. the "person property' or "personnel class property" should be used The Instances of the properties will define the attributes for the person/personnel class The UML model says that there can be none, one or many properties linked to person/personnel class.
+
+There is a class called person property. Each property is uniquely defined by Its 10. description, value and value unit of measure. as shown in Figure A4
+Person property
+
+ID:
+Description: Value: Value unit of measure:
+
+Figure A.4 - Class property
+71
+
+ISIIEC 62264-2: 2004
+The class can have for In stanc es. two for the date of birth . one .for John and one for Lou . and two for shoe sizes. one for John and one for Lou . as shown In Figure A.5 .
+P~r > �J r
+
+p ro p e rt y
+
+Figure A.S - Instances of a person properties
+This means that each person (instance) will have info about its properties as shown in Figure A.6.
+Pe -so...
+'0
+
+.----------1
+
+e -cce -tv '0 Oe s c' �CI�ol"
+v a c,e
+v a.c e U '" ! 01
+~ e ds .. -e
+
+A person property ID : data 01 birth
+
+O�� crlptlon : _"en l o u Brown ��� bo rn
+
+Value : 12 Jun_ "5'
+~
+
+... .
+
+Valu. unll of m��� ur. :� ~
+
+~ _.~.~.~..- '".. -.-.-:_-.-..- .. -.---.-.---.-:.-.- _..
+
+Figure A.6 - Instances of person and person properties
+It is important to note that supporting products will need to allow the definition of classes, creation of Instances . and manipulation of instances . However, the specific instances created will depend on the application .
+
+A.2
+
+Application of the standard
+
+When designing or creating a system that implements the standard, one must make sure that the system supports the classes needed (for example person. personnel class, person property. personnel class property , etc) . To completely comply with the standard, all classes defined in IEC 62264 -1 should be supported in the system .
+
+72
+
+I5nEC 62264-2 : 2004
+Before the s yste m s a re pu t In exec ution mode . 11 ha s to be de cide d what pr opert.e s the c las ses s hou ld ha ve ( I e . what Instan ce s the properly class sho uld ha ve ) Of course ont v !h !propert ie s that need to be e xch a nged between the s ystems ha ve to be decided Th e re as on s this ha s to be de c ided inc lude : � Due to the internal stru ctu re of da tabases . so me data ba ses c an not be enla rged dUfi ng execu ti on mode . and the refore it need s to k no w in ad van ce wha t propert ies shoul d be suppo rted . Diff ere nt syste ms m ig ht have different con straints on the naming of th e propertie s fo r exam p le . a ma xim u m len gth of pr o pert y-name . the usag e of upper and lowe r case let te rs Differ en t sys tem s m ig ht be d eve lope d in d if fer ent languages . for exam ple , In on e sy stem all proper tie : ar e pr e sen ted in Fr ench . whereas in another one , the properti es are presente d in Engl ish .
+
+� �
+
+Du r ing ex ecu ti on . da ta re gardin g the instanc es c an be exchanged . The data excha ng ed can be done in man y d ifferen t w ays . O ne poss ib ilit y I S through da tabases . a no the r PO SS ibili ty IS throu gh XML a nd XM L schern a s that have been devel o ped in accordance with the lEe 622 64 models .
+
+A.3
+
+Database mapping of the models
+
+If a database is used for data ex chan ge . then there are man y different wa ys of structuring the database . Tabl es A .2 and A .3 are in clud e d as ex amples of a data base st ructur e th at can be us ed to conta in the data . The attribu te "ke y" indic ates a unique va lue that ma y be rec u.rec fo r relational integrit y.
+
+Table A .2 - Database structure for person
+TABLE: Person
+10
+
+-
+
+Description
+
+Name
+
+Table A .3 - Database structure for person property
+TABLE : Person property
+10
+Description Value Value un it of measure Key
+
+When the sy stem is in execution . the database could contain the infor mation show n A.4 and Table A .S.
+
+In
+
+Table
+
+Table A.4 - Database for person with data
+TABLE : Person
+10
+Description T he e m pl o ym ent num ber T he e mp loy me nt numb e r The e m plo ym e n t nurnne r
+Joh n Sm ith
+
+!
+Name
+
+!
+
+101 102 103
+
+I
+
+Lou B r ow n Jane Mine
+
+73
+
+ISlJEC 62264-2 : 2004
+Table A .S - Database for person property w ith data
+TABLE : Person Property
+10
+
+Descr iption In dica tes when a pe rso n i s born Ind icates the shoe size o f a pe rson Indicate s .....hen a person IS born Indica te s the sho e si ze of a pe rso n Indicat es ..... he n a person IS bo rn Ind icates the sh oe size of a pe rson
+
+Value
+
+Value un it of measure YYYY � MM- DD
+
+Key
+
+D ate of birt h Shoe Size Da te o f b"th Shoe SIz e Date of bir t h Shoe Siz e
+
+1945-03 -23 43 1955�06 -12 45 1969-12 -24 38
+
+101 101
+
+YYY Y-MM- DD
+
+10 2 10 2
+
+YYYY- MM � DD
+
+10 3 103
+
+A.4
+
+XML usage
+
+If XML documents are used for data exchange , then the re are many different ways of structuring the documents . The str ucture for an XML document is defined in a "sc hema" . A schema is the equ ivalent of a data base table definition . Figure A .7 ill ustrates a poss ible XML schema for "person". The schema defines a place for 10, descrip tion , name , the person propert ies, and a place to conta in the list of personnel classes the person belongs to . A person (instance) is defined by its 10, description , name, Person Property . and PersonnelClasslO . The 10, description and name, correspond to the att ribu tes 10, descript ion and name de fined in this part of IEC 62264. PersonnelC lass lO is de fined as the 10 of a personnel class . PersonnelClasslO (there may be many ) con ta ins a li nk to instanc es of PersonnelClass . Person Property is defined as a complex type that conta ins the property 1 0, description , and value .
+
+74
+
+IsnEC 62264-2: 2004
+� x sd :
+
+comf �1e xT":v t' n a rne = " Pe r s on Type " > , ;.: s d : s e q u e nce > "10 " <x s d: e l e me n t na me t yp e = "x s d i s r r i no vv, <x s d : e l e me n t na me " De s c r i p t i on " type = "xsd :string" minOccu rs = " 0 " maxOc cur s "unbounded " IIN am.e <x s d : e l e me n t nam e t ype = " x s d:s t ri ng" /> <x s d : el e me nt name "PersonProperty" type = "Pers o nPropert yTyp "," minOccu r s = " 0 " maxOcc ur s = "un b ound ed" <x sd : el e ment n ame " Pe r s onne l Cl a s s I D" t ype = " Personne lCl assIDTyp e" minOccurs = " 0" maxOc cur s = "unb oun de d " </x s d : s equ e n c e >
+ll
+
+e ix s d :co mp l e x T:~ e>
+
+ex s d : s i mp l e Type n ame =" Pe r s onne l Cl a s s I DType "> ex s d: r e s t r i c t ion base = "xsd : s tri n g"> e /xs d : r e s tr ic tio n> e / x s d : s i mp l e Type>
+
+Figure A.7- XML schema for a person object
+Person Property contains the instances of PersonProperty (there can be many ) A Person Property (instance) is defined by its 10, description , value . and value unit of measure The 10, description and value and value unit of measure , correspond to the attr ibutes 10. description and name defined in this part of lEe 62264 . A Person Properly (instance) could be defined in the schema shown in Figure A.8
+
+e x s d: c o mp l e x Typ e n a me = "PersonPropertyType" > exsd : s e q uen ce > "10 " typ e = " r DTy pe " ! . e x s d : e l e me n t name "DeScription" t ype = " De s c r i.p t r o n f yp e " e x s d : e l e me n t name mi n Oc cur s "0" maxOccu r s = "u nb ound ed" ; > "Va l u e" type = " Va lue Ty pe " e x s d : e l e me n t na me " 0 " maxO cc u r s � " u n bo u n d e d" ! . minO c curs "ValueUnitOfMeasure " type = "Value UOMTyp e" e x s d : e l e me n t name minOccur s = " 0 " max Occ urs = "unb o u nded " : " Qu a l i f i c a t i o n Te s t Sp e c i f i c a t i o n I D" <x s d : e l e me n t name t ype " Qua li ficatio n Te s t S p e ci fic a ti o n I DTy pe" minOc c u r s = "0 " max Oc curs = " un b o un d e d" � <x s d: e l e me n t na me = "T e s t Re s u l t" t ype = "Te s tRe s u lt Ty p e " minOc cur s = " 0 " maxOccurs = " unb ounded" l > e / x s d: s e q u e n c e> e ! xsd :c omple xType > Figure A.S - XML schema for person properties
+During execution, an XML document is created and the values of the attr ibutes are fJIIed In and exchanged between the systems . Figure A.9 illustrates a sample XML document . match ing the schema given in Figure A.8 . that contains person and person properly information .
+
+75
+
+ISIIEC 62264-2: 2004
+
+101 .Emp10yment Number.'
+
+... c"S
+
+'I:";:: :"::;':',~
+
+,
+
+,John Smi tho
+
+:; ,t':>:
+
+: : -d a t e -of -birth�
+8es=r:..r:lcn~indicates when a
+:>e;:3:t :.p~ :"0:-'.;-
+
+person is born
+
+V3:~e~1945-03-23~ Value~
+
+,�,'a>.:e ULl::Jf i>leasul'e> YYYY-MM-DD
+.:
+~leas'J.re>
+
+~:2.Shoe
+
+size< IO> shoe size < Descriptlon> Value> engineer}
+
+~Des=rlp:l:Jn>indicates the
+~val~e>43<
+
+</ ~ers~~?roperty > .?ers0LnelClassID> night-shift-operator,
+<
+
+?e~s~~::elClassIC>
+
+Figure A.9 - Example of person and person property
+The information about an instance (for example, product manager or engineer) PersonnelClass could be exchanged In a separate XML schema. as shown in Figure A.1 O. of
+
+<:C.Engineer<
+<Desc~lp:lon>
+
+ID> a registered professional engineer</Description>
+
+,'Des::::
+<
+
+<ID>Engineer's License Number</ID> i p t i c n >"The official engineer's license number"
+Des:.:'riptlon~
+
+?ers8nnelClass?ropertyType> PersonClassType>
+
+Figure A.1 0 - Example of person class information
+Since the XML schemas or the objects and their attributes might not be implemented or have the same designation inside different systems, it might be required to have an 'adapter/translator" mside the systems This "adapter/translator" translates from the IEC 62264-2 terminology to the terminology used within the different systems. Figure A.11 Illustrates an adaptor that maps property names and property types (date formats).
+
+76
+
+ISIlEC 62264-2 : 2004
+
+.0 10'
+.... dl'...
+
+�
+
+J l ;t'n
+
+S rrutf
+
+<::
+Pe lsor.
+prope rty
+1000 b
+
+XMLoata::>
+Peraon
+
+1 0 101 Name JoMSmltl
+
+Oescoc uon Blrtl" .(]a y
+V alue 23 -C3, ' ~5
+
+,, :
+Petson Pn:lpeny 1 0 date 01 bortIl DesaiptiOn - Elo1May
+Value ' 945-1)3.23 Value uni1 at measure : YYYY -MM-OO
+
+ero : o
+
+<5 :
+
+p~~
+
+propetl"f)
+
+~ D aa t&-ou fla1\ "'x-. Qf,~lpIlon
+
+Valli e
+
+u~ 1 1
+
+of measure 0 0 -MM-YVY'r "
+
+�:
+
+a.rtha8,.
+..... �0 0
+
+v..ce
+
+',..~ .() 3 n
+
+V all,,It! unt l of f'Tltl. ~iJl(I' V Vy,
+
+dob date_oCbirth Value 23 -03-194 5 UOM DD -MM -VYYY
+
+=
+
+= =
+
+date-de -naissance date_of_birth Value =1945.Q2-23 UOM - YYYY -MM-DD
+
+=
+
+Figure A.11 - Adaptor to map different property names and value.
+
+77
+
+ISIIEC 62264-2: 2004 Annex B (informative) Example data sets
+
+B.1
+
+Introduction
+
+The following sections contain example data sets . based on the models in IEC 62264-1 , and usmg the attributes listed in this part of IEC 62264 .
+
+B.2
+
+Material model example
+
+This is a simplified example of material information that may be used in the food processing industry . The example presents shared information about a material class (pork), a material definition (pork 80% lean), a material lot, and a material sublot . In a full example, there may be multiple material classes and material description information sets that are shared, with lot and sublot dynamically shared . Indentation of objects is used to illustrate the relationship between the objects .
+
+10 - Pork Descnptron Propert ies 10 - Lethal Heat Descnpt.on - Temperature to kill bacteria Va lue - 160 Units of Measure - Degrees F 10 - ReceIving Tempera ture Ta rget De scnpt ron Value - 32 Un its of Measure - Degrees F 10 - Receiving Temperature Max
+
+Oescnonon Value - 36 Units of Measure - Degrees F
+
+10 - Receiving Temperature Min Oes cnptron Value - 28 Units of Measure - Degrees F
+10 - Maxim um Allowable C ut Time
+
+De scnpuon - Time sin ce cu t V alu e - 3
+Uni ts of Measure - Days
+
+10 - Pork 80 Dascnpt ron - Bone less pork cut up with a target lean percentage of 80 V alu e Un,t of Measure� P rope rties
+
+10 - Percen tage Lean
+
+De s cno t.on V alu e - 80
+Uni ts of Measure - Pe rcentage QA Test Spe crtrcation 10 - Ja ckSpratTestl
+
+78
+
+ISIIEC 62264-2: 2004
+De scn pn on - Te st to dete rmine per cent of fa t Ve rsion - 1997 -04-0 2
+10 - Per cent age Fat Des crip tion Val ue - 20 Unit s of Me asure - Percen tage
+
+ID - 200001 15091 34 5 Des crip tion Status approved Prop ert ies
+10 - De livery Tem peratu re Descr ipti on - Temperature at deli ver y Value - 37,5 Units of Measure - Degrees F
+
+QA Test Result
+10 - 2000-01-16-4930-TEMP Des cr ipt ion - Internal temperat ure of por k Date - 2000-01 -16 Result - Fa iled Exp iration - None
+
+ID - Cut Descrip tion - Cut Date Value - 2000- 01 - 14 Units of Measure 10 - E xpira tion Description - E xpirat ion Date Value - 2000-01 -17 Un its of Measure 10 - Fa t Descript ion - Actua l Pe rcent Fat Value - 20 Units of Measure - Percent
+
+QA Test Resu lt
+10 - 2000 -01 -16-4930�SPRAT Description Date - 2000-01 - 16 Result - Pass Exp iration - No ne
+
+ID - Lean Descript ion - Actual Percent Lean Value - 80 Un its of Measure - Percent QA Test Resu lt
+10 - 200 0-01 -16-493 0-SPRA T Descrip tion� Date - 2000�01 -16 Result - Pass Exp irat ion - None
+
+ID - 2000 0 11509 134 5-1 Descript ion Sto rage Loca tion - Tote 392. Le ve l 3. Ra ck 49 Val ue - 200 Unit of Measure - kg
+10 - 2000011 509 134 5� 2 De scrip tion Sto rage Locat ion - Tote 852 . Leve l 3, Ra ck 50 Value - 300 Unit of Measure - kg
+
+79
+
+ISIIEe 62264-2: 2004
+
+8 .3
+
+Personnel model example
+
+This I S a simpli fied example of personnel Informat ion that m ight be used in the petrochem ical processing Indus try The e xampl e lists shared in form ati o n about personnel classes and persons . mclud inq Qualification test information .
+Pe rsonne l
+~
+
+10 - Oper ator Level A
+
+De scr tpt io n - Top level op er ator certific a tion for petro c he m ica l plan t
+10 - Op e rator Le ve l B Oe scnp uon - Bas rc lev e l ope ra tor certifi c at io n for petrochem ica l pla nt 1 0 - Operat or Oe scnp tro n - Operators fo r petroch em ica l plant Propert ies 1 0 - MTBE Pr ocess Certi fication
+
+De scnptron - Each co m ple te d level of certification test
+Value - TRUE , FALSE Units of Measure � Qualification Test Speciticatton 10 - PC�MTBE-992828 Oescnpn on - Test to determine level of MTBE c erti fic a ti o n V er sio n - 199 7-04-02 1 0 - PO Refin in g Process Ce rti fic atron De scnp no n - Ea ch co m pleted level o f cert if icat ion lest V al ue - TRUE . FA LSE Units o f Measu re � Qualificatio n Tes t Specif ication 10 - PC � PO �Reflnlng -992828 Oes cnpnon - Test to determine le vel of PO Refining certification Ver si on - 19 9 7-04� 0 2
+
+ID - Push -Up Cert ific ation Oescnpuon - Operato r rs temporaruv able to perform the h igher up function Value - TRUE . FAL SE Un its of Measur e �
+10 - 99 9-6 3 -8 16 1 Oes cn ptron Name - Joh n Doe Propert ies 10 - MTBE Process Certification Dascnptron - Each completed level of certification test Value - TRUE . Units of Measure� Qualificat ion Test re sult s 10 - PC �MTBE �99282B.2000.10.12 Oescr iplion - Test to determine level of MTBE ce rt ifi c a ti o n Result - Passed Exprratron - 2000�12�15 1 0 - PO Refining Process Certif ication Desc nption - Each completed le ve l of certification test Value - FA LSE Uni t s o f Measure � 10 - P us h -Up Certi fic ati o n Oe scnpnon - Operat or IS tempora n ly ab le to perform the h ' h f . Value _ FA LSE 1 9 er up unction Unit s of Measure -
+
+80
+
+ISIIEC 62264-2: 2004
+10 - Fir e Team Ouahfred Descrip tion - Ope rator h as been tra ined to a rc on ',re -f,ghltng Value - TRUE Units of Mea sure -
+
+Pe rsonn el Cla sse s
+10 - Operat or ID - Op erat or Lev el B 10 - FIre Team Oual rtred
+
+8.4
+
+Equipment model example
+
+This is a simplified example of equipment information that might be used in the electronic board assembly industry.
+Equ ipment Class
+10 - Board Fabrication line Des cript ion -
+
+Equ ipment class propert y
+10 - Board size Description - The maximum size of PC board supported on this hne Va lue Un it of Measure - mm 10 - Input que ue size Description - The maximum number of boa rds allowed on the onput queue Value Unit of Measure 10 - Wave solder temperatu re vanability Description - the variability in the solder temperature Value Un it of Measure - ' C
+�
+
+Equ ipment Capabil ity Test Specificatron 10 - WS-1985-A23 Descript ion - Test to determ ine so lder temperature variation Version - 1985�09-A Eqyipment
+10 - East Production Area Description - East bu ild ing production line . Factory 52
+
+10 - East line 1 Description - Pager board assembly line . East bu ild ing . lone 1 Equipment Property 10 - Board size Value - 10 10 - Input queue size Value - 25 10 - Wave solder temperature var iability Description - Normal plus or minus temperature variab iltty Value - 3,5 Units of Measure - ' C Equ ipment Capability Test Result ID - WS-1985-A23 Description - Test to determine actual solder temperature var ialion Result - 3,5 Expiration Date - 2000-06�15
+
+81
+
+ISI1EC 62264-2: 2004
+10 - East li ne 2 Das cnpnon - Pager boa rd assembl y hne . East bUilding . hne 2
+
+Equipm ent Prope rt y
+10 - Boa rd size Valu e - 5 10 - Inp ut Queue size Value - 50 10 - Wa ve solder temperature tolerance De scrrpuon - Normal plus or m inus temperature variabil ity Value - 1.5 Un its of Measure - "C
+
+Equ ipment Capabihty Test Result ID - WS -1985-A23 Description - Test to determine actual solder temperature varia tio n Result - 1.5 Expiration Date - 2000-05-01
+
+8 .5
+
+Production capability example
+
+This is a simplified example of production capability information for a crude oil pipeline shipment system . This example illustrates the future committed definition of the capability of a crude oil pipeline segment, using a specific segment of time .
+Production Capability 10 - Caspian Crude Oil Pipeline t.ocanon - Tenglz-Atyrau PIpeline Segment Element Type - Area Start Time - August 1. 2001 End Time - Aug ust 31 . 2001 Matenal Capablltty DeSCription - Segment Throughput Matenal Class - Crude a,l - Type A Capab ility Type - Committed Start Time - August 1. 2001 6:00 End Time - August 2. 2001 6 .00 Matenal capability property Property Name - VISCOS ity Value -0 .104 Unit 01 Measure - kg /metre second Matenal capabIlity property Property Name - Entry Temperature Value - 30 Unit 01 Measure - 'C Materiel capabIlity property Property Name - Ground Temperature Value - 18 Un it 01 Measure - ' C
+
+82
+
+ISIIEe 62264-2: 2004
+
+B.6
+
+Production performance example
+
+This is a simpli fied example of production performance information for a crude oil pipeline shipment system . This example illustrates an example of a day of production for crude 0,1 pipeline segment.
+Prod uct ion Performan ce 10 - Ca sp ian Crude 011 Pipe line Start Tim e - August 1. 20 01 End Time - August 2. 20 01 Location - Tengiz -Atyrau Pipe line Segment Type - Area Production Response 10 - Da ily Product ion Start Time - August 1. 200 1 - 6 :00 End Time - August 2 . 2001 - 6 :00 Segment Response 10 - Daily Production Production Data Name - Total Pipeline Throughput Va lue - 126000 Un it of Measure - t I Day Material Produced Actual Descript ion- Crude Shipped. Sh ipper A Materia l Lot - SampleNumber 28883992021 Quantity - 63 000 Un it of Measure - t I Day Material produced actual property Property Name - Average Viscosity Value - 0.103 Un it of Measure - kg /metre second Material produced actual property Property Name - Entry Temperature Value - 3~ .3 Unit of Measure -' ~ C
+
+83
+
+ISIIEC 62264-2: 2004
+
+Annex C (informative) Questions and answers about object use
+
+C.1
+
+Introduction
+
+ThIS anne x co nt ain s note s about the expected use of the object models . basically recorded as notes between cornrruttee members .
+
+C.2
+
+Inflow materials
+
+Question : In many co ntinuous production facilities . the material inflow into the process is an important element of shared info rmatio n . Does the product segment present the material inflow in to production . or can It be presented in the product production rule? Answer : There are no attributes in the Product Segment - Material Specification, or the Process Segment - Material Segment Specification that detail if the mate rial is produced or consumed . To be consistent with the rest of the models. we should be able to specify the inflow (consumed) material In either the Process Segment
+EXAMPLE Running a c .snuan o� segmen t consume s a materia l.
+
+or In the Product Segment (producing a material also consumes a material). This information IS needed for scheduling. so it should be included in the exchanged information . The intormanon should probably be recorded as a property of either the Product Segment Matertal Specittceucn or of the Process Segment - Material Segment Specification, depending on the Industry needs .
+
+C.3
+
+Multiple products per process segment
+
+Question : In many cont inuous and batch industries a single process segment may produce multiple products What describes the whole picture that multiple product segments are associated with a certain process segment?
+EXAMPLE In a system where matenals A . Band C 'are used to produce products X and Y at a certain equipment ,n a s,ngle batcn. where Y coul d be a by -product. There may be on ly one process segment. There may be two product segments . for X and Y. The produc t producuon ru le descnbes that X is made from A. Band C . and Y is made from A, Band C. Then . whal descnbes lhatthe X and Yare 'brother' products? Is .t a parent prod uct segment. which contams product segment X and Y?
+
+84
+
+ISIIEe 62264-2: 2004
+Answer : This part of IEC 62264 does not model the object relationships in IEC 62264-1 . this is therefore a matter of implementation . The most common approach to this problem seems to be to list a process segment for the process of consum ing (A .B.C) and generating (X.V) The process segment - material segment specifications would contain the appropriate ratios (assuming they are constant). such as [50% A. 30% B. 20% C) to produce [75% X. 25% VI . There would be product segments for X and Y. but they would not maintain the inflow (consumed ) information in the product segments . Since the exact relationship between the amounts of material may also be equipment specific . the most common approach would be to create multiple process segments that show the consumed and produced materials in the ratios appropriate for each set of unique eauioment . In petrochemical refin ing and chemical production it is even more complicated. since the rat io of produced material can vary based on production parameters (such as temperatures of trays in distillation columns) and on the specific properties of the consumed materials (such as the sulphur content of the oil) . In those cases . if the information needs to be exchanged on a regular basis . the most common approach would be to extend the process segment - material segment specifications to include the mathematical relationships , such as an equation , tables . or LP (Linear Program) , or a reference to an LP, equation, or table
+
+C.4
+
+Process segments vs. product segments
+
+Question : What is the difference between process segments and product segments? Answer: A process segment presents a production activity and what resources are needed to execute the act ivity. at the level of detail required for planning or costing .
+EXAMPLE 1 Making a bicycle frame requires an assembly jig , a bending macmne . and an assembler for 30 mm
+
+The same resources may be associated with more than one process segment. A product segment lists what resources are needed to make a product. at the level of deta il required for planning or costing .
+EXAMPLE 2 What is needed to make a 68 -cm bicy cle : 2 68 -cm wheels, 1 68-cm frame . 1 seal. 15 screws . 1 h of a tall test cyclist. etc .
+
+A product is defined by one or more product segments . Any specific implementation may require more than one product segment. more than one process segment, or a combination of both to fully describe a plann ing or costmg View of production .
+
+85
+
+isnec
+
+62264-2 : 2004
+
+Th e conce pt of 'pr oce ss se qrnent: IS a planning view of producti o n desc rib ing the resou rces ne eded for pron ucuo n In the contin uo us industn es. this usually co rrespond s to sc hed ule d/pla nne d ope ra tio ns within pr odu ct ion un its
+EXAMP LE 3 A p ro c e ss seg ment in an oil re fi ne ry wou ld be th e matenal flowin g th rou g h a c atalytic c rac k e r Th e ' se g rT' ent" or pr odu cti on WOuld be the use of th e c ata tyt .c cra ck er . The sch ed ule d element w ould be e it h er the flow rate th roug h tne cr ac xer or the tor a: arro unt o f m at en al thr ough the crac ker du n ng a perrod o f tim e
+
+In addition . when multi ple products are produced from the same process , th e n p roces s segments are generall y consider eo a better des cr iption of production .
+EXAMP LE" A distil latio n p ro ce ss se g me n t (as soc iated with a dis til la tion column ) co uld pr o ce ss man y pr od uct segmen ts (one per ou t flow )
+
+The " p ro ouct segmen t" is a plann ing view of production whe re the produ ct definition is more descriptive than the process defin ition .
+EXAMP LE 5 The re may be ma n y produ cts m ade us ", g a "serruconductor chip msertron proc es s ", bu t the pr o du ct de fini ti on IS the key d et ermin ation of the product p rod uced . not th e process it self.
+
+Process segments are genera lly considered a sufficient des cr iption when the processes are relati ve ly generic an d do no t themselves define products . Produ ct segments are important in flexible-d iscrete and batch manu factu ring , where the ab ility to inc lude specific characteristics for ea ch product is possible .
+
+Table C.1 - Definition of segment types
+Description Category of in form a tio n Defin it i on Depe n de nce Process segment Pro du ction mtorrn at io n EqUipm en t pl an runq View of p ro du ct ion Usuall y In de pend en t of prod uct Product segment Product d efini ti on/d escripti on Pro duct pl ann ing view of p ro duc tio n Us u all y dependent on product
+
+C.S
+
+Production parameter references
+
+Question ' Is a pro duct ion requ est - s egm ent req uest - production parameter a reference to a parameter of the asso c ia ted product seg me nt or the process segment? Answer Eithe r . and tru s ambigu it y was intentiona l. because the specifying committee ha d examples for both cases .
+EXAMPLE A proauc tton aerem eter m ay be a pa in t color to be used . this coul d be defined as be ing in either th e oroauct segment (,f eac h product can be pa int e d a different color m the same producti on step ) or in the proces s
+segment (II all pro du cts gOing thr ou gh the produ ct ion step must be painted the same color j .
+
+86
+
+ISIIEC 62264-2: 2004
+
+e.G
+
+How class name and property names are used to identify elements
+
+Question : The object models all follow the same pattern of class name , with an optional property name How is tha t used to identi fy elements? Answer : While properties can be used to contain information about resources. they can also be used to identify subsets of resources. Resources can somet imes be described using a class name , such as "operators," or as class names plus some differentiating property, such as "operators " with ranking of "master ." "standard" or "j unior." In the models where a "quantity" is needed . the models all follow the same pattern . There is always a reference to a class (such as personnel capability) that may have an optional quantity .
+It ma y require 10 m a n -ho u rs of operator time a va ilable for a shift . If th e element described 1$ a sub set of the class . su c h as onl y "m a ster" operators , then a property object IS used to con tain the dlsCrlm lnallng tnform ation , an d the qua nt it y in form ati on .
+EXAMPLE 1 E X A M P LE 2
+
+Pe rsonn el p rop er ty c ap abili ty wou ld define 4 man -hours of "m aster- ope rator lim e a vailab le l o r 8
+
+Shif t.
+
+This model allows significant flexibility by allowing a single class definition (for example . operators), without a quantity listing, and multiple property descriptions (for example, master . standard , and junior operators) each with their own property definition . The left part of Figure C .1 ill ustrates how a personnel capability would describe a capability of 8 operators the right part illustrates how the capabil ity of different rank ing of operators would be defmed the personnel capab ility property, ranking , is used to differentiate the capability of different types of operators .
+
+Pe rs onnel ca pa bi tuy - Personne l cl a s s = o per ator - Qua ntit y = 8
+
+1
+Operator
+
+iU
+
+~
+
+I I I I I
+I
+
+Pe rson ne l ca patn nt y . Pe rson ne l cl as s = o per ato r � Oua nt it y 8
+
+=
+
+..
+
+_,
+
+' . "
+
+,
+
+....
+-- . ... Operator
+
+~
+
+Personnel capabilit y property . Rank ing master ... _� . � - Quan ti t y 3
+
+= =
+
+~ Operator property
+
+~ � Rank inll � muter
+
+r-
+
+Personnel capability p r ope rly - RanklOg standard , Q ua ntIt y 4
+
+= =
+
+------+ ~ -
+
+a
+
+Operator property
+
+.
+
+~ . Ran k lOg
+
+Perso nne l ca pa bi li ty pr ope rl y Junoo r - Quantit y 1
+
+= =
+
+.. . ..y
+
+Operator property - Rankinll � junior
+
+Figure C.1 - Class and property names used to identify elements
+
+87
+
+ISJ1EC 62264-2: 2004
+
+rrns co nc ept appl ies to the
+
+following objects : Equipment capab ility Personnel segment capability Material segment capab ility Equipment segment spec ificat ion Personnel specification Ma terial specification Equ ipment requirement Material consumed requirement Personnel actual Material produced actual Consumable actual
+
+Pers o nnel c apabi lity Ma ter ia l capability Equ ipment segment ca pabili ty Personnel segment specification Matenal segmen t spec ifi ca tion Equipment spec ification Personnel requirement Ma tenal produced requ rrernent Consumable expec ted Equ ipment actua l Material consumed actual
+
+C.7
+
+Possible capability over-counts
+
+Question : What does the statement about over-counts in capabilities mean? Answer : The statements. such as : where persons are members of multiple personnel classes , then the personnel capability information presented by personnel class should be used carefully because of possible doub le counts. and personnel resources should be managed at the instance level. are given because when a property is used to show overlapping subsets of a capability. then the same capab ility may be double scheduled unless this situation is recognized . Figure C.2 shows an example where a property of ReactorType presen ts how many reactors are available The total amount of capability is 5. but the sum of all reactors subsets IS 6. be cause 1 reactor can be qualified as a heating and a mixing type . In this situation . the mixing and heating resources should be schedu led at the instance level in order not to overuse the ava ilable resources .
+
+88
+
+ISIIEC 622~2: 2004
+
+Equi pme nt cap ab ility - Eq uipme n t cl ass = reactor - Ouan trt y 5
+
+Equipm ent capa bility propert - Rea ctorType mixing - Quan tity 3
+
+=
+
+=
+
+--
+
+=
+
+<;
+Equ ipment capability propert, - ReactorType = healing - Ouantit y = 3
+
+Heating reactor
+
+Mix ing reactor
+
+HR101
+
+HR102
+
+HMR101
+
+MR101
+
+MR102
+
+Figure C.2 - A property defining overlapping subsets of the capability
+
+C.S
+
+Routing and process capability
+
+Question: How are routing information and processing capabilities represented in the models? Answer : Routing information can be represented in product segment dependencies. in process segment dependencies. or in both. In some industries the routing is product specific. such as the route shown in Figure C 3 The left side of the figure illustrates the assembly of a spec ific electronic product. with multiple assemb ly operations (at G and H). The routing. for a single product (or class of products ). is represented by the product segment dependencies illustrated in the center of Figure C.3 The capability of the system . for a specific product . can be represented in a set of product segment dependenc ies . as illustrated on the right side of Figure C.3. In this example there could be multiple product routings given . one for each class of products . A scheduling system would use the product demand. product routing . and process segment capabilities to generate production schedules.
+
+89
+
+ISIlEC 62264-2 : 2004
+Prooi.ct X segment
+oepenoencres
+
+Process segment capa bilines
+500 ooards.bour of product X on ~50 ooarcs.nou r of product X on 300 front -oanets.no ur of product 300 front -paners .nour of product process se gment A proce ss se gment 8 X on proc ess segment C X on process segmen t 0
+
+~~ @-Y/
+@-{if
+
+B
+
+('01.J:i !
+
+fottow A
+f ;)FO 'h
+
+C E. G mu 'st fO IiO V. B
+~ ..., ~. 'S ~ f.J l iO......
+
+o m ~s!
+
+G
+
+' ~ l ...S! : 0 1;0 .....
+
+0
+
+500 po we r -sup pues/n o ur of product X on p ro c es s. seq m e r-t E SO O po we r -suppues. hour of prod uct X on process segm ent ~
+
+~ must taH ow
+
+G
+
+H r"lus! rouow F
+
+350 oox esnour of prod uct X on process segment G 450 bo xesnour o f produ ct X on proc e ss seg me nt H
+
+Figure C.3 - Routing for a product
+In some industries . such as cont inuous production with byproducts . the routing may be dependent on the processes In Figure CA. the routing contains material dependencies information The routing information is then used for scheduling . The route in the left side of Figure CA can be represented in a set of process segment definitions (center table in F igure CA) and process segment dependency definitions (right table in Figure CAl . The process segment definitions contain the material production and consumption information. The consumption and production information within the process segments present additional constraints and dependencies required for scheduling of material 81. C 1. and F1 .
+
+Routings and material dependencies
+
+Process segment
+Process segment A produces material A 1 produces material A2 produces material A3 produces material A4 Process segment B consumes material A 1 consumes material A2 produces product B 1 Process segment C consumes material A3 consumes materia l E1 produces product C 1 produces material C2 Process segment D consumes material A4 consumes material E2 produces materia l D1 Process segment E produces material E 1 produces material E2 Process segment F consumes material C2 consumes material D1 produced product F 1
+
+Process segment dependencies
+B shall C shall C shall D shall D shall F shall F shall follow A fo llow A follow E follow A follow E follow C follow D
+
+Figure C.4 - Routing with co-products and material dependencies
+
+90
+
+ISIIEC 62264�2 : 2004
+
+e .9
+
+Product and process capability dependencies
+
+Ques tion : How is the inform ati on for complex scheduling problems represented , such as where there IS a complex rela tionship between equipment and products? An example of this is a paint plant . where particular products can only be manufactured on specific equipment and Yield vanes with the produ ct and the equipment. Answer : There can be a mapping of equipment to process segments . The example shown In FIgure C.S shows sets of equ ipment A . B . C, and D that correspond to process segments . There might be multiple elements of equipment (process cells , production lines . production units ) assoc iated with each process segment. or it could correspond to a single piece of equipment . In this example. there can be specific rules for each product, or rules for classes of products The product segments for each product would show which process segments are valid . The capability of each process segment and product combination can be represented in process segment capability objects . This informatio n can then be used to fill in the information needed by a scheduling system , such as in a cost/throughput matrix illustrated in the lower right of Figure C.S . The costing informati on. and demand information required to determ ine the opt imal throughput , do not cross the boundary addressed by this standard . but the capac ity information does .
+
+Process segments
+Product Product Product Product class class class class
+
+Product segments
+X can be manufactured by segment A.B,C. or D Y can only be manufactured by segment B Z can only be manufactured by segment B or C W can only be manufactured by segment D
+
+. . . .. . . . . . . . . .. . ........... ..... . .. . .. ... . .. .. . .. .. .. . ............ . ... .. . . .. .. .. . .. . . .. .. .. .. . ... .. . . . .. .. .. . . . . . ..
+
+Process segment capabilities
+500 450 325 600 467 330 521 489 Kg Kg Kg Kg Kg Kg Kg Kg of of of of of of of of product product product product product product product product class class class class class class class class on process segment A : on process segmentpB on process segmen on process segmen : Y on process segment B : Z on process segment B j Z on process segment C : W on process segment D j X X X X
+
+x
+y
+
+i
+
+z
+
+Figure C.S - Product and process capability relationships
+
+91
+
+IsnEC 62264-2: 2004
+C.10 Representation of dependencies
+
+Quest ion : How are process or produ ct dependencies represented? Answe r : The depende ncy type attribu te in the process segment dependency and the product segment dependency objects may be used to show the dependency . These may be simple dependencies . such as : a) One segment follows another segment . b) One segment cannot follow another segment . c) Two segments may run in parallel. d) One segment starts when another segment starts . e) One segment starts when another segment ends. f) One segment starts any time after another segment starts . g) One segment starts any time after another segment ends . These dependencies may include physical constra ints (because of production line layout ), or constraints based on safety (such as prohibiting a "water add" after an "acid fill") , or constra ints based on the chem ical or physical processing requ ired to make a product (bicycle wheels mus t be assembled before the bicycle final assembly) . More complicated constraints based on timing may also be defined us ing the time window attribute .
+EXAMPLE 1 The lon ger a semico nductor wafer IS kept unprocessed . the more defe cts are int rodu ced . so there is a max imum delay allowed between segments of production . EXAMPLE 2 A matenal (li ke cheese or wme l must age between processing segment s so there is a m in imum tim e allowed between segments 01 pr ocucnon .
+
+Figure C6 illustrates some of the poss ible timing constraints associated with product segment dependencies or process segment dependencies . The left side of Figure C .6 illustrates possible dependencies where overlapped execution of the segment is allowed or required . The right side of Figure C .6 ill ustrates dependencies where non-overlapped execution is allowed or requ ired .
+
+Tim e
+
+B may run in parallel to A Start B at A start Start B after A start Start B no later than T time after A start Start B no earlier than T time after A start
+
+:: PO
+Time
+
+.
+, ,
+
+~ __L.j-=----' B
+,
+,_ --:: -_ -'
+
+,
+
+B may not run in parallel to A Start B at A end Start B after A end Start B no later then T time after A end Start B no earlier than T time after A end
+
+Figure C.6 - Time-based dependencies 92
+
+

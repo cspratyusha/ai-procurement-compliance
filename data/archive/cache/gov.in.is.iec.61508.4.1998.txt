@@ -1,0 +1,879 @@
+I
+
+IS/lEe 61508-4: 1998
+
+I
+
+I
+
+~/~/m~ll~mJl1 ~~an-~tft ~ <tT~wan
+lfTTT4~~~
+
+I
+
+I I
+I
+
+Indian Standard
+FUNCTIONAL SAFETY OF ELECTRICAU ELECTRONIC/PROGRAMMABLE ELECTRONIC SAFETY-RELATED SYSTEMS
+PART 4 DEFINITIONS AND ABBREVIATIONS
+
+I
+
+I
+I
+
+I
+I
+
+I
+ICS ?5.Q40 -10: 29.020
+
+I I
+
+I
+I
+I
+
+I
+I
+
+I
+I
+
+(c) S!S ?G'J8
+
+BUREAU OF INDIAN STANDARDS
+MA NAK BHAVA N . 9 8 AI-JADUR S H A f-l Z AF :'.R MARG ''J c'JV DE LH I 1100 0 2
+
+Decemb er 2008
+
+Price Group 9
+
+I5nEC 61508-4: 1998
+
+CONTENTS
+Page
+
+INTRODUCTION
+Clause
+
+.
+
+iv
+
+Scope 2 3 Normative ref e rence s ... .. .... .. .. .... ...... ... ... .. .. .. .. ... .. ... .. .. .. .... .. .. .. ......... .. ... ... ...... .. ... .. ..... Definitions and abbreviat ions .. .. .. .... .. .... .. .. ........ .... ....... .. .. .. ... .. .. .. .. ... .. ... .. .. ..... .. .. .. .... .. 3.1 3 .2 3.3 3.4 3 .5 3 .6 3.7 3 .8 Safety terms Equipment and devices.. .. .. Systems : general aspects ... .... ... .. .... . .. Systems : safety -related aspects Safety functions and safely integri ty .. .. .. .. .. .. .... ... ... .. .. .. .. .. .. .. .. .. ... .. .. .. .. ... .. .. .. .... Fa ul t, fa ilure and error ... .. .. .. .. .. .. ... .... .. .. .. .. .. .. .... .. ... .... .. .... .. ... .. .. .... .. Lifecycle ac tivi ues Con firma tion of safety measures .
+
+1 3 4 4 5 7 9 10 13 15 16
+
+Annex A (informat ive ) Bibliography Index .. Figures Overall framework of thi s standard 2 3 4
+
+19
+
+20
+
+. . .. .
+
+2
+
+Programmable electronic system (PES) : structure and terminology Electr ica l/electron ic/programmable electron ic system (E/E/PES) : structure and te rm inology Failure model
+
+8
+
+8
+14
+
+Table Abbreviations used in this standard ..
+
+4
+
+I
+iii ...
+!
+
+'I ...
+
+ISAEC 61508-4: 1998
+Industrial Process Measurement and Control Sectional Committee, ETD 18
+
+NATIONAL FOREWORD . .safety of This Indian Standard (Part 4) which is identical with IEC 61508-4 : 1998 'Function.a' electrical/electronic/programmable electronic safety-related systems Part 4: Definitions and abbreviations' issued by the International Electrotechnical Commission (lEG) was adopted by the Bureau of Indian Standards on the recommendation of the Industrial Process Measurement and Control Sectional Committee and approval of the Electrotechnical Division Council. The text of IEC Standard has been approved as suitable for publication as an Indian Standard without deviations. Certain conventions are, however, not identical to those used in Indian Standards. Attention is particularly drawn to the following: a) Wherever the words 'International Standard' appear referring to this standard, they should be read as 'Indian Standard'. b) Comma (,) has been used as a decimal marker, while in Indian Standards, the current practice is to use a point (.) as the decimal marker. In this adopted standard, reference appears to certain International Standards for which Indian Standards also exist. The corresponding Indian Standards, which are to be substituted in their respective places. are listed below along with their degree of equivalence for the editions indicated:
+International Standard Corresponding Indian Standard Degree of Equivalence
+
+IEC 60050-191 : 1990 International Electrotechnical Vocabulary Chapter 191: Dependability and quality of service IEC 60050-351 : 1975 International Electrotechnical Vocabulary Chapter 351: Automatic control IEC 61508�1 : 1998 Functional safety of electrical/electronic/programmable electronic safety-related systems Part 1: General requirements IEC 61508 -2 : 2000 Functional safety of electrical/electronic/programmable electronic safety-related systems Part 2: Requirements for electrical/ electronic/programmable electronic safety-related systems lEC 61508 -3 : 1998 Functional safety of electrical/electronic/programmable electronic safety-related systems Part 3: Software requirements IEC 61508 -5 : 1998 Functional safety of electrical/electronic/programmable electronic safety-related systems Part 5: Examples of methods for the determination of safety integrity levels
+
+IS 1885 (Part 39) : 1999 Electrotechnical vocabulary: Part 39 Dependability of electronic and electrical items (second revision) IS 1885 (Part 75) : 1993 Electrotechnical vocabulary: Part 75 Automatic control IS/IEC 61508-1 : 1998 Functional safety of electrical/electronic/programmable electronic safety-related systems: Part 1 General requirements IS/IEC 61508-2 : 2000 Functional safety of electrical/electronic/programmable electronic safety-related systems: Part 2 Requirements for electrical/electronic/programmable electronic safety-related systems ISIIEC 61508-3 : 1998 Functional safety of electrical/electronic/programmable electronic safety-related systems: Part 3 Software requirements IS/IEC 61508-5 : 1998 Functional safety of electrical/electronic/programmable electronic safety-related systems: Part 5 Examples of methods for the determination of safety integrity levels ii
+
+Technically Equivalent
+
+Identical
+
+do
+
+do
+
+do
+
+do
+
+ISIIEC 61508-4: 1998
+International Standard Corresponding Indian Standard D9gree of Equivalence
+
+IEC 61508-6 : 2000 Functional safety of electrical/electron ic/programmable electronic safety-related systems Part 6: Guidelines on the applicat ion of IEC 61508-2 and IEC 61508-3 IEC 61508-7 : 2000 Functiona l safety of electrical/electronic/programmable electronic safety-related systems Part 7: Overview of techniques and measures ISO 8402 : 19941) Quality management and quality assurance - Vocabulary ISOIIEC Guide 51 : 1990 2) Guidelines for the inclusion of safety aspects in standards
+
+ISIIEC 61508-6 : 2000 Functional safety of electrical/electronic/programmable electronic safety-related systems : Part 6 Gu idel ines on the application of IEC 61508-2 and IEC 61508�3 IS/IEC 61508-7 : 2000 Functional safety of electrical/electronic/ programmable electronic safety-related systems: Part 7 Overview of techniques and measures ISIISO 9000 : 2000 Quality management systems - Fundamentals and vocabulary ISIISO/IEC Guide 51 : 2005 Safety aspects - Guidelines for their inclusion in standards
+
+Identical
+
+do
+
+Technically Equivalent do
+
+The technical committee has reviewed the provisions of the following International Standards referred in this adopted standard and has decided that they are acceptable for use in conjunction with this standard:
+International Standard Title
+
+IEC Guide 104 : 1997
+
+Guide to the drafting of safety standards , and the role of Committees with safety pilot functions and safety group functions Data processing availability Vocabulary Part 14: Reliability, mainta inability and
+
+ISOIIEC 2382�14 : 1998
+
+Only the English language text of the International Standard has been retained while adopting it in this Indian Standard, and as such the page numbers given here are not the same as in the IEC Standard. For the purpose of deciding whether a particular requirement of this standard is complied with, the final value, observed or calculated , expressing the result of a test, shall be rounded off in accordance with IS 2 : 1960 'Rules for rounding off numerical values (revised)'. The number of significant places retained in the rounded off value should be the same as that of the specified value in this standard.
+
+1)
+
+Since revised in 2000 . revised in 2005 .
+
+21 Since
+
+iii iii
+
+ISIIEC 61508-4: 1998
+
+INTRODUCTION
+Systems comprised of etectnca t and/or electronic components have been used fo r many yea rs to perform safety funct ions in most appl ication sectors . Computer-based systems (qe ne ric a lly referred to as programmable electron ic systems (PESs)) are being used in all applicat ion sectors to perform non-safety funct ions and, inc reas ingly, to perfo rm safety functions . If computer system technology is to be effect ively and safely exploited , it is essent ial that those responsible for making decisions have suffic ient guidance on the safety aspects on wh ich to make those decis ions . Th is International Standard sets out a generic approach for all safety lifecycle act iv ities for systems compnsed of electnca l and/or electron ic and/or p rogrammable electron ic componen ts (etectrical/etectromc/ programmable elect ron ic systems (E/E/PESs)) that are used to perform safety functions . Th is un if ied approach has been adopted in orde r that a ra tio nal and cons istent technical poucy be developed for all electrically basea safety-related systems. A major objective IS to facilitate the development of appl ication sector standards . In most situat ions . safety IS ach ieved by a number of protect ive systems which re ly on many technologies (for example mechanical, hydraul ic , pneumatic , electr ical , electron ic , programmab le electronic) . Any safety st rategy must therefore cons ider not only all the elements within an Ind iv idual system (for example sensors , controlling devices and actuators) but also all the safety-related systems making up the total comb ination of safety-related systems . Therefore . while trus International Standard is concerned with e lectrical/electronic/programmable electronic (E/E/PE) safety-related systems, it may also provide a framework w ithin which safety-related systems based on other technolog ies may be consioereo . It is recognised that there IS a great variety of E/E/PES app lications in a va riety of appl icat ion sectors and covennq a Wide range of complexity , hazard and risk potent ials. In any particular application . the required safety measures will be dependent on many factors specific to the application . Tb is International Standard , by being generic , will enable such measures to be formulated In future app lication sector International standa rds . Trus International Standard considers all relevant overal l. E/E /PES and software safety lifecycle phases (for example, from initial concept. through cesiqn, Implementation, operation and ma intenance to decomm issioning) when E/EJPESs are used to perform safety funct ions; has been conceived With a rapid ly developing technology in m ind ; the fra m e wo rk is suff rcrentty robust and cornprenensrve to cater fo r future developments ; enab les applicat ion sector mtematronal standa rds . dealing With safety-related E/E /PESs , to be developed ; the deve lopment of appl icat ion sector inte rn atio na l standards Within the framework of trus lnternanonal Standard , should lead to a h igh leve l of consistency (for example . of underlying pnnc.p tes , terminology . etc .) both within application sectors and across apphcanon sectors : trns w il l have both safety and econom ic bene fits ; p rovides a method to r the deve lo pmen t of the sa fe ty requ rrernen ts spec if icat ion necessary to ach ieve the required func tiona l sa fe ty for EJEJPE sa fe ty-re lated systems ;
+
+\'1
+
+ISIIEC 61508-4: 1998
+uses safety integrity levels for specrfymq the target level of safety Integrity for the safety functions to be Implemented by the E/E/PE safety-related systems. acopts a risk-based requirements; approach for the determination of the safety integrity level
+
+sets numerical target failure measures for E/E iPE safety-related systems which are linked to the safety integrity levels; sets a lower limit on the target failure measures. In a dangerous mode of failure. that can be claimed for a single E/E/PE safety-related system. for E/E/PE safety related systems operating In a low demand mode of operation. the lower hmrt IS set at an average probability of failure of 10" to perform Its design funct ion on demand. a high demand or continuous mode of operation. the lower limit IS set at a probability of a dangerous failure of 10 9 per hour.
+NOTE - A single E!EiPE satetvre.arco system does no! nece s s ar .tv mean a Single cnanne: arOll!pc!urc
+
+adopts a broad range of pnncrples. techniques and measures to achieve functional safety for E/EiPE safety-related systems. but does not use the concept of fall safe which may be of value when the failure modes are well defined and the level of complexity IS relatively low; the concept of fall safe was consrdereo Inappropriate because of the full range of complexity of E/E/PE safety-related systems that are within the scope of the standard
+
+v
+
+I5nEC 61508-4 : 1998
+
+Indian Standard
+FUNCTIONAL SAFETY OF ELECTRICAU ELECTRONIC/PROGRAMMABLE ELECTRONIC SAFETY-RELATED SYSTEMS
+PART 4 DEFINITIONS AND ABBREVIATIONS 1 Scope
+In
+
+1.1 Th is par t of IEC 6 1508 c o n tains tn e de fi nitio n s an d e x pl ana tio n of terms tha t are used pa rts 1 to 7 o f tru s s ta ndar d
+
+1.2 T he de fin itio ns a re grouped un der ge ne ra l he ad rnqs so that re lated terms can be understood w it hin th e co ntex t o f eac h ot he r Bu t It s hou ld be noted t hat these headings are not Inte n d ed to add m ea nin g to the oet .nn.ons a nd In this sense the headings should be disregarded .
+
+1.3 IEC 61508 -1 . IEC 6 1508 -2 . IEC 61508 -3 and IEC 61508 -4 are baSIC safety publications . a lthough this sta tus does no t app ly In the contex t o f lo w -co m p le xity E/E/PE sa fety-re lated systems (see 3.4.4) As baSIC safety pub lica tions . th ey are Intended for use by technical comm ittees In th e p repa rat io n o f sta nda rds In acco rda nce w ith t he pr incip les conta ined In IEC GUide 104 and ISO /IEC GUid e 51 One of th e responsrtn htres of a techn ica l comm ittee IS. w he reve r applicable . to m ak e use o f baS IC sa fety p ub licat io ns In the preparat ion of ItS own publicat ions . IEC 61508 IS a lso Int e nd e d for us e as a stand -a lone standard
+
+1.4 Figure 1 shows th e o ve ra ll tr arn e w or� for pa rts 1 to 7 of IEC 61508 and Indica tes the role tha t IEC 61508� 4 plays ,n th e ac h ieve me nt of fun cti o na l safety for E/E /PE safety-re lated systems.
+NOT E - .n tne GSA a -o oa- aoa ~ " t , - tn e o- ooos eo pro ce ss sec tor Im plem entatio n of lE G 6 1508 (I e l EG 6 15 11) IS ouonsn eo as an Inte ' na t,o na' s ta r-c a -c ,r. : t1 e u S A a - c Ca r-ana el(ls t lng nat iona l proces s safe ly stanca ros based o n l EG 6 150 8 (, e ANS UISA S8': 0 ' �' 99 6 , car n e ao o -eo :o tne pr ocess sec to r Instead of lE G 61508
+
+ISIIEC 61508 -4 : 1998
+
+p~i:lT~l
+
+requtremen
+
+Development of the overall safety requirements (concept, scope .' , def in it ion , hazard and risk analysis) (ElElPE safety-related systems . other ---1 PART 5 echnology satety-related systems and Risk based approache externa l ri sk reduct io n facilities) to the development of the safety integri ty 7,1 to 7.5
+
+I
+PART 1
+Allocation o f the safety requ irements to the ElEIPE safety-related systems
+
+requ irements
+
+7.6
+
+---JPART 71Overview of techniques and measures
+
+Definitions and abbreviations
+
+,
+Realisation phase tor ElEIP E safetyrelated systems ..
+
+.
+
+r----iPART"'Realisallon phase tor satety-related software
+Guidelines for the application of IEC 61508-2 and IEC 61508-3
+
+......
+
+Documentation
+Clause 5 and annex A
+
+-J PART~
+
+- !P AR T 31Management of functional safety Clause 6
+
+PART 1
+Installation and comm ission ing and safety va lidation of ElEIPE safety-re la ted systems
+7.13 and 7. 14
+
+Functional safety assessment Clause 8
+
+,PAR T 1 1
+Operat ion and ma intenance . mod if ication and retro fi t. decommissioning or d isposal o f ElE/PE safety-re lated systems
+7. 15 to 7. 17
+
+Fig u re 1 - Overall f r am e w o rk o f th is standard
+
+2
+
+ISIIEC 61508-4: 1998 2 Normative references
+
+The follow ing normative documents contam provisrons wruch , through reference in this text, const itute provisions of th rs part of lEG 61508 . For dated references , subsequent amendments to , or rev isions of , any of these publicat ions do not app ly . However, parties to agreements based on this part of lEG 61508 are encouraged to Investigate the possitnl ity of applymg the most recent ed itions of the normat rve documents Indicated below. For undated re ferenc es , the latest edit ion of the normative document referred to applies . Members of lEG and ISO maintain registers of currently val id Internat ional Standards . lEG 60050( 191) :1990, International Dependability and qualIty of service lEG 60050(351) :1975, Automatic control International Etectrotecnrucet Vocabulary (lEV) Chapter 191:
+
+Electrotechnical
+
+Vocabulary
+
+(lEV)
+
+-
+
+Chapter
+
+351:
+
+lEG 61508 -1 :1998 , Functions! safety of electncallelectronlcallprogrammable electronic setetyrelated systems - Part 1: General requirements lEG 61508-2 :- , Functronet safety of electncallelectronlcallprogrammable etectroruc seietyrelated systems - Part 2 : Requ irements for electricallelectron icallprogrammable etectroruc setety-related systems 1) lEG 61508 -3 : 1998 , Funcuonet safety of electncallelectronicallprogrammable electronic safety' related systems - Part 3 : Software requirements lEG 61508 -5 :1998 , Functional safety of electncallelectronlcallprogrammable electronic seietyrelated systems - Part 5 : Examples of methods for the determination of safety integrity levels lEG 61508 -6 :- , Functional safety of electricallelectronicallprogrammable electronic seietyrelated systems - Part 6 � GUIdelines on the eppttceuon of IEC 61508�2 and tEC 61508-3') lEG 61508 �7 :- , Functional safety of electncallelectronicallprogrammable electronic safety' related systems - Part 7: Overview of techniques and measures 1) lEG Gu ide 104 :1997, The preperetion of safety publications and the use of bas ic safety publications and group safety publications ISOIIEG 2382�14 : 1998. Data processing - Vocabulary - Part 14: Reliability, ma intainability and avatlability ISO/IEG GUide 51 : 1990. Safety aspects - Gu idelines for their inclusion in standards ISO 8402 :1994 , Quality management and quality assurance - Vocabulary
+
+' I To be pub li shed
+
+3
+
+ISIIEC 6150&4: 1998
+3 Definitions and abbreviations
+
+For the pu rposes of thi s Inte rn at ional Standard , the following defin itions and the abbrevia tions given in table 1 apply.
+
+Table 1 Abbrev iation MooN
+
+Abbreviations used in this standard
+Defin ition and/or explanation of term Annex B 01 IEC 6 1508�6
+
+Full express ion M ou t 01 N channe l architec tu re (lor example 1002 IS 1 out 01 2 channel architecture) M ou t 01 N channel architecture with diagnostics As lo w as IS reasonably p racticable Elec trica l/electrOnic/programmable electronic Elec trica l/electronic /programmable electronic system Equipment under control Prog rammable erect romc sys te m Programmable lo gic controlle r Sa fe ly int egrit y level
+
+MooND ALARP E/E/PE E/E/PES EUC PES PLC S IL
+
+Annex B ol lEC 61508�6 Annex B ollEC 61508 �5 32 .6 333 3 .2 .3 3 .3.2 Annex E of IEC 61508�6 3 .5.6
+
+3.1
+
+Safety terms
+
+3.1.1 harm phys ical inju ry or damage to the health of peop le either d irectly or indi rec t ly as a re s ult of damage to property or to the env ironment
+(l SO/I EC GUIde 51 : 199 0 (mocnnec) ]
+
+3.1.2 hazard potential source of harm [Guide 51 ISO/ lEG:1990]
+NOTE - The te rm Incl ude s da nger to pe rsons ans-nq with in a short li me scale (fo r exa mple . fire and exp losion ) and also those that have a long -term effect on a person 's heal th (fo r example , release of a toxic substance ) .
+
+3.1 .3 hazardous situation circumstance in which a person is exposed to hazard(s) 3.1.4 hazardous event hazardous s ituation whic h resu lts in harm 3.1.5 risk co mb inat io n of the p robabili ty of occ urrence of harm and the seve rity of tha t ha rm
+[ ISOII EC GUide 5 1 19 9 0 (m odIfied ): NOTE - For m o re c rsc uss .on on trus co nc ep t see anne x A of IEC 6 1508 -5
+
+3.1.6 tolerable risk fisk wh ich is accepted in a given context based on the cu rrent values of soc iety
+N OT E - See annex B o f IEC 6 1508-5
+
+4
+
+ISIIEC 61508-4: 1998
+3.1.7
+residual risk risk remaining after protect ive measures have been taken
+
+3.1.8
+safety freedom from unacceptable risk
+
+3.1.9
+functional safety part of the overa ll safety re lat ing to the EUC and the EUC cont ro l syste m wh ich depends on the correct functioning of the E/E /PE sa fely -re lated sys tems . other tec hnology safety -re lated systems and external risk reduc tion Iacu .nes 3.1 .10 safe state state of the EUC when safety
+
+IS
+
+achieved
+
+NOTE .. In gOing from a pote nt ia lly h az ar d o us co no .uoo 1 0 tn e fi na l s afe slat e . th e EU C m a y na ve to go th roug h a number o f In ter m ed ia te safe sta tes For so m e si tua tio ns a sa le s la te e xis ts on ly so lo ng as the E UC IS con tin uo usl y contro lled Such cont inuous contro l m a y co for a sh o rt o r a n In d elln lte pe riod o f tim e
+
+3.1 .11 reasonably foreseeable misuse use of a product. process o r se rv ice under condit ions or fo r purposes no t In te nded by th e supp lier. but which can happen . Ind uced by the product, process or serv ice In c o m bin ati o n w ith . or as a result of. common human behaviour 3.2 Equipment and devices
+
+3.2.1 functional unit ent ity of ha rdware or software , o r bot h . capable of accompl ishmg a specif ied purpose
+NOTE - In l EV 191 -01 �01 the m ore gene ra l ter m "Item " IS use d In p la ce o f fun ctiona l u rut A n Ite m may sorne urnes In c lud e peop le [lSO/IEC 2382 .14.01.01 1
+
+3.2.2 software intellectual c reation comprising the programs, procedures, data. rules and any assoc ia ted documentat ion pertaining to the operation of a data processmg system
+NO T E 1 - So ftware IS md ep en c e nt 0 1 the medium on wh ich It IS re co rd e d NOTE 2 .. Th is d efin ition w ithout note 1 d iff e rs from ISO 23 8 2 �1 . and the full definition dIffers Iro m ISO 90003 . by the add Ili on o f the word data
+
+3.2.3 equipment under control (EUC) equipment. mach inery, apparatus or plant used for manufacturing, process . transpor tation . medical or other actrv .tres
+NO T E .. Th e EUC con tr o l sys tem IS sepa rate and o rsn nc t from th e E U C .
+
+5
+
+ISJlEC 61508-4: 1998
+
+3.2.4
+EUC risk risk arising from the EUC or its interaction with the EUC control system
+NOTE 1 - The rosk rn this context IS tha t assoc rareo with the specific hazardous event in wh ich E/E /P E safety re lated systems . other techno toqy safety -re lated systems and externa l risk reduc tion faci li ti e s a re to be used to prOVide the nec es s ary rtsk ren ucn on . (I e the rtsk assoc iated With functional safety) . NOTE 2 - The EUG risk IS Ind icated In figure A 1 of l EG 61508 -5 The main purpose of determ ining the EUC rosk is to establish a reference pornt for lhe rtsk Without taking Into account E/E /PE safety -related systems . other technology salety �related systems and externa l ro sk reduction faCiliti e s . NOTE 3 . Assess men t o f this rtsk wil l Inc lude assoc iated human factor Issues .
+
+3.2 .5
+programmable electronic (PE) based on computer technology which may be comprised of hardware , software , and of input and/or output un its
+NOTE .. Th is te rm covers rrncroelectroruc devices based on one or more central processing units (CPUs ) together With associa ted memoroes . etc EXAMPLE Th e foll OWing are al l prog ra m mable erec troruc devices :
+
+m icroprocessors , rmcro -controllers ; program mable con trollers . app lica tion spec it ic In teg ra ted c rrc u.ts (A SIC s) . programmable lo gic co n tro lle rs ( PLGs) : other compu ter -based dev ices (for examp le smart sensors . transmitters , ac tuators) .
+
+3.2.6
+electrical/electronic/programmable electronic (E/E/PE) based on electrical (E) and /or electron ic (E) and/or programmable electronic (PE) technology
+NO TE .. The ter m IS In tend ed to cover any and a ll devices or sys tems operating on electrical princ iples . EXAMP LE Elect rtca llelectro nlc lp rog ra mmable elec tron ic devices Inc lude
+
+elect ro- mec han ical devices (erectn ca t). SOlid -state non -programmable eiectromc devices (e tectrornc) : elect ron ic devices based on comp ute r tac nnoloqy (programmab le electronic) ; see 3 .2 .5 .
+
+3.2.7
+limited variability language software programm ing language , either textual or graphical , for commercial and ind ust ria l programmable electroruc contro llers with a range of capabilit ies limited to their application
+EXAMPLE The fo llOWing are li mi ted va riabihty la ng uag es . from IEC 61131 -3 and other sources , wh ich are used to repres en t the app licat ion program for a PLG sys tem lad der d iag ram a graph ical language cons is n nq of a se nes of Inpu t symbols (represent ing behaviour s im ilar to de Vices suc h as norm all y ope n and no rma lly c losed con tacts ) in te rc o nnecte d by lines (t o indi c a te the flow o f c u rren t) to outpu t sy mbols (r e pres e ntin g benav.our Simi la r to re lays) ; Boolean algebra a lo w ' leve l la ng uage based on Boolean operators such as AND , OR and NOT with the ab il ity to add some rnnernon.c Inst ructi on s .. fun c tio n blo c k d ia gra m In add l t lo ~ to BOOlean ope rators , allows the use of more complex f unc tio ns such as data tran sf e r t" e . bloc k tr an sf er read !Wr;te . srutt reg,st er a nd sequence r inst ruc tions ; sequen tia l fu nc tio n Cha r, a grap h ical repr esen tati on 01 a sequent ial program cons istinq of inte rc o nnec te d steps , actons a~d d irec ted linKS With tra ns .t.on cond it io ns
+
+6
+
+ISIIEC 61508-4: 1998
+3.3 Systems : general aspects
+
+3.3.1 system set of elements wh ich interact according to a des ign , where an element of a system can be another system , called a subsystem , wh ich may be a controll ing system or a controlled system and may inc lude hardware , so ftware and human interact ion
+NOTE 1 - A pe rso n can be par t o f a sys tem (s ee also note 5 of 34 1) NO TE 2 - Th is defrn lt lo n ddfers f ro m l EV 35 1-0 1-0 1
+
+-.'
+
+3.3.2 programmable electronic system (PES) system for control , protect ion or mon itor ing based on one or more programmable electronic devices, including all elements of the system such as rower suppl ies, sensors and other Inpu t devices, data highways and other communication paths, and actuators and other output devices (see figure 2)
+NOTE - The structure o f a PES is snown ,n f,gu re 2 a) Figure 2 b) Ill us tra tes the way m wh ich a PES rs re p re s e nt eo m th is Internationa l Standard , w,th the p rogrammab le e tectrcmcs shown as a un it d istmct from sensors and actuators on the EUC a nd the" in tertac es . b ut the prog ra mmable e rectromcs could exrst at severa l places .n the PES . Figure 2 c ) ill us tr ates a PES With two d isc rete uruts of programmable eiec tromcs . Figure 2 d) Illustrates a PES with dual progra m mable electronics (I e twocnannet) . but w it h a smq le sensor and a stng le actuato r ,
+
+3.3.3 electrical/electronic/programmable electronic system (E/E/PES) system for control , protection or mon ito ring based on one or more electrica l/electronic programmab le electron ic (E/E /PE) devices . Inc lud tng all elements of the system such as power supplies, sensors and other input devices , data highways and other communicat ion paths, and actuators and other outp ut devices (see li gure 3) 3.3 .4 EUC control system system which responds to Input Signals from the process and/or from an operator and generates outpu t Signals caus ing the EUC to operate in the desired manner
+NO T E - The EUC co ntr ol system ,"c ludes Input cev .ces a nd f,"al elements
+
+3.3.5 architecture specific configuration of hardware and software e lements in a system 3.3.6 module rout ine. discrete component or components be longing together
+
+a
+
+functional
+
+set
+
+of
+
+encapsu lated
+
+routines
+
+or
+
+discrete
+
+... -
+
+o
+
+00
+
+in iii
+t0o&<>
+
+a z
+
+3.3.7 software module construct that cons rsts of procedures and /or data declarations and that can also Interact w ith othe r suc h co nst ructs
+
+I
+7
+
+ISIIEC 61508-4: 1998
+
+~PES
+
+Edent
+
+\.i
+
+!
+
+I
+
+i
+
+t
+Input interfaces A-D converters Communicetions
+
+I
+
+.-----~
+
+Output interfaces D-A converters
+
+I
+
+J
+Input devices (for exemple sensors)
+
+! : ! i
+!
+
+!
+
+Programmable electronics (see note)
+
+�
+...._ ..._-_...._.-..
+
+I
+! .
+! !
+
+! ! .
+
+Output devicesllinal elements (for example actuators) a) Basic PES structure
+
+~---_._------------_
+
+__._..
+
+i
+
+!
+
+i
+
+b) Single PES with single programmable electronic device (Le. one PES comprised of a single channel of programmable electronics)
+
+c) Single PES with dual programmable electronic devices linked in a serial manner (for example intelligent sensor and programmable controller)
+
+d) Single PES with dual programmable electronic devices but with shared sensors and finel elements (i.e. one PES comprised of two channels of programmable electronics)
+
+NOTE - The programmable electronics are shown centrally located but could exist at several places in the PES.
+
+Figure 2 -
+
+Programmable electronic system (PES): structure and terminology
+
+Extent of ElEiPES
+
+r------. Input interfaces . A-D converters !
+ElElPE device
+
+Input devices (for example sensors)
+
+t
+
+Output devices! � final elements (for example actuators)l
+_ _ _ _ _ _. J
+
+t ::
+
+.
+
+I
+i
+i
+
+i
+
+NOTE - THE E/E/PE device
+
+IS
+
+shown centrally located but such device(s) could exist at several places in the E/E/PES.
+
+Figure 3 -
+
+Electrical/electronic/programmable electronic system (E1E/PES): structure and terminology
+
+8
+
+ISIIEC 61508-4: 1998 3.3.8
+channel
+element or group of elements that independently perform(s) a function
+EXAMPLE A two-channel (or dual-channel) configuration is one with two channels that independently perform the same function. NOTE 1 - The elements within a channel could include input/output modules, a logic system (see 34.5), sensors and final elements. NOTE 2 - The term can be used to describe a complete system, or a portion of a system (for example, sensors or final elements).
+
+3.3.9
+diversity
+different means of performing a required function
+EXAMPLE Diversity may be achieved by different physical methods or different design approaches.
+
+3.3.10
+redundancy
+existence of means, in addition to the means which would be sufficient for a functional unit to perform a required function or for data to represent information
+EXAMPLE Duplicated functional components and the addition of parity bits are both instances of redundancy NOTE 1 - Redundancy is used primarily to Improve reliability or availability NOTE 2 - The definition in lEV 191-15-01 is less complete. [ISO/lEG 2382-14-01-12J
+
+3.4
+
+Systems: safety-related aspects
+
+3.4.1 safety-related system
+designated system that both implements the required safety functions necessary to achieve or maintain a safe state for the EUC; and is intended to achieve, on its own or with other E/E/PE safety-related systems, other technology safety-related systems or external risk reduction facilities, the necessary safety integrity for the required safety functions
+NOTE 1 - The term refers to those systems, designated as safety-related systems, that are Intended to achieve, together with the external risk reduction facilities (see 34.3). the necessary risk reduction in order to meet the required tolerable risk (see 31.6). See also annex A of lEG 61508-5. NOTE 2 - The safety-related systems are designed to prevent the EUG from gOing into a dangerous state by taking appropriate action on receipt of commands. The failure of a safety-related system would be included In the events leading to the determined hazard or hazards. Although there may be other systems having safety functions. It IS the safety-related systems that have been ctesignated to achieve, in their own right, the required tolerable risk. Safetyrelated systems can broadly be divided into safety-related control systems and safety-related protection systems, and have two modes of operation (see 3.512). NOTE 3 - Safety-related systems may be an Integral part of the EUG control system or may interface with the EUG by sensors and/or actuators. That is, the required safety Integrity level may be achieved by Implementing the safety functions in the EUG control system (and possibly by additional separate and Independent systems as well) or the safety functions may be implemented by separate and Independent systems dedicated to safety NOTE 4 - A safety-related system may a) be designed to prevent the hazardous event (i.e then no hazardous event arises); If the safety-related systems perform their safety functions
+
+b) be designed to mitigate the effects of the hazardous event, thereby reducinq the risk by reducinq the consequences; c) be designed to achieve a combination of a) and b)
+
+9
+
+ISIIEC 61508-4: 1998
+NOTE 5 - A person can be part of a safety-related system (see 3.3.1) For example, a person could receive information from a programmable electronic device and perform a safety action based on this information, or perform a safety action through a programmable electronic device NOTE 6 - The term Includes all the hardware, software and supporting services (for example, power supplies) necessary to carry out the specified safety function (sensors, other Input devices, final elements (actuators) and other output devices are therefore Included In the safety-related system). NOTE 7 - A safety-related system may be based on a wide range of technologies Including electncal, electronic, programmable electronic, hydraulic and pneumatic
+
+3.4.2
+other technology safety-related system
+safety-related system based on a technology other than electrical/electronic/programmable electronic
+EXAMPLE A relief valve
+IS
+
+another technology safety-related system
+
+3.4.3
+external risk reduction facility
+measure to reduce or mitigate the risks which are separate and distinct from, and do not use, E/E/PE safety-related systems or other technology safety-related systems
+EXAMPLE A drain system, a fire wall and a bund are all external nsk reduction facilities.
+
+3.4.4
+low complexity E/E/PE safety-related system
+E/E/PE safety-related system (see 3.26 and 3.4.1), in which the failure modes of each individual component are well defined; the behaviour of the system under fault conditions can be completely determined.
+NOTE - Behaviour of the system under fault conditions may be determined by analytical and/or test methods. EXAMPLE A system cornpnsmq one or more limit sw.tcnes. operating, possibly via Interposing electro-mechanical relays. one or more contactors to de-energise an electnc motor IS a low-complexity E/E/PE safety-related system.
+
+3.4.5
+logic system
+portion of a system that performs the function logic but excludes the sensors and final elements
+NOTE - In this standard the following logic systems are used electncal logic systems for electro-mechanical technology; electroruc logic systems for etectroruc technology, programmable electronic logic systems for programmable electronic systems.
+
+3.5 3.5.1
+
+Safety functions and safety integrity
+
+safety function
+function to be implemented by an E/E/PE safety-related system, other technology safetyrelated system or external risk reduction facilities, which is intended to achieve or maintain a safe state for the EUC. in respect of a specific hazardous event (see 3.4.1)
+
+3.5.2
+safety integrity
+probability of a safety-related system satisfactorily performing the required safety functions under all the stated conditions within a stated period of time
+NOTE 1 - The higher the level of safety Integrity of the safety-related systems, the lower the probability that the safety-related systems will fail to carry out the required safety functions. NOTE 2 - There are four levels of safety integrity for systems (see 356)
+
+10
+
+ISIIEC 61508-4: 1998
+NOTE 3 - In deterrrurunq salety Integrrly . all causes o f fa ilures (bo th random hardwar e tauur es and svsternauc fa ilures) whIch lead to an unsale state should be mcruoec , lor example harClware tauures . soflware .nouceo tau u res and failures Clue to eiectncat Interference Some of these types of tallure . ,n parncutar random narnware failures . may be quanntrec us ing SUCh measures as the ta uo re ra te on the dang erous mode of tauure 0 1 the probabll,ty of a safety- re lated p rotec tion system fai li ng to operate on cernano Ho w e ver . the safety Integri ty 0 1 a system also depends on many factors which cannot be accurately quantified but can only be consrcerec quaruanve ty NO TE 4 - Safe ty integ rrty comprrses hardware safety Inte g rrty (see 35 .5) and systematic safety In teg rrty (see 3 .54) . NOTE 5 - Thi s dalirutron focuses on the reliability of the safety-related systems to perform the safety functions (see lEV 19 1-12-01 fo r a cenrunon of rel iabil Ity)
+
+3.5.3
+software safety integrity
+measure that signifies the likelihood of software In a programmable electronic system ach ieving its safety functions under all stated conditions Within a stated period of time
+
+3.5.4
+systematic safety integrity
+part of the safety Integrity of safety-re lated systems relating to systematic failures (see note 3 of 3.5.2) In a dangerous mode of failure
+NOTE 1 - Sys te ma tic safety Integrrty ca nnot usu all y be quantif ied (a s drstinct Irom hardware safety Integrrty wh Ich usually can) . NOTE 2 - See 3 .52 . 3 .5 .5 and 3 6 6
+
+3.5.5
+hardware safety integrity
+part of the safety Integrity of the safety-related systems relating to random ha rdware failures In a dangerous mode of fa ilure
+NOTE 1 - The term rel a tes to fa ilures In a dangerous mode . tha t IS, those fa ilures of a safety -re lated system that wou ld im p ar r It s safely ontegro ty Th e two parame te rs th at are re levant on trus context are the overa ll dangerous fai lure rate and th e probability of Ia uure to ope rate o n oemanc Th e lormer relia bilit y pararr.eter IS used when It .s necessary to mamtarn cont inuous contro l In order to ma inta in safe ty , th e latter reliabI lity parameter IS used In the context o f sa fety -related protec tion systems NOTE 2 - See 3 .52 . 3 .5 .4 and 36 5
+
+3.5 .6
+safety integrity level (SIL)
+discrete level (one out of a possrble four) for specrtymq the safety integrity requrrements of the safety functions to be allocated to the E/E/PE safety-related systems, where safety integrity lev el 4 has the highest level of safety Integrity and safety integri ty level 1 has the lowest
+NO TE - The target fa ilure measures (see 3 5 13) lor th e fou r salety onteg rrty lev el s are specmeo rn tab les 2 and 3 o f l EG 61508 - '
+
+3.5.7
+software safety integrity level
+discrete level (one out of a pcssrb le four) for specrlyinq the safety integrity of software in a safety-related system
+NOTE - See 3 5 3 and 3 .5 .6 .
+
+3.5.8
+safety requirements specification
+spec iticat ron conta in ing all the requ ir em e nt s of the safety functions that have to be performed by the safety-re lated systems
+NOT E - Tru s spec ,I,ca t lo n .s c .v.c eo '''':0 :"' e sa fe t y func tor s r e a", " e~ e ,.,t s soec if,ca tlon (se e 3 .5 9 ). sa fe t y ''l :eg ":t y -ec ... , r e ~ e ~ : s s oe c:' �ca t ,on (see 3 5 , 0 ,
+
+11
+
+ISIIEC 61508-4: 1998
+3.5.9 safety functions requirements specification spec ification containing the requ irements for the safety functions that have to be performed by the safety-related systems
+NOTE' - Th is specification is one part (the safety functions part) of the safety requirements spec if ication (see 3 .5 8 ) and contains the prec.se details of the sa fe ty funct ions that have to be per formed by the safety -related sys tems NO TE 2 - Specif ica tions may be documented In tex t. fl ow diag rams , matrices , log ic diag rams , etc .. prov id ing tha t the sa fe ty tunctrons are clea rly conveyed .
+
+3.5 .10 safety integrity requirements specification spec ificat ion contarn ing the safety Integr ity requiremen ts of the safety funct ions tha t have to be performed by the safety-related sys tems
+NO TE - Th is spec ifica tion
+IS
+
+one pa rt (th e sa fety Int egr ity. pa rt) of the sa fety requ irements spec if ication (see 3 .5 .8 ).
+
+3.5.11 safety-related software software that is used to im plem ent safety funct ions in a safety-related system 3.5.12 mode of operation way in which a safety-re lated system is intended to be used , with respect to the frequency of demands made upon it , wh ich may be either
+
+low demand mode: where the frequency of demands for operat ion made on a safetyrelated system is no greater than one per year and no greater than tw ice the proof -test frequency; high demand or continuous mode: where the frequency of demands for operat ion made on a safety-re lated sys tem is greate r than one per year or greater than twice the proofcheck frequency
+NOT E , - High demand or continuous mode covers those sa fety -rela ted systems wh ich im p le ment continuous co nt rol to ma intain funct ional satety . NO TE 2 - Th e targe t fail ur e measu res for sa fety- rela ted sys tems opera ting in low dema nd mode and high demand or con tin uo us mode are de fined In 3 .5 .' 3.
+
+3.5.13 target failure measure intende d probab ility of dangerous mode fa ilures to be ach ieved in respect of the safety integrity requ iremen ts , spec ified in terms of either
+
+the average probab ility of failure to perform the des ign function on demand (for a low demand mode of operation) ; the probab ility of a dangerous fa ilure pe r hour (for a high demand or continuous mode of operat ion)
+NOT E - The n um eri cal va lues fo r the tar get fa il ur e meas ures are given in tabl es 2 and 3 of lEG 61508 -' .
+
+3.5.14 necessary risk reduction risk reduc tion to be ach ieved by the E/E /PE sa fety-re lated systems , other techno logy safetyrelated sys tems and external risk reduction fac il it ies in order to ensure that the tolerable risk is not exceeded
+
+12
+
+ISIIEC 61508-4 : 1998
+3.6 3.6 .1
+fault abn o rmal cond it ion that may cause a reduct ion in , o r los s of . th e c ap ability of a funct ion a l u nit to pe rform a req uire d fun c ti o n
+NO T E - l EV 191 -05- 01 de fines "fa ult " as a state cn ar ac te ns ec by the in a b ilit y to p er fo rm a req uIred fun c t ion . ex c tuo inq th e ma brhty d un ng preve n ta tive ma in te na nce o r ot he r pla n ned actio ns , o r d ue to lack o t exte rna l reso urce s . See fi gur e 4 for an ul u st ran o n o f th es e two POin ts o f view [I S0 ll EC 2.382 - 14 -01 �10J
+
+Fault , failure and error
+
+3.6.2
+fault avoidance use o f techni qu es and pr oce du res wh ic h aim to avo id the int ro du ct ion of fau lt s our.nq any p hase o f the sa fe ty Ilfec ycl e of tha safe ty -re la ted sys tem
+
+3.6 .3
+fault tolerance a bil ity o f a func tio na l un it to con tinue to pe rfo rm a re quired Iunctr on errors
+f1 S0 Il EC 2382 - 14 �04 �06 J
+In
+
+th e prese nc e o f fault s o r
+
+N OT E - T h e de fln illon rn l EV 191 - 15� 05 re fe rs on ly to sub -Ite m tau l ts Se e th e not e fo r th e ter m fa ult In 3 6
+
+3.6.4
+fa ilure term in ati on o f th e a b ility of a func tio na l un it to perf orm a requ ired fun ct ion
+N O TE 1 - The de fin i tion in lE V 19 1�0 4� 0 1 IS the sa m e . wit h add i tio na l no tes [ISO II EC 2382 - 14� 0 1- 1 1j NO TE 2 - Se e figure 4 fo r the rela ti o nshi p be tween faults a nd fa ilures , bo th In IEC 6 1508 and l EV 50 ( 19 1) NO T E 3 - Pe rfo rm an ce 0 1 req uired fun c tio ns nec essan ly ex c lude s ce rta in bena viour . a nd som e fu nct ions may be spec i fied In te rm s o f behavio ur to be avoided . Th e occurre nce of SUC h ben av iou r IS a fai lure N OT E 4 - Failu res a re ertner ran d om (In h a rdware ) or sv sternauc (In ha rd wa re or so ftwa re) . see 3 6 .5 and 366
+
+3.6.5
+random hardware failure fa ilure , occurring at a random tim e , which res ults from one or mo re of th e po ss ib le degradation mec ha ni sm s in the hardwa re
+NOT E 1 - Th ere a re many degradation mecn arusrns oc c urn n g a t diff e ren t ra tes on di ffe re n t com ponent s and , s inc e manufa c tu nng to lera nc e s cause componen ts to fall due to these me ch anis ms a lte r d Iff e re nt li m e s In opera uon , failures o f eq uip m ent cornpn smq ma ny com p onent s occur at pr ed ic tab le ra tes bu t a t unp redi c ta ble (, e ra n d o m) l imes , NO T E 2 - A m aj or d istingUis hing feat ure be tween ra nd om ha rd wa re fa il ures a nd svsterna nc fai lu re s (see 3 6 6 ) . IS th at sy stem failure ra te s (or other approp ria te m eas ures ). ans inq from ra n do m hard war e fa il u res . c an be pr ec rc teo With re as o na ble accu racy but systematic h llures , by th eIr ve ry na tur e , cannot be accu ra tely preo .c teo Tha t IS. syst em fail ure ra tes ans inq from ra n dom hard wa re fai lures can be cua nnneo With reasonab le ac c urac y bu t th o se ans mq fr o m syste ma tic failur es canno t b e acc ur ately s ra ns uca uv q uan nueo beca use the eve nt s lead ing to th em c anno t easil y be pred icted
+
+13
+
+ISIIEC 6150&-4: 1998
+
+L
+
+(~1)
+
+FU L II) FU
+
+Level (I)
+
+L /I) FU
+
+L:J L:J L:J L:J LJ t::J L:J L:J
+(L
+
+"Entity X"
+
+=level;
+
+;= 1, 2, 3.te .; FU
+
+=functional unit)
+b) Generalised view
+
+a) Configuration of a functional unit
+
+Llvel (I)
+
+Level U�l)
+
+Level (I)
+
+"Entity X"
+
+Entity X
+
+c) From the point of view of IEC 61508 and ISOnEC 2382�14
+
+d) From the point of view of IEC 60050(191)
+
+NOTE 1 - As shown In a), a functional unit can be viewed as a hierarchical compos ition of multiple levels, each of which can In turn be called a functional unit In level (I). a "cause" may manifest Itself as an error (a deviauon from the correct value or state) Within this level (I) functional unit, and, if not corrected or circumvented , may cause a failure of this functional unit, as a result of which it falls Into an "F" state where It is no longer able to perform a required function (see b�) This of '' state of the level (I) functional unit may in turn manifest itself as an error in the level (i-1) functional Unit and, If not corrected or circurnvented . may cause a failure of this level (i-1) functional unit NOTE 2 - In this cause and effect chain, the same thing ("Entity X") can be viewed as a state ("F" state) of the level (I) tunctionat unit Into which It has fallen as a result of ItS failure, and also as the cause of the failure of the level (i-1) functional unit This "Entity X" combines the concept of "fault" in IEC 61508 and ISO/IEC 2382-14,whICh ernpnastzes ItS cause aspect as illustrated In c), and that of "fault" In IEC 60050(191), which emphasizes its state aspect as illustrated In d). The "F" state IS called fault In IEC 60050(191), whereas It is not defined In IEC 61508 and ISO/IEC 2382�14 NOTE 3 - In some cases, a failure or an error may be caused by an external event such as lightning or electrostatic norse rather than by an Internal fault Likewise. a fault (In both vocabulanes) may exist Without a prior failure An example of such a fault IS a nesrqn fault
+
+Figure 4 - Failure model
+
+3.6.6 systematic failure failure related In a deterrrunistic way to a certain cause, which can only be eliminated by a modification of the desiqn or of the rnanutacturinq process, operational procedures, documentation or other relevant factors
+NOTE 1 - Corrective maintenance Without modification Will usually not eliminate the failure cause. NOTE 2 - A'svsternatic failure can be Induced by Simulating the failure cause [lEV 191-0419]
+
+14
+
+ISIIEC 61508-4 : 1998
+NOTE 3 - Ex amp les of causes o f svs ternauc failures mc iuc e h um a n e rro r ,n the safely requ irem ents soec rnca no n. th e ces iq n . m anufactu re . mst atla non. ope ra tio n o f Ihe hardw a re t he ces iq n, Im pl em e n ta ti o n . etc o f th e so ftwa re N OTE 4 - In thi s stan d ar d . fa ilure s ,n a sa fe l y-re la ted s ys t em a re cat e qon zec as rand o m hardwa re fa ilur e s 0 1 s ystema tic fa il ures (s ee 3 .6.4 and 3 .65 )
+
+3 .6 .7 dangerous failure fa ilure wh ich has the potential to put the sa fety -related sys tem In a ha zardous o r tau-tot uncnon state
+NOT E - W he th e r or not th e po te n tia l IS -ea i.se c may depend o n tn e cnanne t arcru tectu re 01 tn e syste m .n s vs terns wit h m ulti ple c hanne ls to Imp ro ve s a fe ty a dang er ous ha rd wa re Ia uu r e IS les s I,kely 10 lead 10 the ove ra ll dang e ro u s or ta il-to-Iun cn on st a le
+
+3 .6 .8 safe failure fa ilure wh ic h does no t ha ve the potent ia l to put the safe ty -re la ted syste m in a haza rdous o r tartto -tunction sta te
+N O T E - Whet her or no t th e poten ti a l IS real ise d may de pe nd on tno channe l arcrntcc tur e 01 m e s ys tem ,n sy s te m s With m uill p le ch an ne ls to Im p ro ve s a tet y a saf e har dware fa ilu re IS l es s lik e l y 10 re s ul t ,n an erroneous snut o ow n
+
+3.6 .9 dependent failure f a il ure w hose p robab ility ca nno t be e xpress ed a s the Sim pl e prod uct of the un c on di tio nal probabil ities of the md iv rdual even ts wh ich ca used It
+NOTE - Two ev ents A and Ba re d e pe no en t. w h e re p ( .l) .s tne oro oa u.utv 0 1 e ven t / on l y II P tA a nd B ) , P I A ) " PIG )
+
+3.6.10 common cause failure fa ilu re , which is the result o f one o r more events , caus ing corncrdent failu res of two o r more separate channe ls in a mu lti p le channe l sys tem . le adin g to sy stem fa il ure 3 .6.11 error discrepancy between a comp uted . obse rv ed or meas u red val ue o r cond ition and the tr ue . spec ified or theo retica lly correct value o r condi tion
+NO T E - Adapted from l E V 19 1�0 5 -24 by e xctumn q the notes
+
+3.6.12 human error mistake human act ion o r inac ti o n that can prod uce an unin tended result
+[ IS O Il E e 23 82 �14 � 01- 0 9 ] N OTE - A d a p ted from l E V 19 1� 05 �2 5 by the a o rnno n o t �o r mac no n "
+
+3 .7
+
+Lifecycle activities
+
+3.7.1 safety lifecycle necessa ry ac tiv ities involved in the Impleme ntat ion of safety -re lated systems . occu rring d u rinq a per iod of ti me that starts at the concept phase o f a project and fi ni s hes when a ll 01 the E/E/PE sa fety -re la ted syste ms . other technology salety-re lated systems and externa l ris k red uc ti o n fac ilit ies a re no longer ava ilable for use
+NOT E 1 - T he term " func ti o na l saf ety "tecycle " IS s tri c tly m o re acc urat e . bu t the a djecti ve "fu nction al " IS not c o nSid ered n ec e ssary In trus case Wi th in the c o nt e xt o f trus s ta nd a rd NO TE 2 - The s afely Id e c ycl e models used
+1h
+
+trns s ta nd a rd are spec -ned rn fi g ure s 2 . 3 an d 4 of lE e 615 08 �1
+
+15
+
+ISIIEC 61508-4 : 1998
+
+3.7.2
+software lifecycle ac tiv ities occ u rri ng d un nq a peri od of time tha t starts whe n software is conce ived and ends whe n the soft w a re IS permanently dis used
+NO TE 1 A so ftw a re Ilfec yc le typic all y Inc lu d es a raq uirerne n ts pha s e . de vel opment pha se, l es t ph as e , integrati on phase , Installa tion p has e and a modificatio n pha s e . NOTE 2 -- Soft wa re IS not ca pa ble of bein g maint ain ed . rather . It IS modified
+
+3.7.3
+configuration management d isc ipline of ide ntif yi ng the co mpone nts of an evolv ing system fo r the purposes of controll ing cha nges to th ose compone nts and mai ntai nin g cont in uity and traceabi lity throu g hout th e lifec yc le
+NO T E - Fo r de ta ils o n so ft ware con figura tion ma nagem en t se e e .5 .24 o f lE e 6 1508� 7
+
+3 .7 .4
+impact analysis ac tivity of de term in ing the effec t that a change to a funct ion o r component in a system w ill have to other f uncti on s or compone nts in th at system as well as to other systems
+NOT E - In the con te xt o f so ftw a re . se e G.5 .23 of lE G 6 1508-7.
+
+3.8 3.8.1
+
+Confirmation of safety measures
+
+verification co nfirmatio n by exa m inat io n and prov is io n of ob jective ev idence th at th e re q uire m en ts have been ful fill ed
+NO T E 1 - Adap ted f ro m ISO 84 02 by exc lud ing the notes NOTE 2 - In the con tex t o f thi s st andard . ve n nca tron is the ac tiv ity o f de mo ns tra ting for ea ch p ha se of the rel evant sa fe ty Ilf ecyc le (over a ll. E/ E/P ES a nd software ), by ana lys is and/or test s , t ha t , fo r the spec if ic inpu ts , the deuveraotes m eet In all respec ts the ob j ectives and requ ireme nt s se t for the speci fi c phase . E XAMP LE Ve n hc ancn ac tiviti es Inclu de
+
+re views o n o utp uts (d ocu m e nt s f ro m a ll pha s es of the safety Ilfe cy c le ) to en sure co mp liance with t he ob ject ives a nd requ irern ent s of th e p has e , ta k ing Int o ac co un t the sp ecific Inp uts to that phase ; design reviews ; tests pe rf ormed o n the des igned produ c ts to ensu re tha t they pe rform accord ing to the" spec if ica tion ; In te gr ati o n tests ae rfo rmed wh ere dif fer en t pa rt s o f a s ys tem a re put together In a ste p -by -s tep m a nn er a nd by the p er form an ce of en viro nm en ta l tes ts to ens ure that a ll th e par ts wo rk tog eth er In th e spec ified mann e r.
+
+3.8 .2
+validation co nf irmat ion by exam ina tion and prov is ion of object ive ev idence that the part icular req uirem ent s for a spec ific Inte nded use are fulf illed
+NOTE 1 - A da pte d from ISO 84 02 by exc luDing the not es . NOT E 2 - I n th is stand ar d the re are three va lrda t ion phases ove -a i' safe ty va no at.o � (se e figur e 2 o f l EG 6 150 8�1 ); EiE ' PES va cc an o o (s ee fIg ur e 3 :Jf l EG 6 150 8 � 1): so ftw a re va uc aton (s ee fIg ure 4
+Of
+
+l EG 6 1508 - 1)
+
+NOT ::: 3 - va uoa t.o r- 'S tn e acnv. ty o f de m ons tra ting th at the safety -re lated sys te m un der cons ide ra ti on , befo re o r a fte r .nsrau at.o n m ee rs ,n a ll respec ts the saf ety requ ir em ent s spec ifica tio n for that s a fety- rel ated sys tem . Tr. er efor e fo r ex a-nce. so ft wa re vanu ar .o n m ean s co n flfm lng by exa m in ation and p rov rsron o f ob jec tive ev idence In a: tn e so ftw a re sa t.sues th e s oftw a re sa fety req urrem an ts sp ec urca t ton .
+
+16
+
+IsnEC 61508-4: 1998
+3.8.3
+functional safety assessment investigatio n, based on ev idence , to judge the functio nal safety achieved by one or more E/E/PE safety-related systems , other technology safety-related systems or external risk reduction faci liti es
+
+3.8.4
+functional safety audit sys tematic and inde pendent exam ina tion to determine whether the procedures spec ific to the funct iona l safety requ irements to comply with the planned arrangements are impleme nted effec tively and are su itab le to ach ieve the speci fied objec tives
+NO T E - A funct ional sa fety aud it may be carried o ut as part of a functi onal safety assessment.
+
+3.8 .5
+proof test per iodic test performed to detect fai lu res in a safety-related system so that . if necessary. the system can be restored to an "as new" cond ition or as close as practical to this cond ition
+NOTE - T he effec t ive ness of the proo f test will be dependent upon how c lose to the "as new " cond it io n the system is rest o red . Fo r the proof test to be fUlly effect ive , It Will be necessary to detec t 100 % of all dangerous fai lures . A lthough in prac tice 100 '\0 IS no t eas ily ach ieved fo r other than low-complexity E/E /PE safety-re lated systems , trus sho uld be the tar get As a mini m um . a ll th e sa fety functi o ns wh ich are executed are checked according to the E/E /PES sa fe ty requir em en ts spec ifica tion . If separa te channe ls are used, these tests are done for each channe l sepa ra tely
+
+3.8,6
+diagnostic coverage fract ional dec rease in the probab ility of dangerous hardware fa ilure result ing from the operation of the automatic diagnost ic tests
+NOTE 1 - T he defini tion m ay also be represented in terms o f the fo llowmg equation , where DC is the diagnostic cov e rage . ADD IS the probability of de tec ted dangerous fail ures and ~o ' a ' is the probability of total dangerous fail ur es :
+
+DC =
+
+NO TE 2 - Diag nostic coverage may ex ist for the whole or parts of a sa fety -related system . Fo r example d iagnostic cover a ge may exist fo r sensors and lo r lo gic sys tem and /or fi nal elements . NO TE 3 - T he te rm safe diagnos tic coverage , or draqnostic coverage inc l udi ng safe failures , IS used to describe respec lively the fract ional decrease in the probab il ity of sa fe hardware fai lure . or of both safe and dangerous ha rdwa re fa ilures , res ulti ng fro m the ope ration of the automatic diagnostic tests
+
+3.8.7
+diagnostic test interval inte rval between on -line tests to detect faults in a safety-related system that have a specified diagnostic coverage
+
+3.8.8
+detected revea led overt in relat ion to hardware. detected by the diagnostic tests , proof tests . operator intervention (for example physical inspection and manual tests), or th rough normal operat ion
+EXAMPL E These adjec tives are us ed ,n detected fau lt and detected fa ilure .
+
+17
+
+ISIIEC 61508-4: 1998
+3.8.9 undetected unrevealed covert in relation to hardware, undetected by the diagnostic tests, proof tests, operator intervention (for example physical inspection and manual tests), or through normal operation
+EXAMPLE These adjectives are used In undetected fault and undetected failure.
+
+3.8.10 independent person person who is separate and distinct from the activities which take place during the specific phase of the overall, E/E/PES or software safety lifecycle that is subject to the functional safety assessment or validation, and does not have direct responsibility for those activities 3.8.11 independent department
+department which is separate and distinct from the departments responsible for the activities which take place during the specific phase of the overall, E/E/PES or software safety lifecycle that is subject to the functional safety assessment or validation
+
+3.8.12 independent organisation
+organisation which is separate and distinct, by management and other resources, from the organisations responsible for the activities which take place during the specific phase of the overall, E/E/PES or software safety lifecycle that is subject to the functional safety assessment or validation
+
+3.8.13 animation
+simulated operation of the software system (or of some significant portion of the system) to display Significant aspects of the behaviour of the system, for instance applied to a requirements specification in an appropriate format or an appropriate high-level representation of the system design
+NOTE - Animation can give extra conftdence that the system meets the real requirements because it improves human recognition of the specified behaviour
+
+3.8.14 dynamic testing
+executing software and/or operating hardware In a controlled and systematic way, so as to demonstrate the presence of the required behaviour and the absence of unwanted behaviour
+NOTE - Oynarmc testing contrasts with static anarys.s. which does not require the software to be executed
+
+3.8.15 test harness facility that is capable of Simulating (to some useful degree) the operating environment of software or hardware under development. by applying test cases to the software and recording the response
+NOTE - The test harness may also Include test case generators and facilities to verify the test results (either automatically against values that are accepted as correct or by manual analysis].
+
+18
+
+ISIIEC 61508-4 : 1998
+
+Annex A (informative)
+
+Bibliography
+IEC 61131-3 :1993, Programmable controllers - Part 3: Programming languages IEC 61151 :1992, Nuclear instrumentation - Amplifiers and preamplifiers used with detectors of ionizing radiation - Test procedures ISO/IEC 2382-1 :1993 , Information technology - Vocabulary - Part 1: Fundamental terms ISO 9000-3 :1991, Quality management and quality assurance standards - Part 3: Guidelmes for the application of ISO 9001 to the development, supply and maintenance of software ANSIIISA 584 :1996, Application of Safety Instrumented Systems for the Process Industries
+
+19
+
+ISIIEC 61508-4: 1998
+
+INDEX
+an imation arch itecture channel common cause failure configuration management. covert dangerous fa ilure dependent failure detected diagnostic coverage diagnostic test interval diversity dynamic testing electrical/electronic/programmable electronic (E/E/PE) electrical/electronic/programmable electronic system (E/E/PES) equ ipment under control (EUC) error EUC control system EUC risk external risk reduct ion fac il ity fai lure fauIL fault avoidance fault tolerance functional safety funct ional safety assessment functional safety aud it functional unit hardware safety integrity harm hazard hazardous event hazardous situation human error impact analysis independent department independent organisation independent person lim ited variabil ity logic system low-complexity E/E/PE safety-related system mistake mode of operation module . 3 .8 .13 . 3 .3 .5 . 3.3 .8 . 3.6.10 . 3.7.3 . 3.8 .9 . 3 .6 .7 . 3 .6 .9 . 3 .8 .8 . 3.8.6 . 3.8.7 . 3.3 .9 . 3.8.14 . 3.2.6 .. 3 .3.3 . 3 .2.3 . 3 .6 .11 . 3 .3.4 . 3 .2.4 . 3.4 .3 . 3.6.4 . 3 .6.1 . 3.6.2 . 3 .6 .3 . 3 .1 .9 . 3.8.3 . 3 .8.4 .. 3 .2.1 . 3.5.5 .. 3.1.1 . 3 .1 .2 . 3.1.4 . 3 .1 .3 .. 3.6 .12 . 3.7.4 .. 3 .8 .11 . 3 .8 .12 . 3 .8 .10 . 3 .2.7 . 3.4.5 . 3.4.4 . 3.6.12 .. 3 .5 .12 . 3.3.6
+
+20
+
+I5nEC 61508-4: 1998
+necessary risk reduct ion other technology safety-related system overt. programmable electronic programmable electronic system (PES) proof test random hardware fa ilure reasonably foreseeable misuse redundancy revealed risk safe failure safe state safety safety funct ion safety functions requirements specification safety integrity safety integrity level (SIL) safety integrity requirements specification safety lifecycle safety-related software safety-related system safety requirements spec ification software software lifecycle software module software safety integrity software safety integrity level system systematic failure systematic safety integrity target failure measure test harness tolerable risk undetected unrevealed validation verif ication ����� �..� . 3.5.14 . 3.4 .2 . 3.8 .8 . 3.2.5 . 3.3.2 . 3.8.5 .. 3.6.5 . 3.1.11 . 3 .3.10 . 3.8.8 . 3.1.5 . 3.6.8 . 3.1 .10 . 3.1.8 . 3 .5.1 . 3.5.9 . 3.5.2 .. 3.5 .6 . 3.5.10 .. 3.7.1 . 3.5.11 .. 3.4 .1 .. 3.5 .8 . 3.2 .2 . 3.7.2 . 3.3 .7 �. 3.5 .3 . 3.5.7 . 3.3.1 . 3.6.6 . 3.5 .4 . 3.5.13 . 3.8.15 . . . . .
+
+�
+
+��
+
+3.1.6 3.8.9 3.8 .9 3.8.2 3.8.1
+
+21
+
+Bureau of Indian Standards
+
+BIS is a statutory institution established under the Bureau of Indian Standards Act, 1986 to promote harmonious development of the activities of standardization, marking and quality certification of goods and attending to connected matters in the country.
+Copyright
+
+BIS has the copyright of all its publications. No part of these publications may be reproduced in any form without the prior permission in writing of BIS. This does not preclude the free use, in course of implementing the standard, of necessary details, such as symbols and sizes, type or grade designations. Enquiries relating to copyright be addressed to the Director (PUblications), BIS.
+Review of Indian Standards
+
+Amendments are issued to standards as the need arises on the basis of comments. Standards are also reviewed periodically; a standard along with amendments is reaffirmed when such review indicates that no changes are needed; if the review indicates that changes are needed, it is taken up for revision. Users of Indian Standards should ascertain that they are in possession of the latest amendments or edition by refernng to the latest issue of 'BIS Catalogue' and 'Standards: Monthly Additions'. This Indian Standard has been developed from Doc: No. ETD 18 (568?).
+Amendments Issued Since Publication
+
+Amendment No.
+
+Date of Issue
+
+Text Affected
+
+BUREAU OF INDIAN STANDARDS
+Headquarters:
+
+Manak Bhavan, 9 Bahadur Shah Zafar Marg, New Delhi 110 002 Telephones: 2323 0131,23233375, 23239402 Website: www.bis.org.in
+Regional Offices: Central: Manak Bhavan, 9 Bahadur Shah Zafar Marg NEW DELHI 110 002
+
+Telephones 23237617 { 23233841
+23378499,23378561 { 2337 8626, 2337 9120 260 3843 { 2609285 2254 1216, 2254 1442 { 22542519,22542315 2832 9295, 2832 7858 { 2832 7891, 2832 7892
+
+Eastern:
+
+1/14, C.I.T. Scheme VII M, V.J.P. Road, Kankurgachi KOlKATA 700 054
+
+Northern: SCO 335-336, Sector 34-A, CHANDIGARH 160022
+
+Southern: C.J.T. Campus, IV Cross Road, CHENNAI 600 113
+
+Western: Manakalaya, E9 MIDC, Marol, Andheri (East) MUMBAI 400093
+
+Branches: AHMEDABAD. BANGAlORE. BHOPAL. BHUBANESHWAR. COIMBATORE. FARIDABAD, GHAZIABAD. GUWAHATI. HYDERABAD. JAIPUR. KANPUR. lUCKNOW. NAGPUR. PARWANOC. PATNA. PUNE. RAJKOT. THIRUVANANTHAPURAM. VISAKHAPATNAM.
+
+PRINTED BY THE GENERAL MANAGER. GOVT. OF INDIA PRESS. NASHIK-422 006
+
+

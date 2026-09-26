@@ -1,0 +1,937 @@
+lS/lEC 60958-1:2004
+
+Ww%lm
+
+3i-$hm3F@5
+`wllwFrl=i
+
+Indian Standard DIGITAL AUDIO INTERFACE
+PART 1 GENERAL
+
+ICS 33.160.01
+
+@ BIS 2007
+
+BUREAU
+MANAK August 2007
+
+OF
+
+INDIAN
+
+STANDARDS
+ZAFAR MARG Price Group 7
+
+BHAVAN,
+
+9 BAHADUR SHAH NEW DELHI 110002
+
+Radio Communication
+
+Sectional
+
+Committee,
+
+LTD 20
+
+NATIONAL
+
+FOREWORD
+
+This Indian Standard (Part 1) which is identical with IEC 60958-1 (2004) `Digital audio interface -- Part 1: General' issued by the International Electrotechnical Commission (lEC) was adopted by the Bureau of Indian Standards on the recommendation of the Radio Communication Sectional Committee and approval of the Electronics and Information Technology Division Council. The text of IEC Standard has been approved as suitable for publication as an Indian Standard without deviations. Certain conventions are, however, not identical to those used in Indian Standards. Attention is particularly drawn to the following: a) Wherever the words `International be read as `Indian Standard'. Standard' appear referring to this standard, they should
+
+b)
+
+Comma (,) has been used as a decimal marker, while in Indian Standards, practice is to use a point (.) as the decimal marker.
+
+the current
+
+In this adopted standard, reference appears to certain International Standards for which Indian Standards also exist. The corresponding Indian Standards which are to be substituted in their places are listed below along with their degree of equivalence for the editions indicated: /rrternationa/ Standard Corresponding Indian Standard Degree of Equivalence Identical
+
+IEC 60958-3 (2003) Digital audio interface -- Part 3: Consumer applications IEC 60958-4 (2003) Digital audio interface -- Part 4: Professional applications
+
+lS/lEC 60958-3 : 2003 Dtgital audio interface: Part 3 Consumer applications lS/lEC 60958-4 : 2003 Digital aud~ interface Part 4 Professional applications
+
+do
+
+For the purpose of deciding whether a particular requirement of this standard is complied with, the final value, observed or calculated, expressing the result of a test or analysis, shall be rounded off in accordance with' IS 2 : 1960 `Rules for rounding off numerical values (revised)'. The number of significant places retained in the rounded off value should be same as that of the specified value in this standard.
+
+lS/lEC 60958-1:2004
+
+Indian Standard DIGITAL AUDIO INTERFACE
+PART 1
+1 Scope
+a serial, uni-directional, self-clocking interface IEC 60958 describes applications. of digital audio equipment for consumer and professional structure of the interface. Separate documents define items for the
+
+GENERAL
+
+This part of interconnection
+
+It specifies the basic particular applications.
+
+specific
+
+to
+
+The interface is primarily intended to carry monophonic or stereophonic using linear PCM and wit;! a resolution of up to 24 bits per sample.
+
+programmed,
+
+encoded
+
+When used for other purposes, the interface is able to carry audio data coded other than as Ilnear PCM coded audio samples. Provis!on is also made to allow the interface to carry data related to computer software or signals coded using non-linear PCM. The format specification for these applications IS not part of this standard The interface is intended for operation at audio sampling frequencies Auxiliary information is transmitted along with the program me. of 32 kHz and above.
+
+2
+
+Normative
+
+references
+
+The following referenced documents are indispensable for the application of this document For dated references, only the editton cited applies. For undated references, the latest edition of the referenced document (including any amendments) applies. IEC 60958-3, IEC 60958-4, Digital Digital audio Interface audio Interface � Part 3. Consumer � Part 4: Professional applications applications
+
+3
+
+Terms
+
+and definitions
+of all parts of the IEC 60958 series, the following terms and definitions apply
+
+For the purpose 3.1 sampling frequency
+NOTE When Identical
+
+frequency of the samples
+more than one
+
+representing
+signal
+
+an audio signal
+through the same Interface, the sampllng frequencies are
+
+IS transmitted
+
+3.2 audio sample word value of a dlgltal audio sample.
+NOTE (ADC) Posltlve numbers correspond
+
+Representation
+to positive analogue
+
+is linear in 2s complement
+voltages at the Input
+
+binary form
+Converter
+
+of the Analogue-to-D1gltal
+
+1
+
+lS/lEC 60958-1 :2004
+3.3 auxiliary sample bit one of the four least significant bits (LSBS) that can be assigned used for auxiliary information when the number of audio sample less than or equal to 20
+
+as auxiliary sample bits and bits in the main data field is
+
+3.4 validity bit bit Indicating whether the main data field bits in the sub-frame (time depending on the audio word length as described in 4.1 .1) are reliable 3.5 channel status carrier, in a fixed format, of information decodable by any interface user
+
+slots 4 to 27 or 8 to 27, or not
+
+associated
+
+with each main data field channel
+
+which is
+
+NOTE Examples of information to be carried In the emphasis, sampltng frequency, time codes, alphanumeric
+
+channel source
+
+status are length of audio and destlnahon codes
+
+sample
+
+words,
+
+pre-
+
+3.6 user data data channel 3.7
+parity bit
+
+provided
+
+to carry any other information
+
+bit provided the interface
+
+to permit
+
+the. detection
+
+of an odd number
+
+of errors
+
+resulting
+
+from malfunctions
+
+in
+
+3.8 preamble specific patterns NOTE
+There
+
+used for synchronization
+different preambles (see 4 3)
+
+are three
+
+3.9 sub-frame fixed structure 3.10 frame sequence
+
+used to carry information
+
+(see 4,1.1 and 4.1 .2)
+
+of two successive
+
+and associated
+
+sub-frames
+
+3.11 block group of 192 consecutive NOTE
+The start of a block
+
+frames
+IS designated by a special sub-frame preamble (see 4 3)
+
+3.12 channel coding coding method by which the binary digits are represented 3.13 unit interval (.JI shortest nominal
+NOTE There
+
+for transmission
+
+through
+
+the interface
+
+time interval
+
+in the coding
+frame
+
+scheme
+
+are 128 UI In a sample
+
+2
+
+IWEC60958-I
+3.14 interface jitter deviation in the timing of interface ideal clock 3.15 intrinsic jitter output interface reference 3.16 jitter gain ratio of the synchronization
+
+:2004
+
+data transitions
+
+(zero crossings)
+
+when
+
+compared
+
+with
+
+an
+
+jitter of a device
+
+that is either
+
+free-running
+
+or is synchronized
+
+to a jitter-free
+
+amplitude of jitter input to the device
+
+components under test
+
+at
+
+the
+
+output,
+
+to
+
+thel~
+
+amplitude
+
+at
+
+the
+
+4 4.1 4.1.1
+
+Interface
+Structure
+
+format
+of format format into 32 time slots, numbered carry one of the three from O to 31 (see Figure permitted preambles 1). and 4,3;
+
+Sub-frame
+
+Each sub-frame
+
+is divided
+
+Time slots O to 3 (preambles) see also Figure 2).
+
+(see 4.1.2
+
+Time slots 4 to 27 (main data field) carry the audio sample word in linear representation. The most significant bit (MSB) is carried by time slot 27. When a 24-bit coding range is used, the LSB is in time slot 4 (see Figure 1).
+
+2's complement
+
+When a 20-bit coding range is used, time slots 8 to 27 carry the audio sample word with the LSB in time slot 8. Time slots 4 to 7 may be used for other applications. Under these circumstances, the bits in the time slots 4 to 7 are designated auxiliary sample bits (see Figure 1). If the source provides fewer are set to a logical "O". bits than the `interface allows (either 20 or 24), the unused LSBS
+
+For a non-linear PCM audio application other information. Time slot 28 (validity bit) carries
+
+or a data application,
+
+the main data field may carry any
+
+the validity
+
+bit associated
+
+with the main data field (see 4.4), associated with the main data
+
+Time slot 29 (user data bit) carries 1 bit of the user data channel field channel transmitted In the same sub-frame.
+NOTE 1 For the appllcatlons, refer to the other parts of the IEC 60958 ser!es
+
+Time slot 30 (channel status bit) carries 1 bit of the channel status the main data field channel transmitted in the same sub-frame. NOTE 2 For deta[ls refer to the other parts of the IEC 60958 series
+
+information
+
+associated
+
+with
+
+Time slot 31 (parity bit) carries a parity bit such that time slots 4 to 31 inclusive number of ones and an even number of zeros (even parity).
+NOTE 3 The preambles have even parity as an expllclt property
+
+carry an even
+
+3
+
+lS/iEC 60958-l
+0
+
+:2004
+34 Sync preamble Aux 78 L s B
+Aud!o sample
+
+27 28 word M ~ v u c B ++++
+
+31
+
+P
+
+Channel status
+
+`R?: 3
+Parity bit A
+
+I
+
+Figure
+
+1-
+
+Sub-frame
+
+format
+
+(linear
+
+PCM application)
+
+4.1.2
+
+Frame
+
+format Figure 2), For linear coded audio corresponds exactly to the source
+
+A frame is uniquely composed of two sub-frames (see applications, the rate of t~qnsmission of frames normally sampling frequency,
+
+In Z-channel operation mode, the samples taken from both channels are transmitted by time multiplexing in consecutive stib-frames. The first sub-frame (left or "A" channel in stereophonic operation and primary channel in monophonic operation) normally starts with preamble "M". However, the pr&amble changes to preamble "B" once every 192 frames to identify the start of the block structure used to organize the channel status information. The second sub-frame (right or "B" channel in stereophonic operation and secondary channel in monophonic operation) always starts with preamble "W" In single channel operation mode in a professional application, the frame format is the same as in,.~he 2-channeI mode, Data `is carried in the first sub-frame and may be duplicated in the ` second sub-frame. If the second sub-frame is not carrying duplicate data, time slot 28 (validity flag) shall be set to logical "l".
+NOTE For historical reasons, ,(=,, "X" and "Y", respectwely x
+Y
+
+preambles
+
+"B",
+
+"M" and "W" are, for use in professional
+
+applications,
+
+referred
+
+to as
+
+2
+
+Y*
+
+x
+
+Y
+
+x
+
+M
+
+Channel 1
+
+w
+
+Channel 2
+
+B
+
+Channel 1
+
+w
+
+Channel 2
+
+M
+
+Channel 1
+
+w
+
+Channel 2
+
+M
+
++ Frame 191 +
+
+`"'-'''"'4==+ Frame O Fcame 1 F
+
+P4.2 Channel ceding
+
+Slarl of block
+
+Figure
+
+2-
+
+Fram"~ fo'rmat
+
+To minimize the direct current (DC) component on the transmission line, to facilitate clock recovery from the data stream and to make the interface insensitive to the polarity of connections, time slots 4 to 31 are encoded in biphase-mark. Each bit to be transmitted is represented by a symbol comprising two consecutive binary states The first state of a symbol is always different from the second state of the previous symbol. The second state of the symbol is identical to the first if the bit to be transmitted is logical "O". However, it is different if the bit is logical "l" (see Figure 3).
+
+ISIIEC 60958-1:2004
+
+1111111111111
+
+Clock (twrce bd rate)
+
+Source coding
+
+I
+Figure 4.3 Preambles patterns providing synchronization 3Channel coding Preambles are specific and blocks.
+
+Channel cod[ng (blphase mark)
+
+and identification
+
+of the sub-frames
+
+To achieve synchronization within one sampllng reliable, these patterns violate the biphase-mark data imitating the preambles.
+
+period and to make this process completely code rules, thereby avoiding the possibility of
+
+A set of three preambles IS used. These preambles are transmitted in the time allocated to four time slots at the start of each sub-frame (time slots O to 3), and are represented by eight successive states. The first state of the preamble is always different from the second state of the previous symbol (representing the parity bit). Depending on this state, the preambles are as shown In Table 1. Table 1Preceding state Preamble code
+"B" or "Z" (see note to 41 "M" or "X" "W" or "Y" 2) 11100010 11100100 00011101 00011011
+
+Preamble
+
+codjng 1
+
+o
+Channel coding
+
+11101000
+
+00010111
+
+Sub-frame 1 and the start of the block Sub-frame Sub-frame 1 2
+
+Like biphase code, these preambles are d.c. free and provide least two states from any valid biphase sequence Figure 4 represents preamble "M"
+
+clock recovery.
+
+They differ
+
+in at
+
+NOTE Owing to the even-par(ty blt In time slot 31, all preambles start with a transition (n the same d!rectlon (see 4 1 1) Thus, only one of these sets of preambles Is, In pract[ce, transmitted through the Interface However, It IS necessary for both sets to be decodable because either polarity IS possible In a connection
+
+5
+
+lS/lEC 60958-1:2004
+
+l++
+Panty
+
+LSB
+
+I
+
+.................. .......,
+
+Lack of transrtton at b)t boundary
+
+Figure 4 � Preamble 4.4 Validity bit
+
+M (shown
+
+as 11100010)
+
+The validity bit is logical "O" if the information in the main data field is re{iable, "1" if It IS not. There is no default state for the validity bit. NOTE For transm!sslons
+decod{ng of non-audio
+
+and it is logical
+
+not using a hnear PCM coding, this bit may be set This IS Intended to prevent accidental data to analogue before a complete channel status block IS received See Annex A
+
+5 5.1
+
+Channel General
+
+status
+
+For every sub-frame, the channel status main data field of that same sub-frame. Channel status information bit of each block is carried defined in Table 2. is organized in the frame
+
+provides
+
+information
+
+related
+
+to the data carried
+
+in the
+
+in a 192-bit block, subdivided into 24 bytes, The first with preamble "B". The channel status data format is
+
+The specific organization depends on the application. In the descriptions, the suffix "O" designates the first byte or bit. Where channel status bits are combined to form non-binary values, the least significant bit should be transmitted first, unless otherwise indicated. 5.2 Applications application is indicated by the first channel status bit (bit O) of a block as defined
+
+The primary in 5.3.
+
+For professional For consumer Secondary Application
+
+applications, applications,
+
+refer to IEC 60958-4 reter to IEC 60958-3. within the framework B of these primary applications
+
+applications documents
+
+may be defined or specifications
+
+are listed in Annex
+
+6
+
+lS/lEC 60958-1:2004
+5.3 General assignment of the first and second channel status bits as follows.
+
+The first and seco~d channel Byte O
+BIt O "o
+
+status bits (bit O and bit 1) are specified
+
+Consumer Professional
+
+use of channel use of channel
+
+status block. status block
+
+"1 Bit 1
+
+"o
+"1
+
+Main data field represents
+
+linear PCM samples. other purposes,
+
+Main data field used for purposes
+
+5.4
+
+Category
+
+code IEC 60958-3 for of the IEC 60958 consumer series for'
+
+Channel status including the category code is defined in applications; these category codes are used for other variations consumer use, such as the IEC 61937 series.
+
+Channel status is also defined in IEC 60958-4 for professional applications, and these data are used for other variations of the IEC 60958 series for professional use, such as SMPTE 337M.
+
+IWEC60958-I
+
+:2004
+Table 2Channel status data format
+
+lyte
+
+1
+b,!
+
+o
+1
+b,!
+
+2
+b,t
+
+3
+b,t
+
+4
+b,!
+
+5
+b,t
+
+6
+b!t
+
+7
+b,t
+
+8 Il\l 9
+
+b,t
+10
+b,t
+
+11
+b,t
+
+12
+
+b,{
+13
+b)t
+
+14
+b,!
+
+15
+b,l
+
+16
+b,t
+
+fl?
+b,!
+
+18
+b,t
+
+19
+b,t
+
+20
+b,t
+
+21
+b,t
+
+22
+b,t
+
+23
+b,l
+
+IWEC60958-I
+
+:2004
+
+6
+6.1
+
+User data
+General value of the user bits is logical "O"
+
+The default 6.2 6.2.1
+
+Applications Professional use
+
+User data may be used in any way required IEC 60958-4. 6.2.2 Consumer use
+
+by the user. Application
+
+details are described
+
+in
+
+The application of the user data in digital with IEC 60958-3.
+
+audio equipment
+
+for consumer
+
+use is in accordance
+
+7
+
+Electrical
+
+requirements
+shall be required
+
+The type of transmission JinQ and timing accuracy of the transmitted, si9nal waveform as defined in other parts of IEC 60958-3 and IEC 60958-4, to meet the specifically quallty or purpose of use.
+
+lS/lEC 60958-1:2004
+Annex A (informative) The use of the validity bit
+
+The IEC 60958 series is based on two different industry standards: the AESIEBU digital audio interface standard (AES3 and EBU Tech. 3250-E) and the digital interface specification by Sony and Philips (SPDIF) introduced with the Compact Disc Digital Audio system Unfortunately, significant differences between the two standards exist, which can contribute in part to the different application areas: professional and consumer, The differences have contributed to many misunderstandings about the use and compatibility of the standards. Originally, the definition of validity was, in both industry standards, that it indicated whether or not the associated audio sample was "secure and error free". Although, at first glance this may seem a clear definition, in practice it has led to important practical problems. It is unclear how the receiver should interpret this. When the sample is signalled not to be in error, it is not clear whether the transmitter has performed a successful concealment. If a sample is signal led in error, it is not clear whether the sample should be passed on unchanged, concealed or muted.
+As
+
+a result, the AES has adopted wording: Validity indicates "whether analogue audio signal".
+
+in the 1992 revision of the AES3 standard a different the audio sample bits are suitablq for conversion to an
+
+Over the years, the application of the IEC 60958 series has gained popularity, resulting in a growing number of products conforming to its provisions. With these in use, applications other than strictly linear PCM audio transmission started to appear as well. The same basic frame structure IS used, but the information transferred in the "audio sample word" is not encoded as linear PCM audio. As it is not always clearly indicated what kind of signal is carried, connection of such a transmitter to a linear PCM receiver may result in a very loud and noisy audio signal Therefore, it has been proposed in the revision of the IEC 60958 series to also adopt the wording of the AES3 standard for the validity blt definition. However, especially in consumer applications, the transmitter often has no active control of the validity bit. In many cases, this is generated by the error correction circuitry and automatically copied in the IEC 60958 series bitstream. A change of definition would, in theory, necessitate a redesign of circuits which have been [n use for many years For this reason, the definition of the validity bit remains basically unchanged in the IEC 60958 series. However, it is noted that for applications not using a linear P.CM coding, the bit may be decoding of non-audio data to analogue set to "1", in which case it can prevent accidental before a complete channel status block is received. For future applications of the IEC 60958 series with non-linear PCM data, such a provision is highly recommended Additionally, in IEC 60958-4, it is specified that the validity bit shall be used to indicate whether the audio sample is "suitable for conversion to an analogue audio signal using linear PCM coding". This retains, for professional applications, the intention of the wording in the AES3 standard. Although not a perfect solution to problems relating to the use of the validity bit, the definitions as adopted in the IEC 60958 series seem to be the best achievable compromise to date. The use described in this annex should be applied to all other IEC 60958 data conform ant formats This applies, for example, to the IEC 60958 series conform ant mode of IEC 61883-6
+
+10
+
+lS/lEC 60958-1:2004 Annex B
+(informative)
+
+Application
+
+documents
+
+and specifications
+
+Table B. 1 indicates application documents and specification bit 1, as defined in 5.3.
+Table
+ByteO of
+
+based on channel status bit O and
+
+B.1 � Application
+
+documents
+
+and specifications
+
+R37%T-is'andards
+o
+1 0 IEC 60958-3 IEC 60958-4 I IEC 61937, SMPTE IEC 62105 and others
+
+I
+I
+
+0
+II
+
+]0
+
+~
+For that part of the channel
+
+337M
+
+and others
+
+status that is not implemented,
+
+the default
+
+is logical
+
+"O
+
+11
+
+lS/lEC 60958-1 :2004 Annex C
+(informative) A relationship
+
+of the IEC 60958 series families
+
+A relationship in Figure Cl.
+
+between
+
+(EC specifications
+
+that are based on the IEC 60958
+
+series
+
+is
+
+illustrated
+
+I
+
+IEC 60958-1 Digital audio interface
+
+General I 1 IEC 60958 sertes conformant
+
+IEC 61883-6 A/M Protocol I
+
+:
+
+Linear PCM Audio IEC 60958-3 Consumer applications
+
+,...,,,,.,.. ., ..,..,,,,. t
+I IEC 61937-3
+
+IEC 60956-4 Professional applications
+
+AC-3
+
+.
+Non-Linear PCM audio
+
+,, .........
+
+I
+
+IEC 61937-4 MPEG-1, -2 audio
+
+I
+
++=$==
+I IEC 61937-2 Burst-info IEC 61937-6 MPEG-2 AAc IEC 61937-7 ATRAC and ATRP,C2[3 Data IEC 621 05/EN 50255 RDI
+
+Figure
+
+C.1 � A relationship
+
+of the IEC 60958 series
+
+families
+
+As illustrated, the IEC 60958 series consists of parts and also forms the basis for other applications. The IEC 61937 series and IEC 62105 are protocols that use the format of IEC 60958 as a transport, and the IEC 60958 series conformant mode in IEC 61883-6 is a variant where the data in an IEC 60958 stream is carried on the physical format of IEC 61883-6. This means that the IE"C 60958 series � with data formats transported on the IEC 60958 series can itself be carried on another interface format. As a result, the IEC 60958 series has relevance across various interface formats and systems.
+
+12
+
+lS/iEC 60958-1:2004
+Annex D (informative) Transmission of CD data other than linear PCM audio
+
+This standard ailows the interface to carry data related to computer software or signals coded using non-linear PCM and the format specification for these applications is not part of fhis standard. The channel status Bit 1 of Byte O indicates whether the data is linear PCM or not, However, some CD applications currently set this Bit 1="0 as meaning linear PCM data, while the actual data is not linear PCM but compressed audio data. Such applications do not conform to the IEC 60958 series. Current data processing equipment such as computers and games machines have a CD-ROM drive and sometimes a IEC 60958 series interface, so there is a possibility of non-linear PCM data output that is dependent on the application software. Therefore, all equipment and applications standard to prevent unexpected behaviour Consideration is required for accordance with IEC 60958 with level of noise being generated data. Such noise might damage applications should respect in the decoder. that, the channel status definitions in this
+
+reasons, do not behave in for historic status bit 1. This is in order to avoid a high by the conversion of this signal as though is was linear PCM hearing or equipment.
+respect to channel
+
+13
+
+IWEC60958-1
+
+:2004 Bibliography
+
+SMPTE 337 M-2000, Television Digital Audio Interface
+
+-
+
+Format
+
+for Non-PCM
+
+Audio
+
+and Data
+
+in an AES3
+
+Serial
+
+IEC 61883-6:2002, Consumer audiolvideo music data transmission protocol IEC 61937 (all parts), applying /EC 60958 IEC 62105:1999, (RDI) Digital Digital
+
+equipment
+
+� Digital
+
+interface
+
+� Part
+
+6: Audio
+
+and
+
+audio � Interface
+
+for non-linear
+
+PCM encoded
+
+audio
+
+bitstreams
+
+audio
+
+broadcast
+
+system
+
+� Specification
+
+of the receiver
+
+data interface
+
+14
+
+Bureau of Indian Standards BIS is a statutory institution established under the Bureau harmonious development of the activities of standardization, and attending to connected matters in the country. Copyright BIS has the copyright of all its publications. No part of these publications may be reproduced in any form without the prior permission in writing of BIS. This does not preclude the free use, in course of implementing the standard, of necessary details, such as symbols and sizes, type or grade designations. Enquiries relating to copyright be addressed to the Director (Publications), BIS. Review of Indian Standards Amendmerits also reviewed indicates that for revision. amendments Additions'. are issued to standards as the need arises on the basis of comments. Standards are periodically; a standard along with amendments is reaffirmed when such review no changes are needed; if the review indicates that changes are needed, it is taken up Users of Indian Standards should ascertain that they are in possession of the latest or edition by referring to the latest issue of `BIS Catalogue' and `Standards: Monthly of /mfian Standards
+marking and quality
+
+Act, 1986 to promote
+certification of goods
+
+This Indian Standard has been developed
+
+from Dot: No. LTD 20 (2035).
+Issued Since Publication
+
+Amendments Amendment No.
+
+Date of Issue
+
+Text Affected
+
+BUREAU Headquarters:
+
+OF INDIAN
+
+STANDARDS
+
+Manak Bhavan, 9 Bahadur Shah Zafar Marg, New Delhi 110002 Telephones 23230131,23233375,2323 9402 Website Regional Offices: Central : Manak Bhavan, 9 Bahadur Shah Zafar Marg NEW DELHI 110002 1/14, C.I.T. Scheme Vll M, V.I.P. Road, Kankurgachi s KOLKATA 700054 Sector 34-A, CHANDIGARH 160022
+
+www.bis.org.in Telephones 23237617 { 23233841 23378499, 23378561 { 23378626,23379120 2603843 { 2609285 22541216,22541442 22542519,22542315
+
+Eastern :
+
+Northern : SCO 335-336,
+
+Southern : C.I.T. Campus,
+
+IV Cross Road, CHENNAI 600113 {
+
+Western : Manakalaya, E9 MlDC, Marol, Andheri (East) MUMBAI 400093 Branches: AHMEDABAD. GHAZIABAD. PAI?WANOO.
+
+28329295,28327858 { 28327891,28327892
+
+BANGALORE. BHOPAL. BHUBANESH~AR. COIMBATORE. FARIDABAD. GUWAHATI. HYDERABAD. JAIPUR. KANPUR. LUCKNOW. NAGPUR. PATNA. PUNE. RAJKOT. THIRUVANANTHAPURAM. VISAKHAPATNAM.
+
+Printed at: AkashdeepPrinters,New Delhi-2,
+
+
