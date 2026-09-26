@@ -3,6 +3,7 @@ import { BrowserRouter, Routes, Route, Navigate, useLocation } from 'react-route
 
 import Shell from './components/Shell';
 import { SpecProvider } from './state/SpecStore';
+import { DemoProvider } from './demo/DemoProvider';
 
 import Landing from './pages/Landing';
 import Login from './pages/Login';
@@ -88,40 +89,44 @@ export default function App() {
     <SpecProvider>
       <BrowserRouter>
         <ScrollTop />
-        <Routes>
-          <Route path="/" element={<Landing theme={theme} onToggleTheme={toggleTheme} />} />
-          <Route path="/login" element={<Login />} />
+        {/* Demo Mode wraps the routes because its engine navigates through
+            react-router. It renders nothing until the demo is started. */}
+        <DemoProvider>
+          <Routes>
+            <Route path="/" element={<Landing theme={theme} onToggleTheme={toggleTheme} />} />
+            <Route path="/login" element={<Login />} />
 
-          {/* Workbench */}
-          <Route path="/app"               element={app(<Dashboard />)} />
-          <Route path="/app/query"         element={app(<Query />)} />
-          <Route path="/app/boq"           element={app(<BOQ />)} />
-          <Route path="/app/builder"       element={app(<Builder />)} />
-          <Route path="/app/tender"        element={app(<TenderBuilder />)} />
-          <Route path="/app/map"           element={app(<StandardsMap />)} />
-          <Route path="/app/standard/:code" element={app(<StandardDetail />)} />
-          <Route path="/app/certification" element={app(<Certification />)} />
-          <Route path="/app/certification/:code" element={app(<Certification />)} />
+            {/* Workbench */}
+            <Route path="/app"               element={app(<Dashboard />)} />
+            <Route path="/app/query"         element={app(<Query />)} />
+            <Route path="/app/boq"           element={app(<BOQ />)} />
+            <Route path="/app/builder"       element={app(<Builder />)} />
+            <Route path="/app/tender"        element={app(<TenderBuilder />)} />
+            <Route path="/app/map"           element={app(<StandardsMap />)} />
+            <Route path="/app/standard/:code" element={app(<StandardDetail />)} />
+            <Route path="/app/certification" element={app(<Certification />)} />
+            <Route path="/app/certification/:code" element={app(<Certification />)} />
 
-          {/* Audit */}
-          <Route path="/app/audit"         element={app(<Audit />)} />
+            {/* Audit */}
+            <Route path="/app/audit"         element={app(<Audit />)} />
 
-          {/* Projects & catalogue */}
-          <Route path="/app/projects"      element={app(<Projects />)} />
-          <Route path="/app/catalogue"     element={app(<Explorer />)} />
-          <Route path="/app/simulator"     element={app(<Simulator />)} />
-          <Route path="/app/alerts"        element={app(<Alerts />)} />
-          <Route path="/app/compliance"    element={app(<Suspense fallback={<PageLoading />}><Compliance /></Suspense>)} />
+            {/* Projects & catalogue */}
+            <Route path="/app/projects"      element={app(<Projects />)} />
+            <Route path="/app/catalogue"     element={app(<Explorer />)} />
+            <Route path="/app/simulator"     element={app(<Simulator />)} />
+            <Route path="/app/alerts"        element={app(<Alerts />)} />
+            <Route path="/app/compliance"    element={app(<Suspense fallback={<PageLoading />}><Compliance /></Suspense>)} />
 
-          {/* Admin */}
-          <Route path="/app/admin"         element={app(<Admin />)} />
-          <Route path="/app/settings"      element={app(<Settings />)} />
+            {/* Admin */}
+            <Route path="/app/admin"         element={app(<Admin />)} />
+            <Route path="/app/settings"      element={app(<Settings />)} />
 
-          {/* Legacy path kept so old links resolve */}
-          <Route path="/app/explorer" element={<Navigate to="/app/catalogue" replace />} />
+            {/* Legacy path kept so old links resolve */}
+            <Route path="/app/explorer" element={<Navigate to="/app/catalogue" replace />} />
 
-          <Route path="*" element={<Navigate to="/" replace />} />
-        </Routes>
+            <Route path="*" element={<Navigate to="/" replace />} />
+          </Routes>
+        </DemoProvider>
       </BrowserRouter>
     </SpecProvider>
   );

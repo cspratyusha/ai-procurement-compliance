@@ -1,165 +1,285 @@
-import { useState } from 'react';
+import { useState, useEffect, useMemo } from 'react';
+import { Link } from 'react-router-dom';
 import Icon from '../components/Icon';
 import { EmptyState } from '../components/Primitives';
-import { ALERTS, SUBSCRIPTIONS } from '../data/mock';
-import DemoDataNotice from '../components/DemoDataNotice';
+import { getAlerts, ApiError } from '../api/client';
+import './query.css';   // .notice — shared with the query screen
+
+/**
+ * Standards-hygiene findings, computed from the corpus.
+ *
+ * This screen used to render five invented notifications with times like
+ * "2 hours ago". What replaced them is narrower and true: every row is a fact
+ * the corpus actually supports — a superseded edition, or a standard with
+ * published amendments in force — with the replacement named wherever the
+ * corpus holds it.
+ *
+ * The honesty problem here is specific and worth stating, because it is not
+ * the same one the dashboard had.
+ *
+ * **Nothing here is a feed.** No crawler watches BIS for newly published
+ * revisions. These are findings about data already in the corpus, so they do
+ * not arrive, they are not new, and they have no timestamp. The old screen's
+ * relative times were the most convincing thing on it and the least true, so
+ * this one shows none at all rather than a defensible-looking substitute.
+ *
+ * **A short list is not an all-clear.** Amendments are researched for three
+ * standards out of forty-five. A standard raising no finding has almost
+ * certainly never been checked, which is a completely different statement
+ * from "it is clean" — so the coverage line is rendered with the list, not
+ * tucked into a tooltip.
+ */
 
 const KIND = {
-  revision:      { icon: 'refresh', label: 'Revision',      cls: 'badge-crit' },
-  amendment:     { icon: 'file',    label: 'Amendment',     cls: 'badge-warn' },
-  certification: { icon: 'shield',  label: 'Certification', cls: 'badge-accent' },
-  gap:           { icon: 'alert',   label: 'Standards gap', cls: 'badge-info' },
+  supersession: { icon: 'refresh', label: 'Superseded edition' },
+  amendment:    { icon: 'file',    label: 'Amendments in force' },
 };
 
-export default function Alerts() {
-  const [read, setRead] = useState({});
-  const [subs, setSubs] = useState(
-    Object.fromEntries(SUBSCRIPTIONS.map((s) => [s.id, s.active]))
-  );
-  const [filter, setFilter] = useState('all');
+const SEVERITY = {
+  critical: { label: 'Fix before issue', cls: 'badge-crit' },
+  warning:  { label: 'Check',            cls: 'badge-warn' },
+};
 
-  const isUnread = (a) => a.unread && !read[a.id];
-  const shown = filter === 'unread' ? ALERTS.filter(isUnread) : ALERTS;
-  const unreadCount = ALERTS.filter(isUnread).length;
+/** Sector keys are stored as `electrical_cables`; show them as words. */
+const SECTOR_ACRONYMS = { ppe: 'PPE' };
+function sectorLabel(key) {
+  if (!key) return 'Uncategorised';
+  if (SECTOR_ACRONYMS[key]) return SECTOR_ACRONYMS[key];
+  return key.replace(/_/g, ' ').replace(/^./, (c) => c.toUpperCase());
+}
+
+export default function Alerts() {
+  const [state, setState] = useState('loading'); // loading | ready | error
+  const [data, setData] = useState(null);
+  const [error, setError] = useState(null);
+  const [severity, setSeverity] = useState('all');
+  const [sectors, setSectors] = useState({});   // sector -> included
+
+  useEffect(() => {
+    const controller = new AbortController();
+
+    getAlerts({ signal: controller.signal })
+      .then((payload) => {
+        setData(payload);
+        // Every sector present starts included: the default view is the whole
+        // scan, and narrowing it is the user's choice.
+        const present = [...new Set(payload.findings.map((f) => f.category))];
+        setSectors(Object.fromEntries(present.map((c) => [c, true])));
+        setState('ready');
+      })
+      .catch((err) => {
+        if (controller.signal.aborted) return;
+        setError(err instanceof ApiError ? err : new ApiError('Could not load findings.'));
+        setState('error');
+      });
+
+    return () => controller.abort();
+  }, []);
+
+  const findings = data?.findings ?? [];
+
+  const shown = useMemo(() => findings.filter((f) => {
+    if (severity !== 'all' && f.severity !== severity) return false;
+    // A sector with no entry yet (first render) counts as included.
+    return sectors[f.category] !== false;
+  }), [findings, severity, sectors]);
+
+  const criticalCount = findings.filter((f) => f.severity === 'critical').length;
+  const presentSectors = useMemo(
+    () => [...new Set(findings.map((f) => f.category))].sort(),
+    [findings],
+  );
 
   return (
     <div className="container page">
-      <DemoDataNotice
-        what="Amendment and supersession alerts are sample notifications."
-        next="Live alerts need amendment tracking, which is not built."
-      />
       <div className="page-head">
         <div>
-          <h1 className="page-title">Alerts &amp; subscriptions</h1>
+          <h1 className="page-title" data-demo-target="alerts-title">Standards hygiene</h1>
           <p className="page-sub">
-            A background job matches newly detected revisions and amendments against your subscribed
-            categories and notifies you before an outdated citation reaches a live tender.
+            Superseded editions and published amendments found in the corpus the engine
+            serves. Each finding is computed from the standards data — not a notification
+            feed, and nothing here monitors BIS for newly published revisions.
           </p>
         </div>
-        {unreadCount > 0 && (
-          <button
-            className="btn btn-secondary"
-            onClick={() => setRead(Object.fromEntries(ALERTS.map((a) => [a.id, true])))}
-          >
-            <Icon name="check" size={15} />
-            Mark all read
-          </button>
-        )}
       </div>
 
-      <div className="grid split" style={{ "--rail": "1fr" }}>
-        <div className="stack stack-4">
-          <div className="row wrap" style={{ gap: 'var(--s2)' }}>
-            <div className="seg" role="group" aria-label="Filter alerts">
-              <button onClick={() => setFilter('all')} aria-pressed={filter === 'all'}>
-                All ({ALERTS.length})
+      {state === 'loading' && (
+        <div className="stack stack-3" aria-busy="true">
+          {[0, 1, 2, 3].map((i) => <div key={i} className="skeleton" style={{ height: 96 }} />)}
+        </div>
+      )}
+
+      {state === 'error' && (
+        <div className="card">
+          <EmptyState
+            icon="alert"
+            title="Could not load findings"
+            body={
+              `${error?.message ?? 'The standards engine did not respond.'} ` +
+              'No findings are shown rather than stale ones.'
+            }
+            action={
+              <button className="btn btn-primary btn-sm" onClick={() => window.location.reload()}>
+                Retry
               </button>
-              <button onClick={() => setFilter('unread')} aria-pressed={filter === 'unread'}>
-                Unread ({unreadCount})
-              </button>
+            }
+          />
+        </div>
+      )}
+
+      {state === 'ready' && (
+        <div className="grid split" style={{ '--rail': '320px' }}>
+          <div className="stack stack-4">
+            <div className="row wrap" style={{ gap: 'var(--s2)' }}>
+              <div className="seg" role="group" aria-label="Filter by severity">
+                <button onClick={() => setSeverity('all')} aria-pressed={severity === 'all'}>
+                  All ({findings.length})
+                </button>
+                <button onClick={() => setSeverity('critical')} aria-pressed={severity === 'critical'}>
+                  Fix before issue ({criticalCount})
+                </button>
+              </div>
             </div>
-          </div>
 
-          {shown.length === 0 ? (
-            <div className="card">
-              <EmptyState
-                icon="checkCircle"
-                title="You are all caught up"
-                body="No unread alerts. New revisions affecting your subscribed categories will appear here."
-              />
-            </div>
-          ) : (
-            <div className="stack stack-3">
-              {shown.map((a) => {
-                const k = KIND[a.kind];
-                const unread = isUnread(a);
-                return (
-                  <article key={a.id} className={`card alert-card ${unread ? 'is-unread' : ''}`}>
-                    <div className="row" style={{ alignItems: 'flex-start', gap: 'var(--s4)' }}>
-                      <span className="alert-icon"><Icon name={k.icon} size={17} /></span>
+            {shown.length === 0 ? (
+              <div className="card">
+                <EmptyState
+                  icon="checkCircle"
+                  title={findings.length === 0 ? 'No findings in this corpus' : 'Nothing matches this filter'}
+                  body={
+                    findings.length === 0
+                      ? 'No superseded editions or researched amendments were found. Most standards have not been checked for amendments, so this is not an all-clear.'
+                      : 'Widen the severity or sector filter to see the rest of the scan.'
+                  }
+                />
+              </div>
+            ) : (
+              <div className="stack stack-3">
+                {shown.map((f) => {
+                  const kind = KIND[f.kind] ?? KIND.supersession;
+                  const sev = SEVERITY[f.severity] ?? SEVERITY.warning;
+                  return (
+                    <article key={`${f.kind}-${f.standard}`} className="card alert-card">
+                      <div className="row" style={{ alignItems: 'flex-start', gap: 'var(--s4)' }}>
+                        <span className="alert-icon"><Icon name={kind.icon} size={17} /></span>
 
-                      <div className="stack stack-3 grow" style={{ minWidth: 0 }}>
-                        <div className="row wrap" style={{ gap: 'var(--s2)' }}>
-                          <span className={`badge ${k.cls}`}>{k.label}</span>
-                          <span className="badge badge-neutral">{a.category}</span>
-                          {unread && <span className="badge badge-neutral">Unread</span>}
-                        </div>
-
-                        <h2 className="small strong">{a.title}</h2>
-                        <p className="small muted">{a.body}</p>
-
-                        <div className="row-between wrap" style={{ gap: 'var(--s3)' }}>
-                          <span className="xs faint">{a.time}</span>
-                          <div className="row" style={{ gap: 'var(--s2)' }}>
-                            {unread && (
-                              <button
-                                className="btn btn-ghost btn-sm"
-                                onClick={() => setRead((p) => ({ ...p, [a.id]: true }))}
-                              >
-                                Mark read
-                              </button>
+                        <div className="stack stack-3 grow" style={{ minWidth: 0 }}>
+                          <div className="row wrap" style={{ gap: 'var(--s2)' }}>
+                            <span className={`badge ${sev.cls}`}>{sev.label}</span>
+                            <span className="badge badge-neutral">{kind.label}</span>
+                            {f.category && (
+                              <span className="badge badge-neutral">{sectorLabel(f.category)}</span>
                             )}
-                            <button className="btn btn-secondary btn-sm">
-                              View affected tenders
-                              <Icon name="chevronRight" size={13} />
-                            </button>
+                          </div>
+
+                          <h2 className="small strong">
+                            <span className="mono">{f.standard}</span>
+                            {f.title ? ` — ${f.title}` : ''}
+                          </h2>
+
+                          <p className="small muted">{f.detail}</p>
+
+                          <div className="notice notice-info" role="note" style={{ margin: 0 }}>
+                            <Icon name="info" size={14} />
+                            <span className="xs">{f.action}</span>
+                          </div>
+
+                          <div className="row wrap" style={{ gap: 'var(--s2)' }}>
+                            <Link
+                              to={`/app/standard/${encodeURIComponent(f.standard)}`}
+                              className="btn btn-secondary btn-sm"
+                            >
+                              Open {f.standard} <Icon name="chevronRight" size={13} />
+                            </Link>
+                            {f.replacement && (
+                              <Link
+                                to={`/app/standard/${encodeURIComponent(f.replacement)}`}
+                                className="btn btn-ghost btn-sm"
+                              >
+                                Open {f.replacement} <Icon name="chevronRight" size={13} />
+                              </Link>
+                            )}
                           </div>
                         </div>
                       </div>
-                    </div>
-                  </article>
-                );
-              })}
-            </div>
-          )}
-        </div>
+                    </article>
+                  );
+                })}
+              </div>
+            )}
+          </div>
 
-        <div className="stack stack-4">
-          <div className="card card-flush">
-            <div className="card-head">
-              <h2 className="card-title">Subscribed categories</h2>
+          <div className="stack stack-4">
+            <div className="card card-flush">
+              <div className="card-head">
+                <h2 className="card-title">Sectors in this scan</h2>
+              </div>
+              {presentSectors.length === 0 ? (
+                <div className="card-body">
+                  <span className="xs muted">No findings to filter.</span>
+                </div>
+              ) : (
+                <div className="stack" style={{ padding: 'var(--s3)' }}>
+                  {presentSectors.map((c) => {
+                    const count = findings.filter((f) => f.category === c).length;
+                    return (
+                      <label key={c} className="sub-row">
+                        <input
+                          type="checkbox"
+                          checked={sectors[c] !== false}
+                          onChange={() => setSectors((p) => ({ ...p, [c]: p[c] === false }))}
+                        />
+                        <span className="stack stack-2 grow">
+                          <span className="small">{sectorLabel(c)}</span>
+                          <span className="xs faint">
+                            {count} finding{count === 1 ? '' : 's'}
+                          </span>
+                        </span>
+                      </label>
+                    );
+                  })}
+                </div>
+              )}
             </div>
-            <div className="stack" style={{ padding: 'var(--s3)' }}>
-              {SUBSCRIPTIONS.map((s) => (
-                <label key={s.id} className="sub-row">
-                  <input
-                    type="checkbox"
-                    checked={!!subs[s.id]}
-                    onChange={() => setSubs((p) => ({ ...p, [s.id]: !p[s.id] }))}
-                  />
-                  <span className="stack stack-2 grow">
-                    <span className="small">{s.category}</span>
-                    <span className="xs faint">{s.standards} standards monitored</span>
+
+            {data.coverage && (
+              <div className="card stack stack-3">
+                <span className="eyebrow">What this scan covered</span>
+                <div className="row-between">
+                  <span className="xs">Standards scanned</span>
+                  <span className="xs tabular strong">{data.coverage.corpus_size}</span>
+                </div>
+                <div className="row-between">
+                  <span className="xs">Marked superseded</span>
+                  <span className="xs tabular strong">{data.coverage.superseded_in_corpus}</span>
+                </div>
+                <div className="row-between">
+                  <span className="xs">Amendments researched</span>
+                  <span className="xs tabular strong">{data.coverage.amendments_researched}</span>
+                </div>
+                <div className="row-between">
+                  <span className="xs faint">Never checked for amendments</span>
+                  <span className="xs tabular strong" style={{ color: 'var(--warn)' }}>
+                    {data.coverage.amendments_unchecked}
                   </span>
-                </label>
-              ))}
-            </div>
-            <div className="card-body" style={{ borderTop: '1px solid var(--line)' }}>
-              <button className="btn btn-secondary btn-sm" style={{ width: '100%' }}>
-                <Icon name="plus" size={14} />
-                Add category
-              </button>
-            </div>
-          </div>
+                </div>
+                <hr className="divider" />
+                <p className="xs muted">{data.coverage.note}</p>
+              </div>
+            )}
 
-          <div className="card stack stack-4">
-            <span className="eyebrow">Notification channels</span>
-            {[
-              { id: 'inapp', label: 'In-app notifications', hint: 'Bell icon and dashboard queue', on: true },
-              { id: 'email', label: 'Email digest', hint: 'Daily summary at 09:00 IST', on: true },
-              { id: 'critical', label: 'Immediate email on revision', hint: 'Sent the moment a subscribed standard is superseded', on: false },
-            ].map((c) => (
-              <label key={c.id} className="check">
-                <input type="checkbox" defaultChecked={c.on} />
-                <span className="stack stack-2">
-                  <span className="small">{c.label}</span>
-                  <span className="xs faint">{c.hint}</span>
-                </span>
-              </label>
-            ))}
+            <div className="card stack stack-3">
+              <span className="eyebrow">Notifications</span>
+              <p className="xs muted">
+                Email digests and immediate revision alerts are not built. Delivering them
+                needs a job that watches BIS for newly published revisions, which does not
+                exist — so no channel settings are offered here rather than switches that
+                would change nothing.
+              </p>
+            </div>
           </div>
         </div>
-      </div>
+      )}
     </div>
   );
 }

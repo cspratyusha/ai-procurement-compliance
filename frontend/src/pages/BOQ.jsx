@@ -1,234 +1,346 @@
-import { useState, useRef, useEffect } from 'react';
+import { useState, useRef, useEffect, useCallback } from 'react';
 import { Link } from 'react-router-dom';
 import Icon from '../components/Icon';
+import { EmptyState } from '../components/Primitives';
+import { CertificationBadge } from '../components/CertificationBadge';
 import { useSpec } from '../state/SpecStore';
-import { BOQ_ITEMS, BANDS, STANDARD_DETAIL } from '../data/catalogue';
-import DemoDataNotice from '../components/DemoDataNotice';
+import { analyseBOQ, SUPPORTED_UPLOAD_TYPES, MAX_UPLOAD_BYTES, ApiError } from '../api/client';
+import './query.css';   // .notice — shared with the query screen
 
 /**
- * Workflow B — full document analysis.
- * Upload → detected line items → per-item recommendations → consolidated export.
- * The officer can leave and come back, so progress is explicit and resumable.
+ * Upload a bill of quantities and match every line item.
+ *
+ * The page previously showed a worked example behind a notice saying document
+ * parsing was "a planned phase". That had gone stale — extraction was built
+ * later, and /extract has served real PDF/DOCX/OCR since.
+ *
+ * But /extract alone was not enough to make this screen honest. It reduces a
+ * whole document to one query, which is right for a tender describing one
+ * product and wrong for a BOQ: searching "cable ... cement ... steel" as a
+ * single string lets the first item's vocabulary dominate, and the cement
+ * quietly loses. Rendering that as per-item matching would have replaced a
+ * labelled fixture with an unlabelled inaccuracy.
+ *
+ * So POST /boq splits the document into line items and runs a full,
+ * independent retrieval for each — same ranking, same confidence gate, same
+ * supersession rules as a typed query.
+ *
+ * Two states this screen must keep distinct:
+ *
+ *   is_boq: false     the document has no line-item structure. Not an empty
+ *                     BOQ — not a BOQ. The user is pointed at the search
+ *                     screen rather than shown an empty table.
+ *   confidence: none  this item is outside corpus coverage. Its results are
+ *                     nearest text matches, never recommendations, and cannot
+ *                     be accepted into a spec.
  */
+
+const CONFIDENCE = {
+  strong:    { label: 'Match',     cls: 'badge-ok' },
+  uncertain: { label: 'Uncertain', cls: 'badge-warn' },
+  none:      { label: 'No match',  cls: 'badge-crit' },
+};
+
 export default function BOQ() {
   const spec = useSpec();
-  const [phase, setPhase] = useState('idle');   // idle | parsing | working
-  const [items, setItems] = useState(BOQ_ITEMS);
-  const [openItem, setOpenItem] = useState('li1');
-  const timer = useRef(null);
+  const [phase, setPhase] = useState('idle');   // idle | running | done | error
+  const [result, setResult] = useState(null);
+  const [error, setError] = useState(null);
+  const [open, setOpen] = useState(null);
+  const [accepted, setAccepted] = useState({});
+  const fileRef = useRef(null);
+  const abortRef = useRef(null);
 
-  useEffect(() => () => clearTimeout(timer.current), []);
+  useEffect(() => () => abortRef.current?.abort(), []);
 
-  const upload = () => {
-    setPhase('parsing');
-    timer.current = setTimeout(() => setPhase('working'), 2000);
+  const onFile = useCallback(async (event) => {
+    const file = event.target.files?.[0];
+    event.target.value = '';
+    if (!file) return;
+
+    abortRef.current?.abort();
+    const controller = new AbortController();
+    abortRef.current = controller;
+
+    setPhase('running');
+    setError(null);
+    setResult(null);
+    setAccepted({});
+
+    try {
+      const data = await analyseBOQ(file, { signal: controller.signal });
+      if (controller.signal.aborted) return;
+      setResult(data);
+      setOpen(data.items?.[0]?.sr ?? null);
+      setPhase('done');
+    } catch (err) {
+      if (controller.signal.aborted || err.name === 'AbortError') return;
+      setError(err instanceof ApiError ? err : new ApiError('Could not read that document.'));
+      setPhase('error');
+    }
+  }, []);
+
+  const reset = () => {
+    abortRef.current?.abort();
+    setPhase('idle');
+    setResult(null);
+    setError(null);
+    setAccepted({});
   };
 
-  const parsed = items.filter((i) => i.parsed);
-  const unparsed = items.filter((i) => !i.parsed);
-  const done = items.filter((i) => i.status === 'accepted').length;
-  const pct = parsed.length ? Math.round((done / parsed.length) * 100) : 0;
-
-  const accept = (item) => {
-    spec.addMany(
-      item.standards.map((code) => ({
-        code,
-        title: STANDARD_DETAIL[code]?.title || code,
-        role: STANDARD_DETAIL[code]?.role || 'primary',
-        version: 'latest',
-        addedFrom: `BOQ item ${item.sr}`,
-      }))
+  /** Add an item's recommended standards to the spec basket. */
+  const accept = useCallback((item) => {
+    // Only the standards the engine actually recommends. On an out-of-scope
+    // item there are none, and the button is not offered.
+    const recommended = item.results.filter(
+      (r) => (r.stage_scores?.cross_encoder ?? 0) >= 0,
     );
-    setItems((p) => p.map((i) => (i.id === item.id ? { ...i, status: 'accepted' } : i)));
-    const next = parsed.find((i) => i.status === 'pending' && i.id !== item.id);
-    setOpenItem(next?.id || null);
-  };
+    const items = (recommended.length ? recommended : item.results.slice(0, 1)).map((r) => ({
+      code: r.number,
+      title: r.title,
+      role: 'primary',
+      version: r.status === 'superseded' ? 'superseded' : 'latest',
+      addedFrom: `BOQ item ${item.sr}`,
+    }));
+    if (items.length) spec.addMany(items);
+    setAccepted((p) => ({ ...p, [item.sr]: true }));
 
-  const skip = (item) =>
-    setItems((p) => p.map((i) => (i.id === item.id ? { ...i, status: 'skipped' } : i)));
+    const next = result?.items.find((i) => i.sr !== item.sr && !accepted[i.sr]);
+    setOpen(next?.sr ?? null);
+  }, [spec, result, accepted]);
 
-  if (phase === 'idle') {
-    return (
-      <div className="container page">
-      <DemoDataNotice
-        what="Tender and BOQ upload is not implemented; the parsed line items shown are a worked example."
-        next="Document parsing (PDF/DOCX extraction) is a planned phase."
-      />
-        <div className="page-head">
-          <div>
-            <h1 className="page-title">Upload tender or BOQ</h1>
-            <p className="page-sub">
-              Drop a full tender document or bill of quantities. Each line item is detected and
-              matched separately, then exported as one consolidated specification.
-            </p>
-          </div>
-        </div>
-        <div className="card">
-          <div className="dropzone">
-            <span className="dropzone-icon"><Icon name="upload" size={26} strokeWidth={1.4} /></span>
-            <p className="strong">Drop a tender, BOQ or spec file</p>
-            <p className="small muted" style={{ maxWidth: '46ch' }}>
-              PDF, DOCX or XLSX. Scanned documents are processed with OCR — pages that cannot be
-              read reliably are reported rather than guessed at.
-            </p>
-            <button className="btn btn-primary" onClick={upload} style={{ marginTop: 'var(--s3)' }}>
-              Select file
-            </button>
-            <p className="xs faint" style={{ marginTop: 'var(--s2)' }}>
-              Demo build — loads a sample 6-line BOQ.
-            </p>
-          </div>
-        </div>
-      </div>
-    );
-  }
-
-  if (phase === 'parsing') {
-    return (
-      <div className="container page">
-        <div className="card stack stack-5" aria-live="polite">
-          <div className="row" style={{ gap: 'var(--s3)' }}>
-            <Icon name="file" size={18} />
-            <span className="small strong grow">Tender_Electrical_Works_2026.xlsx</span>
-            <span className="spinner" />
-          </div>
-          <div className="stack stack-3">
-            {['Reading document structure', 'Detecting line items', 'Extracting product attributes per item', 'Matching standards for each item'].map((s) => (
-              <div key={s} className="row" style={{ gap: 'var(--s3)' }}>
-                <div className="skeleton" style={{ width: 14, height: 14, borderRadius: '50%' }} />
-                <span className="small muted">{s}</span>
-              </div>
-            ))}
-          </div>
-        </div>
-      </div>
-    );
-  }
+  const items = result?.items ?? [];
+  const acceptedCount = Object.values(accepted).filter(Boolean).length;
 
   return (
     <div className="container page">
+      <input
+        ref={fileRef}
+        type="file"
+        data-demo-target="boq-file"
+        accept={SUPPORTED_UPLOAD_TYPES.join(',')}
+        onChange={onFile}
+        style={{ display: 'none' }}
+      />
+
       <div className="page-head">
         <div>
-          <h1 className="page-title">Tender_Electrical_Works_2026.xlsx</h1>
+          <h1 className="page-title">Upload tender or BOQ</h1>
           <p className="page-sub">
-            {items.length} line items detected · {parsed.length} matched · {unparsed.length} need manual entry.
-            Work through them in any order — progress is saved.
+            Each line item is detected and searched separately, so one item's wording
+            cannot crowd out another's. Accepted standards collect in the spec basket.
           </p>
         </div>
-        <Link to="/app/builder" className="btn btn-primary">
-          Consolidated spec ({spec.count})
-          <Icon name="arrowRight" size={15} />
-        </Link>
+        {phase === 'done' && (
+          <div className="row" style={{ gap: 'var(--s2)' }}>
+            <button className="btn btn-secondary" onClick={reset}>New upload</button>
+            {acceptedCount > 0 && (
+              <Link to="/app/builder" className="btn btn-primary">
+                Open spec builder <Icon name="chevronRight" size={14} />
+              </Link>
+            )}
+          </div>
+        )}
       </div>
 
-      <div className="stack stack-4">
-        <div className="li-progress">
-          <span className="xs faint nowrap">Progress</span>
-          <div className="meter grow" role="meter" aria-valuenow={pct} aria-valuemin={0} aria-valuemax={100} aria-label="Line items reviewed">
-            <div className="meter-fill" style={{ width: `${pct}%`, background: 'var(--ok)' }} />
+      {phase === 'idle' && (
+        <div className="card">
+          <div className="dropzone" data-demo-target="boq-dropzone">
+            <span className="dropzone-icon"><Icon name="upload" size={26} strokeWidth={1.4} /></span>
+            <p className="strong">Upload a tender or bill of quantities</p>
+            <p className="small muted" style={{ maxWidth: '48ch' }}>
+              {SUPPORTED_UPLOAD_TYPES.join(', ')} up to {MAX_UPLOAD_BYTES / 1048576} MB.
+              Line items are recognised by how the document numbers them —
+              “Item 3:”, “3.”, or a bullet.
+            </p>
+            <button
+              className="btn btn-primary"
+              data-demo-target="boq-select"
+              onClick={() => fileRef.current?.click()}
+              style={{ marginTop: 'var(--s3)' }}
+            >
+              Select file
+            </button>
           </div>
-          <span className="xs tabular strong nowrap">{done} of {parsed.length}</span>
         </div>
+      )}
 
-        {unparsed.length > 0 && (
-          <div className="notice notice-warn">
+      {phase === 'running' && (
+        <div className="card stack stack-5 fade-in" aria-live="polite" data-demo-target="boq-running">
+          <div className="row" style={{ gap: 'var(--s3)' }}>
+            <Icon name="file" size={18} />
+            <span className="small strong grow">Reading and matching each line item…</span>
+            <span className="spinner" />
+          </div>
+          <p className="xs muted">
+            One search per line item, so a long BOQ takes proportionally longer.
+          </p>
+        </div>
+      )}
+
+      {phase === 'error' && (
+        <div className="card">
+          <EmptyState
+            icon="alert"
+            title="Could not read that document"
+            body={error?.message ?? 'The standards engine did not respond.'}
+            action={<button className="btn btn-primary btn-sm" onClick={reset}>Try another file</button>}
+          />
+        </div>
+      )}
+
+      {phase === 'done' && result && !result.is_boq && (
+        <div className="stack stack-4 fade-in">
+          <div className="notice notice-warn" role="note">
             <Icon name="alert" size={15} />
             <div className="stack stack-2">
-              <span className="xs strong">{unparsed.length} line items could not be parsed</span>
+              <span className="small strong">No line items found in {result.filename}</span>
               <span className="xs">
-                These are listed below with the reason. They are not silently dropped — an
-                unreadable line is reported so it can be entered by hand.
+                Line items are recognised by document numbering — “Item 3:”, “3.”, or a
+                bullet. This document has none, so it may be a tender describing a single
+                product rather than a bill of quantities.
               </span>
             </div>
           </div>
-        )}
+          <div className="card">
+            <EmptyState
+              icon="search"
+              title="Search it as a single specification instead"
+              body="The search screen reads the same file formats and matches the document as one specification."
+              action={<Link to="/app/query" className="btn btn-primary btn-sm">Go to search</Link>}
+            />
+          </div>
+        </div>
+      )}
 
-        {parsed.map((item) => {
-          const band = item.band ? BANDS[item.band] : null;
-          const open = openItem === item.id;
-          const accepted = item.status === 'accepted';
-          const skipped = item.status === 'skipped';
-
-          return (
-            <article key={item.id} className={`li-row ${accepted ? 'is-done' : ''}`} style={{ flexDirection: 'column', gap: 'var(--s3)' }}>
-              <div className="row" style={{ width: '100%', alignItems: 'flex-start', gap: 'var(--s4)' }}>
-                <span className="li-sr tabular">{item.sr}</span>
-
-                <div className="stack stack-2 grow" style={{ minWidth: 0 }}>
-                  <span className="small strong">{item.text}</span>
-                  <div className="row wrap" style={{ gap: 'var(--s2)' }}>
-                    <span className="xs faint">{item.qty}</span>
-                    {item.category && <span className="badge badge-neutral">{item.category}</span>}
-                    {band && <span className={`badge ${band.cls}`}>{band.label}</span>}
-                    {accepted && <span className="badge badge-ok"><Icon name="check" size={11} />Accepted</span>}
-                    {skipped && <span className="badge badge-neutral">Skipped</span>}
-                  </div>
+      {phase === 'done' && result?.is_boq && (
+        <div className="stack stack-5 fade-in" data-demo-target="boq-results">
+          <div className="card stack stack-4" data-demo-target="boq-summary">
+            <div className="row-between wrap" style={{ gap: 'var(--s3)' }}>
+              <div className="row" style={{ gap: 'var(--s3)' }}>
+                <Icon name="file" size={18} />
+                <div className="stack stack-2">
+                  <span className="small strong">{result.filename}</span>
+                  <span className="xs faint">
+                    {result.page_count ? `${result.page_count} pages · ` : ''}
+                    {result.item_count} line item{result.item_count === 1 ? '' : 's'}
+                    {' · '}{result.matched_count} matched against {result.corpus_size} standards
+                  </span>
                 </div>
-
-                <button
-                  className="btn btn-ghost btn-sm nowrap"
-                  onClick={() => setOpenItem(open ? null : item.id)}
-                  aria-expanded={open}
-                >
-                  <Icon name={open ? 'chevronDown' : 'chevronRight'} size={14} />
-                  {item.standards.length} standard{item.standards.length === 1 ? '' : 's'}
-                </button>
               </div>
+              <span className="xs faint">
+                {acceptedCount} of {result.item_count} accepted
+              </span>
+            </div>
 
-              {open && (
-                <div className="stack stack-3 fade-in" style={{ width: '100%', paddingLeft: 42 }}>
-                  <div className="stack stack-2">
-                    {item.standards.map((code) => {
-                      const det = STANDARD_DETAIL[code];
-                      return (
-                        <div key={code} className="row" style={{ gap: 'var(--s3)', padding: 'var(--s2) var(--s3)', border: '1px solid var(--line)', borderRadius: 'var(--r)' }}>
-                          <span className="mono xs strong nowrap">{code}</span>
-                          <span className="xs muted grow">{det?.title || 'Catalogue record'}</span>
-                          {det && (
-                            <Link to={`/app/standard/${encodeURIComponent(code)}`} className="btn btn-ghost btn-sm">
-                              Detail
-                            </Link>
-                          )}
+            {result.warnings?.length > 0 && (
+              <div className="notice notice-warn" role="note">
+                <Icon name="alert" size={14} />
+                <div className="stack stack-2">
+                  {result.warnings.map((w, i) => <span key={i} className="xs">{w}</span>)}
+                </div>
+              </div>
+            )}
+
+            {result.matched_count < result.item_count && (
+              <div className="notice notice-info" role="note">
+                <Icon name="info" size={14} />
+                <span className="xs">
+                  {result.item_count - result.matched_count} item
+                  {result.item_count - result.matched_count === 1 ? ' is' : 's are'} outside
+                  this corpus's coverage. Those show nearest text matches, which are not
+                  recommendations and cannot be accepted.
+                </span>
+              </div>
+            )}
+          </div>
+
+          <div className="stack stack-3">
+            {items.map((item) => {
+              const verdict = CONFIDENCE[item.confidence] ?? CONFIDENCE.none;
+              const isOpen = open === item.sr;
+              const usable = item.confidence !== 'none';
+              const recommended = item.results.filter(
+                (r) => (r.stage_scores?.cross_encoder ?? 0) >= 0,
+              );
+              const shown = usable ? (recommended.length ? recommended : item.results.slice(0, 1)) : item.results;
+
+              return (
+                <article key={item.sr} className="card card-flush">
+                  <button
+                    className="card-head"
+                    style={{ width: '100%', textAlign: 'left', cursor: 'pointer', background: 'none', border: 0 }}
+                    onClick={() => setOpen(isOpen ? null : item.sr)}
+                    aria-expanded={isOpen}
+                  >
+                    <div className="stack stack-2 grow" style={{ minWidth: 0 }}>
+                      <div className="row wrap" style={{ gap: 'var(--s2)' }}>
+                        <span className="badge badge-neutral">Item {item.sr}</span>
+                        <span className={`badge ${verdict.cls}`}>{verdict.label}</span>
+                        {item.quantity && <span className="badge badge-neutral">{item.quantity}</span>}
+                        {accepted[item.sr] && <span className="badge badge-ok">Added to spec</span>}
+                      </div>
+                      <span className="small">{item.text}</span>
+                    </div>
+                    <Icon name={isOpen ? 'chevronDown' : 'chevronRight'} size={15} />
+                  </button>
+
+                  {isOpen && (
+                    <div className="card-body stack stack-4" style={{ borderTop: '1px solid var(--line)' }}>
+                      {!usable && (
+                        <div className="notice notice-crit" role="note">
+                          <Icon name="alert" size={14} />
+                          <span className="xs">
+                            {item.confidence_reason || 'The corpus does not cover this item.'}
+                            {' '}The entries below are the nearest text matches, not recommendations.
+                          </span>
                         </div>
-                      );
-                    })}
-                  </div>
+                      )}
 
-                  {!accepted && (
-                    <div className="row" style={{ gap: 'var(--s2)' }}>
-                      <button className="btn btn-primary btn-sm" onClick={() => accept(item)}>
-                        <Icon name="check" size={14} /> Accept and add to spec
-                      </button>
-                      <button className="btn btn-secondary btn-sm" onClick={() => skip(item)}>
-                        Skip this item
-                      </button>
+                      <div className="stack stack-3">
+                        {shown.map((r) => (
+                          <div key={r.number} className="row" style={{ gap: 'var(--s3)', alignItems: 'flex-start' }}>
+                            <div className="stack stack-2 grow" style={{ minWidth: 0 }}>
+                              <div className="row wrap" style={{ gap: 'var(--s2)' }}>
+                                <Link
+                                  to={`/app/standard/${encodeURIComponent(r.number)}`}
+                                  className="mono small strong"
+                                >
+                                  {r.number}
+                                </Link>
+                                <CertificationBadge certification={r.certification} />
+                                {r.status === 'superseded' && (
+                                  <span className="badge badge-warn">Superseded</span>
+                                )}
+                              </div>
+                              <span className="xs muted">{r.title}</span>
+                            </div>
+                          </div>
+                        ))}
+                      </div>
+
+                      {usable && !accepted[item.sr] && (
+                        <div className="row" style={{ gap: 'var(--s2)' }}>
+                          <button className="btn btn-primary btn-sm" onClick={() => accept(item)}>
+                            <Icon name="plus" size={13} />
+                            Add {shown.length} to spec
+                          </button>
+                          <button
+                            className="btn btn-ghost btn-sm"
+                            onClick={() => setOpen(null)}
+                          >
+                            Skip this item
+                          </button>
+                        </div>
+                      )}
                     </div>
                   )}
-                </div>
-              )}
-            </article>
-          );
-        })}
-
-        {unparsed.map((item) => (
-          <article key={item.id} className="li-row is-unparsed">
-            <span className="li-sr tabular">{item.sr}</span>
-            <div className="stack stack-3 grow" style={{ minWidth: 0 }}>
-              <span className="small" style={{ color: 'var(--ink-muted)' }}>{item.text}</span>
-              <div className="notice notice-warn">
-                <Icon name="alert" size={14} />
-                <span className="xs">{item.reason}</span>
-              </div>
-              <div className="row wrap" style={{ gap: 'var(--s2)' }}>
-                <Link to="/app/query" className="btn btn-secondary btn-sm">
-                  Enter manually
-                </Link>
-                <button className="btn btn-ghost btn-sm">Re-upload page</button>
-              </div>
-            </div>
-          </article>
-        ))}
-      </div>
+                </article>
+              );
+            })}
+          </div>
+        </div>
+      )}
     </div>
   );
 }

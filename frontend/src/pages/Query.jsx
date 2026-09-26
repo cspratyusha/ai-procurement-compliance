@@ -5,7 +5,7 @@ import { EmptyState } from '../components/Primitives';
 import { AddButton } from '../components/SpecBasket';
 import { useSpec } from '../state/SpecStore';
 import {
-  retrieve, getHealth, extractAndSearch, listLanguages, ApiError, BASE_URL,
+  retrieve, getHealth, extractAndSearch, listLanguages, sendFeedback, ApiError, BASE_URL,
   SUPPORTED_UPLOAD_TYPES,
 } from '../api/client';
 import {
@@ -176,6 +176,42 @@ export default function Query() {
 
   const dismissed = spec.dismissed;
   const allResults = (response?.results ?? []).filter((r) => !dismissed[r.number]);
+
+  /**
+   * Report what the officer decided about one result.
+   *
+   * Adding a standard to the spec is an acceptance and dismissing one is a
+   * rejection -- both are already deliberate acts, so no extra thumbs-up
+   * widget is needed to capture the signal, and the officer is not asked to
+   * rate anything they did not want to rate.
+   *
+   * The whole candidate list goes with each decision, not just the chosen
+   * standard: the ranker learns from what was passed over as much as from
+   * what was taken, and the dashboard's acceptance rate is only meaningful
+   * against what was actually on offer.
+   *
+   * Fire-and-forget by construction. `sendFeedback` never throws, and the
+   * result is ignored, because the basket change has already happened on
+   * screen -- a failed log must not undo it or raise an error over it.
+   */
+  const recordDecision = useCallback((action, code) => {
+    const results = response?.results ?? [];
+    if (!results.length) return;
+
+    const target = results.find((r) => r.number === code);
+    const candidates = results.map((r, i) => ({
+      id: r.id,
+      final_score: r.final_score,
+      rank: i + 1,
+    }));
+
+    sendFeedback({
+      query: response.query,
+      candidatesShown: candidates,
+      chosenId: action === 'accept' ? target?.id : null,
+      action,
+    });
+  }, [response]);
   const confidence = response?.confidence ?? 'strong';
 
   // How results are split between "recommended" and "for reference only".
@@ -275,6 +311,7 @@ export default function Query() {
             <textarea
               id="spec"
               className="textarea"
+              data-demo-target="query-input"
               style={{ minHeight: 88 }}
               value={text}
               onChange={(e) => setText(e.target.value)}
@@ -335,7 +372,12 @@ export default function Query() {
                   : 'Engine status unknown'}
               </span>
             </div>
-            <button className="btn btn-primary" type="submit" disabled={!text.trim() || phase === 'running'}>
+            <button
+              className="btn btn-primary"
+              type="submit"
+              data-demo-target="query-submit"
+              disabled={!text.trim() || phase === 'running'}
+            >
               {phase === 'running'
                 ? <><span className="spinner" /> Searching</>
                 : <>Find standards <Icon name="arrowRight" size={15} /></>}
@@ -373,7 +415,7 @@ export default function Query() {
         )}
 
         {phase === 'done' && response && (
-          <div className="stack stack-4 fade-in">
+          <div className="stack stack-4 fade-in" data-demo-target="query-results">
             {response?.translation && (
               <div className={`notice ${response.translation.translated ? 'notice-info' : 'notice-warn'}`} role="status">
                 <Icon name={response.translation.translated ? 'info' : 'alert'} size={15} />
@@ -538,7 +580,7 @@ export default function Query() {
                       <button className="btn btn-secondary btn-sm" onClick={() => setDismissing(r.number)}>
                         Dismiss
                       </button>
-                      <AddButton item={item} />
+                      <AddButton item={item} onAdd={() => recordDecision('accept', r.number)} />
                     </div>
                   </div>
 
@@ -550,7 +592,11 @@ export default function Query() {
                           <button
                             key={reason}
                             className="example-chip"
-                            onClick={() => { spec.dismiss(r.number, reason); setDismissing(null); }}
+                            onClick={() => {
+                              spec.dismiss(r.number, reason);
+                              recordDecision('reject', r.number);
+                              setDismissing(null);
+                            }}
                           >
                             {reason}
                           </button>

@@ -61,15 +61,23 @@ export default function ClusterGraph({ data, height = 320, onSelect, selected })
               style={{
                 left: `${n.x}%`,
                 top: `${n.y}%`,
-                opacity: isDim(n.id) ? 0.3 : 1,
+                // A node the corpus does not hold is shown but visibly
+                // lesser: hiding it would truncate the cluster silently, and
+                // drawing it as a peer would imply it can be opened.
+                opacity: isDim(n.id) ? 0.3 : n.outside ? 0.55 : 1,
                 borderColor: kind.color,
+                borderStyle: n.outside ? 'dashed' : undefined,
               }}
               onMouseEnter={() => setHover(n.id)}
               onMouseLeave={() => setHover(null)}
               onFocus={() => setHover(n.id)}
               onBlur={() => setHover(null)}
               onClick={() => onSelect?.(n.id)}
-              title={`${n.label} — ${n.title}`}
+              title={
+                n.outside
+                  ? `${n.label} — ${n.title} (cited, but outside this corpus)`
+                  : `${n.label} — ${n.title}`
+              }
             >
               <span className="graph-dot" style={{ background: kind.color }} />
               <span className="graph-label mono">{n.label}</span>

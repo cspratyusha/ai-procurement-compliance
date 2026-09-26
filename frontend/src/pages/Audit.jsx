@@ -1,124 +1,227 @@
-import { useState, useRef, useEffect } from 'react';
+import { useState, useRef, useEffect, useCallback } from 'react';
+import { Link } from 'react-router-dom';
 import Icon from '../components/Icon';
-import { SeverityBadge, EmptyState } from '../components/Primitives';
-import { AUDIT_FINDINGS, SEVERITY } from '../data/mock';
+import { EmptyState, CopyButton } from '../components/Primitives';
+import { auditDocument, SUPPORTED_UPLOAD_TYPES, MAX_UPLOAD_BYTES, ApiError } from '../api/client';
 import './audit.css';
-import DemoDataNotice from '../components/DemoDataNotice';
+import './query.css';   // .notice — shared with the query screen
+
+/**
+ * Audit a tender's citations against the corpus.
+ *
+ * This screen used to simulate an audit: a 1.8-second timer, then five
+ * hardcoded findings about a tender nobody uploaded. It now uploads a real
+ * document to POST /audit, which extracts the text, finds every IS number the
+ * document cites, and checks each one.
+ *
+ * The distinction this screen must not blur is what an audit here *is*.
+ *
+ * It checks the citations the document already makes — superseded editions,
+ * missing amendments, undated citations, standards outside the corpus. It
+ * does **not** judge whether the tender cites the right standards for the
+ * goods it describes; that needs someone to read the specification.
+ *
+ * So a document with no findings has not passed. It has had its existing
+ * citations checked and nothing was wrong with them, which is a much smaller
+ * claim — and a document citing nothing at all produces no findings while
+ * being the worst case of all. Both states say so explicitly rather than
+ * rendering a green all-clear.
+ */
+
+const SEVERITY = {
+  critical: { label: 'Critical', cls: 'badge-crit', color: 'var(--crit)', blurb: 'Fix before issuing' },
+  minor:    { label: 'Minor',    cls: 'badge-warn', color: 'var(--warn)', blurb: 'Should be corrected' },
+  info:     { label: 'Advisory', cls: 'badge-info', color: 'var(--info)', blurb: 'Not a defect in the tender' },
+};
+
+const KIND_LABEL = {
+  superseded: 'Superseded edition',
+  amendment:  'Amendments not cited',
+  undated:    'No edition year',
+  unknown:    'Outside corpus coverage',
+};
 
 export default function Audit() {
-  const [phase, setPhase] = useState('idle');   // idle | parsing | done
-  const [view, setView] = useState('redline');  // redline | list
-  const [applied, setApplied] = useState({});
-  const [open, setOpen] = useState({ f1: true });
+  const [phase, setPhase] = useState('idle');   // idle | running | done | error
+  const [result, setResult] = useState(null);
+  const [error, setError] = useState(null);
   const [filter, setFilter] = useState('all');
-  const timer = useRef(null);
+  const [showText, setShowText] = useState(false);
+  const fileRef = useRef(null);
+  const abortRef = useRef(null);
 
-  useEffect(() => () => clearTimeout(timer.current), []);
+  useEffect(() => () => abortRef.current?.abort(), []);
 
-  const upload = () => {
-    setPhase('parsing');
-    timer.current = setTimeout(() => setPhase('done'), 1800);
+  const onFile = useCallback(async (event) => {
+    const file = event.target.files?.[0];
+    event.target.value = '';   // let the same file be chosen twice
+    if (!file) return;
+
+    abortRef.current?.abort();
+    const controller = new AbortController();
+    abortRef.current = controller;
+
+    setPhase('running');
+    setError(null);
+    setResult(null);
+
+    try {
+      const data = await auditDocument(file, { signal: controller.signal });
+      if (controller.signal.aborted) return;
+      setResult(data);
+      setPhase('done');
+    } catch (err) {
+      if (controller.signal.aborted || err.name === 'AbortError') return;
+      setError(err instanceof ApiError ? err : new ApiError('Could not audit that document.'));
+      setPhase('error');
+    }
+  }, []);
+
+  const reset = () => {
+    abortRef.current?.abort();
+    setPhase('idle');
+    setResult(null);
+    setError(null);
+    setFilter('all');
+    setShowText(false);
   };
 
+  const findings = result?.findings ?? [];
+  const shown = filter === 'all' ? findings : findings.filter((f) => f.severity === filter);
   const counts = {
-    critical: AUDIT_FINDINGS.filter((f) => f.severity === 'critical').length,
-    minor: AUDIT_FINDINGS.filter((f) => f.severity === 'minor').length,
-    info: AUDIT_FINDINGS.filter((f) => f.severity === 'info').length,
+    critical: findings.filter((f) => f.severity === 'critical').length,
+    minor: findings.filter((f) => f.severity === 'minor').length,
+    info: findings.filter((f) => f.severity === 'info').length,
   };
 
-  const shown = filter === 'all' ? AUDIT_FINDINGS : AUDIT_FINDINGS.filter((f) => f.severity === filter);
-  const appliedCount = Object.values(applied).filter(Boolean).length;
+  /** Corrected citations, so the officer can paste the fixes back in. */
+  const corrections = findings
+    .filter((f) => f.replacement || f.kind === 'amendment')
+    .map((f) => `${f.cited}  ->  ${f.action}`)
+    .join('\n');
 
   return (
     <div className="container page">
-      <DemoDataNotice
-        what="The audit trail entries are sample records."
-        next="Real entries would be written as officials run and accept recommendations."
+      <input
+        ref={fileRef}
+        type="file"
+        data-demo-target="audit-file"
+        accept={SUPPORTED_UPLOAD_TYPES.join(',')}
+        onChange={onFile}
+        style={{ display: 'none' }}
       />
+
       <div className="page-head">
         <div>
-          <h1 className="page-title">Audit tender</h1>
+          <h1 className="page-title" data-demo-target="audit-title">Audit tender</h1>
           <p className="page-sub">
-            Upload an existing draft. The engine extracts every referenced standard, checks version
-            currency and certification obligations, traverses the graph for missing companions, and
-            returns a severity-tagged gap report as an inline redline.
+            Upload a draft. Every IS number it cites is checked against the corpus for
+            superseded editions, amendments in force, and citations that cannot be
+            verified. What the tender <em>should</em> cite is not assessed.
           </p>
         </div>
         {phase === 'done' && (
           <div className="row" style={{ gap: 'var(--s2)' }}>
-            <button className="btn btn-secondary" onClick={() => { setPhase('idle'); setApplied({}); }}>
-              New audit
-            </button>
-            <button className="btn btn-primary">
-              <Icon name="download" size={15} />
-              Export corrected
-            </button>
+            <button className="btn btn-secondary" onClick={reset}>New audit</button>
+            {corrections && <CopyButton text={corrections} label="Copy corrections" />}
           </div>
         )}
       </div>
 
       {phase === 'idle' && (
         <div className="card">
-          <div className="dropzone">
+          <div className="dropzone" data-demo-target="audit-dropzone">
             <span className="dropzone-icon"><Icon name="upload" size={26} strokeWidth={1.4} /></span>
-            <p className="strong">Drop a tender document here</p>
-            <p className="small muted" style={{ maxWidth: '44ch' }}>
-              PDF, DOCX or scanned document. Scanned files are processed with OCR.
-              Maximum 40 MB.
+            <p className="strong">Upload a tender document</p>
+            <p className="small muted" style={{ maxWidth: '46ch' }}>
+              {SUPPORTED_UPLOAD_TYPES.join(', ')} up to {MAX_UPLOAD_BYTES / 1048576} MB.
+              Scanned PDFs are read with OCR where it is available.
             </p>
-            <button className="btn btn-primary" onClick={upload} style={{ marginTop: 'var(--s3)' }}>
+            <button
+              className="btn btn-primary"
+              data-demo-target="audit-select"
+              onClick={() => fileRef.current?.click()}
+              style={{ marginTop: 'var(--s3)' }}
+            >
               Select file
             </button>
-            <p className="xs faint" style={{ marginTop: 'var(--s2)' }}>
-              Demo build — selecting loads a sample tender.
-            </p>
           </div>
         </div>
       )}
 
-      {phase === 'parsing' && (
-        <div className="card stack stack-5 fade-in" aria-live="polite">
+      {phase === 'running' && (
+        <div
+          className="card stack stack-5 fade-in"
+          aria-live="polite"
+          data-demo-target="audit-running"
+        >
           <div className="row" style={{ gap: 'var(--s3)' }}>
             <Icon name="file" size={18} />
-            <span className="small strong grow">Tender_HT_Cable_Supply_2026.pdf</span>
+            <span className="small strong grow">Reading the document…</span>
             <span className="spinner" />
           </div>
-          <div className="stack stack-3">
-            {['Extracting document text', 'Identifying referenced standards', 'Checking version currency', 'Traversing allied standards graph', 'Generating impact estimates'].map((s) => (
-              <div key={s} className="row" style={{ gap: 'var(--s3)' }}>
-                <div className="skeleton" style={{ width: 14, height: 14, borderRadius: '50%' }} />
-                <span className="small muted">{s}</span>
-              </div>
-            ))}
-          </div>
+          <p className="xs muted">
+            Extracting text, then checking every IS number it cites. A scanned document
+            going through OCR takes longer.
+          </p>
         </div>
       )}
 
-      {phase === 'done' && (
-        <div className="stack stack-5 fade-in">
-          <div className="card stack stack-4">
+      {phase === 'error' && (
+        <div className="card">
+          <EmptyState
+            icon="alert"
+            title="Could not audit that document"
+            body={error?.message ?? 'The standards engine did not respond.'}
+            action={
+              <button className="btn btn-primary btn-sm" onClick={reset}>Try another file</button>
+            }
+          />
+        </div>
+      )}
+
+      {phase === 'done' && result && (
+        <div className="stack stack-5 fade-in" data-demo-target="audit-results">
+          <div className="card stack stack-4" data-demo-target="audit-summary">
             <div className="row-between wrap" style={{ gap: 'var(--s3)' }}>
               <div className="row" style={{ gap: 'var(--s3)' }}>
                 <Icon name="file" size={18} />
                 <div className="stack stack-2">
-                  <span className="small strong">Tender_HT_Cable_Supply_2026.pdf</span>
-                  <span className="xs faint">18 pages · 6 standards referenced · audited just now</span>
+                  <span className="small strong">{result.filename}</span>
+                  <span className="xs faint">
+                    {result.page_count ? `${result.page_count} pages · ` : ''}
+                    {result.char_count.toLocaleString('en-IN')} characters read
+                    {result.method ? ` · ${result.method}` : ''}
+                    {' · '}{result.citations_found} standard{result.citations_found === 1 ? '' : 's'} cited
+                  </span>
                 </div>
               </div>
-              <div className="seg" role="group" aria-label="View mode">
-                <button onClick={() => setView('redline')} aria-pressed={view === 'redline'}>Redline</button>
-                <button onClick={() => setView('list')} aria-pressed={view === 'list'}>Findings list</button>
-              </div>
+              <button className="btn btn-ghost btn-sm" onClick={() => setShowText((v) => !v)}>
+                {showText ? 'Hide' : 'Show'} extracted text
+              </button>
             </div>
+
+            {result.warnings?.length > 0 && (
+              <div className="notice notice-warn" role="note">
+                <Icon name="alert" size={14} />
+                <div className="stack stack-2">
+                  {result.warnings.map((w, i) => <span key={i} className="xs">{w}</span>)}
+                </div>
+              </div>
+            )}
+
+            {showText && (
+              <pre className="extract-text" tabIndex={0}>{result.text}</pre>
+            )}
 
             <hr className="divider" />
 
             <div className="audit-summary">
               {[
-                { k: 'critical', n: counts.critical, label: 'Critical gaps' },
-                { k: 'minor', n: counts.minor, label: 'Minor issues' },
-                { k: 'info', n: counts.info, label: 'Informational' },
-                { k: 'applied', n: appliedCount, label: 'Fixes applied' },
+                { k: 'critical', n: counts.critical, label: 'Critical' },
+                { k: 'minor', n: counts.minor, label: 'Minor' },
+                { k: 'info', n: counts.info, label: 'Advisory' },
+                { k: 'clean', n: result.clean_citations, label: 'No issue found' },
               ].map((c) => (
                 <div key={c.k} className="summary-cell">
                   <span
@@ -126,7 +229,7 @@ export default function Audit() {
                     style={{
                       fontSize: 'var(--fs-lg)',
                       fontWeight: 600,
-                      color: c.k === 'applied' ? 'var(--ok)' : SEVERITY[c.k]?.color,
+                      color: c.k === 'clean' ? 'var(--ok)' : SEVERITY[c.k]?.color,
                     }}
                   >
                     {c.n}
@@ -136,136 +239,114 @@ export default function Audit() {
               ))}
             </div>
 
-            {counts.critical > 0 && (
-              <div className="notice notice-crit">
-                <Icon name="alert" size={15} />
-                <span className="xs">
-                  This tender cites a superseded standard and omits a mandatory certification
-                  requirement. Both are enforceability risks at the inspection stage.
-                </span>
-              </div>
-            )}
-          </div>
-
-          <div className="row wrap" style={{ gap: 'var(--s2)' }}>
-            <span className="xs faint" style={{ marginRight: 'var(--s2)' }}>Filter</span>
-            <div className="seg" role="group" aria-label="Filter by severity">
-              {['all', 'critical', 'minor', 'info'].map((f) => (
-                <button key={f} onClick={() => setFilter(f)} aria-pressed={filter === f}>
-                  {f === 'all' ? 'All' : SEVERITY[f].label}
-                </button>
-              ))}
+            {/*
+              The load-bearing caveat. A tender citing nothing produces no
+              findings, and that is the worst case rather than a clean bill.
+            */}
+            <div
+              className={`notice ${result.citations_found === 0 ? 'notice-warn' : 'notice-info'}`}
+              role="note"
+            >
+              <Icon name="info" size={14} />
+              <span className="xs">
+                {result.citations_found === 0
+                  ? 'No IS numbers were found in this document, so nothing could be checked. That is not a pass — either the document cites no standards, or the text could not be read.'
+                  : result.note}
+              </span>
             </div>
           </div>
 
-          {shown.length === 0 ? (
+          {findings.length === 0 ? (
             <div className="card">
-              <EmptyState icon="checkCircle" title="Nothing at this severity" body="No findings match the selected filter." />
-            </div>
-          ) : view === 'redline' ? (
-            <div className="stack stack-4">
-              {shown.map((f) => (
-                <article key={f.id} className={`card card-flush finding sev-${f.severity} ${applied[f.id] ? 'is-applied' : ''}`}>
-                  <div className="finding-head">
-                    <div className="stack stack-2 grow" style={{ minWidth: 0 }}>
-                      <div className="row wrap" style={{ gap: 'var(--s2)' }}>
-                        <SeverityBadge severity={f.severity} map={SEVERITY} />
-                        <span className="xs faint">{f.clauseRef}</span>
-                      </div>
-                      <span className="small strong">{f.finding}</span>
-                    </div>
-                    {applied[f.id] ? (
-                      <span className="badge badge-ok"><Icon name="check" size={12} /> Applied</span>
-                    ) : (
-                      <button
-                        className="btn btn-primary btn-sm"
-                        onClick={() => setApplied((p) => ({ ...p, [f.id]: true }))}
-                      >
-                        Apply fix
-                      </button>
-                    )}
-                  </div>
-
-                  <div className="redline">
-                    <div className="redline-row redline-del">
-                      <span className="redline-tag">−</span>
-                      <span className="small">{f.original}</span>
-                    </div>
-                    <div className="redline-row redline-add">
-                      <span className="redline-tag">+</span>
-                      <span className="small">{f.revised}</span>
-                    </div>
-                  </div>
-
-                  <button
-                    className="expander"
-                    style={{ padding: '0 var(--s5) var(--s3)' }}
-                    onClick={() => setOpen((p) => ({ ...p, [f.id]: !p[f.id] }))}
-                    aria-expanded={!!open[f.id]}
-                  >
-                    <Icon name={open[f.id] ? 'chevronDown' : 'chevronRight'} size={14} />
-                    Impact estimate
-                  </button>
-
-                  {open[f.id] && (
-                    <div className="finding-impact fade-in">
-                      <div className="stack stack-3">
-                        <div className="row wrap" style={{ gap: 'var(--s4)' }}>
-                          <div className="stack stack-2">
-                            <span className="xs faint">Currently cited</span>
-                            <span className="mono small">{f.cited}</span>
-                          </div>
-                          <div className="stack stack-2">
-                            <span className="xs faint">Should be</span>
-                            <span className="mono small strong">{f.correct}</span>
-                          </div>
-                        </div>
-                        <p className="small" style={{ color: 'var(--ink-soft)' }}>{f.impact}</p>
-                      </div>
-                    </div>
-                  )}
-                </article>
-              ))}
+              <EmptyState
+                icon="checkCircle"
+                title={
+                  result.citations_found === 0
+                    ? 'Nothing to check'
+                    : 'No problems with the citations that were checked'
+                }
+                body={
+                  result.citations_found === 0
+                    ? 'No IS numbers were detected in the extracted text.'
+                    : `All ${result.citations_found} cited standards are current editions with no amendment gaps this corpus knows about. Whether they are the right standards for these goods is not assessed.`
+                }
+              />
             </div>
           ) : (
-            <div className="card card-flush scroll-x" tabIndex={0} role="region" aria-label="Audit findings">
-              <table className="table table-hover">
-                <caption className="sr-only">Audit findings</caption>
-                <thead>
-                  <tr>
-                    <th scope="col">Severity</th>
-                    <th scope="col">Clause</th>
-                    <th scope="col">Finding</th>
-                    <th scope="col">Cited</th>
-                    <th scope="col">Should be</th>
-                    <th scope="col">Action</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  {shown.map((f) => (
-                    <tr key={f.id}>
-                      <td><SeverityBadge severity={f.severity} map={SEVERITY} /></td>
-                      <td className="xs muted nowrap">{f.clauseRef}</td>
-                      <td className="small">{f.finding}</td>
-                      <td className="mono xs nowrap">{f.cited}</td>
-                      <td className="mono xs strong nowrap">{f.correct}</td>
-                      <td>
-                        {applied[f.id] ? (
-                          <span className="badge badge-ok"><Icon name="check" size={12} /> Applied</span>
-                        ) : (
-                          <button
-                            className="btn btn-secondary btn-sm"
-                            onClick={() => setApplied((p) => ({ ...p, [f.id]: true }))}
-                          >
-                            Apply
-                          </button>
-                        )}
-                      </td>
-                    </tr>
+            <>
+              <div className="row wrap" style={{ gap: 'var(--s2)' }}>
+                <div className="seg" role="group" aria-label="Filter findings by severity">
+                  <button onClick={() => setFilter('all')} aria-pressed={filter === 'all'}>
+                    All ({findings.length})
+                  </button>
+                  {['critical', 'minor', 'info'].map((k) => (
+                    counts[k] > 0 && (
+                      <button key={k} onClick={() => setFilter(k)} aria-pressed={filter === k}>
+                        {SEVERITY[k].label} ({counts[k]})
+                      </button>
+                    )
                   ))}
-                </tbody>
-              </table>
-            </div>
+                </div>
+              </div>
+
+              <div className="stack stack-3" data-demo-target="audit-findings">
+                {shown.map((f, i) => {
+                  const sev = SEVERITY[f.severity] ?? SEVERITY.info;
+                  return (
+                    <article key={`${f.cited}-${f.kind}-${i}`} className="card stack stack-3">
+                      <div className="row wrap" style={{ gap: 'var(--s2)' }}>
+                        <span className={`badge ${sev.cls}`}>{sev.label}</span>
+                        <span className="badge badge-neutral">{KIND_LABEL[f.kind] ?? f.kind}</span>
+                        {f.occurrences > 1 && (
+                          <span className="badge badge-neutral">
+                            cited {f.occurrences} times
+                          </span>
+                        )}
+                      </div>
+
+                      <h2 className="small strong">
+                        <span className="mono">{f.cited}</span>
+                        {f.title ? ` — ${f.title}` : ''}
+                      </h2>
+
+                      <p className="small muted">{f.detail}</p>
+
+                      {f.context && (
+                        <blockquote className="audit-quote">
+                          <span className="xs">{f.context}</span>
+                        </blockquote>
+                      )}
+
+                      <div className="notice notice-info" role="note" style={{ margin: 0 }}>
+                        <Icon name="info" size={14} />
+                        <span className="xs">{f.action}</span>
+                      </div>
+
+                      {(f.replacement || f.kind !== 'unknown') && (
+                        <div className="row wrap" style={{ gap: 'var(--s2)' }}>
+                          {f.replacement && (
+                            <Link
+                              to={`/app/standard/${encodeURIComponent(f.replacement)}`}
+                              className="btn btn-secondary btn-sm"
+                            >
+                              Open {f.replacement} <Icon name="chevronRight" size={13} />
+                            </Link>
+                          )}
+                          {f.kind !== 'unknown' && !f.replacement && (
+                            <Link
+                              to={`/app/standard/${encodeURIComponent(f.cited)}`}
+                              className="btn btn-ghost btn-sm"
+                            >
+                              Open {f.cited} <Icon name="chevronRight" size={13} />
+                            </Link>
+                          )}
+                        </div>
+                      )}
+                    </article>
+                  );
+                })}
+              </div>
+            </>
           )}
         </div>
       )}

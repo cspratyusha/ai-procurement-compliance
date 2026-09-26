@@ -137,8 +137,14 @@ export default function SpecBasket() {
   );
 }
 
-/** Add/added toggle used on recommendation cards, detail pages and the map. */
-export function AddButton({ item, size = 'sm', block = false }) {
+/**
+ * Add/added toggle used on recommendation cards, detail pages and the map.
+ *
+ * `onAdd` fires only when the standard is added, never when it is taken back
+ * out. Callers use it to record an acceptance, and an add-then-remove is the
+ * officer changing their mind rather than two separate decisions to report.
+ */
+export function AddButton({ item, size = 'sm', block = false, onAdd }) {
   const spec = useSpec();
   const added = spec.has(item.code);
 
@@ -146,7 +152,14 @@ export function AddButton({ item, size = 'sm', block = false }) {
     <button
       className={`btn btn-${size} ${added ? 'btn-secondary' : 'btn-primary'}`}
       style={block ? { width: '100%' } : undefined}
-      onClick={() => (added ? spec.remove(item.code) : spec.add(item))}
+      onClick={() => {
+        if (added) {
+          spec.remove(item.code);
+        } else {
+          spec.add(item);
+          onAdd?.();
+        }
+      }}
       aria-pressed={added}
     >
       <Icon name={added ? 'check' : 'plus'} size={14} />

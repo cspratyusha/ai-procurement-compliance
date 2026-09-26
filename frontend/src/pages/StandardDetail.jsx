@@ -139,7 +139,13 @@ export default function StandardDetail() {
       <div className="page-head">
         <div className="stack stack-3" style={{ minWidth: 0 }}>
           <div className="row wrap" style={{ gap: 'var(--s2)' }}>
-            <h1 className="mono" style={{ fontSize: 'var(--fs-lg)', fontWeight: 600 }}>{standard.number}</h1>
+            <h1
+              className="mono"
+              data-demo-target="detail-title"
+              style={{ fontSize: 'var(--fs-lg)', fontWeight: 600 }}
+            >
+              {standard.number}
+            </h1>
             <span className={`badge ${statusBadge.cls}`}>
               <Icon name={statusBadge.icon} size={12} />{statusBadge.label}
             </span>

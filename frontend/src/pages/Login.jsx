@@ -1,13 +1,14 @@
 import { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import Icon from '../components/Icon';
+import { StartDemoButton } from '../demo/DemoProvider';
 import { ROLES } from '../data/mock';
 import './login.css';
 
 export default function Login() {
   const navigate = useNavigate();
   const [step, setStep] = useState('credentials');
-  const [email, setEmail] = useState('demo@standeng.gov.in');
+  const [email, setEmail] = useState('demo@gmail.com');
   const [password, setPassword] = useState('demo-password');
   const [role, setRole] = useState('admin');
   const [busy, setBusy] = useState(false);
@@ -82,6 +83,7 @@ export default function Login() {
                 <input
                   id="email"
                   className="input"
+                  data-demo-target="email"
                   type="email"
                   value={email}
                   autoComplete="username"
@@ -96,6 +98,7 @@ export default function Login() {
                 <input
                   id="password"
                   className="input"
+                  data-demo-target="password"
                   type="password"
                   value={password}
                   autoComplete="current-password"
@@ -112,7 +115,13 @@ export default function Login() {
                 </p>
               )}
 
-              <button className="btn btn-primary" type="submit" disabled={busy} style={{ width: '100%' }}>
+              <button
+                className="btn btn-primary"
+                type="submit"
+                data-demo-target="sign-in"
+                disabled={busy}
+                style={{ width: '100%' }}
+              >
                 {busy ? <><span className="spinner" /> Verifying</> : 'Continue'}
               </button>
             </form>
@@ -128,7 +137,11 @@ export default function Login() {
               <fieldset className="stack stack-3" style={{ border: 0, padding: 0, margin: 0 }}>
                 <legend className="sr-only">Role</legend>
                 {ROLES.map((r) => (
-                  <label key={r.id} className={`role-option ${role === r.id ? 'is-selected' : ''}`}>
+                  <label
+                    key={r.id}
+                    className={`role-option ${role === r.id ? 'is-selected' : ''}`}
+                    data-demo-target={`role-${r.id}`}
+                  >
                     <input
                       type="radio"
                       name="role"
@@ -159,7 +172,12 @@ export default function Login() {
                   <Icon name="chevronLeft" size={15} />
                   Back
                 </button>
-                <button className="btn btn-primary grow" type="submit" disabled={busy}>
+                <button
+                  className="btn btn-primary grow"
+                  type="submit"
+                  data-demo-target="enter-workspace"
+                  disabled={busy}
+                >
                   {busy ? <><span className="spinner" /> Loading workspace</> : 'Enter workspace'}
                 </button>
               </div>
@@ -167,9 +185,15 @@ export default function Login() {
           )}
         </div>
 
-        <p className="xs faint center" style={{ marginTop: 'var(--s5)' }}>
-          <Link to="/" style={{ textDecoration: 'underline' }}>Back to overview</Link>
-        </p>
+        <div
+          className="row center"
+          style={{ marginTop: 'var(--s5)', gap: 'var(--s4)', justifyContent: 'center' }}
+        >
+          <Link to="/" className="xs faint" style={{ textDecoration: 'underline' }}>
+            Back to overview
+          </Link>
+          <StartDemoButton className="btn btn-secondary btn-sm" label="Start Demo" />
+        </div>
       </main>
     </div>
   );

@@ -108,3 +108,38 @@
   .finding-head { padding: var(--s4); }
   .redline { margin: 0 var(--s4) var(--s3); }
 }
+
+/*
+ * Text read out of an uploaded document, shown so the officer can check what
+ * the extractor actually saw. Scrollable and height-capped: a 40-page tender
+ * must not push the findings off the screen, and OCR output in particular is
+ * worth scanning rather than reading.
+ */
+.extract-text {
+  max-height: 260px;
+  overflow: auto;
+  margin: 0;
+  padding: var(--s4);
+  background: var(--surface-sunk);
+  border: 1px solid var(--line);
+  border-radius: var(--r-sm);
+  font-family: var(--mono);
+  font-size: var(--fs-xs);
+  line-height: 1.6;
+  color: var(--ink-soft);
+  white-space: pre-wrap;
+  overflow-wrap: anywhere;
+}
+
+/*
+ * The fragment of the tender a finding refers to. Quoted rather than
+ * paraphrased so the officer can find the line in their own document.
+ */
+.audit-quote {
+  margin: 0;
+  padding: var(--s3) var(--s4);
+  border-left: 2px solid var(--line);
+  background: var(--surface-sunk);
+  color: var(--ink-soft);
+  font-style: italic;
+}

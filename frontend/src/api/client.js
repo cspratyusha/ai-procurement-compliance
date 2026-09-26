@@ -218,4 +218,241 @@ export function getAmendments(idOrNumber, { signal } = {}) {
   return request(`/standards/${encodeURIComponent(idOrNumber)}/amendments`, { signal });
 }
 
+/**
+ * Usage figures for the dashboard, counted from the engine's own logs.
+ *
+ * Resolves to `{ has_live_data, queries_total, no_match_queries, match_rate,
+ * median_latency_ms, categories, recent_queries, feedback_*, acceptance_rate,
+ * synthetic_interactions }`.
+ *
+ * Two fields decide how the dashboard must render:
+ *
+ * - `has_live_data: false` means the engine has served no searches. The UI
+ *   must show an empty state, not tiles reading zero, which look like a
+ *   failed fetch.
+ * - Null rates (`match_rate`, `acceptance_rate`) mean "not calculable yet",
+ *   which is not the same as 0%. Render them as an absence.
+ *
+ * `synthetic_interactions` counts the seed records that bootstrapped the
+ * ranker. They are deliberately excluded from every live figure, and the UI
+ * must not add them back in.
+ *
+ * Throws like every other call here, so the dashboard can distinguish a
+ * stopped engine from a genuinely empty log — showing "no queries yet" when
+ * the backend is simply down would be a lie of exactly the kind this
+ * screen exists to avoid.
+ */
+export function getStats({ signal } = {}) {
+  return request('/stats', { signal });
+}
+
+/**
+ * Record what an official did with a result set.
+ *
+ * Feeds both the dashboard's acceptance rate and the LTR retraining loop, so
+ * the ranker learns from real decisions rather than only from synthetic seed
+ * data.
+ *
+ * `action` is 'accept' (the official used this standard), 'reject' (they
+ * dismissed it) or 'correct' (they replaced it with `correctedId`).
+ *
+ * Deliberately never throws. Feedback is a side effect of an action the user
+ * already completed: adding a standard to the basket must not surface an
+ * error, or undo itself, because the logging call failed. Resolves to true
+ * when the record was stored and false otherwise.
+ */
+export async function sendFeedback({ query, candidatesShown, chosenId, action, correctedId } = {}) {
+  try {
+    await request('/feedback', {
+      method: 'POST',
+      body: {
+        query,
+        candidates_shown: candidatesShown,
+        chosen_id: chosenId ?? null,
+        action,
+        corrected_id: correctedId ?? null,
+      },
+    });
+    return true;
+  } catch {
+    return false;
+  }
+}
+
+/**
+ * Standards-hygiene findings: superseded editions and standards with
+ * published amendments in force.
+ *
+ * Resolves to `{ findings, critical_count, coverage }`. A finding is a
+ * computed fact about the corpus, not a notification someone sent — so none
+ * carries a timestamp, and the UI must not imply one. `severity` is
+ * 'critical' when the replacement edition is known and can be named, and
+ * 'warning' when the problem is real but this corpus cannot resolve it.
+ *
+ * `coverage` is not optional decoration. Amendments are researched for a
+ * handful of standards, so a short list means "mostly unchecked", not "mostly
+ * clean", and the screen has to say which.
+ */
+export function getAlerts({ category, signal } = {}) {
+  const query = category ? `?category=${encodeURIComponent(category)}` : '';
+  return request(`/alerts${query}`, { signal });
+}
+
+/**
+ * How complete the served corpus's own metadata is.
+ *
+ * Resolves to counts of active/superseded records, confirmed and unverified
+ * certification status, amendment research, and the sector spread. Each
+ * researched figure is paired with the total it is out of, because the ratio
+ * is the honest number.
+ */
+export function getCorpusHealth({ signal } = {}) {
+  return request('/corpus-health', { signal });
+}
+
+/**
+ * Audit a tender document's citations against the corpus.
+ *
+ * Resolves to `{ filename, citations_found, findings, critical_count,
+ * clean_citations, corpus_size, note, text, warnings }`.
+ *
+ * Checks only the IS numbers the document already cites — not whether it
+ * cites the right ones for its goods. Two consequences the UI must honour:
+ * `citations_found: 0` means nothing could be checked and is **not** a pass,
+ * and an 'info' finding is a coverage gap rather than a defect in the tender.
+ */
+export async function auditDocument(file, { signal } = {}) {
+  if (file.size > MAX_UPLOAD_BYTES) {
+    throw new ApiError(
+      `That file is ${(file.size / 1048576).toFixed(1)} MB. The limit is ${MAX_UPLOAD_BYTES / 1048576} MB.`,
+      { kind: 'http', status: 413 },
+    );
+  }
+
+  const form = new FormData();
+  form.append('file', file);
+
+  // Not using request(): FormData must not get a JSON Content-Type, and a
+  // large scanned PDF going through OCR needs longer than a typed query.
+  const controller = new AbortController();
+  const timer = setTimeout(() => controller.abort(), 90000);
+  if (signal) signal.addEventListener('abort', () => controller.abort(), { once: true });
+
+  try {
+    const res = await fetch(`${BASE_URL}/audit`, {
+      method: 'POST',
+      body: form,
+      signal: controller.signal,
+    });
+
+    if (!res.ok) {
+      let detail = `Audit failed (${res.status})`;
+      try {
+        const payload = await res.json();
+        if (payload?.detail) detail = payload.detail;
+      } catch {
+        /* non-JSON error body */
+      }
+      throw new ApiError(detail, { kind: 'http', status: res.status });
+    }
+
+    return await res.json();
+  } catch (err) {
+    if (err instanceof ApiError) throw err;
+    if (err.name === 'AbortError') {
+      if (signal?.aborted) throw err;
+      throw new ApiError('Reading the document took too long.', { kind: 'timeout' });
+    }
+    throw new ApiError(
+      `Cannot reach the standards engine at ${BASE_URL}. Start the backend, then try again.`,
+      { kind: 'offline' },
+    );
+  } finally {
+    clearTimeout(timer);
+  }
+}
+
+/**
+ * Split a bill of quantities into line items and search each one.
+ *
+ * Resolves to `{ filename, is_boq, items, item_count, matched_count, text,
+ * warnings, corpus_size }`, where every item carries its own results and its
+ * own confidence verdict.
+ *
+ * `is_boq: false` means the document had no line-item structure. That is not
+ * an error and not an empty BOQ — the document is simply not one, and the
+ * caller should offer `extractAndSearch` instead of an empty item list.
+ *
+ * Each item is searched separately on purpose: flattening a BOQ into one
+ * query lets the first item's vocabulary dominate, so the cement loses to
+ * the cable.
+ */
+export async function analyseBOQ(file, { topK = 5, signal } = {}) {
+  if (file.size > MAX_UPLOAD_BYTES) {
+    throw new ApiError(
+      `That file is ${(file.size / 1048576).toFixed(1)} MB. The limit is ${MAX_UPLOAD_BYTES / 1048576} MB.`,
+      { kind: 'http', status: 413 },
+    );
+  }
+
+  const form = new FormData();
+  form.append('file', file);
+
+  // One retrieval per line item, each loading the ranking models on a cold
+  // start, so this needs the most generous timeout of any call here.
+  const controller = new AbortController();
+  const timer = setTimeout(() => controller.abort(), 180000);
+  if (signal) signal.addEventListener('abort', () => controller.abort(), { once: true });
+
+  try {
+    const res = await fetch(`${BASE_URL}/boq?top_k=${topK}`, {
+      method: 'POST',
+      body: form,
+      signal: controller.signal,
+    });
+
+    if (!res.ok) {
+      let detail = `Could not read that document (${res.status})`;
+      try {
+        const payload = await res.json();
+        if (payload?.detail) detail = payload.detail;
+      } catch {
+        /* non-JSON error body */
+      }
+      throw new ApiError(detail, { kind: 'http', status: res.status });
+    }
+
+    return await res.json();
+  } catch (err) {
+    if (err instanceof ApiError) throw err;
+    if (err.name === 'AbortError') {
+      if (signal?.aborted) throw err;
+      throw new ApiError('Reading the document took too long.', { kind: 'timeout' });
+    }
+    throw new ApiError(
+      `Cannot reach the standards engine at ${BASE_URL}. Start the backend, then try again.`,
+      { kind: 'offline' },
+    );
+  } finally {
+    clearTimeout(timer);
+  }
+}
+
+/**
+ * Every standard whose BIS certification status has been researched.
+ *
+ * Resolves to `{ rules, coverage }`. Each rule carries the Quality Control
+ * Order and gazette notification it traces to, so the claim is checkable
+ * against the source rather than taken on trust.
+ *
+ * Only researched standards are listed, and that is the load-bearing detail:
+ * the corpus holds thousands whose status nobody has checked. Rendering those
+ * as "no scheme applies" would turn an absence of research into a positive
+ * clearance — the most dangerous error this data can produce, because it is
+ * the one that puts an uncertifiable product into a live tender.
+ */
+export function getCertificationRules({ signal } = {}) {
+  return request('/certification-rules', { signal });
+}
+
 export { BASE_URL };

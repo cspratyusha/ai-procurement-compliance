@@ -12,10 +12,10 @@ const TABS = [
 ];
 
 const AUDIT_LOG = [
-  { t: '14:22', action: 'Accepted recommendation', detail: 'IS 694:2010 for query "PVC insulated copper cable…"', user: 'Demo User' },
-  { t: '14:18', action: 'Query submitted', detail: '4 candidates returned, top confidence 94%', user: 'Demo User' },
-  { t: '11:04', action: 'Applied audit fix', detail: 'Tender_HT_Cable_Supply_2026.pdf — Clause 4.2 version corrected', user: 'Demo User' },
-  { t: '10:51', action: 'Tender uploaded', detail: 'Tender_HT_Cable_Supply_2026.pdf — 5 findings', user: 'Demo User' },
+  { t: '14:22', action: 'Accepted recommendation', detail: 'IS 694:2010 for query "PVC insulated copper cable…"', user: 'Arun' },
+  { t: '14:18', action: 'Query submitted', detail: '4 candidates returned, top confidence 94%', user: 'Arun' },
+  { t: '11:04', action: 'Applied audit fix', detail: 'Tender_HT_Cable_Supply_2026.pdf — Clause 4.2 version corrected', user: 'Arun' },
+  { t: '10:51', action: 'Tender uploaded', detail: 'Tender_HT_Cable_Supply_2026.pdf — 5 findings', user: 'Arun' },
   { t: 'Yesterday', action: 'Reported standards gap', detail: 'Query "composite insulator mounting bracket" routed to committee', user: 'R. Sharma' },
 ];
 
@@ -136,7 +136,7 @@ export default function Settings() {
             <div className="card stack stack-4">
               <span className="eyebrow">Members</span>
               {[
-                { n: 'Demo User', r: 'Department Admin', you: true },
+                { n: 'Arun', r: 'Department Admin', you: true },
                 { n: 'R. Sharma', r: 'Procurement Officer' },
                 { n: 'M. Iyer', r: 'Procurement Officer' },
                 { n: 'S. Banerjee', r: 'Agency Integrator' },

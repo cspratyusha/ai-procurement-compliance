@@ -2,7 +2,9 @@ import { useState, useEffect } from 'react';
 import { NavLink, useNavigate } from 'react-router-dom';
 import Icon from './Icon';
 import SpecBasket from './SpecBasket';
-import { USER, ALERTS } from '../data/mock';
+import { StartDemoButton } from '../demo/DemoProvider';
+import { USER } from '../data/mock';
+import { getAlerts } from '../api/client';
 import './shell.css';
 
 /**
@@ -25,8 +27,8 @@ const NAV = [
     to: '/app/projects', icon: 'layers', label: 'My projects',
     sub: [
       { to: '/app', label: 'Dashboard', end: true },
-      { to: '/app/compliance', label: 'Compliance', adminOnly: true },
-      { to: '/app/alerts', label: 'Alerts' },
+      { to: '/app/compliance', label: 'Corpus health', adminOnly: true },
+      { to: '/app/alerts', label: 'Standards hygiene' },
     ],
   },
   { to: '/app/catalogue', icon: 'graph', label: 'Standards catalogue' },
@@ -39,8 +41,25 @@ const NAV = [
 export default function Shell({ children, theme, onToggleTheme }) {
   const [open, setOpen] = useState(false);
   const navigate = useNavigate();
-  const unread = ALERTS.filter((a) => a.unread).length;
   const isAdmin = USER.role.includes('Admin');
+
+  // The count on the bell is the number of findings that would actually
+  // invalidate a tender clause -- superseded editions whose replacement the
+  // corpus can name. It was a fixture ("3 unread") until the alerts screen
+  // became real; a badge that disagrees with the screen it links to is worse
+  // than no badge, so it is fetched rather than assumed.
+  //
+  // Failure is silent and shows nothing. A backend that is down is not a
+  // reason to assert a count, in either direction.
+  const [critical, setCritical] = useState(0);
+
+  useEffect(() => {
+    const controller = new AbortController();
+    getAlerts({ signal: controller.signal })
+      .then((data) => setCritical(data.critical_count ?? 0))
+      .catch(() => { /* engine unreachable -- show no badge rather than a guess */ });
+    return () => controller.abort();
+  }, []);
 
   // Escape closes the mobile drawer — a drawer with no keyboard exit is a trap.
   useEffect(() => {
@@ -69,6 +88,7 @@ export default function Shell({ children, theme, onToggleTheme }) {
                 to={item.to}
                 end={item.end}
                 onClick={() => setOpen(false)}
+                data-demo-target={`nav-${item.to.replace(/^\/app\/?/, '') || 'dashboard'}`}
                 className={({ isActive }) => `nav-item ${isActive ? 'is-active' : ''}`}
               >
                 <Icon name={item.icon} size={17} />
@@ -83,10 +103,11 @@ export default function Shell({ children, theme, onToggleTheme }) {
                       to={s.to}
                       end={s.end}
                       onClick={() => setOpen(false)}
+                      data-demo-target={`nav-${s.to.replace(/^\/app\/?/, '') || 'dashboard'}`}
                       className={({ isActive }) => `nav-subitem ${isActive ? 'is-active' : ''}`}
                     >
                       <span>{s.label}</span>
-                      {s.label === 'Alerts' && unread > 0 && <span className="nav-count">{unread}</span>}
+                      {s.label === 'Standards hygiene' && critical > 0 && <span className="nav-count">{critical}</span>}
                     </NavLink>
                   ))}
                 </div>
@@ -118,6 +139,8 @@ export default function Shell({ children, theme, onToggleTheme }) {
 
           <div className="grow" />
 
+          <StartDemoButton className="btn btn-secondary btn-sm" label="Start Demo" />
+
           <button
             className="btn-icon"
             onClick={onToggleTheme}
@@ -130,10 +153,10 @@ export default function Shell({ children, theme, onToggleTheme }) {
           <button
             className="btn-icon topbar-bell"
             onClick={() => navigate('/app/alerts')}
-            aria-label={`Alerts, ${unread} unread`}
+            aria-label={`Alerts, ${critical} unread`}
           >
             <Icon name="bell" size={18} />
-            {unread > 0 && <span className="dot" aria-hidden="true" />}
+            {critical > 0 && <span className="dot" aria-hidden="true" />}
           </button>
 
           <div className="topbar-user">

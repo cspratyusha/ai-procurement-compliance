@@ -408,8 +408,8 @@ export const BOQ_ITEMS = [
 /* ------------------------- Projects & templates ------------------------- */
 
 export const PROJECTS = [
-  { id: 'pr1', name: 'HT Cable Supply 2026',           items: 7,  updated: '18 min ago', status: 'draft',     owner: 'Demo User' },
-  { id: 'pr2', name: 'Substation Equipment Tender',    items: 14, updated: 'Yesterday',   status: 'in-review', owner: 'Demo User' },
+  { id: 'pr1', name: 'HT Cable Supply 2026',           items: 7,  updated: '18 min ago', status: 'draft',     owner: 'Arun' },
+  { id: 'pr2', name: 'Substation Equipment Tender',    items: 14, updated: 'Yesterday',   status: 'in-review', owner: 'Arun' },
   { id: 'pr3', name: 'Bridge Steel Procurement Q3',    items: 9,  updated: '3 days ago',  status: 'approved',  owner: 'R. Sharma' },
   { id: 'pr4', name: 'Office Block Electrical Fit-out',items: 22, updated: '1 week ago',  status: 'draft',     owner: 'M. Iyer' },
 ];

@@ -1,5 +1,6 @@
 import { Link } from 'react-router-dom';
 import Icon from '../components/Icon';
+import { StartDemoButton } from '../demo/DemoProvider';
 import './landing.css';
 
 /**
@@ -64,7 +65,14 @@ export default function Landing({ theme, onToggleTheme }) {
             >
               <Icon name={theme === 'dark' ? 'sun' : 'moon'} size={18} />
             </button>
-            <Link to="/login" className="btn btn-secondary btn-sm">Sign in</Link>
+            <StartDemoButton className="btn btn-secondary btn-sm" label="Start Demo" />
+            <Link
+              to="/login"
+              className="btn btn-secondary btn-sm"
+              data-demo-target="landing-signin"
+            >
+              Sign in
+            </Link>
           </div>
         </div>
       </header>
@@ -100,7 +108,7 @@ export default function Landing({ theme, onToggleTheme }) {
             </p>
 
             <div className="hero-cta">
-              <Link to="/login" className="btn btn-primary btn-lg">
+              <Link to="/login" className="btn btn-primary btn-lg" data-demo-target="landing-cta">
                 Open the engine
                 <Icon name="arrowRight" size={16} />
               </Link>

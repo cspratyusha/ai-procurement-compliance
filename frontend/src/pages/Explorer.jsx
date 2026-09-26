@@ -100,7 +100,7 @@ export default function Explorer() {
     <div className="container page">
       <div className="page-head">
         <div>
-          <h1 className="page-title">Standards catalogue</h1>
+          <h1 className="page-title" data-demo-target="catalogue-title">Standards catalogue</h1>
           <p className="page-sub">
             Everything the engine can currently search. This is a pilot corpus, not the
             full BIS catalogue — if a product category is not listed here, the engine
@@ -148,6 +148,7 @@ export default function Explorer() {
                   <input
                     id="cat-search"
                     className="input"
+                    data-demo-target="catalogue-search"
                     style={{ paddingLeft: 34 }}
                     placeholder="IS number, title or keyword…"
                     value={query}

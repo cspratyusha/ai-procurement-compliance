@@ -1,11 +1,11 @@
-import { useState, useMemo } from 'react';
+import { useState, useMemo, useEffect, useRef } from 'react';
 import { Link } from 'react-router-dom';
 import Icon from '../components/Icon';
 import { CopyButton, EmptyState } from '../components/Primitives';
 import { useSpec, ROLE_ORDER, ROLE_LABEL, buildClause } from '../state/SpecStore';
-import { CERTIFICATION } from '../data/catalogue';
+import { getStandard } from '../api/client';
 import './builder.css';
-import DemoDataNotice from '../components/DemoDataNotice';
+import './query.css';   // .notice — shared with the query screen
 
 const EXPORTS = [
   { id: 'docx', icon: 'file', label: 'DOCX', hint: 'Word, for the tender document' },
@@ -22,12 +22,59 @@ export default function Builder() {
 
   const clause = useMemo(() => buildClause(list), [list]);
 
-  // Certification obligations attach to items in the basket, not to the query.
+  /**
+   * Certification status per basket item, from the engine.
+   *
+   * This was a hardcoded lookup table covering two standards. It is now
+   * fetched, which matters for a reason beyond freshness: the engine
+   * distinguishes a confirmed requirement from 'not_verified', and the
+   * fixture could only express "mandatory or absent". Treating an unresearched
+   * standard as having no certification obligation is precisely the error
+   * that puts an uncertifiable product into a live tender.
+   */
+  const [certInfo, setCertInfo] = useState({});   // code -> CertificationInfo
+  // Codes already requested, kept in a ref so the effect does not depend on
+  // the state it writes -- depending on `certInfo` would re-run this on every
+  // resolution and re-request anything still in flight.
+  const requested = useRef(new Set());
+
+  useEffect(() => {
+    const codes = list.map((i) => i.code).filter((c) => !requested.current.has(c));
+    if (codes.length === 0) return undefined;
+
+    codes.forEach((c) => requested.current.add(c));
+    const controller = new AbortController();
+
+    Promise.all(
+      codes.map((code) =>
+        getStandard(code, { signal: controller.signal })
+          .then((data) => [code, data.certification ?? null])
+          // A standard outside the corpus has no record to report. Null is
+          // "unknown", which the UI renders differently from "not required".
+          .catch(() => [code, null]),
+      ),
+    ).then((pairs) => {
+      if (controller.signal.aborted) return;
+      setCertInfo((prev) => ({ ...prev, ...Object.fromEntries(pairs) }));
+    });
+
+    return () => controller.abort();
+  }, [list]);
+
+  // Only positively confirmed obligations. 'not_verified' is not a clearance,
+  // but it is also not a requirement we can assert in a tender clause.
   const certs = useMemo(
     () => list
-      .map((i) => ({ code: i.code, rec: CERTIFICATION[i.code] }))
+      .map((i) => ({ code: i.code, rec: certInfo[i.code] }))
       .filter((c) => c.rec?.mandatory),
-    [list]
+    [list, certInfo]
+  );
+
+  // Standards whose certification status nobody has checked. Surfaced so the
+  // officer knows the silence is unresearched rather than clear.
+  const unverified = useMemo(
+    () => list.filter((i) => certInfo[i.code]?.scheme === 'not_verified'),
+    [list, certInfo]
   );
 
   const critical = gaps.filter((g) => g.severity === 'critical');
@@ -36,10 +83,6 @@ export default function Builder() {
   if (count === 0) {
     return (
       <div className="container page">
-      <DemoDataNotice
-        what="The specification clauses assembled here are sample text."
-        next="Clause generation from a matched standard is not built yet."
-      />
         <div className="page-head">
           <div>
             <h1 className="page-title">Spec builder</h1>
@@ -65,7 +108,7 @@ export default function Builder() {
     <div className="container page">
       <div className="page-head">
         <div>
-          <h1 className="page-title">Spec builder</h1>
+          <h1 className="page-title" data-demo-target="builder-title">Spec builder</h1>
           <p className="page-sub">
             {count} standard{count === 1 ? '' : 's'} collected
             {spec.project ? ` for ${spec.project}` : ''}. Reorder within a group, review the gap
@@ -83,6 +126,7 @@ export default function Builder() {
           </button>
           <button
             className="btn btn-primary"
+            data-demo-target="builder-freeze"
             disabled={!canExport}
             onClick={() => spec.freeze('Tender draft')}
           >
@@ -94,9 +138,9 @@ export default function Builder() {
 
       <div className="grid split" style={{ "--rail": "340px" }}>
         {/* ---------------- Left: assembled spec ---------------- */}
-        <div className="stack stack-5">
+        <div className="stack stack-5" data-demo-target="builder-list">
           {gaps.length > 0 && (
-            <section className="stack stack-2">
+            <section className="stack stack-2" data-demo-target="builder-gaps">
               {gaps.map((g, i) => (
                 <div key={i} className={`notice ${g.severity === 'critical' ? 'notice-crit' : 'notice-warn'}`}>
                   <Icon name="alert" size={15} />
@@ -136,7 +180,7 @@ export default function Builder() {
                           </Link>
                           {it.amendment && <span className="badge badge-neutral">{it.amendment}</span>}
                           {it.version === 'superseded' && <span className="badge badge-crit">Superseded</span>}
-                          {CERTIFICATION[it.code]?.mandatory && (
+                          {certInfo[it.code]?.mandatory && (
                             <span className="badge badge-accent"><Icon name="shield" size={11} /> Certified</span>
                           )}
                         </div>
@@ -185,23 +229,53 @@ export default function Builder() {
                 <span className="badge badge-accent">{certs.length} mandatory</span>
               </div>
               <div className="stack" style={{ padding: 'var(--s4)', gap: 'var(--s4)' }}>
-                {certs.map(({ code, rec }) => (
-                  <div key={code} className="stack stack-3">
-                    <div className="row-between wrap" style={{ gap: 'var(--s2)' }}>
-                      <div className="row wrap" style={{ gap: 6 }}>
-                        <span className="mono small strong">{code}</span>
-                        <span className="badge badge-accent">{rec.scheme}</span>
+                {certs.map(({ code, rec }) => {
+                  // Built from what the engine actually confirmed, naming the
+                  // governing order where one was recorded. No order is
+                  // invented when the record does not carry one.
+                  const clauseText =
+                    `The item shall bear a valid ${rec.scheme} mark under the BIS ` +
+                    `certification scheme${rec.qco ? `, as required by ${rec.qco}` : ''}. ` +
+                    `The licence number shall be stated in the bid and shall be valid ` +
+                    `at the time of supply.`;
+                  return (
+                    <div key={code} className="stack stack-3">
+                      <div className="row-between wrap" style={{ gap: 'var(--s2)' }}>
+                        <div className="row wrap" style={{ gap: 6 }}>
+                          <span className="mono small strong">{code}</span>
+                          <span className="badge badge-accent">{rec.scheme}</span>
+                        </div>
+                        <CopyButton text={clauseText} label="Copy" />
                       </div>
-                      <CopyButton text={rec.clause} label="Copy" />
+                      <blockquote className="clause">{clauseText}</blockquote>
+                      {rec.gazette && (
+                        <span className="xs faint">Gazette: {rec.gazette}</span>
+                      )}
+                      <Link to={`/app/standard/${encodeURIComponent(code)}`} className="xs build-link" style={{ textDecoration: 'underline' }}>
+                        View the standard
+                      </Link>
                     </div>
-                    <blockquote className="clause">{rec.clause}</blockquote>
-                    <Link to={`/app/certification/${encodeURIComponent(code)}`} className="xs build-link" style={{ textDecoration: 'underline' }}>
-                      View full certification requirement
-                    </Link>
-                  </div>
-                ))}
+                  );
+                })}
               </div>
             </section>
+          )}
+
+          {unverified.length > 0 && (
+            <div className="notice notice-warn" role="note">
+              <Icon name="alert" size={15} />
+              <div className="stack stack-2">
+                <span className="small strong">
+                  {unverified.length} standard{unverified.length === 1 ? '' : 's'} with
+                  unverified certification status
+                </span>
+                <span className="xs">
+                  {unverified.map((i) => i.code).join(', ')} — nobody has checked whether a
+                  mandatory BIS scheme applies. That is not a statement that none does, so
+                  confirm before issuing rather than reading the silence as a clearance.
+                </span>
+              </div>
+            </div>
           )}
         </div>
 
