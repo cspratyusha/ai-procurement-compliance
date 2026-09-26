@@ -159,7 +159,9 @@ test.describe('Demo Mode', () => {
 
   test('login is skipped when the demo starts from inside the app', async ({ page }) => {
     await page.goto('/app/query');
-    await page.click('button:has-text("Start Demo")');
+    // Inside the app the demo starts from the profile menu, not the top bar.
+    await page.click('.profile-trigger');
+    await page.click('button:has-text("Start guided demo")');
 
     // It must not bounce out to /login — the skipIf condition should hold.
     await page.waitForTimeout(6000);
@@ -172,7 +174,8 @@ test.describe('Demo Mode', () => {
     // glitching: the viewer cannot tell what caused the page to change. So
     // the later acts must navigate by pressing the nav link.
     await page.goto('/app/alerts');
-    await page.click('button:has-text("Start Demo")');
+    await page.click('.profile-trigger');
+    await page.click('button:has-text("Start guided demo")');
 
     // Wait for the spotlight to land on the sidebar — a ring inside the rail's
     // width, which page content never produces.

@@ -1,6 +1,7 @@
-import { useState, useEffect } from 'react';
-import { NavLink, useNavigate } from 'react-router-dom';
+import { useState, useEffect, useRef } from 'react';
+import { Link, NavLink, useNavigate, useLocation } from 'react-router-dom';
 import Icon from './Icon';
+import Logo from './Logo';
 import SpecBasket from './SpecBasket';
 import { StartDemoButton } from '../demo/DemoProvider';
 import { USER } from '../data/mock';
@@ -11,9 +12,10 @@ import './shell.css';
  * Five top-level destinations. Everything else nests inside one of them —
  * a workbench needs a short rail, not a directory of every screen.
  */
+// `short` is the label under the icon when the sidebar is collapsed to a rail.
 const NAV = [
   {
-    to: '/app/query', icon: 'search', label: 'New query',
+    to: '/app/query', icon: 'search', label: 'New query', short: 'Search',
     sub: [
       { to: '/app/boq', label: 'Upload tender / BOQ' },
       { to: '/app/builder', label: 'Spec builder' },
@@ -22,26 +24,115 @@ const NAV = [
       { to: '/app/certification', label: 'Certification' },
     ],
   },
-  { to: '/app/audit', icon: 'audit', label: 'Audit' },
+  { to: '/app/audit', icon: 'audit', label: 'Audit', short: 'Audit' },
   {
-    to: '/app/projects', icon: 'layers', label: 'My projects',
+    to: '/app/projects', icon: 'layers', label: 'My projects', short: 'Projects',
     sub: [
       { to: '/app', label: 'Dashboard', end: true },
       { to: '/app/compliance', label: 'Corpus health', adminOnly: true },
       { to: '/app/alerts', label: 'Standards hygiene' },
     ],
   },
-  { to: '/app/catalogue', icon: 'graph', label: 'Standards catalogue' },
+  { to: '/app/catalogue', icon: 'graph', label: 'Standards catalogue', short: 'Catalogue' },
   {
-    to: '/app/admin', icon: 'settings', label: 'Admin', adminOnly: true,
+    to: '/app/admin', icon: 'settings', label: 'Admin', short: 'Admin', adminOnly: true,
     sub: [{ to: '/app/settings', label: 'Settings' }],
   },
 ];
 
+/**
+ * The account control: avatar and name only, with everything else (email,
+ * organisation, the guided demo, sign out) one click away. Closes on an
+ * outside click, on Escape, and after choosing an item.
+ */
+function ProfileMenu({ onSignOut }) {
+  const [open, setOpen] = useState(false);
+  const rootRef = useRef(null);
+  const triggerRef = useRef(null);
+
+  useEffect(() => {
+    if (!open) return undefined;
+    const onDown = (e) => { if (!rootRef.current?.contains(e.target)) setOpen(false); };
+    const onKey = (e) => {
+      if (e.key === 'Escape') { setOpen(false); triggerRef.current?.focus(); }
+    };
+    document.addEventListener('mousedown', onDown);
+    document.addEventListener('keydown', onKey);
+    return () => {
+      document.removeEventListener('mousedown', onDown);
+      document.removeEventListener('keydown', onKey);
+    };
+  }, [open]);
+
+  const firstName = USER.name.split(' ')[0];
+
+  return (
+    <div className="profile" ref={rootRef}>
+      <button
+        ref={triggerRef}
+        type="button"
+        className={`profile-trigger ${open ? 'is-open' : ''}`}
+        onClick={() => setOpen((v) => !v)}
+        aria-haspopup="true"
+        aria-expanded={open}
+        aria-controls="profile-panel"
+      >
+        <span className="avatar" aria-hidden="true">{USER.initials}</span>
+        <span className="profile-name">{firstName}</span>
+        <Icon name="chevronDown" size={15} className="profile-chevron" />
+      </button>
+
+      {open && (
+        <div className="profile-panel fade-in" id="profile-panel">
+          <div className="profile-head">
+            <span className="avatar avatar-lg" aria-hidden="true">{USER.initials}</span>
+            <span className="stack" style={{ minWidth: 0 }}>
+              <span className="small strong">{USER.name}</span>
+              <span className="xs muted profile-email">{USER.email}</span>
+            </span>
+          </div>
+
+          <div className="profile-org">
+            <Icon name="users" size={15} />
+            <span className="stack" style={{ minWidth: 0 }}>
+              <span className="xs strong">{USER.org}</span>
+              <span className="xs faint">{USER.role}</span>
+            </span>
+          </div>
+
+          <hr className="divider" />
+
+          <div onClick={() => setOpen(false)}>
+            <StartDemoButton className="profile-item" label="Start guided demo" />
+          </div>
+          <button type="button" className="profile-item" onClick={() => { setOpen(false); onSignOut(); }}>
+            <Icon name="logout" size={16} />
+            Sign out
+          </button>
+        </div>
+      )}
+    </div>
+  );
+}
+
+/** A group is "current" when its own route or any of its sub-routes is open. */
+const inGroup = (item, pathname) =>
+  pathname === item.to || (item.sub ?? []).some((s) => pathname === s.to);
+
 export default function Shell({ children }) {
   const [open, setOpen] = useState(false);
   const navigate = useNavigate();
+  const { pathname } = useLocation();
   const isAdmin = USER.role.includes('Admin');
+
+  // Desktop sidebar can fold to an icon rail. Remembered per browser; a
+  // blocked storage just means it starts expanded each visit.
+  const [collapsed, setCollapsed] = useState(() => {
+    try { return localStorage.getItem('bis-sidebar') === 'collapsed'; } catch { return false; }
+  });
+  useEffect(() => {
+    try { localStorage.setItem('bis-sidebar', collapsed ? 'collapsed' : 'expanded'); } catch { /* storage blocked */ }
+  }, [collapsed]);
 
   // The count on the bell is the number of findings that would actually
   // invalidate a tender clause -- superseded editions whose replacement the
@@ -70,15 +161,25 @@ export default function Shell({ children }) {
   }, [open]);
 
   return (
-    <div className="shell">
+    <div className={`shell ${collapsed ? 'is-collapsed' : ''}`}>
       {open && <button className="scrim" aria-label="Close navigation" onClick={() => setOpen(false)} />}
 
       <aside className={`sidebar ${open ? 'is-open' : ''}`}>
         <div className="sidebar-brand">
-          <div className="stack" style={{ lineHeight: 1.3 }}>
-            <span className="wordmark">StandEng</span>
-            <span className="xs faint">Indian Standards for procurement</span>
-          </div>
+          <Link to="/" className="brand-link" aria-label="StandEng home" title="Home">
+            <Logo height={30} />
+          </Link>
+          <button
+            type="button"
+            className="btn-icon sidebar-collapse"
+            onClick={() => setCollapsed((v) => !v)}
+            aria-label={collapsed ? 'Expand sidebar' : 'Collapse sidebar'}
+            aria-expanded={!collapsed}
+            aria-controls="main-nav"
+            title={collapsed ? 'Expand sidebar' : 'Collapse sidebar'}
+          >
+            <Icon name="panelLeft" size={18} />
+          </button>
         </div>
 
         <nav className="sidebar-nav" id="main-nav" aria-label="Main">
@@ -89,10 +190,13 @@ export default function Shell({ children }) {
                 end={item.end}
                 onClick={() => setOpen(false)}
                 data-demo-target={`nav-${item.to.replace(/^\/app\/?/, '') || 'dashboard'}`}
-                className={({ isActive }) => `nav-item ${isActive ? 'is-active' : ''}`}
+                title={collapsed ? item.label : undefined}
+                className={({ isActive }) =>
+                  `nav-item ${isActive ? 'is-active' : ''} ${inGroup(item, pathname) ? 'in-group' : ''}`}
               >
-                <Icon name={item.icon} size={17} />
-                <span>{item.label}</span>
+                <span className="nav-icon"><Icon name={item.icon} size={18} /></span>
+                <span className="nav-label">{item.label}</span>
+                <span className="nav-short" aria-hidden="true">{item.short}</span>
               </NavLink>
 
               {item.sub && (
@@ -115,14 +219,6 @@ export default function Shell({ children }) {
             </div>
           ))}
         </nav>
-
-        <div className="sidebar-foot">
-          <div className="org-card">
-            <span className="xs faint">Organisation</span>
-            <span className="small strong">{USER.org}</span>
-            <span className="xs muted">{USER.role}</span>
-          </div>
-        </div>
       </aside>
 
       <div className="shell-main">
@@ -139,28 +235,17 @@ export default function Shell({ children }) {
 
           <div className="grow" />
 
-          <StartDemoButton className="btn btn-secondary btn-sm" label="Start Demo" />
-
           <button
             className="btn-icon topbar-bell"
             onClick={() => navigate('/app/alerts')}
             aria-label={`Alerts, ${critical} unread`}
+            title="Standards hygiene alerts"
           >
             <Icon name="bell" size={18} />
             {critical > 0 && <span className="dot" aria-hidden="true" />}
           </button>
 
-          <div className="topbar-user">
-            <span className="avatar" aria-hidden="true">{USER.initials}</span>
-            <span className="stack topbar-user-text">
-              <span className="xs strong nowrap">{USER.name}</span>
-              <span className="xs faint nowrap">{USER.email}</span>
-            </span>
-          </div>
-
-          <button className="btn-icon" onClick={() => navigate('/')} aria-label="Sign out" title="Sign out">
-            <Icon name="logout" size={18} />
-          </button>
+          <ProfileMenu onSignOut={() => navigate('/')} />
         </header>
 
         <main className="shell-content">{children}</main>
