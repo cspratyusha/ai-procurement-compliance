@@ -134,8 +134,8 @@ export const demoSteps = [
   ...intro(
     { to: '/', waitFor: 'landing-cta' },
     'Act 1 · Sign in',
-    'The engine searches 6,360 standards across 17 sectors.',
-    'About 29% of the BIS catalogue — and it says so rather than implying more.',
+    'The engine searches the published Indian Standards it holds, by meaning.',
+    'Every figure it shows is counted from its own corpus — never implied.',
     'Coverage is stated plainly throughout this product. A tool that '
       + 'overstates what it knows cannot be trusted with a tender.',
     3200,
@@ -347,8 +347,8 @@ export const demoSteps = [
   ...say(
     'Act 6 · Upload',
     'Ten line items read from one document.',
-    'Eight matched against 6,360 standards; two fall outside coverage.',
-    'Those two are reported as no match, with their nearest text matches '
+    'Each item is searched on its own, so one cannot crowd out another.',
+    'An item outside coverage is reported as no match, with its nearest text matches '
       + 'labelled as references — they cannot be accepted into a spec at all.',
     0,
   ),
@@ -516,7 +516,7 @@ export const demoSteps = [
     { nav: 'nav-catalogue', waitFor: 'catalogue-search' },
     'Act 10 · Coverage',
     'The full catalogue, browsable by sector.',
-    '6,360 standards across 17 sectors.',
+    'Every standard the engine holds, grouped by sector.',
     null,
     2400,
   ),
@@ -543,7 +543,7 @@ export const demoSteps = [
     'How complete the corpus’s own metadata is.',
     'Certification confirmed vs unverified; amendments researched vs unchecked.',
     'Always as a ratio against the total, because 17 confirmed records means '
-      + 'nothing without the 6,360 they are out of.',
+      + 'nothing without the total they are out of.',
     4000,
   ),
 

@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import Icon from '../components/Icon';
-import { StartDemoButton } from '../demo/DemoProvider';
+import Logo from '../components/Logo';
 import { ROLES } from '../data/mock';
 import './login.css';
 
@@ -38,7 +38,7 @@ export default function Login() {
         <span className="blob blob-b" aria-hidden="true" />
         <div className="stack stack-5">
           <Link to="/" style={{ width: 'fit-content' }}>
-            <span className="wordmark">StandEng</span>
+            <Logo height={36} />
           </Link>
 
           <h1 className="auth-quote">
@@ -194,7 +194,6 @@ export default function Login() {
           <Link to="/" className="xs faint" style={{ textDecoration: 'underline' }}>
             Back to overview
           </Link>
-          <StartDemoButton className="btn btn-secondary btn-sm" label="Start Demo" />
         </div>
       </main>
     </div>

@@ -1,5 +1,8 @@
+import { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import Icon from '../components/Icon';
+import Logo from '../components/Logo';
+import { getHealth } from '../api/client';
 import { StartDemoButton } from '../demo/DemoProvider';
 import './landing.css';
 
@@ -18,7 +21,7 @@ const BENEFITS = [
   {
     icon: 'shield',
     title: 'Says when it does not know',
-    body: 'Coverage is a pilot corpus, not the full catalogue. A query outside it is reported as no match, with the nearest entries clearly labelled as references rather than recommendations.',
+    body: 'Coverage is stated, never implied. A query no standard covers is reported as no match, with the nearest entries clearly labelled as references rather than recommendations.',
     status: 'working',
   },
   {
@@ -47,18 +50,42 @@ const BENEFITS = [
 const STATS = [
   { value: '4', label: 'Retrieval stages', note: 'Dense, BM25, cross-encoder, learned ranker' },
   { value: '~231 ms', label: 'Typical query time', note: 'Measured locally on CPU' },
-  { value: '6,360', label: 'Standards searchable', note: 'About 29% of the BIS catalogue' },
+  { value: null, label: 'Standards searchable', note: 'Read live from the engine' },
   { value: '~22,000', label: 'Published Indian Standards', note: 'The full catalogue, for scale' },
 ];
 
+/**
+ * The corpus size, read from the running engine rather than written into the
+ * page. It was hard-coded here and went stale the moment ingestion grew the
+ * corpus. Re-polled so a restart onto a larger corpus shows up without a
+ * reload. `null` until the engine answers; an unreachable engine shows a dash,
+ * never a guessed number.
+ */
+function useCorpusSize() {
+  const [size, setSize] = useState(null);
+  useEffect(() => {
+    let alive = true;
+    const read = () => getHealth().then((h) => { if (alive && h?.corpus_size) setSize(h.corpus_size); });
+    read();
+    const timer = setInterval(read, 60_000);
+    return () => { alive = false; clearInterval(timer); };
+  }, []);
+  return size;
+}
+
+/** Already on the homepage, a logo click has no route to change -- go to the top instead. */
+const toTop = () => window.scrollTo({ top: 0, behavior: 'smooth' });
+
 export default function Landing() {
+  const corpusSize = useCorpusSize();
+  const sizeText = corpusSize ? corpusSize.toLocaleString('en-IN') : '—';
+
   return (
     <div className="landing">
       <header className="landing-nav">
         <div className="container row-between">
-          <span className="wordmark">StandEng</span>
+          <Link to="/" aria-label="StandEng home" onClick={toTop}><Logo height={30} /></Link>
           <div className="row" style={{ gap: 'var(--s2)' }}>
-            <StartDemoButton className="btn btn-secondary btn-sm" label="Start Demo" />
             <Link
               to="/login"
               className="btn btn-primary btn-sm"
@@ -98,24 +125,17 @@ export default function Landing() {
               with superseded editions flagged.
             </p>
 
-            <p className="xs muted" style={{ maxWidth: '52ch' }}>
-              Prototype built for the Smart India Hackathon. It currently searches
-              6,360 standards across 17 sectors, about 29% of the BIS catalogue. Scope
-              text comes from the published documents; no record is verified against
-              BIS directly.
-            </p>
-
             <div className="hero-cta">
               <Link to="/login" className="btn btn-primary btn-lg" data-demo-target="landing-cta">
                 Open the engine
                 <Icon name="arrowRight" size={16} />
               </Link>
-              <a href="#how" className="btn btn-secondary btn-lg">How it works</a>
+              <StartDemoButton className="btn btn-secondary btn-lg" label="Start Demo" />
             </div>
 
             <dl className="hero-facts">
               {[
-                ['6,360', 'standards searchable'],
+                [sizeText, 'standards searchable'],
                 ['4-stage', 'retrieval pipeline'],
                 ['~231 ms', 'typical query'],
               ].map(([v, l]) => (
@@ -177,7 +197,7 @@ export default function Landing() {
         <div className="container grid grid-4">
           {STATS.map((s) => (
             <div key={s.label} className="strip-tile stack stack-2 center">
-              <span className="strip-value tabular">{s.value}</span>
+              <span className="strip-value tabular">{s.value ?? sizeText}</span>
               <span className="xs faint">{s.label}</span>
               {s.note && <span className="xs faint" style={{ opacity: 0.7 }}>{s.note}</span>}
             </div>
@@ -268,10 +288,10 @@ export default function Landing() {
       <footer className="landing-foot">
         <div className="container row-between wrap" style={{ gap: 'var(--s4)' }}>
           <div className="row">
-            <span className="wordmark wordmark-sm">StandEng</span>
+            <Link to="/" aria-label="StandEng home" onClick={toTop}><Logo height={22} /></Link>
             <span className="xs muted">AI-powered Indian Standards for procurement</span>
           </div>
-          <span className="xs faint">Prototype interface · Demonstration data</span>
+          <span className="xs faint">Smart India Hackathon · Standards text from published BIS documents</span>
         </div>
       </footer>
     </div>
