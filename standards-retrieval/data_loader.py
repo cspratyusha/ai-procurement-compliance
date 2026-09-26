@@ -18,9 +18,20 @@ _REPO_ROOT = _PACKAGE_ROOT.parent
 # STANDARDS_CORPUS selects between them, so a corpus swap is one environment
 # variable rather than an edit at every load_corpus() call site:
 #
+#   STANDARDS_CORPUS=full        -> data/standards_corpus_full.json (the
+#                                   whole ingested corpus -- what a real
+#                                   deployment serves)
 #   STANDARDS_CORPUS=canonical   -> data/standards_corpus.json (45)
+#   STANDARDS_CORPUS=expanded    -> data/standards_corpus_expanded.json (96)
 #   STANDARDS_CORPUS=mock        -> data/mock_corpus.json (30, default)
 #   STANDARDS_CORPUS=/some/path  -> that file
+#
+# The default is `mock` because the committed LTR model and indexes were
+# trained against it. Serving `full` without retraining is correct but
+# degraded: the ranker's labels reference ids that corpus does not have, so
+# the engine declines to load it and falls back to the heuristic blend rather
+# than ranking against the wrong records. /health reports
+# `ltr_model_loaded: false` when that happens, and the admin screen says so.
 _CANONICAL_CORPUS_PATH = _REPO_ROOT / "data" / "standards_corpus.json"
 _EXPANDED_CORPUS_PATH = _REPO_ROOT / "data" / "standards_corpus_expanded.json"
 _FULL_CORPUS_PATH = _REPO_ROOT / "data" / "standards_corpus_full.json"

@@ -425,3 +425,102 @@ def extract(filename: str, data: bytes) -> ExtractedDocument:
         )
 
     return result
+
+
+# A quantity as a bill of quantities states it: "4,500 m", "820 bags",
+# "12 tonnes", "Qty: 40 nos". Captured for display only -- it never reaches
+# the search query, where a number of bags would just add noise.
+_QUANTITY = re.compile(
+    r"""
+    (?:qty|quantity)?\s*[:\-]?\s*
+    (\d[\d,]*(?:\.\d+)?)\s*
+    (m|mm|km|nos?|no\.|pcs?|pieces?|bags?|tonnes?|tons?|kg|kgs|
+     sqm|sq\.?\s*m|cum|cu\.?\s*m|litres?|liters?|units?|sets?|rolls?|coils?)
+    \b
+    """,
+    re.IGNORECASE | re.VERBOSE,
+)
+
+
+def split_line_items(text: str, limit: int = 25) -> List[dict]:
+    """Split a bill of quantities into the goods it lists, one entry each.
+
+    `build_query()` reduces a whole document to a single query, which is the
+    right behaviour for a tender describing one product and the wrong one for
+    a BOQ: flatten three line items into one string and the first item's
+    vocabulary dominates the ranking, so the cement and the steel silently
+    lose to the cable.
+
+    Splitting is structural, not semantic -- an item is recognised by how the
+    document numbers it ("Item 3:", "3.", "- ") rather than by what it says,
+    because guessing where one product description ends is exactly the kind
+    of inference that goes wrong quietly.
+
+    Returns [] when the document has no line-item structure, which the caller
+    must treat as "this is not a BOQ" rather than as "this BOQ is empty".
+    """
+    if not text:
+        return []
+
+    lines = text.split("\n")
+    items: List[dict] = []
+    current: Optional[dict] = None
+
+    for line in lines:
+        stripped = line.strip()
+        if not stripped:
+            continue
+
+        if _LINE_ITEM.match(stripped):
+            if current:
+                items.append(current)
+            current = {"text": stripped, "lines": [stripped]}
+            continue
+
+        # A continuation line belongs to the item above it, but only while
+        # one is open and the line is not a heading.
+        if current and not _BOILERPLATE.search(stripped) and len(stripped) > 3:
+            if not re.match(r"^[A-Z][A-Z\s]{10,}$", stripped):
+                current["lines"].append(stripped)
+                current["text"] = " ".join(current["lines"])
+
+    if current:
+        items.append(current)
+
+    results: List[dict] = []
+    for index, item in enumerate(items[:limit], start=1):
+        body = _clean(item["text"])
+        if len(body) < 12:
+            continue
+
+        # "Item 2: Cement, 43 grade, in 50 kg bags. Quantity 820 bags" holds
+        # two quantities, and the first one is the packaging, not the order.
+        # Prefer a quantity the document labelled as such; otherwise take the
+        # last, which in a BOQ line is the ordered amount rather than a
+        # dimension embedded in the description.
+        quantity = None
+        labelled = re.search(
+            r"(?:qty|quantity)\s*[:\-]?\s*(\d[\d,]*(?:\.\d+)?)\s*([A-Za-z.]+)",
+            body,
+            re.IGNORECASE,
+        )
+        if labelled:
+            quantity = f"{labelled.group(1)} {labelled.group(2)}".strip(" .")
+        else:
+            matches = list(_QUANTITY.finditer(body))
+            if matches:
+                last = matches[-1]
+                quantity = f"{last.group(1)} {last.group(2)}"
+
+        # Strip the item marker so the query describes the goods rather than
+        # the numbering: "Item 1: PVC cable" searches better as "PVC cable".
+        query = _LINE_ITEM.sub("", body).strip(" :.-")
+
+        results.append({
+            "sr": index,
+            "text": body,
+            "query": query or body,
+            "quantity": quantity,
+        })
+
+    return results

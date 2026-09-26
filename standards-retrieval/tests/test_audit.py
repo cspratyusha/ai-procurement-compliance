@@ -1,0 +1,279 @@
+"""Tests for tender-citation auditing and bill-of-quantities splitting.
+
+Both back screens that used to simulate their work — the audit page ran a
+1.8-second timer over five hardcoded findings, and the BOQ page showed a
+worked example. The assertions here are mostly about restraint: what the
+audit refuses to claim, and what the splitter refuses to guess.
+"""
+import sys
+import unittest
+from pathlib import Path
+
+from fastapi.testclient import TestClient
+
+_PROJECT_ROOT = Path(__file__).resolve().parent.parent
+if str(_PROJECT_ROOT) not in sys.path:
+    sys.path.insert(0, str(_PROJECT_ROOT))
+
+import audit as audit_module
+import extraction
+
+
+class TestCitationDetection(unittest.TestCase):
+    """Finding the IS numbers a document cites."""
+
+    def test_finds_the_common_spellings(self):
+        """A citation this misses is a citation that goes unchecked."""
+        text = (
+            "Cables per IS 694:2010. Cement per IS:269-2015. "
+            "Concrete per IS 456. Cable part per IS 1554 (Part 1):1988."
+        )
+        found = {c["cited"].upper() for c in audit_module.find_citations(text)}
+
+        self.assertIn("IS 694:2010", found)
+        self.assertIn("IS 269:2015", found)
+        self.assertIn("IS 456", found)
+        self.assertIn("IS 1554 (PART 1):1988", found)
+
+    def test_repeated_citation_is_one_finding_with_a_count(self):
+        text = "IS 694:2010 applies. See IS 694:2010. Also IS 694:2010."
+        citations = audit_module.find_citations(text)
+
+        self.assertEqual(len(citations), 1)
+        self.assertEqual(citations[0]["occurrences"], 3)
+
+    def test_no_citations_is_empty_not_an_error(self):
+        self.assertEqual(audit_module.find_citations("A tender with no standards named."), [])
+        self.assertEqual(audit_module.find_citations(""), [])
+
+    def test_context_is_captured_for_location(self):
+        """A finding has to be findable in the officer's own document."""
+        text = "Clause 4.2: All cables shall conform to IS 694:2010 for working voltages."
+        citation = audit_module.find_citations(text)[0]
+
+        self.assertIn("cables shall conform", citation["context"])
+        # Whitespace collapsed: PDF extraction wraps mid-clause.
+        self.assertNotIn("\n", citation["context"])
+
+
+class TestAuditFindings(unittest.TestCase):
+    """Checking citations against the corpus."""
+
+    def test_superseded_citation_names_its_replacement(self):
+        result = audit_module.audit_text("Cement shall conform to IS 269:1989.")
+        finding = next(f for f in result["findings"] if f["cited"] == "IS 269:1989")
+
+        self.assertEqual(finding["severity"], "critical")
+        self.assertEqual(finding["kind"], "superseded")
+        self.assertTrue(finding["replacement"])
+        self.assertIn(finding["replacement"], finding["action"])
+
+    def test_undated_citation_is_advisory_not_a_defect(self):
+        """An edition-less citation is ambiguous, not wrong.
+
+        Uses IS 694, which is in the pinned test corpus: an undated citation
+        can only resolve to an edition when the family is actually held, and
+        a citation outside the corpus is correctly reported as unknown
+        instead. Naming a standard the corpus does not have would make this
+        test assert the wrong branch.
+        """
+        result = audit_module.audit_text("Cables as per IS 694, general purpose.")
+        finding = next(f for f in result["findings"] if f["kind"] == "undated")
+
+        self.assertEqual(finding["severity"], "info")
+        # The active edition is named so the ambiguity can be closed.
+        self.assertTrue(finding["replacement"])
+
+    def test_undated_citation_outside_the_corpus_is_unknown(self):
+        """The other branch: no family held, so no edition can be named."""
+        result = audit_module.audit_text("Concrete work as per IS 99998.")
+        finding = next(f for f in result["findings"] if f["cited"] == "IS 99998")
+
+        self.assertEqual(finding["kind"], "unknown")
+        self.assertIsNone(finding["replacement"])
+
+    def test_unknown_standard_is_reported_as_coverage_not_defect(self):
+        """A citation the corpus cannot check is our gap, not the tender's."""
+        result = audit_module.audit_text("Steel per IS 99999:2020.")
+        finding = next(f for f in result["findings"] if f["cited"] == "IS 99999:2020")
+
+        self.assertEqual(finding["severity"], "info")
+        self.assertEqual(finding["kind"], "unknown")
+        self.assertIn("not a defect", finding["detail"])
+
+    def test_critical_findings_always_name_a_replacement(self):
+        """Critical asserts the fix is known, so the fix must be present."""
+        result = audit_module.audit_text(
+            "IS 269:1989 and IS 694:2010 and IS 456 and IS 99999:2020 apply."
+        )
+        for finding in result["findings"]:
+            if finding["severity"] == "critical":
+                self.assertTrue(finding["replacement"])
+
+    def test_no_citations_is_not_a_pass(self):
+        """The load-bearing case: silence must not read as a clean bill."""
+        result = audit_module.audit_text("A tender describing goods but naming no standards.")
+
+        self.assertEqual(result["citations_found"], 0)
+        self.assertEqual(result["findings"], [])
+        self.assertIn("no findings is not a pass", result["note"])
+
+    def test_note_states_what_was_not_checked(self):
+        result = audit_module.audit_text("IS 694:2010 applies.")
+        self.assertIn("right standards", result["note"])
+
+    def test_findings_ordered_by_severity(self):
+        result = audit_module.audit_text(
+            "IS 99999:2020, IS 269:1989, IS 456 and IS 694:2010 all apply."
+        )
+        rank = {"critical": 0, "minor": 1, "info": 2}
+        severities = [rank[f["severity"]] for f in result["findings"]]
+        self.assertEqual(severities, sorted(severities))
+
+    def test_counts_are_internally_consistent(self):
+        result = audit_module.audit_text(
+            "IS 269:1989 and IS 694:2010 and IS 456 apply."
+        )
+        self.assertEqual(
+            result["clean_citations"],
+            result["citations_found"] - len(result["findings"]),
+        )
+
+
+class TestLineItemSplitting(unittest.TestCase):
+    """Splitting a bill of quantities into the goods it lists."""
+
+    BOQ = (
+        "SPECIFICATION\n"
+        "Item 1: PVC insulated copper cable, single core, 1100 V. Quantity 4500 m.\n"
+        "Item 2: Ordinary Portland Cement, 43 grade, in 50 kg bags. Quantity 820 bags.\n"
+        "Item 3: Hot rolled structural steel plates. Quantity 12 tonnes.\n"
+    )
+
+    def test_splits_numbered_items(self):
+        items = extraction.split_line_items(self.BOQ)
+        self.assertEqual(len(items), 3)
+        self.assertEqual([i["sr"] for i in items], [1, 2, 3])
+
+    def test_item_numbering_is_stripped_from_the_query(self):
+        """"Item 1: PVC cable" searches better as "PVC cable"."""
+        items = extraction.split_line_items(self.BOQ)
+        self.assertFalse(items[0]["query"].lower().startswith("item"))
+        self.assertIn("PVC", items[0]["query"])
+
+    def test_ordered_quantity_wins_over_packaging(self):
+        """"in 50 kg bags. Quantity 820 bags" must yield 820 bags, not 50 kg."""
+        items = extraction.split_line_items(self.BOQ)
+        self.assertIn("820", items[1]["quantity"])
+
+    def test_no_line_item_structure_returns_empty(self):
+        """Empty means "not a BOQ", which the caller must not render as an empty BOQ."""
+        self.assertEqual(
+            extraction.split_line_items("A tender describing one product in prose."),
+            [],
+        )
+        self.assertEqual(extraction.split_line_items(""), [])
+
+    def test_bullet_and_numeric_markers_are_recognised(self):
+        text = (
+            "SPECIFICATION\n"
+            "- PVC insulated copper cable for panel wiring\n"
+            "- Ordinary Portland Cement 43 grade for civil works\n"
+        )
+        self.assertEqual(len(extraction.split_line_items(text)), 2)
+
+    def test_item_limit_is_honoured(self):
+        text = "SPEC\n" + "\n".join(
+            f"Item {i}: Some described product number {i} for the works" for i in range(1, 40)
+        )
+        self.assertLessEqual(len(extraction.split_line_items(text, limit=10)), 10)
+
+
+class TestEndpoints(unittest.TestCase):
+    """The HTTP contracts the two screens consume."""
+
+    def _upload(self, client, path, text, filename="tender.txt"):
+        return client.post(
+            path,
+            files={"file": (filename, text.encode("utf-8"), "text/plain")},
+        )
+
+    def test_audit_endpoint_returns_findings(self):
+        from main import app
+
+        with TestClient(app) as client:
+            res = self._upload(
+                client, "/audit",
+                "Clause 4: Cement shall conform to IS 269:1989 for the works.",
+            )
+            self.assertEqual(res.status_code, 200)
+            body = res.json()
+
+        self.assertGreaterEqual(body["citations_found"], 1)
+        self.assertIn("note", body)
+        self.assertTrue(any(f["kind"] == "superseded" for f in body["findings"]))
+
+    def test_audit_of_a_document_with_no_citations(self):
+        from main import app
+
+        with TestClient(app) as client:
+            res = self._upload(client, "/audit", "A tender naming no standards at all.")
+            self.assertEqual(res.status_code, 200)
+            body = res.json()
+
+        self.assertEqual(body["citations_found"], 0)
+        self.assertEqual(body["findings"], [])
+
+    def test_boq_endpoint_searches_each_item_separately(self):
+        """The whole point: item 2's cement must not lose to item 1's cable."""
+        from main import app
+
+        text = (
+            "SPECIFICATION\n"
+            "Item 1: PVC insulated copper cable, single core, 1100 V. Quantity 4500 m.\n"
+            "Item 2: Ordinary Portland Cement, 43 grade, in bags. Quantity 820 bags.\n"
+        )
+
+        with TestClient(app) as client:
+            res = self._upload(client, "/boq?top_k=3", text, filename="boq.txt")
+            self.assertEqual(res.status_code, 200)
+            body = res.json()
+
+        self.assertTrue(body["is_boq"])
+        self.assertEqual(body["item_count"], 2)
+
+        # Each item got its own ranking, not a share of one flattened query.
+        first = {r["number"] for r in body["items"][0]["results"]}
+        second = {r["number"] for r in body["items"][1]["results"]}
+        self.assertTrue(first)
+        self.assertTrue(second)
+        self.assertNotEqual(first, second)
+
+    def test_boq_reports_a_non_boq_honestly(self):
+        """is_boq: false is "not a BOQ", not "an empty BOQ"."""
+        from main import app
+
+        with TestClient(app) as client:
+            res = self._upload(
+                client, "/boq",
+                "A tender describing a single product in continuous prose.",
+            )
+            self.assertEqual(res.status_code, 200)
+            body = res.json()
+
+        self.assertFalse(body["is_boq"])
+        self.assertEqual(body["items"], [])
+
+    def test_unreadable_file_is_422_not_500(self):
+        from main import app
+
+        with TestClient(app) as client:
+            res = client.post(
+                "/audit",
+                files={"file": ("image.png", b"\x89PNG\r\n\x1a\n", "image/png")},
+            )
+        self.assertEqual(res.status_code, 422)
+
+
+if __name__ == "__main__":
+    unittest.main()

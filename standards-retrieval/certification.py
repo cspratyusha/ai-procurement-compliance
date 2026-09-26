@@ -126,3 +126,74 @@ def withdrawn_note(is_number: str) -> Optional[dict]:
     """
     _load()
     return _WITHDRAWN_CACHE.get(_normalize(is_number))
+
+
+def all_rules() -> list[dict]:
+    """Every certification rule that has been researched, with its provenance.
+
+    Backs the certification screen's list. Deliberately returns only the
+    researched rules rather than a row per corpus standard: the corpus holds
+    thousands of standards whose certification status nobody has checked, and
+    listing them as "voluntary" or "no scheme" would convert an absence of
+    research into a positive clearance -- the single most dangerous error this
+    module can make.
+
+    Each entry carries `scheme`, `mandatory`, and the QCO and gazette
+    notification it traces to, so the claim can be checked against the source
+    rather than taken on trust.
+    """
+    _load()
+
+    rules: list[dict] = []
+    for number, rule in _RULES_CACHE.items():
+        scheme = rule["scheme"]
+        explanation = _SCHEME_EXPLANATION[scheme]
+        if rule.get("note"):
+            explanation = f"{explanation} {rule['note']}"
+
+        rules.append({
+            # The stored spelling, not the normalised lookup key.
+            "is_number": rule.get("is_number", number),
+            "scheme": scheme,
+            "mandatory": scheme in {"ISI", "CRS", "Hallmark"},
+            "explanation": explanation,
+            "qco": rule.get("qco"),
+            "gazette": rule.get("gazette"),
+            "product": rule.get("product"),
+            "confidence": rule.get("confidence", "likely"),
+        })
+
+    # Mandatory first, then by IS number, so the rows that carry a legal
+    # obligation are not buried among the ones that do not.
+    rules.sort(key=lambda r: (not r["mandatory"], r["is_number"]))
+    return rules
+
+
+def coverage() -> dict:
+    """How much of the certification question has actually been researched.
+
+    Returned with the rule list so a screen can state the limits of the
+    mapping instead of implying the 17 researched standards are the whole
+    picture.
+    """
+    _load()
+
+    mandatory = sum(
+        1 for r in _RULES_CACHE.values()
+        if r["scheme"] in {"ISI", "CRS", "Hallmark"}
+    )
+
+    return {
+        "standards_researched": len(_RULES_CACHE),
+        "mandatory": mandatory,
+        "no_scheme": len(_RULES_CACHE) - mandatory,
+        "source": (
+            "BIS Scheme I (ISI Mark) product list, cross-checked against Quality "
+            "Control Order notifications."
+        ),
+        "note": (
+            "Only these standards have been checked. Every other standard in the "
+            "corpus reports 'not_verified', which is explicitly not a statement "
+            "that no certification is required."
+        ),
+    }

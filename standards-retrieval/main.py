@@ -1,5 +1,6 @@
 import logging
 import re
+import time
 from contextlib import asynccontextmanager
 from pathlib import Path
 from typing import List, Optional, Dict, Any, Literal
@@ -9,6 +10,8 @@ from fastapi import FastAPI, HTTPException, Request, UploadFile, File
 from fastapi.middleware.cors import CORSMiddleware
 
 from datetime import datetime, timezone
+import alerts as alerts_data
+import audit as audit_engine
 import certification
 import extraction
 import translation
@@ -19,6 +22,8 @@ from data.models import Standard
 from data_loader import load_corpus, get_standard_by_id
 from feedback.schema import FeedbackRequest, InteractionLog
 from feedback.logger import append_log, read_logs
+from feedback.query_log import append_query
+from feedback.stats import compute_stats
 from indexing.embed_index import (
     load_index as load_faiss_index,
     get_embedding_model,
@@ -173,6 +178,229 @@ class RetrieveResponse(BaseModel):
         default=False,
         description="Whether a local explanation model is reachable, so the UI can offer the option.",
     )
+
+
+class CategoryCount(BaseModel):
+    category: str = Field(..., description="Sector classification of the top result.")
+    queries: int = Field(..., description="Searches whose top result fell in this sector.")
+
+
+class RecentQuery(BaseModel):
+    """One served search, for the dashboard's activity table."""
+    query: str = Field(..., description="Query text exactly as submitted.")
+    standard: Optional[str] = Field(default=None, description="IS number of the top result, or null when nothing was returned.")
+    confidence: str = Field(..., description="'strong', 'uncertain' or 'none' -- the engine's own verdict at the time.")
+    score: Optional[float] = Field(default=None, description="final_score of the top result. Comparable only within its own response.")
+    timestamp: str = Field(..., description="ISO 8601 time the search was served.")
+
+
+class StatsResponse(BaseModel):
+    """Usage counted from the append-only logs.
+
+    Every field is a count over `data/query_logs.jsonl` and
+    `data/interaction_logs.jsonl`. Nothing is projected or estimated, and the
+    synthetic records that bootstrapped the ranker are excluded from every
+    live figure and reported separately under `synthetic_interactions`.
+
+    Nullable fields mean "not calculable yet", not zero: `acceptance_rate` is
+    null until someone has accepted or rejected something, and a UI must
+    render that as an absence rather than as 0%.
+    """
+    has_live_data: bool = Field(..., description="False when the engine has served no searches; the UI should show an empty state, not zeroed tiles.")
+    queries_total: int = Field(..., description="Searches served, all time.")
+    queries_last_30d: int = Field(..., description="Searches served in the last 30 days.")
+    queries_last_7d: int = Field(..., description="Searches served in the last 7 days.")
+    no_match_queries: int = Field(..., description="Searches the engine judged outside corpus coverage ('none'). The standards-gap signal.")
+    match_rate: Optional[float] = Field(default=None, description="Percentage of searches that found any match. Null before the first search.")
+    median_latency_ms: Optional[int] = Field(default=None, description="Median server-side response time. Median, not mean, so one cold start does not distort it.")
+    categories: List[CategoryCount] = Field(default_factory=list, description="Most-searched sectors, by top result.")
+    recent_queries: List[RecentQuery] = Field(default_factory=list, description="Most recent searches, newest first.")
+    feedback_total: int = Field(..., description="Live feedback records: accepts, rejects and corrections.")
+    feedback_accepted: int = Field(..., description="Results accepted by an official.")
+    feedback_rejected: int = Field(..., description="Results explicitly dismissed.")
+    feedback_corrected: int = Field(..., description="Results manually overridden with a different standard.")
+    acceptance_rate: Optional[float] = Field(default=None, description="Accepts as a percentage of all decisions. Null until the first decision.")
+    synthetic_interactions: int = Field(..., description="Seed records used to bootstrap the ranker. Reported separately and never counted as usage.")
+
+
+class AlertFinding(BaseModel):
+    """One standards-hygiene fact about the corpus that affects what to cite.
+
+    Derived, not authored: there is no alerts table, and nothing here was
+    "sent" to anyone. Carries no timestamp because the corpus does not record
+    when a revision was published, and a plausible-looking "2 hours ago" on a
+    fact read from a static file would be an invention.
+    """
+    kind: Literal["supersession", "amendment"] = Field(..., description="What kind of finding this is.")
+    severity: Literal["critical", "warning"] = Field(
+        ...,
+        description=(
+            "'critical' is a superseded edition whose active replacement is known, so the "
+            "fix can be named. 'warning' is a real problem this corpus cannot fully resolve."
+        ),
+    )
+    standard: str = Field(..., description="IS number the finding is about.")
+    title: str = Field(default="", description="Title of that standard.")
+    category: str = Field(default="", description="Sector, for filtering.")
+    replacement: Optional[str] = Field(default=None, description="Active edition that supersedes it, when the corpus holds one.")
+    replacement_title: Optional[str] = Field(default=None, description="Title of the replacement.")
+    amendment_count: Optional[int] = Field(default=None, description="Published amendments in force, for amendment findings.")
+    detail: str = Field(..., description="Plain-language statement of the problem.")
+    action: str = Field(..., description="What to cite instead, or what to confirm.")
+
+
+class AlertCoverage(BaseModel):
+    """The limits of the scan that produced these findings.
+
+    Returned with every response so a short list cannot be read as an
+    all-clear: most standards have simply never been checked for amendments.
+    """
+    corpus_size: int = Field(..., description="Standards scanned.")
+    superseded_in_corpus: int = Field(..., description="Records marked superseded.")
+    amendments_researched: int = Field(..., description="Standards whose amendments have been researched.")
+    amendments_unchecked: int = Field(..., description="Standards never checked for amendments. Not a statement that they have none.")
+    note: str = Field(..., description="Plain-language statement of what this scan does and does not cover.")
+
+
+class AlertsResponse(BaseModel):
+    findings: List[AlertFinding] = Field(default_factory=list, description="Findings, most severe first.")
+    critical_count: int = Field(..., description="Findings whose replacement is known and named.")
+    coverage: AlertCoverage = Field(..., description="What this scan covered.")
+
+
+class SectorCount(BaseModel):
+    category: str = Field(..., description="Sector key.")
+    standards: int = Field(..., description="Standards held in that sector.")
+
+
+class CorpusHealthResponse(BaseModel):
+    """How complete the corpus's own metadata is.
+
+    Each researched count is paired with the total it is out of: 17
+    certification records reads very differently against 45 standards than
+    against 4,282, and the ratio is the honest figure.
+    """
+    corpus_size: int = Field(..., description="Standards in the served corpus.")
+    active: int = Field(..., description="Records marked active.")
+    superseded: int = Field(..., description="Records marked superseded.")
+    certification_mandatory: int = Field(..., description="Standards confirmed to carry a mandatory BIS scheme.")
+    certification_not_verified: int = Field(..., description="Standards whose certification status is unknown. Explicitly not a clearance.")
+    amendments_researched: int = Field(..., description="Standards whose amendments have been researched.")
+    amendments_total: int = Field(..., description="Published amendments recorded across those standards.")
+    sectors: List[SectorCount] = Field(default_factory=list, description="Standards per sector, largest first.")
+
+
+class AuditFinding(BaseModel):
+    """One problem with a citation the tender already makes."""
+    severity: Literal["critical", "minor", "info"] = Field(
+        ...,
+        description=(
+            "'critical' is a superseded citation whose replacement is known. 'minor' is a "
+            "real defect the corpus cannot fully resolve. 'info' is a coverage gap or an "
+            "ambiguity, not a defect in the tender."
+        ),
+    )
+    kind: Literal["superseded", "amendment", "undated", "unknown"] = Field(..., description="What kind of problem this is.")
+    cited: str = Field(..., description="The IS number exactly as the document cites it.")
+    title: str = Field(default="", description="Title of that standard, when the corpus holds it.")
+    occurrences: int = Field(..., description="Times this standard is cited in the document.")
+    context: str = Field(..., description="Text around the first citation, so it can be located.")
+    replacement: Optional[str] = Field(default=None, description="Edition to cite instead, when one is known.")
+    amendment_count: Optional[int] = Field(default=None, description="Amendments in force, for amendment findings.")
+    detail: str = Field(..., description="Plain-language statement of the problem.")
+    action: str = Field(..., description="What to change in the tender.")
+
+
+class AuditResponse(BaseModel):
+    """Result of checking a tender's citations against the corpus.
+
+    Deliberately carries no score. A compliance percentage would imply the
+    audit checked everything a tender needs, when it only verifies the IS
+    numbers the document already cites: `citations_found: 0` with no findings
+    is not a pass, and the UI must be able to say so.
+    """
+    filename: str = Field(default="", description="Name of the audited document.")
+    citations_found: int = Field(..., description="Distinct IS numbers cited. Zero means nothing could be checked.")
+    findings: List[AuditFinding] = Field(default_factory=list, description="Problems found, most severe first.")
+    critical_count: int = Field(..., description="Superseded citations whose replacement is known.")
+    clean_citations: int = Field(..., description="Cited standards that raised no finding.")
+    corpus_size: int = Field(..., description="Standards the citations were checked against.")
+    note: str = Field(..., description="What this audit did and did not check.")
+    text: str = Field(default="", description="Text read from the document, so the user can verify it.")
+    char_count: int = Field(default=0, description="Characters extracted.")
+    page_count: Optional[int] = Field(default=None, description="Pages read, for PDFs.")
+    method: str = Field(default="", description="How the text was extracted, e.g. 'pdf' or 'pdf+ocr'.")
+    warnings: List[str] = Field(default_factory=list, description="Problems encountered while reading the document.")
+
+
+class LineItemResult(BaseModel):
+    """One line of a bill of quantities, with the standards it matched."""
+    sr: int = Field(..., description="Position in the document, 1-indexed.")
+    text: str = Field(..., description="The line item as the document states it.")
+    query: str = Field(..., description="Text actually searched, with the item numbering stripped.")
+    quantity: Optional[str] = Field(default=None, description="Quantity read from the line, for display only. Never searched.")
+    results: List[StandardResult] = Field(default_factory=list, description="Ranked standards for this item alone.")
+    confidence: Literal["strong", "uncertain", "none"] = Field(
+        default="none",
+        description="Per-item verdict. 'none' means the corpus does not cover this item.",
+    )
+    confidence_reason: str = Field(default="", description="Why that verdict, for display.")
+
+
+class BOQResponse(BaseModel):
+    """A bill of quantities, split into items and searched item by item.
+
+    Each line is searched on its own. Flattening a BOQ into one query lets the
+    first item's vocabulary dominate the ranking, so the cement silently loses
+    to the cable -- searching per item is the whole point of this endpoint.
+
+    `is_boq: false` means no line-item structure was found. The document may
+    still be a perfectly good tender; it is just not a BOQ, and the caller
+    should fall back to /extract rather than showing an empty item list.
+    """
+    filename: str = Field(default="", description="Name of the uploaded document.")
+    is_boq: bool = Field(..., description="False when the document has no line-item structure.")
+    items: List[LineItemResult] = Field(default_factory=list, description="Line items, in document order.")
+    item_count: int = Field(..., description="Line items detected.")
+    matched_count: int = Field(..., description="Items where the corpus had a confident match.")
+    text: str = Field(default="", description="Text read from the document, so the user can verify it.")
+    char_count: int = Field(default=0, description="Characters extracted.")
+    page_count: Optional[int] = Field(default=None, description="Pages read, for PDFs.")
+    method: str = Field(default="", description="How the text was extracted.")
+    warnings: List[str] = Field(default_factory=list, description="Problems encountered while reading the document.")
+    corpus_size: int = Field(default=0, description="Standards searched.")
+
+
+class CertificationRule(BaseModel):
+    """One researched certification position, with the order it traces to."""
+    is_number: str = Field(..., description="Standard the rule applies to.")
+    scheme: Literal["ISI", "CRS", "Hallmark", "none"] = Field(..., description="Scheme, or 'none' where it was checked and none applies.")
+    mandatory: bool = Field(..., description="True only for a positively confirmed scheme.")
+    explanation: str = Field(..., description="What a procurement official should do about it.")
+    qco: Optional[str] = Field(default=None, description="Governing Quality Control Order.")
+    gazette: Optional[str] = Field(default=None, description="Gazette notification number and date.")
+    product: Optional[str] = Field(default=None, description="Product description as BIS lists it.")
+    confidence: str = Field(default="likely", description="'confirmed' when matched directly in the BIS list.")
+
+
+class CertificationCoverage(BaseModel):
+    """The limits of the certification mapping."""
+    standards_researched: int = Field(..., description="Standards actually checked against the BIS lists.")
+    mandatory: int = Field(..., description="Of those, how many carry a confirmed obligation.")
+    no_scheme: int = Field(..., description="Of those, how many were checked and carry none.")
+    source: str = Field(..., description="Where the mapping was read from.")
+    note: str = Field(..., description="Why an absent standard is not a clearance.")
+
+
+class CertificationRulesResponse(BaseModel):
+    """Every researched certification rule, plus what was not researched.
+
+    Only researched standards are listed. The corpus holds thousands whose
+    status nobody has checked, and rendering those as 'no scheme' would turn
+    an absence of research into a positive clearance.
+    """
+    rules: List[CertificationRule] = Field(default_factory=list, description="Researched rules, mandatory first.")
+    coverage: CertificationCoverage = Field(..., description="What this mapping does and does not cover.")
 
 
 # Confidence thresholds, on the cross-encoder logit of the top result.
@@ -382,6 +610,10 @@ def health_check():
 )
 def retrieve_standards_post(body: RetrieveRequest):
     """Primary POST retrieval endpoint integrating Part 2's full ranking pipeline."""
+    # Timed from here so the logged figure is server-side work only, excluding
+    # network time the engine cannot influence.
+    _started = time.perf_counter()
+
     # 1. Input validation
     query = body.query
     if not query or not query.strip():
@@ -577,7 +809,7 @@ def retrieve_standards_post(body: RetrieveRequest):
             if item.number in reasons:
                 item.explanation = reasons[item.number]
 
-    return RetrieveResponse(
+    response = RetrieveResponse(
         query=query,
         results=results,
         confidence=confidence["level"],
@@ -586,6 +818,31 @@ def retrieve_standards_post(body: RetrieveRequest):
         translation=translation_info,
         explanations_available=explanations_available,
     )
+
+    # Record that this search happened, so the dashboard reports use rather
+    # than a fixture. Written after the response is fully built and wrapped so
+    # that no bookkeeping failure can turn a successful search into a 500 --
+    # append_query swallows its own errors, and this guards the rest.
+    try:
+        top = results[0] if results else None
+        append_query(
+            query=query,
+            top_result_id=top.id if top else None,
+            top_result_number=top.number if top else None,
+            top_score=round(float(top.final_score), 4) if top else None,
+            confidence=confidence["level"],
+            category=(top.category or None) if top else None,
+            result_count=len(results),
+            corpus_size=len(corpus),
+            elapsed_ms=int((time.perf_counter() - _started) * 1000),
+            language=translation_info.detected_language if translation_info else None,
+            source="live",
+            timestamp=datetime.now(timezone.utc).isoformat(),
+        )
+    except Exception as e:  # noqa: BLE001 -- a served search must not fail on its own logging
+        logger.warning("Query logging failed: %s", e)
+
+    return response
 
 
 # --- Convenience Endpoints for Compatibility ---
@@ -819,6 +1076,165 @@ def get_recent_logs(limit: int = 50):
     """
     safe_limit = max(1, min(limit, 500))
     return read_logs(limit=safe_limit)
+
+
+@app.get(
+    "/stats",
+    response_model=StatsResponse,
+    summary="Usage Statistics",
+    description=(
+        "Counts served searches and recorded feedback from the append-only logs. "
+        "Every figure is counted, never estimated; synthetic bootstrap records are "
+        "excluded from live counts and reported separately."
+    ),
+)
+def get_stats():
+    """Dashboard figures, aggregated from the query and interaction logs."""
+    return StatsResponse(**compute_stats())
+
+
+@app.post(
+    "/boq",
+    response_model=BOQResponse,
+    summary="Split a Bill of Quantities and Search Each Item",
+    description=(
+        "Reads a BOQ (PDF/DOCX/TXT), splits it into line items, and runs a separate "
+        "search for each one. Returns is_boq=false when the document has no line-item "
+        "structure, in which case /extract is the right endpoint."
+    ),
+)
+async def analyse_boq(file: UploadFile = File(...), top_k: int = 5):
+    """Per-line-item recommendations for a bill of quantities."""
+    data = await file.read()
+
+    try:
+        extracted = extraction.extract(file.filename or "upload", data)
+    except extraction.ExtractionError as exc:
+        raise HTTPException(status_code=422, detail=str(exc))
+
+    line_items = extraction.split_line_items(extracted.text)
+
+    items: List[LineItemResult] = []
+    matched = 0
+    for item in line_items:
+        # Each item is a full retrieval: same ranking, same confidence gate,
+        # same supersession rules as a typed query.
+        retrieval = retrieve_standards_post(
+            RetrieveRequest(query=item["query"], top_k=top_k)
+        )
+        if retrieval.confidence != "none":
+            matched += 1
+
+        items.append(
+            LineItemResult(
+                sr=item["sr"],
+                text=item["text"],
+                query=item["query"],
+                quantity=item.get("quantity"),
+                results=retrieval.results,
+                confidence=retrieval.confidence,
+                confidence_reason=retrieval.confidence_reason,
+            )
+        )
+
+    return BOQResponse(
+        filename=file.filename or "upload",
+        is_boq=bool(line_items),
+        items=items,
+        item_count=len(items),
+        matched_count=matched,
+        text=extracted.text,
+        char_count=extracted.char_count,
+        page_count=extracted.page_count,
+        method=extracted.method,
+        warnings=extracted.warnings,
+        corpus_size=len(load_corpus()),
+    )
+
+
+@app.post(
+    "/audit",
+    response_model=AuditResponse,
+    summary="Audit a Tender Document's Citations",
+    description=(
+        "Reads a tender (PDF/DOCX/TXT), finds the IS numbers it cites, and checks each "
+        "against the corpus for supersession, amendments in force, undated citations and "
+        "standards outside coverage. "
+        "Checks only the citations the document already makes. Whether it cites the right "
+        "standards for its goods is not assessed, so no findings is not a pass."
+    ),
+)
+async def audit_tender(file: UploadFile = File(...)):
+    """Audit the citations in an uploaded tender document."""
+    data = await file.read()
+
+    try:
+        extracted = extraction.extract(file.filename or "upload", data)
+    except extraction.ExtractionError as exc:
+        # 422: well-formed request, unusable file. The message is written for
+        # the user, so it passes through verbatim.
+        raise HTTPException(status_code=422, detail=str(exc))
+
+    result = audit_engine.audit_text(extracted.text)
+
+    return AuditResponse(
+        filename=file.filename or "upload",
+        text=extracted.text,
+        char_count=extracted.char_count,
+        page_count=extracted.page_count,
+        method=extracted.method,
+        warnings=extracted.warnings,
+        **result,
+    )
+
+
+@app.get(
+    "/certification-rules",
+    response_model=CertificationRulesResponse,
+    summary="Researched Certification Rules",
+    description=(
+        "Every standard whose BIS certification status has been researched, with the "
+        "Quality Control Order and gazette notification it traces to. Standards absent "
+        "from this list have not been checked, which is not a statement that no "
+        "certification is required."
+    ),
+)
+def get_certification_rules():
+    """The certification mapping, with its own coverage stated."""
+    return CertificationRulesResponse(
+        rules=[CertificationRule(**r) for r in certification.all_rules()],
+        coverage=CertificationCoverage(**certification.coverage()),
+    )
+
+
+@app.get(
+    "/alerts",
+    response_model=AlertsResponse,
+    summary="Standards-Hygiene Findings",
+    description=(
+        "Superseded editions and standards with published amendments in force, derived "
+        "from the corpus and the amendment data. These are computed facts about the "
+        "corpus, not a notification feed: nothing monitors BIS for new revisions, and "
+        "no finding carries a timestamp."
+    ),
+)
+def get_alerts(category: Optional[str] = None):
+    """Findings that would change what a tender should cite."""
+    return AlertsResponse(**alerts_data.findings(category=category))
+
+
+@app.get(
+    "/corpus-health",
+    response_model=CorpusHealthResponse,
+    summary="Corpus Metadata Completeness",
+    description=(
+        "Counts describing how complete the served corpus's own metadata is — "
+        "supersession, certification and amendment coverage, and the sector spread."
+    ),
+)
+def get_corpus_health():
+    """How much of the corpus has been researched, counted per field."""
+    return CorpusHealthResponse(**alerts_data.corpus_health())
 
 
 if __name__ == "__main__":

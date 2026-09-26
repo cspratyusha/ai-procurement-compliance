@@ -39,18 +39,19 @@ def test_base_standard_family_extraction():
     print("  [PASS] Family extraction correctly normalizes standard codes across years.")
 
 
-def test_supersession_penalty_synthetic():
+def test_supersession_penalty_synthetic(fixture_corpus):
     print("\n--- [Test 2] Synthetic Active vs Superseded Resolution & Order Preservation ---")
-    corpus = {s.id: s for s in load_corpus()}
-    
-    # IS-ELEC-005 is superseded (1988)
-    # IS-ELEC-006 is active (2020)
-    # IS-ELEC-001 and IS-ELEC-003 are unrelated active cables
+    # The rule takes its corpus as an argument, so the test supplies the few
+    # records it needs instead of depending on whichever corpus is loaded.
+    corpus = fixture_corpus
+
+    # FIX-CABLE-OLD is superseded (1988), FIX-CABLE-NEW is its active
+    # successor (2020); the other two are unrelated active cables.
     synthetic_results = [
-        ("IS-ELEC-005", 0.95),  # Superseded starts at #1
-        ("IS-ELEC-006", 0.90),  # Active starts at #2
-        ("IS-ELEC-001", 0.70),  # Unrelated candidate A
-        ("IS-ELEC-003", 0.50),  # Unrelated candidate B
+        ("FIX-CABLE-OLD", 0.95),  # Superseded starts at #1
+        ("FIX-CABLE-NEW", 0.90),  # Active starts at #2
+        ("FIX-CABLE-A", 0.70),    # Unrelated candidate A
+        ("FIX-CABLE-B", 0.50),    # Unrelated candidate B
     ]
 
     adjusted = apply_supersession_penalty(synthetic_results, corpus=corpus, penalty=2.0)
@@ -62,14 +63,14 @@ def test_supersession_penalty_synthetic():
     print(f"  Adjusted scores     : {adjusted}")
 
     # Assert active ranks above superseded
-    assert ranked_ids.index("IS-ELEC-006") < ranked_ids.index("IS-ELEC-005"), (
-        f"Active standard IS-ELEC-006 (rank {ranked_ids.index('IS-ELEC-006')}) must rank above "
-        f"superseded IS-ELEC-005 (rank {ranked_ids.index('IS-ELEC-005')})"
+    assert ranked_ids.index("FIX-CABLE-NEW") < ranked_ids.index("FIX-CABLE-OLD"), (
+        f"Active standard FIX-CABLE-NEW (rank {ranked_ids.index('FIX-CABLE-NEW')}) must rank above "
+        f"superseded FIX-CABLE-OLD (rank {ranked_ids.index('FIX-CABLE-OLD')})"
     )
-    assert adjusted_dict["IS-ELEC-006"] > adjusted_dict["IS-ELEC-005"]
+    assert adjusted_dict["FIX-CABLE-NEW"] > adjusted_dict["FIX-CABLE-OLD"]
 
     # Assert relative order of unrelated candidates is strictly preserved (IS-ELEC-001 before IS-ELEC-003)
-    assert ranked_ids.index("IS-ELEC-001") < ranked_ids.index("IS-ELEC-003"), (
+    assert ranked_ids.index("FIX-CABLE-A") < ranked_ids.index("FIX-CABLE-B"), (
         "Relative ordering of unrelated candidates A and B must be preserved"
     )
 
@@ -80,18 +81,18 @@ def test_supersession_penalty_synthetic():
     print("  [PASS] Active promoted over superseded; unrelated order preserved; all scores in [0.0, 1.0].")
 
 
-def test_supersession_penalty_floored_tie_breaking():
+def test_supersession_penalty_floored_tie_breaking(fixture_corpus):
     print("\n--- [Test 3] Floored Penalty at 0.0 & Pre-Penalty Score Tie-Breaking ---")
-    corpus = {s.id: s for s in load_corpus()}
-    
+    corpus = fixture_corpus
+
     # Construct synthetic case where two superseded candidates both get floored at 0.0
     # Let's create two mock superseded items sharing the IS 1554 (Part 1) family
     # Insertion order intentionally has lower pre-penalty score FIRST to test tie-breaking
     synthetic_entries = [
-        {"id": "IS-ELEC-006", "standard_id": "IS-ELEC-006", "score": 0.80},  # Active leader
-        {"id": "IS-ELEC-001", "standard_id": "IS-ELEC-001", "score": 0.60},  # Unrelated
-        {"id": "SUP-LOWER",   "standard_id": "IS-ELEC-005", "score": 0.70},  # Superseded lower pre-penalty
-        {"id": "SUP-HIGHER",  "standard_id": "IS-ELEC-005", "score": 0.95},  # Superseded higher pre-penalty
+        {"id": "FIX-CABLE-NEW", "standard_id": "FIX-CABLE-NEW", "score": 0.80},  # Active leader
+        {"id": "FIX-CABLE-A",   "standard_id": "FIX-CABLE-A",   "score": 0.60},  # Unrelated
+        {"id": "SUP-LOWER",     "standard_id": "FIX-CABLE-OLD", "score": 0.70},  # Superseded lower pre-penalty
+        {"id": "SUP-HIGHER",    "standard_id": "FIX-CABLE-OLD", "score": 0.95},  # Superseded higher pre-penalty
     ]
 
     adjusted, nearby = apply_supersession_penalty(
