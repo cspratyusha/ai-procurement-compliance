@@ -41,6 +41,11 @@ const PATHS = {
   external: 'M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6 M15 3h6v6 M10 14 21 3',
   filter: 'M22 3H2l8 9.46V19l4 2v-8.54L22 3Z',
   trend: 'M23 6l-9.5 9.5-5-5L1 18 M17 6h6v6',
+  arrowUp: 'M12 19V5 M5 12l7-7 7 7',
+  paperclip: 'M21.44 11.05l-9.19 9.19a6 6 0 0 1-8.49-8.49l9.19-9.19a4 4 0 0 1 5.66 5.66l-9.2 9.19a2 2 0 0 1-2.83-2.83l8.49-8.48',
+  globe: 'M12 22a10 10 0 1 0 0-20 10 10 0 0 0 0 20Z M2 12h20 M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10Z',
+  sparkle: 'M12 3l1.9 5.8L20 11l-6.1 2.2L12 19l-1.9-5.8L4 11l6.1-2.2L12 3Z M19 3v4 M17 5h4',
+  stop: 'M7 7h10v10H7Z',
 };
 
 export default function Icon({ name, size = 18, className = '', strokeWidth = 1.75, ...rest }) {

@@ -1,4 +1,4 @@
-import { useState, useEffect, useRef, useCallback } from 'react';
+import { useState, useEffect, useLayoutEffect, useRef, useCallback } from 'react';
 import { Link } from 'react-router-dom';
 import Icon from '../components/Icon';
 import { EmptyState } from '../components/Primitives';
@@ -83,8 +83,20 @@ export default function Query() {
   const [languages, setLanguages] = useState([]);
   const [language, setLanguage] = useState('auto');
   const [explain, setExplain] = useState(false);
+  // What the officer asked, shown as their turn in the thread. The input
+  // clears on send (the chat convention), so the question lives here.
+  const [submitted, setSubmitted] = useState(null); // { kind: 'text', text } | { kind: 'file', name }
   const abortRef = useRef(null);
   const fileRef = useRef(null);
+  const inputRef = useRef(null);
+
+  // Grow the composer with its content, up to a cap, like a chat input.
+  useLayoutEffect(() => {
+    const el = inputRef.current;
+    if (!el) return;
+    el.style.height = 'auto';
+    el.style.height = `${Math.min(el.scrollHeight, 240)}px`;
+  }, [text, phase]);
 
   // Probe the backend once on mount so the UI can say up front whether the
   // engine is reachable, rather than only failing at search time.
@@ -110,6 +122,8 @@ export default function Query() {
     setError(null);
     setResponse(null);
     setExtraction(null);
+    setSubmitted({ kind: 'text', text: query });
+    setText('');
     const started = performance.now();
 
     try {
@@ -147,6 +161,7 @@ export default function Query() {
     setResponse(null);
     setExtraction(null);
     setText('');
+    setSubmitted({ kind: 'file', name: file.name });
     const started = performance.now();
 
     try {
@@ -172,6 +187,26 @@ export default function Query() {
     setResponse(null);
     setError(null);
     setExtraction(null);
+    setSubmitted(null);
+    requestAnimationFrame(() => inputRef.current?.focus());
+  };
+
+  /** The send button doubles as stop while a search is in flight. */
+  const stop = (e) => {
+    e.preventDefault();
+    abortRef.current?.abort();
+    setPhase('idle');
+    // Hand the question back so it can be edited rather than retyped.
+    if (submitted?.kind === 'text') setText(submitted.text);
+    setSubmitted(null);
+  };
+
+  // Enter sends, Shift+Enter breaks the line. An IME mid-composition (Hindi,
+  // Tamil, Bengali input) uses Enter to commit a character, so never send then.
+  const onKeyDown = (e) => {
+    if (e.key !== 'Enter' || e.shiftKey || e.nativeEvent.isComposing) return;
+    e.preventDefault();
+    if (text.trim() && phase !== 'running') run();
   };
 
   const dismissed = spec.dismissed;
@@ -236,183 +271,233 @@ export default function Query() {
     reference = allResults.filter((r) => (r.stage_scores?.cross_encoder ?? 0) < 0);
   }
 
-  return (
-    <div className="container page">
-      <div className="page-head">
-        <div>
-          <h1 className="page-title">New query</h1>
-          <p className="page-sub">
-            Describe the product or paste specification text. Results come from the live
-            retrieval engine, ranked by meaning rather than keyword match.
-          </p>
-        </div>
-        {phase !== 'idle' && (
-          <button className="btn btn-secondary" onClick={reset}>
-            <Icon name="plus" size={15} /> New query
+  const running = phase === 'running';
+  const corpusNote = health
+    ? `${health.corpus_size.toLocaleString('en-IN')} standards${health.ltr_model_loaded ? ' · learned ranker' : ''}`
+    : 'Engine status unknown';
+
+  // One composer, rendered centred before the first search and docked at the
+  // foot of the thread after it. Only one instance is ever mounted, so there is
+  // exactly one submit button on the page.
+  const composer = (
+    <form className="composer" onSubmit={run}>
+      <label className="sr-only" htmlFor="spec">Product description or specification text</label>
+      <textarea
+        id="spec"
+        ref={inputRef}
+        rows={1}
+        className="composer-input"
+        data-demo-target="query-input"
+        value={text}
+        onChange={(e) => setText(e.target.value)}
+        onKeyDown={onKeyDown}
+        placeholder={phase === 'idle'
+          ? 'Describe a product or paste specification text…'
+          : 'Search for another product…'}
+        disabled={running}
+      />
+
+      <div className="composer-bar">
+        <div className="composer-tools">
+          <input
+            ref={fileRef}
+            type="file"
+            accept={SUPPORTED_UPLOAD_TYPES.join(',')}
+            onChange={onFile}
+            style={{ display: 'none' }}
+          />
+          <button
+            type="button"
+            className="composer-icon"
+            onClick={() => fileRef.current?.click()}
+            disabled={running}
+            aria-label="Upload a tender document (PDF, DOCX or TXT)"
+            title="Upload a tender document"
+          >
+            <Icon name="paperclip" size={18} />
           </button>
-        )}
-      </div>
 
-      <div className="stack stack-5">
-        {/* Engine status — shown only when the backend is unreachable, so the
-            user learns about it before typing rather than after searching. */}
-        {health === null && (
-          <div className="notice notice-warn" role="status">
-            <Icon name="alert" size={15} />
-            <div className="stack stack-2">
-              <span className="small strong">The standards engine is not running</span>
-              <span className="xs">
-                Searches will fail until it is started. Expected at <code className="mono">{BASE_URL}</code>.
-                Start it with <code className="mono">uvicorn main:app --port 8000</code> from the
-                <code className="mono"> standards-retrieval/</code> directory.
-              </span>
-            </div>
-          </div>
-        )}
-
-        <form className="card stack stack-4" onSubmit={run}>
           {languages.length > 1 && (
-            <div className="row-between wrap" style={{ gap: 'var(--s3)' }}>
-              <div className="row" style={{ gap: 'var(--s3)', alignItems: 'center' }}>
-                <label className="label xs" htmlFor="q-lang" style={{ margin: 0 }}>
-                  Query language
-                </label>
+            <>
+              <label className="composer-pill" title="Query language — translated to English before searching">
+                <Icon name="globe" size={15} />
+                <span className="sr-only">Query language</span>
                 <select
                   id="q-lang"
-                  className="select"
-                  style={{ width: 'auto', minWidth: 170 }}
                   value={language}
                   onChange={(e) => setLanguage(e.target.value)}
-                  disabled={phase === 'running'}
+                  disabled={running}
                 >
-                  <option value="auto">Detect automatically</option>
+                  <option value="auto">Auto-detect</option>
                   {languages.map((l) => (
                     <option key={l.code} value={l.code}>
                       {l.native}{l.native !== l.name ? ` (${l.name})` : ''}
                     </option>
                   ))}
                 </select>
-              </div>
-              <span className="xs faint">Translated before searching</span>
-              <label className="check" title="Uses a local language model; adds a few seconds">
+                <Icon name="chevronDown" size={14} />
+              </label>
+
+              <label
+                className={`composer-pill ${explain ? 'is-on' : ''}`}
+                title="Uses a local language model; adds a few seconds"
+              >
                 <input
                   type="checkbox"
+                  className="sr-only"
                   checked={explain}
                   onChange={() => setExplain((v) => !v)}
-                  disabled={phase === 'running'}
+                  disabled={running}
                 />
-                <span className="xs">Explain why each standard matched</span>
+                <Icon name={explain ? 'check' : 'sparkle'} size={15} />
+                <span>Explain matches</span>
               </label>
-            </div>
+            </>
           )}
+        </div>
 
-          <div className="field">
-            <label className="label sr-only" htmlFor="spec">Product description or specification text</label>
-            <textarea
-              id="spec"
-              className="textarea"
-              data-demo-target="query-input"
-              style={{ minHeight: 88 }}
-              value={text}
-              onChange={(e) => setText(e.target.value)}
-              placeholder="e.g. PVC insulated copper cable, single core, 1100 V, indoor panel wiring"
-              disabled={phase === 'running'}
-            />
+        <button
+          type="submit"
+          className={`composer-send ${running ? 'is-running' : ''}`}
+          data-demo-target="query-submit"
+          aria-label={running ? 'Stop searching' : 'Find standards'}
+          title={running ? 'Stop searching' : 'Find standards (Enter)'}
+          disabled={!running && !text.trim()}
+          onClick={running ? stop : undefined}
+        >
+          {running
+            ? <Icon name="stop" size={14} strokeWidth={3} />
+            : <Icon name="arrowUp" size={20} strokeWidth={2.25} />}
+        </button>
+      </div>
+    </form>
+  );
+
+  return (
+    <div className="container page query-page">
+      {/* Engine status — shown only when the backend is unreachable, so the
+          user learns about it before typing rather than after searching. */}
+      {health === null && (
+        <div className="notice notice-warn query-engine-notice" role="status">
+          <Icon name="alert" size={15} />
+          <div className="stack stack-2">
+            <span className="small strong">The standards engine is not running</span>
+            <span className="xs">
+              Searches will fail until it is started. Expected at <code className="mono">{BASE_URL}</code>.
+              Start it with <code className="mono">uvicorn main:app --port 8000</code> from the
+              <code className="mono"> standards-retrieval/</code> directory.
+            </span>
+          </div>
+        </div>
+      )}
+
+      {phase === 'idle' ? (
+        <div className="prompt-hero">
+          <h1 className="sr-only">New query</h1>
+
+          <div className="prompt-greet">
+            <span className="greet-mark" aria-hidden="true"><Icon name="sparkle" size={24} /></span>
+            <p className="greet-title">What are you procuring today?</p>
+            <p className="greet-sub">
+              Describe it in plain words. The engine finds the applicable Indian Standards
+              by meaning, not keywords.
+            </p>
           </div>
 
-          {phase === 'idle' && (
-            <div className="stack stack-3">
-              <span className="xs faint">Try an example</span>
-              <div className="row wrap" style={{ gap: 'var(--s2)' }}>
-                {EXAMPLES.map((ex) => (
-                  <button key={ex} type="button" className="example-chip" onClick={() => applyExample(ex)}>
-                    {ex}
-                  </button>
-                ))}
-              </div>
+          {composer}
 
-              <span className="xs faint">Or try another language</span>
-              <div className="row wrap" style={{ gap: 'var(--s2)' }}>
-                {LANGUAGE_EXAMPLES.map((ex) => (
-                  <button
-                    key={ex.lang}
-                    type="button"
-                    className="example-chip"
-                    onClick={() => { setLanguage(ex.lang); setText(ex.query); run(null, ex.query); }}
-                  >
-                    <span className="strong">{ex.label}</span>&nbsp; {ex.query}
-                  </button>
-                ))}
-              </div>
-            </div>
-          )}
+          <p className="composer-foot">
+            {corpusNote} · <kbd>Enter</kbd> to search · <kbd>Shift</kbd> + <kbd>Enter</kbd> for a new line
+          </p>
 
-          <hr className="divider" />
-
-          <div className="row-between wrap" style={{ gap: 'var(--s3)' }}>
-            <div className="row wrap" style={{ gap: 'var(--s3)' }}>
-              <input
-                ref={fileRef}
-                type="file"
-                accept={SUPPORTED_UPLOAD_TYPES.join(',')}
-                onChange={onFile}
-                style={{ display: 'none' }}
-              />
-              <button
-                type="button"
-                className="btn btn-secondary btn-sm"
-                onClick={() => fileRef.current?.click()}
-                disabled={phase === 'running'}
-              >
-                <Icon name="upload" size={14} /> Upload tender
+          <div className="suggest-grid">
+            {EXAMPLES.map((ex) => (
+              <button key={ex} type="button" className="suggest-card" onClick={() => applyExample(ex)}>
+                <span className="suggest-text">{ex}</span>
+                <span className="suggest-go" aria-hidden="true"><Icon name="arrowUp" size={14} strokeWidth={2.25} /></span>
               </button>
-              <span className="xs faint">
-                {health
-                  ? `${health.corpus_size} standards${health.ltr_model_loaded ? ' · learned ranker' : ''}`
-                  : 'Engine status unknown'}
-              </span>
-            </div>
-            <button
-              className="btn btn-primary"
-              type="submit"
-              data-demo-target="query-submit"
-              disabled={!text.trim() || phase === 'running'}
-            >
-              {phase === 'running'
-                ? <><span className="spinner" /> Searching</>
-                : <>Find standards <Icon name="arrowRight" size={15} /></>}
+            ))}
+          </div>
+
+          <div className="lang-row">
+            <span className="xs faint">Or ask in</span>
+            {LANGUAGE_EXAMPLES.map((ex) => (
+              <button
+                key={ex.lang}
+                type="button"
+                className="example-chip"
+                title={ex.query}
+                onClick={() => { setLanguage(ex.lang); setText(ex.query); run(null, ex.query); }}
+              >
+                {ex.label}
+              </button>
+            ))}
+          </div>
+        </div>
+      ) : (
+        <div className="thread">
+          <div className="thread-head">
+            <h1 className="sr-only">New query</h1>
+            <span className="xs faint">{corpusNote}</span>
+            <button className="btn btn-secondary btn-sm" onClick={reset}>
+              <Icon name="plus" size={15} /> New query
             </button>
           </div>
-        </form>
 
-        {phase === 'running' && (
-          <div className="card stack stack-3 fade-in" aria-live="polite" aria-busy="true">
-            <span className="eyebrow">Searching</span>
-            <p className="xs muted">
-              Running dense and keyword retrieval, then re-ranking the candidates.
-              The first search after starting the engine also loads the models, which takes longer.
-            </p>
-            <div className="stack stack-3">
-              {[0, 1, 2].map((i) => <div key={i} className="skeleton" style={{ height: 76 }} />)}
+          {submitted && (
+            <div className="turn-user fade-in">
+              <div className="user-bubble">
+                {submitted.kind === 'file'
+                  ? <><Icon name="paperclip" size={15} /><span>{submitted.name}</span></>
+                  : submitted.text}
+              </div>
             </div>
-          </div>
-        )}
+          )}
 
-        {phase === 'error' && error && (
-          <div className="card fade-in">
-            <EmptyState
-              icon="alert"
-              title={error.kind === 'offline' ? 'Cannot reach the standards engine' : 'Search failed'}
-              body={error.message}
-              action={
-                <div className="row" style={{ gap: 'var(--s2)' }}>
-                  <button className="btn btn-primary btn-sm" onClick={() => run(null, text)}>Try again</button>
-                  <Link to="/app/catalogue" className="btn btn-secondary btn-sm">Browse catalogue</Link>
+          <div className="turn-ai">
+            <span className={`ai-avatar ${running ? 'is-thinking' : ''}`} aria-hidden="true">
+              <Icon name="sparkle" size={18} />
+            </span>
+
+            <div className="ai-body stack stack-4">
+              {running && (
+                <div className="thinking fade-in" aria-live="polite" aria-busy="true">
+                  <p className="thinking-text">
+                    {submitted?.kind === 'file'
+                      ? 'Reading the document and searching…'
+                      : health?.corpus_size
+                        ? `Searching ${health.corpus_size.toLocaleString('en-IN')} standards…`
+                        : 'Searching the standards…'}
+                  </p>
+                  <p className="xs muted">
+                    Running dense and keyword retrieval, then re-ranking the candidates.
+                    The first search after starting the engine also loads the models, which takes longer.
+                  </p>
+                  <div className="stack stack-3">
+                    {[0, 1, 2].map((i) => <div key={i} className="skeleton" style={{ height: 76 }} />)}
+                  </div>
                 </div>
-              }
-            />
-          </div>
-        )}
+              )}
+
+              {phase === 'error' && error && (
+                <div className="card fade-in">
+                  <EmptyState
+                    icon="alert"
+                    title={error.kind === 'offline' ? 'Cannot reach the standards engine' : 'Search failed'}
+                    body={error.message}
+                    action={
+                      <div className="row" style={{ gap: 'var(--s2)', justifyContent: 'center' }}>
+                        {submitted?.kind === 'text' && (
+                          <button className="btn btn-primary btn-sm" onClick={() => run(null, submitted.text)}>
+                            Try again
+                          </button>
+                        )}
+                        <Link to="/app/catalogue" className="btn btn-secondary btn-sm">Browse catalogue</Link>
+                      </div>
+                    }
+                  />
+                </div>
+              )}
 
         {phase === 'done' && response && (
           <div className="stack stack-4 fade-in" data-demo-target="query-results">
@@ -548,7 +633,7 @@ export default function Query() {
                           {r.explanation}
                         </p>
                       )}
-                      {r.scope && <p className="xs muted">{r.scope}</p>}
+                      {r.scope && <p className="xs muted rec-scope" title={r.scope}>{r.scope}</p>}
                       <DataWarning warning={r.data_warning} />
                       <CertificationBanner certification={r.certification} />
 
@@ -645,7 +730,17 @@ export default function Query() {
             )}
           </div>
         )}
-      </div>
+            </div>
+          </div>
+
+          <div className="composer-dock">
+            {composer}
+            <p className="composer-foot">
+              Rankings come from the retrieval engine. Check a standard&rsquo;s scope before citing it in a tender.
+            </p>
+          </div>
+        </div>
+      )}
     </div>
   );
 }
