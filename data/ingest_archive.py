@@ -101,13 +101,6 @@ SECTOR_RULES = [
     ("medical_laboratory", r"medical|surgical|hospital|syringe|pharmaceutic|laborator|dental|diagnostic"),
 ]
 
-# Standards we do not want: management-system, vocabulary-only and
-# administrative documents are not things a procurement officer specifies.
-EXCLUDE_TITLE = re.compile(
-    r"glossary of terms|vocabulary|\bcode of ethics|guidelines for the preparation",
-    re.IGNORECASE,
-)
-
 
 def http_get(url: str, timeout: int = 45) -> bytes:
     request = urllib.request.Request(url, headers={"User-Agent": USER_AGENT})
@@ -151,21 +144,114 @@ def scrape_all(batch: int = 1000):
         time.sleep(REQUEST_DELAY)
 
 
-def parse_identifier(identifier: str) -> Optional[Dict[str, str]]:
-    """`gov.in.is.2535.1.2004` -> number 'IS 2535 (Part 1)', year '2004'.
+# Adopted international standards keep their origin's designation style:
+# "IS/ISO/IEC 27001", "IS/ISO 10079-2", not "IS 10079 (Part 2)". The tokens
+# stack, so `iso.iec` is IS/ISO/IEC and `iec.tr` is IS/IEC/TR.
+_ADOPTION_TOKENS = {"iso": "ISO", "iec": "IEC", "ieee": "IEEE", "qc": "QC",
+                    "pas": "PAS", "ts": "TS", "tr": "TR"}
 
-    Returns None for identifiers that do not fit the pattern, rather than
-    guessing at a shape we do not recognise.
+# Single-letter tokens mark a language rendering of a standard that also
+# exists in English: `b` bilingual, `h` Hindi. They are the same standard.
+_VARIANT_TOKENS = {"b", "h"}
+
+
+def _range(token: str) -> str:
+    """`5-7` -> `5 to 7`; a plain token is returned unchanged."""
+    return token.replace("-", " to ") if "-" in token else token
+
+
+def parse_identifier(identifier: str) -> Optional[Dict[str, str]]:
+    """Turn an archive identifier into an IS designation.
+
+    `gov.in.is.2535.1.2004`        -> IS 2535 (Part 1):2004
+    `gov.in.is.10026.3.1.1999`     -> IS 10026 (Part 3/Sec 1):1999
+    `gov.in.is.10036.1-2.1982`     -> IS 10036 (Part 1 to 2):1982
+    `gov.in.is.5000.od.1.1969`     -> IS 5000 (OD 1):1969
+    `gov.in.is.iso.10079.2.1999`   -> IS/ISO 10079-2:1999
+    `gov.in.is.iec.60079.20.1.2010`-> IS/IEC 60079-20-1:2010
+    `gov.in.is.sp.15.1.1989`       -> SP 15 (Part 1):1989
+    `gov.in.is.iso.iec.27001.2005` -> IS/ISO/IEC 27001:2005
+    `gov.in.is.iso.105.A03.1993`   -> IS/ISO 105-A03:1993
+    `gov.in.is.guide.43.2.1997`    -> IS/ISO/IEC Guide 43-2:1997
+    `gov.in.is.1201-1220.1978`     -> IS 1201 to 1220:1978
+    `gov.in.is.667.s.1981`         -> IS 667 (Supplement):1981
+    `gov.in.is.1.b.1968`           -> IS 1:1968, marked as a language variant
+
+    The first version of this parser accepted only `base[.part].year`, which
+    silently skipped 1,826 genuine standards -- every multi-level part and
+    every IS/ISO, IS/IEC and IS/QC adoption among them. Shapes it still does
+    not recognise return None rather than a guessed designation.
     """
-    match = re.match(r"^gov\.in\.is\.(\d+)(?:\.(\d+))?\.(\d{4})$", identifier)
+    match = re.match(r"^gov\.in\.is\.(.+)\.(\d{4})$", identifier)
     if not match:
         return None
+    body, year = match.groups()
+    tokens = body.split(".")
 
-    base, part, year = match.groups()
-    number = f"IS {base}"
-    if part:
-        number += f" (Part {part})"
-    return {"number": f"{number}:{year}", "base": base, "part": part, "year": year}
+    adopted = False
+    if tokens[0] == "sp":
+        tokens.pop(0)
+        prefix = "SP"
+    elif tokens[0] == "guide":
+        tokens.pop(0)
+        prefix, adopted = "IS/ISO/IEC Guide", True
+    else:
+        origins = []
+        while tokens and tokens[0] in _ADOPTION_TOKENS:
+            origins.append(_ADOPTION_TOKENS[tokens.pop(0)])
+        prefix = "IS/" + "/".join(origins) if origins else "IS"
+        adopted = bool(origins)
+
+    # A plain IS may cover a numbered run of standards in one document.
+    base_pattern = r"\d+" if adopted else r"\d+(-\d+)?"
+    if not tokens or not re.fullmatch(base_pattern, tokens[0]):
+        return None
+    base = _range(tokens.pop(0))
+
+    variant = any(t in _VARIANT_TOKENS for t in tokens)
+    supplement = "s" in tokens
+    # `t` marks a Tentative Standard, designated "IS 17899 T".
+    tentative = "t" in tokens
+    tokens = [t for t in tokens if t not in _VARIANT_TOKENS and t not in {"s", "t"}]
+    if tentative:
+        base += " T"
+
+    # Device-outline series ("od" + number) is part of the designation.
+    qualifier = ""
+    if tokens and tokens[0] == "od":
+        tokens.pop(0)
+        if tokens and re.fullmatch(r"\d+", tokens[0]):
+            qualifier = f"OD {tokens.pop(0)}"
+        else:
+            return None
+    if supplement:
+        qualifier = "Supplement"
+
+    if adopted:
+        # International adoptions use the dash style of their origin, and
+        # their parts may be lettered (ISO 105-A03).
+        if any(not re.fullmatch(r"[A-Z]?\d+", t) for t in tokens):
+            return None
+        number = f"{prefix} {'-'.join([base] + tokens)}"
+    else:
+        if any(not re.fullmatch(r"\d+(-\d+)?", t) for t in tokens):
+            return None
+        number = f"{prefix} {base}"
+        if tokens:
+            part = f"Part {_range(tokens[0])}"
+            if len(tokens) > 1:
+                part += "/Sec " + "/".join(_range(t) for t in tokens[1:])
+            number += f" ({part})"
+        if qualifier:
+            number += f" ({qualifier})"
+
+    return {
+        "number": f"{number}:{year}",
+        "base": base,
+        "part": tokens[0] if tokens else None,
+        "year": year,
+        "variant": variant,
+    }
 
 
 def clean_ocr(text: str) -> str:
@@ -306,8 +392,11 @@ def main() -> int:
 
     print(f"scanning up to {args.scan} archive records for standards in our sectors...")
 
-    candidates: List[dict] = []
-    seen_numbers = set()
+    # Keyed by designation. A bilingual or Hindi rendering of a standard shares
+    # its number with the English edition; the English one is preferred
+    # because its text is what the OCR and scope extraction can read.
+    by_number: Dict[str, dict] = {}
+    unparsed = 0
     total = None
 
     for items, reported_total in scrape_all():
@@ -318,20 +407,28 @@ def main() -> int:
         for doc in items:
             parsed = parse_identifier(doc.get("identifier", ""))
             if not parsed:
-                continue
-            if parsed["number"] in seen_numbers:
+                unparsed += 1
                 continue
             title = title_from_search(doc.get("title", ""))
-            if not title or EXCLUDE_TITLE.search(title):
+            if not title:
                 continue
-            seen_numbers.add(parsed["number"])
-            candidates.append({**parsed, "identifier": doc["identifier"], "title": title})
+            existing = by_number.get(parsed["number"])
+            if existing and not (existing["variant"] and not parsed["variant"]):
+                continue
+            by_number[parsed["number"]] = {**parsed, "identifier": doc["identifier"], "title": title}
 
-        if len(candidates) % 5000 < 1000:
-            print(f"  scanned: {len(seen_numbers)} unique, {len(candidates)} candidates", flush=True)
+        print(f"  scanned: {len(by_number)} unique standards, {unparsed} unparsed", flush=True)
 
-        if len(candidates) >= args.scan:
+        if len(by_number) >= args.scan:
             break
+
+    # Glossaries and vocabularies used to be excluded here as "not things a
+    # procurement officer specifies". They are published Indian Standards all
+    # the same, and a corpus described as the full collection should hold
+    # them; the confidence gate, not a title filter, decides what is shown as
+    # a recommendation.
+    candidates: List[dict] = list(by_number.values())
+    print(f"  {len(candidates)} candidates; {unparsed} identifiers in no recognised shape")
 
     # Keep only those whose title already suggests one of our sectors; the
     # scope check happens after the text is fetched.
@@ -378,9 +475,15 @@ def main() -> int:
         record_provenance = "published_text_ocr" if scope else "number_and_title_only"
 
         # Without a scope clause the title is all the classifier has.
-        sector = classify(item["title"], scope or "")
-        if not sector:
-            return {"_skip": "no_sector"}
+        #
+        # A standard no sector rule recognises is kept as `general`, not
+        # discarded. Dropping them removed ~6,000 genuine standards
+        # (mountaineering ascenders, insulating varnishes, pigment
+        # dispersions...) for the sole reason that the regex taxonomy had no
+        # pattern for their subject. The sector is a browsing aid; search runs
+        # on the text either way, and `general` says plainly that no sector
+        # was assigned rather than guessing one.
+        sector = classify(item["title"], scope or "") or "general"
 
         return {
             "number": item["number"],

@@ -68,6 +68,9 @@ SECTOR_PREFIX = {
     "paper_printing": "PAPER",
     "automotive": "AUTO",
     "medical_laboratory": "MEDLAB",
+    # Standards no sector rule recognised. Kept rather than dropped; see the
+    # classification note in data/ingest_archive.py.
+    "general": "GEN",
 }
 
 # Scope text shorter than this is not worth embedding.
@@ -116,6 +119,46 @@ def usable_scope(scope: str) -> bool:
         return False
     noise = len(_NOISE.findall(scope))
     return noise / max(len(scope), 1) < 0.05
+
+
+def _edition_year(number: str) -> int:
+    match = re.search(r":(\d{4})$", number)
+    return int(match.group(1)) if match else 0
+
+
+def mark_superseded_editions(records: list) -> int:
+    """Mark an archive edition superseded when the corpus holds a newer one.
+
+    The archive publishes every edition it has, so one standard can arrive
+    three times (IS 269:1989, :2013, :2015). Left as-is, all three read as
+    "Current" everywhere the stored status is shown. A later edition of the
+    same designation replaces the earlier one, so each older archive edition
+    is marked superseded and pointed at the newest edition present.
+
+    Only archive-sourced records are changed. Curated records carry
+    researched status that this inference must never overwrite -- an
+    archive record can be superseded by a curated one, not the reverse.
+    Returns how many records were marked.
+    """
+    by_family: dict = {}
+    for record in records:
+        by_family.setdefault(family(record["number"]), []).append(record)
+
+    marked = 0
+    for editions in by_family.values():
+        if len(editions) < 2:
+            continue
+        newest = max(editions, key=lambda r: _edition_year(r["number"]))
+        newest_year = _edition_year(newest["number"])
+        for record in editions:
+            if record is newest or "archive.org/gov.in.is" not in record.get("sources", []):
+                continue
+            if record.get("status") != "active" or _edition_year(record["number"]) >= newest_year:
+                continue
+            record["status"] = "superseded"
+            record["superseded_by_number"] = newest["number"]
+            marked += 1
+    return marked
 
 
 def keywords_from(title: str, scope: str) -> list:
@@ -182,8 +225,12 @@ def main() -> int:
         # the record as `provenance` rather than being hidden.
         title_only = item.get("provenance") == "number_and_title_only"
         if not title_only and not usable_scope(item["scope"]):
+            # Too short or too OCR-damaged to embed. The record used to be
+            # dropped outright, losing a real standard over bad scan quality;
+            # it is now kept on its number and title, exactly like a record
+            # whose scope was never found, and labelled the same way.
             rejected_scope += 1
-            continue
+            item = {**item, "scope": "", "provenance": "number_and_title_only"}
 
         sector = item["category"]
         if sector not in SECTOR_PREFIX:
@@ -216,6 +263,8 @@ def main() -> int:
             }
         )
 
+    superseded_editions = mark_superseded_editions(merged)
+
     merged.sort(key=lambda r: (r["category"], r["number"]))
     counters: Counter = Counter()
     for record in merged:
@@ -230,7 +279,8 @@ def main() -> int:
     print(f"ingested in   : {len(ingested)}")
     print(f"  kept        : {kept}")
     print(f"  duplicate   : {duplicate} (curated record kept)")
-    print(f"  bad scope   : {rejected_scope}")
+    print(f"  bad scope   : {rejected_scope} (kept on number and title)")
+    print(f"  superseded  : {superseded_editions} older editions of a standard the corpus also holds newer")
     print(f"\nfull corpus   : {len(merged)} standards across {len(by_sector)} sectors")
     for sector, count in sorted(by_sector.items()):
         print(f"  {sector:<28} {count:>4}")
@@ -275,7 +325,62 @@ def main() -> int:
         json.dumps(merged, indent=2, ensure_ascii=False) + "\n", encoding="utf-8"
     )
     print(f"wrote {OUTPUT.relative_to(_REPO_ROOT)}")
+
+    if remap_query_sets(merged):
+        return 1
     return 0
+
+
+QUERY_SETS = [
+    _REPO_ROOT / "data" / "eval_set_full.json",
+    _REPO_ROOT / "data" / "train_queries_full.json",
+]
+
+
+def remap_query_sets(corpus: list) -> int:
+    """Re-point the full-corpus query sets at the ids this build assigned.
+
+    Ids are positional within a sector, so every rebuild that adds records
+    shifts them. A query set left on the old ids silently labels the wrong
+    standard as correct -- the accuracy test then measures nonsense, and a
+    ranker trained on it learns it (PROGRESS.md, Phase D: CV 0.93, held-out
+    0.24). Each entry also stores `correct_number`, which is stable, so the
+    id is re-derived from it here on every write.
+
+    Returns the number of entries whose standard is no longer in the corpus.
+    """
+    by_number = {r["number"]: r for r in corpus}
+    lost_total = 0
+    for path in QUERY_SETS:
+        if not path.exists():
+            continue
+        items = json.loads(path.read_text(encoding="utf-8"))
+        changed = 0
+        lost = []
+        for item in items:
+            record = by_number.get(normalize(item["correct_number"]))
+            if record is None:
+                lost.append(item["correct_number"])
+                continue
+            # A query labelled with an edition the corpus now holds a newer
+            # edition of has the newer one as its right answer: that is what
+            # a tender should cite, and the ranker deliberately prefers it.
+            # Leaving the old label scored the engine wrong for ranking the
+            # current edition first (9 of 60 sampled "misses" were exactly
+            # this, each with the newer edition at rank 1).
+            newer = by_number.get(record.get("superseded_by_number") or "")
+            if record.get("status") == "superseded" and newer is not None:
+                record = newer
+                item["correct_number"] = newer["number"]
+            if item["correct_id"] != record["id"] or item.get("category") != record["category"]:
+                changed += 1
+            item["correct_id"] = record["id"]
+            item["category"] = record["category"]
+        path.write_text(json.dumps(items, indent=2, ensure_ascii=False) + "\n", encoding="utf-8")
+        print(f"remapped {path.name}: {changed} of {len(items)} ids updated", end="")
+        print(f", {len(lost)} standards missing: {lost[:5]}" if lost else "")
+        lost_total += len(lost)
+    return lost_total
 
 
 if __name__ == "__main__":
