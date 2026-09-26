@@ -4,17 +4,16 @@
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  color: var(--ink);
+  color: var(--md-primary);
   flex-shrink: 0;
 }
 
-/* Sidebar */
+/* Sidebar — MD3 navigation drawer: a tonal surface, no hairline. */
 
 .sidebar {
-  width: 248px;
+  width: 264px;
   flex-shrink: 0;
-  background: var(--surface);
-  border-right: 1px solid var(--line);
+  background: var(--md-surface-container-low);
   display: flex;
   flex-direction: column;
   position: sticky;
@@ -27,66 +26,72 @@
   display: flex;
   align-items: center;
   gap: var(--s3);
-  padding: var(--s5) var(--s4);
-  border-bottom: 1px solid var(--line);
+  min-height: 72px;
+  padding: var(--s5) var(--s5) var(--s4);
 }
 
 .sidebar-nav {
   flex: 1;
   overflow-y: auto;
-  padding: var(--s3) var(--s3);
+  padding: var(--s2) var(--s3);
   display: flex;
   flex-direction: column;
   gap: 2px;
 }
 
+/* Pill items; the active one carries the secondary-container indicator. */
 .nav-item {
   display: flex;
   align-items: center;
   gap: var(--s3);
-  padding: 9px var(--s3);
-  border-radius: var(--r);
+  padding: 0 var(--s4);
+  border-radius: var(--r-full);
   font-size: var(--fs-sm);
   font-weight: 500;
-  color: var(--ink-muted);
-  min-height: 40px;
+  letter-spacing: 0.01em;
+  color: var(--md-on-surface-variant);
+  min-height: 48px;
   cursor: pointer;
-  transition: background var(--t), color var(--t);
+  transition: background var(--t), color var(--t), transform var(--t);
 }
 
-.nav-item:hover { background: var(--surface-hover); color: var(--ink); }
+.nav-item:hover {
+  background: color-mix(in srgb, var(--md-on-surface) var(--state-hover), transparent);
+  color: var(--md-on-surface);
+}
+.nav-item:active { transform: scale(0.97); }
 
 .nav-item.is-active {
-  background: var(--surface-sunk);
-  color: var(--ink);
-  font-weight: 600;
-  box-shadow: inset 2px 0 0 var(--ink);
+  background: var(--md-secondary-container);
+  color: var(--md-on-secondary-container);
+  font-weight: 700;
 }
 
 .nav-count {
   margin-left: auto;
-  background: var(--crit-soft);
-  color: var(--crit);
-  border-radius: 9px;
+  background: var(--crit);
+  color: #FFFFFF;
+  border-radius: var(--r-full);
+  min-width: 20px;
   padding: 1px 7px;
+  text-align: center;
   font-size: var(--fs-xs);
-  font-weight: 600;
+  font-weight: 500;
   font-variant-numeric: tabular-nums;
 }
 
-.sidebar-foot { padding: var(--s3); border-top: 1px solid var(--line); }
+.sidebar-foot { padding: var(--s3); }
 
 .org-card {
   display: flex;
   flex-direction: column;
   gap: 2px;
-  padding: var(--s3);
-  background: var(--surface-sunk);
-  border: 1px solid var(--line);
-  border-radius: var(--r);
+  padding: var(--s3) var(--s4);
+  background: var(--md-surface-container-high);
+  border-radius: var(--r-md);
 }
 
-/* Topbar */
+/* Topbar — translucent over the page, blurred like frosted glass. */
 
 .topbar {
   position: sticky;
@@ -95,10 +100,12 @@
   display: flex;
   align-items: center;
   gap: var(--s2);
-  height: 60px;
+  height: 64px;
   padding: 0 var(--s5);
-  background: var(--surface);
-  border-bottom: 1px solid var(--line);
+  background: color-mix(in srgb, var(--paper) 82%, transparent);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border-bottom: 1px solid var(--md-outline-variant);
 }
 
 .topbar-bell { position: relative; }
@@ -107,11 +114,11 @@
   position: absolute;
   top: 8px;
   right: 9px;
-  width: 6px;
-  height: 6px;
+  width: 8px;
+  height: 8px;
   border-radius: 50%;
   background: var(--crit);
-  border: 1.5px solid var(--surface);
+  border: 2px solid var(--paper);
 }
 
 .topbar-user {
@@ -120,25 +127,24 @@
   gap: var(--s3);
   padding-left: var(--s3);
   margin-left: var(--s2);
-  border-left: 1px solid var(--line);
+  border-left: 1px solid var(--md-outline-variant);
 }
 
 .topbar-user-text { line-height: 1.3; }
 
 .avatar {
-  width: 32px;
-  height: 32px;
+  width: 36px;
+  height: 36px;
   flex-shrink: 0;
   border-radius: 50%;
-  background: var(--surface-sunk);
-  border: 1px solid var(--line-strong);
-  color: var(--ink-soft);
+  background: var(--md-primary-container);
+  color: var(--md-on-primary-container);
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  font-size: var(--fs-xs);
-  font-weight: 600;
-  letter-spacing: 0.02em;
+  font-size: var(--fs-sm);
+  font-weight: 500;
+  font-variant-numeric: tabular-nums;
 }
 
 .shell-content { flex: 1; min-width: 0; }
@@ -152,7 +158,7 @@
   display: none;
   position: fixed;
   inset: 0;
-  background: rgba(23, 23, 23, 0.4);
+  background: rgba(28, 27, 31, 0.32);
   z-index: calc(var(--z-nav) - 2);
   border: 0;
   cursor: pointer;
@@ -164,8 +170,9 @@
     left: 0;
     top: 0;
     transform: translateX(-100%);
-    transition: transform var(--t);
-    box-shadow: 0 0 0 1px var(--line);
+    transition: transform var(--t-slow);
+    border-radius: 0 var(--r-lg) var(--r-lg) 0;
+    box-shadow: var(--e4);
   }
   .sidebar.is-open { transform: none; }
 
@@ -180,62 +187,41 @@
   .btn-icon.nav-toggle { display: inline-flex; }
 
   .scrim { display: block; }
-  .topbar-user-text { display: none; }
+  /* Extra class: the element is also a `.stack`, whose display:flex in
+     app.css (loaded later) would otherwise win and overflow the bar. */
+  .topbar-user .topbar-user-text { display: none; }
 }
 
 /* ------------------- Nested navigation ------------------- */
 
-.nav-group + .nav-group { margin-top: var(--s2); }
+.nav-group + .nav-group { margin-top: var(--s1); }
 
 .nav-sub {
   display: flex;
   flex-direction: column;
   gap: 1px;
-  margin: 2px 0 0 var(--s5);
-  padding-left: var(--s3);
-  border-left: 1px solid var(--line);
+  margin: 2px 0 var(--s2) var(--s6);
 }
 
 .nav-subitem {
   display: flex;
   align-items: center;
   gap: var(--s2);
-  padding: 6px var(--s3);
-  border-radius: var(--r-sm);
-  font-size: var(--fs-xs);
-  color: var(--ink-faint);
-  min-height: 32px;
+  padding: 0 var(--s4);
+  border-radius: var(--r-full);
+  font-size: var(--fs-sm);
+  color: var(--md-on-surface-variant);
+  min-height: 36px;
   cursor: pointer;
   transition: background var(--t), color var(--t);
 }
 
-.nav-subitem:hover { background: var(--surface-hover); color: var(--ink); }
-.nav-subitem.is-active { color: var(--ink); font-weight: 600; background: var(--surface-sunk); }
-
-/* ---------------- Premium shell refinements ---------------- */
-
-.sidebar {
-  background: var(--surface);
-  box-shadow: var(--e1);
+.nav-subitem:hover {
+  background: color-mix(in srgb, var(--md-on-surface) var(--state-hover), transparent);
+  color: var(--md-on-surface);
 }
-
-.sidebar-brand {
-  padding: var(--s5) var(--s4);
-  min-height: 60px;
-  display: flex;
-  align-items: center;
-}
-
-/* Active nav item: a solid ink marker, not a wash */
-.nav-item.is-active {
-  box-shadow: inset 2px 0 0 var(--ink);
-}
-
-.topbar {
-  box-shadow: var(--e1);
-}
-
-.avatar {
-  box-shadow: var(--e1);
-  font-variant-numeric: tabular-nums;
+.nav-subitem.is-active {
+  color: var(--md-on-secondary-container);
+  font-weight: 500;
+  background: color-mix(in srgb, var(--md-secondary-container) 70%, transparent);
 }

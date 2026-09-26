@@ -1,113 +1,116 @@
-@import url('https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300..700&family=JetBrains+Mono:wght@400;500;600&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&family=Roboto+Mono:wght@400;500&display=swap');
 
 /* ============================================================
    BIS Standards Engine — Design Tokens
-   Style: Minimal / Matte. Flat surfaces, hairline borders,
-   no gloss, no gradients, no glow. Depth via tone, not shadow.
+   Style: Material You (Material Design 3), light scheme only.
+   Tonal surfaces from a violet seed (#6750A4), organic radii,
+   pill controls, state layers instead of colour swaps.
    ============================================================ */
 
 :root {
-  /* --- Matte neutral ramp (warm-tinted, never pure white) --- */
-  --paper:        #F4F3F0;
-  --surface:      #FFFFFF;
-  --surface-sunk: #F0EFEB;
-  --surface-hover:#EAE8E3;
-  --surface-raised:#FFFFFF;
+  color-scheme: light;
 
-  /* --- Ink ramp --- */
-  --ink:          #171717;
-  --ink-soft:     #3D3D3A;
-  --ink-muted:    #56554F;
-  --ink-faint:    #6B6A65;
+  /* --- MD3 colour roles (seed #6750A4) --- */
+  --md-primary:                #6750A4;
+  --md-on-primary:             #FFFFFF;
+  --md-primary-container:      #EADDFF;
+  --md-on-primary-container:   #21005D;
+  --md-secondary:              #625B71;
+  --md-secondary-container:    #E8DEF8;
+  --md-on-secondary-container: #1D192B;
+  --md-tertiary:               #7D5260;
+  --md-on-tertiary:            #FFFFFF;
+  --md-tertiary-container:     #FFD8E4;
+  --md-on-tertiary-container:  #31111D;
 
-  /* --- Hairlines --- */
-  --line:         #E1DFD9;
-  --line-strong:  #C9C6BE;
+  --md-surface:                #FFFBFE;  /* background — never pure white */
+  --md-surface-container-low:  #F7F2FA;
+  --md-surface-container:      #F3EDF7;
+  --md-surface-container-high: #ECE6F0;
+  --md-surface-container-highest: #E7E0EC;
+  --md-on-surface:             #1C1B1F;
+  --md-on-surface-variant:     #49454F;
+  --md-outline:                #79747E;
+  --md-outline-variant:        #CAC4D0;
 
-  /* --- Accent: restrained brass. Used sparingly. --- */
-  --accent:       #7A6029;
-  --accent-soft:  #F0EADC;
-  --accent-line:  #DCD0B4;
+  /* --- Legacy aliases. Page styles were written against these names;
+         mapping them onto MD3 roles restyles every screen at once. --- */
+  --paper:         var(--md-surface);
+  --surface:       var(--md-surface-container);
+  --surface-sunk:  var(--md-surface-container-highest);
+  --surface-hover: var(--md-surface-container-high);
+  --surface-raised:var(--md-surface-container-low);
 
-  /* --- Semantic (muted, matte — never neon) --- */
-  --ok:           #3F6B4A;
-  --ok-soft:      #E8EFE9;
-  --warn:         #8A6224;
-  --warn-soft:    #F5EDE0;
-  --crit:         #99392F;
-  --crit-soft:    #F6E7E5;
-  --info:         #35576E;
-  --info-soft:    #E7EEF2;
+  --ink:       var(--md-on-surface);
+  --ink-soft:  #322F37;
+  --ink-muted: var(--md-on-surface-variant);
+  --ink-faint: #5F5A66;  /* 4.9:1 on surface-container-highest */
+
+  --line:        var(--md-outline-variant);
+  --line-strong: var(--md-outline);
+
+  --accent:      var(--md-primary);
+  --accent-soft: var(--md-secondary-container);
+  --accent-line: #D0BCFF;
+
+  /* --- Semantic (MD3-toned; text passes 4.5:1 on its soft fill) --- */
+  --ok:        #2E6B34;
+  --ok-soft:   #DAF3D6;
+  --warn:      #735900;
+  --warn-soft: #FFEDB8;
+  --crit:      #B3261E;
+  --crit-soft: #F9DEDC;
+  --info:      #245F8C;
+  --info-soft: #D9EAF8;
+
+  /* --- State layers: overlay opacities, never hue shifts --- */
+  --state-hover:   8%;
+  --state-focus:   10%;
+  --state-pressed: 12%;
 
   /* --- Typography --- */
-  --font: 'Inter', system-ui, -apple-system, 'Segoe UI', sans-serif;
-  --mono: 'JetBrains Mono', ui-monospace, 'Cascadia Code', monospace;
+  --font: 'Roboto', system-ui, -apple-system, 'Segoe UI', sans-serif;
+  --mono: 'Roboto Mono', ui-monospace, 'Cascadia Code', monospace;
 
-  --fs-xs:   0.75rem;
-  --fs-sm:   0.8125rem;
-  --fs-base: 0.9375rem;
-  --fs-md:   1.0625rem;
-  --fs-lg:   1.375rem;
-  --fs-xl:   1.875rem;
-  --fs-2xl:  2.5rem;
-  --fs-3xl:  3.25rem;
+  --fs-xs:   0.75rem;   /* label small */
+  --fs-sm:   0.875rem;  /* label medium */
+  --fs-base: 1rem;      /* body medium */
+  --fs-md:   1.125rem;
+  --fs-lg:   1.5rem;    /* title large */
+  --fs-xl:   2rem;      /* headline medium */
+  --fs-2xl:  3rem;      /* headline large */
+  --fs-3xl:  3.5rem;    /* display large */
 
   /* --- Spacing (4px base) --- */
   --s1: 4px;  --s2: 8px;  --s3: 12px; --s4: 16px;
   --s5: 24px; --s6: 32px; --s7: 48px; --s8: 64px; --s9: 96px;
 
-  --r-sm: 3px;
-  --r:    5px;
-  --r-lg: 8px;
+  /* --- Shape: organic, generous --- */
+  --r-sm:   8px;      /* extra small — chips, small controls */
+  --r:      12px;     /* small — compact surfaces, text fields */
+  --r-md:   16px;     /* medium */
+  --r-lg:   24px;     /* large — standard cards */
+  --r-xl:   28px;     /* extra large — dialogs, sheets */
+  --r-2xl:  32px;     /* nested feature containers */
+  --r-3xl:  48px;     /* hero containers */
+  --r-full: 9999px;   /* pills — every button, chip, badge */
 
-  /* --- Elevation. Four levels, tight offsets, low alpha.
-         Depth comes from stacked hairline + shadow, never from glow. --- */
-  --e1: 0 1px 2px rgba(28, 25, 20, 0.05);
-  --e2: 0 1px 2px rgba(28, 25, 20, 0.05), 0 2px 6px rgba(28, 25, 20, 0.05);
-  --e3: 0 1px 2px rgba(28, 25, 20, 0.05), 0 4px 12px rgba(28, 25, 20, 0.07);
-  --e4: 0 2px 4px rgba(28, 25, 20, 0.06), 0 12px 32px rgba(28, 25, 20, 0.10);
+  /* --- Elevation: soft, diffuse, low alpha. Tone does most of the work. --- */
+  --e1: 0 1px 2px rgba(28, 27, 31, 0.06), 0 1px 3px rgba(28, 27, 31, 0.06);
+  --e2: 0 1px 2px rgba(28, 27, 31, 0.06), 0 3px 8px rgba(28, 27, 31, 0.08);
+  --e3: 0 2px 4px rgba(28, 27, 31, 0.06), 0 8px 20px rgba(28, 27, 31, 0.10);
+  --e4: 0 4px 8px rgba(28, 27, 31, 0.08), 0 16px 40px rgba(28, 27, 31, 0.14);
   --shade: var(--e1);  /* legacy alias */
-
-  /* Inset top highlight — reads as a crisp edge, not a gloss */
-  --edge: inset 0 1px 0 rgba(255, 255, 255, 0.6);
+  --edge: none;        /* legacy alias — MD3 has no gloss edge */
 
   --z-nav: 20;
   --z-drawer: 30;
   --z-modal: 50;
 
-  --t: 180ms cubic-bezier(0.4, 0, 0.2, 1);
-}
-
-:root[data-theme='dark'] {
-  --paper:        #131311;
-  --surface:      #1C1C19;
-  --surface-sunk: #232320;
-  --surface-hover:#2B2A26;
-  --surface-raised:#222220;
-
-  --ink:          #EDEBE6;
-  --ink-soft:     #C8C5BE;
-  --ink-muted:    #B0ADA5;
-  --ink-faint:    #96938B;
-
-  --line:         #2E2D29;
-  --line-strong:  #423F39;
-
-  --accent:       #C9A961;
-  --accent-soft:  #2A2519;
-  --accent-line:  #4A412A;
-
-  --ok:   #7FA98A; --ok-soft:   #1E2A21;
-  --warn: #C9A264; --warn-soft: #2B2418;
-  --crit: #CC8279; --crit-soft: #2E1E1C;
-  --info: #8AB0C7; --info-soft: #1B262D;
-
-  --e1: 0 1px 2px rgba(0, 0, 0, 0.4);
-  --e2: 0 1px 2px rgba(0, 0, 0, 0.4), 0 2px 6px rgba(0, 0, 0, 0.3);
-  --e3: 0 1px 2px rgba(0, 0, 0, 0.4), 0 4px 12px rgba(0, 0, 0, 0.35);
-  --e4: 0 2px 4px rgba(0, 0, 0, 0.5), 0 12px 32px rgba(0, 0, 0, 0.45);
-  --shade: var(--e1);
-  --edge: inset 0 1px 0 rgba(255, 255, 255, 0.04);
+  /* --- Motion: MD3 emphasized-decelerate --- */
+  --ease:   cubic-bezier(0.2, 0, 0, 1);
+  --t:      200ms var(--ease);  /* micro-interactions */
+  --t-slow: 300ms var(--ease);  /* surfaces, cards */
 }
 
 /* ============================ Reset ============================ */
@@ -122,26 +125,22 @@ body {
   color: var(--ink);
   font-family: var(--font);
   font-size: var(--fs-base);
-  line-height: 1.6;
+  line-height: 1.55;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  font-optical-sizing: auto;
-  /* Contextual alternates + proportional lining figures read cleaner in UI text */
-  font-feature-settings: 'cv05' 1, 'cv11' 1, 'ss03' 1;
   text-rendering: optimizeLegibility;
 }
 
 h1, h2, h3, h4 {
   margin: 0;
-  font-weight: 600;
-  line-height: 1.2;
-  letter-spacing: -0.021em;
+  font-weight: 500;
+  line-height: 1.25;
+  letter-spacing: 0;
   text-wrap: balance;
 }
 
-/* Larger type needs tighter tracking to look optically even */
-h1 { letter-spacing: -0.032em; }
-h2 { letter-spacing: -0.026em; }
+h1 { letter-spacing: -0.01em; }
+h2 { letter-spacing: -0.005em; }
 
 p { margin: 0; }
 
@@ -155,7 +154,7 @@ svg { display: block; }
 
 /* Visible focus for keyboard nav — never removed */
 :focus-visible {
-  outline: 2px solid var(--accent);
+  outline: 2px solid var(--md-primary);
   outline-offset: 2px;
   border-radius: var(--r-sm);
 }
@@ -167,17 +166,17 @@ svg { display: block; }
   clip: rect(0, 0, 0, 0); white-space: nowrap; border: 0;
 }
 
-::selection { background: var(--accent-soft); color: var(--ink); }
+::selection { background: var(--md-primary-container); color: var(--md-on-primary-container); }
 
-/* Matte scrollbars */
+/* Tonal scrollbars */
 ::-webkit-scrollbar { width: 10px; height: 10px; }
-::-webkit-scrollbar-track { background: var(--surface-sunk); }
+::-webkit-scrollbar-track { background: transparent; }
 ::-webkit-scrollbar-thumb {
-  background: var(--line-strong);
-  border-radius: 5px;
-  border: 2px solid var(--surface-sunk);
+  background: var(--md-outline-variant);
+  border-radius: var(--r-full);
+  border: 2px solid var(--paper);
 }
-::-webkit-scrollbar-thumb:hover { background: var(--ink-faint); }
+::-webkit-scrollbar-thumb:hover { background: var(--md-outline); }
 
 @media (prefers-reduced-motion: reduce) {
   *, *::before, *::after {

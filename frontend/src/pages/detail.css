@@ -27,27 +27,34 @@
 .tl-node::before {
   content: '';
   position: absolute;
-  top: 5px;
+  top: 6px;
   left: -50%;
   width: 100%;
-  height: 1px;
-  background: var(--line-strong);
+  height: 2px;
+  border-radius: var(--r-full);
+  background: var(--md-outline-variant);
 }
 .tl-node:first-child::before { display: none; }
 
 .tl-dot {
   position: relative;
   z-index: 1;
-  width: 11px;
-  height: 11px;
+  width: 14px;
+  height: 14px;
   border-radius: 50%;
-  background: var(--surface);
-  border: 2px solid var(--line-strong);
+  background: var(--md-surface);
+  border: 2px solid var(--md-outline);
   flex-shrink: 0;
+  transition: transform var(--t);
 }
+.tl-node:hover .tl-dot { transform: scale(1.2); }
 
-.tl-node.is-current  .tl-dot { border-color: var(--ok);   background: var(--ok); }
-.tl-node.is-amendment .tl-dot { border-color: var(--info); background: var(--surface); }
+.tl-node.is-current  .tl-dot {
+  border-color: var(--ok);
+  background: var(--ok);
+  box-shadow: 0 0 0 4px color-mix(in srgb, var(--ok) 20%, transparent);
+}
+.tl-node.is-amendment .tl-dot { border-color: var(--info); background: var(--md-surface); }
 .tl-node.is-revision .tl-dot { border-color: var(--warn); background: var(--warn); }
 /* Superseded editions are de-emphasised, but must stay readable — the
    strikethrough and the greyed dot carry the meaning, so dim the dot rather
@@ -61,14 +68,14 @@
 .tl-node.is-current .mono { font-weight: 700; }
 
 .tl-legend {
-  width: 9px;
-  height: 9px;
+  width: 10px;
+  height: 10px;
   border-width: 2px;
 }
-.tl-legend.is-current    { border-color: var(--ok);   background: var(--ok); }
-.tl-legend.is-amendment  { border-color: var(--info); background: var(--surface); }
+.tl-legend.is-current    { border-color: var(--ok);   background: var(--ok); box-shadow: none; }
+.tl-legend.is-amendment  { border-color: var(--info); background: var(--md-surface); }
 .tl-legend.is-revision   { border-color: var(--warn); background: var(--warn); }
-.tl-legend.is-superseded { border-color: var(--line-strong); background: var(--surface); }
+.tl-legend.is-superseded { border-color: var(--md-outline); background: var(--md-surface); }
 
 /* ------------------------- References ------------------------- */
 
@@ -77,34 +84,33 @@
   align-items: flex-start;
   gap: var(--s2);
   padding: var(--s3);
-  border-radius: var(--r);
+  border-radius: var(--r-md);
   color: var(--ink-muted);
   cursor: pointer;
   transition: background var(--t), color var(--t);
 }
-.ref-row:hover { background: var(--surface-hover); color: var(--ink); }
+.ref-row:hover { background: color-mix(in srgb, var(--md-primary) var(--state-hover), transparent); color: var(--ink); }
 
 .scope-official summary {
   cursor: pointer;
   padding: var(--s2) 0;
   user-select: none;
+  color: var(--md-primary);
+  font-weight: 500;
 }
-.scope-official summary:hover { color: var(--ink); }
+.scope-official summary:hover { text-decoration: underline; }
 
 /* ------------------------- Conflict compare ------------------------- */
 
 .conflict-grid {
   display: grid;
   grid-template-columns: 1fr 1fr;
-  gap: 1px;
-  background: var(--line);
-  border: 1px solid var(--line);
-  border-radius: var(--r);
-  overflow: hidden;
+  gap: var(--s2);
 }
 
 .conflict-col {
-  background: var(--surface);
+  background: var(--md-surface);
+  border-radius: var(--r-md);
   padding: var(--s4);
   display: flex;
   flex-direction: column;

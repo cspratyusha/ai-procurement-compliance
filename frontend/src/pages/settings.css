@@ -1,28 +1,40 @@
-/* ---------------- Tabs ---------------- */
+/* ---------------- Tabs (MD3 primary tabs) ---------------- */
 
 .tabs {
   display: flex;
-  gap: var(--s5);
-  border-bottom: 1px solid var(--line);
+  gap: var(--s2);
+  border-bottom: 1px solid var(--md-outline-variant);
   margin-bottom: var(--s6);
   overflow-x: auto;
 }
 
 .tab {
-  padding: var(--s3) 0;
+  position: relative;
+  padding: var(--s3) var(--s4);
   font-size: var(--fs-sm);
   font-weight: 500;
-  color: var(--ink-muted);
-  border-bottom: 2px solid transparent;
-  margin-bottom: -1px;
+  color: var(--md-on-surface-variant);
+  border-radius: var(--r) var(--r) 0 0;
   cursor: pointer;
   white-space: nowrap;
-  min-height: 42px;
-  transition: color var(--t), border-color var(--t);
+  min-height: 48px;
+  transition: color var(--t), background var(--t);
 }
 
-.tab:hover { color: var(--ink); }
-.tab.is-active { color: var(--ink); border-bottom-color: var(--ink); font-weight: 600; }
+.tab:hover { color: var(--ink); background: color-mix(in srgb, var(--md-on-surface) var(--state-hover), transparent); }
+
+/* The active indicator is a rounded 3px bar, not a hairline */
+.tab.is-active { color: var(--md-primary); }
+.tab.is-active::after {
+  content: '';
+  position: absolute;
+  left: var(--s3);
+  right: var(--s3);
+  bottom: 0;
+  height: 3px;
+  border-radius: 3px 3px 0 0;
+  background: var(--md-primary);
+}
 
 /* ---------------- Endpoint rows ---------------- */
 
@@ -30,9 +42,10 @@
   display: flex;
   align-items: center;
   gap: var(--s3);
-  padding: var(--s2) var(--s3);
-  border: 1px solid var(--line);
-  border-radius: var(--r);
+  padding: var(--s2) var(--s4);
+  border: 0;
+  background: var(--md-surface);
+  border-radius: var(--r-full);
   flex-wrap: wrap;
 }
 
@@ -43,36 +56,36 @@
   align-items: flex-start;
   gap: var(--s3);
   padding: var(--s3);
-  border-radius: var(--r);
+  border-radius: var(--r-md);
   transition: background var(--t);
 }
-.log-row:hover { background: var(--surface-hover); }
+.log-row:hover { background: color-mix(in srgb, var(--md-primary) var(--state-hover), transparent); }
 
 .log-mark {
-  width: 6px;
-  height: 6px;
+  width: 8px;
+  height: 8px;
   border-radius: 50%;
-  background: var(--line-strong);
+  background: var(--md-primary);
   margin-top: 7px;
   flex-shrink: 0;
 }
 
 /* ---------------- Alerts ---------------- */
 
-.alert-card { transition: border-color var(--t); }
-.alert-card.is-unread { border-left: 2px solid var(--ink); }
+.alert-card { transition: box-shadow var(--t-slow); }
+.alert-card:hover { box-shadow: var(--e2); }
+.alert-card.is-unread { box-shadow: inset 4px 0 0 var(--md-primary), var(--e1); }
 
 .alert-icon {
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  width: 34px;
-  height: 34px;
+  width: 40px;
+  height: 40px;
   flex-shrink: 0;
-  border-radius: var(--r);
-  background: var(--surface-sunk);
-  border: 1px solid var(--line);
-  color: var(--ink-soft);
+  border-radius: var(--r-md);
+  background: var(--md-secondary-container);
+  color: var(--md-on-secondary-container);
 }
 
 .sub-row {
@@ -80,17 +93,17 @@
   align-items: flex-start;
   gap: var(--s3);
   padding: var(--s3);
-  border-radius: var(--r);
+  border-radius: var(--r-md);
   cursor: pointer;
   transition: background var(--t);
 }
-.sub-row:hover { background: var(--surface-hover); }
+.sub-row:hover { background: color-mix(in srgb, var(--md-primary) var(--state-hover), transparent); }
 
 .sub-row input {
   margin-top: 3px;
-  width: 16px;
-  height: 16px;
-  accent-color: var(--ink);
+  width: 18px;
+  height: 18px;
+  accent-color: var(--md-primary);
   cursor: pointer;
   flex-shrink: 0;
 }
@@ -102,8 +115,10 @@
   flex-direction: column;
   gap: 3px;
   padding: var(--s2) var(--s3);
-  background: var(--surface);
-  border: 1px solid var(--line-strong);
-  border-radius: var(--r);
-  box-shadow: var(--shade);
+  background: var(--md-on-surface);
+  color: var(--md-surface);
+  border: 0;
+  border-radius: var(--r-sm);
+  box-shadow: var(--e3);
 }
+.chart-tip .muted, .chart-tip .faint { color: color-mix(in srgb, var(--md-surface) 75%, transparent); }

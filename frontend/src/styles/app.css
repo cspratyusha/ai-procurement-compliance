@@ -1,5 +1,7 @@
 /* ============================================================
-   Shared component layer — matte primitives
+   Shared component layer — Material You primitives
+   State layers are expressed with color-mix() over the element's
+   own container colour, so hover/press never shift hue.
    ============================================================ */
 
 /* ---------------- Layout ---------------- */
@@ -20,7 +22,9 @@
   padding: 0 var(--s5);
 }
 
-.page { padding: var(--s6) 0 var(--s9); }
+/* Longhands only: pages are usually `.container.page`, and a padding
+   shorthand here would zero the container's side gutters. */
+.page { padding-top: var(--s6); padding-bottom: var(--s9); }
 
 .page-head {
   display: flex;
@@ -31,7 +35,7 @@
   flex-wrap: wrap;
 }
 
-.page-title { font-size: var(--fs-lg); letter-spacing: -0.025em; }
+.page-title { font-size: var(--fs-lg); font-weight: 500; letter-spacing: 0; }
 
 .page-sub {
   color: var(--ink-muted);
@@ -42,10 +46,10 @@
 
 .eyebrow {
   font-size: var(--fs-xs);
-  font-weight: 600;
-  letter-spacing: 0.09em;
+  font-weight: 500;
+  letter-spacing: 0.08em;
   text-transform: uppercase;
-  color: var(--ink-faint);
+  color: var(--md-primary);
 }
 
 .stack { display: flex; flex-direction: column; }
@@ -77,11 +81,12 @@
   .container { padding: 0 var(--s4); }
 }
 
-/* ---------------- Surfaces ---------------- */
+/* ---------------- Surfaces ----------------
+   Cards separate from the page by tone, not by border. */
 
 .card {
-  background: var(--surface);
-  border: 1px solid var(--line);
+  background: var(--md-surface-container);
+  border: 0;
   border-radius: var(--r-lg);
   padding: var(--s5);
   box-shadow: var(--e1);
@@ -91,14 +96,14 @@
 
 .card-head {
   padding: var(--s4) var(--s5);
-  border-bottom: 1px solid var(--line);
+  border-bottom: 1px solid var(--md-outline-variant);
   display: flex;
   align-items: center;
   justify-content: space-between;
   gap: var(--s3);
 }
 
-.card-title { font-size: var(--fs-base); font-weight: 600; }
+.card-title { font-size: var(--fs-base); font-weight: 500; }
 
 .card-body { padding: var(--s5); }
 
@@ -108,25 +113,26 @@
   text-align: left;
   width: 100%;
   cursor: pointer;
-  transition: background var(--t), border-color var(--t);
+  transition: background var(--t-slow), box-shadow var(--t-slow), transform var(--t);
 }
-.card-link { box-shadow: var(--e1); }
 .card-link:hover {
-  background: var(--surface-hover);
-  border-color: var(--line-strong);
+  background: color-mix(in srgb, var(--md-primary) var(--state-hover), var(--md-surface-container));
   box-shadow: var(--e2);
 }
+.card-link:active { transform: scale(0.99); }
 
 .sunk {
-  background: var(--surface-sunk);
-  border: 1px solid var(--line);
-  border-radius: var(--r);
+  background: var(--md-surface-container-highest);
+  border: 0;
+  border-radius: var(--r-md);
   padding: var(--s4);
 }
 
-.divider { height: 1px; background: var(--line); border: 0; margin: 0; }
+.divider { height: 1px; background: var(--md-outline-variant); border: 0; margin: 0; }
 
-/* ---------------- Buttons ---------------- */
+/* ---------------- Buttons ----------------
+   Every button is a pill. Hover lays a state layer over the container;
+   press scales down for tactile feedback. */
 
 .btn {
   display: inline-flex;
@@ -134,146 +140,181 @@
   justify-content: center;
   gap: var(--s2);
   min-height: 40px;
-  padding: 0 var(--s4);
-  border-radius: var(--r);
+  padding: 0 var(--s5);
+  border-radius: var(--r-full);
   border: 1px solid transparent;
   font-size: var(--fs-sm);
   font-weight: 500;
+  letter-spacing: 0.01em;
   white-space: nowrap;
   cursor: pointer;
   transition: background var(--t), border-color var(--t), color var(--t),
-              opacity var(--t), box-shadow var(--t), transform var(--t);
+              box-shadow var(--t), transform var(--t);
 }
 
-.btn:disabled { opacity: 0.45; cursor: not-allowed; }
+.btn:active:not(:disabled) { transform: scale(0.95); }
+.btn:disabled { opacity: 0.5; cursor: not-allowed; }
 
+/* Filled */
 .btn-primary {
-  background: var(--ink);
-  color: var(--paper);
-  box-shadow: var(--e1);
+  background: var(--md-primary);
+  color: var(--md-on-primary);
 }
-.btn-primary:hover:not(:disabled) { background: var(--ink-soft); box-shadow: var(--e2); }
-.btn-primary:active:not(:disabled) { box-shadow: none; transform: translateY(0.5px); }
+.btn-primary:hover:not(:disabled) {
+  background: color-mix(in srgb, var(--md-primary) 90%, var(--paper));
+  box-shadow: var(--e2);
+}
+.btn-primary:active:not(:disabled) {
+  background: color-mix(in srgb, var(--md-primary) 80%, var(--paper));
+  box-shadow: none;
+}
 
+/* Tonal */
 .btn-secondary {
-  background: var(--surface);
-  color: var(--ink);
-  border-color: var(--line-strong);
+  background: var(--md-secondary-container);
+  color: var(--md-on-secondary-container);
+}
+.btn-secondary:hover:not(:disabled) {
+  background: color-mix(in srgb, var(--md-on-secondary-container) var(--state-hover), var(--md-secondary-container));
   box-shadow: var(--e1);
 }
-.btn-secondary:hover:not(:disabled) { background: var(--surface-hover); border-color: var(--ink-faint); }
-.btn-secondary:active:not(:disabled) { box-shadow: none; transform: translateY(0.5px); }
-
-.btn-ghost { background: transparent; color: var(--ink-muted); }
-.btn-ghost:hover:not(:disabled) { background: var(--surface-hover); color: var(--ink); }
-
-.btn-accent {
-  background: var(--accent-soft);
-  color: var(--accent);
-  border-color: var(--accent-line);
+.btn-secondary:active:not(:disabled) {
+  background: color-mix(in srgb, var(--md-on-secondary-container) var(--state-pressed), var(--md-secondary-container));
 }
-.btn-accent:hover:not(:disabled) { border-color: var(--accent); }
 
-.btn-lg { min-height: 48px; padding: 0 var(--s5); font-size: var(--fs-base); }
-.btn-sm { min-height: 32px; padding: 0 var(--s3); font-size: var(--fs-xs); }
+/* Text */
+.btn-ghost { background: transparent; color: var(--md-primary); }
+.btn-ghost:hover:not(:disabled) {
+  background: color-mix(in srgb, var(--md-primary) var(--state-hover), transparent);
+}
+
+/* Outlined — the accent variant keeps its "draw attention quietly" role */
+.btn-accent {
+  background: transparent;
+  color: var(--md-primary);
+  border-color: var(--md-outline);
+}
+.btn-accent:hover:not(:disabled) {
+  background: color-mix(in srgb, var(--md-primary) 6%, transparent);
+}
+
+.btn-lg { min-height: 48px; padding: 0 var(--s6); font-size: var(--fs-base); }
+.btn-sm { min-height: 36px; padding: 0 var(--s4); font-size: var(--fs-sm); }
 
 .btn-icon {
   min-height: 40px; width: 40px; padding: 0;
-  color: var(--ink-muted);
-  border-radius: var(--r);
+  color: var(--md-on-surface-variant);
+  border-radius: var(--r-full);
   display: inline-flex; align-items: center; justify-content: center;
-  transition: background var(--t), color var(--t);
+  transition: background var(--t), color var(--t), transform var(--t);
 }
-.btn-icon:hover { background: var(--surface-hover); color: var(--ink); }
+.btn-icon:hover {
+  background: color-mix(in srgb, var(--md-on-surface) var(--state-hover), transparent);
+  color: var(--md-on-surface);
+}
+.btn-icon:active { transform: scale(0.92); }
 
-/* ---------------- Badges ---------------- */
+/* ---------------- Badges (assist chips) ---------------- */
 
 .badge {
   display: inline-flex;
   align-items: center;
   gap: 5px;
-  padding: 3px var(--s2);
-  border-radius: var(--r-sm);
+  padding: 3px 10px;
+  border-radius: var(--r-full);
   font-size: var(--fs-xs);
   font-weight: 500;
   line-height: 1.5;
-  border: 1px solid transparent;
+  letter-spacing: 0.01em;
+  border: 0;
   white-space: nowrap;
+  font-variant-numeric: tabular-nums;
 }
 
 .badge > svg { flex-shrink: 0; }
 
-.badge-neutral { background: var(--surface-sunk); color: var(--ink-muted); border-color: var(--line); }
-.badge-ok      { background: var(--ok-soft);   color: var(--ok);   border-color: color-mix(in srgb, var(--ok) 26%, transparent); }
-.badge-warn    { background: var(--warn-soft); color: var(--warn); border-color: color-mix(in srgb, var(--warn) 26%, transparent); }
-.badge-crit    { background: var(--crit-soft); color: var(--crit); border-color: color-mix(in srgb, var(--crit) 26%, transparent); }
-.badge-info    { background: var(--info-soft); color: var(--info); border-color: color-mix(in srgb, var(--info) 26%, transparent); }
-.badge-accent  { background: var(--accent-soft); color: var(--accent); border-color: var(--accent-line); }
+.badge-neutral { background: var(--md-surface-container-highest); color: var(--md-on-surface-variant); }
+.badge-ok      { background: var(--ok-soft);   color: var(--ok); }
+.badge-warn    { background: var(--warn-soft); color: var(--warn); }
+.badge-crit    { background: var(--crit-soft); color: var(--crit); }
+.badge-info    { background: var(--info-soft); color: var(--info); }
+.badge-accent  { background: var(--md-secondary-container); color: var(--md-on-secondary-container); }
 
-.mono { font-family: var(--mono); font-size: 0.95em; letter-spacing: -0.01em; }
+.mono { font-family: var(--mono); font-size: 0.92em; letter-spacing: 0; }
 
-/* ---------------- Forms ---------------- */
+/* ---------------- Forms: MD3 filled text fields ----------------
+   Rounded top, square bottom, an active indicator along the bottom edge
+   that thickens to 2px in the primary colour on focus. The extra pixel is an
+   inset shadow so focusing never shifts layout. */
 
 .field { display: flex; flex-direction: column; gap: var(--s2); }
 
-.label { font-size: var(--fs-sm); font-weight: 500; color: var(--ink-soft); }
+.label { font-size: var(--fs-sm); font-weight: 500; color: var(--md-on-surface-variant); }
 
 .hint { font-size: var(--fs-xs); color: var(--ink-muted); }
 
 .input, .select, .textarea {
   width: 100%;
-  background: var(--surface);
-  border: 1px solid var(--line-strong);
-  border-radius: var(--r);
-  padding: 10px var(--s3);
+  min-height: 48px;
+  background: var(--md-surface-container-highest);
+  border: 0;
+  border-bottom: 1px solid var(--md-outline);
+  border-radius: var(--r) var(--r) 0 0;
+  padding: 12px var(--s4);
   font-size: var(--fs-base);
   color: var(--ink);
-  transition: border-color var(--t), box-shadow var(--t);
+  transition: background var(--t), border-color var(--t), box-shadow var(--t);
 }
 
-.input::placeholder, .textarea::placeholder { color: var(--ink-faint); }
+.input::placeholder, .textarea::placeholder { color: color-mix(in srgb, var(--md-on-surface) 55%, transparent); }
 
-.input:hover, .select:hover, .textarea:hover { border-color: var(--ink-faint); }
+.input:hover, .select:hover, .textarea:hover {
+  background: color-mix(in srgb, var(--md-on-surface) 5%, var(--md-surface-container-highest));
+  border-bottom-color: var(--md-on-surface);
+}
 
 .input:focus, .select:focus, .textarea:focus {
   outline: none;
-  border-color: var(--ink);
-  /* A ring, not a glow — one crisp band at low alpha */
-  box-shadow: 0 0 0 3px color-mix(in srgb, var(--ink) 11%, transparent);
+  border-bottom-color: var(--md-primary);
+  box-shadow: inset 0 -1px 0 var(--md-primary);
 }
 
-.textarea { resize: vertical; min-height: 120px; line-height: 1.6; }
+.textarea { resize: vertical; min-height: 120px; line-height: 1.6; padding-top: var(--s4); }
 
 .select { cursor: pointer; appearance: none;
-  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='none' stroke='%236B6B66' stroke-width='2.5'%3E%3Cpath d='M6 9l6 6 6-6'/%3E%3C/svg%3E");
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='none' stroke='%2349454F' stroke-width='2.5'%3E%3Cpath d='M6 9l6 6 6-6'/%3E%3C/svg%3E");
   background-repeat: no-repeat;
-  background-position: right var(--s3) center;
-  padding-right: var(--s6);
+  background-position: right var(--s4) center;
+  padding-right: var(--s7);
 }
 
 .check { display: flex; align-items: flex-start; gap: var(--s3); cursor: pointer; }
-.check input { margin-top: 3px; width: 16px; height: 16px; accent-color: var(--ink); cursor: pointer; flex-shrink: 0; }
+.check input { margin-top: 3px; width: 18px; height: 18px; accent-color: var(--md-primary); cursor: pointer; flex-shrink: 0; }
 
-/* Segmented control */
+/* Segmented buttons: an outlined pill split into segments; the selected
+   segment fills with secondary-container. */
 .seg {
   display: inline-flex;
-  background: var(--surface-sunk);
-  border: 1px solid var(--line);
-  border-radius: var(--r);
-  padding: 2px;
-  gap: 2px;
+  border: 1px solid var(--md-outline);
+  border-radius: var(--r-full);
+  overflow: hidden;
+  padding: 0;
+  gap: 0;
 }
 .seg button {
-  padding: 6px var(--s3);
-  border-radius: var(--r-sm);
-  font-size: var(--fs-xs);
+  padding: 0 var(--s4);
+  font-size: var(--fs-sm);
   font-weight: 500;
-  color: var(--ink-muted);
+  color: var(--md-on-surface);
+  min-height: 36px;
   transition: background var(--t), color var(--t);
-  min-height: 30px;
 }
-.seg button:hover { color: var(--ink); }
-.seg button[aria-pressed='true'] { background: var(--surface); color: var(--ink); box-shadow: var(--shade); }
+.seg button + button { border-left: 1px solid var(--md-outline); }
+.seg button:hover { background: color-mix(in srgb, var(--md-on-surface) var(--state-hover), transparent); }
+.seg button[aria-pressed='true'] {
+  background: var(--md-secondary-container);
+  color: var(--md-on-secondary-container);
+}
 
 /* ---------------- Tables ---------------- */
 
@@ -281,25 +322,32 @@
 
 .table th {
   text-align: left;
-  font-size: var(--fs-xs);
-  font-weight: 600;
-  letter-spacing: 0.05em;
-  text-transform: uppercase;
-  color: var(--ink-faint);
+  font-size: var(--fs-sm);
+  font-weight: 500;
+  letter-spacing: 0.01em;
+  color: var(--md-on-surface-variant);
   padding: var(--s3) var(--s4);
-  border-bottom: 1px solid var(--line);
+  background: var(--md-surface-container-high);
+  border-bottom: 1px solid var(--md-outline-variant);
   white-space: nowrap;
+  font-variant-numeric: tabular-nums;
 }
 
 .table td {
   padding: var(--s3) var(--s4);
-  border-bottom: 1px solid var(--line);
+  border-bottom: 1px solid var(--md-outline-variant);
   vertical-align: middle;
 }
 
 .table tbody tr:last-child td { border-bottom: 0; }
 .table tbody tr { transition: background var(--t); }
-.table-hover tbody tr:hover { background: var(--surface-hover); }
+.table-hover tbody tr:hover { background: color-mix(in srgb, var(--md-primary) 6%, transparent); }
+
+.table thead th:first-child { border-top-left-radius: var(--r); }
+.table thead th:last-child  { border-top-right-radius: var(--r); }
+
+/* Numeric columns align on the decimal */
+.table td.tabular, .table td .tabular { font-variant-numeric: tabular-nums; }
 
 /* A horizontally scrollable region must be reachable by keyboard, otherwise
    its overflowed content is unreachable without a mouse. tabindex is applied
@@ -310,7 +358,7 @@
   overflow-x: auto;
   max-width: 100%;
 }
-.scroll-x:focus-visible { outline: 2px solid var(--ink); outline-offset: -2px; }
+.scroll-x:focus-visible { outline: 2px solid var(--md-primary); outline-offset: -2px; }
 
 /* ---------------- States ---------------- */
 
@@ -319,17 +367,17 @@
   padding: var(--s8) var(--s5);
   color: var(--ink-muted);
 }
-.empty-title { font-weight: 600; color: var(--ink); margin-bottom: var(--s2); font-size: var(--fs-base); }
+.empty-title { font-weight: 500; color: var(--ink); margin-bottom: var(--s2); font-size: var(--fs-md); }
 
 .skeleton {
-  background: var(--surface-sunk);
-  border-radius: var(--r-sm);
+  background: var(--md-surface-container-high);
+  border-radius: var(--r);
   animation: pulse 1.6s ease-in-out infinite;
 }
 @keyframes pulse { 0%, 100% { opacity: 1; } 50% { opacity: 0.55; } }
 
 .spinner {
-  width: 15px; height: 15px;
+  width: 16px; height: 16px;
   border: 2px solid color-mix(in srgb, currentColor 25%, transparent);
   border-top-color: currentColor;
   border-radius: 50%;
@@ -338,22 +386,22 @@
 }
 @keyframes spin { to { transform: rotate(360deg); } }
 
-.fade-in { animation: fade var(--t) ease-out; }
-@keyframes fade { from { opacity: 0; transform: translateY(3px); } to { opacity: 1; transform: none; } }
+.fade-in { animation: fade 300ms var(--ease) both; }
+@keyframes fade { from { opacity: 0; transform: translateY(6px) scale(0.99); } to { opacity: 1; transform: none; } }
 
-/* ---------------- Meter ---------------- */
+/* ---------------- Meter (linear progress) ---------------- */
 
 .meter {
-  height: 4px;
-  background: var(--surface-sunk);
-  border-radius: 2px;
+  height: 6px;
+  background: var(--md-secondary-container);
+  border-radius: var(--r-full);
   overflow: hidden;
 }
 .meter-fill {
   height: 100%;
-  border-radius: 2px;
-  background: var(--ink);
-  transition: width 320ms cubic-bezier(0.4, 0, 0.2, 1);
+  border-radius: var(--r-full);
+  background: var(--md-primary);
+  transition: width 400ms var(--ease);
 }
 
 /* ---------------- Utilities ---------------- */
@@ -362,10 +410,19 @@
 .faint { color: var(--ink-faint); }
 .small { font-size: var(--fs-sm); }
 .xs    { font-size: var(--fs-xs); }
-.strong{ font-weight: 600; }
+.strong{ font-weight: 500; }
 .center{ text-align: center; }
 .nowrap{ white-space: nowrap; }
 .tabular { font-variant-numeric: tabular-nums; }
+
+/* Headline figure on a stat tile */
+.stat-value {
+  font-size: var(--fs-xl);
+  font-weight: 500;
+  line-height: 1.2;
+  color: var(--md-primary);
+  font-variant-numeric: tabular-nums;
+}
 
 /* ---------------- Workbench split layouts ----------------
    Two-column screens: a main column plus a side rail. The rail width varies
@@ -385,7 +442,7 @@
   grid-template-columns: minmax(0, var(--rail, 320px)) minmax(0, 1fr);
 }
 
-/* Between 900px and ~1200px the sidebar (248px) plus a fixed rail leaves the
+/* Between 900px and ~1200px the sidebar plus a fixed rail leaves the
    main column too narrow, and its content pushes the page sideways. Let the
    rail shrink in that band instead of holding its full width. */
 @media (max-width: 1200px) {
@@ -401,50 +458,21 @@
 
 .wordmark {
   font-size: var(--fs-md);
-  font-weight: 600;
-  letter-spacing: -0.03em;
-  color: var(--ink);
+  font-weight: 700;
+  letter-spacing: -0.01em;
+  color: var(--md-primary);
   line-height: 1.1;
-}
-
-/* The second syllable carries the accent — identity without an icon */
-.wordmark::after {
-  content: '';
 }
 
 .wordmark-sm { font-size: var(--fs-sm); }
 
-/* ---------------- Refined table treatment ---------------- */
-
-.table th {
-  background: var(--surface-sunk);
-  font-variant-numeric: tabular-nums;
-}
-
-.table thead th:first-child { border-top-left-radius: var(--r); }
-.table thead th:last-child  { border-top-right-radius: var(--r); }
-
-/* Numeric columns align on the decimal */
-.table td.tabular, .table td .tabular { font-variant-numeric: tabular-nums; }
-
-/* ---------------- Badge refinement ---------------- */
-
-.badge {
-  letter-spacing: 0.005em;
-  font-variant-numeric: tabular-nums;
-}
-
-/* ---------------- Section headings ---------------- */
-
-.eyebrow {
-  /* Slightly wider tracking reads as deliberate at small sizes */
-  letter-spacing: 0.1em;
-}
-
 /* ---------------- Focus ring consistency ---------------- */
 
 .btn:focus-visible,
+.btn-icon:focus-visible,
 .card-link:focus-visible {
-  outline: 2px solid var(--ink);
+  outline: 2px solid var(--md-primary);
   outline-offset: 2px;
 }
+.btn:focus-visible, .btn-icon:focus-visible { border-radius: var(--r-full); }
+.card-link:focus-visible { border-radius: var(--r-lg); }

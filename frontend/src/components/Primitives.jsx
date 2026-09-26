@@ -64,7 +64,7 @@ export function StatTile({ label, value, delta, trend }) {
   return (
     <div className="card stack stack-3">
       <span className="xs faint">{label}</span>
-      <span className="tabular" style={{ fontSize: 'var(--fs-xl)', fontWeight: 600, letterSpacing: '-0.03em' }}>
+      <span className="tabular stat-value">
         {value.toLocaleString('en-IN')}
       </span>
       {delta && (

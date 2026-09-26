@@ -51,24 +51,17 @@ const STATS = [
   { value: '~22,000', label: 'Published Indian Standards', note: 'The full catalogue, for scale' },
 ];
 
-export default function Landing({ theme, onToggleTheme }) {
+export default function Landing() {
   return (
     <div className="landing">
       <header className="landing-nav">
         <div className="container row-between">
           <span className="wordmark">StandEng</span>
           <div className="row" style={{ gap: 'var(--s2)' }}>
-            <button
-              className="btn-icon"
-              onClick={onToggleTheme}
-              aria-label={`Switch to ${theme === 'dark' ? 'light' : 'dark'} theme`}
-            >
-              <Icon name={theme === 'dark' ? 'sun' : 'moon'} size={18} />
-            </button>
             <StartDemoButton className="btn btn-secondary btn-sm" label="Start Demo" />
             <Link
               to="/login"
-              className="btn btn-secondary btn-sm"
+              className="btn btn-primary btn-sm"
               data-demo-target="landing-signin"
             >
               Sign in
@@ -81,7 +74,12 @@ export default function Landing({ theme, onToggleTheme }) {
           Asymmetric by design — the product's whole claim is that one query
           resolves into a cluster, so the hero shows that happening. */}
       <section className="hero">
-        <div className="container hero-grid">
+        <div className="container">
+        <div className="hero-shell">
+        <span className="blob blob-a" aria-hidden="true" />
+        <span className="blob blob-b" aria-hidden="true" />
+        <span className="blob blob-c" aria-hidden="true" />
+        <div className="hero-grid">
 
           <div className="hero-lede">
             <p className="hero-kicker">
@@ -171,12 +169,14 @@ export default function Landing({ theme, onToggleTheme }) {
           </div>
 
         </div>
+        </div>
+        </div>
       </section>
 
       <section className="strip">
         <div className="container grid grid-4">
           {STATS.map((s) => (
-            <div key={s.label} className="stack stack-2 center">
+            <div key={s.label} className="strip-tile stack stack-2 center">
               <span className="strip-value tabular">{s.value}</span>
               <span className="xs faint">{s.label}</span>
               {s.note && <span className="xs faint" style={{ opacity: 0.7 }}>{s.note}</span>}
@@ -194,7 +194,7 @@ export default function Landing({ theme, onToggleTheme }) {
 
           <div className="grid grid-4">
             {BENEFITS.map((b) => (
-              <article key={b.title} className="card stack stack-4">
+              <article key={b.title} className="card feature-card stack stack-4">
                 <span className="benefit-icon"><Icon name={b.icon} size={19} /></span>
                 <div className="row wrap" style={{ gap: 'var(--s2)' }}>
                   <h3 style={{ fontSize: 'var(--fs-md)' }}>{b.title}</h3>
@@ -230,7 +230,7 @@ export default function Landing({ theme, onToggleTheme }) {
               { n: '05', t: 'Grounded explanation', d: 'The model writes the rationale and clause text over verified data only.' },
             ].map((s) => (
               <li key={s.n} className="step">
-                <span className="step-n mono">{s.n}</span>
+                <span className="step-n">{s.n}</span>
                 <div className="stack stack-2">
                   <span className="strong small">{s.t}</span>
                   <span className="xs muted">{s.d}</span>
@@ -242,17 +242,26 @@ export default function Landing({ theme, onToggleTheme }) {
       </section>
 
       <section className="section">
-        <div className="container cta-band">
+        <div className="container">
+        <div className="cta-band">
+          <span className="blob blob-a" aria-hidden="true" />
+          <span className="blob blob-b" aria-hidden="true" />
           <div className="stack stack-4 center">
             <h2 className="section-title">Start with a single specification</h2>
             <p className="small muted" style={{ maxWidth: '54ch' }}>
               Paste a product description and see the full standards cluster in seconds.
             </p>
-            <Link to="/login" className="btn btn-primary btn-lg">
+            <div className="cta-glass">
+              <span>Superseded editions flagged</span>
+              <span>Certification with its QCO</span>
+              <span>Six input languages</span>
+            </div>
+            <Link to="/login" className="btn btn-on-primary btn-lg">
               Open the engine
               <Icon name="arrowRight" size={16} />
             </Link>
           </div>
+        </div>
         </div>
       </section>
 

@@ -113,7 +113,7 @@ export default function Admin() {
 
             <div className="card stack stack-3">
               <span className="xs faint">Corpus served</span>
-              <span className="tabular" style={{ fontSize: 'var(--fs-xl)', fontWeight: 600, letterSpacing: '-0.03em' }}>
+              <span className="tabular stat-value">
                 {data.corpus.corpus_size.toLocaleString('en-IN')}
               </span>
               <span className="xs muted">{data.corpus.sectors.length} sectors</span>
@@ -133,7 +133,7 @@ export default function Admin() {
 
             <div className="card stack stack-3">
               <span className="xs faint">Searches served</span>
-              <span className="tabular" style={{ fontSize: 'var(--fs-xl)', fontWeight: 600, letterSpacing: '-0.03em' }}>
+              <span className="tabular stat-value">
                 {data.stats.queries_total.toLocaleString('en-IN')}
               </span>
               <span className="xs muted">

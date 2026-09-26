@@ -119,9 +119,9 @@ export default function Compliance() {
     return () => controller.abort();
   }, []);
 
-  const ink = readVar('--ink', '#171717');
-  const axis = readVar('--ink-faint', '#94938D');
-  const grid = readVar('--line', '#E3E1DC');
+  const ink = readVar('--ink', '#1C1B1F');
+  const axis = readVar('--ink-faint', '#5F5A66');
+  const grid = readVar('--line', '#CAC4D0');
 
   const axisProps = {
     stroke: axis,
@@ -178,14 +178,14 @@ export default function Compliance() {
           <section className="grid grid-4">
             <div className="card stack stack-3">
               <span className="xs faint">Standards served</span>
-              <span className="tabular" style={{ fontSize: 'var(--fs-xl)', fontWeight: 600, letterSpacing: '-0.03em' }}>
+              <span className="tabular stat-value">
                 {health.corpus_size.toLocaleString('en-IN')}
               </span>
               <span className="xs muted">Across {health.sectors.length} sectors</span>
             </div>
             <div className="card stack stack-3">
               <span className="xs faint">Active editions</span>
-              <span className="tabular" style={{ fontSize: 'var(--fs-xl)', fontWeight: 600, letterSpacing: '-0.03em' }}>
+              <span className="tabular stat-value">
                 {health.active.toLocaleString('en-IN')}
               </span>
               <span className="xs muted">{health.superseded} marked superseded</span>
@@ -205,7 +205,7 @@ export default function Compliance() {
             </div>
             <div className="card stack stack-3">
               <span className="xs faint">Searches served</span>
-              <span className="tabular" style={{ fontSize: 'var(--fs-xl)', fontWeight: 600, letterSpacing: '-0.03em' }}>
+              <span className="tabular stat-value">
                 {stats.queries_total.toLocaleString('en-IN')}
               </span>
               <span className="xs muted">
@@ -274,7 +274,7 @@ export default function Compliance() {
                     <YAxis type="category" dataKey="label" width={130} {...axisProps} />
                     <Tooltip
                       content={<ChartTooltip />}
-                      cursor={{ fill: readVar('--surface-hover', '#EFEEEA') }}
+                      cursor={{ fill: readVar('--surface-hover', '#ECE6F0') }}
                     />
                     <Bar dataKey="standards" name="Standards" radius={[0, 2, 2, 0]} maxBarSize={18}>
                       {health.sectors.slice(0, 8).map((_, i) => (
@@ -316,11 +316,11 @@ export default function Compliance() {
                       <YAxis type="category" dataKey="label" width={130} {...axisProps} />
                       <Tooltip
                         content={<ChartTooltip />}
-                        cursor={{ fill: readVar('--surface-hover', '#EFEEEA') }}
+                        cursor={{ fill: readVar('--surface-hover', '#ECE6F0') }}
                       />
                       <Bar dataKey="queries" name="Searches" radius={[0, 2, 2, 0]} maxBarSize={18}>
                         {stats.categories.map((_, i) => (
-                          <Cell key={i} fill={readVar('--accent', '#7A6A4F')} fillOpacity={1 - i * 0.11} />
+                          <Cell key={i} fill={readVar('--accent', '#6750A4')} fillOpacity={1 - i * 0.11} />
                         ))}
                       </Bar>
                     </BarChart>

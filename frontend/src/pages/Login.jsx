@@ -34,6 +34,8 @@ export default function Login() {
   return (
     <div className="auth">
       <aside className="auth-aside">
+        <span className="blob blob-a" aria-hidden="true" />
+        <span className="blob blob-b" aria-hidden="true" />
         <div className="stack stack-5">
           <Link to="/" style={{ width: 'fit-content' }}>
             <span className="wordmark">StandEng</span>
@@ -53,9 +55,9 @@ export default function Login() {
               { icon: 'file', text: 'Version-stamped audit trail on every query' },
               { icon: 'users', text: 'Role-scoped access and org-wide visibility' },
             ].map((m) => (
-              <div key={m.text} className="row" style={{ gap: 'var(--s3)' }}>
-                <Icon name={m.icon} size={15} />
-                <span className="xs muted">{m.text}</span>
+              <div key={m.text} className="auth-mark">
+                <Icon name={m.icon} size={16} />
+                <span className="small">{m.text}</span>
               </div>
             ))}
           </div>

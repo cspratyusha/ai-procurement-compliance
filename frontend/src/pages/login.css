@@ -2,32 +2,75 @@
   min-height: 100vh;
   display: grid;
   grid-template-columns: 1fr 1fr;
+  gap: var(--s4);
+  padding: var(--s4);
+  background: var(--paper);
 }
 
+/* The aside is the "wallpaper": a large tonal container with organic
+   shapes drifting behind the copy. */
 .auth-aside {
-  background: var(--surface);
-  border-right: 1px solid var(--line);
+  position: relative;
+  overflow: hidden;
+  isolation: isolate;
+  background: var(--md-primary-container);
+  color: var(--md-on-primary-container);
+  border-radius: var(--r-3xl);
   padding: var(--s8) var(--s7);
   display: flex;
   align-items: center;
 }
 
+.auth-aside .blob {
+  position: absolute;
+  pointer-events: none;
+  filter: blur(64px);
+  mix-blend-mode: multiply;
+  z-index: -1;
+}
+.auth-aside .blob-a {
+  width: 420px; height: 360px; top: -140px; right: -120px;
+  border-radius: 100px 100px 100px 20px;
+  background: color-mix(in srgb, var(--md-primary) 45%, transparent);
+}
+.auth-aside .blob-b {
+  width: 320px; height: 320px; bottom: -120px; left: -100px;
+  border-radius: 50%;
+  background: color-mix(in srgb, var(--md-tertiary) 40%, transparent);
+}
+
+.auth-aside .muted { color: color-mix(in srgb, var(--md-on-primary-container) 80%, transparent); }
+
 .auth-quote {
-  font-size: var(--fs-lg);
+  font-size: var(--fs-xl);
   font-weight: 500;
-  letter-spacing: -0.02em;
-  line-height: 1.4;
+  letter-spacing: -0.005em;
+  line-height: 1.3;
   max-width: 20ch;
-  color: var(--ink);
+  color: var(--md-on-primary-container);
 }
 
 .auth-marks {
   display: flex;
   flex-direction: column;
-  gap: var(--s3);
-  padding-top: var(--s5);
-  border-top: 1px solid var(--line);
+  gap: var(--s2);
+  padding-top: var(--s2);
 }
+
+/* Glass rows on the tonal aside */
+.auth-mark {
+  display: flex;
+  align-items: center;
+  gap: var(--s3);
+  padding: var(--s3) var(--s4);
+  border-radius: var(--r-full);
+  background: rgba(255, 255, 255, 0.4);
+  border: 1px solid rgba(255, 255, 255, 0.5);
+  backdrop-filter: blur(6px);
+  width: fit-content;
+  transition: transform var(--t-slow), background var(--t-slow);
+}
+.auth-mark:hover { transform: translateX(4px); background: rgba(255, 255, 255, 0.6); }
 
 .auth-main {
   display: flex;
@@ -38,8 +81,12 @@
 
 .auth-card {
   width: 100%;
-  max-width: 400px;
+  max-width: 420px;
   margin: 0 auto;
+  padding: var(--s6);
+  background: var(--md-surface-container-low);
+  border-radius: var(--r-xl);
+  box-shadow: var(--e1);
 }
 
 .auth-or {
@@ -51,38 +98,45 @@
   content: '';
   flex: 1;
   height: 1px;
-  background: var(--line);
+  background: var(--md-outline-variant);
 }
 
+/* Selectable role cards */
 .role-option {
   display: flex;
   align-items: flex-start;
   gap: var(--s3);
-  padding: var(--s3) var(--s4);
-  border: 1px solid var(--line-strong);
-  border-radius: var(--r);
+  padding: var(--s4);
+  border: 1px solid var(--md-outline-variant);
+  border-radius: var(--r-md);
   cursor: pointer;
-  background: var(--surface);
-  transition: border-color var(--t), background var(--t);
+  background: var(--md-surface);
+  transition: border-color var(--t), background var(--t), transform var(--t), box-shadow var(--t);
 }
 
-.role-option:hover { background: var(--surface-hover); }
+.role-option:hover {
+  background: color-mix(in srgb, var(--md-primary) var(--state-hover), var(--md-surface));
+  box-shadow: var(--e1);
+}
+.role-option:active { transform: scale(0.98); }
 
 .role-option.is-selected {
-  border-color: var(--ink);
-  background: var(--surface-sunk);
+  border-color: var(--md-primary);
+  background: var(--md-secondary-container);
+  box-shadow: 0 0 0 1px var(--md-primary);
 }
 
 .role-option input {
-  margin-top: 3px;
-  width: 15px;
-  height: 15px;
-  accent-color: var(--ink);
+  margin-top: 2px;
+  width: 18px;
+  height: 18px;
+  accent-color: var(--md-primary);
   cursor: pointer;
   flex-shrink: 0;
 }
 
 @media (max-width: 860px) {
-  .auth { grid-template-columns: 1fr; }
+  .auth { grid-template-columns: 1fr; padding: var(--s2); }
   .auth-aside { display: none; }
+  .auth-card { padding: var(--s5); border-radius: var(--r-lg); }
 }

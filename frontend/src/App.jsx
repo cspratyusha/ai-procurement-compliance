@@ -1,4 +1,4 @@
-import { useState, useEffect, lazy, Suspense } from 'react';
+import { useEffect, lazy, Suspense } from 'react';
 import { BrowserRouter, Routes, Route, Navigate, useLocation } from 'react-router-dom';
 
 import Shell from './components/Shell';
@@ -55,35 +55,12 @@ function PageLoading() {
   );
 }
 
-function useTheme() {
-  const [theme, setTheme] = useState(() => {
-    try {
-      const stored = localStorage.getItem('bis-theme');
-      if (stored) return stored;
-    } catch {
-      /* storage blocked — fall through to system preference */
-    }
-    return window.matchMedia?.('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
-  });
-
-  useEffect(() => {
-    document.documentElement.setAttribute('data-theme', theme);
-    try {
-      localStorage.setItem('bis-theme', theme);
-    } catch {
-      /* storage blocked — theme still applies for this session */
-    }
-  }, [theme]);
-
-  return [theme, () => setTheme((t) => (t === 'dark' ? 'light' : 'dark'))];
-}
+// The interface is light-only (Material You light scheme). Clear any theme a
+// previous build persisted so an old "dark" preference cannot linger.
+try { localStorage.removeItem('bis-theme'); } catch { /* storage blocked */ }
 
 export default function App() {
-  const [theme, toggleTheme] = useTheme();
-
-  const app = (page) => (
-    <Shell theme={theme} onToggleTheme={toggleTheme}>{page}</Shell>
-  );
+  const app = (page) => <Shell>{page}</Shell>;
 
   return (
     <SpecProvider>
@@ -93,7 +70,7 @@ export default function App() {
             react-router. It renders nothing until the demo is started. */}
         <DemoProvider>
           <Routes>
-            <Route path="/" element={<Landing theme={theme} onToggleTheme={toggleTheme} />} />
+            <Route path="/" element={<Landing />} />
             <Route path="/login" element={<Login />} />
 
             {/* Workbench */}

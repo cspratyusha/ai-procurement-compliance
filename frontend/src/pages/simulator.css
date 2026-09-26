@@ -1,9 +1,9 @@
-.delta { border-left: 2px solid var(--line-strong); }
-.delta-added   { border-left-color: var(--ok); }
+.delta { box-shadow: inset 4px 0 0 var(--md-outline), var(--e1); }
+.delta-added   { box-shadow: inset 4px 0 0 var(--ok), var(--e1); }
 .delta-added .card-head   { color: var(--ok); }
-.delta-changed { border-left-color: var(--warn); }
+.delta-changed { box-shadow: inset 4px 0 0 var(--warn), var(--e1); }
 .delta-changed .card-head { color: var(--warn); }
-.delta-removed { border-left-color: var(--crit); }
+.delta-removed { box-shadow: inset 4px 0 0 var(--crit), var(--e1); }
 .delta-removed .card-head { color: var(--crit); }
 
 .delta-row {
@@ -11,27 +11,27 @@
   flex-direction: column;
   gap: 3px;
   padding: var(--s3);
-  border-radius: var(--r);
+  border-radius: var(--r-md);
   transition: background var(--t);
 }
-.delta-row:hover { background: var(--surface-hover); }
+.delta-row:hover { background: color-mix(in srgb, var(--md-primary) var(--state-hover), transparent); }
 
 .connected-row {
   display: flex;
   align-items: center;
   gap: var(--s3);
   width: 100%;
-  padding: var(--s2) var(--s3);
-  border-radius: var(--r);
+  padding: var(--s2) var(--s4);
+  border-radius: var(--r-full);
   cursor: pointer;
   color: var(--ink-muted);
   transition: background var(--t), color var(--t);
-  min-height: 36px;
+  min-height: 40px;
 }
-.connected-row:hover { background: var(--surface-hover); color: var(--ink); }
+.connected-row:hover { background: color-mix(in srgb, var(--md-primary) var(--state-hover), transparent); color: var(--ink); }
 
 .is-active-row {
-  background: var(--surface-sunk);
-  color: var(--ink);
-  box-shadow: inset 2px 0 0 var(--ink);
+  background: var(--md-secondary-container);
+  color: var(--md-on-secondary-container);
+  font-weight: 500;
 }

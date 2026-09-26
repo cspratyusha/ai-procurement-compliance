@@ -4,9 +4,10 @@
    content. Reserve a gutter for it on viewports wide enough to show it, so
    long lines wrap before they reach it rather than disappearing underneath. */
 @media (min-width: 900px) {
-  .shell-content .container { padding-right: calc(var(--s5) + 44px); }
+  .shell-content .container { padding-right: calc(var(--s5) + 48px); }
 }
 
+/* An extended-FAB-style tab: tertiary tonal, pill on its exposed side. */
 .basket-tab {
   position: fixed;
   right: 0;
@@ -17,48 +18,54 @@
   flex-direction: column;
   align-items: center;
   gap: 4px;
-  padding: var(--s3) 10px;
-  background: var(--surface);
-  border: 1px solid var(--line-strong);
-  border-right: 0;
-  border-radius: var(--r) 0 0 var(--r);
-  color: var(--ink-muted);
+  padding: var(--s4) 12px;
+  background: var(--md-tertiary-container);
+  color: var(--md-on-tertiary-container);
+  border: 0;
+  border-radius: var(--r-md) 0 0 var(--r-md);
+  box-shadow: var(--e2);
   cursor: pointer;
-  transition: background var(--t), color var(--t);
+  transition: background var(--t), box-shadow var(--t), padding var(--t);
 }
 
-.basket-tab:hover { background: var(--surface-hover); color: var(--ink); }
-.basket-tab.has-items { color: var(--ink); border-color: var(--ink); }
+.basket-tab:hover {
+  background: color-mix(in srgb, var(--md-on-tertiary-container) var(--state-hover), var(--md-tertiary-container));
+  box-shadow: var(--e3);
+  padding-right: 16px;
+}
+.basket-tab.has-items { background: var(--md-tertiary); color: var(--md-on-tertiary); }
 
 .basket-tab-count {
   font-size: var(--fs-xs);
-  font-weight: 600;
+  font-weight: 500;
 }
 
 .basket-tab-dot {
   position: absolute;
   top: 6px;
   right: 6px;
-  width: 6px;
-  height: 6px;
+  width: 8px;
+  height: 8px;
   border-radius: 50%;
   background: var(--crit);
 }
 
+/* Modal side sheet */
 .basket {
   position: fixed;
   top: 0;
   right: 0;
   bottom: 0;
-  width: 340px;
+  width: 360px;
   max-width: 92vw;
   z-index: var(--z-drawer);
-  background: var(--surface);
-  border-left: 1px solid var(--line);
+  background: var(--md-surface-container-low);
+  border-radius: var(--r-xl) 0 0 var(--r-xl);
+  box-shadow: var(--e4);
   display: flex;
   flex-direction: column;
-  transform: translateX(100%);
-  transition: transform var(--t);
+  transform: translateX(105%);
+  transition: transform 400ms var(--ease);
 }
 
 .basket.is-open { transform: none; }
@@ -68,15 +75,14 @@
   align-items: center;
   justify-content: space-between;
   gap: var(--s3);
-  padding: var(--s4);
-  border-bottom: 1px solid var(--line);
+  padding: var(--s5) var(--s5) var(--s4);
   flex-shrink: 0;
 }
 
 .basket-body {
   flex: 1;
   overflow-y: auto;
-  padding: var(--s4);
+  padding: 0 var(--s4) var(--s4);
 }
 
 .basket-group + .basket-group { margin-top: var(--s5); }
@@ -85,11 +91,13 @@
   display: flex;
   align-items: flex-start;
   gap: var(--s2);
-  padding: var(--s3);
-  background: var(--surface-sunk);
-  border: 1px solid var(--line);
-  border-radius: var(--r);
+  padding: var(--s3) var(--s3) var(--s3) var(--s4);
+  background: var(--md-surface);
+  border: 0;
+  border-radius: var(--r-md);
+  transition: box-shadow var(--t);
 }
+.basket-item:hover { box-shadow: var(--e1); }
 
 .basket-item-title {
   line-height: 1.45;
@@ -108,9 +116,9 @@
 }
 
 .basket-mini {
-  min-height: 22px;
-  width: 22px;
-  border-radius: var(--r-sm);
+  min-height: 28px;
+  width: 28px;
+  border-radius: var(--r-full);
 }
 .basket-mini:disabled { opacity: 0.3; cursor: not-allowed; }
 
@@ -118,8 +126,8 @@
   display: flex;
   flex-direction: column;
   gap: var(--s2);
-  padding: var(--s4);
-  border-top: 1px solid var(--line);
+  padding: var(--s4) var(--s5) var(--s5);
+  border-top: 1px solid var(--md-outline-variant);
   flex-shrink: 0;
 }
 

@@ -83,13 +83,8 @@ function StatTile({ label, value, suffix = '', hint }) {
     <div className="card stack stack-3">
       <span className="xs faint">{label}</span>
       <span
-        className="tabular"
-        style={{
-          fontSize: 'var(--fs-xl)',
-          fontWeight: 600,
-          letterSpacing: '-0.03em',
-          color: missing ? 'var(--ink-faint)' : undefined,
-        }}
+        className="tabular stat-value"
+        style={{ color: missing ? 'var(--ink-faint)' : undefined }}
       >
         {missing ? '—' : `${typeof value === 'number' ? value.toLocaleString('en-IN') : value}${suffix}`}
       </span>

@@ -38,7 +38,7 @@ const NAV = [
   },
 ];
 
-export default function Shell({ children, theme, onToggleTheme }) {
+export default function Shell({ children }) {
   const [open, setOpen] = useState(false);
   const navigate = useNavigate();
   const isAdmin = USER.role.includes('Admin');
@@ -140,15 +140,6 @@ export default function Shell({ children, theme, onToggleTheme }) {
           <div className="grow" />
 
           <StartDemoButton className="btn btn-secondary btn-sm" label="Start Demo" />
-
-          <button
-            className="btn-icon"
-            onClick={onToggleTheme}
-            aria-label={`Switch to ${theme === 'dark' ? 'light' : 'dark'} theme`}
-            title={`Switch to ${theme === 'dark' ? 'light' : 'dark'} theme`}
-          >
-            <Icon name={theme === 'dark' ? 'sun' : 'moon'} size={18} />
-          </button>
 
           <button
             className="btn-icon topbar-bell"
