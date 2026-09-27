@@ -275,5 +275,45 @@ class TestEndpoints(unittest.TestCase):
         self.assertEqual(res.status_code, 422)
 
 
+class TestDependencyGaps(unittest.TestCase):
+    """What the cited standards depend on that the tender leaves out."""
+
+    def gaps(self, text):
+        return {g["standard"].split(":")[0]: g for g in audit_module.audit_text(text)["dependency_gaps"]}
+
+    def test_a_cited_standard_brings_its_dependencies(self):
+        """IS 694 specifies its conductor by IS 8130 and its tests by IS 10810."""
+        gaps = self.gaps("Cables shall conform to IS 694:2010.")
+        self.assertIn("IS 8130", gaps)
+        self.assertIn("IS 10810", gaps)
+        self.assertEqual(gaps["IS 8130"]["required_by"], ["IS 694:2010"])
+        self.assertTrue(gaps["IS 8130"]["evidence"])          # shown with why
+
+    def test_what_the_tender_already_cites_is_not_a_gap(self):
+        gaps = self.gaps("Cables to IS 694:2010, conductors to IS 8130, tested to IS 10810.")
+        self.assertNotIn("IS 8130", gaps)
+        self.assertNotIn("IS 10810", gaps)                    # the whole series covers its parts
+
+    def test_parts_of_one_series_are_one_line(self):
+        gaps = [g for g in audit_module.audit_text("Cables shall conform to IS 694:2010.")["dependency_gaps"]
+                if g["standard"].startswith("IS 10810")]
+        self.assertLessEqual(len(gaps), 1)
+
+    def test_vocabularies_are_not_listed(self):
+        for gap in audit_module.audit_text("Cables shall conform to IS 694:2010.")["dependency_gaps"]:
+            self.assertNotRegex(gap["title"].lower(), "vocabulary|glossary|terminology")
+
+    def test_no_citations_no_gaps(self):
+        result = audit_module.audit_text("No standards are cited here.")
+        self.assertEqual((result["dependency_gaps"], result["dependency_gaps_total"]), ([], 0))
+
+    def test_a_passing_mention_is_not_a_dependency(self):
+        dep = {"method": "extracted", "found_in": "body", "evidence": "steels for welded tubes (IS 10748 and IS 15647)"}
+        self.assertFalse(audit_module._is_dependency(dep))
+        dep["evidence"] = "The test shall be conducted as per IS 10810 (Part 58)."
+        self.assertTrue(audit_module._is_dependency(dep))
+        self.assertTrue(audit_module._is_dependency({"method": "extracted", "found_in": "references"}))
+
+
 if __name__ == "__main__":
     unittest.main()

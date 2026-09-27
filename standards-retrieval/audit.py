@@ -33,7 +33,9 @@ from typing import Any, Dict, List, Optional
 
 import amendments as amendments_data
 import certification
+import relationships as relationships_data
 from data_loader import load_corpus
+from editions import Editions
 from retrieval.postprocess import extract_base_standard_family
 
 logger = logging.getLogger("standards-retrieval.audit")
@@ -143,6 +145,7 @@ def audit_text(text: str) -> Dict[str, Any]:
     corpus = load_corpus()
     by_number = _corpus_index(corpus)
     families = _family_index(corpus)
+    editions = Editions(corpus)
 
     citations = find_citations(text)
     findings: List[Dict[str, Any]] = []
@@ -166,9 +169,7 @@ def audit_text(text: str) -> Dict[str, Any]:
             continue
 
         if getattr(record, "status", "active") == "superseded":
-            family = extract_base_standard_family(record.number)
-            replacement = _active_in_family(family, families)
-            findings.append(_superseded_finding(citation, record, replacement))
+            findings.append(_superseded_finding(citation, record, editions.replacement(record)))
             continue
 
         amendment_finding = _amendment_finding(citation, record)
@@ -178,12 +179,16 @@ def audit_text(text: str) -> Dict[str, Any]:
     order = {SEVERITY_CRITICAL: 0, SEVERITY_MINOR: 1, SEVERITY_INFO: 2}
     findings.sort(key=lambda f: (order.get(f["severity"], 3), f["cited"]))
 
+    gaps, gaps_total = dependency_gaps(citations, by_number, families, editions)
+
     return {
         "citations_found": len(citations),
         "findings": findings,
         "critical_count": sum(1 for f in findings if f["severity"] == SEVERITY_CRITICAL),
         "clean_citations": len(citations) - len(findings),
         "corpus_size": len(corpus),
+        "dependency_gaps": gaps,
+        "dependency_gaps_total": gaps_total,
         "note": (
             "Only the IS numbers this document already cites were checked. Whether "
             "the tender cites the right standards for its goods is not assessed, so "
@@ -192,23 +197,158 @@ def audit_text(text: str) -> Dict[str, Any]:
     }
 
 
-def _superseded_finding(citation: Dict[str, Any], record: Any, replacement: Optional[Any]) -> Dict[str, Any]:
-    """The cited edition has been superseded."""
-    if replacement is not None:
+# Which kinds of dependency a tender should carry alongside the standard that
+# needs them, most important first. Terminology is left out: a vocabulary
+# standard does not change what is supplied.
+_GAP_TYPES = {"normative_reference": 0, "material_spec": 1, "test_method": 2, "installation": 3}
+_GAP_LIMIT = 80
+# A dependency, as opposed to a passing mention: read from the standard's
+# references clause, recorded by hand, or stated with obligation wording.
+_OBLIGATION = re.compile(r"\bshall\b|in accordance with|as per\b|conform(?:s|ing)? to|complying with|comply with", re.IGNORECASE)
+_VOCABULARY = re.compile(r"vocabulary|glossary|terminology|definitions", re.IGNORECASE)
+
+
+def _is_dependency(dep: Dict[str, Any]) -> bool:
+    if dep.get("method") == "curated":
+        return True
+    if dep.get("found_in") == "references":
+        return True
+    return bool(_OBLIGATION.search(dep.get("evidence") or ""))
+
+
+def _bare_family(number: str) -> str:
+    """'IS 10810 (Part 4):1984' -> 'IS 10810'. A citation of the whole series covers every part."""
+    return re.split(r"[\s:(]", " ".join(number.split()).upper().replace("IS ", "IS", 1), maxsplit=1)[0]
+
+
+def dependency_gaps(citations, by_number, families, editions) -> tuple:
+    """Standards the cited ones depend on that the document does not cite.
+
+    Read from the allied-standards graph: each dependency was read from the
+    cited standard's own text (its references clause or a "shall conform to"
+    sentence), or recorded by hand, and the evidence comes with it. A tender
+    that cites IS 694 but not the IS 8130 it requires for conductors
+    specifies cable whose conductor is left undefined.
+
+    Returns (gaps, total): gaps capped at _GAP_LIMIT, most-needed first.
+    """
+    cited_families = set()
+    cited_bare = set()
+    records = []
+    for citation in citations:
+        record = by_number.get(citation["cited"].upper())
+        if record is None and not citation["year"]:
+            record = _active_in_family(extract_base_standard_family(citation["cited"]), families)
+        cited_families.add(extract_base_standard_family(citation["cited"]))
+        if not re.search(r"\(\s*part", citation["cited"], re.IGNORECASE):
+            cited_bare.add(_bare_family(citation["cited"]))
+        if record is not None:
+            records.append(record)
+            cited_families.add(extract_base_standard_family(record.number))
+
+    gaps: Dict[str, Dict[str, Any]] = {}
+    for record in records:
+        for group in relationships_data.related_to(record.number).get("depends_on", []):
+            for dep in group["standards"]:
+                kind = dep.get("type") or group.get("type")
+                if kind not in _GAP_TYPES or not _is_dependency(dep):
+                    continue
+                family = extract_base_standard_family(dep["number"])
+                if family in cited_families or _bare_family(dep["number"]) in cited_bare:
+                    continue
+                # Point at the edition in force when the corpus holds the family.
+                held = by_number.get(dep["number"].upper())
+                current = None
+                if held is not None and getattr(held, "status", "active") == "superseded":
+                    current = editions.replacement(held)["number"]
+                elif held is None:
+                    active = _active_in_family(family, families)
+                    current = active.number if active is not None else None
+                suggest = current or (held.number if held is not None else dep["number"])
+                title = (held.title if held is not None else dep.get("title")) or ""
+                if _VOCABULARY.search(title):
+                    continue                             # a vocabulary does not change what is supplied
+                entry = gaps.setdefault(family, {
+                    "standard": suggest,
+                    "title": (held.title if held is not None else dep.get("title")) or "",
+                    "type": kind,
+                    "required_by": [],
+                    "evidence": dep.get("evidence") or dep.get("note"),
+                    "in_corpus": held is not None or current is not None,
+                })
+                if record.number not in entry["required_by"]:
+                    entry["required_by"].append(record.number)
+                if _GAP_TYPES[kind] < _GAP_TYPES[entry["type"]]:
+                    entry["type"] = kind
+
+    # Parts of one series needed together read as one line:
+    # "IS 10810, Parts 0, 4, 6, 44 ..." rather than eight entries.
+    by_series: Dict[str, List[Dict[str, Any]]] = {}
+    for gap in gaps.values():
+        by_series.setdefault(_bare_family(gap["standard"]), []).append(gap)
+
+    out = []
+    for members in by_series.values():
+        parts = sorted({m.group(1).strip() for g in members
+                        for m in [re.search(r"\(\s*Part\s*([^)]+)\)", g["standard"], re.IGNORECASE)] if m},
+                       key=lambda p: (len(p), p))
+        if len(members) == 1 and len(parts) <= 1:
+            out.append({**members[0], "parts": []})
+            continue
+        # Several parts, or the whole series and some parts: one line. The
+        # hand-recorded note, if any, describes the series best.
+        note = next((g["evidence"] for g in members if not re.search(r"\(\s*Part", g["standard"], re.IGNORECASE)), None)
+        out.append({
+            "standard": re.sub(r"\s*[(:].*$", "", members[0]["standard"]),
+            "title": "",
+            "type": min((g["type"] for g in members), key=_GAP_TYPES.get),
+            "required_by": list(dict.fromkeys(r for g in members for r in g["required_by"])),
+            "evidence": note,
+            "in_corpus": any(g["in_corpus"] for g in members),
+            "parts": parts,
+        })
+
+    ranked = sorted(out, key=lambda g: (-len(g["required_by"]), _GAP_TYPES[g["type"]], g["standard"]))
+    return ranked[:_GAP_LIMIT], len(ranked)
+
+
+def _superseded_finding(citation: Dict[str, Any], record: Any, found: Dict[str, Any]) -> Dict[str, Any]:
+    """The cited edition has been superseded or withdrawn.
+
+    `found` is editions.Editions.replacement(record): the edition in force,
+    following BIS's replacement chain, whether or not the corpus holds it.
+    """
+    base = {
+        "kind": "superseded",
+        "cited": citation["cited"],
+        "title": record.title,
+        "occurrences": citation["occurrences"],
+        "context": citation["context"],
+    }
+    if found["number"]:
+        held = found["held"]
         return {
+            **base,
             "severity": SEVERITY_CRITICAL,
-            "kind": "superseded",
-            "cited": citation["cited"],
-            "title": record.title,
-            "occurrences": citation["occurrences"],
-            "context": citation["context"],
-            "replacement": replacement.number,
+            "replacement": found["number"],
             "detail": (
-                f"{citation['cited']} is superseded. {replacement.number} is the active "
-                f"edition. A supplier can meet the superseded edition and still fail the "
-                f"current requirement."
+                f"{citation['cited']} is superseded. {found['number']} is the edition in force"
+                f"{'' if held else ' according to BIS; this corpus does not hold its text'}. "
+                f"A supplier can meet the superseded edition and still fail the current requirement."
             ),
-            "action": f"Replace the citation with {replacement.number}.",
+            "action": f"Replace the citation with {found['number']}.",
+        }
+    if found["withdrawn_without_replacement"]:
+        reason = f" ({found['note']})" if found["note"] else ""
+        return {
+            **base,
+            "severity": SEVERITY_CRITICAL,
+            "replacement": None,
+            "detail": (
+                f"BIS lists {citation['cited']} as withdrawn with no replacement{reason}. "
+                f"A withdrawn standard cannot be enforced as a requirement."
+            ),
+            "action": "Remove the citation and specify the requirement directly, or cite a current standard that covers it.",
         }
 
     return {
@@ -244,9 +384,8 @@ def _amendment_finding(citation: Dict[str, Any], record: Any) -> Optional[Dict[s
         "replacement": None,
         "amendment_count": count,
         "detail": (
-            f"{count} published amendment{'' if count == 1 else 's'} "
-            f"{'is' if count == 1 else 'are'} in force for {record.number}, and this "
-            f"citation does not mention them."
+            f"{amendments_data.describe(info, record.number)} This citation does not "
+            f"mention {'it' if count == 1 else 'them'}."
         ),
         "action": info.get("citation") or record.number,
     }

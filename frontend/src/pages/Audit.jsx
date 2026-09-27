@@ -348,8 +348,92 @@ export default function Audit() {
               </div>
             </>
           )}
+
+          <DependencyGaps gaps={result.dependency_gaps ?? []} total={result.dependency_gaps_total ?? 0} />
         </div>
       )}
     </div>
+  );
+}
+
+const GAP_TYPE = {
+  normative_reference: 'Required by reference',
+  material_spec: 'Material',
+  test_method: 'Test method',
+  installation: 'Installation',
+};
+
+const GROUP_PREVIEW = 4;
+
+/**
+ * Standards the cited ones depend on, which the tender does not cite.
+ *
+ * Read from each cited standard's own text (its references clause, or a
+ * "shall be tested as per ..." sentence) or recorded by hand, with the
+ * evidence shown, so the officer can judge whether the tender needs it. Kept
+ * apart from the findings above: those are defects in what is cited; these
+ * are things the cited standards point to.
+ */
+function DependencyGaps({ gaps, total }) {
+  const [open, setOpen] = useState({});
+  if (!gaps.length) return null;
+
+  const groups = {};
+  gaps.forEach((g) => { (groups[g.required_by[0]] ||= []).push(g); });
+
+  return (
+    <section className="card card-flush" data-demo-target="audit-dependencies">
+      <div className="card-head">
+        <div className="stack stack-2">
+          <h2 className="card-title">What the cited standards depend on</h2>
+          <span className="xs faint">
+            {total} standard{total === 1 ? '' : 's'} the cited ones require, read from their own text, that this tender
+            does not cite. Check whether the tender should cite them too.
+          </span>
+        </div>
+      </div>
+      <div className="stack" style={{ padding: 'var(--s3)', gap: 'var(--s4)' }}>
+        {Object.entries(groups).map(([source, items]) => {
+          const expanded = open[source];
+          const visible = expanded ? items : items.slice(0, GROUP_PREVIEW);
+          return (
+            <div key={source} className="stack stack-2">
+              <span className="xs strong">
+                <span className="mono">{source}</span> refers to
+              </span>
+              {visible.map((g) => (
+                <div key={g.standard} className="dep-row">
+                  <span className="stack stack-2 grow" style={{ minWidth: 0 }}>
+                    <span className="row wrap" style={{ gap: 6 }}>
+                      {g.in_corpus && !g.parts.length ? (
+                        <Link to={`/app/standard/${encodeURIComponent(g.standard)}`} className="mono xs strong">{g.standard}</Link>
+                      ) : (
+                        <span className="mono xs strong">{g.standard}</span>
+                      )}
+                      {g.parts.length > 0 && <span className="xs">Parts {g.parts.join(', ')}</span>}
+                      <span className="badge badge-neutral">{GAP_TYPE[g.type] ?? g.type}</span>
+                      {g.required_by.length > 1 && (
+                        <span className="badge badge-warn">also needed by {g.required_by.slice(1).join(', ')}</span>
+                      )}
+                    </span>
+                    {g.title && <span className="xs muted">{g.title}</span>}
+                    {g.evidence && <span className="xs faint dep-evidence">&ldquo;{g.evidence}&rdquo;</span>}
+                  </span>
+                </div>
+              ))}
+              {items.length > GROUP_PREVIEW && (
+                <button type="button" className="btn btn-ghost btn-sm" style={{ alignSelf: 'flex-start' }}
+                  onClick={() => setOpen((o) => ({ ...o, [source]: !expanded }))}>
+                  {expanded ? 'Show fewer' : `Show all ${items.length}`}
+                </button>
+              )}
+            </div>
+          );
+        })}
+        {total > gaps.length && (
+          <span className="xs muted">Showing the {gaps.length} most-needed of {total}.</span>
+        )}
+      </div>
+    </section>
   );
 }

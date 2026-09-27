@@ -86,7 +86,7 @@ def _family(number: str) -> str:
     return re.sub(r":\d{4}$", "", _normalize(number))
 
 
-def _edge(number, title, rel_type, note, outside, method, evidence=None, cited_as=None):
+def _edge(number, title, rel_type, note, outside, method, evidence=None, cited_as=None, found_in=None):
     edge = {
         "number": number,
         "title": title or "",
@@ -99,6 +99,9 @@ def _edge(number, title, rel_type, note, outside, method, evidence=None, cited_a
         edge["evidence"] = evidence
     if cited_as:
         edge["cited_as"] = cited_as
+    if found_in:
+        # 'references' (the standard's references clause) or 'body' (a sentence).
+        edge["found_in"] = found_in
     return edge
 
 
@@ -135,7 +138,7 @@ def _load() -> None:
                 continue  # the hand-read link is authoritative
             _FORWARD[source].append(_edge(
                 rel["target"], "", rel["type"], rel.get("note"), rel.get("outside_corpus"),
-                "extracted", rel.get("evidence"), rel.get("cited_as"),
+                "extracted", rel.get("evidence"), rel.get("cited_as"), rel.get("found_in"),
             ))
             if not rel.get("outside_corpus"):
                 _REVERSE[_normalize(rel["target"])].append(_edge(
