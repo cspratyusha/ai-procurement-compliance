@@ -6,25 +6,27 @@ import { SpecProvider } from './state/SpecStore';
 import { AuthProvider, RequireAuth, useAuth } from './state/Auth';
 import { DemoProvider } from './demo/DemoProvider';
 
+// The pages a visit starts on load with the app; every other screen loads the
+// first time it is opened, so the first page does not wait for all of them.
 import Landing from './pages/Landing';
 import Login from './pages/Login';
 import Dashboard from './pages/Dashboard';
 import Query from './pages/Query';
-import BOQ from './pages/BOQ';
-import Builder from './pages/Builder';
-import TenderBuilder from './pages/TenderBuilder';
-import StandardDetail from './pages/StandardDetail';
-import StandardsMap from './pages/StandardsMap';
-import Certification from './pages/Certification';
-import Audit from './pages/Audit';
-import Explorer from './pages/Explorer';
-import Simulator from './pages/Simulator';
-import Projects from './pages/Projects';
-import Admin from './pages/Admin';
-import Alerts from './pages/Alerts';
-import Settings from './pages/Settings';
 
-// Charting pulls in Recharts (~400 kB), split it out so only this route pays for it.
+const BOQ = lazy(() => import('./pages/BOQ'));
+const Builder = lazy(() => import('./pages/Builder'));
+const TenderBuilder = lazy(() => import('./pages/TenderBuilder'));
+const StandardDetail = lazy(() => import('./pages/StandardDetail'));
+const StandardsMap = lazy(() => import('./pages/StandardsMap'));
+const Certification = lazy(() => import('./pages/Certification'));
+const Audit = lazy(() => import('./pages/Audit'));
+const Explorer = lazy(() => import('./pages/Explorer'));
+const Simulator = lazy(() => import('./pages/Simulator'));
+const Projects = lazy(() => import('./pages/Projects'));
+const Admin = lazy(() => import('./pages/Admin'));
+const Alerts = lazy(() => import('./pages/Alerts'));
+const Settings = lazy(() => import('./pages/Settings'));
+// Charting pulls in Recharts (~400 kB), so only this route pays for it.
 const Compliance = lazy(() => import('./pages/Compliance'));
 
 import './styles/tokens.css';
@@ -67,7 +69,9 @@ function AdminOnly({ children }) {
 }
 
 export default function App() {
-  const app = (page) => <RequireAuth><Shell>{page}</Shell></RequireAuth>;
+  const app = (page) => (
+    <RequireAuth><Shell><Suspense fallback={<PageLoading />}>{page}</Suspense></Shell></RequireAuth>
+  );
   const admin = (page) => app(<AdminOnly>{page}</AdminOnly>);
 
   return (
@@ -101,7 +105,7 @@ export default function App() {
             <Route path="/app/catalogue"     element={app(<Explorer />)} />
             <Route path="/app/simulator"     element={app(<Simulator />)} />
             <Route path="/app/alerts"        element={app(<Alerts />)} />
-            <Route path="/app/compliance"    element={admin(<Suspense fallback={<PageLoading />}><Compliance /></Suspense>)} />
+            <Route path="/app/compliance"    element={admin(<Compliance />)} />
 
             {/* Admin */}
             <Route path="/app/admin"         element={admin(<Admin />)} />

@@ -192,6 +192,57 @@ def test_activity_records_what_the_user_did(client):
                        json={"action": "account.sign_in", "detail": "forged"}).status_code == 422
 
 
+def test_login_does_the_same_work_for_an_unknown_email(client, monkeypatch):
+    """No shortcut for a missing account, so timing cannot reveal who has one."""
+    setup_admin(client)
+    calls = []
+    real = accounts.verify_password
+    monkeypatch.setattr(accounts, "verify_password", lambda p, s: calls.append(s) or real(p, s))
+    client.post("/auth/login", json={"email": "nobody@test.gov.in", "password": "Whatever-Pass-1"})
+    assert len(calls) == 1
+
+
+def test_one_address_cannot_spray_passwords(client, monkeypatch):
+    setup_admin(client)
+    monkeypatch.setattr(accounts, "_IP_MAX_FAILURES", 3)
+    for i in range(3):
+        client.post("/auth/login", json={"email": f"user{i}@x.gov.in", "password": "Wrong-pass-1"})
+    # A different, never-tried email from the same address is now refused.
+    assert client.post("/auth/login", json={"email": "fresh@x.gov.in", "password": "Wrong-pass-1"}).status_code == 429
+
+
+def test_registrations_per_address_are_limited(client, monkeypatch):
+    setup_admin(client)
+    monkeypatch.setattr(accounts, "_IP_MAX_REGISTRATIONS", 2)
+    for i in range(2):
+        body = {**ADMIN, "org_name": f"Org {i}", "email": f"r{i}@x.gov.in"}
+        assert client.post("/auth/register", json=body).status_code == 200
+    body = {**ADMIN, "org_name": "Org 3", "email": "r3@x.gov.in"}
+    assert client.post("/auth/register", json=body).status_code == 429
+
+
+def test_huge_passwords_are_refused(client):
+    assert client.post("/auth/setup", json={**ADMIN, "password": "Aa1" + "x" * 300}).status_code == 400
+
+
+def test_sessions_end_at_their_maximum_age(client, monkeypatch):
+    token = setup_admin(client)
+    accounts._x("UPDATE sessions SET created_at = created_at - ?", (accounts.SESSION_MAX_AGE_S + 60,))
+    client.get("/auth/me", headers=auth(token))          # expiry is capped at the hard end
+    assert client.get("/auth/me", headers=auth(token)).status_code == 401
+
+
+def test_recent_searches_are_the_callers_own(client):
+    """Another organisation's queries must never appear on your dashboard."""
+    mine = setup_admin(client)
+    theirs = client.post("/auth/register", json={**ADMIN, "org_name": "Other", "email": "o@x.gov.in"}).json()["token"]
+    accounts.record(2, 2, "search.query", '"secret tender for radar parts"', {"query": "secret tender for radar parts"})
+    recent = client.get("/stats", headers=auth(mine)).json()["recent_queries"]
+    assert all("radar" not in q["query"] for q in recent)
+    recent_theirs = client.get("/stats", headers=auth(theirs)).json()["recent_queries"]
+    assert any("radar" in q["query"] for q in recent_theirs)
+
+
 def test_projects_are_private_to_their_owner(client):
     admin = setup_admin(client)
     active = client.get("/projects/active", headers=auth(admin)).json()

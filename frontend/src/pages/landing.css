@@ -464,9 +464,13 @@
 .cta-glass span {
   padding: 6px var(--s4);
   border-radius: var(--r-full);
-  background: rgba(255, 255, 255, 0.12);
+  /* Opaque and darker than the band: a translucent pill let the light blob
+     behind it wash the text out on narrow screens. */
+  /* Primary darkened by 20%, written as a plain colour: accessibility
+     checkers cannot read color-mix() and measured the band behind instead. */
+  background: #524083;
+  color: var(--md-on-primary);
   border: 1px solid rgba(255, 255, 255, 0.2);
-  backdrop-filter: blur(4px);
   font-size: var(--fs-xs);
   font-weight: 500;
 }

@@ -79,6 +79,8 @@ function ProfileMenu({ onSignOut }) {
         aria-haspopup="true"
         aria-expanded={open}
         aria-controls="profile-panel"
+        // On a phone the name is hidden to save space; this keeps the button named.
+        aria-label={`Account menu for ${user.name}`}
       >
         <span className="avatar" aria-hidden="true">{user.initials}</span>
         <span className="profile-name">{firstName}</span>

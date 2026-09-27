@@ -154,7 +154,7 @@ class StandardResult(BaseModel):
 
 
 class RetrieveRequest(BaseModel):
-    query: str = Field(..., description="Natural language procurement specification or tender query.")
+    query: str = Field(..., max_length=4000, description="Natural language procurement specification or tender query.")
     top_k: int = Field(default=10, description="Number of top standards to return (capped at 50).")
     language: Optional[str] = Field(
         default=None,
@@ -793,18 +793,39 @@ def retrieve_standards_post(body: RetrieveRequest):
     return response
 
 
+# The browser refuses files over 10 MB, but the server must not trust that: a
+# client can send anything, and the whole file is read into memory.
+MAX_UPLOAD_BYTES = 10 * 1024 * 1024
+
+
+async def _read_upload(file: UploadFile) -> bytes:
+    data = await file.read(MAX_UPLOAD_BYTES + 1)
+    if len(data) > MAX_UPLOAD_BYTES:
+        raise HTTPException(status_code=413, detail="The file is larger than 10 MB. Upload a smaller file.")
+    return data
+
+
 _HELD_FAMILIES: Dict[int, set] = {}
 
 
-def _bis_products(query: str) -> List[dict]:
-    """BIS-listed products the query names, flagged by whether the catalogue holds the standard."""
+def _bis_products(query: str, expanded_with: Optional[List[str]] = None) -> List[dict]:
+    """BIS-listed products the query names, flagged by whether the catalogue holds the standard.
+
+    Also tried with each added phrase, so "OPC 43 grade cement" finds BIS's
+    "Ordinary Portland Cement" listing through "ordinary portland cement".
+    """
     corpus = load_corpus()
     held = _HELD_FAMILIES.get(id(corpus))
     if held is None:
         _HELD_FAMILIES.clear()
         held = _HELD_FAMILIES[id(corpus)] = {certification.family(s.number) for s in corpus}
-    return [{**p, "in_corpus": certification.family(p["is_number"]) in held}
-            for p in certification.products_for_query(query)]
+    found, seen = [], set()
+    for text in [query, *(expanded_with or [])]:
+        for p in certification.products_for_query(text):
+            if p["is_number"] not in seen:
+                seen.add(p["is_number"])
+                found.append({**p, "in_corpus": certification.family(p["is_number"]) in held})
+    return found[:5]
 
 
 def _retrieve(body: RetrieveRequest) -> "RetrieveResponse":
@@ -1049,7 +1070,7 @@ def _retrieve(body: RetrieveRequest) -> "RetrieveResponse":
         translation=translation_info,
         explanations_available=explanations_available,
         expanded_with=expanded_with,
-        bis_products=_bis_products(query),
+        bis_products=_bis_products(query, expanded_with),
     )
 
     # Record that this search happened, so the dashboard reports use rather
@@ -1087,7 +1108,7 @@ def retrieve_standards_get(query: str, top_k: int = 10):
 
 
 class SimulateRequest(BaseModel):
-    query: str = Field(..., description="The base description, as it would be typed into search.")
+    query: str = Field(..., max_length=2000, description="The base description, as it would be typed into search.")
     conditions: List[str] = Field(
         default_factory=list,
         description="Extra requirements for the scenario, e.g. 'installed outdoors, exposed to sunlight'.",
@@ -1384,7 +1405,7 @@ async def extract_and_search(file: UploadFile = File(...), top_k: int = 10):
     text. The full extracted text comes back too, so the user can verify what
     was read rather than trusting an invisible step.
     """
-    data = await file.read()
+    data = await _read_upload(file)
 
     try:
         extracted = extraction.extract(file.filename or "upload", data)
@@ -1546,9 +1567,29 @@ def get_recent_logs(request: Request, limit: int = 50):
         "excluded from live counts and reported separately."
     ),
 )
-def get_stats():
-    """Dashboard figures, aggregated from the query and interaction logs."""
-    return StatsResponse(**compute_stats())
+def get_stats(request: Request):
+    """Dashboard figures, aggregated from the query and interaction logs.
+
+    The counts cover the whole installation, which says nothing about anyone's
+    work. The recent searches are text, and with registration open another
+    organisation's queries must never show: for a signed-in caller they come
+    from that caller's own activity trail.
+    """
+    stats = compute_stats()
+    principal = request.scope.get("state", {}).get("principal")
+    if principal is not None:
+        mine = accounts.list_activity(principal, action="search.query", limit=10)["items"]
+        stats["recent_queries"] = [
+            {
+                "query": item["meta"].get("query") or item["detail"].strip('"'),
+                "standard": item["meta"].get("top"),
+                "confidence": item["meta"].get("confidence") or "unknown",
+                "score": None,
+                "timestamp": item["at"],
+            }
+            for item in mine
+        ]
+    return StatsResponse(**stats)
 
 
 @app.post(
@@ -1563,7 +1604,7 @@ def get_stats():
 )
 async def analyse_boq(file: UploadFile = File(...), top_k: int = 5):
     """Per-line-item recommendations for a bill of quantities."""
-    data = await file.read()
+    data = await _read_upload(file)
 
     try:
         extracted = extraction.extract(file.filename or "upload", data)
@@ -1628,7 +1669,7 @@ async def analyse_boq(file: UploadFile = File(...), top_k: int = 5):
 )
 async def audit_tender(file: UploadFile = File(...)):
     """Audit the citations in an uploaded tender document."""
-    data = await file.read()
+    data = await _read_upload(file)
 
     try:
         extracted = extraction.extract(file.filename or "upload", data)

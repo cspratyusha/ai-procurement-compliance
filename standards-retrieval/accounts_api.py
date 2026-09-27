@@ -175,14 +175,26 @@ def auth_setup(body: SetupRequest):
     return _run(accounts.setup, body.org_name, body.org_type, body.name, body.email, body.password)
 
 
+def _client(request: Request) -> Optional[str]:
+    """The caller's address, for per-address limits. Behind a proxy, set it to pass the real one."""
+    forwarded = request.headers.get("x-forwarded-for") if os.environ.get("TRUST_PROXY") == "1" else None
+    if forwarded:
+        return forwarded.split(",")[0].strip()
+    return request.client.host if request.client else None
+
+
 @router.post("/auth/register", tags=["accounts"], summary="Create an account and a new organisation")
-def auth_register(body: SetupRequest):
-    return _run(accounts.register, body.org_name, body.org_type, body.name, body.email, body.password)
+def auth_register(body: SetupRequest, request: Request):
+    client = _client(request)
+    _run(accounts.check_registration_allowed, client)
+    result = _run(accounts.register, body.org_name, body.org_type, body.name, body.email, body.password)
+    accounts.note_registration(client)
+    return result
 
 
 @router.post("/auth/login", tags=["accounts"], summary="Sign in")
-def auth_login(body: LoginRequest):
-    return _run(accounts.login, body.email, body.password)
+def auth_login(body: LoginRequest, request: Request):
+    return _run(accounts.login, body.email, body.password, _client(request))
 
 
 @router.post("/auth/logout", tags=["accounts"], summary="Sign out this session")

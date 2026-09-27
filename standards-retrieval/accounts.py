@@ -57,7 +57,14 @@ ORG_TYPES = {
 KEY_ROLES = {"admin", "integrator"}
 
 SESSION_TTL_S = 7 * 24 * 3600
+# However active a session is, it ends after this; sign in again then. A
+# stolen token cannot be kept alive forever by using it.
+SESSION_MAX_AGE_S = 30 * 24 * 3600
 MIN_PASSWORD_LENGTH = 10
+# scrypt's cost grows with the input; a megabyte "password" would tie up the
+# server. Nobody types more than this.
+MAX_PASSWORD_LENGTH = 256
+_MAX_META_BYTES = 4000
 _MAX_FAILURES = 5
 _LOCKOUT_S = 15 * 60
 
@@ -226,6 +233,8 @@ def _token_hash(token: str) -> str:
 def _check_password_rules(password: str) -> None:
     if len(password or "") < MIN_PASSWORD_LENGTH:
         raise AccountError(f"Use a password of at least {MIN_PASSWORD_LENGTH} characters.")
+    if len(password) > MAX_PASSWORD_LENGTH:
+        raise AccountError(f"Use a password of at most {MAX_PASSWORD_LENGTH} characters.")
     if password.lower() == password or password.upper() == password or not any(c.isdigit() for c in password):
         raise AccountError("Use upper and lower case letters and at least one number in the password.")
 
@@ -353,23 +362,65 @@ def _create_org_with_admin(org_name, org_type, name, email, password, action) ->
 
 _failures: Dict[str, List[float]] = {}
 
+# Per client address as well as per email: without it one address can try
+# one password against thousands of emails (password spraying), or create
+# organisations without limit.
+_IP_MAX_FAILURES = 30
+_IP_MAX_REGISTRATIONS = 5
+_REGISTRATION_WINDOW_S = 3600
+
+# A login for an email with no account still runs the password hash, against
+# this, so the response time does not reveal which emails have accounts.
+# Made on first use, so importing the module stays fast.
+_DUMMY_HASH: Optional[str] = None
+
+
+def _dummy_hash() -> str:
+    global _DUMMY_HASH
+    if _DUMMY_HASH is None:
+        _DUMMY_HASH = hash_password(secrets.token_urlsafe(16))
+    return _DUMMY_HASH
+
+
+def _count_recent(key: str, window: float) -> int:
+    cutoff = time.time() - window
+    recent = [t for t in _failures.get(key, []) if t > cutoff]
+    _failures[key] = recent
+    return len(recent)
+
 
 def _throttled(email: str) -> bool:
-    cutoff = time.time() - _LOCKOUT_S
-    recent = [t for t in _failures.get(email, []) if t > cutoff]
-    _failures[email] = recent
-    return len(recent) >= _MAX_FAILURES
+    return _count_recent(email, _LOCKOUT_S) >= _MAX_FAILURES
 
 
-def login(email: str, password: str) -> Dict[str, Any]:
+def _note(key: str) -> None:
+    _failures.setdefault(key, []).append(time.time())
+
+
+def check_registration_allowed(client: Optional[str]) -> None:
+    if client and _count_recent(f"register:{client}", _REGISTRATION_WINDOW_S) >= _IP_MAX_REGISTRATIONS:
+        raise AccountError("Too many accounts created from this address. Try again in an hour.", 429)
+
+
+def note_registration(client: Optional[str]) -> None:
+    if client:
+        _note(f"register:{client}")
+
+
+def login(email: str, password: str, client: Optional[str] = None) -> Dict[str, Any]:
     email = (email or "").strip().lower()
-    if _throttled(email):
+    if _throttled(email) or (client and _count_recent(f"ip:{client}", _LOCKOUT_S) >= _IP_MAX_FAILURES):
         raise AccountError("Too many failed attempts. Wait 15 minutes, then try again.", 429)
+    if len(password or "") > MAX_PASSWORD_LENGTH:
+        raise AccountError("That email and password do not match an account.", 401)
     rows = _q("SELECT * FROM users WHERE email = ?", (email,))
-    # The same message whether the email or the password is wrong, so the
-    # form cannot be used to find out who has an account.
-    if not rows or not verify_password(password or "", rows[0]["password_hash"]):
-        _failures.setdefault(email, []).append(time.time())
+    # The same message, and the same work, whether the email or the password
+    # is wrong, so the form cannot be used to find out who has an account.
+    stored = rows[0]["password_hash"] if rows else _dummy_hash()
+    if not verify_password(password or "", stored) or not rows:
+        _note(email)
+        if client:
+            _note(f"ip:{client}")
         raise AccountError("That email and password do not match an account.", 401)
     user = rows[0]
     if user["disabled"]:
@@ -404,16 +455,18 @@ def authenticate(token: Optional[str]) -> Optional[Dict[str, Any]]:
     now = time.time()
     if token.startswith("ses_"):
         rows = _q(
-            "SELECT s.expires_at, u.id, u.org_id, u.role, u.disabled FROM sessions s "
+            "SELECT s.expires_at, s.created_at, u.id, u.org_id, u.role, u.disabled FROM sessions s "
             "JOIN users u ON u.id = s.user_id WHERE s.token_hash = ?",
             (digest,),
         )
         if not rows or rows[0]["expires_at"] < now or rows[0]["disabled"]:
             return None
         row = rows[0]
-        # Sliding expiry: a session in daily use does not lapse mid-week.
+        # Sliding expiry, so a session in daily use does not lapse mid-week,
+        # but never past SESSION_MAX_AGE_S from sign-in.
+        hard_end = row["created_at"] + SESSION_MAX_AGE_S
         _x("UPDATE sessions SET last_seen_at = ?, expires_at = ? WHERE token_hash = ?",
-           (now, now + SESSION_TTL_S, digest))
+           (now, min(now + SESSION_TTL_S, hard_end), digest))
         return {"user_id": row["id"], "org_id": row["org_id"], "role": row["role"], "kind": "session"}
     if token.startswith("sk_"):
         rows = _q(
@@ -608,8 +661,11 @@ def record(user_id: Optional[int], org_id: Optional[int], action: str, detail: s
            meta: Optional[Dict[str, Any]] = None) -> None:
     """Append to the activity trail. Never raises: bookkeeping must not fail a request."""
     try:
+        meta_json = json.dumps(meta or {}, ensure_ascii=False)
+        if len(meta_json) > _MAX_META_BYTES:
+            meta_json = json.dumps({"truncated": True})
         _x("INSERT INTO activity (user_id, org_id, at, action, detail, meta) VALUES (?, ?, ?, ?, ?, ?)",
-           (user_id, org_id, _now(), action, detail[:500], json.dumps(meta or {})))
+           (user_id, org_id, _now(), action[:60], (detail or "")[:500], meta_json))
     except Exception:  # noqa: BLE001
         pass
 

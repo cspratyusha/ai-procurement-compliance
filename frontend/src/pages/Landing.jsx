@@ -198,7 +198,7 @@ export default function Landing() {
             <div key={s.label} className="strip-tile stack stack-2 center">
               <span className="strip-value tabular">{s.value ?? sizeText}</span>
               <span className="xs faint">{s.label}</span>
-              {s.note && <span className="xs faint" style={{ opacity: 0.7 }}>{s.note}</span>}
+              {s.note && <span className="xs faint">{s.note}</span>}
             </div>
           ))}
         </div>

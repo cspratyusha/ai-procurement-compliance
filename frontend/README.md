@@ -104,12 +104,15 @@ tokens and cost nothing in bundle size. Every graph has a list/table equivalent.
 
 ## Verification performed
 
-- **Accessibility:** axe-core WCAG 2.1 A/AA reported **0 violations** across all 18 routes
-  under the previous (matte) design. The Material You redesign has **not been re-audited**
-  with axe yet; its colour tokens were chosen for at least 4.5:1 text contrast, but that is a
-  design intent, not a measurement. Earlier fixes still in place: superseded timeline entries
-  carry meaning via strikethrough rather than opacity, and horizontally scrollable table
-  regions are keyboard focusable with a region label naming each table.
+- **Accessibility:** `e2e/accessibility.spec.js` runs axe-core (WCAG 2.1 A and AA) on all 18
+  screens, desktop and mobile, after each has rendered its content: **0 violations** (36
+  checks). The re-audit of the Material You design found and fixed faded text on the homepage
+  and on references outside the catalogue (contrast), and an unnamed account button on phones.
+  One exclusion, documented in the test: the homepage call-to-action pills, which axe measures
+  against a blurred, blended backdrop it cannot model (white on #524083, 8:1, verified on the
+  rendered page).
+- **Bundle:** every screen except the entry pages loads on first visit; the main bundle is
+  323 kB (98 kB gzipped), down from 512 kB, and the build no longer warns.
 - **Render:** the redesigned homepage, sign-in, dashboard, search (idle, searching and
   results), audit and sidebar states were checked in screenshots at 1440 px and 390 px.
 - **Responsive:** no horizontal overflow at 375/768/1024/1440. Two-column layouts use a

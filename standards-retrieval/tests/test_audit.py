@@ -275,6 +275,18 @@ class TestEndpoints(unittest.TestCase):
         self.assertEqual(res.status_code, 422)
 
 
+class TestUploadLimit(unittest.TestCase):
+    def test_the_server_refuses_files_over_10_mb(self):
+        """The browser checks too, but a client can send anything."""
+        from main import app
+
+        big = b"IS 694:2010 " * (10 * 1024 * 1024 // 12 + 10)
+        with TestClient(app) as client:
+            for route in ("/audit", "/boq", "/extract"):
+                res = client.post(route, files={"file": ("big.txt", big, "text/plain")})
+                self.assertEqual(res.status_code, 413, route)
+
+
 class TestDependencyGaps(unittest.TestCase):
     """What the cited standards depend on that the tender leaves out."""
 
