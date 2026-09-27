@@ -4,7 +4,7 @@ import Icon from '../components/Icon';
 import { CopyButton, EmptyState } from '../components/Primitives';
 import { useSpec } from '../state/SpecStore';
 import { getCertificationRules, getStandard, ApiError } from '../api/client';
-import './query.css';   // .notice — shared with the query screen
+import './query.css';   // .notice, shared with the query screen
 
 /**
  * Which standards carry a mandatory BIS certification obligation.
@@ -25,7 +25,7 @@ import './query.css';   // .notice — shared with the query screen
  *
  *   mandatory      confirmed against a named QCO, which is quoted
  *   none           checked, and no scheme applies
- *   not researched not in this list at all — NOT a clearance, and the reason
+ *   not researched not in this list at all, NOT a clearance, and the reason
  *                  this screen lists only researched standards rather than
  *                  rendering every corpus entry as "voluntary"
  *
@@ -127,7 +127,7 @@ export default function Certification() {
             title="Could not load certification rules"
             body={
               `${error?.message ?? 'The standards engine did not respond.'} ` +
-              'No rules are shown rather than stale ones — a wrong certification claim is ' +
+              'No rules are shown rather than stale ones, a wrong certification claim is ' +
               'the most costly error this screen can make.'
             }
             action={
@@ -216,7 +216,7 @@ export default function Certification() {
                   <span className="xs">{rec.explanation}</span>
                 </div>
                 <p className="xs muted">
-                  This standard was checked and no mandatory scheme was found — which is a
+                  This standard was checked and no mandatory scheme was found, which is a
                   stronger statement than the silence for an unresearched standard. A buyer
                   may still require certification contractually, but it cannot be enforced
                   as a statutory obligation.
@@ -267,9 +267,9 @@ export default function Certification() {
                   <div className="grid grid-2" style={{ gap: 'var(--s4)' }}>
                     {[
                       ['Scheme', rec.scheme === 'ISI'
-                        ? 'Scheme I — Standard Mark (ISI), under BIS licence'
+                        ? 'Scheme I, Standard Mark (ISI), under BIS licence'
                         : rec.scheme === 'CRS'
-                          ? 'Scheme II — Compulsory Registration Scheme'
+                          ? 'Scheme II, Compulsory Registration Scheme'
                           : 'BIS Hallmarking'],
                       ['Product as listed by BIS', rec.product],
                       ['Statutory order', rec.qco],

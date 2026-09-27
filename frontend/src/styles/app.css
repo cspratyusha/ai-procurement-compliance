@@ -1,5 +1,5 @@
 /* ============================================================
-   Shared component layer — Material You primitives
+   Shared component layer, Material You primitives
    State layers are expressed with color-mix() over the element's
    own container colour, so hover/press never shift hue.
    ============================================================ */
@@ -107,7 +107,7 @@
 
 .card-body { padding: var(--s5); }
 
-/* Note: no `display` here — a card-link is often also a .stack, and setting
+/* Note: no `display` here, a card-link is often also a .stack, and setting
    display:block would override the flex column and collapse its gaps. */
 .card-link {
   text-align: left;
@@ -188,7 +188,7 @@
   background: color-mix(in srgb, var(--md-primary) var(--state-hover), transparent);
 }
 
-/* Outlined — the accent variant keeps its "draw attention quietly" role */
+/* Outlined, the accent variant keeps its "draw attention quietly" role */
 .btn-accent {
   background: transparent;
   color: var(--md-primary);
@@ -286,6 +286,26 @@
   background-repeat: no-repeat;
   background-position: right var(--s4) center;
   padding-right: var(--s7);
+}
+
+/* Compact fields for toolbars and table rows. */
+.input.input-sm, .select.select-sm {
+  width: auto;
+  min-height: 36px;
+  padding-top: 6px;
+  padding-bottom: 6px;
+  font-size: var(--fs-sm);
+}
+.input.input-sm { min-width: min(260px, 100%); }
+
+/* Holding screen while a stored session is checked. */
+.auth-gate {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: var(--s5);
+  background: var(--md-surface);
 }
 
 .check { display: flex; align-items: flex-start; gap: var(--s3); cursor: pointer; }

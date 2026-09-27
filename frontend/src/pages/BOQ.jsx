@@ -5,13 +5,13 @@ import { EmptyState } from '../components/Primitives';
 import { CertificationBadge } from '../components/CertificationBadge';
 import { useSpec } from '../state/SpecStore';
 import { analyseBOQ, SUPPORTED_UPLOAD_TYPES, MAX_UPLOAD_BYTES, ApiError } from '../api/client';
-import './query.css';   // .notice — shared with the query screen
+import './query.css';   // .notice, shared with the query screen
 
 /**
  * Upload a bill of quantities and match every line item.
  *
  * The page previously showed a worked example behind a notice saying document
- * parsing was "a planned phase". That had gone stale — extraction was built
+ * parsing was "a planned phase". That had gone stale, extraction was built
  * later, and /extract has served real PDF/DOCX/OCR since.
  *
  * But /extract alone was not enough to make this screen honest. It reduces a
@@ -22,13 +22,13 @@ import './query.css';   // .notice — shared with the query screen
  * labelled fixture with an unlabelled inaccuracy.
  *
  * So POST /boq splits the document into line items and runs a full,
- * independent retrieval for each — same ranking, same confidence gate, same
+ * independent retrieval for each, same ranking, same confidence gate, same
  * supersession rules as a typed query.
  *
  * Two states this screen must keep distinct:
  *
  *   is_boq: false     the document has no line-item structure. Not an empty
- *                     BOQ — not a BOQ. The user is pointed at the search
+ *                     BOQ, not a BOQ. The user is pointed at the search
  *                     screen rather than shown an empty table.
  *   confidence: none  this item is outside corpus coverage. Its results are
  *                     nearest text matches, never recommendations, and cannot
@@ -150,8 +150,7 @@ export default function BOQ() {
             <p className="strong">Upload a tender or bill of quantities</p>
             <p className="small muted" style={{ maxWidth: '48ch' }}>
               {SUPPORTED_UPLOAD_TYPES.join(', ')} up to {MAX_UPLOAD_BYTES / 1048576} MB.
-              Line items are recognised by how the document numbers them —
-              “Item 3:”, “3.”, or a bullet.
+              Line items are recognised by how the document numbers them,               “Item 3:”, “3.”, or a bullet.
             </p>
             <button
               className="btn btn-primary"
@@ -196,7 +195,7 @@ export default function BOQ() {
             <div className="stack stack-2">
               <span className="small strong">No line items found in {result.filename}</span>
               <span className="xs">
-                Line items are recognised by document numbering — “Item 3:”, “3.”, or a
+                Line items are recognised by document numbering, “Item 3:”, “3.”, or a
                 bullet. This document has none, so it may be a tender describing a single
                 product rather than a bill of quantities.
               </span>

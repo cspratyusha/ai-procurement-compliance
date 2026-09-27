@@ -6,7 +6,7 @@
  *
  * The backend is optional: if it is not running the UI stays usable and says
  * so, rather than showing a dead screen. It must never silently substitute
- * canned results for live ones — a demo that looks identical whether or not
+ * canned results for live ones, a demo that looks identical whether or not
  * the engine is running is worse than one that admits the engine is down.
  */
 
@@ -24,7 +24,51 @@ export class ApiError extends Error {
   }
 }
 
-async function request(path, { method = 'GET', body, signal } = {}) {
+/* ------------------------------ Session ------------------------------ */
+
+// The session token from sign-in. Kept in localStorage so a reload or a new
+// tab stays signed in; the server can end it at any time (sign-out, password
+// change, an admin disabling the account), and a 401 then signs this tab out.
+const TOKEN_KEY = 'bis-session';
+let token = null;
+try { token = localStorage.getItem(TOKEN_KEY); } catch { /* storage blocked */ }
+
+export function getToken() { return token; }
+
+export function setToken(value) {
+  token = value || null;
+  try {
+    if (token) localStorage.setItem(TOKEN_KEY, token);
+    else localStorage.removeItem(TOKEN_KEY);
+  } catch { /* storage blocked: the session lasts for this tab only */ }
+}
+
+function authHeaders(extra = {}) {
+  return token ? { ...extra, Authorization: `Bearer ${token}` } : extra;
+}
+
+/** A signed-in request came back 401: the session ended on the server. */
+function sessionEnded() {
+  if (!token) return;
+  setToken(null);
+  window.dispatchEvent(new Event('bis-session-ended'));
+}
+
+/** Turns a failed response into an ApiError, signing out on a 401. */
+async function failure(res, fallback) {
+  if (res.status === 401) sessionEnded();
+  let detail = `${fallback} (${res.status})`;
+  try {
+    const payload = await res.json();
+    if (typeof payload?.detail === 'string') detail = payload.detail;
+    else if (Array.isArray(payload?.detail) && payload.detail[0]?.msg) detail = payload.detail[0].msg;
+  } catch {
+    /* non-JSON error body, keep the status-code message */
+  }
+  return new ApiError(detail, { kind: 'http', status: res.status });
+}
+
+async function request(path, { method = 'GET', body, signal, keepalive = false } = {}) {
   const controller = new AbortController();
   const timer = setTimeout(() => controller.abort(), TIMEOUT_MS);
 
@@ -34,21 +78,13 @@ async function request(path, { method = 'GET', body, signal } = {}) {
   try {
     const res = await fetch(`${BASE_URL}${path}`, {
       method,
-      headers: body ? { 'Content-Type': 'application/json' } : undefined,
+      headers: authHeaders(body ? { 'Content-Type': 'application/json' } : {}),
       body: body ? JSON.stringify(body) : undefined,
       signal: controller.signal,
+      keepalive,
     });
 
-    if (!res.ok) {
-      let detail = `Request failed (${res.status})`;
-      try {
-        const payload = await res.json();
-        if (payload?.detail) detail = payload.detail;
-      } catch {
-        /* non-JSON error body — keep the status-code message */
-      }
-      throw new ApiError(detail, { kind: 'http', status: res.status });
-    }
+    if (!res.ok) throw await failure(res, 'Request failed');
 
     return await res.json();
   } catch (err) {
@@ -102,11 +138,28 @@ export function retrieve(query, { topK = 10, language, explain = false, signal }
 }
 
 /**
+ * One plain-language reason per result, for results already on screen.
+ *
+ * Separate from `retrieve` so a search never waits on the language model:
+ * results render first and explanations fill in. Resolves to
+ * `{ available, explanations: { [isNumber]: reason } }`. The backend only
+ * ever returns numbers that were asked about. Never call it for a 'none'
+ * verdict; those results are not recommendations.
+ */
+export function explainResults(query, numbers, { signal } = {}) {
+  return request('/explain', {
+    method: 'POST',
+    body: { query, numbers },
+    signal,
+  });
+}
+
+/**
  * Languages the engine accepts queries in.
  *
  * Served by the backend rather than hardcoded here, so the list cannot drift
  * from what the translator actually supports. Falls back to English-only if
- * the backend is unreachable — the selector should not break the page.
+ * the backend is unreachable, the selector should not break the page.
  */
 export async function listLanguages({ signal } = {}) {
   try {
@@ -148,20 +201,12 @@ export async function extractAndSearch(file, { topK = 10, signal } = {}) {
   try {
     const res = await fetch(`${BASE_URL}/extract?top_k=${topK}`, {
       method: 'POST',
+      headers: authHeaders(),
       body: form,
       signal: controller.signal,
     });
 
-    if (!res.ok) {
-      let detail = `Upload failed (${res.status})`;
-      try {
-        const payload = await res.json();
-        if (payload?.detail) detail = payload.detail;
-      } catch {
-        /* non-JSON error body */
-      }
-      throw new ApiError(detail, { kind: 'http', status: res.status });
-    }
+    if (!res.ok) throw await failure(res, 'Upload failed');
 
     return await res.json();
   } catch (err) {
@@ -181,11 +226,27 @@ export async function extractAndSearch(file, { topK = 10, signal } = {}) {
 
 /**
  * Every standard in the corpus, optionally filtered by sector.
- * The corpus is small enough to fetch whole; the catalogue filters client-side.
+ *
+ * At full size this is about 10 MB. Screens should use `searchStandards`,
+ * which filters on the server and returns one page; this remains for callers
+ * that genuinely need the whole set.
  */
 export function listStandards({ category, signal } = {}) {
   const query = category ? `?category=${encodeURIComponent(category)}` : '';
   return request(`/standards${query}`, { signal });
+}
+
+/**
+ * One page of the catalogue, filtered on the server.
+ *
+ * Resolves to `{ total, corpus_size, superseded_total, sectors, results }`.
+ * Matches IS number, title, scope and keywords; number matches rank first.
+ * Rows carry a scope excerpt, not the full clause.
+ */
+export function searchStandards({ q = '', category, includeSuperseded = true, limit = 50, offset = 0, signal } = {}) {
+  const params = new URLSearchParams({ q, include_superseded: String(includeSuperseded), limit: String(limit), offset: String(offset) });
+  if (category) params.set('category', category);
+  return request(`/standards/search?${params}`, { signal });
 }
 
 /**
@@ -199,7 +260,7 @@ export function getStandard(idOrNumber, { signal } = {}) {
 /**
  * The allied-standards cluster around one standard.
  *
- * `researched: false` means no relationships have been recorded for it — not
+ * `researched: false` means no relationships have been recorded for it, not
  * that it has none. Entries flagged `outside_corpus` are real citations to
  * standards the pilot corpus does not hold; they are shown so the cluster is
  * not silently truncated, but they cannot be opened.
@@ -211,7 +272,7 @@ export function getRelated(idOrNumber, { signal } = {}) {
 /**
  * Published amendments for one standard.
  *
- * `checked: false` means the standard has not been researched — which is not
+ * `checked: false` means the standard has not been researched, which is not
  * a statement that it has no amendments.
  */
 export function getAmendments(idOrNumber, { signal } = {}) {
@@ -238,7 +299,7 @@ export function getAmendments(idOrNumber, { signal } = {}) {
  * must not add them back in.
  *
  * Throws like every other call here, so the dashboard can distinguish a
- * stopped engine from a genuinely empty log — showing "no queries yet" when
+ * stopped engine from a genuinely empty log, showing "no queries yet" when
  * the backend is simply down would be a lie of exactly the kind this
  * screen exists to avoid.
  */
@@ -284,7 +345,7 @@ export async function sendFeedback({ query, candidatesShown, chosenId, action, c
  * published amendments in force.
  *
  * Resolves to `{ findings, critical_count, coverage }`. A finding is a
- * computed fact about the corpus, not a notification someone sent — so none
+ * computed fact about the corpus, not a notification someone sent, so none
  * carries a timestamp, and the UI must not imply one. `severity` is
  * 'critical' when the replacement edition is known and can be named, and
  * 'warning' when the problem is real but this corpus cannot resolve it.
@@ -293,9 +354,19 @@ export async function sendFeedback({ query, candidatesShown, chosenId, action, c
  * handful of standards, so a short list means "mostly unchecked", not "mostly
  * clean", and the screen has to say which.
  */
-export function getAlerts({ category, signal } = {}) {
-  const query = category ? `?category=${encodeURIComponent(category)}` : '';
+export function getAlerts({ category, summary = false, signal } = {}) {
+  const params = new URLSearchParams();
+  if (category) params.set('category', category);
+  // With the full archive the findings list is ~1.2 MB; screens that show only
+  // counts ask for the summary, which omits it.
+  if (summary) params.set('summary', 'true');
+  const query = params.toString() ? `?${params}` : '';
   return request(`/alerts${query}`, { signal });
+}
+
+/** Findings for specific standards only, e.g. the spec basket. */
+export function checkAlerts(numbers, { signal } = {}) {
+  return request('/alerts/check', { method: 'POST', body: { numbers }, signal });
 }
 
 /**
@@ -316,7 +387,7 @@ export function getCorpusHealth({ signal } = {}) {
  * Resolves to `{ filename, citations_found, findings, critical_count,
  * clean_citations, corpus_size, note, text, warnings }`.
  *
- * Checks only the IS numbers the document already cites — not whether it
+ * Checks only the IS numbers the document already cites, not whether it
  * cites the right ones for its goods. Two consequences the UI must honour:
  * `citations_found: 0` means nothing could be checked and is **not** a pass,
  * and an 'info' finding is a coverage gap rather than a defect in the tender.
@@ -341,20 +412,12 @@ export async function auditDocument(file, { signal } = {}) {
   try {
     const res = await fetch(`${BASE_URL}/audit`, {
       method: 'POST',
+      headers: authHeaders(),
       body: form,
       signal: controller.signal,
     });
 
-    if (!res.ok) {
-      let detail = `Audit failed (${res.status})`;
-      try {
-        const payload = await res.json();
-        if (payload?.detail) detail = payload.detail;
-      } catch {
-        /* non-JSON error body */
-      }
-      throw new ApiError(detail, { kind: 'http', status: res.status });
-    }
+    if (!res.ok) throw await failure(res, 'Audit failed');
 
     return await res.json();
   } catch (err) {
@@ -380,7 +443,7 @@ export async function auditDocument(file, { signal } = {}) {
  * own confidence verdict.
  *
  * `is_boq: false` means the document had no line-item structure. That is not
- * an error and not an empty BOQ — the document is simply not one, and the
+ * an error and not an empty BOQ, the document is simply not one, and the
  * caller should offer `extractAndSearch` instead of an empty item list.
  *
  * Each item is searched separately on purpose: flattening a BOQ into one
@@ -407,20 +470,12 @@ export async function analyseBOQ(file, { topK = 5, signal } = {}) {
   try {
     const res = await fetch(`${BASE_URL}/boq?top_k=${topK}`, {
       method: 'POST',
+      headers: authHeaders(),
       body: form,
       signal: controller.signal,
     });
 
-    if (!res.ok) {
-      let detail = `Could not read that document (${res.status})`;
-      try {
-        const payload = await res.json();
-        if (payload?.detail) detail = payload.detail;
-      } catch {
-        /* non-JSON error body */
-      }
-      throw new ApiError(detail, { kind: 'http', status: res.status });
-    }
+    if (!res.ok) throw await failure(res, 'Could not read that document');
 
     return await res.json();
   } catch (err) {
@@ -448,11 +503,140 @@ export async function analyseBOQ(file, { topK = 5, signal } = {}) {
  * Only researched standards are listed, and that is the load-bearing detail:
  * the corpus holds thousands whose status nobody has checked. Rendering those
  * as "no scheme applies" would turn an absence of research into a positive
- * clearance — the most dangerous error this data can produce, because it is
+ * clearance, the most dangerous error this data can produce, because it is
  * the one that puts an uncertifiable product into a live tender.
  */
 export function getCertificationRules({ signal } = {}) {
   return request('/certification-rules', { signal });
+}
+
+/**
+ * What changes if the requirement changes: the full search run on the base
+ * description and again with the scenario's conditions added, and the diff.
+ * Resolves to `{ base, scenario, added, removed, moved, unchanged, ... }`.
+ */
+export function simulateScenario({ query, conditions, topK = 10, signal } = {}) {
+  return request('/simulate', { method: 'POST', body: { query, conditions, top_k: topK }, signal });
+}
+
+/* ------------------------------ Accounts ------------------------------ */
+
+/** `{ setup_required, signed_in, roles, org_types, min_password_length }` */
+export function getAuthStatus({ signal } = {}) {
+  return request('/auth/status', { signal });
+}
+
+/** First run only: creates the organisation and its administrator. */
+export async function setupAccount(body) {
+  const data = await request('/auth/setup', { method: 'POST', body });
+  setToken(data.token);
+  return data;
+}
+
+/** Self-service sign-up: a new organisation with the caller as its administrator. */
+export async function registerAccount(body) {
+  const data = await request('/auth/register', { method: 'POST', body });
+  setToken(data.token);
+  return data;
+}
+
+export async function signIn(email, password) {
+  const data = await request('/auth/login', { method: 'POST', body: { email, password } });
+  setToken(data.token);
+  return data;
+}
+
+export async function signOut() {
+  try { await request('/auth/logout', { method: 'POST' }); } catch { /* ending it locally is enough */ }
+  setToken(null);
+}
+
+/** `{ user, org }` for the signed-in session. */
+export function getMe({ signal } = {}) {
+  return request('/auth/me', { signal });
+}
+
+export function updateProfile(changes) {
+  return request('/auth/me', { method: 'PATCH', body: changes });
+}
+
+export function changePassword(currentPassword, newPassword) {
+  return request('/auth/password', {
+    method: 'POST',
+    body: { current_password: currentPassword, new_password: newPassword },
+  });
+}
+
+export function updateOrg(changes) {
+  return request('/org', { method: 'PATCH', body: changes });
+}
+
+export function listMembers({ signal } = {}) {
+  return request('/org/members', { signal });
+}
+
+/** Resolves to `{ user, temporary_password }`; the password is shown once. */
+export function inviteMember({ name, email, role }) {
+  return request('/org/members', { method: 'POST', body: { name, email, role } });
+}
+
+export function updateMember(userId, changes) {
+  return request(`/org/members/${userId}`, { method: 'PATCH', body: changes });
+}
+
+export function listApiKeys({ signal } = {}) {
+  return request('/keys', { signal });
+}
+
+/** Resolves to `{ key, secret }`; the secret is never retrievable again. */
+export function createApiKey(name) {
+  return request('/keys', { method: 'POST', body: { name } });
+}
+
+export function revokeApiKey(id) {
+  return request(`/keys/${id}`, { method: 'DELETE' });
+}
+
+/** `{ items, has_more }`, newest first. `scope: 'org'` is admin only. */
+export function getActivity({ scope = 'me', action, limit = 50, before, signal } = {}) {
+  const params = new URLSearchParams({ scope, limit: String(limit) });
+  if (action) params.set('action', action);
+  if (before) params.set('before', String(before));
+  return request(`/activity?${params}`, { signal });
+}
+
+/** Record a workbench action (spec.*, result.*, export.*). Never throws. */
+export async function recordActivity(action, detail = '', meta = {}) {
+  try {
+    await request('/activity', { method: 'POST', body: { action, detail, meta } });
+  } catch { /* the action already happened; losing its log line must not undo it */ }
+}
+
+/* ------------------------------ Projects ------------------------------ */
+
+export function listProjects({ signal } = {}) {
+  return request('/projects', { signal });
+}
+
+export function getActiveProject({ signal } = {}) {
+  return request('/projects/active', { signal });
+}
+
+export function createProject(name, spec) {
+  return request('/projects', { method: 'POST', body: { name, spec: spec ?? null } });
+}
+
+/** `keepalive` lets a save started as the tab closes still arrive. */
+export function saveProject(id, { name, spec }, { keepalive = false } = {}) {
+  return request(`/projects/${id}`, { method: 'PUT', body: { name, spec }, keepalive });
+}
+
+export function activateProject(id) {
+  return request(`/projects/${id}/activate`, { method: 'POST' });
+}
+
+export function deleteProject(id) {
+  return request(`/projects/${id}`, { method: 'DELETE' });
 }
 
 export { BASE_URL };

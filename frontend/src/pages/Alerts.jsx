@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom';
 import Icon from '../components/Icon';
 import { EmptyState } from '../components/Primitives';
 import { getAlerts, ApiError } from '../api/client';
-import './query.css';   // .notice — shared with the query screen
+import './query.css';   // .notice, shared with the query screen
 import { sectorLabel as labelFor } from '../data/sectors';
 
 /**
@@ -11,8 +11,8 @@ import { sectorLabel as labelFor } from '../data/sectors';
  *
  * This screen used to render five invented notifications with times like
  * "2 hours ago". What replaced them is narrower and true: every row is a fact
- * the corpus actually supports — a superseded edition, or a standard with
- * published amendments in force — with the replacement named wherever the
+ * the corpus actually supports, a superseded edition, or a standard with
+ * published amendments in force, with the replacement named wherever the
  * corpus holds it.
  *
  * The honesty problem here is specific and worth stating, because it is not
@@ -27,7 +27,7 @@ import { sectorLabel as labelFor } from '../data/sectors';
  * **A short list is not an all-clear.** Amendments are researched for three
  * standards out of forty-five. A standard raising no finding has almost
  * certainly never been checked, which is a completely different statement
- * from "it is clean" — so the coverage line is rendered with the list, not
+ * from "it is clean", so the coverage line is rendered with the list, not
  * tucked into a tooltip.
  */
 
@@ -36,9 +36,16 @@ const KIND = {
   amendment:    { icon: 'file',    label: 'Amendments in force' },
 };
 
+// "critical" is a superseded edition whose replacement the corpus names: do
+// not cite it, cite the replacement. It was labelled "Fix before issue" (as in
+// before issuing a tender), which read as a typo, and there is nothing to fix
+// in the catalogue itself; the card's action line says what to cite instead.
+/** Findings rendered per page. */
+const PAGE_SIZE = 50;
+
 const SEVERITY = {
-  critical: { label: 'Fix before issue', cls: 'badge-crit' },
-  warning:  { label: 'Check',            cls: 'badge-warn' },
+  critical: { label: 'Replaced', cls: 'badge-crit' },
+  warning:  { label: 'Check before citing', cls: 'badge-warn' },
 };
 
 /** Sector keys are stored as `electrical_cables`; show them as words. */
@@ -80,6 +87,18 @@ export default function Alerts() {
     return sectors[f.category] !== false;
   }), [findings, severity, sectors]);
 
+  // The full archive holds ~2,240 replaced editions. Rendering every card at
+  // once took seconds and made the page hard to scan, so findings are paged,
+  // and the page resets whenever a filter changes the set.
+  const [limit, setLimit] = useState(PAGE_SIZE);
+  const filterKey = `${severity}|${Object.entries(sectors).filter(([, on]) => !on).map(([c]) => c).join(',')}`;
+  const [pagedFor, setPagedFor] = useState(filterKey);
+  if (pagedFor !== filterKey) {
+    setPagedFor(filterKey);
+    setLimit(PAGE_SIZE);
+  }
+  const visible = shown.slice(0, limit);
+
   const criticalCount = findings.filter((f) => f.severity === 'critical').length;
   const presentSectors = useMemo(
     () => [...new Set(findings.map((f) => f.category))].sort(),
@@ -93,7 +112,7 @@ export default function Alerts() {
           <h1 className="page-title" data-demo-target="alerts-title">Standards hygiene</h1>
           <p className="page-sub">
             Superseded editions and published amendments found in the corpus the engine
-            serves. Each finding is computed from the standards data — not a notification
+            serves. Each finding is computed from the standards data, not a notification
             feed, and nothing here monitors BIS for newly published revisions.
           </p>
         </div>
@@ -132,7 +151,7 @@ export default function Alerts() {
                   All ({findings.length})
                 </button>
                 <button onClick={() => setSeverity('critical')} aria-pressed={severity === 'critical'}>
-                  Fix before issue ({criticalCount})
+                  Replaced ({criticalCount.toLocaleString('en-IN')})
                 </button>
               </div>
             </div>
@@ -151,7 +170,7 @@ export default function Alerts() {
               </div>
             ) : (
               <div className="stack stack-3">
-                {shown.map((f) => {
+                {visible.map((f) => {
                   const kind = KIND[f.kind] ?? KIND.supersession;
                   const sev = SEVERITY[f.severity] ?? SEVERITY.warning;
                   return (
@@ -170,7 +189,7 @@ export default function Alerts() {
 
                           <h2 className="small strong">
                             <span className="mono">{f.standard}</span>
-                            {f.title ? ` — ${f.title}` : ''}
+                            {f.title ? `, ${f.title}` : ''}
                           </h2>
 
                           <p className="small muted">{f.detail}</p>
@@ -201,6 +220,16 @@ export default function Alerts() {
                     </article>
                   );
                 })}
+                {shown.length > visible.length && (
+                  <div className="row" style={{ justifyContent: 'center', gap: 'var(--s3)' }}>
+                    <span className="xs faint">
+                      Showing {visible.length.toLocaleString('en-IN')} of {shown.length.toLocaleString('en-IN')}
+                    </span>
+                    <button className="btn btn-secondary btn-sm" onClick={() => setLimit((n) => n + PAGE_SIZE)}>
+                      Show {Math.min(PAGE_SIZE, shown.length - visible.length)} more
+                    </button>
+                  </div>
+                )}
               </div>
             )}
           </div>
@@ -269,7 +298,7 @@ export default function Alerts() {
               <p className="xs muted">
                 Email digests and immediate revision alerts are not built. Delivering them
                 needs a job that watches BIS for newly published revisions, which does not
-                exist — so no channel settings are offered here rather than switches that
+                exist, so no channel settings are offered here rather than switches that
                 would change nothing.
               </p>
             </div>

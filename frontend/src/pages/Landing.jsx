@@ -34,7 +34,6 @@ const BENEFITS = [
     icon: 'layers',
     title: 'The whole cluster, not one hit',
     body: 'Normative references, test methods, terminology and installation standards surfaced as one connected set, alongside mandatory certification requirements.',
-    status: 'planned',
   },
 ];
 
@@ -78,7 +77,7 @@ const toTop = () => window.scrollTo({ top: 0, behavior: 'smooth' });
 
 export default function Landing() {
   const corpusSize = useCorpusSize();
-  const sizeText = corpusSize ? corpusSize.toLocaleString('en-IN') : '—';
+  const sizeText = corpusSize ? corpusSize.toLocaleString('en-IN') : '–';
 
   return (
     <div className="landing">
@@ -98,7 +97,7 @@ export default function Landing() {
       </header>
 
       {/* Swiss 12-column grid: editorial left column, live resolution right.
-          Asymmetric by design — the product's whole claim is that one query
+          Asymmetric by design, the product's whole claim is that one query
           resolves into a cluster, so the hero shows that happening. */}
       <section className="hero">
         <div className="container">
@@ -166,8 +165,8 @@ export default function Landing() {
             <ol className="hero-cluster">
               {[
                 { code: 'IS 694:2010', role: 'Primary standard', tag: 'Strong', tone: 'ok', lead: true },
-                { code: 'IS 8130:2013', role: 'Conductors — normative', tag: 'Strong', tone: 'ok' },
-                { code: 'IS 5831:1984', role: 'Insulation — normative', tag: 'Strong', tone: 'ok' },
+                { code: 'IS 8130:2013', role: 'Conductors, normative', tag: 'Strong', tone: 'ok' },
+                { code: 'IS 5831:1984', role: 'Insulation, normative', tag: 'Strong', tone: 'ok' },
                 { code: 'IS 10810', role: 'Test methods', tag: 'Probable', tone: 'warn' },
                 { code: 'IS 732:2019', role: 'Installation practice', tag: 'Probable', tone: 'warn' },
               ].map((r) => (
@@ -183,7 +182,7 @@ export default function Landing() {
             <div className="hero-cert">
               <Icon name="shield" size={14} />
               <span className="xs">
-                Mandatory: BIS Product Certification (ISI Mark) — QCO 2003
+                Mandatory: BIS Product Certification (ISI Mark), QCO 2003
               </span>
             </div>
           </div>
@@ -236,7 +235,7 @@ export default function Landing() {
             <h2 className="section-title">Retrieval first. Generation last.</h2>
             <p className="small muted" style={{ maxWidth: '62ch', margin: '0 auto' }}>
               The language model never decides which standard applies. It explains and drafts over
-              data that has already been retrieved and verified — which structurally prevents the
+              data that has already been retrieved and verified, which structurally prevents the
               confident-wrong-answer failure mode.
             </p>
           </div>

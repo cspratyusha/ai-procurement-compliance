@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom';
 import Icon from '../components/Icon';
 import { EmptyState } from '../components/Primitives';
 import { getStats, ApiError } from '../api/client';
-import './query.css';   // .notice — shared with the query screen
+import './query.css';   // .notice, shared with the query screen
 
 /**
  * Usage dashboard, counted from the engine's own logs.
@@ -12,8 +12,7 @@ import './query.css';   // .notice — shared with the query screen
  * the engine served, or a decision an officer recorded. Nothing is projected,
  * estimated, or defaulted to a plausible-looking number.
  *
- * This screen used to render fixtures behind an "Illustrative screen" label —
- * 1,248 queries a month, an 87-gap count, per-department compliance rates.
+ * This screen used to render fixtures behind an "Illustrative screen" label,  * 1,248 queries a month, an 87-gap count, per-department compliance rates.
  * Those figures are gone rather than reproduced, because the data that would
  * back them does not exist: gap counts need the tender auditor, and department
  * rates need user accounts. A tile that cannot be computed is not shown at
@@ -22,9 +21,9 @@ import './query.css';   // .notice — shared with the query screen
  * Three states have to stay distinct, and conflating any two of them would
  * reintroduce exactly the dishonesty this screen was rebuilt to remove:
  *
- *   engine unreachable  — we do not know the figures
- *   engine up, no log   — we know, and the answer is genuinely nothing yet
- *   engine up, log      — the counts below
+ *   engine unreachable, we do not know the figures
+ *   engine up, no log, we know, and the answer is genuinely nothing yet
+ *   engine up, log, the counts below
  */
 
 const ACTIONS = [
@@ -86,7 +85,7 @@ function StatTile({ label, value, suffix = '', hint }) {
         className="tabular stat-value"
         style={{ color: missing ? 'var(--ink-faint)' : undefined }}
       >
-        {missing ? '—' : `${typeof value === 'number' ? value.toLocaleString('en-IN') : value}${suffix}`}
+        {missing ? '–' : `${typeof value === 'number' ? value.toLocaleString('en-IN') : value}${suffix}`}
       </span>
       {hint && <span className="xs muted">{missing ? 'Not recorded yet' : hint}</span>}
     </div>
@@ -122,8 +121,7 @@ export default function Dashboard() {
           <h1 className="page-title" data-demo-target="dashboard-title">Usage</h1>
           <p className="page-sub">
             Counted from the engine's own query and feedback logs. Every figure here is
-            a count of a search that was served or a decision an officer recorded —
-            nothing on this screen is projected or estimated.
+            a count of a search that was served or a decision an officer recorded,             nothing on this screen is projected or estimated.
           </p>
         </div>
         <Link to="/app/query" className="btn btn-primary">
@@ -221,9 +219,8 @@ export default function Dashboard() {
 
           {/*
             A narrower rail than the even split the fixture dashboard used.
-            Real queries are full sentences — "PVC insulated single core copper
-            conductor cable 1.5 sq mm 1100 V for concealed conduit wiring" —
-            where the fixtures were short labels, and an even split clipped the
+            Real queries are full sentences, "PVC insulated single core copper
+            conductor cable 1.5 sq mm 1100 V for concealed conduit wiring",             where the fixtures were short labels, and an even split clipped the
             verdict and time columns out of view.
           */}
           <section className="grid split" style={{ '--rail': '340px' }}>
@@ -267,7 +264,7 @@ export default function Dashboard() {
                             <td>
                               {q.standard
                                 ? <span className="mono small strong nowrap">{q.standard}</span>
-                                : <span className="xs faint">—</span>}
+                                : <span className="xs faint">, </span>}
                             </td>
                             <td><span className={`badge ${verdict.cls}`}>{verdict.label}</span></td>
                             <td className="xs faint nowrap">{timeAgo(q.timestamp)}</td>
@@ -368,8 +365,8 @@ export default function Dashboard() {
               <> {stats.synthetic_interactions.toLocaleString('en-IN')} synthetic
               bootstrap records are excluded from every figure above.</>
             )}{' '}
-            Tender gap counts and per-department compliance rates are not shown because
-            the tender auditor and user accounts that would produce them are not built.
+            Figures cover every account on this installation. Your own searches, uploads and
+            decisions are in Settings, under Activity.
           </p>
         </div>
       )}

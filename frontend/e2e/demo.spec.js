@@ -1,4 +1,5 @@
 import { test, expect } from '@playwright/test';
+import { E2E_EMAIL, E2E_PASSWORD, SIGNED_OUT } from './auth.js';
 
 /**
  * Demo Mode, driven through the real application.
@@ -6,8 +7,8 @@ import { test, expect } from '@playwright/test';
  * These tests exist because the demo's failure mode is subtle: it can look
  * like it is working while actually clicking nothing, or drift a step ahead of
  * a slow backend and record a cursor pressing a button that is not there yet.
- * So the assertions are about consequences — text really typed, a file really
- * uploaded, results really rendered — not about the overlay's own appearance.
+ * So the assertions are about consequences, text really typed, a file really
+ * uploaded, results really rendered, not about the overlay's own appearance.
  *
  * Run against a live backend on :8000 and the dev server on :5173.
  */
@@ -23,7 +24,17 @@ const FULL_RUN = 480_000;
 const demoRunning = (page) =>
   page.locator('html[data-demo="running"]');
 
-test.describe('Demo Mode', () => {
+/** Start the tour from inside the workbench, via the profile menu. */
+async function startInApp(page, route = '/app/query') {
+  await page.goto(route);
+  await page.click('.profile-trigger');
+  await page.click('button:has-text("Start guided demo")');
+  await expect(demoRunning(page)).toHaveCount(1);
+}
+
+test.describe('Demo Mode, signed out', () => {
+  test.use({ storageState: SIGNED_OUT });
+
   test('the idle application carries no demo layer at all', async ({ page }) => {
     await page.goto('/');
 
@@ -38,7 +49,7 @@ test.describe('Demo Mode', () => {
     await expect(page.locator('#email')).toBeEditable();
   });
 
-  test('Start Demo takes control, then the login flow runs itself', async ({ page }) => {
+  test('the tour waits for the viewer to sign in, then carries on', async ({ page }) => {
     await page.goto('/');
     await page.click('button:has-text("Start Demo")');
 
@@ -47,64 +58,37 @@ test.describe('Demo Mode', () => {
     await expect(page.locator('.demo-cursor')).toBeVisible();
     await expect(demoRunning(page)).toHaveCount(1);
 
-    // Act 2: the demo reaches the login screen on its own and types.
+    // It reaches the sign-in screen on its own...
     await expect(page).toHaveURL(/\/login$/, { timeout: 30_000 });
+    await expect(page.locator('.demo-caption')).toContainText('Sign in with your account', { timeout: 30_000 });
 
-    await expect(page.locator('#email')).toHaveValue(
-      'demo@department.gov.in',
-      { timeout: 60_000 },
-    );
-    await expect(page.locator('#password')).toHaveValue(
-      'DemoPassword123',
-      { timeout: 60_000 },
-    );
+    // ...and never types a password itself: there is no shared demo account.
+    await page.waitForTimeout(4000);
+    await expect(page.locator('#email')).toHaveValue('');
+    await expect(page.locator('#password')).toHaveValue('');
 
-    // It submits, picks a role, and lands in the workbench — no clicks from us.
-    await expect(page).toHaveURL(/\/app/, { timeout: 60_000 });
+    // The form stays usable under the tour, and signing in resumes it.
+    await page.fill('#email', E2E_EMAIL);
+    await page.fill('#password', E2E_PASSWORD);
+    await page.click('[data-demo-target="sign-in"]');
+    await expect(page).toHaveURL(/\/app/, { timeout: 30_000 });
+    await expect(page.locator('.demo-caption')).toContainText('workbench', { timeout: 30_000 });
+    await expect(demoRunning(page)).toHaveCount(1);
   });
+});
 
-  test('a prefilled field is visibly emptied before the demo types into it', async ({ page }) => {
-    // The app prefills this form. Wiping it in one frame reads as a scripted
-    // reset, so the engine selects the old value, holds it, then deletes it.
-    // What matters is that an empty state is genuinely observable — a silent
-    // overwrite would leave the final value correct and prove nothing.
-    //
-    // Sampled continuously rather than asserted at one instant: the demo
-    // starts on the landing page and reaches this field a few seconds later,
-    // and the empty window is deliberately brief.
-    await page.goto('/');
-    await page.click('button:has-text("Start Demo")');
-    await page.waitForURL(/\/login$/, { timeout: 60_000 });
-
-    const seen = { prefilled: false, empty: false, typed: false };
-    const deadline = Date.now() + 120_000;
-
-    while (Date.now() < deadline && !seen.typed) {
-      const v = await page.locator('#email').inputValue().catch(() => null);
-      if (v === null) break;                       // moved off the login screen
-      if (v === 'demo@gmail.com') seen.prefilled = true;
-      if (v === '') seen.empty = true;
-      if (v === 'demo@department.gov.in') seen.typed = true;
-      await page.waitForTimeout(60);
-    }
-
-    expect(seen.prefilled, 'never saw the app-prefilled value').toBe(true);
-    expect(seen.empty, 'the field was never observably empty').toBe(true);
-    expect(seen.typed, 'the demo credentials were never typed in').toBe(true);
-  });
-
+test.describe('Demo Mode', () => {
   test('the cursor moves progressively rather than teleporting', async ({ page }) => {
-    await page.goto('/');
-    await page.click('button:has-text("Start Demo")');
+    await startInApp(page);
 
     const cursor = page.locator('.demo-cursor');
     await expect(cursor).toBeVisible();
 
-    // Sample continuously across the login act, which contains several moves.
-    // The opening caption holds the cursor still for a couple of seconds, so a
+    // Sample continuously across the opening acts, which contain several moves.
+    // The opening caption holds the cursor still for a few seconds, so a
     // short window at the very start would see one position and prove nothing.
     const seen = new Set();
-    const deadline = Date.now() + 22_000;
+    const deadline = Date.now() + 30_000;
 
     while (Date.now() < deadline && seen.size <= 12) {
       const box = await cursor.boundingBox().catch(() => null);
@@ -118,25 +102,23 @@ test.describe('Demo Mode', () => {
   });
 
   test('Pause holds the demo and Resume continues it', async ({ page }) => {
-    await page.goto('/');
-    await page.click('button:has-text("Start Demo")');
-    await expect(page).toHaveURL(/\/login$/, { timeout: 30_000 });
+    await startInApp(page);
 
-    // Pause mid-typing and confirm the value stops growing.
+    // Let it get as far as typing the query, then pause mid-word.
+    const input = page.locator('#spec');
+    await expect.poll(async () => (await input.inputValue()).length, { timeout: 60_000 }).toBeGreaterThan(3);
     await page.click('.demo-btn:has-text("Pause")');
     await expect(page.locator('.demo-badge')).toContainText('Recording Paused');
 
-    const frozen = await page.locator('#email').inputValue();
+    const frozen = await input.inputValue();
     await page.waitForTimeout(1500);
-    expect(await page.locator('#email').inputValue()).toBe(frozen);
+    expect(await input.inputValue()).toBe(frozen);
 
     // Resume and confirm it moves again.
     await page.click('.demo-btn:has-text("Resume")');
     await expect(page.locator('.demo-badge')).toContainText('Recording');
-    await expect(page.locator('#email')).toHaveValue(
-      'demo@department.gov.in',
-      { timeout: 60_000 },
-    );
+    await expect.poll(async () => (await input.inputValue()).length, { timeout: 30_000 })
+      .toBeGreaterThan(frozen.length);
   });
 
   test('Stop returns control to the user immediately', async ({ page }) => {
@@ -163,7 +145,7 @@ test.describe('Demo Mode', () => {
     await page.click('.profile-trigger');
     await page.click('button:has-text("Start guided demo")');
 
-    // It must not bounce out to /login — the skipIf condition should hold.
+    // It must not bounce out to /login, the skipIf condition should hold.
     await page.waitForTimeout(6000);
     expect(page.url()).not.toContain('/login');
     await expect(demoRunning(page)).toHaveCount(1);
@@ -177,7 +159,7 @@ test.describe('Demo Mode', () => {
     await page.click('.profile-trigger');
     await page.click('button:has-text("Start guided demo")');
 
-    // Wait for the spotlight to land on the sidebar — a ring inside the rail's
+    // Wait for the spotlight to land on the sidebar, a ring inside the rail's
     // width, which page content never produces.
     const onRail = async () => {
       const box = await page.locator('.demo-spotlight').boundingBox().catch(() => null);
@@ -207,7 +189,7 @@ test.describe('Demo Mode', () => {
     //
     // Polled rather than event-driven: react-router changes the URL through
     // the History API, which raises no navigation event for Playwright to
-    // hook. A short interval is enough — the demo dwells on each screen for
+    // hook. A short interval is enough, the demo dwells on each screen for
     // seconds to let a viewer read it.
     const visited = [];
     let watching = true;
@@ -230,8 +212,7 @@ test.describe('Demo Mode', () => {
     // ── Act 4/5: the file is visibly chosen, then reaches the real component ─
     await expect(page).toHaveURL(/\/app\/boq/, { timeout: 60_000 });
 
-    // The demo's own chooser appears, names the file, and gets selected —
-    // without this the upload would have no visible cause on camera.
+    // The demo's own chooser appears, names the file, and gets selected,     // without this the upload would have no visible cause on camera.
     const picker = page.locator('.demo-picker');
     await expect(picker).toBeVisible({ timeout: 90_000 });
     await expect(picker).toContainText('Tender-BOQ-Substation-Works');
@@ -240,14 +221,14 @@ test.describe('Demo Mode', () => {
     // ...and it is dismissed before the app starts reading the document.
     await expect(picker).toBeHidden({ timeout: 30_000 });
 
-    // The filename the app itself renders — proof the upload was genuine and
+    // The filename the app itself renders, proof the upload was genuine and
     // went through the page's own handler, not a faked state.
     await expect(page.locator('[data-demo-target="boq-results"]'))
       .toBeVisible({ timeout: 180_000 });
     await expect(page.locator('[data-demo-target="boq-results"]'))
       .toContainText('Tender-BOQ-Substation-Works', { timeout: 10_000 });
 
-    // Line items were matched individually, each with its own verdict — the
+    // Line items were matched individually, each with its own verdict, the
     // claim the BOQ screen exists to make. Counted rather than asserted
     // on-screen, since the demo scrolls the list while it narrates.
     const items = page.locator('[data-demo-target="boq-results"] article.card');

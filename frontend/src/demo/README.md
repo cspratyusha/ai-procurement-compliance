@@ -1,10 +1,11 @@
 # Demo Mode
 
-An automated guided tour that drives the real application — for recording a
+An automated guided tour that drives the real application, for recording a
 product demo, or for showing a newcomer what StandEng actually does.
 
-Click **Start Demo** (landing page nav, or the workbench topbar) and the
-application runs the whole path by itself: sign in, search, upload a bill of
+Click **Start Demo** on the homepage (next to "Open the engine"), or **Start
+guided demo** in the account menu at the top right of any workbench screen,
+and the application runs the whole path by itself: sign in, search, upload a bill of
 quantities, collect standards, assemble and freeze a spec, open the audit
 screen. No further clicks.
 
@@ -12,7 +13,7 @@ screen. No further clicks.
 
 It is a layer on top of the app, not a change to it. Demo Mode:
 
-- uses the application's own components, API calls, routing and auth — it
+- uses the application's own components, API calls, routing and auth, it
   never substitutes canned results for live ones;
 - renders nothing at all until the first run, so the normal app carries no
   overlay and no listeners;
@@ -26,7 +27,7 @@ It is a layer on top of the app, not a change to it. Demo Mode:
 
 | File | What it holds |
 |---|---|
-| `demo.steps.js` | **The tour itself** — 12 acts, with all the narration. Edit this to change what the demo does or says. |
+| `demo.steps.js` | **The tour itself**, 12 acts, with all the narration. Edit this to change what the demo does or says. |
 | `demo.config.js` | Credentials, timing, the sample file, and the target-selector table. |
 | `demoEngine.js` | The controller: resolves targets, animates the cursor, dispatches real events, waits on app state. Framework-agnostic. |
 | `DemoProvider.jsx` | React binding. Owns one engine, mirrors its state, exports `StartDemoButton`. |
@@ -40,7 +41,7 @@ Plus two sample documents in `public/demo/` and `e2e/demo.spec.js` (the tests).
 
 Every screen change in the tour happens by **moving the cursor to the sidebar
 link and pressing it**. A route that changes with no cursor near it is the
-most confusing thing a demo can do — the viewer cannot tell what caused the
+most confusing thing a demo can do, the viewer cannot tell what caused the
 page to change, so it reads as a glitch rather than as navigation.
 
 `goTo()` and `intro()` in `demo.steps.js` enforce this:
@@ -55,7 +56,7 @@ page to change, so it reads as a glitch rather than as navigation.
 Nav targets are generated from each route (`/app/alerts` → `nav-alerts`), so a
 new sidebar entry is addressable without editing `Shell.jsx` again. The only
 screen reached without a nav click is the standard detail page, which has no
-sidebar entry — and that one is opened by clicking the IS number on a result,
+sidebar entry, and that one is opened by clicking the IS number on a result,
 which is how a user reaches it too.
 
 ## What the tour covers
@@ -64,8 +65,8 @@ Twelve acts, following one tender through the whole job:
 
 | Act | Screen | The point it makes |
 |---|---|---|
-| 1 | Landing → Login | Role-scoped access |
-| 2 | New query | Search by meaning — no IS number needed |
+| 1 | Landing → Sign in | Waits for the viewer to sign in with their own account |
+| 2 | New query | Search by meaning, no IS number needed |
 | 3 | Standard detail | Scope, edition, amendments, certification |
 | 4 | Related standards map | A product needs a cluster, not one standard |
 | 5 | Certification | Which standards are legally mandatory |
@@ -82,31 +83,28 @@ genuinely retrieving.
 
 ## Customising
 
-### Credentials
+### Signing in
 
-```js
-// demo.config.js
-export const DEMO_USER = {
-  email: 'demo@department.gov.in',
-  password: 'DemoPassword123',
-};
-```
-
-Referenced by the login steps, so changing them here changes them everywhere.
+The tour never types a password, and there is no shared demo account. Started
+signed out, it opens the sign-in page, says what it is waiting for, and waits
+(up to ten minutes) while the viewer signs in with their own account; the sign-in
+card stays usable under the tour's interaction lock (`data-demo-ignore`).
+Started from inside the workbench, it skips this act. The corpus-health and
+engine-status act is skipped for roles that do not have those screens.
 
 ### The sample documents
 
 Two, because the tour demonstrates two different jobs:
 
 ```js
-// Act 6 — a bill of quantities: goods to be matched against the corpus.
+// Act 6, a bill of quantities: goods to be matched against the corpus.
 export const DEMO_FILE = {
   path: '/demo/sample-boq.txt',              // under frontend/public/
   name: 'Tender-BOQ-Substation-Works.txt',   // the filename the app displays
   type: 'text/plain',
 };
 
-// Act 8 — a specification that already cites IS numbers, to be audited.
+// Act 8, a specification that already cites IS numbers, to be audited.
 export const DEMO_AUDIT_FILE = {
   path: '/demo/sample-tender.txt',
   name: 'Tender-Spec-Section-7-Standards.txt',
@@ -137,7 +135,7 @@ a viewer sees a click on "Select file" and then, with no visible cause, a
 filename.
 
 So the engine draws **its own file chooser**, moves the cursor onto the file,
-selects it, and clicks Open — then hands the `File` to the page's own
+selects it, and clicks Open, then hands the `File` to the page's own
 `<input type="file">` and lets the page's own `onChange` run. The application
 processes it exactly as it processes a manual selection.
 
@@ -147,10 +145,9 @@ are watching is the product.
 
 ### Prefilled fields
 
-The login form arrives prefilled. Wiping a field in one frame reads as a
-scripted reset, so `type` selects the existing value, holds it long enough to
-register, deletes it, pauses on the empty field, and only then types. The
-application's own defaults are left alone.
+Wiping a field in one frame reads as a scripted reset, so `type` selects any
+existing value, holds it long enough to register, deletes it, pauses on the
+empty field, and only then types.
 
 ### Timing
 
@@ -202,10 +199,10 @@ Each entry is one action:
 | `navigate` | `to` | route change via react-router |
 | `skipIf` | `when`, `to` | jump to a `label` when a condition holds |
 | `label` | `name` | a jump destination |
-| `finish` | — | end of demo |
+| `finish` | – | end of demo |
 
 Any step may carry `optional: true`, which turns a missing target from a
-demo-stopping error into a logged skip. Use it for anything conditional — an
+demo-stopping error into a logged skip. Use it for anything conditional, an
 export button that needs a non-empty basket, for instance.
 
 Reordering the acts is a matter of moving blocks in this array. Nothing else
@@ -226,13 +223,13 @@ export const DEMO_TARGETS = {
 Selectors are tried in order; the first that resolves to a *visible* element
 wins. The `data-demo-target` attribute is the stable contract, and the
 fallback after it means a target still resolves on a screen nobody has
-annotated yet. To retarget a step, change the selector here — not the sequence.
+annotated yet. To retarget a step, change the selector here, not the sequence.
 
 Attributes currently in the app:
 
 ```
 landing-cta  landing-signin
-email  password  sign-in  role-<id>  enter-workspace
+email  password  sign-in
 query-input  query-submit  query-results
 boq-dropzone  boq-select  boq-file  boq-running  boq-results  boq-summary
 builder-title  builder-list  builder-freeze
@@ -247,14 +244,16 @@ naming a condition in `DEMO_CONDITIONS`:
 
 ```js
 export const DEMO_CONDITIONS = {
-  isLoggedIn:  () => window.location.pathname.startsWith('/app'),
-  onWorkbench: () => window.location.pathname.startsWith('/app'),
+  isLoggedIn:  () => !!document.querySelector('.shell'),
+  onWorkbench: () => window.location.pathname.startsWith('/app') && !!document.querySelector('.shell'),
+  notAdmin:    () => !document.querySelector('[data-demo-target="nav-admin"]'),
 };
 ```
 
 These read the live URL and DOM, so "logged in" means what the application
-actually shows — not what the demo assumed three steps ago. That is also how
-the demo skips the login act when it is started from inside the app:
+actually shows (the workbench shell renders only for a signed-in session),
+not what the demo assumed three steps ago. That is also how the demo skips
+the sign-in act when it is started from inside the app:
 
 ```js
 { action: 'skipIf', when: 'isLoggedIn', to: 'workbench' },
@@ -265,11 +264,11 @@ the demo skips the login act when it is started from inside the app:
 While running: **Pause**, **Resume**, **Skip**, **Stop**, an act counter and a
 progress bar, bottom right. `Space` pauses, `→` skips, `Esc` stops.
 
-- **Skip** cuts the current pause short — useful mid-recording when a
+- **Skip** cuts the current pause short, useful mid-recording when a
   narration beat or a slow retrieval is taking longer than the take allows. It
   only shortens *waiting*; clicks, typing and cursor travel still happen, so
   skipping cannot desynchronise the demo from the application.
-- **Stop** returns control instantly — the lock, the dimming, the cursor and
+- **Stop** returns control instantly, the lock, the dimming, the cursor and
   the narration all go at once, leaving the app on whatever screen it reached.
 
 Progress is counted in **acts** (the captioned chapters a viewer sees), not
@@ -296,12 +295,12 @@ npx playwright test e2e/demo.spec.js --project=desktop
 Ten tests, asserting consequences rather than appearances:
 
 - the idle app carries no demo layer at all;
-- login really types and submits itself;
-- a prefilled field is **observably emptied** before typing;
+- signed out, the tour **never types a password**, waits on the sign-in page,
+  and carries on once the viewer signs in;
 - the cursor animates rather than teleporting;
-- Pause holds and Resume continues;
+- Pause holds the typing and Resume continues it;
 - Stop returns control immediately;
-- login is skipped when started from inside the app;
+- sign-in is skipped when started from inside the app;
 - screens change by **clicking the sidebar**, not by silent route changes;
 - the full sequence visits **all twelve acts** start to finish with no
   interaction, including **both** visible file picks and both real uploads;

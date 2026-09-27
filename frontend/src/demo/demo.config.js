@@ -1,5 +1,5 @@
 /**
- * Demo Mode — the single place to change what the demo does.
+ * Demo Mode, the single place to change what the demo does.
  *
  * Everything a presenter is likely to want to adjust lives in this file:
  * credentials, pacing, the sample document, the narration, and the step
@@ -10,18 +10,12 @@
  * layer on top: with it switched off, the app behaves exactly as it always has.
  */
 
-/** Credentials typed during the login step. The demo build accepts any values. */
-export const DEMO_USER = {
-  email: 'demo@department.gov.in',
-  password: 'DemoPassword123',
-};
-
 /**
  * The sample document uploaded in the BOQ step.
  *
  * Served from `public/`, so `/demo/sample-boq.txt` resolves to
  * `frontend/public/demo/sample-boq.txt`. Swap in a PDF by dropping it in the
- * same folder and pointing `path` at it — `type` must match, because the
+ * same folder and pointing `path` at it, `type` must match, because the
  * backend decides how to read a file from its extension and MIME type.
  *
  * The engine fetches this file and hands the resulting File object to the
@@ -39,8 +33,8 @@ export const DEMO_FILE = {
  *
  * A different job needs a different file. The BOQ above lists goods to be
  * matched against the corpus; this one is a specification that already cites
- * IS numbers, some of them wrong — an outdated edition, two undated
- * citations — which is exactly what the audit screen exists to catch.
+ * IS numbers, some of them wrong, an outdated edition, two undated
+ * citations, which is exactly what the audit screen exists to catch.
  */
 export const DEMO_AUDIT_FILE = {
   path: '/demo/sample-tender.txt',
@@ -70,7 +64,7 @@ export const DEMO_WAIT_TIMEOUT = 90000;
 
 /*
  * The demo sequence lives in `demo.steps.js`. It is deliberately NOT
- * re-exported here: that file imports DEMO_USER and DEMO_FILE from this one,
+ * re-exported here: that file imports DEMO_FILE and DEMO_AUDIT_FILE from this one,
  * so a re-export would close a cycle and leave those constants uninitialised
  * at module-evaluation time. Import it from './demo.steps' instead.
  */
@@ -78,7 +72,7 @@ export const DEMO_WAIT_TIMEOUT = 90000;
 /**
  * Where the engine looks for each target.
  *
- * Each key maps to an ordered list of selectors, tried in turn — the first
+ * Each key maps to an ordered list of selectors, tried in turn, the first
  * that resolves to a visible element wins. The `data-demo-target` attributes
  * come first because they are the stable contract; the fallbacks after them
  * mean a target still resolves on a screen that has not been annotated yet.
@@ -94,8 +88,6 @@ export const DEMO_TARGETS = {
   email:              ['[data-demo-target="email"]', '#email'],
   password:           ['[data-demo-target="password"]', '#password'],
   'sign-in':          ['[data-demo-target="sign-in"]', '.auth-card button[type="submit"]'],
-  'role-admin':       ['[data-demo-target="role-admin"]', '.role-option'],
-  'enter-workspace':  ['[data-demo-target="enter-workspace"]', '.auth-card button[type="submit"]'],
 
   // Query
   'query-input':      ['[data-demo-target="query-input"]', '#spec'],
@@ -105,7 +97,7 @@ export const DEMO_TARGETS = {
     '[data-demo-target="query-results"] article.rec',
     'article.rec',
   ],
-  // The IS number on the top result — clicking it is how a user opens the
+  // The IS number on the top result, clicking it is how a user opens the
   // detail screen, which has no sidebar entry of its own.
   'query-first-link': [
     '[data-demo-target="query-results"] article.rec a.build-link',
@@ -205,6 +197,10 @@ export const DEMO_TARGETS = {
  * assumed three steps ago.
  */
 export const DEMO_CONDITIONS = {
-  isLoggedIn: () => window.location.pathname.startsWith('/app'),
-  onWorkbench: () => window.location.pathname.startsWith('/app'),
+  // The workbench shell only renders for a signed-in session, so its
+  // presence is what "logged in" means.
+  isLoggedIn: () => !!document.querySelector('.shell'),
+  onWorkbench: () => window.location.pathname.startsWith('/app') && !!document.querySelector('.shell'),
+  // Administrators have the corpus-health and engine-status entries.
+  notAdmin: () => !document.querySelector('[data-demo-target="nav-admin"]'),
 };

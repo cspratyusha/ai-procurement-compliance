@@ -26,7 +26,7 @@ export function DemoProvider({ children }) {
   const navRef = useRef(navigate);
   useEffect(() => { navRef.current = navigate; }, [navigate]);
 
-  // Created once, lazily, and never replaced — a second engine would mean two
+  // Created once, lazily, and never replaced, a second engine would mean two
   // cursors racing each other over the same page.
   const [engine] = useState(() => new DemoEngine({
     navigate: (to) => navRef.current(to),

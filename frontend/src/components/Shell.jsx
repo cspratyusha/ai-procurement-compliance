@@ -4,13 +4,13 @@ import Icon from './Icon';
 import Logo from './Logo';
 import SpecBasket from './SpecBasket';
 import { StartDemoButton } from '../demo/DemoProvider';
-import { USER } from '../data/mock';
-import { getAlerts } from '../api/client';
+import { checkAlerts } from '../api/client';
+import { useSpec } from '../state/SpecStore';
+import { useAuth } from '../state/Auth';
 import './shell.css';
 
 /**
- * Five top-level destinations. Everything else nests inside one of them —
- * a workbench needs a short rail, not a directory of every screen.
+ * Five top-level destinations. Everything else nests inside one of them,  * a workbench needs a short rail, not a directory of every screen.
  */
 // `short` is the label under the icon when the sidebar is collapsed to a rail.
 const NAV = [
@@ -35,17 +35,19 @@ const NAV = [
   },
   { to: '/app/catalogue', icon: 'graph', label: 'Standards catalogue', short: 'Catalogue' },
   {
-    to: '/app/admin', icon: 'settings', label: 'Admin', short: 'Admin', adminOnly: true,
-    sub: [{ to: '/app/settings', label: 'Settings' }],
+    to: '/app/settings', icon: 'settings', label: 'Settings', short: 'Settings',
+    sub: [{ to: '/app/admin', label: 'Engine status', adminOnly: true }],
   },
 ];
 
 /**
  * The account control: avatar and name only, with everything else (email,
- * organisation, the guided demo, sign out) one click away. Closes on an
+ * organisation, settings, the guided demo, sign out) one click away. Closes on an
  * outside click, on Escape, and after choosing an item.
  */
 function ProfileMenu({ onSignOut }) {
+  const { user, org } = useAuth();
+  const navigate = useNavigate();
   const [open, setOpen] = useState(false);
   const rootRef = useRef(null);
   const triggerRef = useRef(null);
@@ -64,7 +66,8 @@ function ProfileMenu({ onSignOut }) {
     };
   }, [open]);
 
-  const firstName = USER.name.split(' ')[0];
+  if (!user) return null;
+  const firstName = user.name.split(' ')[0];
 
   return (
     <div className="profile" ref={rootRef}>
@@ -77,7 +80,7 @@ function ProfileMenu({ onSignOut }) {
         aria-expanded={open}
         aria-controls="profile-panel"
       >
-        <span className="avatar" aria-hidden="true">{USER.initials}</span>
+        <span className="avatar" aria-hidden="true">{user.initials}</span>
         <span className="profile-name">{firstName}</span>
         <Icon name="chevronDown" size={15} className="profile-chevron" />
       </button>
@@ -85,23 +88,27 @@ function ProfileMenu({ onSignOut }) {
       {open && (
         <div className="profile-panel fade-in" id="profile-panel">
           <div className="profile-head">
-            <span className="avatar avatar-lg" aria-hidden="true">{USER.initials}</span>
+            <span className="avatar avatar-lg" aria-hidden="true">{user.initials}</span>
             <span className="stack" style={{ minWidth: 0 }}>
-              <span className="small strong">{USER.name}</span>
-              <span className="xs muted profile-email">{USER.email}</span>
+              <span className="small strong">{user.name}</span>
+              <span className="xs muted profile-email">{user.email}</span>
             </span>
           </div>
 
           <div className="profile-org">
             <Icon name="users" size={15} />
             <span className="stack" style={{ minWidth: 0 }}>
-              <span className="xs strong">{USER.org}</span>
-              <span className="xs faint">{USER.role}</span>
+              <span className="xs strong">{org?.name}</span>
+              <span className="xs faint">{user.role_label}</span>
             </span>
           </div>
 
           <hr className="divider" />
 
+          <button type="button" className="profile-item" onClick={() => { setOpen(false); navigate('/app/settings'); }}>
+            <Icon name="settings" size={16} />
+            Settings
+          </button>
           <div onClick={() => setOpen(false)}>
             <StartDemoButton className="profile-item" label="Start guided demo" />
           </div>
@@ -123,7 +130,7 @@ export default function Shell({ children }) {
   const [open, setOpen] = useState(false);
   const navigate = useNavigate();
   const { pathname } = useLocation();
-  const isAdmin = USER.role.includes('Admin');
+  const { isAdmin, signOut } = useAuth();
 
   // Desktop sidebar can fold to an icon rail. Remembered per browser; a
   // blocked storage just means it starts expanded each visit.
@@ -134,25 +141,34 @@ export default function Shell({ children }) {
     try { localStorage.setItem('bis-sidebar', collapsed ? 'collapsed' : 'expanded'); } catch { /* storage blocked */ }
   }, [collapsed]);
 
-  // The count on the bell is the number of findings that would actually
-  // invalidate a tender clause -- superseded editions whose replacement the
-  // corpus can name. It was a fixture ("3 unread") until the alerts screen
-  // became real; a badge that disagrees with the screen it links to is worse
-  // than no badge, so it is fetched rather than assumed.
+  // The badge counts replaced editions *in the officer's own spec basket*:
+  // standards they are about to cite whose replacement the corpus names.
+  //
+  // It used to count every replaced edition in the corpus. With the full
+  // archive loaded that is ~2,240, every older edition in the catalogue, which
+  // read as 2,240 problems of the officer's own when there were none. A badge
+  // should be something the person can act on.
   //
   // Failure is silent and shows nothing. A backend that is down is not a
   // reason to assert a count, in either direction.
-  const [critical, setCritical] = useState(0);
+  const spec = useSpec();
+  const [replaced, setReplaced] = useState({ key: '', count: 0 });
 
+  // Asks only about the basket, and only when the basket changes: it used to
+  // download every finding in the corpus (~1.2 MB) on each page change.
+  const basketKey = Object.keys(spec.items ?? {}).sort().join('|');
   useEffect(() => {
+    if (!basketKey) return undefined;
     const controller = new AbortController();
-    getAlerts({ signal: controller.signal })
-      .then((data) => setCritical(data.critical_count ?? 0))
+    checkAlerts(basketKey.split('|'), { signal: controller.signal })
+      .then((data) => setReplaced({ key: basketKey, count: data.critical_count ?? 0 }))
       .catch(() => { /* engine unreachable -- show no badge rather than a guess */ });
     return () => controller.abort();
-  }, []);
+  }, [basketKey]);
 
-  // Escape closes the mobile drawer — a drawer with no keyboard exit is a trap.
+  const critical = basketKey && replaced.key === basketKey ? replaced.count : 0;
+
+  // Escape closes the mobile drawer, a drawer with no keyboard exit is a trap.
   useEffect(() => {
     if (!open) return undefined;
     const onKey = (e) => { if (e.key === 'Escape') setOpen(false); };
@@ -211,7 +227,9 @@ export default function Shell({ children }) {
                       className={({ isActive }) => `nav-subitem ${isActive ? 'is-active' : ''}`}
                     >
                       <span>{s.label}</span>
-                      {s.label === 'Standards hygiene' && critical > 0 && <span className="nav-count">{critical}</span>}
+                      {s.label === 'Standards hygiene' && critical > 0 && (
+                        <span className="nav-count" title={`${critical} standard${critical === 1 ? '' : 's'} in your spec replaced by a newer edition`}>{critical}</span>
+                      )}
                     </NavLink>
                   ))}
                 </div>
@@ -238,14 +256,18 @@ export default function Shell({ children }) {
           <button
             className="btn-icon topbar-bell"
             onClick={() => navigate('/app/alerts')}
-            aria-label={`Alerts, ${critical} unread`}
+            aria-label={critical
+              ? `Standards hygiene: ${critical} standard${critical === 1 ? '' : 's'} in your spec replaced by a newer edition`
+              : 'Standards hygiene'}
             title="Standards hygiene alerts"
           >
             <Icon name="bell" size={18} />
             {critical > 0 && <span className="dot" aria-hidden="true" />}
           </button>
 
-          <ProfileMenu onSignOut={() => navigate('/')} />
+          {/* Leave the workbench first: once the session ends this shell
+              unmounts, and a navigate() from it afterwards is dropped. */}
+          <ProfileMenu onSignOut={() => { navigate('/'); signOut(); }} />
         </header>
 
         <main className="shell-content">{children}</main>

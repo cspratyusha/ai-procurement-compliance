@@ -5,7 +5,7 @@ import { test, expect } from '@playwright/test';
  *
  * These cover what unit tests cannot: that the frontend and backend agree on
  * the response shape, that CORS permits the call at all, and that the honesty
- * guarantees survive the round trip — an out-of-scope query must not produce a
+ * guarantees survive the round trip, an out-of-scope query must not produce a
  * recommendation in the browser, whatever the API returned.
  */
 
@@ -152,23 +152,14 @@ test.describe('Tender builder', () => {
 });
 
 test.describe('Honesty guarantees', () => {
-  test('fixture screens are labelled, live screens are not', async ({ page }) => {
-    // What genuinely still has no backing data source.
-    for (const route of ['/app/simulator', '/app/settings']) {
-      await page.goto(route);
-      await expect(
-        page.locator('text=Illustrative screen'),
-        `${route} must be labelled as fixture data`,
-      ).toBeVisible();
-    }
-
-    // Every screen since wired to the engine. Each was fixture data once and
-    // must never regain the label.
+  test('no screen carries fixture data', async ({ page }) => {
+    // Every screen is wired to the engine. Each was fixture data once (the
+    // simulator and settings were the last) and must never regain the label.
     for (const route of [
       '/app', '/app/query', '/app/catalogue', '/app/tender',
       '/app/compliance', '/app/alerts', '/app/audit', '/app/boq',
       '/app/admin', '/app/projects', '/app/builder', '/app/map',
-      '/app/certification',
+      '/app/certification', '/app/simulator', '/app/settings',
     ]) {
       await page.goto(route);
       expect(
@@ -189,7 +180,7 @@ test.describe('Honesty guarantees', () => {
 
     const readCount = async () => {
       const text = await tile.locator('.tabular').innerText();
-      return text.trim() === '—' ? 0 : Number(text.replace(/[^0-9]/g, ''));
+      return text.trim() === '–' ? 0 : Number(text.replace(/[^0-9]/g, ''));
     };
     const before = await readCount();
 
@@ -233,8 +224,8 @@ test.describe('Honesty guarantees', () => {
 
   test('every standards-hygiene finding names a real standard', async ({ page }) => {
     // The fixture screen invented notifications with relative times. Each row
-    // must now be a fact about the corpus: a real IS number, and — where the
-    // finding is critical — the replacement that resolves it.
+    // must now be a fact about the corpus: a real IS number, and, where the
+    // finding is critical, the replacement that resolves it.
     await page.goto('/app/alerts');
 
     const cards = page.locator('article.alert-card');
@@ -246,8 +237,9 @@ test.describe('Honesty guarantees', () => {
       expect(heading, 'every finding names an IS number').toMatch(/IS\s?\d+/);
     }
 
-    // A critical finding claims the fix is known, so it must name it.
-    const critical = cards.filter({ hasText: 'Fix before issue' });
+    // A critical ("Replaced") finding claims the replacement is known, so it
+    // must name it. Matched on the badge, not its wording, which has changed.
+    const critical = cards.filter({ has: page.locator('.badge-crit') });
     const criticalCount = await critical.count();
     for (let i = 0; i < criticalCount; i += 1) {
       await expect(
@@ -411,7 +403,7 @@ test.describe('Honesty guarantees', () => {
       '/', '/app', '/app/query', '/app/catalogue', '/app/tender',
       '/app/builder', '/app/audit', '/app/settings',
       '/app/compliance', '/app/alerts', '/app/boq', '/app/admin',
-      '/app/projects', '/app/map', '/app/certification',
+      '/app/projects', '/app/map', '/app/certification', '/app/simulator',
     ];
 
     for (const route of routes) {

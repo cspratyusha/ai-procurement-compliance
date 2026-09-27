@@ -3,7 +3,7 @@
  *
  * One fixed, pointer-events-none layer above the application: the synthetic
  * cursor, the spotlight ring, the dim veil, the narration panel, the control
- * bar and the progress indicator. It reads demo state and renders it — no
+ * bar and the progress indicator. It reads demo state and renders it, no
  * logic about the sequence lives here.
  *
  * Nothing in this file renders at all when the demo has never run, so the
@@ -12,7 +12,7 @@
 
 import { useDemo } from './useDemo';
 
-/** The pointer itself — an arrow drawn to read as a real macOS/Windows cursor. */
+/** The pointer itself, an arrow drawn to read as a real macOS/Windows cursor. */
 function DemoCursor({ cursor }) {
   if (!cursor?.visible) return null;
 
@@ -24,7 +24,7 @@ function DemoCursor({ cursor }) {
     >
       <span className="demo-cursor-glow" />
       <svg width="26" height="26" viewBox="0 0 26 26" className="demo-cursor-arrow">
-        {/* Outline first, fill over it — legible on any background. */}
+        {/* Outline first, fill over it, legible on any background. */}
         <path
           d="M5 2.2 L5 19.4 L9.7 15.1 L12.6 22.4 L16.1 20.9 L13.2 13.8 L19.6 13.4 Z"
           fill="#ffffff"
@@ -57,7 +57,7 @@ function readableSize(bytes) {
  * missing beat: the cursor moves onto the file, selects it, and clicks Open.
  *
  * It is labelled as the demo's own panel rather than styled to impersonate the
- * operating system's dialog — a viewer should never be misled about which part
+ * operating system's dialog, a viewer should never be misled about which part
  * of what they are watching is the product.
  */
 function DemoFilePicker({ picker }) {
@@ -108,15 +108,15 @@ export default function DemoOverlay() {
   const demo = useDemo();
   const state = demo?.state;
 
-  // Never rendered before the first run — the idle app is untouched.
+  // Never rendered before the first run, the idle app is untouched.
   if (!state || (!state.running && !state.finished && !state.error)) return null;
 
   const {
     cursor, ripple, spotlight, caption, picker, running, paused, finished, error,
   } = state;
 
-  // Progress is counted in acts — the captioned chapters a viewer sees go by
-  // — not in engine steps, which advance unevenly and mean nothing to them.
+  // Progress is counted in acts, the captioned chapters a viewer sees go by
+  // not in engine steps, which advance unevenly and mean nothing to them.
   const done = Math.min(state.act ?? 0, state.total);
   const pct = state.total ? Math.round((done / state.total) * 100) : 0;
 
@@ -215,7 +215,7 @@ export default function DemoOverlay() {
           <div className="demo-toast-body">
             <strong>Demo complete</strong>
             <span>
-              That is the whole path — query, upload, assemble, freeze, audit.
+              That is the whole path, query, upload, assemble, freeze, audit.
               The application is yours again.
             </span>
           </div>
@@ -238,7 +238,7 @@ export default function DemoOverlay() {
             <strong>Demo Mode stopped</strong>
             <span>{error}</span>
             <span className="demo-toast-note">
-              The application itself is unaffected — carry on normally.
+              The application itself is unaffected, carry on normally.
             </span>
           </div>
           <div className="demo-toast-actions">

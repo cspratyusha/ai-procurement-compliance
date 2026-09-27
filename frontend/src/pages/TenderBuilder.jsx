@@ -113,7 +113,7 @@ export default function TenderBuilder() {
           <span className="small strong">Demonstration of an in-portal integration</span>
           <span className="xs">
             This shows how the engine would sit inside an e-procurement portal such as GeM,
-            recommending standards as a tender is drafted. It is not connected to GeM — we
+            recommending standards as a tender is drafted. It is not connected to GeM, we
             have no integration access. The recommendations, certification flags and the
             generated clause below are all live.
           </span>
@@ -168,7 +168,7 @@ export default function TenderBuilder() {
               />
               <span className="xs faint">
                 {form.description.trim().length < 12
-                  ? 'Keep typing — recommendations appear once there is enough to go on.'
+                  ? 'Keep typing, recommendations appear once there is enough to go on.'
                   : status === 'searching'
                     ? 'Looking for applicable standards…'
                     : `${results.length} standard${results.length === 1 ? '' : 's'} suggested`}
@@ -216,7 +216,7 @@ export default function TenderBuilder() {
                 </blockquote>
                 <p className="xs muted">
                   Drafted from the {accepted.length} standard{accepted.length === 1 ? '' : 's'} you
-                  accepted. Review before issuing — this is a drafting aid, not legal advice.
+                  accepted. Review before issuing, this is a drafting aid, not legal advice.
                 </p>
               </>
             )}
@@ -327,11 +327,11 @@ function buildTenderClause(form, accepted) {
     : '';
 
   lines.push(
-    `1. SCOPE — Supply of ${form.description.trim() || 'the item specified'}.${quantity}`,
+    `1. SCOPE, Supply of ${form.description.trim() || 'the item specified'}.${quantity}`,
   );
 
   lines.push(
-    `2. CONFORMANCE — The item shall conform in all respects to ${
+    `2. CONFORMANCE, The item shall conform in all respects to ${
       numbers.length === 1
         ? numbers[0]
         : `${numbers.slice(0, -1).join(', ')} and ${numbers[numbers.length - 1]}`
@@ -342,7 +342,7 @@ function buildTenderClause(form, accepted) {
   if (certified.length) {
     const qcos = [...new Set(certified.map((s) => s.certification.qco).filter(Boolean))];
     lines.push(
-      `3. CERTIFICATION — ${certified.map((s) => s.number).join(', ')} ${
+      `3. CERTIFICATION, ${certified.map((s) => s.number).join(', ')} ${
         certified.length === 1 ? 'falls' : 'fall'
       } under mandatory BIS certification. The supplier shall hold a valid BIS licence and the goods shall bear the Standard Mark (ISI). The licence number shall be quoted in the bid.${
         qcos.length ? ` Governing order: ${qcos.join('; ')}.` : ''
@@ -353,14 +353,14 @@ function buildTenderClause(form, accepted) {
   const superseded = accepted.filter((s) => s.status === 'superseded');
   if (superseded.length) {
     lines.push(
-      `${lines.length + 1}. NOTE — ${superseded
+      `${lines.length + 1}. NOTE, ${superseded
         .map((s) => s.number)
         .join(', ')} ${superseded.length === 1 ? 'is' : 'are'} recorded as superseded. Confirm the current edition with BIS before issuing this tender.`,
     );
   }
 
   lines.push(
-    `${lines.length + 1}. INSPECTION — Test certificates demonstrating conformance to the above standards shall be furnished with each supply lot.`,
+    `${lines.length + 1}. INSPECTION, Test certificates demonstrating conformance to the above standards shall be furnished with each supply lot.`,
   );
 
   return lines.join('\n\n');

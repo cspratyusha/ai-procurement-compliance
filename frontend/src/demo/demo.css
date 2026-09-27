@@ -11,7 +11,7 @@
 :root {
   --demo-z: 9000;          /* above the app's modal layer (--z-modal: 50) */
   --demo-dim: 0.58;        /* how much the unhighlighted UI recedes */
-  --demo-ring: #6750A4;    /* spotlight ring — the seed primary */
+  --demo-ring: #6750A4;    /* spotlight ring, the seed primary */
   --demo-inverse: #313033;       /* MD3 inverse-surface */
   --demo-on-inverse: #F4EFF4;    /* MD3 inverse-on-surface */
   --demo-inverse-primary: #D0BCFF;
@@ -170,7 +170,7 @@
   z-index: 3;
 }
 
-/* Which act of the tour this is — orients a viewer who joined halfway. */
+/* Which act of the tour this is, orients a viewer who joined halfway. */
 .demo-caption-act {
   margin: 0 0 7px;
   font-size: 0.625rem;
@@ -407,8 +407,8 @@
 /**
  * Deliberately not a replica of any operating system's dialog.
  *
- * Its job is to make the upload legible — a viewer sees the file being picked
- * rather than a filename appearing from nowhere — and it carries a "Demo Mode"
+ * Its job is to make the upload legible, a viewer sees the file being picked
+ * rather than a filename appearing from nowhere, and it carries a "Demo Mode"
  * tag so nobody mistakes it for part of the product.
  */
 .demo-picker {
@@ -558,7 +558,7 @@
 
 /**
  * While the demo drives the app, the user's own pointer and keyboard must not
- * reach it — an accidental click mid-recording ruins the take. The overlay's
+ * reach it, an accidental click mid-recording ruins the take. The overlay's
  * own HUD and the file input the demo writes to are exempted.
  *
  * Programmatic events still land: `pointer-events: none` blocks hit-testing
@@ -572,6 +572,14 @@ html[data-demo='running'] body > #root {
 
 html[data-demo='running'] [data-demo-ignore='true'] {
   pointer-events: auto;
+}
+
+/* The overlay layer is itself marked data-demo-ignore (so the engine never
+   treats it as app content), but it must stay click-through: otherwise the
+   veil swallows every real click, including the viewer signing in while the
+   tour waits on the sign-in page. Only the HUD and toast opt back in. */
+html[data-demo='running'] .demo-layer[data-demo-ignore='true'] {
+  pointer-events: none;
 }
 
 /* Scrollbars are ugly in a recording and the demo scrolls for you. */

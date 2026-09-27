@@ -3,6 +3,7 @@ import { BrowserRouter, Routes, Route, Navigate, useLocation } from 'react-route
 
 import Shell from './components/Shell';
 import { SpecProvider } from './state/SpecStore';
+import { AuthProvider, RequireAuth, useAuth } from './state/Auth';
 import { DemoProvider } from './demo/DemoProvider';
 
 import Landing from './pages/Landing';
@@ -23,7 +24,7 @@ import Admin from './pages/Admin';
 import Alerts from './pages/Alerts';
 import Settings from './pages/Settings';
 
-// Charting pulls in Recharts (~400 kB) — split it out so only this route pays for it.
+// Charting pulls in Recharts (~400 kB), split it out so only this route pays for it.
 const Compliance = lazy(() => import('./pages/Compliance'));
 
 import './styles/tokens.css';
@@ -59,12 +60,20 @@ function PageLoading() {
 // previous build persisted so an old "dark" preference cannot linger.
 try { localStorage.removeItem('bis-theme'); } catch { /* storage blocked */ }
 
+/** Admin-only screens: anyone else is sent to the dashboard, not shown a 403. */
+function AdminOnly({ children }) {
+  const { isAdmin } = useAuth();
+  return isAdmin ? children : <Navigate to="/app" replace />;
+}
+
 export default function App() {
-  const app = (page) => <Shell>{page}</Shell>;
+  const app = (page) => <RequireAuth><Shell>{page}</Shell></RequireAuth>;
+  const admin = (page) => app(<AdminOnly>{page}</AdminOnly>);
 
   return (
-    <SpecProvider>
-      <BrowserRouter>
+    <BrowserRouter>
+      <AuthProvider>
+      <SpecProvider>
         <ScrollTop />
         {/* Demo Mode wraps the routes because its engine navigates through
             react-router. It renders nothing until the demo is started. */}
@@ -92,10 +101,10 @@ export default function App() {
             <Route path="/app/catalogue"     element={app(<Explorer />)} />
             <Route path="/app/simulator"     element={app(<Simulator />)} />
             <Route path="/app/alerts"        element={app(<Alerts />)} />
-            <Route path="/app/compliance"    element={app(<Suspense fallback={<PageLoading />}><Compliance /></Suspense>)} />
+            <Route path="/app/compliance"    element={admin(<Suspense fallback={<PageLoading />}><Compliance /></Suspense>)} />
 
             {/* Admin */}
-            <Route path="/app/admin"         element={app(<Admin />)} />
+            <Route path="/app/admin"         element={admin(<Admin />)} />
             <Route path="/app/settings"      element={app(<Settings />)} />
 
             {/* Legacy path kept so old links resolve */}
@@ -104,7 +113,8 @@ export default function App() {
             <Route path="*" element={<Navigate to="/" replace />} />
           </Routes>
         </DemoProvider>
-      </BrowserRouter>
-    </SpecProvider>
+      </SpecProvider>
+      </AuthProvider>
+    </BrowserRouter>
   );
 }

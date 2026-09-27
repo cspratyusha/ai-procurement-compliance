@@ -19,7 +19,7 @@
  *   3. Wait for the app, not the clock. `waitFor` polls the real DOM. A slow
  *      backend makes the demo wait longer, never click early.
  *
- * The engine is framework-agnostic — a plain class. React talks to it through
+ * The engine is framework-agnostic, a plain class. React talks to it through
  * the `useDemo` hook, which subscribes to its state changes.
  */
 
@@ -39,7 +39,7 @@ const TIP_OFFSET = { x: -2, y: -2 };
 
 const raf = () => new Promise(requestAnimationFrame);
 
-/** easeInOutCubic — slow start, quick middle, soft landing. Reads as human. */
+/** easeInOutCubic, slow start, quick middle, soft landing. Reads as human. */
 const ease = (t) => (t < 0.5 ? 4 * t * t * t : 1 - (-2 * t + 2) ** 3 / 2);
 
 /**
@@ -47,7 +47,7 @@ const ease = (t) => (t < 0.5 ? 4 * t * t * t : 1 - (-2 * t + 2) ** 3 / 2);
  *
  * Not in engine steps: one act is a caption plus a wait plus several cursor
  * moves, so a step count jumps unevenly and tells a viewer nothing. Acts are
- * counted instead — the captions that carry an `act` heading, which is exactly
+ * counted instead, the captions that carry an `act` heading, which is exactly
  * what a viewer perceives as "where am I in this tour".
  */
 const isAct = (step) => step.action === 'caption' && Boolean(step.act);
@@ -63,7 +63,7 @@ export class DemoEngine {
       paused: false,
       finished: false,
       stepIndex: 0,      // index into this.steps, for logging and recovery
-      act: 0,            // acts completed — what the HUD shows
+      act: 0,            // acts completed, what the HUD shows
       total: steps.filter(isAct).length,
       caption: null,
       error: null,
@@ -88,7 +88,7 @@ export class DemoEngine {
    *
    * For a presenter mid-recording: a long narration beat or a slow retrieval
    * can be skipped without stopping the demo. Deliberately only shortens
-   * *waiting* — the click, the typing and the cursor travel still happen, so
+   * *waiting*, the click, the typing and the cursor travel still happen, so
    * skipping cannot desynchronise the demo from the application.
    */
   skip() {
@@ -146,7 +146,7 @@ export class DemoEngine {
       },
     });
 
-    this._log('info', `Demo started — ${this.steps.length} steps`);
+    this._log('info', `Demo started, ${this.steps.length} steps`);
 
     try {
       await this._run(signal);
@@ -161,7 +161,7 @@ export class DemoEngine {
         this._log(
           'info',
           this._skipped.length
-            ? `Demo complete — ${this._skipped.length} step(s) skipped`
+            ? `Demo complete, ${this._skipped.length} step(s) skipped`
             : 'Demo complete',
         );
         document.documentElement.setAttribute('data-demo', 'finished');
@@ -218,7 +218,7 @@ export class DemoEngine {
       cursor: { ...this.state.cursor, visible: false, pressing: false },
     });
     document.documentElement.removeAttribute('data-demo');
-    this._log('info', 'Stopped — control returned to you');
+    this._log('info', 'Stopped, control returned to you');
   }
 
   dismissError() {
@@ -251,7 +251,7 @@ export class DemoEngine {
       // steps address each element (move, highlight, click), and re-proving
       // the same absence for each is what makes a gap feel like a freeze.
       if (step.target && this._absent.has(step.target)) {
-        this._log('warn', `Skipped ${this._describe(step)} — target absent on this screen`);
+        this._log('warn', `Skipped ${this._describe(step)}, target absent on this screen`);
         i += 1;
         continue;
       }
@@ -265,7 +265,7 @@ export class DemoEngine {
             (s) => s.action === 'label' && s.name === jump,
           );
           if (at === -1) {
-            this._log('warn', `No label "${jump}" — continuing in order`);
+            this._log('warn', `No label "${jump}", continuing in order`);
           } else {
             this._log('info', `Skipping ahead to "${jump}"`);
             i = at + 1;
@@ -292,10 +292,10 @@ export class DemoEngine {
         }
 
         if (step.resilient === false) {
-          throw new Error(`${this._describe(step)} — ${err.message}`);
+          throw new Error(`${this._describe(step)}, ${err.message}`);
         }
 
-        this._log('warn', `Skipped ${this._describe(step)} — ${err.message}`);
+        this._log('warn', `Skipped ${this._describe(step)}, ${err.message}`);
 
         // Leave nothing of the failed step on screen: a ring or a caption
         // pointing at an element that never appeared is what actually reads
@@ -450,7 +450,7 @@ export class DemoEngine {
    * Resolve a target key to a visible element.
    *
    * Selectors are tried in the order the config lists them. A file input is
-   * deliberately allowed to be invisible — the app hides it by design and the
+   * deliberately allowed to be invisible, the app hides it by design and the
    * upload step needs it anyway.
    */
   _find(key) {
@@ -479,7 +479,7 @@ export class DemoEngine {
    *
    * The default budget is deliberately short. Every step that needs an
    * element is preceded by a `waitFor` on the screen that owns it, so if it is
-   * not there within a couple of seconds it is not coming — and a long retry
+   * not there within a couple of seconds it is not coming, and a long retry
    * on each of a run of doomed steps is what makes a demo look frozen rather
    * than merely imperfect.
    */
@@ -563,7 +563,7 @@ export class DemoEngine {
       const e = ease(t);
       const to = target();
 
-      // A gentle arc rather than a straight line — a real hand does not move
+      // A gentle arc rather than a straight line, a real hand does not move
       // in a perfect segment. The bow is perpendicular to the travel, scaled
       // by distance and faded out at both ends.
       const dx = to.x - from.x;
@@ -593,8 +593,8 @@ export class DemoEngine {
   /**
    * Keep the spotlight box on an element, in viewport coordinates.
    *
-   * Clamped to the viewport, because a target taller than the screen — a long
-   * results list, say — would otherwise put the ring off-screen in both
+   * Clamped to the viewport, because a target taller than the screen, a long
+   * results list, say, would otherwise put the ring off-screen in both
    * directions and dim nothing at all, which reads as a broken highlight.
    */
   _spotlight(el, pad = 8) {
@@ -622,7 +622,7 @@ export class DemoEngine {
    * Bring an element into view and wait for the scroll to settle.
    *
    * Smooth scrolling has no completion event, so this watches the element's
-   * own position until it stops changing — more reliable than a fixed delay,
+   * own position until it stops changing, more reliable than a fixed delay,
    * and it returns immediately when nothing needed to move.
    */
   async _scrollIntoView(el, block = 'center', signal, force = false) {
@@ -717,7 +717,7 @@ export class DemoEngine {
     // A field the app prefills has to be cleared, and the clearing has to be
     // visible: wiping it in one frame looks like a scripted reset. So the
     // existing value is selected, held long enough to read as deliberate, then
-    // deleted — what a person does before retyping a field.
+    // deleted, what a person does before retyping a field.
     if (el.value) {
       el.select?.();
       await this._sleep(420, signal);
@@ -757,14 +757,14 @@ export class DemoEngine {
    * The functional one: a browser will not let script open the OS file
    * picker, and nothing here tries to. The file is fetched from `public/`,
    * wrapped in a DataTransfer so the input receives a genuine FileList, and
-   * the input's own change handler runs — the same handler a manual selection
+   * the input's own change handler runs, the same handler a manual selection
    * triggers. From the application's point of view, the user picked a file.
    *
    * The recording one: done silently, that reads as nothing happening. A
    * viewer sees a click on "Select file" and then, with no visible cause, a
    * filename. So the engine draws its own file-chooser panel, moves the
    * cursor onto the file, and clicks it. The panel is plainly the demo's own
-   * — it is captioned as such rather than dressed up as the operating
+   * it is captioned as such rather than dressed up as the operating
    * system's, because a fake OS dialog in a product video is a lie about how
    * the software behaves.
    */
@@ -825,8 +825,7 @@ export class DemoEngine {
     await this._sleep(180, signal);
     this._set({ cursor: { ...this.state.cursor, pressing: false } });
 
-    // The panel closes, and only then does the file reach the application —
-    // so the upload starts exactly when the viewer sees the dialog dismissed.
+    // The panel closes, and only then does the file reach the application,     // so the upload starts exactly when the viewer sees the dialog dismissed.
     // The spotlight goes with it: it was measured against a row that no longer
     // exists, and would otherwise hang over the page as an empty ring.
     this._set({ picker: null, spotlight: null });

@@ -30,7 +30,7 @@ export function Confidence({ value, showBar = true }) {
   );
 }
 
-/** Version badge — carries an icon so it reads without colour. */
+/** Version badge, carries an icon so it reads without colour. */
 export function VersionBadge({ version, supersededBy }) {
   if (version === 'superseded') {
     return (
@@ -100,7 +100,7 @@ export function CopyButton({ text, label = 'Copy clause' }) {
       btn.textContent = 'Copied';
       setTimeout(() => { btn.textContent = prev; }, 1600);
     } catch {
-      /* Clipboard unavailable (insecure context) — silently no-op. */
+      /* Clipboard unavailable (insecure context), silently no-op. */
     }
   };
 

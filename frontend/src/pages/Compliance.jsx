@@ -6,15 +6,15 @@ import { Link } from 'react-router-dom';
 import Icon from '../components/Icon';
 import { EmptyState } from '../components/Primitives';
 import { getCorpusHealth, getStats, getAlerts, ApiError } from '../api/client';
-import './query.css';   // .notice — shared with the query screen
+import './query.css';   // .notice, shared with the query screen
 import { sectorLabel as labelFor } from '../data/sectors';
 
 /**
- * Corpus health — how complete the data the engine serves actually is.
+ * Corpus health, how complete the data the engine serves actually is.
  *
  * This screen was a compliance dashboard: six-month gap trends, tender
  * compliance percentages, and a per-department table with rates like 95.8%.
- * All of it was invented, and none of it could be made real — those figures
+ * All of it was invented, and none of it could be made real, those figures
  * need a tender auditor and user accounts, neither of which is built. They
  * were removed rather than relabelled.
  *
@@ -98,7 +98,7 @@ export default function Compliance() {
     Promise.all([
       getCorpusHealth({ signal }),
       getStats({ signal }),
-      getAlerts({ signal }),
+      getAlerts({ summary: true, signal }),
     ])
       .then(([h, s, a]) => {
         setHealth(h);
@@ -132,7 +132,7 @@ export default function Compliance() {
         <div>
           <h1 className="page-title" data-demo-target="compliance-title">Corpus health</h1>
           <p className="page-sub">
-            How complete the data behind the engine is — what has been researched, and
+            How complete the data behind the engine is, what has been researched, and
             what has not. Every figure is a count over records that exist.
           </p>
         </div>
@@ -184,20 +184,17 @@ export default function Compliance() {
               <span className="tabular stat-value">
                 {health.active.toLocaleString('en-IN')}
               </span>
-              <span className="xs muted">{health.superseded} marked superseded</span>
+              <span className="xs muted">{health.superseded.toLocaleString('en-IN')} marked superseded</span>
             </div>
+            {/* Older editions whose current edition the corpus also holds. This
+                was headed "Needs attention" in red, but it is healthy catalogue
+                data: every one names its replacement. Nothing here is broken. */}
             <div className="card stack stack-3">
-              <span className="xs faint">Needs attention</span>
-              <span
-                className="tabular"
-                style={{
-                  fontSize: 'var(--fs-xl)', fontWeight: 600, letterSpacing: '-0.03em',
-                  color: alerts.critical_count > 0 ? 'var(--crit)' : undefined,
-                }}
-              >
-                {alerts.critical_count}
+              <span className="xs faint">Replaced editions</span>
+              <span className="tabular stat-value">
+                {alerts.critical_count.toLocaleString('en-IN')}
               </span>
-              <span className="xs muted">Superseded, replacement known</span>
+              <span className="xs muted">Older editions, each with its current edition named</span>
             </div>
             <div className="card stack stack-3">
               <span className="xs faint">Searches served</span>
@@ -233,7 +230,7 @@ export default function Compliance() {
                   value={health.certification_not_verified}
                   total={health.corpus_size}
                   tone="var(--warn)"
-                  hint="Status unknown — explicitly not a clearance"
+                  hint="Status unknown, explicitly not a clearance"
                 />
                 <CoverageBar
                   label="Amendments researched"
@@ -246,7 +243,7 @@ export default function Compliance() {
                 <p className="xs muted">
                   Certification and amendment research was done when the corpus was smaller
                   and did not scale with it. A standard with no record has not been checked,
-                  which is not a statement that it is clean — the engine reports this
+                  which is not a statement that it is clean, the engine reports this
                   per-record rather than implying coverage it does not have.
                 </p>
               </div>
@@ -359,7 +356,7 @@ export default function Compliance() {
                     </span>
                   </div>
                   <span className="xs faint">
-                    Not a statement that they have none — only that nobody has looked.
+                    Not a statement that they have none, only that nobody has looked.
                   </span>
                 </div>
                 <Link to="/app/alerts" className="btn btn-secondary btn-sm">
@@ -370,9 +367,8 @@ export default function Compliance() {
           </section>
 
           <p className="xs faint">
-            Counted from the served corpus and the engine's query log. Tender compliance
-            rates and per-department figures are not shown because the tender auditor and
-            user accounts that would produce them are not built.
+            Counted from the served corpus and the engine&rsquo;s query log, across every
+            account on this installation.
           </p>
         </div>
       )}

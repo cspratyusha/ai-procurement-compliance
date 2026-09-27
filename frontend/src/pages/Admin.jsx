@@ -3,15 +3,15 @@ import { Link } from 'react-router-dom';
 import Icon from '../components/Icon';
 import { EmptyState } from '../components/Primitives';
 import { getHealth, getStats, getCorpusHealth, getAlerts, BASE_URL, ApiError } from '../api/client';
-import './query.css';   // .notice — shared with the query screen
+import './query.css';   // .notice, shared with the query screen
 
 /**
- * Engine status — what is actually running and what it is serving.
+ * Engine status, what is actually running and what it is serving.
  *
  * The previous screen was a catalogue-sync console: "22,418 standards
  * indexed", four data-source feeds with sync times, "the QCO / Gazette feed
  * is 3 days stale". None of that exists. There is no sync job, no amendment
- * feed, and no connection to BIS of any kind — the corpus is a file that
+ * feed, and no connection to BIS of any kind, the corpus is a file that
  * changes when someone rebuilds it. A stale-feed warning about a feed that
  * was never built is a particularly bad kind of fiction, because it implies
  * the other three are fresh.
@@ -23,7 +23,7 @@ import './query.css';   // .notice — shared with the query screen
  *
  * The acceptance figures are the one part that carries over in spirit. They
  * used to be three invented bands; they are now counted from the feedback
- * log, and they report `—` rather than 0% until an officer has actually
+ * log, and they report `–` rather than 0% until an officer has actually
  * accepted or dismissed something.
  */
 
@@ -40,7 +40,7 @@ export default function Admin() {
       getHealth({ signal }),
       getStats({ signal }),
       getCorpusHealth({ signal }),
-      getAlerts({ signal }),
+      getAlerts({ summary: true, signal }),
     ])
       .then(([health, stats, corpus, alerts]) => {
         setData({ health, stats, corpus, alerts });
@@ -62,7 +62,7 @@ export default function Admin() {
           <h1 className="page-title" data-demo-target="admin-title">Engine status</h1>
           <p className="page-sub">
             What this instance is running and serving, read from the engine at load.
-            There is no scheduled sync with BIS — the corpus changes when it is rebuilt.
+            There is no scheduled sync with BIS, the corpus changes when it is rebuilt.
           </p>
         </div>
       </div>
@@ -174,8 +174,8 @@ export default function Admin() {
                     <p className="xs muted">
                       An accept is recorded when an officer adds a standard to a
                       specification, and a rejection when they dismiss one on the search
-                      screen. Until that happens there is no rate to report — this reads
-                      “—” rather than 0%, which would wrongly assert that decisions were
+                      screen. Until that happens there is no rate to report, this reads
+                      “, ” rather than 0%, which would wrongly assert that decisions were
                       made and none were accepts.
                     </p>
                   </>
@@ -208,7 +208,7 @@ export default function Admin() {
                     <div className="row-between">
                       <span className="xs faint">Acceptance rate</span>
                       <span className="xs tabular strong">
-                        {data.stats.acceptance_rate != null ? `${data.stats.acceptance_rate}%` : '—'}
+                        {data.stats.acceptance_rate != null ? `${data.stats.acceptance_rate}%` : '–'}
                       </span>
                     </div>
                   </>
@@ -292,18 +292,17 @@ export default function Admin() {
                 </span>
               </div>
               <span className="xs faint">
-                Not a statement that they have none — only that nobody has looked.
+                Not a statement that they have none, only that nobody has looked.
               </span>
             </div>
           </section>
 
           <div className="card stack stack-3">
-            <span className="eyebrow">Not built</span>
+            <span className="eyebrow">Not automated yet</span>
             <p className="xs muted">
-              User accounts and roles, a scheduled BIS catalogue sync, an amendment feed,
-              and user-submitted flags on corpus records. The previous version of this
-              screen showed all four as though they were running. Operating this engine
-              today means rebuilding the corpus and restarting the process.
+              A scheduled BIS catalogue sync, an amendment feed, and user-submitted flags on
+              corpus records. Updating the catalogue today means re-running the ingest and
+              restarting the engine. Members, roles and API keys are managed in Settings.
             </p>
           </div>
         </div>

@@ -7,7 +7,7 @@ import Icon from './Icon';
  *
  *   ISI / CRS / Hallmark  a confirmed legal requirement
  *   none                  checked, and nothing applies
- *   not_verified          nobody checked — NOT a clearance
+ *   not_verified          nobody checked, NOT a clearance
  *
  * Collapsing the last two would tell a procurement official that no
  * certification is needed when the truth is that we never looked, which is the
@@ -64,7 +64,7 @@ export function CertificationBanner({ certification, isNumber }) {
       <div className="stack stack-2">
         <span className="small strong">
           {SCHEME_LABEL[certification.scheme] ?? 'Certification required'}
-          {isNumber ? ` — ${isNumber}` : ''}
+          {isNumber ? `, ${isNumber}` : ''}
         </span>
         <span className="xs">{certification.explanation}</span>
         {certification.qco && (

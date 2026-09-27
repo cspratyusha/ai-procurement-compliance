@@ -125,7 +125,7 @@
 }
 
 /* A flex item defaults to min-width:auto, which refuses to shrink below its
-   content width — long explanatory text then overflows the notice instead of
+   content width, long explanatory text then overflows the notice instead of
    wrapping inside it. The nested stack needs the same treatment, and the
    text itself needs an explicit wrap for long unbroken strings. */
 .notice > * { min-width: 0; }
@@ -249,7 +249,7 @@
 }
 
 /* =====================================================================
-   Prompt composer — the query screen as an AI prompt, not a form.
+   Prompt composer, the query screen as an AI prompt, not a form.
    Centred with a greeting before the first search; docked at the foot
    of a conversation thread after it.
    ===================================================================== */
@@ -271,7 +271,7 @@
   gap: var(--s5);
 }
 
-/* A soft wash of the seed colour behind the composer — the one decorative
+/* A soft wash of the seed colour behind the composer, the one decorative
    touch on a workbench screen, kept faint so it never competes with text. */
 .prompt-hero::before {
   content: '';
@@ -688,4 +688,54 @@
   .composer { padding-left: var(--s4); border-radius: var(--r-lg); }
   .composer-pill span:not(.sr-only) { display: none; }
   .prompt-hero { min-height: 0; padding-top: var(--s4); }
+}
+
+/* ---------- "Why it matches": the local model's note on a result ----------
+   Tinted, marked with the same sparkle as the engine's avatar so it reads
+   as the model speaking, and visually separate from the standard's own
+   title and scope, which are the authoritative text. */
+
+.ai-note {
+  display: flex;
+  align-items: flex-start;
+  gap: var(--s3);
+  padding: var(--s3) var(--s4) var(--s3) var(--s3);
+  border-radius: var(--r-md);
+  background: color-mix(in srgb, var(--md-primary) 6%, var(--md-surface));
+  box-shadow: inset 0 0 0 1px color-mix(in srgb, var(--md-primary) 14%, transparent);
+}
+
+.ai-note-mark {
+  flex-shrink: 0;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 24px;
+  height: 24px;
+  margin-top: 1px;
+  border-radius: 50%;
+  color: var(--md-on-primary);
+  background: linear-gradient(135deg, var(--md-primary), var(--md-tertiary));
+}
+
+.ai-note-label {
+  font-size: var(--fs-xs);
+  font-weight: 500;
+  letter-spacing: 0.02em;
+  color: var(--md-primary);
+}
+
+.ai-note-text {
+  font-size: var(--fs-sm);
+  line-height: 1.5;
+  color: var(--md-on-surface);
+}
+
+.ai-note.is-loading { align-items: center; }
+.ai-note.is-loading .ai-note-mark { animation: ai-note-pulse 1.4s var(--ease) infinite; }
+.ai-note-pending { font-size: var(--fs-sm); }
+
+@keyframes ai-note-pulse {
+  0%, 100% { transform: scale(1); opacity: 1; }
+  50%      { transform: scale(0.86); opacity: 0.7; }
 }

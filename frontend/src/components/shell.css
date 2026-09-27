@@ -8,7 +8,7 @@
   flex-shrink: 0;
 }
 
-/* Sidebar — MD3 navigation drawer: a tonal surface, no hairline.
+/* Sidebar, MD3 navigation drawer: a tonal surface, no hairline.
    Folds to an 80px navigation rail on desktop (see the end of this block). */
 
 .sidebar {
@@ -171,7 +171,7 @@
 
 }
 
-/* Topbar — translucent over the page, blurred like frosted glass. */
+/* Topbar, translucent over the page, blurred like frosted glass. */
 
 .topbar {
   position: sticky;
@@ -246,7 +246,7 @@
   .sidebar.is-open { transform: none; }
 
   /* The topbar establishes its own stacking context, so raising only the
-     button cannot lift it past the drawer — the whole bar has to outrank the
+     button cannot lift it past the drawer, the whole bar has to outrank the
      sidebar, or the open drawer swallows the click meant to close it. */
   .topbar {
     z-index: calc(var(--z-drawer) + 1);
@@ -281,9 +281,14 @@
   font-size: var(--fs-sm);
   color: var(--md-on-surface-variant);
   min-height: 36px;
+  white-space: nowrap;
   cursor: pointer;
   transition: background var(--t), color var(--t);
 }
+
+/* A long label ellipsises before a count badge can push it onto two lines. */
+.nav-subitem > span:first-child { min-width: 0; overflow: hidden; text-overflow: ellipsis; }
+.nav-subitem .nav-count { flex-shrink: 0; }
 
 .nav-subitem:hover {
   background: color-mix(in srgb, var(--md-on-surface) var(--state-hover), transparent);

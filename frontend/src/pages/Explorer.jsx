@@ -1,34 +1,56 @@
-import { useState, useEffect, useMemo } from 'react';
+import { useState, useEffect, useMemo, useRef } from 'react';
 import { Link } from 'react-router-dom';
 import Icon from '../components/Icon';
 import { EmptyState } from '../components/Primitives';
-import { listStandards, ApiError } from '../api/client';
+import { searchStandards, ApiError } from '../api/client';
 import { sectorLabel } from '../data/sectors';
 
+const ALL = '';
 
-const ALL = 'All sectors';
+/** Standards fetched per page. */
+const PAGE_SIZE = 100;
 
-/** How many standards to render before asking the user to expand. */
-const PAGE_SIZE = 150;
+/** Wait this long after typing stops before searching. */
+const DEBOUNCE_MS = 300;
 
+/**
+ * The standards catalogue, searched on the server.
+ *
+ * It used to download the whole corpus and filter it in the browser. At
+ * 21,848 standards that was about 10 MB and several seconds before the first
+ * row appeared, so it now asks `/standards/search` for one page at a time and
+ * fetches more on demand. The matching is unchanged: IS number, title, scope
+ * and keywords.
+ */
 export default function Explorer() {
-  const [standards, setStandards] = useState([]);
-  const [state, setState] = useState('loading'); // loading | ready | error
-  const [error, setError] = useState(null);
   const [query, setQuery] = useState('');
+  const [term, setTerm] = useState('');          // `query`, debounced
   const [sector, setSector] = useState(ALL);
   const [showSuperseded, setShowSuperseded] = useState(true);
-  // The corpus is now thousands of standards. Rendering every one of them
-  // costs ~1.7 s on first paint and re-runs on every keystroke, so the list
-  // is capped and extended on demand.
-  const [visibleCount, setVisibleCount] = useState(PAGE_SIZE);
+
+  const [page, setPage] = useState(null);        // last response, results accumulated
+  const [state, setState] = useState('loading'); // loading | ready | error
+  const [error, setError] = useState(null);
+  const [loadingMore, setLoadingMore] = useState(false);
+  const moreAbort = useRef(null);
 
   useEffect(() => {
+    const timer = setTimeout(() => setTerm(query.trim()), DEBOUNCE_MS);
+    return () => clearTimeout(timer);
+  }, [query]);
+
+  // A new search replaces the list. Keeping the previous results on screen
+  // while it runs avoids a flash of skeletons on every keystroke.
+  useEffect(() => {
     const controller = new AbortController();
-    listStandards({ signal: controller.signal })
+    moreAbort.current?.abort();
+    searchStandards({
+      q: term, category: sector || undefined, includeSuperseded: showSuperseded,
+      limit: PAGE_SIZE, offset: 0, signal: controller.signal,
+    })
       .then((data) => {
         if (controller.signal.aborted) return;
-        setStandards(data);
+        setPage(data);
         setState('ready');
       })
       .catch((err) => {
@@ -37,44 +59,39 @@ export default function Explorer() {
         setState('error');
       });
     return () => controller.abort();
-  }, []);
+  }, [term, sector, showSuperseded]);
 
-  const sectors = useMemo(
-    () => [ALL, ...[...new Set(standards.map((s) => s.category))].sort()],
-    [standards],
-  );
+  const loadMore = () => {
+    if (!page) return;
+    const controller = new AbortController();
+    moreAbort.current = controller;
+    setLoadingMore(true);
+    searchStandards({
+      q: term, category: sector || undefined, includeSuperseded: showSuperseded,
+      limit: PAGE_SIZE, offset: page.results.length, signal: controller.signal,
+    })
+      .then((data) => {
+        if (controller.signal.aborted) return;
+        setPage((prev) => ({ ...data, results: [...prev.results, ...data.results] }));
+      })
+      .catch(() => { /* the button stays; the officer can try again */ })
+      .finally(() => { if (!controller.signal.aborted) setLoadingMore(false); });
+  };
 
-  useEffect(() => { setVisibleCount(PAGE_SIZE); }, [query, sector, showSuperseded]);
+  const results = useMemo(() => page?.results ?? [], [page]);
 
-  const results = useMemo(() => {
-    const term = query.trim().toLowerCase();
-    return standards.filter((s) => {
-      if (sector !== ALL && s.category !== sector) return false;
-      if (!showSuperseded && s.status === 'superseded') return false;
-      if (!term) return true;
-      return (
-        s.number.toLowerCase().includes(term)
-        || s.title.toLowerCase().includes(term)
-        || (s.scope ?? '').toLowerCase().includes(term)
-        || (s.keywords ?? []).some((k) => k.toLowerCase().includes(term))
-      );
-    });
-  }, [standards, query, sector, showSuperseded]);
-
-  // Group by sector so the shape of the corpus is visible at a glance --
-  // which is the honest way to show that coverage is partial.
-  const shown = useMemo(() => results.slice(0, visibleCount), [results, visibleCount]);
-
+  // Group the loaded rows by sector so the shape of the corpus stays visible.
   const grouped = useMemo(() => {
     const map = new Map();
-    for (const s of shown) {
+    for (const s of results) {
       if (!map.has(s.category)) map.set(s.category, []);
       map.get(s.category).push(s);
     }
     return [...map.entries()].sort(([a], [b]) => a.localeCompare(b));
-  }, [shown]);
+  }, [results]);
 
-  const supersededCount = standards.filter((s) => s.status === 'superseded').length;
+  const total = page?.total ?? 0;
+  const remaining = total - results.length;
 
   return (
     <div className="container page">
@@ -109,7 +126,7 @@ export default function Explorer() {
         </div>
       )}
 
-      {state === 'ready' && (
+      {state === 'ready' && page && (
         <div className="stack stack-5">
           <div className="card stack stack-4">
             <div className="row wrap" style={{ gap: 'var(--s3)' }}>
@@ -118,7 +135,7 @@ export default function Explorer() {
                 <div style={{ position: 'relative' }}>
                   <span
                     style={{
-                      position: 'absolute', left: 11, top: '50%',
+                      position: 'absolute', left: 14, top: '50%',
                       transform: 'translateY(-50%)', color: 'var(--ink-faint)',
                     }}
                   >
@@ -128,7 +145,7 @@ export default function Explorer() {
                     id="cat-search"
                     className="input"
                     data-demo-target="catalogue-search"
-                    style={{ paddingLeft: 34 }}
+                    style={{ paddingLeft: 38 }}
                     placeholder="IS number, title or keyword…"
                     value={query}
                     onChange={(e) => setQuery(e.target.value)}
@@ -144,18 +161,21 @@ export default function Explorer() {
                   value={sector}
                   onChange={(e) => setSector(e.target.value)}
                 >
-                  {sectors.map((s) => (
-                    <option key={s} value={s}>{s === ALL ? ALL : sectorLabel(s)}</option>
+                  <option value={ALL}>All sectors</option>
+                  {page.sectors.map((s) => (
+                    <option key={s.category} value={s.category}>
+                      {sectorLabel(s.category)} ({s.count.toLocaleString('en-IN')})
+                    </option>
                   ))}
                 </select>
               </div>
             </div>
 
             <div className="row-between wrap" style={{ gap: 'var(--s3)' }}>
-              <span className="xs faint">
-                Showing {shown.length} of {results.length} matching
-                {results.length !== standards.length ? ` (${standards.length} in corpus)` : ' standards'}
-                {supersededCount > 0 && ` · ${supersededCount} superseded`}
+              <span className="xs faint" aria-live="polite">
+                Showing {results.length.toLocaleString('en-IN')} of {total.toLocaleString('en-IN')} matching
+                {total !== page.corpus_size ? ` (${page.corpus_size.toLocaleString('en-IN')} in corpus)` : ' standards'}
+                {page.superseded_total > 0 && ` · ${page.superseded_total.toLocaleString('en-IN')} superseded`}
               </span>
               <label className="check">
                 <input
@@ -168,7 +188,7 @@ export default function Explorer() {
             </div>
           </div>
 
-          {results.length === 0 ? (
+          {total === 0 ? (
             <div className="card">
               <EmptyState
                 icon="search"
@@ -211,18 +231,13 @@ export default function Explorer() {
             ))
           )}
 
-          {results.length > shown.length && (
+          {remaining > 0 && (
             <div className="card stack stack-3" style={{ alignItems: 'center' }}>
               <span className="xs muted">
-                {results.length - shown.length} more standard
-                {results.length - shown.length === 1 ? '' : 's'} match this search.
+                {remaining.toLocaleString('en-IN')} more standard{remaining === 1 ? '' : 's'} match this search.
               </span>
-              <button
-                type="button"
-                className="btn btn-secondary btn-sm"
-                onClick={() => setVisibleCount((n) => n + PAGE_SIZE)}
-              >
-                Show {Math.min(PAGE_SIZE, results.length - shown.length)} more
+              <button type="button" className="btn btn-secondary btn-sm" onClick={loadMore} disabled={loadingMore}>
+                {loadingMore ? <><span className="spinner" /> Loading</> : `Show ${Math.min(PAGE_SIZE, remaining)} more`}
               </button>
             </div>
           )}

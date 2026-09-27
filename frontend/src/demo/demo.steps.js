@@ -1,5 +1,5 @@
 /**
- * The demo sequence — what the tour actually does, in order.
+ * The demo sequence, what the tour actually does, in order.
  *
  * Split out of demo.config.js because it is the part that changes most: a
  * presenter reorders acts, rewrites narration, or drops a screen without ever
@@ -31,7 +31,7 @@
  *   act     which chapter of the tour this is
  *   text    what is happening, in one line
  *   sub     how it works
- *   detail  why it matters — the line that makes a viewer care
+ *   detail  why it matters, the line that makes a viewer care
  *
  * ── Actions ─────────────────────────────────────────────────────────────────
  *
@@ -42,10 +42,10 @@
  * demo-stopping error into a logged skip. Screens whose content depends on
  * live data use it, because an empty state is a legitimate outcome there.
  *
- * `target` is always a key in DEMO_TARGETS — never a coordinate.
+ * `target` is always a key in DEMO_TARGETS, never a coordinate.
  */
 
-import { DEMO_USER, DEMO_FILE, DEMO_AUDIT_FILE } from './demo.config';
+import { DEMO_FILE, DEMO_AUDIT_FILE } from './demo.config';
 
 /** A caption plus the beat needed to read it. */
 const say = (act, text, sub, detail, ms = 2600) => [
@@ -68,7 +68,7 @@ const press = (target, opts = {}) => [
 ];
 
 /**
- * Change screens the way a user does — by clicking the sidebar link.
+ * Change screens the way a user does, by clicking the sidebar link.
  *
  * A route that changes with no cursor anywhere near it is the single most
  * confusing thing a demo can do: the viewer has no idea what caused the page
@@ -80,7 +80,7 @@ const press = (target, opts = {}) => [
  * `navTarget` is a sidebar link; `waitTarget` is something on the destination
  * screen that proves it arrived. Screens with no nav entry of their own (a
  * standard's detail page, reached by clicking a result) pass `null` and fall
- * back to a direct route change — but those are always preceded by a click on
+ * back to a direct route change, but those are always preceded by a click on
  * the thing that would have opened them.
  */
 const goTo = (navTarget, to, waitTarget) => [
@@ -97,7 +97,7 @@ const goTo = (navTarget, to, waitTarget) => [
 ];
 
 /**
- * Open a screen, then narrate it — in that order.
+ * Open a screen, then narrate it, in that order.
  *
  * Captioning before navigating describes the new screen while the old one is
  * still on camera. That is the one sequencing mistake that looks broken rather
@@ -121,7 +121,7 @@ export const demoSteps = [
   ...say(
     'Welcome',
     'StandEng finds the Indian Standards a tender should cite.',
-    'A guided tour — you do not need to click anything.',
+    'A guided tour, you do not need to click anything.',
     'A tender rarely cites the right standards. Get one wrong and the '
       + 'specification is unenforceable at inspection, or the tender is '
       + 'challenged years after it was written.',
@@ -135,45 +135,31 @@ export const demoSteps = [
     { to: '/', waitFor: 'landing-cta' },
     'Act 1 · Sign in',
     'The engine searches the published Indian Standards it holds, by meaning.',
-    'Every figure it shows is counted from its own corpus — never implied.',
+    'Every figure it shows is counted from its own corpus, never implied.',
     'Coverage is stated plainly throughout this product. A tool that '
       + 'overstates what it knows cannot be trusted with a tender.',
     3200,
   ),
   ...press('landing-cta'),
 
-  // ═══════════════════════ Act 1 — role-scoped sign-in ════════════════════
-  { action: 'waitFor', target: 'email' },
+  // ═══════════════════════ Act 1, role-scoped sign-in ════════════════════
+  // The tour never types a password. There is no shared demo account: the
+  // viewer signs in with their own, and the tour carries on from there.
+  // Short and optional: a viewer already signed in is sent straight on to
+  // the workbench, and there is no form to wait for.
+  { action: 'waitFor', target: 'email', timeout: 5000, optional: true },
   ...say(
     'Act 1 · Sign in',
-    'Signing in as a procurement officer.',
-    'Departmental SSO in production; credentials for this build.',
-    'The form arrives prefilled, so watch each field get selected and cleared '
-      + 'before the demo types — exactly what a person would do.',
-    2600,
+    'Sign in with your account to continue the tour.',
+    'Accounts are created by your administrator, or at first-run setup.',
+    'Access is role-based: officers search and assemble specifications, '
+      + 'administrators manage members, integrators hold API keys. Everything '
+      + 'you do is recorded in your own activity trail.',
+    0,
   ),
-  ...press('email'),
-  { action: 'type', target: 'email', text: DEMO_USER.email },
+  { action: 'waitFor', until: 'onWorkbench', timeout: 600000 },
 
-  ...press('password'),
-  { action: 'type', target: 'password', text: DEMO_USER.password },
-
-  ...press('sign-in'),
-
-  { action: 'waitFor', target: 'role-admin', timeout: 15000 },
-  ...say(
-    'Act 1 · Sign in',
-    'Access is role-scoped.',
-    'Procurement officer, department admin, or agency integrator.',
-    'The role decides which screens and API scopes open. An integrator gets '
-      + 'API keys and usage analytics; an officer does not.',
-    2800,
-  ),
-  ...press('role-admin'),
-  ...press('enter-workspace'),
-  { action: 'waitFor', until: 'onWorkbench', timeout: 20000 },
-
-  // ═══════════════════════ Act 2 — search by meaning ══════════════════════
+  // ═══════════════════════ Act 2, search by meaning ══════════════════════
   { action: 'label', name: 'workbench' },
   ...say(
     'Act 2 · Search',
@@ -188,7 +174,7 @@ export const demoSteps = [
     { nav: 'nav-query', waitFor: 'query-input' },
     'Act 2 · Search',
     'Describe the product the way a tender describes it.',
-    'No IS number, no keywords — just the requirement.',
+    'No IS number, no keywords, just the requirement.',
     'This is the core claim: a description sharing none of the standard’s '
       + 'own words still finds the right standard.',
     2800,
@@ -216,7 +202,7 @@ export const demoSteps = [
   ...say(
     'Act 2 · Search',
     'The applicable standards, ranked by meaning.',
-    'Strong match, probable, or needs review — scored per result.',
+    'Strong match, probable, or needs review, scored per result.',
     'Superseded editions are flagged, weak matches are kept below the fold, '
       + 'and a query outside coverage is reported as no match rather than '
       + 'answered badly.',
@@ -228,7 +214,7 @@ export const demoSteps = [
   ...say(
     'Act 2 · Search',
     'And this one is legally mandatory.',
-    'ISI mark required — the banner names the order that makes it so.',
+    'ISI mark required, the banner names the order that makes it so.',
     'Quality Control Order S.O. 189(E) of 2003. A specification that omits it '
       + 'lets an uncertified supplier win the contract lawfully.',
     3800,
@@ -238,7 +224,7 @@ export const demoSteps = [
     'Act 2 · Search',
     'Accepting a standard collects it in the spec basket.',
     'The basket follows you across every screen in the app.',
-    'Both the acceptance and everything passed over are logged — the ranker '
+    'Both the acceptance and everything passed over are logged, the ranker '
       + 'learns as much from the rejections as from the picks.',
     0,
   ),
@@ -246,11 +232,11 @@ export const demoSteps = [
   ...press('query-add-first', { optional: true }),
   { action: 'wait', ms: 1800 },
 
-  // ═══════════════════════ Act 3 — one standard in full ═══════════════════
+  // ═══════════════════════ Act 3, one standard in full ═══════════════════
   ...say(
     'Act 3 · One standard',
     'Every result opens into the full record.',
-    'The IS number is a link — this is where it goes.',
+    'The IS number is a link, this is where it goes.',
     null,
     2400,
   ),
@@ -262,19 +248,19 @@ export const demoSteps = [
     'Act 3 · One standard',
     'Scope text, edition, amendments in force, certification status.',
     'The scope clause comes from the published document.',
-    'Read from the Public.Resource.Org archive — OCR, so it can contain '
+    'Read from the Public.Resource.Org archive, OCR, so it can contain '
       + 'errors. No record here is verified against BIS directly, and every '
       + 'one of them says so.',
     4000,
   ),
 
-  // ═══════════════════════ Act 4 — the cluster ════════════════════════════
+  // ═══════════════════════ Act 4, the cluster ════════════════════════════
   ...intro(
     { nav: 'nav-map', waitFor: 'map-title' },
     'Act 4 · The cluster',
     'One product needs a set of standards, not one.',
     'Normative references, test methods, terminology, installation practice.',
-    'Cite the cable standard alone and there is no test method — so the '
+    'Cite the cable standard alone and there is no test method, so the '
       + 'acceptance criteria cannot be measured at inspection.',
     3600,
   ),
@@ -287,32 +273,32 @@ export const demoSteps = [
     3400,
   ),
 
-  // ═══════════════════════ Act 5 — certification ══════════════════════════
+  // ═══════════════════════ Act 5, certification ══════════════════════════
   ...intro(
     { nav: 'nav-certification', waitFor: 'cert-title' },
     'Act 5 · Certification',
     'Which standards carry a legal certification requirement.',
     'BIS Scheme I and Quality Control Orders, with the governing order recorded.',
-    'Researched for 17 standards so far — and the screen reports the '
+    'Researched for 17 standards so far, and the screen reports the '
       + 'unresearched remainder rather than presenting silence as a clearance.',
     4000,
   ),
 
-  // ═══════════════════════ Act 6 — upload a BOQ ═══════════════════════════
+  // ═══════════════════════ Act 6, upload a BOQ ═══════════════════════════
   ...intro(
     { nav: 'nav-boq', waitFor: 'boq-dropzone' },
     'Act 6 · Upload',
     'A real tender is not one product.',
     'A bill of quantities runs to dozens of line items.',
     'Flatten it into a single search and the first item’s vocabulary '
-      + 'dominates the ranking — the cable wins and the cement silently loses.',
+      + 'dominates the ranking, the cable wins and the cement silently loses.',
     3400,
   ),
   ...say(
     'Act 6 · Upload',
     'So each line item is detected and searched separately.',
     'PDF, DOCX or TXT, up to 10 MB.',
-    'Items are recognised by how the document numbers them — “Item 3:”, '
+    'Items are recognised by how the document numbers them, “Item 3:”, '
       + '“3.”, or a bullet.',
     0,
   ),
@@ -326,20 +312,20 @@ export const demoSteps = [
     'Reading the document…',
     DEMO_FILE.name,
     'A browser cannot let a script open the operating system’s file '
-      + 'dialog, so the demo shows its own — then hands the file to the '
+      + 'dialog, so the demo shows its own, then hands the file to the '
       + 'page’s real upload component. The application processes it '
       + 'exactly as it would yours.',
     0,
   ),
 
-  // ═══════════════════════ Act 6b — wait on real processing ═══════════════
+  // ═══════════════════════ Act 6b, wait on real processing ═══════════════
   { action: 'waitFor', target: 'boq-running', timeout: 20000, optional: true },
   ...say(
     'Act 6 · Upload',
     'One independent retrieval per line item.',
     'Same ranking, confidence gate and supersession rules as a typed query.',
     'A longer BOQ takes proportionally longer. The demo waits for the real '
-      + 'result — there is no fixed timer anywhere in this step.',
+      + 'result, there is no fixed timer anywhere in this step.',
     0,
   ),
   { action: 'waitFor', target: 'boq-results', orTarget: 'any-error', timeout: 300000 },
@@ -349,7 +335,7 @@ export const demoSteps = [
     'Ten line items read from one document.',
     'Each item is searched on its own, so one cannot crowd out another.',
     'An item outside coverage is reported as no match, with its nearest text matches '
-      + 'labelled as references — they cannot be accepted into a spec at all.',
+      + 'labelled as references, they cannot be accepted into a spec at all.',
     0,
   ),
   { action: 'highlight', target: 'boq-summary' },
@@ -358,7 +344,7 @@ export const demoSteps = [
   ...say(
     'Act 6 · Upload',
     'Every item carries its own verdict.',
-    'Match, uncertain, or no match — decided per line, never for the document.',
+    'Match, uncertain, or no match, decided per line, never for the document.',
     null,
     0,
   ),
@@ -376,7 +362,7 @@ export const demoSteps = [
   ...press('boq-accept-first', { optional: true }),
   { action: 'wait', ms: 2000 },
 
-  // ═══════════════════════ Act 7 — assemble and freeze ════════════════════
+  // ═══════════════════════ Act 7, assemble and freeze ════════════════════
   ...intro(
     { nav: 'nav-builder', waitFor: 'builder-title' },
     'Act 7 · Assemble',
@@ -389,7 +375,7 @@ export const demoSteps = [
     'Act 7 · Assemble',
     'Gaps are flagged before the tender goes out.',
     'No test method selected. No safety standard for an electrical item.',
-    'Each warning names a specific hole in the specification — the kind that '
+    'Each warning names a specific hole in the specification, the kind that '
       + 'otherwise surfaces at inspection, when it is far more expensive.',
     0,
   ),
@@ -420,7 +406,7 @@ export const demoSteps = [
   ...press('builder-freeze', { optional: true }),
   { action: 'wait', ms: 2600 },
 
-  // ═══════════════════════ Act 8 — audit a tender ═════════════════════════
+  // ═══════════════════════ Act 8, audit a tender ═════════════════════════
   ...intro(
     { nav: 'nav-audit', waitFor: 'audit-dropzone' },
     'Act 8 · Audit',
@@ -436,7 +422,7 @@ export const demoSteps = [
   ...say(
     'Act 8 · Audit',
     'Uploading a specification that already cites standards.',
-    'Section 7 of a real tender — eleven IS numbers.',
+    'Section 7 of a real tender, eleven IS numbers.',
     'Three of them are wrong in ways a reader would not notice: an outdated '
       + 'edition, and two citations with no year at all.',
     0,
@@ -460,7 +446,7 @@ export const demoSteps = [
   ...say(
     'Act 8 · Audit',
     'Twelve citations checked, and what to do about each.',
-    'Severity-tagged: critical, minor, advisory — plus the ones that are fine.',
+    'Severity-tagged: critical, minor, advisory, plus the ones that are fine.',
     'Seven were clean. The notice under the tiles is the important part: '
       + 'no findings is not a pass, because what the tender *should* cite '
       + 'was never assessed.',
@@ -487,12 +473,12 @@ export const demoSteps = [
     'What it does not do matters just as much.',
     'It checks the citations a document already makes.',
     'It cannot judge whether the tender cites the right standards for the '
-      + 'goods it describes. So a document with no findings has not passed — '
+      + 'goods it describes. So a document with no findings has not passed, '
       + 'and one citing nothing produces no findings while being the worst case.',
     4200,
   ),
 
-  // ═══════════════════════ Act 9 — standards hygiene ══════════════════════
+  // ═══════════════════════ Act 9, standards hygiene ══════════════════════
   ...intro(
     { nav: 'nav-projects', waitFor: 'projects-title' },
     'Act 9 · Hygiene',
@@ -505,13 +491,13 @@ export const demoSteps = [
     { nav: 'nav-alerts', waitFor: 'alerts-title' },
     'Act 9 · Hygiene',
     'Superseded editions across the whole corpus.',
-    'Computed from the standards data — not a notification feed.',
+    'Computed from the standards data, not a notification feed.',
     'Where the corpus holds the active replacement it is named; where it does '
       + 'not, the finding says so instead of guessing.',
     3800,
   ),
 
-  // ═══════════════════════ Act 10 — coverage ══════════════════════════════
+  // ═══════════════════════ Act 10, coverage ══════════════════════════════
   ...intro(
     { nav: 'nav-catalogue', waitFor: 'catalogue-search' },
     'Act 10 · Coverage',
@@ -528,15 +514,17 @@ export const demoSteps = [
   { action: 'wait', ms: 1800 },
   ...say(
     'Act 10 · Coverage',
-    'Filtering is instant — the whole corpus is held client-side.',
+    'Every standard in the catalogue, searched on the server as you type.',
     'Search by IS number, title or keyword, narrowed by sector.',
-    'This screen is also the honest answer to “is my product covered?” — '
+    'This screen is also the honest answer to “is my product covered?”, '
       + 'worth asking before trusting any search result, because a sector '
       + 'that is not listed here cannot be recommended from.',
     4000,
   ),
 
-  // ═══════════════════════ Act 11 — the honesty screens ═══════════════════
+  // ═══════════════════════ Act 11, the honesty screens ═══════════════════
+  // Administrator screens: other roles do not have them in the sidebar.
+  { action: 'skipIf', when: 'notAdmin', to: 'usage' },
   ...intro(
     { nav: 'nav-compliance', waitFor: 'compliance-title' },
     'Act 11 · Corpus health',
@@ -551,21 +539,22 @@ export const demoSteps = [
     { nav: 'nav-admin', waitFor: 'admin-title' },
     'Act 11 · Engine status',
     'What this instance is actually running.',
-    'Corpus size, model state, feedback counts — read from the engine at load.',
+    'Corpus size, model state, feedback counts, read from the engine at load.',
     'Including its own degraded states: if the learned ranker fails to load, '
       + 'the screen says so and names the likely cause rather than quietly '
       + 'serving heuristic results.',
     4200,
   ),
 
-  // ═══════════════════════ Act 12 — counted usage, and close ══════════════
+  // ═══════════════════════ Act 12, counted usage, and close ══════════════
+  { action: 'label', name: 'usage' },
   ...intro(
     { nav: 'nav-dashboard', waitFor: 'dashboard-title' },
     'Act 12 · Usage',
     'Every figure here is counted, not projected.',
     'Searches served, match rate, median response, acceptance rate.',
     'Read from the engine’s own append-only logs. A rate with no '
-      + 'decisions behind it renders as a dash, never as 0% — those are '
+      + 'decisions behind it renders as a dash, never as 0%, those are '
       + 'different statements.',
     4000,
   ),

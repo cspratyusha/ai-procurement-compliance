@@ -3,22 +3,24 @@ import { Link } from 'react-router-dom';
 import Icon from '../components/Icon';
 import { CopyButton, EmptyState } from '../components/Primitives';
 import { useSpec, ROLE_ORDER, ROLE_LABEL, buildClause } from '../state/SpecStore';
-import { getStandard } from '../api/client';
+import { useAuth } from '../state/Auth';
+import { getStandard, recordActivity } from '../api/client';
+import { specDocument, specRecord, fileName, download, printDocument } from '../state/exportSpec';
 import './builder.css';
-import './query.css';   // .notice — shared with the query screen
+import './query.css';   // .notice, shared with the query screen
 
 const EXPORTS = [
-  { id: 'docx', icon: 'file', label: 'DOCX', hint: 'Word, for the tender document' },
-  { id: 'pdf', icon: 'download', label: 'PDF', hint: 'Signed-off reference copy' },
-  { id: 'clip', icon: 'copy', label: 'Clipboard', hint: 'Paste straight into the portal' },
-  { id: 'api', icon: 'external', label: 'Push to portal', hint: 'Via the GeM integration' },
+  { id: 'doc', icon: 'file', label: 'Word document', hint: 'A .doc file for the tender document' },
+  { id: 'pdf', icon: 'download', label: 'Print or save as PDF', hint: 'Opens the print dialog' },
+  { id: 'clip', icon: 'copy', label: 'Copy clause text', hint: 'Paste straight into the portal' },
+  { id: 'json', icon: 'external', label: 'JSON record', hint: 'Machine-readable, for a portal or an archive' },
 ];
 
 export default function Builder() {
   const spec = useSpec();
+  const { user, org } = useAuth();
   const { list, grouped, gaps, count, frozen } = spec;
-  const [reviewSent, setReviewSent] = useState(false);
-  const [exported, setExported] = useState(null);
+  const [exported, setExported] = useState(null);   // { ok, text }
 
   const clause = useMemo(() => buildClause(list), [list]);
 
@@ -80,6 +82,44 @@ export default function Builder() {
   const critical = gaps.filter((g) => g.severity === 'critical');
   const canExport = count > 0 && critical.length === 0;
 
+  const certClause = (rec) =>
+    `The item shall bear a valid ${rec.scheme} mark under the BIS ` +
+    `certification scheme${rec.qco ? `, as required by ${rec.qco}` : ''}. ` +
+    `The licence number shall be stated in the bid and shall be valid ` +
+    `at the time of supply.`;
+
+  const runExport = async (kind) => {
+    const project = spec.project || 'Specification';
+    const input = {
+      project, list, clause, frozen, user, org,
+      certClauses: certs.map(({ code, rec }) => ({ code, text: certClause(rec) })),
+    };
+    let result;
+    if (kind === 'doc') {
+      download(fileName(project, 'doc'), specDocument(input), 'application/msword');
+      result = { ok: true, text: `Downloaded ${fileName(project, 'doc')}.` };
+    } else if (kind === 'pdf') {
+      result = printDocument(specDocument(input))
+        ? { ok: true, text: 'Opened the print dialog. Choose "Save as PDF" to keep a copy.' }
+        : { ok: false, text: 'The browser blocked the print window. Allow pop-ups for this site and try again.' };
+    } else if (kind === 'clip') {
+      try {
+        await navigator.clipboard.writeText(clause);
+        result = { ok: true, text: 'Clause text copied.' };
+      } catch {
+        result = { ok: false, text: 'The browser did not allow copying. Select the clause text and copy it by hand.' };
+      }
+    } else {
+      download(fileName(project, 'json'), JSON.stringify(specRecord(input), null, 2), 'application/json');
+      result = { ok: true, text: `Downloaded ${fileName(project, 'json')}.` };
+    }
+    setExported(result);
+    if (result.ok) {
+      recordActivity('export.' + kind, `Exported ${project} (${count} standards) as ${EXPORTS.find((e) => e.id === kind).label}`,
+        { project, standards: list.map((i) => i.code) });
+    }
+  };
+
   if (count === 0) {
     return (
       <div className="container page">
@@ -116,14 +156,6 @@ export default function Builder() {
           </p>
         </div>
         <div className="row" style={{ gap: 'var(--s2)' }}>
-          <button
-            className="btn btn-secondary"
-            onClick={() => setReviewSent(true)}
-            disabled={reviewSent}
-          >
-            <Icon name={reviewSent ? 'check' : 'users'} size={15} />
-            {reviewSent ? 'Sent for review' : 'Send for review'}
-          </button>
           <button
             className="btn btn-primary"
             data-demo-target="builder-freeze"
@@ -233,11 +265,7 @@ export default function Builder() {
                   // Built from what the engine actually confirmed, naming the
                   // governing order where one was recorded. No order is
                   // invented when the record does not carry one.
-                  const clauseText =
-                    `The item shall bear a valid ${rec.scheme} mark under the BIS ` +
-                    `certification scheme${rec.qco ? `, as required by ${rec.qco}` : ''}. ` +
-                    `The licence number shall be stated in the bid and shall be valid ` +
-                    `at the time of supply.`;
+                  const clauseText = certClause(rec);
                   return (
                     <div key={code} className="stack stack-3">
                       <div className="row-between wrap" style={{ gap: 'var(--s2)' }}>
@@ -270,7 +298,7 @@ export default function Builder() {
                   unverified certification status
                 </span>
                 <span className="xs">
-                  {unverified.map((i) => i.code).join(', ')} — nobody has checked whether a
+                  {unverified.map((i) => i.code).join(', ')}, nobody has checked whether a
                   mandatory BIS scheme applies. That is not a statement that none does, so
                   confirm before issuing rather than reading the silence as a clearance.
                 </span>
@@ -295,7 +323,7 @@ export default function Builder() {
                   key={e.id}
                   className="export-row"
                   disabled={!canExport}
-                  onClick={() => setExported(e.label)}
+                  onClick={() => runExport(e.id)}
                 >
                   <Icon name={e.icon} size={15} />
                   <span className="stack stack-2 grow" style={{ textAlign: 'left' }}>
@@ -307,9 +335,9 @@ export default function Builder() {
               ))}
             </div>
             {exported && (
-              <div className="notice notice-ok fade-in">
-                <Icon name="check" size={14} />
-                <span className="xs">{exported} export prepared.</span>
+              <div className={`notice ${exported.ok ? 'notice-ok' : 'notice-crit'} fade-in`} role="status">
+                <Icon name={exported.ok ? 'check' : 'alert'} size={14} />
+                <span className="xs">{exported.text}</span>
               </div>
             )}
           </div>
@@ -353,15 +381,6 @@ export default function Builder() {
             )}
           </div>
 
-          {reviewSent && (
-            <div className="card stack stack-3 fade-in">
-              <span className="eyebrow">Review</span>
-              <div className="notice notice-info">
-                <Icon name="users" size={14} />
-                <span className="xs">Sent to the reviewer queue. You will be notified on approval.</span>
-              </div>
-            </div>
-          )}
         </div>
       </div>
     </div>

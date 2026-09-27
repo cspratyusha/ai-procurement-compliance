@@ -1,17 +1,18 @@
-import { useState, useEffect, useLayoutEffect, useRef, useCallback } from 'react';
-import { Link } from 'react-router-dom';
+﻿import { useState, useEffect, useLayoutEffect, useRef, useCallback } from 'react';
+import { Link, useSearchParams } from 'react-router-dom';
 import Icon from '../components/Icon';
 import { EmptyState } from '../components/Primitives';
 import { AddButton } from '../components/SpecBasket';
 import { useSpec } from '../state/SpecStore';
+import { useAuth } from '../state/Auth';
 import {
-  retrieve, getHealth, extractAndSearch, listLanguages, sendFeedback, ApiError, BASE_URL,
+  retrieve, explainResults, getHealth, extractAndSearch, listLanguages, sendFeedback, ApiError, BASE_URL,
   SUPPORTED_UPLOAD_TYPES,
 } from '../api/client';
 import {
   CertificationBadge, CertificationBanner, DataWarning,
 } from '../components/CertificationBadge';
-import { DISMISS_REASONS } from '../data/catalogue';
+import { DISMISS_REASONS } from '../data/ui';
 import './query.css';
 import { sectorLabel } from '../data/sectors';
 
@@ -41,18 +42,25 @@ const LANGUAGE_EXAMPLES = [
 function bandFor(result) {
   const ce = result?.stage_scores?.cross_encoder ?? 0;
   if (ce >= 4) return { label: 'Strong match', cls: 'badge-ok', hint: 'Scope closely matches the query wording' };
-  if (ce >= 0) return { label: 'Probable', cls: 'badge-warn', hint: 'Related scope — confirm before citing' };
-  return { label: 'Needs review', cls: 'badge-neutral', hint: 'Weak overlap only — verify manually' };
+  if (ce >= 0) return { label: 'Probable', cls: 'badge-warn', hint: 'Related scope, confirm before citing' };
+  return { label: 'Needs review', cls: 'badge-neutral', hint: 'Weak overlap only, verify manually' };
 }
+
+/** No explanation answer yet, for any result set. */
+const EMPTY_EXPLAINED = { key: '', explanations: {}, failed: false };
 
 const CONFIDENCE_BANNER = {
   uncertain: { cls: 'notice-warn', icon: 'alert', title: 'Low confidence' },
-  none: { cls: 'notice-crit', icon: 'alert', title: 'No match in the covered sectors' },
+  none: { cls: 'notice-crit', icon: 'alert', title: 'No close match' },
 };
 
 export default function Query() {
   const spec = useSpec();
-  const [text, setText] = useState('');
+  const { user } = useAuth();
+  const [params] = useSearchParams();
+  // `?q=` comes from "recent searches": the query is put back in the box to
+  // run again or edit first.
+  const [text, setText] = useState(() => params.get('q') ?? '');
   const [phase, setPhase] = useState('idle'); // idle | running | done | error
   const [response, setResponse] = useState(null);
   const [error, setError] = useState(null);
@@ -61,8 +69,19 @@ export default function Query() {
   const [health, setHealth] = useState(undefined); // undefined = checking
   const [extraction, setExtraction] = useState(null);
   const [languages, setLanguages] = useState([]);
-  const [language, setLanguage] = useState('auto');
-  const [explain, setExplain] = useState(false);
+  // Starts on the language chosen in Settings.
+  const [language, setLanguage] = useState(() => user?.language || 'auto');
+  // Explanations are fetched after the results render, so they no longer slow
+  // a search down; on by default once the model is available, and the choice
+  // is remembered per browser.
+  const [explain, setExplain] = useState(() => {
+    try { return localStorage.getItem('bis-explain') !== 'off'; } catch { return true; }
+  });
+  // The last explanation answer, tagged with the result set it belongs to.
+  // "Still waiting" is derived by comparing that tag with the current set,
+  // rather than kept as its own flag that would have to be reset in sync.
+  const [explained, setExplained] = useState(EMPTY_EXPLAINED);
+  const explainAbortRef = useRef(null);
   // What the officer asked, shown as their turn in the thread. The input
   // clears on send (the chat convention), so the question lives here.
   const [submitted, setSubmitted] = useState(null); // { kind: 'text', text } | { kind: 'file', name }
@@ -87,7 +106,17 @@ export default function Query() {
     return () => { alive = false; };
   }, []);
 
-  useEffect(() => () => abortRef.current?.abort(), []);
+  useEffect(() => () => { abortRef.current?.abort(); explainAbortRef.current?.abort(); }, []);
+
+  useEffect(() => {
+    try { localStorage.setItem('bis-explain', explain ? 'on' : 'off'); } catch { /* storage blocked */ }
+  }, [explain]);
+
+  /** Drop explanations from a previous search, and stop any still generating. */
+  const clearExplanations = useCallback(() => {
+    explainAbortRef.current?.abort();
+    setExplained(EMPTY_EXPLAINED);
+  }, []);
 
   const run = useCallback(async (e, override) => {
     e?.preventDefault();
@@ -102,15 +131,17 @@ export default function Query() {
     setError(null);
     setResponse(null);
     setExtraction(null);
+    clearExplanations();
     setSubmitted({ kind: 'text', text: query });
     setText('');
     const started = performance.now();
 
     try {
+      // Never ask /retrieve for explanations: that would hold the results
+      // until the model finished. They are requested after rendering instead.
       const data = await retrieve(query, {
         topK: 10,
         language: language === 'auto' ? null : language,
-        explain,
         signal: controller.signal,
       });
       if (controller.signal.aborted) return;
@@ -124,7 +155,7 @@ export default function Query() {
       setError(err instanceof ApiError ? err : new ApiError('Unexpected error while searching.'));
       setPhase('error');
     }
-  }, [text, language, explain]);
+  }, [text, language, clearExplanations]);
 
   const onFile = useCallback(async (event) => {
     const file = event.target.files?.[0];
@@ -140,6 +171,7 @@ export default function Query() {
     setError(null);
     setResponse(null);
     setExtraction(null);
+    clearExplanations();
     setText('');
     setSubmitted({ kind: 'file', name: file.name });
     const started = performance.now();
@@ -156,7 +188,7 @@ export default function Query() {
       setError(err instanceof ApiError ? err : new ApiError('Could not read that document.'));
       setPhase('error');
     }
-  }, []);
+  }, [clearExplanations]);
 
   const applyExample = (ex) => { setText(ex); run(null, ex); };
 
@@ -167,6 +199,7 @@ export default function Query() {
     setResponse(null);
     setError(null);
     setExtraction(null);
+    clearExplanations();
     setSubmitted(null);
     requestAnimationFrame(() => inputRef.current?.focus());
   };
@@ -175,6 +208,7 @@ export default function Query() {
   const stop = (e) => {
     e.preventDefault();
     abortRef.current?.abort();
+    clearExplanations();
     setPhase('idle');
     // Hand the question back so it can be edited rather than retyped.
     if (submitted?.kind === 'text') setText(submitted.text);
@@ -231,12 +265,12 @@ export default function Query() {
 
   // How results are split between "recommended" and "for reference only".
   //
-  //   none      — nothing is a recommendation; everything is a nearest match.
-  //   uncertain — the engine is unsure, but the user still needs something to
+  //   none, nothing is a recommendation; everything is a nearest match.
+  //   uncertain, the engine is unsure, but the user still needs something to
   //               act on. Show the best candidate above the fold with the
   //               caution banner, and demote the rest. Showing the warning
   //               with an empty list below it is a dead end.
-  //   strong    — split on the cross-encoder sign: positive is a real match,
+  //   strong, split on the cross-encoder sign: positive is a real match,
   //               negative is background noise worth listing but not citing.
   let recommended;
   let reference;
@@ -250,6 +284,49 @@ export default function Query() {
     recommended = allResults.filter((r) => (r.stage_scores?.cross_encoder ?? 0) >= 0);
     reference = allResults.filter((r) => (r.stage_scores?.cross_encoder ?? 0) < 0);
   }
+
+  const explanationsAvailable = Boolean(health?.explanations_available);
+
+  // The recommendations worth explaining: the top five, never a 'none'
+  // verdict (those are nearest text matches, and a fluent reason beside each
+  // would read as endorsement). Joined into a string so the effect below
+  // re-runs only when the set actually changes.
+  const explainKey = phase === 'done' && confidence !== 'none'
+    ? recommended.slice(0, 5).map((r) => r.number).join('|')
+    : '';
+
+  const explainActive = explain && explanationsAvailable && Boolean(explainKey);
+
+  useEffect(() => {
+    if (!explainActive || !response) return undefined;
+
+    const controller = new AbortController();
+    explainAbortRef.current?.abort();
+    explainAbortRef.current = controller;
+
+    // Explain against what was actually searched: the translation for a
+    // non-English query, and a bounded excerpt for an uploaded document.
+    const searched = (response.translation?.translated_text || response.query || '').slice(0, 600);
+
+    explainResults(searched, explainKey.split('|'), { signal: controller.signal })
+      .then((data) => {
+        if (controller.signal.aborted) return;
+        const got = data.explanations ?? {};
+        setExplained({ key: explainKey, explanations: got, failed: !data.available || !Object.keys(got).length });
+      })
+      .catch((err) => {
+        if (controller.signal.aborted || err.name === 'AbortError') return;
+        setExplained({ key: explainKey, explanations: {}, failed: true });
+      });
+
+    return () => controller.abort();
+  }, [explainActive, explainKey, response]);
+
+  // Derived view state for the cards and the note under the heading.
+  const current = explained.key === explainKey;
+  const explanations = current ? explained.explanations : {};
+  const explaining = explainActive && !current ? explainKey.split('|') : [];
+  const explainFailed = current && explained.failed;
 
   const running = phase === 'running';
   const corpusNote = health
@@ -298,8 +375,7 @@ export default function Query() {
           </button>
 
           {languages.length > 1 && (
-            <>
-              <label className="composer-pill" title="Query language — translated to English before searching">
+              <label className="composer-pill" title="Query language, translated to English before searching">
                 <Icon name="globe" size={15} />
                 <span className="sr-only">Query language</span>
                 <select
@@ -317,22 +393,24 @@ export default function Query() {
                 </select>
                 <Icon name="chevronDown" size={14} />
               </label>
+          )}
 
+          {/* Offered only when the engine reports a local model is ready:
+              an option that silently does nothing is worse than no option. */}
+          {explanationsAvailable && (
               <label
                 className={`composer-pill ${explain ? 'is-on' : ''}`}
-                title="Uses a local language model; adds a few seconds"
+                title="A local language model writes one sentence per recommendation, after the results appear"
               >
                 <input
                   type="checkbox"
                   className="sr-only"
                   checked={explain}
                   onChange={() => setExplain((v) => !v)}
-                  disabled={running}
                 />
                 <Icon name={explain ? 'check' : 'sparkle'} size={15} />
                 <span>Explain matches</span>
               </label>
-            </>
           )}
         </div>
 
@@ -355,7 +433,7 @@ export default function Query() {
 
   return (
     <div className="container page query-page">
-      {/* Engine status — shown only when the backend is unreachable, so the
+      {/* Engine status, shown only when the backend is unreachable, so the
           user learns about it before typing rather than after searching. */}
       {health === null && (
         <div className="notice notice-warn query-engine-notice" role="status">
@@ -554,8 +632,8 @@ export default function Query() {
                   <span className="xs">{response.confidence_reason}</span>
                   {confidence === 'none' && (
                     <span className="xs">
-                      The corpus currently covers {response.corpus_size} standards across a few
-                      pilot sectors, so most product categories are not represented yet.
+                      Searched {response.corpus_size.toLocaleString('en-IN')} standards from the
+                      published catalogue.
                     </span>
                   )}
                 </div>
@@ -575,6 +653,20 @@ export default function Query() {
                 </span>
               )}
             </div>
+
+            {/* Say what the explanations are, and say when they did not come. */}
+            {explain && explanationsAvailable && confidence !== 'none' && (
+              explainFailed && !explaining.length ? (
+                <p className="xs faint">
+                  Explanations could not be generated for this search. The results above are unaffected.
+                </p>
+              ) : (explaining.length > 0 || Object.keys(explanations).length > 0) && (
+                <p className="xs faint">
+                  Explanations are written by a local language model from each standard&rsquo;s title and
+                  scope. They never change the ranking; check the scope before citing.
+                </p>
+              )
+            )}
 
             {recommended.map((r) => {
               const band = bandFor(r);
@@ -607,10 +699,19 @@ export default function Query() {
                       </div>
 
                       <p className="small" style={{ color: 'var(--ink-soft)' }}>{r.title}</p>
-                      {r.explanation && (
-                        <p className="xs" style={{ color: 'var(--ink-soft)', fontStyle: 'italic' }}>
-                          {r.explanation}
-                        </p>
+                      {(explanations[r.number] || r.explanation) ? (
+                        <div className="ai-note fade-in">
+                          <span className="ai-note-mark" aria-hidden="true"><Icon name="sparkle" size={14} /></span>
+                          <div className="stack" style={{ gap: 2, minWidth: 0 }}>
+                            <span className="ai-note-label">Why it matches</span>
+                            <p className="ai-note-text">{explanations[r.number] || r.explanation}</p>
+                          </div>
+                        </div>
+                      ) : explaining.includes(r.number) && (
+                        <div className="ai-note is-loading" aria-live="polite">
+                          <span className="ai-note-mark" aria-hidden="true"><Icon name="sparkle" size={14} /></span>
+                          <span className="thinking-text ai-note-pending">Writing an explanation…</span>
+                        </div>
                       )}
                       {r.scope && <p className="xs muted rec-scope" title={r.scope}>{r.scope}</p>}
                       <DataWarning warning={r.data_warning} />

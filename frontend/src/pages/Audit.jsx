@@ -4,7 +4,7 @@ import Icon from '../components/Icon';
 import { EmptyState, CopyButton } from '../components/Primitives';
 import { auditDocument, SUPPORTED_UPLOAD_TYPES, MAX_UPLOAD_BYTES, ApiError } from '../api/client';
 import './audit.css';
-import './query.css';   // .notice — shared with the query screen
+import './query.css';   // .notice, shared with the query screen
 
 /**
  * Audit a tender's citations against the corpus.
@@ -16,14 +16,14 @@ import './query.css';   // .notice — shared with the query screen
  *
  * The distinction this screen must not blur is what an audit here *is*.
  *
- * It checks the citations the document already makes — superseded editions,
+ * It checks the citations the document already makes, superseded editions,
  * missing amendments, undated citations, standards outside the corpus. It
  * does **not** judge whether the tender cites the right standards for the
  * goods it describes; that needs someone to read the specification.
  *
  * So a document with no findings has not passed. It has had its existing
  * citations checked and nothing was wrong with them, which is a much smaller
- * claim — and a document citing nothing at all produces no findings while
+ * claim, and a document citing nothing at all produces no findings while
  * being the worst case of all. Both states say so explicitly rather than
  * rendering a green all-clear.
  */
@@ -250,7 +250,7 @@ export default function Audit() {
               <Icon name="info" size={14} />
               <span className="xs">
                 {result.citations_found === 0
-                  ? 'No IS numbers were found in this document, so nothing could be checked. That is not a pass — either the document cites no standards, or the text could not be read.'
+                  ? 'No IS numbers were found in this document, so nothing could be checked. That is not a pass, either the document cites no standards, or the text could not be read.'
                   : result.note}
               </span>
             </div>
@@ -306,7 +306,7 @@ export default function Audit() {
 
                       <h2 className="small strong">
                         <span className="mono">{f.cited}</span>
-                        {f.title ? ` — ${f.title}` : ''}
+                        {f.title ? `, ${f.title}` : ''}
                       </h2>
 
                       <p className="small muted">{f.detail}</p>

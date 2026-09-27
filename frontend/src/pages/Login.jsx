@@ -1,35 +1,253 @@
-import { useState } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
+import { useState, useEffect } from 'react';
+import { Link, useNavigate, useSearchParams, Navigate } from 'react-router-dom';
 import Icon from '../components/Icon';
 import Logo from '../components/Logo';
-import { ROLES } from '../data/mock';
+import { getAuthStatus, setupAccount, registerAccount, signIn, changePassword } from '../api/client';
+import { useAuth } from '../state/Auth';
 import './login.css';
+
+/**
+ * Sign in, and on a fresh installation, set up the first administrator.
+ *
+ * There is no default account. The first person to open a new deployment
+ * creates their organisation and becomes its administrator; everyone after
+ * that is added by an administrator from Settings, with a temporary password
+ * they replace here at first sign-in.
+ */
+
+/** Only paths inside the workbench are followed after sign-in. */
+function safeNext(raw) {
+  return raw && raw.startsWith('/app') ? raw : '/app';
+}
+
+function ErrorLine({ text }) {
+  if (!text) return null;
+  return (
+    <p className="small" role="alert" style={{ color: 'var(--crit)' }}>
+      <Icon name="alert" size={13} style={{ display: 'inline', verticalAlign: '-2px', marginRight: 6 }} />
+      {text}
+    </p>
+  );
+}
+
+function Field({ id, label, hint, ...props }) {
+  return (
+    <div className="field">
+      <label className="label" htmlFor={id}>{label}</label>
+      <input id={id} className="input" {...props} />
+      {hint && <span className="hint">{hint}</span>}
+    </div>
+  );
+}
 
 export default function Login() {
   const navigate = useNavigate();
-  const [step, setStep] = useState('credentials');
-  const [email, setEmail] = useState('demo@gmail.com');
-  const [password, setPassword] = useState('demo-password');
-  const [role, setRole] = useState('admin');
+  const [params] = useSearchParams();
+  const next = safeNext(params.get('next'));
+  const { status: session, user, accept, refresh } = useAuth();
+
+  const [status, setStatus] = useState(null);      // /auth/status
+  const [mode, setMode] = useState(params.get('mode') === 'register' ? 'register' : 'signin');
+  const [statusError, setStatusError] = useState('');
   const [busy, setBusy] = useState(false);
   const [error, setError] = useState('');
 
-  const submitCredentials = (e) => {
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+  const [setup, setSetup] = useState({ org_name: '', org_type: 'ministry', name: '', email: '', password: '', confirm: '' });
+  const [pw, setPw] = useState({ current: '', next: '', confirm: '' });
+
+  useEffect(() => {
+    const controller = new AbortController();
+    getAuthStatus({ signal: controller.signal })
+      .then(setStatus)
+      .catch((err) => { if (err.name !== 'AbortError') setStatusError(err.message); });
+    return () => controller.abort();
+  }, []);
+
+  const mustChange = session === 'signed-in' && user?.must_change_password;
+  if (session === 'signed-in' && !mustChange) return <Navigate to={next} replace />;
+
+  const minLength = status?.min_password_length ?? 10;
+
+  const submitLogin = async (e) => {
     e.preventDefault();
-    if (!email.includes('@')) {
-      setError('Enter a valid official email address.');
-      return;
-    }
     setError('');
     setBusy(true);
-    setTimeout(() => { setBusy(false); setStep('role'); }, 700);
+    try {
+      const data = await signIn(email, password);
+      accept(data);
+      // A temporary password keeps the user on this page for the change step.
+      if (!data.user.must_change_password) navigate(next, { replace: true });
+      else setPw((p) => ({ ...p, current: password }));
+    } catch (err) {
+      setError(err.message);
+    } finally {
+      setBusy(false);
+    }
   };
 
-  const submitRole = (e) => {
+  const submitSetup = async (e) => {
     e.preventDefault();
+    setError('');
+    if (setup.password !== setup.confirm) {
+      setError('The two passwords do not match.');
+      return;
+    }
     setBusy(true);
-    setTimeout(() => navigate('/app'), 600);
+    try {
+      const body = {
+        org_name: setup.org_name, org_type: setup.org_type,
+        name: setup.name, email: setup.email, password: setup.password,
+      };
+      const data = status.setup_required ? await setupAccount(body) : await registerAccount(body);
+      accept(data);
+      navigate('/app', { replace: true });
+    } catch (err) {
+      setError(err.message);
+    } finally {
+      setBusy(false);
+    }
   };
+
+  const submitPassword = async (e) => {
+    e.preventDefault();
+    setError('');
+    if (pw.next !== pw.confirm) {
+      setError('The two new passwords do not match.');
+      return;
+    }
+    setBusy(true);
+    try {
+      await changePassword(pw.current, pw.next);
+      await refresh();
+      navigate(next, { replace: true });
+    } catch (err) {
+      setError(err.message);
+    } finally {
+      setBusy(false);
+    }
+  };
+
+  let card;
+  if (mustChange) {
+    card = (
+      <form className="stack stack-5" onSubmit={submitPassword}>
+        <div className="stack stack-2">
+          <h2 style={{ fontSize: 'var(--fs-lg)' }}>Choose your password</h2>
+          <p className="small muted">
+            You signed in with a temporary password from your administrator. Replace it with one
+            only you know before continuing.
+          </p>
+        </div>
+        <Field id="pw-current" label="Temporary password" type="password" autoComplete="current-password"
+          value={pw.current} onChange={(e) => setPw({ ...pw, current: e.target.value })} required />
+        <Field id="pw-new" label="New password" type="password" autoComplete="new-password"
+          hint={`At least ${minLength} characters, with upper and lower case letters and a number.`}
+          value={pw.next} onChange={(e) => setPw({ ...pw, next: e.target.value })} required minLength={minLength} />
+        <Field id="pw-confirm" label="Confirm new password" type="password" autoComplete="new-password"
+          value={pw.confirm} onChange={(e) => setPw({ ...pw, confirm: e.target.value })} required />
+        <ErrorLine text={error} />
+        <button className="btn btn-primary" type="submit" disabled={busy} style={{ width: '100%' }}>
+          {busy ? <><span className="spinner" /> Saving</> : 'Save password and continue'}
+        </button>
+      </form>
+    );
+  } else if (statusError) {
+    card = (
+      <div className="stack stack-4">
+        <h2 style={{ fontSize: 'var(--fs-lg)' }}>The standards engine is not reachable</h2>
+        <p className="small muted">{statusError}</p>
+        <button type="button" className="btn btn-primary" onClick={() => window.location.reload()}>
+          Try again
+        </button>
+      </div>
+    );
+  } else if (!status) {
+    card = (
+      <div className="row center" style={{ justifyContent: 'center', padding: 'var(--s6)' }} aria-busy="true">
+        <span className="spinner" />
+      </div>
+    );
+  } else if (status.setup_required || (mode === 'register' && status.registration_open)) {
+    const firstRun = status.setup_required;
+    card = (
+      <form className="stack stack-5" onSubmit={submitSetup}>
+        <div className="stack stack-2">
+          <h2 style={{ fontSize: 'var(--fs-lg)' }}>{firstRun ? 'Set up StandEng' : 'Create an account'}</h2>
+          <p className="small muted">
+            {firstRun
+              ? 'This installation has no accounts yet. Create your organisation and its administrator account.'
+              : 'This creates a new organisation with you as its administrator.'}
+            {' '}You can add colleagues from Settings afterwards.
+            {!firstRun && ' Joining an organisation that already uses StandEng? Ask its administrator to add you instead.'}
+          </p>
+        </div>
+        <Field id="s-org" label="Organisation name" value={setup.org_name} autoComplete="organization"
+          onChange={(e) => setSetup({ ...setup, org_name: e.target.value })} required
+          placeholder="e.g. Ministry of Consumer Affairs" />
+        <div className="field">
+          <label className="label" htmlFor="s-type">Organisation type</label>
+          <select id="s-type" className="select" value={setup.org_type}
+            onChange={(e) => setSetup({ ...setup, org_type: e.target.value })}>
+            {Object.entries(status.org_types).map(([id, label]) => <option key={id} value={id}>{label}</option>)}
+          </select>
+        </div>
+        <Field id="s-name" label="Your full name" value={setup.name} autoComplete="name"
+          onChange={(e) => setSetup({ ...setup, name: e.target.value })} required />
+        <Field id="s-email" label="Official email" type="email" value={setup.email} autoComplete="username"
+          onChange={(e) => setSetup({ ...setup, email: e.target.value })} required placeholder="name@department.gov.in" />
+        <Field id="s-password" label="Password" type="password" value={setup.password} autoComplete="new-password"
+          hint={`At least ${minLength} characters, with upper and lower case letters and a number.`}
+          onChange={(e) => setSetup({ ...setup, password: e.target.value })} required minLength={minLength} />
+        <Field id="s-confirm" label="Confirm password" type="password" value={setup.confirm} autoComplete="new-password"
+          onChange={(e) => setSetup({ ...setup, confirm: e.target.value })} required />
+        <ErrorLine text={error} />
+        <button className="btn btn-primary" type="submit" disabled={busy} style={{ width: '100%' }}>
+          {busy ? <><span className="spinner" /> Creating</> : 'Create account'}
+        </button>
+        {!firstRun && (
+          <p className="small muted" style={{ textAlign: 'center' }}>
+            Already have an account?{' '}
+            <button type="button" className="link-button" onClick={() => { setMode('signin'); setError(''); }}>
+              Sign in
+            </button>
+          </p>
+        )}
+      </form>
+    );
+  } else {
+    card = (
+      <form className="stack stack-5" onSubmit={submitLogin}>
+        <div className="stack stack-2">
+          <h2 style={{ fontSize: 'var(--fs-lg)' }}>Sign in</h2>
+          <p className="small muted">
+            Sign in with your email and password. Forgotten your password? Your organisation&rsquo;s
+            administrator can reset it from Settings.
+          </p>
+        </div>
+        <Field id="email" label="Official email" type="email" data-demo-target="email" value={email}
+          autoComplete="username" onChange={(e) => setEmail(e.target.value)} required
+          placeholder="name@department.gov.in" autoFocus />
+        <Field id="password" label="Password" type="password" data-demo-target="password" value={password}
+          autoComplete="current-password" onChange={(e) => setPassword(e.target.value)} required />
+        <ErrorLine text={error} />
+        <button className="btn btn-primary" type="submit" data-demo-target="sign-in" disabled={busy}
+          style={{ width: '100%' }}>
+          {busy ? <><span className="spinner" /> Signing in</> : 'Sign in'}
+        </button>
+        {status.registration_open && (
+          <p className="small muted" style={{ textAlign: 'center' }}>
+            New to StandEng?{' '}
+            <button type="button" className="link-button" data-demo-target="register"
+              onClick={() => { setMode('register'); setError(''); }}>
+              Create an account
+            </button>
+          </p>
+        )}
+      </form>
+    );
+  }
 
   return (
     <div className="auth">
@@ -45,15 +263,15 @@ export default function Login() {
             &ldquo;A tender specification has to survive an audit years after it was written.&rdquo;
           </h1>
           <p className="small muted" style={{ maxWidth: '40ch' }}>
-            Every recommendation this system makes is logged with its query, the candidates shown,
-            their scores, the standard versions in force at the time, and the action you took.
+            Every search, upload and decision you make here is recorded in your own activity
+            trail, with the standards shown and the action you took.
           </p>
 
           <div className="auth-marks">
             {[
-              { icon: 'shield', text: 'Deployed inside government infrastructure' },
-              { icon: 'file', text: 'Version-stamped audit trail on every query' },
-              { icon: 'users', text: 'Role-scoped access and org-wide visibility' },
+              { icon: 'shield', text: 'Runs on your own servers, with a local language model' },
+              { icon: 'file', text: 'An activity trail for every account' },
+              { icon: 'users', text: 'Role-based access for officers, admins and integrators' },
             ].map((m) => (
               <div key={m.text} className="auth-mark">
                 <Icon name={m.icon} size={16} />
@@ -65,127 +283,9 @@ export default function Login() {
       </aside>
 
       <main className="auth-main">
-        <div className="auth-card">
-          {step === 'credentials' ? (
-            <form className="stack stack-5" onSubmit={submitCredentials}>
-              <div className="stack stack-2">
-                <h2 style={{ fontSize: 'var(--fs-lg)' }}>Sign in</h2>
-                <p className="small muted">Use your official email or departmental single sign-on.</p>
-              </div>
-
-              <button type="button" className="btn btn-secondary" style={{ width: '100%' }}>
-                <Icon name="key" size={15} />
-                Continue with departmental SSO
-              </button>
-
-              <div className="auth-or"><span className="xs faint">or sign in with credentials</span></div>
-
-              <div className="field">
-                <label className="label" htmlFor="email">Official email</label>
-                <input
-                  id="email"
-                  className="input"
-                  data-demo-target="email"
-                  type="email"
-                  value={email}
-                  autoComplete="username"
-                  onChange={(e) => setEmail(e.target.value)}
-                  placeholder="name@department.gov.in"
-                  required
-                />
-              </div>
-
-              <div className="field">
-                <label className="label" htmlFor="password">Password</label>
-                <input
-                  id="password"
-                  className="input"
-                  data-demo-target="password"
-                  type="password"
-                  value={password}
-                  autoComplete="current-password"
-                  onChange={(e) => setPassword(e.target.value)}
-                  required
-                />
-                <span className="hint">Demo build — any values are accepted.</span>
-              </div>
-
-              {error && (
-                <p className="small" role="alert" style={{ color: 'var(--crit)' }}>
-                  <Icon name="alert" size={13} style={{ display: 'inline', verticalAlign: '-2px', marginRight: 6 }} />
-                  {error}
-                </p>
-              )}
-
-              <button
-                className="btn btn-primary"
-                type="submit"
-                data-demo-target="sign-in"
-                disabled={busy}
-                style={{ width: '100%' }}
-              >
-                {busy ? <><span className="spinner" /> Verifying</> : 'Continue'}
-              </button>
-            </form>
-          ) : (
-            <form className="stack stack-5" onSubmit={submitRole}>
-              <div className="stack stack-2">
-                <h2 style={{ fontSize: 'var(--fs-lg)' }}>Select your role</h2>
-                <p className="small muted">
-                  Your role determines which features and API scopes are available.
-                </p>
-              </div>
-
-              <fieldset className="stack stack-3" style={{ border: 0, padding: 0, margin: 0 }}>
-                <legend className="sr-only">Role</legend>
-                {ROLES.map((r) => (
-                  <label
-                    key={r.id}
-                    className={`role-option ${role === r.id ? 'is-selected' : ''}`}
-                    data-demo-target={`role-${r.id}`}
-                  >
-                    <input
-                      type="radio"
-                      name="role"
-                      value={r.id}
-                      checked={role === r.id}
-                      onChange={() => setRole(r.id)}
-                    />
-                    <span className="stack stack-2">
-                      <span className="small strong">{r.label}</span>
-                      <span className="xs muted">{r.scope}</span>
-                    </span>
-                  </label>
-                ))}
-              </fieldset>
-
-              <div className="field">
-                <label className="label" htmlFor="org">Organisation</label>
-                <select id="org" className="select" defaultValue="mhi">
-                  <option value="mhi">Ministry of Heavy Industries</option>
-                  <option value="mor">Ministry of Railways</option>
-                  <option value="ntpc">NTPC Limited</option>
-                  <option value="bhel">Bharat Heavy Electricals Limited</option>
-                </select>
-              </div>
-
-              <div className="row" style={{ gap: 'var(--s3)' }}>
-                <button type="button" className="btn btn-secondary" onClick={() => setStep('credentials')}>
-                  <Icon name="chevronLeft" size={15} />
-                  Back
-                </button>
-                <button
-                  className="btn btn-primary grow"
-                  type="submit"
-                  data-demo-target="enter-workspace"
-                  disabled={busy}
-                >
-                  {busy ? <><span className="spinner" /> Loading workspace</> : 'Enter workspace'}
-                </button>
-              </div>
-            </form>
-          )}
-        </div>
+        {/* Stays usable while the guided tour runs: the tour waits here for
+            the viewer to sign in with their own account. */}
+        <div className="auth-card" data-demo-ignore="true">{card}</div>
 
         <div
           className="row center"

@@ -6,7 +6,7 @@ import './basket.css';
 
 /**
  * Persistent spec basket. Docked to the right of the workbench so standards
- * collected on any screen stay visible — the officer is assembling, not browsing.
+ * collected on any screen stay visible, the officer is assembling, not browsing.
  */
 export default function SpecBasket() {
   const spec = useSpec();

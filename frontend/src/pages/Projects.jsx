@@ -1,28 +1,17 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useCallback } from 'react';
 import { Link } from 'react-router-dom';
 import Icon from '../components/Icon';
 import { EmptyState } from '../components/Primitives';
 import { useSpec, ROLE_LABEL } from '../state/SpecStore';
-import { getStats } from '../api/client';
-import './query.css';   // .notice — shared with the query screen
+import { listProjects, deleteProject, getActivity } from '../api/client';
+import './query.css';   // .notice, shared with the query screen
 
 /**
- * The work in progress on this machine.
+ * The signed-in user's specifications.
  *
- * This screen listed five saved tenders with owners, statuses and "updated
- * 18 min ago" — none of which existed. There is no project storage and no
- * user accounts, so a multi-user project list cannot be made real.
- *
- * What *is* real is the spec basket: SpecStore persists to localStorage, so
- * the standards an officer has collected, the role each plays, the gaps in
- * the set and the freeze record all survive a reload and are genuinely
- * theirs. That is a smaller claim than "my projects" and it is the true one,
- * so the screen makes it instead.
- *
- * The limit is stated rather than implied: this is one browser on one
- * machine. Nothing here is shared with a colleague, and clearing site data
- * loses it. A screen that quietly looked like server-side storage would set
- * up exactly the wrong expectation about where the work lives.
+ * Every project is saved on the server under the user's account. One of them
+ * is active: it is the spec basket that the search, catalogue and map screens
+ * add to. Opening another project here makes it the basket.
  */
 
 const STATUS = {
@@ -30,53 +19,125 @@ const STATUS = {
   draft:  { label: 'Draft',  cls: 'badge-warn' },
 };
 
+const SAVE_LABEL = {
+  saved: 'Saved',
+  saving: 'Saving',
+  error: 'Not saved, check the connection',
+};
+
+function when(iso) {
+  if (!iso) return '';
+  return new Date(iso).toLocaleString('en-IN', { dateStyle: 'medium', timeStyle: 'short' });
+}
+
 export default function Projects() {
   const spec = useSpec();
-  const [stats, setStats] = useState(null);
+  const [projects, setProjects] = useState(null);
+  const [loadError, setLoadError] = useState('');
+  const [recent, setRecent] = useState(null);
+  const [busy, setBusy] = useState(false);
+  const [actionError, setActionError] = useState('');
+  const [renaming, setRenaming] = useState(null);
 
-  // Recent searches come from the engine's own log, so this screen shows the
-  // real trail of what was searched rather than a fabricated history.
+  const { list, grouped, gaps, frozen, project, count, projectId, saveState } = spec;
+
+  const loadProjects = useCallback(async (signal) => {
+    try {
+      const data = await listProjects({ signal });
+      setProjects(data.projects);
+      setLoadError('');
+    } catch (err) {
+      if (err.name !== 'AbortError') setLoadError(err.message);
+    }
+  }, []);
+
+  // Reload the list when the active project changes or finishes saving, so
+  // counts and "updated" times match what is on the server.
   useEffect(() => {
     const controller = new AbortController();
-    getStats({ signal: controller.signal })
-      .then(setStats)
-      .catch(() => { /* engine down: the basket half of this page still works */ });
+    loadProjects(controller.signal);
+    return () => controller.abort();
+  }, [loadProjects, projectId, saveState]);
+
+  useEffect(() => {
+    const controller = new AbortController();
+    getActivity({ action: 'search.', limit: 5, signal: controller.signal })
+      .then((data) => setRecent(data.items))
+      .catch(() => setRecent([]));
     return () => controller.abort();
   }, []);
 
-  const { list, grouped, gaps, frozen, project, count } = spec;
-  const recent = stats?.recent_queries ?? [];
+  const run = async (fn) => {
+    setBusy(true);
+    setActionError('');
+    try { await fn(); await loadProjects(); } catch (err) { setActionError(err.message); } finally { setBusy(false); }
+  };
+
+  const createNew = () => run(() => spec.newProject('Untitled specification'));
+  const open = (id) => run(() => spec.switchProject(id));
+  const remove = (p) => {
+    if (!window.confirm(`Delete "${p.name}"? This cannot be undone.`)) return;
+    run(async () => {
+      await deleteProject(p.id);
+      if (p.id === projectId) await spec.reloadActive();
+    });
+  };
+  const saveName = (e) => {
+    e.preventDefault();
+    const name = renaming.trim();
+    if (name) spec.setProject(name);
+    setRenaming(null);
+  };
+
+  const others = (projects ?? []).filter((p) => p.id !== projectId);
 
   return (
     <div className="container page">
       <div className="page-head">
         <div>
-          <h1 className="page-title" data-demo-target="projects-title">My work</h1>
+          <h1 className="page-title" data-demo-target="projects-title">My projects</h1>
           <p className="page-sub">
-            The specification you are assembling, and the searches that fed it. Saved in
-            this browser only — there are no accounts, so nothing here is shared with a
-            colleague or synced to another machine.
+            Each project is one specification you are assembling, saved to your account. The
+            active project is the basket that search, the catalogue and the map add to.
           </p>
         </div>
-        <Link to="/app/query" className="btn btn-primary">
-          <Icon name="plus" size={15} /> New query
-        </Link>
+        <button type="button" className="btn btn-primary" onClick={createNew} disabled={busy}>
+          <Icon name="plus" size={15} /> New project
+        </button>
       </div>
+
+      {actionError && (
+        <div className="notice notice-crit" role="alert"><Icon name="alert" size={14} /><span className="xs">{actionError}</span></div>
+      )}
 
       <div className="grid split" style={{ '--rail': '340px' }}>
         <div className="stack stack-4">
           <section className="card card-flush">
             <div className="card-head">
-              <div className="stack stack-2">
-                <h2 className="card-title">
-                  {project || 'Current specification'}
-                </h2>
-                {frozen && (
-                  <span className="xs faint">
-                    Frozen {new Date(frozen.at).toLocaleString('en-IN')}
-                    {frozen.label ? ` · ${frozen.label}` : ''}
-                  </span>
+              <div className="stack stack-2" style={{ minWidth: 0 }}>
+                {renaming !== null ? (
+                  <form className="row" style={{ gap: 'var(--s2)' }} onSubmit={saveName}>
+                    <label className="sr-only" htmlFor="project-name">Project name</label>
+                    <input id="project-name" className="input" value={renaming} autoFocus maxLength={120}
+                      onChange={(e) => setRenaming(e.target.value)} />
+                    <button className="btn btn-primary btn-sm" type="submit">Save</button>
+                    <button className="btn btn-ghost btn-sm" type="button" onClick={() => setRenaming(null)}>Cancel</button>
+                  </form>
+                ) : (
+                  <div className="row" style={{ gap: 'var(--s2)' }}>
+                    <h2 className="card-title">{project || 'Current specification'}</h2>
+                    {spec.loaded && (
+                      <button type="button" className="btn-icon" aria-label="Rename project" title="Rename"
+                        onClick={() => setRenaming(project || '')}>
+                        <Icon name="edit" size={14} />
+                      </button>
+                    )}
+                  </div>
                 )}
+                <span className="xs faint">
+                  Active project · {SAVE_LABEL[saveState]}
+                  {frozen && ` · Frozen ${new Date(frozen.at).toLocaleString('en-IN')}${frozen.label ? `, ${frozen.label}` : ''}`}
+                </span>
               </div>
               <div className="row" style={{ gap: 'var(--s2)' }}>
                 <span className={`badge ${frozen ? STATUS.frozen.cls : STATUS.draft.cls}`}>
@@ -86,7 +147,11 @@ export default function Projects() {
               </div>
             </div>
 
-            {count === 0 ? (
+            {!spec.loaded ? (
+              <div className="card-body"><span className="xs muted">
+                {saveState === 'error' ? 'Your projects could not be loaded. Check that the engine is running.' : 'Loading your project…'}
+              </span></div>
+            ) : count === 0 ? (
               <EmptyState
                 icon="layers"
                 title="No standards collected yet"
@@ -124,37 +189,55 @@ export default function Projects() {
                     ))}
                   </div>
                   ))}
+                {list.length > 0 && (
+                  <div className="row" style={{ gap: 'var(--s2)', padding: 'var(--s3)' }}>
+                    <Link to="/app/builder" className="btn btn-secondary btn-sm">Open in spec builder</Link>
+                    <button type="button" className="btn btn-ghost btn-sm"
+                      onClick={() => { if (window.confirm('Remove every standard from this project?')) spec.clear(); }}>
+                      Empty this project
+                    </button>
+                  </div>
+                )}
               </div>
             )}
           </section>
 
           <section className="card card-flush">
             <div className="card-head">
-              <h2 className="card-title">Recent searches</h2>
-              <Link to="/app/query" className="btn btn-ghost btn-sm">
-                New <Icon name="chevronRight" size={13} />
-              </Link>
+              <h2 className="card-title">Other projects</h2>
+              {projects && <span className="badge badge-neutral">{others.length}</span>}
             </div>
-            {recent.length === 0 ? (
+            {loadError ? (
+              <div className="card-body"><span className="xs muted">{loadError}</span></div>
+            ) : !projects ? (
+              <div className="card-body"><span className="xs muted">Loading…</span></div>
+            ) : others.length === 0 ? (
               <div className="card-body">
                 <span className="xs muted">
-                  {stats
-                    ? 'No searches recorded yet. Searches you run appear here.'
-                    : 'The engine is not reachable, so the search history cannot be shown.'}
+                  No other projects. Start a new one for each tender, so each keeps its own
+                  standards and freeze record.
                 </span>
               </div>
             ) : (
               <div className="stack" style={{ padding: 'var(--s2)' }}>
-                {recent.slice(0, 5).map((q, i) => (
-                  <Link key={`${q.timestamp}-${i}`} to="/app/query" className="alert-mini">
-                    <Icon name="search" size={14} />
+                {others.map((p) => (
+                  <div key={p.id} className="alert-mini" style={{ cursor: 'default' }}>
+                    <Icon name="layers" size={14} />
                     <span className="stack stack-2 grow" style={{ minWidth: 0 }}>
-                      <span className="xs">{q.query}</span>
+                      <span className="xs strong">{p.name}</span>
                       <span className="xs faint">
-                        {q.standard ? `${q.standard}` : 'No match in corpus'}
+                        {p.item_count} standard{p.item_count === 1 ? '' : 's'}
+                        {p.frozen ? ' · Frozen' : ''} · Updated {when(p.updated_at)}
                       </span>
                     </span>
-                  </Link>
+                    <button type="button" className="btn btn-secondary btn-sm" disabled={busy} onClick={() => open(p.id)}>
+                      Open
+                    </button>
+                    <button type="button" className="btn-icon" disabled={busy} aria-label={`Delete ${p.name}`}
+                      title="Delete" onClick={() => remove(p)}>
+                      <Icon name="trash" size={14} />
+                    </button>
+                  </div>
                 ))}
               </div>
             )}
@@ -174,8 +257,8 @@ export default function Projects() {
                 </span>
               ) : gaps.length === 0 ? (
                 <span className="xs muted">
-                  No gaps flagged. This checks the shape of the set — whether a test method
-                  or certification clause is missing — not whether these are the right
+                  No gaps flagged. This checks the shape of the set, whether a test method
+                  or certification clause is missing, not whether these are the right
                   standards for the goods.
                 </span>
               ) : (
@@ -191,6 +274,36 @@ export default function Projects() {
                 ))
               )}
             </div>
+          </section>
+
+          <section className="card card-flush">
+            <div className="card-head">
+              <h2 className="card-title">Your recent searches</h2>
+              <Link to="/app/query" className="btn btn-ghost btn-sm">
+                New <Icon name="chevronRight" size={13} />
+              </Link>
+            </div>
+            {!recent || recent.length === 0 ? (
+              <div className="card-body">
+                <span className="xs muted">
+                  {recent ? 'No searches yet. Searches you run appear here.' : 'Loading…'}
+                </span>
+              </div>
+            ) : (
+              <div className="stack" style={{ padding: 'var(--s2)' }}>
+                {recent.map((q) => (
+                  <Link key={q.id} to={`/app/query?q=${encodeURIComponent(q.meta?.query ?? '')}`} className="alert-mini">
+                    <Icon name="search" size={14} />
+                    <span className="stack stack-2 grow" style={{ minWidth: 0 }}>
+                      <span className="xs">{q.meta?.query ?? q.detail}</span>
+                      <span className="xs faint">
+                        {q.meta?.top ? q.meta.top : 'No match'} · {when(q.at)}
+                      </span>
+                    </span>
+                  </Link>
+                ))}
+              </div>
+            )}
           </section>
 
           <section className="card card-flush">
@@ -215,21 +328,6 @@ export default function Projects() {
               ))}
             </div>
           </section>
-
-          <div className="card stack stack-3">
-            <span className="eyebrow">Where this is stored</span>
-            <p className="xs muted">
-              In this browser, via local storage. It survives a reload and a restart, but
-              it is not on a server: clearing site data loses it, and it is not visible on
-              another machine or to anyone else. Shared projects need user accounts, which
-              are not built.
-            </p>
-            {count > 0 && (
-              <button className="btn btn-ghost btn-sm" onClick={spec.clear}>
-                Clear this specification
-              </button>
-            )}
-          </div>
         </div>
       </div>
     </div>
