@@ -12,7 +12,7 @@ English phrasing returns. Swapping in a multilingual embedder would mean
 retraining the ranker and rebuilding every index; translating is one step in
 front of a pipeline that already works well.
 
-Model: facebook/nllb-200-distilled-600M — open weights, runs locally on CPU,
+Model: facebook/nllb-200-distilled-600M, open weights, runs locally on CPU,
 no API key. Loaded lazily, because the English-only path must not pay for it.
 """
 
@@ -37,7 +37,7 @@ SUPPORTED_LANGUAGES: Dict[str, Dict[str, str]] = {
 
 # Unicode blocks, used to detect the script when no language is declared.
 _SCRIPT_RANGES = [
-    ("hi", r"[ऀ-ॿ]"),  # Devanagari — also Marathi; see _detect note
+    ("hi", r"[ऀ-ॿ]"),  # Devanagari, also Marathi; see _detect note
     ("bn", r"[ঀ-৿]"),
     ("ta", r"[஀-௿]"),
     ("te", r"[ఀ-౿]"),

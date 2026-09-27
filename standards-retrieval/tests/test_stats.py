@@ -2,7 +2,7 @@
 
 The property under test throughout is honesty: every figure the dashboard
 shows must be a count of something that actually happened. The tests that
-matter most here are the ones asserting what is *not* counted — synthetic
+matter most here are the ones asserting what is *not* counted, synthetic
 bootstrap records, and rates that cannot yet be calculated.
 """
 import json
@@ -114,7 +114,7 @@ class TestStats(unittest.TestCase):
             f.write(json.dumps(base) + "\n")
 
     def test_empty_logs_report_empty(self):
-        """Zero, explicitly flagged — never a plausible-looking placeholder."""
+        """Zero, explicitly flagged, never a plausible-looking placeholder."""
         s = self._stats()
         self.assertFalse(s["has_live_data"])
         self.assertEqual(s["queries_total"], 0)

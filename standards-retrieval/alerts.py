@@ -9,15 +9,15 @@ corpus that would change what a tender should cite, computed on demand:
                 the bare edition understates the requirement
 
 Both are derived, never authored. There is no alerts table and nothing is
-"sent" — the finding exists because the data says so, which means it cannot
+"sent", the finding exists because the data says so, which means it cannot
 drift out of step with what the engine would tell you on the search screen.
 
 What this deliberately is NOT
 -----------------------------
 A live feed. Nothing here watches BIS for newly published revisions; there is
 no crawler and no change-detection job. These are findings about data already
-in the corpus, and the "when" of a real alert — the moment a revision was
-published — is not knowable from it. So no finding carries a timestamp, and
+in the corpus, and the "when" of a real alert, the moment a revision was
+published, is not knowable from it. So no finding carries a timestamp, and
 none of them are described as new. Inventing a "2 hours ago" for a fact that
 has been sitting in a JSON file since it was written would be exactly the
 kind of plausible-looking fiction this codebase avoids.
@@ -147,6 +147,11 @@ def _amendment_findings(corpus: List[Any]) -> List[Dict[str, Any]]:
     return findings
 
 
+# The corpus is loaded once per process, so its findings are too. Scanning
+# 21,848 standards on every request took ~0.8 s.
+_CACHE: Dict[int, List[Dict[str, Any]]] = {}
+
+
 def findings(category: Optional[str] = None) -> Dict[str, Any]:
     """Every standards-hygiene finding the current corpus supports.
 
@@ -155,7 +160,11 @@ def findings(category: Optional[str] = None) -> Dict[str, Any]:
     """
     corpus = load_corpus()
 
-    items = _supersession_findings(corpus) + _amendment_findings(corpus)
+    key = id(corpus)  # a reloaded corpus is a new list, so this stays correct
+    if key not in _CACHE:
+        _CACHE.clear()
+        _CACHE[key] = _supersession_findings(corpus) + _amendment_findings(corpus)
+    items = list(_CACHE[key])
 
     if category:
         wanted = category.strip().lower()

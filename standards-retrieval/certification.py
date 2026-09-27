@@ -93,7 +93,7 @@ def lookup(is_number: str) -> dict:
             "mandatory": False,
             "explanation": (
                 "Certification status has not been verified for this standard. That is "
-                "not the same as 'no certification needed' — check the BIS compulsory "
+                "not the same as 'no certification needed', check the BIS compulsory "
                 "certification lists before relying on this in a tender."
             ),
             "qco": None,
@@ -120,7 +120,7 @@ def withdrawn_note(is_number: str) -> Optional[dict]:
     """Known problem with this edition, if any.
 
     Some entries in the placeholder corpus name editions that were never
-    published — IS 8112 and IS 12269 were both merged into IS 269:2015 and
+    published, IS 8112 and IS 12269 were both merged into IS 269:2015 and
     withdrawn in 2016. Flagging that is more useful than silently serving a
     standard that does not exist.
     """

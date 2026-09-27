@@ -6,7 +6,7 @@ been amended can specify something that is no longer conformant, which is why
 the problem statement asks for amendments alongside the latest version.
 
 Only researched standards appear here. An absent standard is reported as
-unchecked, never as "no amendments" — the same rule as certification and
+unchecked, never as "no amendments", the same rule as certification and
 relationships: absence of data must not read as absence of the thing.
 """
 

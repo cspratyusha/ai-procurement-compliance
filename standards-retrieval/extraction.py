@@ -239,7 +239,7 @@ def extract_pdf(data: bytes) -> ExtractedDocument:
         method = "pdf-ocr"
         warnings.append(
             "This PDF had no text layer, so it was read using optical character "
-            "recognition. OCR makes mistakes on poor scans — check the extracted "
+            "recognition. OCR makes mistakes on poor scans, check the extracted "
             "text below before relying on the results."
         )
         if page_count > OCR_MAX_PAGES:
@@ -271,7 +271,7 @@ def extract_docx(data: bytes) -> ExtractedDocument:
     except Exception as exc:
         raise ExtractionError(
             "This file could not be opened as a Word document. Note that the older "
-            ".doc format is not supported — save it as .docx and try again."
+            ".doc format is not supported, save it as .docx and try again."
         ) from exc
 
     parts = [p.text for p in document.paragraphs]

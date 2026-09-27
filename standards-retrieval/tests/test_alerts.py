@@ -89,7 +89,7 @@ class TestFindingShape(unittest.TestCase):
                 self.assertNotIn(banned, finding)
 
     def test_critical_findings_always_name_a_replacement(self):
-        """Critical means "the fix is known" — so the fix must be present."""
+        """Critical means "the fix is known", so the fix must be present."""
         payload = alerts_module.findings()
         for finding in payload["findings"]:
             if finding["severity"] == "critical":

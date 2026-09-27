@@ -20,6 +20,7 @@ import logging
 import os
 import re
 import threading
+import time
 import urllib.error
 import urllib.request
 from typing import Dict, List, Optional
@@ -36,9 +37,25 @@ _COLD_TIMEOUT = 120
 _WARM_TIMEOUT = 45
 _MAX_CANDIDATES = 5
 
+# Ollama unloads an idle model after five minutes by default, and reloading a
+# 7B model takes over a minute on first use. Ask it to keep the model resident
+# for a working session instead.
+_KEEP_ALIVE = "30m"
+
+# Reasons shorter than this ("fits the requirement") carry no information.
+_MIN_REASON_WORDS = 6
+
 _availability: Optional[bool] = None
+_checked_at = 0.0
 _model_loaded = False
 _lock = threading.Lock()
+
+# How long an availability answer is trusted. A negative answer is rechecked
+# soon, so a model that finishes downloading (or an Ollama started after the
+# API) is picked up without restarting the service; a positive one less often,
+# since the check is a network round-trip on the search path.
+_RECHECK_UNAVAILABLE_S = 20
+_RECHECK_AVAILABLE_S = 300
 
 
 def _post(path: str, payload: dict, timeout: int) -> dict:
@@ -52,13 +69,23 @@ def _post(path: str, payload: dict, timeout: int) -> dict:
 
 
 def is_available(force_recheck: bool = False) -> bool:
-    """Whether a usable Ollama server with the expected model is reachable."""
-    global _availability
+    """Whether a usable Ollama server with the expected model is reachable.
+
+    The answer used to be cached for the life of the process, so an API that
+    started before Ollama (or before the model finished pulling) reported
+    explanations unavailable until it was restarted. It is now rechecked on a
+    short timer while unavailable and a longer one while available.
+    """
+    global _availability, _checked_at
 
     if _availability is not None and not force_recheck:
-        return _availability
+        age = time.monotonic() - _checked_at
+        limit = _RECHECK_AVAILABLE_S if _availability else _RECHECK_UNAVAILABLE_S
+        if age < limit:
+            return _availability
 
     with _lock:
+        _checked_at = time.monotonic()
         try:
             request = urllib.request.Request(f"{OLLAMA_URL}/api/tags")
             with urllib.request.urlopen(request, timeout=3) as response:
@@ -79,6 +106,31 @@ def is_available(force_recheck: bool = False) -> bool:
         return _availability
 
 
+def warm_up() -> None:
+    """Load the model into memory in the background, so the first user waits less.
+
+    The first generation after a cold start loads the model onto the GPU,
+    which measured 85 seconds on this project's development machine against
+    about 6 seconds warm. Doing that at API startup, off the request path,
+    means the first person to ask for an explanation does not pay for it.
+    Any failure is ignored: explanations stay optional.
+    """
+
+    def _load():
+        global _model_loaded
+        if not is_available(force_recheck=True):
+            return
+        try:
+            # An empty prompt loads the model without generating anything.
+            _post("/api/generate", {"model": MODEL, "prompt": "", "keep_alive": _KEEP_ALIVE}, _COLD_TIMEOUT)
+            _model_loaded = True
+            logger.info("[Explanation] %s loaded and kept resident for %s.", MODEL, _KEEP_ALIVE)
+        except Exception as exc:
+            logger.info("[Explanation] Warm-up skipped: %s", exc)
+
+    threading.Thread(target=_load, name="explanation-warm-up", daemon=True).start()
+
+
 def _build_prompt(query: str, candidates: List[dict]) -> str:
     lines = []
     for index, candidate in enumerate(candidates, 1):
@@ -96,12 +148,19 @@ Their requirement: "{query}"
 A retrieval engine returned these candidate Indian Standards:
 {listing}
 
-For EACH candidate above, write ONE plain-language sentence saying why it does
-or does not fit this requirement. Write for a non-specialist: no jargon, no
-score numbers, no hedging.
+For EACH candidate above, write ONE plain-language sentence (12 to 35 words)
+that says what the standard covers, taken from its title or scope, and how that
+relates to the requirement: whether it is the product itself, a test method, a
+related grade or size, or a different product. Write for a non-specialist: no
+jargon, no score numbers, no hedging.
+
+Example of the kind of sentence wanted:
+"Covers 43-grade ordinary Portland cement, which is exactly the cement grade the requirement asks for."
+"Covers 53-grade cement, a stronger grade than the 43-grade product required, so it is a related but different product."
 
 Rules you must follow:
 - Only describe the candidates listed above. Do not mention or invent any other standard.
+- Never answer with just "fits" or "does not fit"; always say what the standard covers.
 - Do not state whether certification is required; that is decided elsewhere.
 - Do not recommend one over another; just explain the fit.
 - Use the IS number exactly as written above.
@@ -140,7 +199,8 @@ def explain(query: str, results: List[dict], timeout: Optional[int] = None) -> D
         # Ollama's JSON mode constrains decoding, which is what makes a 7B
         # model reliable enough to parse without a retry loop.
         "format": "json",
-        "options": {"temperature": 0.1, "num_predict": 500},
+        "keep_alive": _KEEP_ALIVE,
+        "options": {"temperature": 0.1, "num_predict": 600},
     }
 
     try:
@@ -193,6 +253,14 @@ def explain(query: str, results: List[dict], timeout: Optional[int] = None) -> D
             )
             continue
 
-        explanations[number] = _sanitize(reason)
+        # A quality floor. The model sometimes answers "fits the requirement"
+        # and nothing else, which tells the reader nothing and still looks
+        # like an endorsement. No note is better than an empty one.
+        text = _sanitize(reason)
+        if len(text.split()) < _MIN_REASON_WORDS:
+            logger.info("[Explanation] Dropping a %d-word reason for %s.", len(text.split()), number)
+            continue
+
+        explanations[number] = text
 
     return explanations

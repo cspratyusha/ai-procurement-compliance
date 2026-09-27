@@ -1,6 +1,6 @@
 """Tests for tender-citation auditing and bill-of-quantities splitting.
 
-Both back screens that used to simulate their work — the audit page ran a
+Both back screens that used to simulate their work, the audit page ran a
 1.8-second timer over five hardcoded findings, and the BOQ page showed a
 worked example. The assertions here are mostly about restraint: what the
 audit refuses to claim, and what the splitter refuses to guess.

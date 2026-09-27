@@ -1,8 +1,7 @@
 """Audit a tender document against the standards corpus.
 
 Finds the IS numbers a document actually cites and checks each one, so the
-question answered is "is what this tender already says still correct?" —
-which is a different and narrower question than "what should this tender
+question answered is "is what this tender already says still correct?", which is a different and narrower question than "what should this tender
 cite?", the one `/retrieve` answers.
 
 Every finding is a comparison between a citation read out of the document and
@@ -23,7 +22,7 @@ What is NOT checked, and why it matters
 Whether the tender cites the *right* standards for its goods. That needs
 someone to read the specification and judge it; this module only verifies the
 citations that are already present. A document citing nothing produces no
-findings, and that is emphatically not a pass — `citations_found: 0` is
+findings, and that is emphatically not a pass, `citations_found: 0` is
 reported so the UI can say so rather than showing a clean result.
 """
 from __future__ import annotations

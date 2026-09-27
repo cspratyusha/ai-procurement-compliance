@@ -1,8 +1,8 @@
 """Tests for tender-document extraction.
 
 The thing worth testing is not "did we get text out" but "did we get the
-*right* text out". A tender is mostly boilerplate by volume — EMD, eligibility,
-arbitration, signature blocks — so an extractor that returns everything
+*right* text out". A tender is mostly boilerplate by volume, EMD, eligibility,
+arbitration, signature blocks, so an extractor that returns everything
 produces a query dominated by legal language and finds nothing useful.
 """
 
@@ -126,7 +126,7 @@ class TestExtraction(unittest.TestCase):
         self.assertLessEqual(len(result.query), extraction.MAX_QUERY_CHARS)
 
     def test_document_without_a_heading_still_works_but_warns(self):
-        """No recognised heading means we scanned everything — say so."""
+        """No recognised heading means we scanned everything, say so."""
         plain = (
             "Supply of PVC insulated copper conductor cable, 2.5 sq mm, "
             "1100 V grade, for internal wiring of the office building."
