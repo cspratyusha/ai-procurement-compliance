@@ -209,7 +209,14 @@ test.describe('Demo Mode', () => {
       .toBeVisible({ timeout: 150_000 });
     await expect(page.locator('article.rec').first()).toBeVisible();
 
-    // ── Act 4/5: the file is visibly chosen, then reaches the real component ─
+    // ── Act 5: everyday words, shown for real ──────────────────────────────
+    // A second search, "laptop", must show the standards' added term and
+    // BIS's listing, not just move on.
+    await expect(page.locator('[data-demo-target="query-expansion"]'))
+      .toContainText('information technology equipment', { timeout: 200_000 });
+    await expect(page.locator('[data-demo-target="query-bis-products"]')).toContainText('Laptop');
+
+    // ── Act 6: the file is visibly chosen, then reaches the real component ─
     await expect(page).toHaveURL(/\/app\/boq/, { timeout: 60_000 });
 
     // The demo's own chooser appears, names the file, and gets selected,     // without this the upload would have no visible cause on camera.
@@ -251,6 +258,8 @@ test.describe('Demo Mode', () => {
     // A finding that names both the fault and the correction.
     await expect(page.locator('[data-demo-target="audit-findings"] article.card').first())
       .toBeVisible();
+    // And what the cited standards depend on, which the tender leaves out.
+    await expect(page.locator('[data-demo-target="audit-dependencies"]')).toBeVisible({ timeout: 30_000 });
 
     // ── The rest of the tour, screen by screen ─────────────────────────────
     // Recorded by watching navigation rather than asserting one URL at a

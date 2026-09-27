@@ -1,19 +1,12 @@
 # Demo script
 
-A seven-minute walkthrough. Every number here was measured on this build; if
-something in the demo contradicts this document, trust the running system and
-fix the document.
+An eight-minute walkthrough on the full catalogue. Every example here was run
+on this build; if something in the demo contradicts this document, trust the
+running system and fix the document.
 
-**Which corpus.** This script was written and rehearsed against the 45-standard
-curated corpus (`STANDARDS_CORPUS=canonical`), which has the learned ranker and
-the amendment data the IS 456 step relies on. The site itself now serves the
-full 21,848-standard corpus (`STANDARDS_CORPUS=full`). The script has **not**
-been re-rehearsed on the full corpus, so run it on `canonical` as written, or
-walk through it once on `full` before presenting.
-
-The built-in guided demo is separate from this script: **Start Demo** on the
-homepage, or **Start guided demo** in the account menu, drives the live app by
-itself.
+The built-in guided demo is separate: **Start Demo** on the homepage, or
+**Start guided demo** in the account menu, drives the live app by itself and
+covers the same ground. Use it when you want to talk rather than click.
 
 ---
 
@@ -23,46 +16,47 @@ Two terminals, both from the repository root.
 
 **Terminal 1, the engine**
 
-```bash
-STANDARDS_CORPUS=canonical .venv/Scripts/python -m uvicorn main:app \
-  --port 8000 --app-dir standards-retrieval
+```powershell
+$env:STANDARDS_CORPUS = 'full'
+.venv\Scripts\python -m uvicorn main:app --port 8000 --app-dir standards-retrieval
 ```
 
-Wait for `Application startup complete`, about 20 seconds while the embedding
-and cross-encoder models load. Confirm:
+Wait for `Application startup complete`, about 20 seconds while the models
+load. Confirm:
 
-```bash
+```powershell
 curl http://localhost:8000/health
-# {"status":"ok","corpus_size":45,"ltr_model_loaded":true}
+# {"status":"ok","corpus_size":21848, ...}
 ```
 
 **Terminal 2, the interface**
 
-```bash
-cd frontend && npm run dev
+```powershell
+cd frontend; npm run dev
 ```
 
+Open http://localhost:5173 and **sign in** with your account (on a fresh
+installation the sign-in page sets up the first administrator).
+
 **Optional, for the explanation step:** Ollama running with
-`qwen2.5:7b-instruct` pulled. Run one throwaway query with **Explain matches**
-switched on in the search box *before the demo* so the model is warm: the
-first call is slow while the model loads, later ones take a few seconds.
+`qwen2.5:7b-instruct`. The engine loads it at startup; without it the
+explanation option simply does not appear.
 
 **Checklist**
 
-- [ ] `/health` reports `corpus_size: 45` and `ltr_model_loaded: true`
-- [ ] http://localhost:5173 loads
-- [ ] Explanation model warmed (if demoing it)
+- [ ] `/health` reports `corpus_size: 21848`
+- [ ] Signed in, the dashboard loads
 - [ ] Browser zoom at 100%, one window, no other tabs
 
 ---
 
 ## 0. The problem (45 seconds)
 
-> A procurement official writing a tender for electrical cable needs to cite
-> the right Indian Standard. There are about 22,000 of them. Cite the wrong
-> one and the tender specifies the wrong goods; cite a withdrawn edition and
-> you have specified something that can no longer lawfully be supplied; miss
-> the mandatory certification and you have a legal problem.
+> A procurement officer writing a tender has to cite the right Indian
+> Standards. There are about 22,000. Cite the wrong one and the tender
+> specifies the wrong goods; cite a withdrawn edition and it specifies
+> something that can no longer lawfully be supplied; miss a mandatory
+> certification and an uncertified supplier can win the contract.
 >
 > Today that knowledge lives in the heads of a few experienced officials.
 
@@ -70,252 +64,214 @@ first call is slow while the model loads, later ones take a few seconds.
 
 ## 1. Search by meaning (1 minute)
 
-Go to **New query**. Type, do not paste, let them watch it type:
+Go to **New query**. Type, do not paste:
 
 ```
 PVC insulated copper cable for indoor panel wiring
 ```
 
-Results in roughly **200 ms**.
+Results in well under a second.
 
-> This is not keyword search. The query does not contain "IS 694" or the words
-> in that standard's title. Four stages run here: dense vector retrieval and
-> BM25 keyword search in parallel, fused, then a cross-encoder re-reads each
-> candidate against the query, then a LightGBM ranker trained on this corpus.
+> The query does not contain "IS 694" or the words of its title. Dense vectors
+> and BM25 keyword search run together, a cross-encoder re-reads every
+> candidate against the query, and the best comes first.
 
-Point at the **ISI mark required** badge on IS 694:2010, then the banner:
+Point at **ISI mark required** on IS 694, then the banner:
 
-> That is not a guess. It comes from the BIS Scheme I list: the Electrical
-> Wires, Cables, Appliances and Protection Devices and Accessories (Quality
-> Control) Order, 2003, gazette S.O. 189(E). Seventeen of our forty-five
-> standards have a verified certification status; thirteen are mandatory.
+> Read from BIS's own list of products under compulsory certification, with
+> the order that imposes it: the Electrical Wires, Cables, Appliances and
+> Protection Devices and Accessories (Quality Control) Order. The link opens
+> the order itself.
 
 ---
 
-## 2. It says when it does not know (1 minute)
+## 2. Buyers do not write like standards (1 minute)
 
-**This is the most important thirty seconds of the demo. Do not skip it.**
-
-Click **New query**, then type:
+New query:
 
 ```
-safety helmet for construction workers
+laptop for office use
 ```
 
-That one works, IS 2925:1984. Now type something genuinely outside the
-corpus:
-
-```
-laptop computer for the office
-```
-
-> The heading changed. It no longer says "Recommended standards", it says
-> "Nearest text matches", and the list below is labelled "not recommendations".
+> "Laptop" appears in no Indian Standard title. The engine adds the standards'
+> own words, "information technology equipment", and says so in the blue note,
+> the way it shows a translation. It finds IS 13252, and because the match is
+> indirect it says "uncertain" and why.
 >
-> Our corpus covers forty-five standards across seven sectors. IT equipment is
-> not one of them, and rather than offering the closest cable standard as
-> though it were an answer, the engine says so.
+> The shield note is BIS: laptops are under compulsory registration, CRS, to
+> IS/IEC 62368-1. BIS names products in everyday words, so the engine checks
+> those lists too.
+
+Then a tender line full of abbreviations:
+
+```
+GI pipe 25 mm medium class
+```
+
+> GI, MS, OPC, TMT, XLPE, MCB, DI: tenders are written in short forms. This
+> finds IS 1239 (Part 1), the standard for galvanized steel tubes. Before this
+> it found spiral welded pipes.
+
+---
+
+## 3. It says when it does not know (45 seconds)
+
+**Do not skip this.**
+
+```
+CCTV camera for office
+```
+
+> "No close match". The catalogue holds no standard text for CCTV cameras, and
+> rather than offering the nearest camera-sounding standard as an answer, it
+> says so and labels the list "nearest text matches, not recommendations".
 >
-> It decides this from the cross-encoder relevance score, which is comparable
-> across queries. In-scope queries score around +3 to +9; out-of-scope ones
-> sit at −7 to −11. The bands do not overlap.
+> But BIS does list CCTV cameras under compulsory registration, so the note
+> still tells the buyer what the law requires.
 
 > A tool that is confidently wrong about a legal requirement is worse than no
-> tool. This is the difference between a demo and something an official could
-> actually use.
+> tool.
 
 ---
 
-## 3. The whole cluster, not one hit (1 minute)
+## 4. One standard, in full (1 minute)
 
-Search `ordinary portland cement 43 grade`, open **IS 456:2000** from the
-results, or go straight to
-http://localhost:5173/app/standard/IS%20456:2000
+Open IS 694:2010 from the first search (the IS number is a link), or go to
+http://localhost:5173/app/standard/IS%20694:2010
 
-Scroll to **Amendments**:
+- **Amendments:** the official count from BIS's record for the standard, with
+  dates read from the amendment slips in the standard's own copy, and the
+  citation to paste ("including all amendments").
+- **Allied standards:** what IS 694 depends on, read from its own references
+  clause, each with the sentence it came from: IS 8130 for conductors, IS 5831
+  for insulation, IS 10810 for tests.
 
-> Six amendments in force. A tender citing "IS 456:2000" bare is citing a
-> document from the year 2000 while the site is being built to a 2024 one.
-> Here is the citation to paste instead.
->
-> Amendment No. 4 shows what it changed, clauses 5.3, 5.3.4, 5.4, 5.4.3, > because we read the published amendment document. The other dates came from
-> secondary sources, so they are marked "unconfirmed".
+Then open a withdrawn edition, e.g.
+http://localhost:5173/app/standard/IS%2010258:2002
 
-Scroll to **Allied standards**:
-
-> Ten related standards, grouped by why they are related. These come from the
-> referred-standards annex of IS 456 itself, the cement it permits, the
-> aggregate, the reinforcement.
->
-> Three are greyed and marked "Not in this corpus". IS 383 for aggregate is a
-> real dependency we do not hold. We show it anyway, because hiding it would
-> produce exactly the incomplete citation this feature exists to prevent.
+> BIS lists this edition as withdrawn and replaced by the 2023 edition. The
+> page says "cite IS 10258:2023 instead", even though the catalogue does not
+> hold the new edition's text.
 
 ---
 
-## 4. Any language (45 seconds)
+## 5. Certification (45 seconds)
 
-Back to **New query**. Click the **हिन्दी** example chip.
+Go to **Certification**.
 
-> `घर की वायरिंग के लिए तांबे का तार`, copper wire for house wiring.
-
-Point at the translation panel:
-
-> It shows what you typed and what it actually searched for. It does not
-> translate behind your back, because a wrong translation quietly returning
-> the wrong standard is the failure that matters.
+> Every product on BIS's compulsory lists, ISI, CRS and Scheme X: about 750
+> standards, each with its order and a link. Filter to **Deferred**:
 >
-> Six languages: English, Hindi, Tamil, Bengali, Marathi, Telugu. Translation
-> runs locally, no API key, no internet.
+> The Electrical Equipment order names circuit breakers, contactors and
+> switches, but a 2025 order defers all of them except small breakers. They
+> are shown as not yet mandatory. Reading the list without that order would
+> tell a buyer something the law does not.
 
-Worth stating plainly if asked:
-
-> Without translation a Hindi query scores −8 on the cross-encoder and is
-> correctly rejected as no-match. With it, the same query scores +4 and
-> returns what the English phrasing returns.
+Type any IS number to check it, e.g. `IS 383:2016`: "not on BIS's compulsory
+lists", with the date the lists were read.
 
 ---
 
-## 5. Upload a real tender (1 minute)
+## 6. Audit a tender (1 minute 30)
 
-Click **Upload tender** and choose
-`standards-retrieval/tests/fixtures/sample_tender.pdf`.
+Go to **Audit** and upload `frontend/public/demo/sample-tender.txt`.
 
-> A three-page tender: eligibility criteria, terms and conditions, technical
-> specification, delivery schedule.
+> Every IS number in the document, checked: an outdated edition with its
+> replacement named, citations with no year, amendments not cited.
 
-Point at the extraction panel:
+Scroll to **What the cited standards depend on**:
 
-> It found the TECHNICAL SPECIFICATION section and ignored the rest, the
-> earnest money deposit, the arbitration clause, the signature block. A tender
-> is mostly boilerplate by volume, and feeding all of it to the engine means
-> searching the cover page.
->
-> "Show the text that was searched", you can check what it read.
+> And what the cited standards themselves require that the tender leaves out,
+> read from each standard's references and "shall be tested as per" clauses.
+> A tender citing IS 694 but not IS 8130 leaves the conductor undefined.
 
-The results include the cable standards *and* the cement standard, because the
-tender's third line item is cement.
+State the limit plainly:
+
+> It cannot tell whether the tender cites the right product standard in the
+> first place. No findings is not a pass.
 
 ---
 
-## 6. Inside a procurement portal (1 minute 30)
+## 7. Any language (30 seconds)
 
-Go to **Tender builder**.
+**New query**, click the **हिन्दी** chip (`घर की वायरिंग के लिए तांबे का तार`,
+copper wire for house wiring).
 
-> This is how it would sit inside GeM. We have no integration access, and the
-> screen says so, we are demonstrating the pattern, not claiming the
-> integration.
-
-Type into the item description:
-
-```
-PVC insulated single core copper conductor cable 1.5 sq mm 1100 V for concealed conduit wiring
-```
-
-Standards appear on the right as you type. Set quantity `500`, click
-**Accept** on IS 694:2010.
-
-Read the generated clause aloud, this is the payoff:
-
-> **CONFORMANCE**, The item shall conform in all respects to IS 694:2010, in
-> the latest edition in force on the date of supply, including all amendments.
->
-> **CERTIFICATION**, IS 694:2010 falls under mandatory BIS certification. The
-> supplier shall hold a valid BIS licence and the goods shall bear the
-> Standard Mark. The licence number shall be quoted in the bid. Governing
-> order: Electrical Wires, Cables, Appliances and Protection Devices and
-> Accessories (Quality Control) Order, 2003.
-
-> That is paste-ready, and the Quality Control Order in it is real.
+> It shows what you typed and what it searched for. Six languages, translated
+> on this machine, no internet.
 
 ---
 
-## 7. Optional: plain-language explanations (30 seconds)
+## 8. Optional: plain-language explanations (30 seconds)
 
-Only if the model is warm. Tick **Explain why each standard matched** and
-search `ordinary portland cement 43 grade`.
+If Ollama is running, the **Why it matches** notes fill in under each result a
+few seconds after the results appear.
 
-> A local 7B model, running on this laptop's GPU. No API key.
->
-> It correctly separates 43-grade from 53-grade cement.
-
-Then state the boundary, because it is the interesting part:
-
-> The model never decides anything. It only describes candidates retrieval
-> already chose. Every IS number it returns is checked against that list and
-> discarded if it invented one, there is a test for exactly that. On an
-> out-of-scope query it is not called at all, so a no-match never acquires a
-> fluent explanation of why the wrong standards almost fit.
+> A local 7B model on this laptop. It only describes candidates retrieval
+> already chose; any IS number it writes that was not retrieved is discarded,
+> and on a no-match it is not called at all.
 
 ---
 
-## 8. Close (30 seconds)
+## 9. Close (30 seconds)
 
-> Forty-five standards, seven sectors, and we say so on the front page. The
-> BIS catalogue has about twenty-two thousand.
->
-> What is built is the pipeline: four-stage retrieval, a confidence gate that
-> refuses to answer outside its coverage, certification and amendment data
-> read from BIS sources, an allied-standards graph read from the standards
-> themselves, six languages, document upload, and a local LLM that is not
-> allowed to invent anything.
->
-> Scaling that is a data exercise, not an engineering one. Every screen that
-> shows sample data says "Illustrative screen, not live data" on it.
+> 21,848 standards. Certification from BIS's own compulsory lists, amendments
+> and edition status from BIS's record for each standard, an allied-standards
+> graph of 88,000 links read from the standards themselves, a tender audit,
+> six languages, accounts with an activity trail, and everything runs on your
+> own machine.
 
 ---
 
 ## Questions you will be asked
 
-**"How many standards is this really?"**
-Forty-five, across seven sectors. It is stated on the landing page and in the
-README. The data is realistic but unverified against the BIS catalogue, except the certification, amendment and relationship data, which was read from
-BIS sources and is cited.
+**"How many standards?"**
+21,848, read from the published documents. Certification covers BIS's full
+compulsory lists (about 750 standards); amendment counts and edition status
+come from BIS's record for each standard.
 
 **"What is the AI here?"**
-Four models. A sentence-transformer (e5-base-v2) for dense retrieval, a
-cross-encoder (ms-marco-MiniLM) for re-ranking, a LightGBM LambdaMART ranker
-trained on this corpus, and NLLB-200 for translation, plus an optional local
-7B LLM for explanations. All run locally. No API keys, no cloud.
+A sentence-transformer (e5-base-v2) for meaning, BM25 for exact terms, a
+cross-encoder for re-ranking, NLLB-200 for translation, and an optional local
+7B model for explanations. All local. No API keys, no cloud.
 
 **"What is your accuracy?"**
-On the full 21,848-standard corpus, over 236 held-out queries: the right
-standard is in the top five 98.7% of the time (Recall@5 0.9873) and ranked
-first 92.4% of the time (P@1 0.9237). Two honest caveats: the text is OCR of
-scanned documents and nothing is verified against BIS directly, and the
-confidence thresholds were calibrated on a small corpus and need recalibrating
-at this size. The README says both.
+Over 236 held-out queries on the full corpus: the right standard is in the top
+five 98.7% of the time (Recall@5 0.9873) and first 91.5% (P@1 0.9153). The
+confidence gate was calibrated on 35 genuinely out-of-scope queries.
 
 **"Why not just use ChatGPT?"**
-A language model asked which standard applies will produce a plausible IS
-number, and it may not exist. This system retrieves from a fixed corpus and
-refuses when it has no match. Where we do use an LLM, it is confined to prose
-and every standard number it emits is validated against the retrieved set.
+Asked which standard applies, a language model produces a plausible IS number
+that may not exist, or a withdrawn edition. This retrieves from a fixed
+catalogue, checks BIS's lists, and refuses when it has no match. Where a
+language model is used, every IS number it writes is checked against what was
+retrieved.
 
-**"Is this connected to GeM?"**
-No, and the tender builder says so on screen. We have no integration access.
-The API is the integration surface, `POST /retrieve` returns everything a
-portal needs.
+**"Is it connected to GeM?"**
+No, and the tender builder says so. The API is the integration surface: a
+portal calls `POST /retrieve` with an API key from Settings.
 
-**"What would you do with more time?"**
-Expand the corpus, in that order of priority. The pipeline is built; the
-limiting factor is data. Then OCR for scanned tenders, which many real ones
-are.
+**"Is it secure?"**
+Accounts with hashed passwords and tokens, role-based access, throttled
+sign-in, an activity trail per user, and organisations cannot see each
+other's work.
+
+**"What is not done?"**
+Standards published after October 2025 (on BIS's new portal), dates for
+amendments known only from BIS's count, and the text of the newer editions BIS
+lists but the archive does not hold.
 
 ---
 
 ## If something breaks
 
-**Results look stale or a change did not take effect.** A previous uvicorn is
-probably still holding port 8000, so the new one exited silently. Check the
-port owner, not the log.
+**Results look stale or a change did not take effect.** A previous uvicorn may
+still hold port 8000. Check the port owner, not the log. If the interface looks
+out of date, restart `npm run dev`: a dev server left running for days can
+stop picking up file changes.
 
-**Hindi returns nothing sensible from a terminal test.** Git Bash mangles
-UTF-8 on the command line. Test through the browser or a Python client.
+**Explanations do not appear.** Ollama is not running or the model is still
+loading; everything else works unchanged.
 
-**Explanations time out.** The first call loads the model (~60 s). Warm it
-before the demo. If Ollama is not running, the checkbox does not appear and
-everything else works unchanged.
-
-**The engine is unreachable.** The UI says so on the query screen before you
-type, with the command to start it. Do not mistake that for a broken frontend.
+**The engine is unreachable.** The sign-in page and the query screen say so.
+Do not mistake that for a broken frontend.

@@ -27,6 +27,36 @@ def test_ambiguous_and_technical_queries_are_left_alone():
         assert expansion.expand(query)[1] == [], query
 
 
+def test_tender_abbreviations_are_expanded():
+    for query, phrase in [
+        ("OPC 43 grade cement", "ordinary portland cement"),
+        ("TMT bars Fe 500D 12 mm", "high strength deformed steel bars"),
+        ("GI pipe 25 mm medium class", "galvanized steel tubes tubulars and other wrought steel fittings"),
+        ("XLPE cable 3 core 11 kV", "cross-linked polyethylene"),
+        ("DI pipes K9 for water supply", "ductile iron pipes"),
+        ("MCB 32 A double pole", "circuit-breakers for overcurrent protection"),
+    ]:
+        assert phrase in expansion.expand(query)[1], query
+
+
+def test_the_specific_abbreviation_wins_over_the_general_one():
+    """'MS pipe' is mild steel tubes (IS 1239); the bare 'MS' entry must not add a second phrase."""
+    assert expansion.expand("MS pipe for handrail")[1] == ["mild steel tubes tubulars and other wrought steel fittings"]
+
+
+def test_sizes_and_grades_are_not_the_product():
+    """'...25 mm medium class' must not match 'watt-hour meters, class 0.5'."""
+    numbers = [p["is_number"] for p in certification.products_for_query("GI pipe 25 mm medium class")]
+    assert not any(n.startswith(("IS 13010", "IS 13779")) for n in numbers)
+    # The engine also checks the expanded wording ("OPC" -> "ordinary portland cement").
+    assert certification.products_for_query("ordinary portland cement 43 grade")[0]["is_number"].startswith("IS 269")
+
+
+def test_abbreviation_letters_elsewhere_are_ignored():
+    for query in ("SRC wall", "the class of the DI student", "ms office licence", "cis women", "rcc"):
+        assert expansion.expand(query)[1] == [], query
+
+
 def test_bis_product_names_answer_everyday_queries():
     names = {p["product"] for p in certification.products_for_query("laptop for office use")}
     assert any("Laptop" in n for n in names)

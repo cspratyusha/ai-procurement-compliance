@@ -103,6 +103,8 @@ export const DEMO_TARGETS = {
     '[data-demo-target="query-results"] article.rec a.build-link',
     'article.rec a.build-link',
   ],
+  'query-expansion':  ['[data-demo-target="query-expansion"]'],
+  'query-bis-products': ['[data-demo-target="query-bis-products"]'],
   'query-add-first':  [
     '[data-demo-target="query-results"] article.rec .rec-foot button.btn-primary',
     'article.rec .rec-foot button.btn-primary',
@@ -143,6 +145,7 @@ export const DEMO_TARGETS = {
   'audit-summary':    ['[data-demo-target="audit-summary"]'],
   'audit-findings':   ['[data-demo-target="audit-findings"]'],
   'audit-first-finding': ['[data-demo-target="audit-findings"] article.card'],
+  'audit-dependencies': ['[data-demo-target="audit-dependencies"]'],
 
   // My projects
   'projects-title':   ['[data-demo-target="projects-title"]'],

@@ -303,6 +303,10 @@ _AMBIGUOUS = {
     "specification", "domestic", "household", "similar", "purposes", "use", "portable",
 }
 _ALIAS_INDEX: Optional[List[tuple]] = None
+# Head nouns too general to identify a product without a qualifier.
+_GENERIC_HEADS = {"pipe", "tube", "sheet", "strip", "plate", "bar", "rod", "wire", "cable", "section",
+                  "fitting", "conductor", "coil", "flat", "angle", "channel", "beam", "board", "panel",
+                  "box", "bag", "container", "cylinder", "valve", "block", "tile", "paint", "oil"}
 
 
 # Where a noun phrase's qualifiers start: "power banks for use in ...",
@@ -328,12 +332,20 @@ _HEAD_SYNONYMS = {"bulb": "lamp", "tv": "television", "fridge": "refrigerator", 
                   "mixie": "mixer", "almirah": "cupboard", "earbud": "earphone", "headset": "headphone"}
 
 
+# Sizes, ratings and grades describe the item, they are not the item:
+# "GI pipe 25 mm medium class" is a pipe, "OPC 43 grade cement" is cement.
+_SPEC_WORDS = {"mm", "cm", "m", "kg", "g", "kv", "v", "a", "w", "kw", "kva", "va", "hp", "litre", "liter", "l",
+               "sq", "sqmm", "core", "grade", "class", "type", "size", "dia", "medium", "heavy", "light", "double",
+               "single", "pole", "phase", "nos", "no", "pcs", "bag", "bags", "thick", "wide", "long", "inch"}
+
+
 def _head_and_words(text: str):
     """(head noun, other words) of a noun phrase: the thing named, and what qualifies it."""
     text = " ".join(re.sub(r"\([^)]*\)", " ", text.lower()).split())
     text = _LEAD.sub("", text)
     phrase = _QUALIFIER.split(text, maxsplit=1)[0]
-    words = [_singular(w) for w in re.findall(r"[a-z][a-z0-9]+", phrase) if w not in _STOP]
+    words = [_singular(w) for w in re.findall(r"[a-z][a-z0-9]+", phrase)
+             if w not in _STOP and w not in _SPEC_WORDS and not re.search(r"\d", w)]
     if not words:
         return None, set()
     head = _HEAD_SYNONYMS.get(words[-1], words[-1])
@@ -375,6 +387,11 @@ def products_for_query(query: str, limit: int = 5) -> List[dict]:
     hits = []
     for head, others, entry in _aliases():
         if head != q_head:
+            continue
+        # A listing that shortens to a bare generic word ("...tubes and pipes"
+        # gives "pipes") would match every pipe query; it matches only a query
+        # that is itself just that word.
+        if not others and q_words and head in _GENERIC_HEADS:
             continue
         shared = others & q_words
         # A bare product word ("cement") names every kind BIS lists; a

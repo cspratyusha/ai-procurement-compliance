@@ -1,4 +1,4 @@
-"""Everyday product words, mapped to the words the standards use.
+"""Everyday product words and tender abbreviations, mapped to the words the standards use.
 
 Standards are titled in technical language: a laptop is "information
 technology equipment", a geyser a "storage type electric water heater", a
@@ -47,7 +47,50 @@ EVERYDAY: List[Tuple[str, str]] = [
     (r"\bdustbins?\b|\bgarbage bins?\b|\bwaste bins?\b", "mobile containers for solid waste"),
 ]
 
+# Tender abbreviations. Case-sensitive: short forms are written in capitals,
+# and "MS" or "CI" in lower case is usually part of something else. Each maps
+# to wording a held standard's title uses; ones the catalogue has no standard
+# for (DWC, ERW, MCCB, UPS, CFL, AAC) are left out on purpose. A few need a
+# context word, because the letters mean other things elsewhere ("SRC",
+# "DI"). Lower-case forms are accepted where they cannot be anything else.
+ABBREVIATIONS: List[Tuple[str, str]] = [
+    (r"\bOPC\b", "ordinary portland cement"),
+    (r"\bPPC\b", "portland pozzolana cement"),
+    (r"\bPSC\b(?=.*\bcement\b)", "portland slag cement"),
+    (r"\bSRC\b(?=.*\bcement\b)|\bSRPC\b", "sulphate resisting portland cement"),
+    (r"\b(?:TMT|tmt)\b|\bFe\s?(?:415|500|550|600)D?\b", "high strength deformed steel bars"),
+    # IS 1239 (Part 1) covers black and galvanized mild steel tubes, the usual GI and MS pipes.
+    (r"\bGI\s+(?:pipes?|tubes?)\b", "galvanized steel tubes tubulars and other wrought steel fittings"),
+    (r"\bGI\s+sheets?\b", "galvanized steel sheets"),
+    (r"\bGI\s+wires?\b", "galvanized steel wire"),
+    (r"\bMS\s+(?:pipes?|tubes?)\b", "mild steel tubes tubulars and other wrought steel fittings"),
+    (r"\bMS\b", "mild steel"),
+    (r"\bSS\b", "stainless steel"),
+    (r"\bCI\b", "cast iron"),
+    (r"\bDI\s+(?:pipes?|fittings?)\b", "ductile iron pipes"),
+    (r"\b(?:HDPE|hdpe)\b", "high density polyethylene"),
+    (r"\b(?:LDPE|ldpe)\b", "low density polyethylene"),
+    (r"\b(?:CPVC|cpvc)\b", "chlorinated polyvinyl chloride"),
+    (r"\b(?:UPVC|uPVC|upvc|PVC-U)\b", "unplasticized PVC"),
+    (r"\bSWR\b", "unplasticized PVC pipes for soil and waste"),
+    (r"\b(?:GRP|FRP)\b", "glass fibre reinforced plastics"),
+    (r"\b(?:XLPE|xlpe)\b", "cross-linked polyethylene"),
+    (r"\b(?:ACSR|acsr)\b", "aluminium conductors galvanized steel reinforced"),
+    (r"\b(?:AAAC|aaac)\b", "aluminium alloy stranded conductors"),
+    (r"\bMCBs?\b", "circuit-breakers for overcurrent protection"),
+    (r"\bRCCBs?\b", "residual current operated circuit-breakers"),
+    (r"\bD\.?G\.?\s+sets?\b", "diesel generating sets"),
+    (r"\bRCC\b", "reinforced concrete"),
+    (r"\bPCC\b", "plain and reinforced concrete"),
+    (r"\b(?:LPG|lpg)\b", "liquefied petroleum gases"),
+    (r"\bPPE\b", "personal protective equipment"),
+    (r"\bRO\b", "reverse osmosis"),
+    (r"\bMDF\b", "medium density fibre boards"),
+    (r"\bGGBS\b", "ground granulated blast furnace slag"),
+]
+
 _COMPILED = [(re.compile(p, re.IGNORECASE), phrase) for p, phrase in EVERYDAY]
+_COMPILED_ABBR = [(re.compile(p), phrase) for p, phrase in ABBREVIATIONS]
 
 
 def expand(query: str) -> Tuple[str, List[str]]:
@@ -56,6 +99,13 @@ def expand(query: str) -> Tuple[str, List[str]]:
     lowered = query.lower()
     for pattern, phrase in _COMPILED:
         if pattern.search(lowered) and phrase.lower() not in lowered and phrase not in added:
+            added.append(phrase)
+    for pattern, phrase in _COMPILED_ABBR:
+        if pattern.search(query) and phrase.lower() not in lowered and phrase not in added:
+            # "GI pipe" and "MS pipe" add the specific phrase; the bare "MS"
+            # entry would then only repeat part of it.
+            if any(phrase in a for a in added):
+                continue
             added.append(phrase)
     if not added:
         return query, []

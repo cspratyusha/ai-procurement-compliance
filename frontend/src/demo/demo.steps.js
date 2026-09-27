@@ -246,11 +246,11 @@ export const demoSteps = [
   { action: 'waitFor', target: 'detail-title', timeout: 8000, optional: true },
   ...say(
     'Act 3 · One standard',
-    'Scope text, edition, amendments in force, certification status.',
-    'The scope clause comes from the published document.',
-    'Read from the Public.Resource.Org archive, OCR, so it can contain '
-      + 'errors. No record here is verified against BIS directly, and every '
-      + 'one of them says so.',
+    'Scope text, edition, amendments, certification status.',
+    'Amendments come from BIS’s own record and the slips in the standard’s copy.',
+    'A withdrawn edition names the one that replaced it. The scope text is '
+      + 'read from the published document by OCR, so the page says where each '
+      + 'fact came from.',
     4000,
   ),
 
@@ -282,6 +282,40 @@ export const demoSteps = [
     'Hundreds of products, each linked to the Quality Control Order that '
       + 'imposes it. Orders whose enforcement is deferred are shown as not yet mandatory.',
     4000,
+  ),
+
+  // A buyer types "laptop", the standard says "information technology
+  // equipment", and BIS lists laptops by name. Shown here because the answer
+  // is a certification one.
+  ...intro(
+    { nav: 'nav-query', waitFor: 'query-input' },
+    'Act 5 · Everyday words',
+    'Buyers do not write the way standards do.',
+    'Type “laptop”, and the standard says “information technology equipment”.',
+    'The engine adds the standards’ own words to yours and says so, and '
+      + 'checks BIS’s compulsory lists, which name products in everyday words.',
+    2800,
+  ),
+  ...press('query-input'),
+  { action: 'type', target: 'query-input', text: 'laptop for office use' },
+  { action: 'wait', ms: 600 },
+  ...press('query-submit'),
+  { action: 'waitFor', target: 'query-expansion', orTarget: 'any-error', timeout: 300000 },
+  { action: 'highlight', target: 'query-expansion', optional: true },
+  ...say(
+    'Act 5 · Everyday words',
+    'The standards’ own term, added and shown.',
+    'Also searched for: information technology equipment.',
+    null,
+    2600,
+  ),
+  { action: 'highlight', target: 'query-bis-products', optional: true },
+  ...say(
+    'Act 5 · Everyday words',
+    'And BIS lists laptops under compulsory registration.',
+    'CRS, to IS/IEC 62368-1, with the order that requires it.',
+    'Tender abbreviations work the same way: OPC, TMT, GI pipe, XLPE, MCB.',
+    3800,
   ),
 
   // ═══════════════════════ Act 6, upload a BOQ ═══════════════════════════
@@ -470,11 +504,24 @@ export const demoSteps = [
 
   ...say(
     'Act 8 · Audit',
+    'And what the cited standards themselves depend on.',
+    'Read from each standard’s own references and “shall be tested as per” clauses.',
+    'A tender citing IS 694 but not IS 8130 leaves the cable’s conductor '
+      + 'undefined. Each gap is shown with the sentence it was read from, '
+      + 'grouped under the standard that needs it.',
+    0,
+  ),
+  { action: 'scrollTo', target: 'audit-dependencies', block: 'start', optional: true },
+  { action: 'highlight', target: 'audit-dependencies', optional: true },
+  { action: 'wait', ms: 4200 },
+
+  ...say(
+    'Act 8 · Audit',
     'What it does not do matters just as much.',
-    'It checks the citations a document already makes.',
-    'It cannot judge whether the tender cites the right standards for the '
-      + 'goods it describes. So a document with no findings has not passed, '
-      + 'and one citing nothing produces no findings while being the worst case.',
+    'It checks the citations a document makes, and what those standards require.',
+    'It cannot judge whether the tender cites the right product standard for '
+      + 'its goods in the first place. So a document with no findings has not '
+      + 'passed, and one citing nothing produces no findings while being the worst case.',
     4200,
   ),
 
