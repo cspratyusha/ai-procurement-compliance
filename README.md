@@ -21,8 +21,8 @@ We would rather state our scope plainly than imply coverage we do not have.
 | **Where the text comes from** | **13,749** records carry the **published SCOPE clause** of the actual standard. It is OCR of a scanned document, so it contains recognition errors. **8,003** are kept on their real number and title only, because no usable scope clause could be read. No scope text is ever written to fill the gap |
 | **Currency** | The archive is a snapshot. Standards BIS published after it are not in the corpus |
 | **Verified against the BIS catalogue** | **None.** Every record carries `"verified": false`. The IS numbers and titles are real; nothing has been checked against BIS directly |
-| **Certification data** | **17 standards researched** against the BIS Scheme I list and QCO notifications, with the governing order recorded. Everything else reports `not_verified`, which is explicitly **not** a clearance |
-| **Amendments** | **3 standards researched** from BIS product manuals. The rest report `checked: false`, which is not a statement that they have none |
+| **Certification data** | **BIS's full lists of products under compulsory certification**: 749 standards across Scheme I (ISI mark), Scheme II (CRS) and Scheme X, each with its Quality Control Order, gazette notification and a link to the order (read 27 September 2026). 902 corpus standards fall under an order in force. Orders whose enforcement is deferred (most of the Electrical Equipment QCO, by S.O. 5038(E)) are shown as **not yet mandatory**. A standard not on the lists reports `not_listed`, stated with the date the lists were read |
+| **Amendments** | **3,428 standards, 5,424 amendments** (4,112 dated), read from the amendment slips bound into each standard's own archived copy, plus 3 researched by hand from BIS documents. A copy only holds amendments issued before it was made, so each answer says the year its copy is current to, counts "at least", and cites the standard "including Amendment No. N (date) and any later amendments". A copy with no slips reports `none_in_copy`, never "no amendments" |
 | **Related-standards graph** | **88,623 links from 16,944 standards**, read automatically from each standard's own REFERENCES clause and citations, plus 25 read and typed by hand. Every automatic link carries the passage it was read from. On samples it found every hand-read link the text supports and read about 97% of links correctly. Citations to standards outside the corpus are shown and flagged rather than hidden |
 
 **Certification and amendment data did not scale with the corpus.** That
@@ -455,8 +455,8 @@ git checkout -- standards-retrieval/models/ltr_model.txt
 | Semantic search (dense + BM25 + cross-encoder + learned ranker) | Live, ~375 ms over 21,848 standards |
 | Refuses to answer outside its coverage | Live, thresholds calibrated on the full corpus |
 | Superseded editions flagged, with the current edition named | Live, 2,244 editions |
-| Mandatory BIS certification flags with governing QCO | 17 standards researched |
-| Published amendments with paste-ready citation | 3 standards researched |
+| Mandatory BIS certification flags with governing QCO | BIS's full compulsory lists (ISI, CRS, Scheme X), 749 standards |
+| Published amendments with paste-ready citation | 3,428 standards, read from their own archived copies |
 | Allied-standards cluster, read from each standard's references and citations | 88,623 links, 16,944 standards |
 | Queries in 6 languages, translated locally | Live |
 | Tender document upload (PDF/DOCX/TXT, OCR for scans) | Live |
@@ -468,9 +468,11 @@ git checkout -- standards-retrieval/models/ltr_model.txt
 | Bill-of-quantities split with a search per line item | Live |
 | Related-standards map: what a standard cites and what cites it | Live |
 | Engine status console | Live |
-| Certification rules with their governing QCO and gazette notification | Live, 17 standards researched |
+| Certification rules with their governing QCO, gazette notification and a link to the order | Live, deferred orders flagged, any standard can be checked |
 | Plain-language explanations from a local LLM | Optional, off by default |
 | Scenario simulator: what changes when the requirement changes | Live |
+| Audit of what cited standards depend on but the tender omits | Live, read from each standard's references and obligations |
+| Everyday product words ("laptop", "geyser") mapped to the standards' terms, with BIS product listings | Live |
 | Accounts, roles, API keys, per-user activity trail | Live |
 | Projects saved per user on the server | Live |
 | Guided demo that drives the live app | Live, from the homepage or the account menu |

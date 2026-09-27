@@ -250,7 +250,10 @@ cross-validation score and the held-out score, see Phase D in
 | `seed_standards.json` | Earlier seed dataset, superseded by the canonical corpus |
 | `derived/` | Generated index artifacts |
 | `schema.sql` | Relational schema for the Postgres ingestion path in `app/` |
-| `certification/certification_rules.json` | 17 standards researched against the BIS Scheme I list and Quality Control Orders, each mandatory rule naming its order |
+| `certification/bis_compulsory.json` | BIS's lists of products under compulsory certification (Scheme I ISI, Scheme II CRS, Scheme X): 904 entries, 749 standards, each with its order, gazette notification, link and in-force or deferred status. Rebuilt by `certification/parse_bis_compulsory.py` from the saved BIS pages |
+| `certification/certification_rules.json` | Hand-researched rules: codes of practice checked as needing no certification, and withdrawn editions. BIS's lists win where both exist |
 | `raw/certification_rules.json` | Earlier placeholder rules, kept for provenance only |
+| `amendments/extracted_amendments.json` | Amendment slips read from every standard's archived text by `extract_amendments.py`: 21,820 copies read, 3,428 with amendments (5,424 amendments, 4,112 dated), each with the year its copy is current to. A slip counts only if it names the standard it is bound into |
+| `amendments/amendments.json` | Amendments researched by hand from BIS documents for 3 standards; these win over the text |
 | `archive/` | The archive ingest output, its text cache, and pipeline logs (logs and `backup/` are not committed) |
 | `run_full_ingest.ps1` | Fetch, merge and index the full corpus in one run |

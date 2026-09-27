@@ -5,6 +5,150 @@ at the top.
 
 ---
 
+## Phase X: what cited standards depend on, and everyday words (2026-09-28)
+
+### The audit now checks the set, not just each citation
+
+A tender that cites IS 694 but not the IS 8130 it requires for conductors
+specifies cable whose conductor is undefined. The audit now reads, for every
+cited standard, what it depends on from the allied-standards graph and
+reports what the tender does not cite, grouped under the standard that needs
+it, with the sentence the dependency was read from. Only real dependencies
+count: links recorded by hand, links in a standard's references clause, or a
+body sentence with obligation wording ("shall be tested as per IS 10810 (Part
+58)"); passing mentions ("steels for welded tubes (IS 10748)") and
+vocabularies are left out. Parts of one series needed together are one line
+("IS 10810, Parts 0, 4, 6, 44, 53, 58, 59, 64"), and a citation of the whole
+series covers its parts. For a tender citing only IS 694 the list is IS 8130,
+IS 5831, IS 10418, IS 4905 and the IS 10810 parts, each with its evidence.
+
+### Everyday words
+
+"Laptop" found drawing-office straightedges; the standard says "information
+technology equipment". Two fixes:
+
+- `expansion.py`: 21 everyday terms mapped to the phrase the standards use
+  (geyser to storage type electric water heaters, solar panel to crystalline
+  silicon photovoltaic modules, plastic water tank to rotational moulded
+  polyethylene water storage tanks), each only where the catalogue holds that
+  standard, never for a word with a second meaning ("AC", "tablet"). The
+  screen shows what was added, like a translation. When an added term is in
+  the top result's own title but the cross-encoder still scores low, the
+  verdict is raised to 'uncertain' (never 'strong') and says why.
+- BIS's compulsory lists name products in everyday words ("Laptop/Notebook/
+  Tablets", "Power Banks", "CCTV Cameras"). A query naming one gets a note
+  with the scheme, standard and order, even when the catalogue holds no text
+  for it. Matching is on the head noun (a "PVC insulated copper cable" is a
+  cable, not refined copper) and a shared qualifier.
+
+Before and after on everyday queries: geyser, kettle, solar panel, inverter
+battery, plastic water tank and phone charger went from wrong or no match to
+the right standard; laptop from no match to the right standard as
+'uncertain' with its CRS listing; CCTV camera and power bank stay "no close
+match" (the catalogue does not hold them) but now show their CRS listing.
+Held-out accuracy is unchanged: Recall@5 0.9873, P@1 0.9237 over 236 queries.
+
+---
+
+## Phase W: amendments read from the standards themselves (2026-09-27)
+
+**Goal:** amendments covered 3 standards researched by hand.
+
+### Source
+
+The archive copies of the standards (the cached texts behind the corpus)
+often have their amendment slips bound in, each opening "AMENDMENT NO. 1
+AUGUST 1991 TO IS 10 ( Part 4 ) : 1989 ..." followed by the alterations.
+3,961 of 21,821 texts mention an amendment. `data/extract_amendments.py`
+reads them into `data/amendments/extracted_amendments.json`:
+**3,428 standards, 5,424 amendments, 4,112 dated**, with an excerpt of the
+alterations where the slip has one.
+
+### Rules
+
+- A slip counts only if its header names the standard it is bound into. OCR
+  damage is tolerated only where the damaged number still fits ("18 1264"
+  for IS 1264, "IS 1203'" for IS 12039, one wrong digit only when the edition
+  year confirms it); a clean different number is another standard's slip.
+- Slip headers are capitals; a lower-case "(Amendment No. 1)" in running text
+  is a mention, not a slip.
+- Amendments are numbered in sequence, so the highest found is the count in
+  that copy; unread numbers below it are listed as known, never dated.
+- "Incorporating Amendments No. 1 to 9" is read too, with OCR artefacts
+  handled ("1 8t 2" is "1 & 2"; "No. 1982" is not amendment 19) and the most
+  frequent reading winning when a reprint repeats the line.
+- A copy only holds amendments issued before it was made. Each answer says
+  the year its copy is current to, counts "at least", and cites the standard
+  "including Amendment No. N (date) and any later amendments". A copy with no
+  slips is `none_in_copy`, never "no amendments".
+
+### Measured
+
+Recall on 489 texts with an amendment header: 461 read (94%); the misses are
+headers OCR damaged beyond reading, plus mentions that are correctly not
+slips. Precision on 70 randomly sampled accepted slips across three checks:
+every one was the standard's own amendment. The three researched standards
+keep their researched answers (IS 456's archived copy is current to 2007 and
+holds 2 of its 6).
+
+Hygiene alerts raise an amendment finding for each current edition with
+amendments (superseded editions already have their own finding), worded by
+source; the tender audit flags citations that omit them.
+
+---
+
+## Phase V: certification from BIS's full compulsory lists (2026-09-27)
+
+**Goal:** close the certification gap. It covered 17 hand-researched standards;
+everything else said "not verified".
+
+### Source
+
+BIS publishes its lists of products under compulsory certification as HTML
+tables, one per scheme: Scheme I (ISI mark), Scheme II (Compulsory
+Registration Scheme) and Scheme X (Electrical Equipment QCO). Each row gives
+the IS number, the product and the notification (the Quality Control Order,
+its S.O. number and a link to the order). `data/certification/parse_bis_compulsory.py`
+reads the saved pages into `bis_compulsory.json`: **904 entries, 749
+standards**, every one naming and linking its order.
+
+The pages needed care: notification cells span many rows, category headings
+span the table, BIS spells numbers loosely ("IS/IEC 60947 : Part 4 : Sec 1 :
+2018", "IS 302-2:26", "IS 17077 :2019/ISO 19062-1 : 2015") and they are
+rewritten in corpus spelling; three CRS rows have a blank notification and
+are attributed to the table's order, flagged; five rows give only an S.O.
+number and are cited by it.
+
+### Deferred is not mandatory
+
+The Scheme X table still names its categories, but S.O. 5038(E) of 6 November
+2025 defers "the date of enforcement for all product categories ... except
+those mentioned at Sr. No. 1.1(a) ... until further orders". The per-row text
+on the BIS page does not say this reliably, so the order decides: only 1.1(a)
+(AC circuit breakers up to 630 A) is in force; 24 entries are `deferred` and
+are not reported as mandatory.
+
+### Statuses
+
+| Status | Meaning |
+|---|---|
+| `in_force` | On a list under an order in force: mandatory |
+| `deferred` | Named in an order whose enforcement is deferred |
+| `related_listed` | Not listed itself; its parent or general part is (IS 302 Part 1 for the appliance sections), or its successor is (CRS moved IS 13252 Part 1 products to IS/IEC 62368-1) |
+| `checked_none` | Hand-checked codes of practice |
+| `not_listed` | Not on the lists as read on the stated date |
+| `not_verified` | Only if the lists cannot be read |
+
+Matching is by family (number and part), since an order requires the edition
+in force; when the edition looked up differs from the one BIS prints, the
+answer says so. Across the 21,848-standard corpus: 902 in force, 6 deferred,
+68 related, the rest not listed. The certification screen lists all 749 with
+scheme filters, links every order, words the tender clause for the scheme
+(licence, registration number or certificate), and checks any other standard
+by number.
+
+---
+
 ## Phase U: real accounts, no sample data left (2026-09-27)
 
 **Goal:** make the application ready for real users. An audit found five
