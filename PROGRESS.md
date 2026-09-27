@@ -5,7 +5,305 @@ at the top.
 
 ---
 
-## Verification — semantic search and the explanation layer (2026-09-21)
+## Phase U: real accounts, no sample data left (2026-09-27)
+
+**Goal:** make the application ready for real users. An audit found five
+places still running on sample data, and a few screens slow enough at full
+corpus size to feel broken.
+
+### What the audit found
+
+| Where | What it was | What it is now |
+|---|---|---|
+| Sign-in | Accepted any email and password after a timer, prefilled with a demo address, then offered a role picker and a list of four ministries | Real accounts: first-run setup creates the administrator, then email and password sign-in with sessions |
+| Top bar | A hardcoded user "Arun" with a fixed email and organisation | The signed-in user |
+| Settings | Profile, members, API keys and audit log all fixtures; nothing saved | Profile, password, organisation, members, API keys and activity trail, all read from and saved to the engine |
+| Simulator | Canned "deltas" for one cable query | `POST /simulate`: two real searches and their difference |
+| My projects / spec basket | Browser storage only, one basket | Projects saved per user on the server, any number of them |
+| Standards engine badge | "Needs attention" counted every replaced edition in the corpus (about 2,240) | Counts only replaced editions in your own spec basket |
+
+| Spec builder exports | DOCX, PDF and "push to portal" showed "export prepared" and did nothing; "Send for review" claimed a reviewer queue that did not exist | A real Word (.doc) file, print or save as PDF, clipboard copy and a JSON record, each logged to the activity trail; the review button removed |
+| Registration | None: invite-only after first-run setup | "Create an account" on the sign-in page registers a new organisation with the registrant as admin; never joins an existing one. `REGISTRATION=closed` turns it off |
+
+`data/mock.js`, `data/catalogue.js`, the unused `ParsedChips` component and
+the "Illustrative screen" notice were deleted. The two lists of interface
+vocabulary that were still needed (graph colours, dismiss reasons) moved to
+`data/ui.js`.
+
+### Accounts (`accounts.py`, `accounts_api.py`)
+
+- One SQLite file (`ACCOUNTS_DB`, git-ignored). No default account: a fresh
+  install reports `setup_required` and the first visitor creates the
+  organisation and its administrator.
+- Passwords hashed with scrypt; session tokens and API keys stored as SHA-256
+  hashes only. Five failed sign-ins lock an email for 15 minutes. The same
+  error for an unknown email and a wrong password.
+- A pure ASGI middleware resolves `Authorization: Bearer` (session or `sk_`
+  key) or `X-API-Key` on every request and refuses anonymous calls outside
+  `/health`, the docs and the sign-in routes. `AUTH_REQUIRED=0` switches this
+  off for the engine unit tests only.
+- Roles: administrator, procurement officer, integrator, private
+  organisation user. Admin-only: members, organisation profile, the
+  organisation activity trail, corpus health, engine status, the raw `/logs`.
+  An admin cannot demote or disable themselves, so an organisation cannot be
+  locked out.
+- Members are added with a one-time temporary password that must be changed
+  at first sign-in. Changing a password ends every other session; disabling a
+  member ends theirs.
+- API keys are shown once, count their calls, and cannot create other keys.
+- The activity trail records searches, scenarios, audits, BOQs, decisions on
+  results, project changes, sign-ins and settings changes, attributed through
+  a context variable so the retrieval code did not grow a user parameter.
+  `/retrieve` was split from the pipeline (`_retrieve`) so a BOQ of forty
+  items records one entry, not forty.
+
+### Frontend
+
+- `state/Auth.jsx`: the session, a `RequireAuth` gate on every `/app` route
+  (returning to the page asked for after sign-in), an admin gate on corpus
+  health and engine status, and sign-out on any 401.
+- `SpecStore` now loads the active project from the server and saves edits
+  half a second after the last one, with a visible saved/saving/not-saved
+  state and a keepalive save when the tab closes. A basket left in browser
+  storage by the previous version is carried into the user's first project.
+- Settings moved into the sidebar and the account menu for every role.
+- The guided demo no longer types a password. Signed out, it waits on the
+  sign-in page for the viewer to use their own account; the admin-only act
+  is skipped for other roles. Found on the way: the demo's overlay layer was
+  catching every real click (its `data-demo-ignore` marker re-enabled pointer
+  events on the whole veil), so nobody could have signed in under it. The
+  layer is now click-through.
+
+### Performance fixes from the same audit
+
+- The catalogue downloaded the whole corpus (10.4 MB, 7.9 s) to filter it in
+  the browser. `GET /standards/search` pages on the server: 33 KB, 66 ms. An
+  IS number typed exactly now ranks above longer numbers it prefixes.
+- The top-bar badge downloaded every hygiene finding (1.2 MB) on each page
+  change; it now asks `POST /alerts/check` about the basket only. Screens that
+  show counts use `/alerts?summary=true`.
+
+### Tests
+
+- `tests/test_accounts.py` (13): no default account, the auth gate, setup
+  once, weak passwords refused, hashes not plaintext, throttling, sign-out,
+  temporary passwords, role limits, self-lockout, disabling, API key life
+  cycle, activity, project privacy.
+- `tests/test_simulate.py` (3): the diff agrees with both result lists, every
+  standard is in the corpus, input validation.
+- `e2e/accounts.spec.js` (8 per device): the gate, a wrong password, sign-in
+  returning to the page asked for, sign-out, the real user in the top bar,
+  members and activity, the API key life cycle, a project surviving a reload,
+  a simulator comparison. `e2e/global-setup.js` signs in once for the suite.
+
+---
+
+## Phase T: explanations that never block, and the cluster read from the text (2026-09-27)
+
+**Goal:** make the local-LLM explanations usable, then close the problem
+statement's hardest requirement, the full cluster of allied standards.
+
+### Explanations
+
+Generating them inside `/retrieve` held every search until the model
+finished, and the "Explain matches" chip appeared whether or not a model
+existed. Availability was also cached for the life of the process, so an API
+started before Ollama never offered explanations. Now results return at
+retrieval speed and a separate `POST /explain` fills a "Why it matches" note
+into each card (measured: results 0.4 s, notes about 4 s later on an RTX 4060
+laptop GPU); `/health` reports `explanations_available`; availability is
+rechecked on a timer; and the model is loaded at startup and kept resident,
+because the first load took 85 s. A 7B model sometimes answered "fits the
+requirement" and nothing else, so the prompt now asks what the standard
+covers and how it relates, and reasons under six words are dropped.
+
+### The cluster: 25 links to 88,623
+
+The graph held 25 hand-read links across 16 standards. Every standard's text
+carries its own list of the standards it depends on, so
+`data/extract_references.py` now reads them: 88,623 links from 16,944
+standards, each with the passage it came from.
+
+The References table was the surprise. Inside it the numbers usually appear
+without the "IS" prefix ("8130 : 1984 Conductors for ..."), so a pattern for
+"IS 8130" alone missed almost all of them. Sampling found the false positives
+worth fixing: a year after a colon read as a standard number, "ISO 9001" read
+as IS 9001, the "© BIS 2009" imprint read as "IS 2009", "IS 106O" (OCR "O" for
+zero), and history rather than dependency ("previously covered in"). A part
+the corpus lacks was first linked to the whole standard, which is a different
+document; it is now flagged outside the corpus instead. Two bugs hid real
+links: a sentence-ending full stop blocked "Grade A of IS 2062.", and "part
+replacement of cement" tripped the history filter.
+
+Measured: it finds all 16 hand-read links the text supports (the other 4
+were added from domain knowledge and are not in the text), and 29 of a fresh
+random sample of 30 links read correctly. The hand-read links win wherever
+both describe a pair. "Cited by" is capped at 60 with the true total, because
+IS 4905 (random sampling) is cited by 1,224 standards. The API now
+distinguishes a text that was read and cites nothing from one never read.
+
+### Confidence, recalibrated; the ranker, rejected
+
+The failing off-corpus test asserted that "laptop computer" must be declined.
+At full size that premise is false: BIS covers IT equipment (IS 13252, in the
+corpus), and "safety of information technology equipment laptop" finds it
+with strong confidence; the bare word misses only because no title uses it.
+Tuning the gate to decline laptops would have taught it to refuse a regulated
+product, the "banana crates" trap from Phase R again.
+
+So the thresholds were calibrated on the corpus served
+(`eval/calibrate_confidence.py`): 589 in-scope queries score ≥ +1.25, 35
+genuinely out-of-scope requests ≤ −2.68, and realistic vague phrasings of
+covered products between −1.8 and 0. The 30-standard cut at −6.0 let 29% of
+out-of-scope requests through as `uncertain`; −2.25 declines all of them and
+keeps the vague in-scope ones `uncertain`. The "no match" message no longer
+claims the product is outside the covered sectors. The test now uses genuine
+out-of-scope requests, checks that unmatched wording never yields a confident
+recommendation, and checks that vague covered wording is not declined.
+
+The learned ranker, retrained on the full corpus, scored NDCG@5 0.919 on the
+held-out set against the cross-encoder's 0.961, and the promotion gate
+rejected it. That is the gate doing its job; the ranker needs real feedback
+data, not 353 synthetic queries.
+
+### "Fix before issue"
+
+The standards-hygiene badge meant "fix before issuing the tender", read as a
+typo, and fitted findings about the catalogue badly: there is nothing to fix
+in a catalogue, only an edition not to cite. It is now "Replaced". The red
+sidebar badge counted all ~2,240 replaced editions in the corpus, which read
+as the officer's own problems; it now counts replaced editions in their spec
+basket. The screen also rendered every finding at once, which took seconds and
+timed out the end-to-end test at card 1,063; findings are now paged in fifties.
+
+### Still open
+
+- Certification (17 standards) and amendments (3) remain the gap.
+- The audit does not yet use the graph to flag missing allied standards.
+- "Laptop" and similar everyday words miss standards titled in technical
+  terms; query expansion would close that.
+
+---
+
+## Phase S: the full archive, a Material You interface, one branch (2026-09-26 to 27)
+
+**Goal:** get the project running again after it moved machines, serve every
+standard the archive holds, and bring the interface up to a modern standard.
+
+### The project moved; the machine had nothing
+
+The repository came across intact, but the new machine had no Python 3.11,
+Node.js, Git or Tesseract, and the `.venv` pointed at an interpreter on the
+old path. The packages inside it were fine, so the venv was re-pointed at a
+fresh Python 3.11.9 rather than reinstalled (1.3 GB saved). Hugging Face
+models re-downloaded on first run. Ollama was reinstalled for the optional
+explanation layer.
+
+### The corpus was capped by a parser, not by the archive
+
+The served corpus was 6,360 standards. The archive holds 22,024 items. Four
+things stood between them, and only one was a network problem:
+
+| Cause | Standards lost | Fix |
+|---|---|---|
+| The last ingest was never merged or re-indexed | ~6,000 | Re-run merge and index |
+| No sector rule matched the subject ("ascenders for mountaineering", "insulating varnishes") | ~7,000 | Keep as `general`; the sector is a browsing aid, search runs on the text |
+| The identifier parser read only `base[.part].year` | 1,826 | Parse multi-level parts, IS/ISO, IS/IEC, IS/ISO/IEC, IS/QC, ISO/IEC Guides, SP publications, supplements, tentative standards |
+| Glossaries excluded by title; OCR-damaged scopes dropped | 449 + 322 | Keep glossaries; keep damaged records on number and title |
+
+Result: **21,848 records, 19,597 distinct standards.** 21,937 of the 22,024
+items parse; the rest are archive records whose designation cannot be read
+reliably, and 117 had no text file at all. IS/ISO/IEC 27001 and the National
+Building Code (SP 7), both unreachable before, now answer with strong
+confidence.
+
+### Every edition was "Current"
+
+The archive publishes every edition it has, so IS 269 arrived as :1989, :2013
+and :2015, all shown as current. The merge now marks an archive edition
+superseded when the corpus holds a newer edition of the same standard, and
+never touches curated records. 2,244 editions are marked. The standards
+hygiene screen therefore lists about 2,240 findings, each naming the current
+edition.
+
+### The accuracy test measured a stale answer key
+
+After the rebuild, Recall@5 on the 60-query sample fell to 0.85. All nine
+misses were the same thing: the answer key named an old edition (IS 455:1989)
+and the engine ranked the current one (IS 455:2015) first. That is the right
+behaviour. Ids are positional and every rebuild shifts them, so the merge now
+re-points the query sets at the new ids and, where a labelled edition is
+superseded, at its current edition. On all 236 queries at 21,848 standards:
+**Recall@5 0.9873, P@1 0.9237** (6,360 standards: 0.9958 / 0.8771).
+
+### The pipeline died twice at the same line
+
+`run_full_ingest.ps1` aborted both times as the index stage loaded the
+embedding model. Windows PowerShell 5.1 turns each stderr line of a native
+program into an error record, and under `$ErrorActionPreference = 'Stop'` the
+model's progress bar ended the script. Success is now judged by exit code
+alone, and the script can resume from a failed stage (`-From index`). A
+watcher verified the index covered exactly the corpus before restarting the
+API, so the site never served a mismatched index while this was found.
+
+### Interface
+
+- **Material You, light only.** Tokens moved to MD3 roles from a violet seed;
+  the old names alias onto them, so no page needed renaming. Pills, tonal
+  cards, filled text fields, state layers. Dark mode and its toggle removed.
+- **Search as an AI prompt.** A centred composer with suggestions, then a
+  thread with the composer docked at the foot. Enter sends, Shift+Enter
+  breaks the line, and IME composition never submits (Hindi and Tamil input
+  commit characters with Enter). The send button stops an in-flight search.
+- **Shell.** A slimmer sidebar that folds to a navigation rail; a top bar with
+  only the alerts bell and an account menu. The logo, recoloured to the theme
+  with a transparent background, links home.
+- **Honesty labels that had gone stale:** the homepage hard-coded 6,360 and
+  now reads the size from `/health`; the footer claimed "demonstration data";
+  four screens still called the corpus a pilot covering a few sectors.
+- **A bug the redesign exposed:** `.page { padding: … 0 … }` zeroed the
+  container's side gutters on every workbench screen; the narrower old
+  sidebar had hidden it.
+- **Sector labels** were copied into five screens and all missed nine sectors;
+  there is now one map in `src/data/sectors.js`.
+- No em dashes anywhere in authored text; the standards data keeps its
+  published titles verbatim.
+
+### Branches
+
+All work was on `staging`, which is why none of it counted on the author's
+GitHub contribution graph: GitHub counts commits on the default branch of a
+non-fork repository. `main` was fast-forwarded to `staging` on both remotes.
+Every other branch has zero commits not in `main`.
+
+### Tested
+
+- Backend: **174 passed, 1 failed** of 175. The failure is the open issue
+  below.
+- Full-corpus accuracy: Recall@5 0.9873, P@1 0.9237 over 236 queries.
+- End-to-end (desktop): **32 passed, 1 failed** of 33. The failure is the full
+  40-step guided demo exceeding the test's time limit; it fails the same way
+  on the pre-redesign code.
+- Knowledge-reasoning service: 113 passed; 7 need `psycopg` and `neo4j`, which
+  are not installed in this environment.
+
+### Still open
+
+- **Confidence thresholds need recalibrating at full size.** They were set on
+  the 30-standard corpus; "laptop computer for office use" now returns
+  `uncertain` rather than `none`.
+- **The learned ranker is not trained for the full corpus** (`ltr_model_loaded:
+  false`); retraining is the likely way to lift P@1 further.
+- The redesign has not been re-audited with axe.
+- The demo script is rehearsed on the 45-standard corpus, not the full one.
+- Remote `staging`, `knowledgegraph` and the archive branch still exist; each
+  is fully contained in `main` and can be deleted.
+- Certification (17), amendments (3) and relationships (25) still cover only
+  the original pilot records.
+
+---
+
+## Verification: semantic search and the explanation layer (2026-09-21)
 
 Not a build phase: a check of whether the two AI components actually do what
 the README says, prompted by the question "is semantic search working?".
@@ -63,7 +361,7 @@ ordering is wrong, and retraining against the served corpus is the fix.
 
 ---
 
-## Phase R — Certification made live, and the corpus filters relaxed (2026-09-21)
+## Phase R: Certification made live, and the corpus filters relaxed (2026-09-21)
 
 **Goal:** the certification screen, and the user's target of a 15,000-standard
 corpus.
@@ -100,7 +398,7 @@ thousands of standards at once. Three states stay distinct throughout:
 |---|---|
 | `ISI` / `CRS` / `Hallmark` | confirmed against a named QCO, which is quoted |
 | `none` | checked, and no scheme applies |
-| `not_verified` | never checked — **not** a clearance |
+| `not_verified` | never checked, **not** a clearance |
 
 A test asserts every mandatory rule names its QCO: a legal obligation with
 nothing to trace it to is indefensible in a dispute.
@@ -160,11 +458,11 @@ serves with the LTR ranker disabled because its labels reference other ids.
 
 ### Tested
 
-- **`pytest` — 175 passed** (was 160), 15 new in
+- **`pytest`, 175 passed** (was 160), 15 new in
   `tests/test_certification_rules.py`. The load-bearing ones: only researched
   standards are listed, every mandatory rule names its QCO, and `none` never
   collapses into `not_verified`.
-- **Playwright — 44 passed** (was 40), 22 x desktop and mobile. Two new: every
+- **Playwright, 44 passed** (was 40), 22 x desktop and mobile. Two new: every
   mandatory claim cites its statutory order and carries it into the generated
   clause, and the screen states what it did not research.
 - `/app/certification` moved from the fixture-label assertion to the live one.
@@ -179,10 +477,9 @@ serves with the LTR ranker disabled because its labels reference other ids.
 
 ---
 
-## Phase Q — Seven more screens wired, and a real tender auditor (2026-09-21)
+## Phase Q: Seven more screens wired, and a real tender auditor (2026-09-21)
 
-**Goal:** the remaining fixture screens the user could reach from the nav —
-admin, my projects, audit, upload tender/BOQ, spec builder, tender builder and
+**Goal:** the remaining fixture screens the user could reach from the nav, admin, my projects, audit, upload tender/BOQ, spec builder, tender builder and
 the standards map.
 
 ### Three of the notices were already false
@@ -196,7 +493,7 @@ The most useful finding came before any code. Three screens carried a
 | Related standards map | "normative references not yet in the dataset" | 25 relationships served since Phase G |
 | Spec builder | "clause generation is not built yet" | `buildClause()` is real and already shipped |
 
-An honesty label that has gone stale is its own kind of dishonesty — it
+An honesty label that has gone stale is its own kind of dishonesty, it
 understates the system and, worse, trains the reader to ignore the labels that
 are still true. Worth re-reading them whenever a capability lands.
 
@@ -207,8 +504,7 @@ The tender builder needed nothing: it was already live and had no notice.
 `/extract` reduces a whole document to one query. That is right for a tender
 describing one product and wrong for a bill of quantities: searching
 "cable ... cement ... steel" as a single string lets the first item's
-vocabulary dominate, and the cement loses. Verified before building anything —
-the flattened query returned five cable standards and no cement at all.
+vocabulary dominate, and the cement loses. Verified before building anything, the flattened query returned five cable standards and no cement at all.
 
 So `POST /boq` splits the document and runs a full, independent retrieval per
 item. Splitting is structural (how the document numbers its items), never
@@ -221,7 +517,7 @@ standards, item 3 structural steel. Rendering the flattened version as
 inaccuracy.
 
 A smaller bug in the same code: "in 50 kg bags. Quantity 820 bags" first
-yielded "50 kg" — the packaging, not the order. Labelled quantities now win,
+yielded "50 kg", the packaging, not the order. Labelled quantities now win,
 and otherwise the last match does, since in a BOQ line the trailing figure is
 the ordered amount.
 
@@ -232,7 +528,7 @@ superseded (naming the replacement), amendments in force the citation omits,
 no edition year, or outside the corpus entirely.
 
 What it does **not** do is judge whether the tender cites the right standards
-for its goods — that needs someone to read the specification. Two consequences
+for its goods, that needs someone to read the specification. Two consequences
 are load-bearing and both are tested:
 
 - **No findings is not a pass.** A document citing nothing produces no
@@ -242,13 +538,13 @@ are load-bearing and both are tested:
   outside the corpus is reported as `info`, never as an error against the
   document.
 
-The citation regex is deliberately tolerant — `IS 694:2010`, `IS:8130-2013`,
+The citation regex is deliberately tolerant, `IS 694:2010`, `IS:8130-2013`,
 `IS 1554 (Part 1):1988`, bare `IS 456`. A missed citation goes unchecked;
 a false positive just resolves to "not in the corpus" and says so.
 
 ### Admin and projects: two different kinds of "cannot"
 
-The admin screen showed a catalogue-sync console — "22,418 standards indexed",
+The admin screen showed a catalogue-sync console, "22,418 standards indexed",
 four data-source feeds, "the QCO / Gazette feed is 3 days stale". None of it
 existed. A stale-feed warning about a feed that was never built is a
 particularly bad fiction, because it implies the other three are fresh. It is
@@ -257,15 +553,15 @@ real coverage ratios, and a "Not built" card naming the four things the old
 version faked.
 
 My projects listed five tenders with owners and statuses. There is no project
-storage and no accounts — but the spec basket is real and persists. The screen
+storage and no accounts, but the spec basket is real and persists. The screen
 is now "My work", showing that basket, and states plainly that it lives in one
 browser and is shared with nobody.
 
 ### The spec builder's certification lookup was a two-entry table
 
 It used a hardcoded `CERTIFICATION` fixture, which could only express
-"mandatory or absent". The engine distinguishes a third state — `not_verified`
-— and treating an unresearched standard as having no obligation is exactly how
+"mandatory or absent". The engine distinguishes a third state, `not_verified`
+and treating an unresearched standard as having no obligation is exactly how
 an uncertifiable product reaches a live tender. It now fetches per item and
 surfaces the unverified ones explicitly.
 
@@ -274,7 +570,7 @@ resolution; an in-flight ref fixed that.
 
 ### Mistakes
 
-**I deleted fixtures that were still in use** — again, and in the same way as
+**I deleted fixtures that were still in use**, again, and in the same way as
 Phase P. `BOQ_ITEMS` and friends were dead, but my check covered only the
 symbols the rewritten pages imported. The build broke on `Projects.jsx`. The
 lesson that did not stick the first time: check every symbol being deleted,
@@ -282,7 +578,7 @@ not the ones you expect to be affected.
 
 **I nearly "fixed" a working chart.** Bars looked missing in a `fullPage`
 screenshot; the DOM showed 11 paths at correct geometry with solid fills. Full
-page capture drops SVG content — an element-scoped screenshot was fine. Same
+page capture drops SVG content, an element-scoped screenshot was fine. Same
 trap as Phase P, and worth remembering that a screenshot is evidence about the
 screenshot, not always about the page.
 
@@ -293,10 +589,10 @@ fixture corpus actually holds, and a second test covers the other branch.
 
 ### Tested
 
-- **`pytest` — 160 passed** (was 136), 24 new in `tests/test_audit.py`
+- **`pytest`, 160 passed** (was 136), 24 new in `tests/test_audit.py`
   covering citation detection across spellings, each finding kind, BOQ
   splitting, and the "no findings is not a pass" contract.
-- **Playwright — 40 passed** (was 32), 20 x desktop and mobile. Four new, all
+- **Playwright, 40 passed** (was 32), 20 x desktop and mobile. Four new, all
   round trips through a real uploaded document: an uncited tender must not
   read as clean, a superseded citation must name its replacement, a BOQ's
   second item must match its own domain, and a non-BOQ must not render as an
@@ -312,12 +608,12 @@ fixture corpus actually holds, and a second test covers the other branch.
 - The auditor checks citations, not suitability. Judging whether a tender
   cites the *right* standards for its goods is the harder half and is not
   attempted.
-- The spec basket is per-browser. Shared projects need accounts — the same
+- The spec basket is per-browser. Shared projects need accounts, the same
   blocker as the retired department figures.
 
 ---
 
-## Phase P — Alerts and compliance made real (2026-09-21)
+## Phase P: Alerts and compliance made real (2026-09-21)
 
 **Goal:** the two remaining screens whose fixtures were most likely to be
 believed. The alerts page invented five notifications with times like "2 hours
@@ -328,14 +624,14 @@ with rates to one decimal place.
 
 Alerts turned out to be mostly buildable. The corpus already marks status per
 record and the amendment research already exists, so "this edition is
-superseded, cite that one instead" is a fact the data supports — 8 findings on
+superseded, cite that one instead" is a fact the data supports, 8 findings on
 the 45-standard corpus, 3 of them naming a replacement the corpus actually
 holds.
 
 Compliance was not. Its figures needed tender auditing and user accounts, the
 same two things missing when the dashboard's gap tiles were dropped in Phase
 N. Rather than relabel it, the screen was rebuilt around the question this
-project *can* answer — not "how compliant are our tenders" but "how much of
+project *can* answer, not "how compliant are our tenders" but "how much of
 this corpus do we actually know anything about", which is arguably the more
 useful question for a standards body.
 
@@ -361,7 +657,7 @@ this screen and search cannot disagree about what supersedes what.
 
 The old screen's relative times were its most convincing detail and its least
 true. The corpus does not record when a revision was published, so a finding
-cannot honestly carry a time — and a test now asserts no finding has a `time`,
+cannot honestly carry a time, and a test now asserts no finding has a `time`,
 `timestamp`, `when`, `age` or `unread` field, because that was the exact
 fiction worth locking out.
 
@@ -377,7 +673,7 @@ an e2e test asserts the "never checked" figure is on screen.
 
 The sidebar showed a hardcoded "3 unread" from the same fixture. A badge that
 disagrees with the screen it links to is worse than no badge, so it now fetches
-the real critical count — and shows nothing at all when the engine is
+the real critical count, and shows nothing at all when the engine is
 unreachable, rather than guessing in either direction.
 
 ### Two mistakes worth recording
@@ -386,12 +682,12 @@ unreachable, rather than guessing in either direction.
 checked which exports were dead, removed seven of them, and broke the build:
 `Projects.jsx` still used `RECENT_QUERIES` and `AUDITED_TENDERS`. My check had
 only covered the symbols the two rewritten pages imported, not every symbol I
-was deleting. Restored both with a note explaining why they stay — they are
+was deleting. Restored both with a note explaining why they stay, they are
 fixtures for a screen that is still honestly labelled as one.
 
 **An absence test tripped over the page explaining the absence.** The new
 compliance test asserted "Compliance rate" appears nowhere on the screen. It
-failed — on the footer sentence *"Tender compliance rates ... are not shown
+failed, on the footer sentence *"Tender compliance rates ... are not shown
 because the tender auditor and user accounts that would produce them are not
 built"*. The page was right and the test was wrong. It now asserts the
 invented figures are gone (`Electrical Wing`, `95.8`) rather than the words
@@ -399,16 +695,16 @@ used to explain their absence.
 
 Also worth noting: the bar charts looked empty in a `fullPage` screenshot and
 I nearly "fixed" a working chart. The DOM showed 11 bar paths at correct
-geometry with solid fills — the stitching in a full-page capture drops SVG
+geometry with solid fills, the stitching in a full-page capture drops SVG
 chart content. An element-scoped screenshot showed them rendering fine.
 
 ### Tested
 
-- **`pytest` — 136 passed** (was 118), 18 new in `tests/test_alerts.py`. The
+- **`pytest`, 136 passed** (was 118), 18 new in `tests/test_alerts.py`. The
   load-bearing ones are about restraint: a replacement is only named where the
   corpus holds it, no finding carries a timestamp, critical always names a
   fix, and the sector counts partition the corpus.
-- **Playwright — 32 passed** (was 26), 16 x desktop and mobile. Three new:
+- **Playwright, 32 passed** (was 26), 16 x desktop and mobile. Three new:
   every finding names a real IS number and every critical one names its
   replacement, the hygiene screen states what it did not check, and corpus
   health shows counts against their totals.
@@ -426,7 +722,7 @@ chart content. An element-scoped screenshot showed them rendering fine.
 
 ---
 
-## Phase O — 6,360 standards served, and a test suite that could not see them (2026-09-21)
+## Phase O: 6,360 standards served, and a test suite that could not see them (2026-09-21)
 
 **Goal:** scale the corpus to something a procurement officer could plausibly
 use, keep queries fast enough to feel instant, and make the automated tests
@@ -472,15 +768,15 @@ still scales with corpus size; only the expensive final stage is bounded.
 
 ### The suite passed while testing the wrong thing
 
-Running the suite with `STANDARDS_CORPUS=full` — the same variable used to
-serve the app — produced **16 failures**. None was a product bug. Two
+Running the suite with `STANDARDS_CORPUS=full`, the same variable used to
+serve the app, produced **16 failures**. None was a product bug. Two
 different problems were hiding behind them.
 
 **Nothing pinned the corpus.** The tests read whatever `STANDARDS_CORPUS`
 happened to be set to, so the same command passed or failed depending on the
 shell it ran in. A suite whose meaning changes with an ambient variable is
 not a regression net. `tests/conftest.py` now unsets it at conftest import
-time — deliberately not in a fixture, because `test_api.py` does
+time, deliberately not in a fixture, because `test_api.py` does
 `from main import app` at module level and `main` resolves its corpus on
 import, so a fixture runs too late.
 
@@ -499,7 +795,7 @@ Recall@5 of 0.9958 appeared in the README and in `MODEL_AND_EVALUATION.md` as
 a one-off measurement. Nothing would have caught it regressing.
 
 `tests/test_full_corpus_accuracy.py` now runs the 236 held-out queries against
-the served corpus and asserts floors below the measured values — floors to
+the served corpus and asserts floors below the measured values, floors to
 catch a regression, not to freeze a number that moves slightly on every
 corpus rebuild. It skips cleanly when the scraped corpus is absent, so a
 fresh clone is still green.
@@ -523,7 +819,7 @@ quietly.
 
 ### Tested
 
-- **`pytest tests/` — 118 passed**, both with and without `STANDARDS_CORPUS`
+- **`pytest tests/`, 118 passed**, both with and without `STANDARDS_CORPUS`
   set in the environment. Previously 97 passed by default and 16 failed under
   the full corpus.
 - **Retrieval smoke-checked on the served corpus**: cable, cement, structural
@@ -556,18 +852,17 @@ quietly.
 
 ---
 
-## Phase N — The dashboard made real (2026-09-21)
+## Phase N: The dashboard made real (2026-09-21)
 
 **Goal:** remove the last "Illustrative screen" label from a screen that did
-not need one. The dashboard was the most visible fixture left — a headline
+not need one. The dashboard was the most visible fixture left, a headline
 "1,248 queries this month" that looked exactly like a live figure.
 
 ### What was missing was not a chart; it was a log
 
 The feedback loop already existed: `POST /feedback` writes interaction
 records, `/logs` reads them, and the LTR retraining pipeline consumes them.
-Two things were absent. The engine never recorded that a search *happened* —
-only what an official did with the results afterwards — and nothing in the
+Two things were absent. The engine never recorded that a search *happened*, only what an official did with the results afterwards, and nothing in the
 frontend ever called `/feedback`, so the 124 records in the log were entirely
 synthetic seed data.
 
@@ -579,8 +874,8 @@ So the work was two append-only logs and one aggregation, not a redesign:
                -> /stats -> the dashboard
 ```
 
-`feedback/query_log.py` mirrors `feedback/logger.py` deliberately — same JSONL
-discipline, same corrupt-line tolerance — so both read the same way. Logging
+`feedback/query_log.py` mirrors `feedback/logger.py` deliberately, same JSONL
+discipline, same corrupt-line tolerance, so both read the same way. Logging
 is wrapped so it can never raise into a request: a search must not fail
 because its own bookkeeping did, and there is a test asserting exactly that.
 
@@ -590,11 +885,11 @@ because its own bookkeeping did, and there is a test asserting exactly that.
 compliance table have no data source: they need the tender auditor and user
 accounts, neither of which exists. Reproducing them behind a label would have
 kept the problem; they are gone, and the screen footer says why. Four tiles
-that *can* be counted took their place — searches served, match rate, no-match
+that *can* be counted took their place, searches served, match rate, no-match
 queries, median response time.
 
 The no-match count is the one worth keeping. It is the engine's own "this
-query is outside my coverage" verdict, aggregated — a direct measure of the
+query is outside my coverage" verdict, aggregated, a direct measure of the
 gap between what officials ask for and what the corpus holds.
 
 ### Distinctions the screen has to preserve
@@ -608,7 +903,7 @@ Three states look similar and mean completely different things:
 | Rate not yet calculable | An em dash. **Not** 0% |
 
 The last one matters most. An acceptance rate of 0% asserts that decisions
-were recorded and none were accepts; `—` says no decisions exist. The old
+were recorded and none were accepts; `–` says no decisions exist. The old
 dashboard could not have expressed the difference because it had nothing to
 express it about.
 
@@ -618,7 +913,7 @@ Adding a standard to the spec basket is already an acceptance; dismissing one
 with a reason is already a rejection. Both now post to `/feedback`, so the
 acceptance rate is real and the ranker trains on live decisions instead of
 only synthetic ones. `AddButton` gained an `onAdd` callback that fires on add
-but not on remove — an add-then-remove is someone changing their mind, not two
+but not on remove, an add-then-remove is someone changing their mind, not two
 decisions.
 
 The call is fire-and-forget by construction: `sendFeedback` never throws and
@@ -630,7 +925,7 @@ screen and a failed log must not undo it.
 Verifying the new endpoint, `/stats` reported **411 queries**. Every one was
 pytest: the suite calls `/retrieve` several hundred times, and each call now
 logged itself. The feature worked exactly as designed and produced a
-four-figure fiction on a dashboard nobody had used — the precise failure the
+four-figure fiction on a dashboard nobody had used, the precise failure the
 phase existed to remove.
 
 Fixed with an autouse session fixture in `tests/conftest.py` that redirects
@@ -644,14 +939,13 @@ records written to the real log.
 separate sectors. The two shipped corpora spell categories differently, so a
 log written across a corpus switch holds both. Counting them raw shows one
 sector twice and understates each, so the keys are normalised in the
-aggregation — where the sums happen — rather than patched over in the UI.
+aggregation, where the sums happen, rather than patched over in the UI.
 
 ### A stale server, again
 
 The backend would not start: port 8000 was held by a uvicorn process from
 earlier in the day, which answered `/health` happily and 404'd on `/stats`.
-Phase E hit the same trap and PROGRESS.md recorded it. The note worked —
-checking the port owner was the first move this time, not the last.
+Phase E hit the same trap and PROGRESS.md recorded it. The note worked, checking the port owner was the first move this time, not the last.
 
 Separately, the allied-cluster e2e test failed until the backend was restarted
 with `STANDARDS_CORPUS=canonical`. IS 456:2000 is not in the default corpus.
@@ -659,17 +953,17 @@ The test was right; the way it was being run was not.
 
 ### Tested
 
-- **`pytest` — 117 passed** (was 92), 18 of them new in `tests/test_stats.py`.
+- **`pytest`, 117 passed** (was 92), 18 of them new in `tests/test_stats.py`.
   The load-bearing ones assert what is *not* counted: synthetic records
   excluded from live figures, an unparseable timestamp not taking out the
   aggregation, a median that a 45-second cold start cannot distort, and
   logging that never raises.
-- **Playwright — 26 passed** (was 22), 13 x desktop and mobile. Two are new
+- **Playwright, 26 passed** (was 22), 13 x desktop and mobile. Two are new
   and both are round trips a fixture screen could not pass: the query count
   must *rise* after a search is actually served, and the retired figures must
   not reappear.
 - Feedback capture verified through the browser: adding and dismissing moved
-  the acceptance rate from `—` to 50%.
+  the acceptance rate from `–` to 50%.
 
 ### Still open
 
@@ -683,9 +977,9 @@ The test was right; the way it was being run was not.
 
 ---
 
-## Phase M — Corpus doubled, OCR, and a contaminated metric found (2026-09-21)
+## Phase M: Corpus doubled, OCR, and a contaminated metric found (2026-09-21)
 
-**Goal:** the two biggest quality levers — more standards, and reading the
+**Goal:** the two biggest quality levers, more standards, and reading the
 scanned tenders that a text-layer extractor cannot touch.
 
 ### Corpus: 45 to 96 standards, 7 to 9 sectors
@@ -733,7 +1027,7 @@ At 96 standards it is clear:
 | 96, **45-corpus model** | 0.9192 | 0.9609 | **0.6984** (R@5 0.75) |
 | 96, retrained | 0.9192 | 0.9609 | 0.9382 *(uncontaminated)* |
 
-Serving a model over a corpus it was not trained on is catastrophic — Recall@5
+Serving a model over a corpus it was not trained on is catastrophic, Recall@5
 falls to 0.75, meaning a quarter of queries no longer surface the right
 standard at all. Retraining recovers it. Both findings are recorded in
 `MODEL_AND_EVALUATION.md` above the existing numbers.
@@ -743,7 +1037,7 @@ standard at all. Retraining recovers it. Both findings are recorded in
 Tesseract 5.4 installed and wired as a fallback: a PDF with no extractable
 text layer is now rendered at 300 DPI and read, rather than refused.
 
-The test fixture is the real sample tender rendered to images — a true scan
+The test fixture is the real sample tender rendered to images, a true scan
 with **zero** text-layer characters, exactly like a photocopy. OCR reads it in
 **1.1 seconds**, finds the TECHNICAL SPECIFICATION heading, and recovers both
 product lines.
@@ -751,7 +1045,7 @@ product lines.
 Tesseract's Windows installer does not add itself to PATH, so the module looks
 in the standard install locations and honours `TESSERACT_CMD`. Where OCR is
 genuinely unavailable the error says so and the OCR test skips rather than
-fails — it is an optional server capability.
+fails, it is an optional server capability.
 
 The user is always told when text came from OCR, because OCR makes mistakes
 and the extracted text is shown for checking.
@@ -765,7 +1059,7 @@ mid-sentence. The scanned tender came out with
 > with cable trenching and foundation of the distribution pillar. Minimum 28 day"
 
 separated from "compressive strength of 43 MPa". The cement half then carried
-no technical marker, so it was dropped — and the cement vanished from the
+no technical marker, so it was dropped, and the cement vanished from the
 search while the orphan fragment survived.
 
 This is the same class of bug as the Phase F wrapped-line failure, one layer
@@ -775,7 +1069,7 @@ words it uses.
 
 ### Tested
 
-- **`pytest` — 94 passed** (was 92). Three new extraction tests: the scanned
+- **`pytest`, 94 passed** (was 92). Three new extraction tests: the scanned
   tender read end to end by OCR, the mid-sentence split regression, and an
   unreadable scan still rejected with a usable message.
 - All three document formats now recover both products: text-layer PDF, DOCX
@@ -790,9 +1084,9 @@ words it uses.
 
 ---
 
-## Phase L — Demo script and fresh-clone verification (2026-09-21)
+## Phase L: Demo script and fresh-clone verification (2026-09-21)
 
-**Goal:** the brief's Phase 10 — prove the project runs from a clean checkout,
+**Goal:** the brief's Phase 10, prove the project runs from a clean checkout,
 and write a demo that can actually be performed.
 
 ### Fresh-clone verification, actually performed
@@ -805,20 +1099,20 @@ git clone <repo> /tmp/freshclone
 ```
 
 - 308 tracked files.
-- **The LightGBM models survive checkout intact** — 8,319 and 11,566 bytes,
+- **The LightGBM models survive checkout intact**, 8,319 and 11,566 bytes,
   exactly matching their blobs. This is the Phase A bug not recurring: without
   `.gitattributes`, `core.autocrlf` would have inflated the first to 8,598
   bytes and broken it. Both load: 7 features / 7 trees and 7 features / 11
   trees.
-- **`pytest` — 92 passed** in the clean clone, no extra setup.
-- **`npm install && npm run build`** — clean.
+- **`pytest`, 92 passed** in the clean clone, no extra setup.
+- **`npm install && npm run build`**, clean.
 
 ### Demo script
 
 `docs/demo-script.md`: a timed seven-minute walkthrough with a pre-flight
 checklist, the questions judges tend to ask with honest answers, and a
 troubleshooting section covering the two failure modes that actually bit
-during development — a stale uvicorn holding port 8000, and Git Bash mangling
+during development, a stale uvicorn holding port 8000, and Git Bash mangling
 UTF-8 in Hindi test queries.
 
 The script is built around leading with the limitations rather than hiding
@@ -872,9 +1166,9 @@ These are data and scope items, not missing engineering:
 
 ---
 
-## Phase K — Published amendments (2026-09-21)
+## Phase K: Published amendments (2026-09-21)
 
-**Goal:** the last unmet requirement in the problem statement — "shows the
+**Goal:** the last unmet requirement in the problem statement, "shows the
 latest published version and any amendments".
 
 ### Why this matters more than it sounds
@@ -913,7 +1207,7 @@ Where individual amendments *are* known, the citation names the latest:
 > IS 456:2000, incorporating all 6 amendments, latest (Amendment No. 6, June 2024)
 
 Dates from secondary sources are marked `likely` and the UI shows them as
-"unconfirmed date" next to the confirmed one — the same three-way honesty as
+"unconfirmed date" next to the confirmed one, the same three-way honesty as
 certification's `none` / `not_verified`.
 
 ### The corpus dates were placeholders
@@ -926,11 +1220,11 @@ rather than silently "corrected" with more guesses.
 
 ### Tested
 
-- **`pytest` — 92 passed** (was 84). Eight new tests, the important ones being
+- **`pytest`, 92 passed** (was 84). Eight new tests, the important ones being
   that a count without dates does not become invented dates, that an
   unresearched standard reports `checked: false` rather than "no amendments",
   and that a citation omits an unknown date instead of printing "None".
-- **Playwright — 22 passed.**
+- **Playwright, 22 passed.**
 - Browser-verified: IS 456 shows "6 in force" with the full history and
   clause-level summary on No. 4; IS 694 shows "4 in force" with the
   count-only citation; IS 17048 says amendments have not been checked.
@@ -944,7 +1238,7 @@ rather than silently "corrected" with more guesses.
 
 ---
 
-## Phase J — Tender builder, and a committed end-to-end suite (2026-09-21)
+## Phase J: Tender builder, and a committed end-to-end suite (2026-09-21)
 
 **Goal:** the problem statement's "demoed as if embedded inside a procurement
 portal", and a regression suite that actually protects the honesty guarantees.
@@ -956,17 +1250,17 @@ types the item description, the engine searches in the background (debounced
 900 ms) and offers the standards that belong in the specification. Accepting
 one assembles a conformance clause:
 
-> **2. CONFORMANCE** — The item shall conform in all respects to IS 694:2010,
+> **2. CONFORMANCE**, The item shall conform in all respects to IS 694:2010,
 > in the latest edition in force on the date of supply, including all amendments.
 >
-> **3. CERTIFICATION** — IS 694:2010 falls under mandatory BIS certification.
+> **3. CERTIFICATION**, IS 694:2010 falls under mandatory BIS certification.
 > The supplier shall hold a valid BIS licence and the goods shall bear the
 > Standard Mark (ISI). The licence number shall be quoted in the bid.
 > Governing order: Electrical Wires, Cables, Appliances and Protection Devices
 > and Accessories (Quality Control) Order, 2003.
 
 That is a paste-ready clause citing a real QCO, assembled from the standards
-the official accepted — not from what the engine happened to suggest.
+the official accepted, not from what the engine happened to suggest.
 
 A superseded standard in the accepted set adds its own NOTE clause, because an
 official pasting this into a live tender needs to know.
@@ -978,7 +1272,7 @@ demonstrated; the integration is not claimed.
 
 Playwright runs have been ad-hoc all along. They are now committed as
 `frontend/e2e/journey.spec.js`, run with `npm run test:e2e` against a live
-backend — deliberately unmocked, because the failures worth catching here are
+backend, deliberately unmocked, because the failures worth catching here are
 integration failures: missing CORS, a stale server, a response shape the UI
 cannot render.
 
@@ -988,7 +1282,7 @@ to stop the honesty guarantees regressing:
 - an out-of-scope query must render **zero** recommendation cards in the
   browser, whatever the API returned;
 - fixture screens must carry the "Illustrative screen" label and live screens
-  must not — asserted per route, both directions.
+  must not, asserted per route, both directions.
 
 The rest cover search, the certification badge surviving the round trip, Hindi
 translation being shown rather than applied silently, catalogue filtering,
@@ -1000,12 +1294,12 @@ horizontally.
 
 The out-of-scope test first failed on a strict-mode violation: "not
 recommendations" appears twice on that screen, in the banner and in the
-reference-list heading. Both are correct — the duplication is the point — so
+reference-list heading. Both are correct, the duplication is the point, so
 the assertion was changed to check presence rather than uniqueness.
 
 ### Tested
 
-- **`pytest` — 84 passed**; **Playwright — 22 passed** (11 x 2 projects).
+- **`pytest`, 84 passed**; **Playwright, 22 passed** (11 x 2 projects).
 - Manual browser check of the tender builder: 5 live suggestions for a cable
   spec, clause generated with quantity and certification, out-of-scope
   description suppressed.
@@ -1020,16 +1314,16 @@ the assertion was changed to check presence rather than uniqueness.
 
 ---
 
-## Phase I — LLM explanation layer, local via Ollama (2026-09-21)
+## Phase I: LLM explanation layer, local via Ollama (2026-09-21)
 
-**Goal:** the brief's Phase 3 — a plain-language reason per result — built so
+**Goal:** the brief's Phase 3, a plain-language reason per result, built so
 that it cannot damage the trustworthiness of everything around it.
 
 ### Hardware
 
 Checked before choosing a model: i9-13900HX (24 cores), RTX 4060 laptop GPU
 (8 GB VRAM), 15.7 GB RAM, 100 GB free. Installed Ollama 0.34.2 and pulled
-**qwen2.5:7b-instruct** — fits in VRAM, strong at constrained JSON.
+**qwen2.5:7b-instruct**, fits in VRAM, strong at constrained JSON.
 
 ### The design rule
 
@@ -1049,7 +1343,7 @@ output this system could produce, so:
   gets that line dropped while the legitimate explanations survive.
 - Only the top 5 candidates are sent, so a long result list cannot become a
   long prompt.
-- Any failure — unreachable, timeout, unparseable — returns no explanations
+- Any failure, unreachable, timeout, unparseable, returns no explanations
   rather than an error. The search already succeeded; explanations are a
   bonus on top of it.
 
@@ -1069,7 +1363,7 @@ The explanations are genuinely discriminating:
 - *"This does not fit the requirement as it is for submersible pump cables intended for borewells."* (IS 14257)
 
 It correctly separates 43-grade from 53-grade cement and rejects an
-irrelevant cable — the kind of distinction a procurement official actually
+irrelevant cable, the kind of distinction a procurement official actually
 needs to see stated.
 
 ### A bug the out-of-scope test caught
@@ -1078,7 +1372,7 @@ The first implementation generated explanations for a query the confidence
 gate had already marked `none`. The guard read `confidence != "none"` where
 `confidence` is the dict returned by `assess_confidence`, so it was always
 true. A "banana" query was getting three fluent explanations of why cable
-standards did not match it — directly undercutting the "these are not
+standards did not match it, directly undercutting the "these are not
 recommendations" framing.
 
 Fixed to `confidence["level"] != "none"`. Out-of-scope queries now skip the
@@ -1086,7 +1380,7 @@ LLM entirely and return in 176 ms instead of 2.4 s.
 
 ### Tested
 
-- **`pytest` — 84 passed** (was 74). Ten new tests, most of them on the
+- **`pytest`, 84 passed** (was 74). Ten new tests, most of them on the
   hallucination guard: invented numbers discarded while valid ones survive,
   prose-wrapped JSON salvaged, unparseable output yielding nothing, model
   failure degrading to empty, malformed entries skipped individually,
@@ -1105,7 +1399,7 @@ LLM entirely and return in 176 ms instead of 2.4 s.
 
 ---
 
-## Phase H — Allied standards, and a visibility fix (2026-09-21)
+## Phase H: Allied standards, and a visibility fix (2026-09-21)
 
 **Goal:** build the related-standards cluster the problem statement asks for,
 and fix the language selector nobody could find.
@@ -1113,10 +1407,9 @@ and fix the language selector nobody could find.
 ### The language selector was there, but hidden
 
 Reported as missing. It was rendering, but the label was `sr-only` and it sat
-in the bottom toolbar reading "Detect language" — easy to read as part of the
+in the bottom toolbar reading "Detect language", easy to read as part of the
 upload controls rather than as a language choice. Moved above the input with a
-visible **"Query language"** label and the hint "Type in any listed language —
-it is translated before searching".
+visible **"Query language"** label and the hint "Type in any listed language, it is translated before searching".
 
 Worth recording as a lesson: a Playwright assertion that an element exists is
 not evidence that a user will find it.
@@ -1125,7 +1418,7 @@ not evidence that a user will find it.
 
 The problem statement asks for the applicable *cluster*, not one hit. A tender
 citing IS 694 for cable but omitting IS 8130 for the conductor and IS 10810
-for test methods is incomplete — that incompleteness is what this surfaces.
+for test methods is incomplete, that incompleteness is what this surfaces.
 
 Relationships were read from the referred-standards annexes and materials
 clauses of the standards themselves, via publicly hosted copies. **25
@@ -1145,7 +1438,7 @@ explanation the UI shows, so "why is this here" is answered on the page.
 
 ### Citations outside the corpus are shown, not hidden
 
-Nine cited standards — IS 8130, IS 5831, IS 10810, IS 383 and others — are
+Nine cited standards, IS 8130, IS 5831, IS 10810, IS 383 and others, are
 real dependencies the pilot corpus does not hold. They are listed with their
 titles and flagged "Not in this corpus" rather than omitted.
 
@@ -1162,7 +1455,7 @@ being written twice.
 
 ### Tested
 
-- **`pytest` — 74 passed** (was 66). Eight new tests: grouped clusters for
+- **`pytest`, 74 passed** (was 66). Eight new tests: grouped clusters for
   cement and cable, materials kept separate from test methods, outside-corpus
   entries present and flagged, derived reverse edges, an unresearched standard
   reporting `researched: false`, and a data check that every non-flagged
@@ -1176,14 +1469,14 @@ being written twice.
 
 - 29 of 45 standards have no relationship data. The annexes have not been read
   for them; the UI says so rather than implying they stand alone.
-- The Standards map screen is still fixture data — it now has a real data
+- The Standards map screen is still fixture data, it now has a real data
   source to be wired to.
 - OCR for scanned tenders; translating results back into the query language;
   UI chrome i18n.
 
 ---
 
-## Phase G — Multilingual queries (2026-09-21)
+## Phase G: Multilingual queries (2026-09-21)
 
 **Goal:** let an official describe what they need in Hindi, Tamil, Bengali,
 Marathi or Telugu and get the same standards an English query returns.
@@ -1199,7 +1492,7 @@ already coped with Hindi. It does not:
 | "घर की वायरिंग के लिए तांबे का तार" | **−8.4** | IS 456:2000 (wrong) |
 
 The confidence gate from Phase C correctly reported those as no-match, so
-Hindi queries returned nothing useful rather than returning nonsense — but
+Hindi queries returned nothing useful rather than returning nonsense, but
 they returned nothing useful.
 
 ### Why translation rather than a multilingual embedder
@@ -1210,7 +1503,7 @@ new vectors, and it would still leave the cross-encoder monolingual.
 Translating in front of a pipeline that already scores 0.9846 is one step, and
 it is reversible.
 
-Model: **facebook/nllb-200-distilled-600M** — open weights, local, no API key,
+Model: **facebook/nllb-200-distilled-600M**, open weights, local, no API key,
 consistent with the free/open-source constraint. IndicTrans2 was the brief's
 suggestion but its distilled checkpoint is 1.8 GB and needs a separate
 toolkit; NLLB is a single `transformers` call.
@@ -1249,9 +1542,9 @@ them, so an explicit language choice always overrides detection.
 
 ### Tested
 
-- **`pytest` — 66 passed** (was 57). Nine new tests: script detection across
+- **`pytest`, 66 passed** (was 57). Nine new tests: script detection across
   four scripts, English bypassing the translator entirely, explicit language
-  overriding detection, and — most importantly — that a dead translator
+  overriding detection, and, most importantly, that a dead translator
   degrades to the original query instead of raising.
 - Browser-verified: selector lists all six languages, the Hindi example chip
   returns IS 694 with the translation panel visible, no console errors.
@@ -1259,7 +1552,7 @@ them, so an explicit language choice always overrides detection.
 
 ### A debugging note
 
-Hindi appeared broken through `curl` for several attempts — the query arrived
+Hindi appeared broken through `curl` for several attempts, the query arrived
 as `?? ?? ???????`. Git Bash was mangling UTF-8 in the command line before it
 reached the server; the code was correct throughout. Non-ASCII payloads need
 `--data-binary @file` with the file written as UTF-8, or a Python client.
@@ -1274,10 +1567,10 @@ reached the server; the code was correct throughout. Non-ASCII payloads need
 
 ---
 
-## Phase F — Certification data and tender upload (2026-09-21)
+## Phase F: Certification data and tender upload (2026-09-21)
 
 **Goal:** add the two features that most distinguish this from a generic
-search demo — mandatory certification flags, and accepting a tender document
+search demo, mandatory certification flags, and accepting a tender document
 instead of typed text.
 
 ### Certification data, read from BIS
@@ -1302,7 +1595,7 @@ two must never collapse:
 
 | | meaning |
 |---|---|
-| `none` | Checked — no scheme applies (e.g. a code of practice) |
+| `none` | Checked, no scheme applies (e.g. a code of practice) |
 | `not_verified` | Nobody checked. **Not** a clearance |
 
 Telling a procurement official "no certification required" when the truth is
@@ -1327,13 +1620,13 @@ to solve.
 `POST /extract` accepts PDF, DOCX or TXT, extracts the text, builds a search
 query from it and runs the normal pipeline.
 
-The hard part is not getting text out — it is getting the *right* text out. A
+The hard part is not getting text out, it is getting the *right* text out. A
 tender is mostly boilerplate by volume (EMD, eligibility, arbitration,
 signature blocks), so feeding the whole document to an embedding model that
 truncates at a few hundred tokens means searching the cover page. So:
 
-1. Find a recognised heading — "technical specification", "scope of supply",
-   "bill of quantities" and similar — and take that section.
+1. Find a recognised heading, "technical specification", "scope of supply",
+   "bill of quantities" and similar, and take that section.
 2. Within it, keep paragraphs carrying technical markers (`sq mm`, `1100 V`,
    `IS 694`, `grade 43`) and drop boilerplate.
 3. Cap at 2000 characters on a word boundary.
@@ -1356,11 +1649,11 @@ Limits are enforced server-side, not just in the browser: 10 MB, and
   banner naming the QCO, in an informational colour rather than an alarming one.
 - Upload sits beside the search button. After upload, a panel shows which
   section was read, how much text, and an expandable view of exactly what was
-  searched — the extraction step is visible rather than invisible.
+  searched, the extraction step is visible rather than invisible.
 
 ### Tested
 
-- **`pytest` — 57 passed** (was 43). 14 new tests: certification lookup
+- **`pytest`, 57 passed** (was 43). 14 new tests: certification lookup
   including the `none` vs `not_verified` distinction and that every rule points
   at a real standard; extraction across PDF/DOCX/TXT, the wrapped-line
   regression, scanned-PDF rejection, oversize and unsupported-type guards.
@@ -1384,7 +1677,7 @@ unbuilt; it is additive, not required for the core product.
 
 ---
 
-## Phase E — Catalogue and detail wired; fixture screens labelled (2026-09-21)
+## Phase E: Catalogue and detail wired; fixture screens labelled (2026-09-21)
 
 **Goal:** wire the two screens that have real backing endpoints, and stop the
 remaining fixture screens from passing as live.
@@ -1392,7 +1685,7 @@ remaining fixture screens from passing as live.
 ### Lookup by IS number
 
 `GET /standards/{id}` resolved internal ids only (`IS-ELEC-001`), but the UI
-routes by IS number (`/app/standard/IS 694:2010`) — correctly, because
+routes by IS number (`/app/standard/IS 694:2010`), correctly, because
 internal ids are reassigned whenever the corpus is rebuilt, so a URL built
 from one breaks on the next rebuild. The endpoint now accepts either, and
 normalises case, spacing and `(Part n)` casing so `is 694:2010` and
@@ -1400,12 +1693,12 @@ normalises case, spacing and `(Part n)` casing so `is 694:2010` and
 
 ### Two screens now live
 
-- **Standards catalogue** (`/app/catalogue`) — lists the whole corpus from
+- **Standards catalogue** (`/app/catalogue`), lists the whole corpus from
   `GET /standards`, grouped by sector so partial coverage is visible at a
   glance, with client-side search over number, title, scope and keywords, a
   sector filter and a superseded toggle. It replaces a fixture browser whose
   side panel claimed graph data "loads incrementally from Neo4j".
-- **Standard detail** (`/app/standard/:code`) — real scope, description,
+- **Standard detail** (`/app/standard/:code`), real scope, description,
   indexed terms, edition and amendment date from `GET /standards/{id}`, with
   a superseded warning and a link out to the BIS record. Sections the dataset
   cannot support (normative references, certification) carry a "Not yet
@@ -1417,7 +1710,7 @@ normalises case, spacing and `(Part n)` casing so `is 694:2010` and
 Dashboard, BOQ, Builder, Standards map, Certification, Audit, Simulator,
 Projects, Admin, Alerts, Settings and Compliance all render fixture data.
 That is a fair way to show an intended workflow, but only while it is obvious
-which is which — a dashboard reading "1,248 queries this month" is
+which is which, a dashboard reading "1,248 queries this month" is
 indistinguishable from a live one until someone checks.
 
 Each now carries a `DemoDataNotice` naming what is illustrative on that
@@ -1426,7 +1719,7 @@ run against the engine. The three live screens deliberately do not have one.
 
 ### Tested
 
-- **`pytest` — 43 passed** (was 40). New tests cover lookup by id and by IS
+- **`pytest`, 43 passed** (was 40). New tests cover lookup by id and by IS
   number across three spellings, a 404 for a standard outside the corpus, and
   the catalogue listing plus its category filter.
 - Browser-verified against the live backend: catalogue renders 30 standards
@@ -1440,7 +1733,7 @@ run against the engine. The three live screens deliberately do not have one.
 
 ### A stale server nearly hid a real bug
 
-The detail page appeared broken during verification — every lookup returned
+The detail page appeared broken during verification, every lookup returned
 "not in the current corpus". The cause was an old uvicorn process still
 holding port 8000, so the newly started one exited and the browser kept
 talking to code from two phases ago. Worth remembering when a change seems
@@ -1457,7 +1750,7 @@ not to take effect: check the port owner, not just the log.
 
 ---
 
-## Phase D — Canonical corpus made servable; two dangerous bugs found (2026-09-21)
+## Phase D: Canonical corpus made servable; two dangerous bugs found (2026-09-21)
 
 **Goal:** let the engine actually serve the 45-standard consolidated corpus
 built in Phase B, which until now existed only as a file nothing read.
@@ -1481,11 +1774,11 @@ the test suite are unaffected.
 Indexes and trained models are only valid for the corpus they were built
 from. Both previously wrote to one fixed location, so building or training
 against the canonical corpus silently overwrote the committed 30-standard
-artifacts — the index-clobbering noted at the end of Phase B, and the same
+artifacts, the index-clobbering noted at the end of Phase B, and the same
 flaw for models. Both now resolve to a per-corpus directory:
 
-- `standards-retrieval/data/index/standards_corpus/` — FAISS + BM25
-- `standards-retrieval/models/standards_corpus/` — trained ranker
+- `standards-retrieval/data/index/standards_corpus/`, FAISS + BM25
+- `standards-retrieval/models/standards_corpus/`, trained ranker
 
 ### Query sets remapped
 
@@ -1515,7 +1808,7 @@ than a quality problem.
 
 **2. A rejected experiment deleted the working model.** On gate rejection the
 trainer called `unlink()` on the live model. So the bad measurement above did
-not just report a failure — it took the committed, working
+not just report a failure, it took the committed, working
 `ltr_model.txt` with it. It was only recoverable because it was in git.
 
 Now archived to `ltr_model_previous.txt` instead of deleted. Serving still
@@ -1533,7 +1826,7 @@ rename away.
 **This revises the Phase B conclusion.** Phase B measured NDCG@5 0.9692 on 45
 standards and read it as corpus-size difficulty. That measurement used the
 *mock-corpus model* against the canonical corpus. With the ranker retrained
-on the corpus it serves, performance returns to 0.9846 — so most of that drop
+on the corpus it serves, performance returns to 0.9846, so most of that drop
 was model/corpus mismatch, not difficulty. The honest statement is now
 narrower: **we have not yet demonstrated a corpus-size effect**, because both
 measurements are at small scale.
@@ -1545,15 +1838,15 @@ because consolidation brought in PPE and structural sections:
 
 | Query | 30 standards | 45 standards |
 |---|---|---|
-| "hot rolled structural steel angle" | `uncertain` — a steel *tube* standard | `strong` — **IS 808:1989** |
-| "safety helmet for construction workers" | `none` — nothing relevant held | `strong` — **IS 2925:1984** |
+| "hot rolled structural steel angle" | `uncertain`, a steel *tube* standard | `strong`, **IS 808:1989** |
+| "safety helmet for construction workers" | `none`, nothing relevant held | `strong`, **IS 2925:1984** |
 | "banana" | `none` | `none` |
 
 The confidence gate still correctly rejects nonsense.
 
 ### Tested
 
-- **`pytest` — 40 passed** on the default corpus; no regression.
+- **`pytest`, 40 passed** on the default corpus; no regression.
 - Both corpora load and serve: `/health` reports `corpus_size` 30 or 45
   according to `STANDARDS_CORPUS`, with `ltr_model_loaded: true` in both.
 - Building canonical indexes leaves the committed 30-standard indexes
@@ -1569,7 +1862,7 @@ The confidence gate still correctly rejects nonsense.
 
 ---
 
-## Phase C — Frontend wired to the live engine (2026-09-21)
+## Phase C: Frontend wired to the live engine (2026-09-21)
 
 **Goal:** make the UI actually call the backend, stop presenting wrong
 answers confidently, and remove unsupportable claims from the interface.
@@ -1597,7 +1890,7 @@ any measure of relevance.
 ### How the confidence gate works, and why not `final_score`
 
 `final_score` is rescaled per response, so the top hit always scores well
-even when every candidate is irrelevant — "banana" and "PVC copper wire"
+even when every candidate is irrelevant, "banana" and "PVC copper wire"
 both produce a confident-looking top score. It cannot separate the two.
 
 The cross-encoder logit is an absolute relevance estimate and is comparable
@@ -1619,7 +1912,7 @@ middle band, which is the honest answer for it.
   Distinguishes offline / timeout / HTTP failures, with a 45 s timeout
   because a cold start loads two transformer models.
 - `Query.jsx` rewritten against the live API. The fake pipeline animation is
-  gone. Kept the existing visual design — it was well built.
+  gone. Kept the existing visual design, it was well built.
 - When the backend reports `confidence: "none"`, the heading changes from
   "Recommended standards" to **"Nearest text matches"**, the recommendation
   list is emptied, and everything moves into a reference section labelled
@@ -1627,12 +1920,12 @@ middle band, which is the honest answer for it.
 - On `confidence: "uncertain"` the top candidate is still shown above the
   caution banner, with the rest demoted. A first pass filtered on the
   cross-encoder sign here too, which emptied the list whenever every
-  candidate scored negative — the user got a warning and nothing to act on.
+  candidate scored negative, the user got a warning and nothing to act on.
   Caught during the full-stack run-through with "hot rolled structural steel
   angle", a query the 30-standard corpus genuinely cannot answer well
   (it holds steel *tubes*, no structural angle).
 - Backend-unreachable state is surfaced *before* searching, with the command
-  needed to start it. The UI never silently falls back to mock data — a demo
+  needed to start it. The UI never silently falls back to mock data, a demo
   that looks identical whether or not the engine is running is worse than one
   that admits the engine is down.
 
@@ -1655,14 +1948,14 @@ describing unbuilt functionality are now marked "In progress".
 
 ### Tested
 
-- **`pytest` — 40 passed** (was 37), including three new tests: in-scope
+- **`pytest`, 40 passed** (was 37), including three new tests: in-scope
   queries stay `strong`, out-of-scope queries report `none` with a reason,
   and results carry the presentation fields. The response-shape contract test
   was updated deliberately, not loosened.
 - **Browser-verified against the running backend** (Playwright, Chromium):
   - in-scope query renders 5 real result cards from the live corpus
   - `"safety helmet for construction workers"` renders the no-match banner and
-    **0 recommendation cards** — the Phase A regression is fixed
+    **0 recommendation cards**, the Phase A regression is fixed
   - **no console errors** on landing, dashboard or query
   - no horizontal overflow at 390 px; dark mode renders correctly
 - Measured in-browser: **162–224 ms** per query against the live engine.
@@ -1688,7 +1981,7 @@ describing unbuilt functionality are now marked "In progress".
 
 ---
 
-## Phase B — Consolidation: one backend, one dataset (2026-09-20)
+## Phase B: Consolidation: one backend, one dataset (2026-09-20)
 
 **Goal:** remove the duplicated backend and merge the three competing
 datasets into a single source of truth.
@@ -1724,13 +2017,13 @@ Wrote `data/consolidate.py`, which merges:
 | `data/raw/standards.json` | 18 | `std_001` |
 | `data/seed_standards.json` | 10 | *(different schema)* |
 
-into **`data/standards_corpus.json` — 45 unique standards across 7 sectors**
+into **`data/standards_corpus.json`, 45 unique standards across 7 sectors**
 (58 input records; 12 appeared in more than one source). Identity is the
 normalized IS number; on conflict the record with the richer scope +
 description wins, since those are the embedded fields.
 
 The three sources used three different category vocabularies. The script maps
-them onto one and **raises on any unmapped value** rather than guessing — this
+them onto one and **raises on any unmapped value** rather than guessing, this
 caught four categories from `seed_standards.json` that would otherwise have
 been silently mis-sectored.
 
@@ -1750,11 +2043,11 @@ queries remapped cleanly onto the new ids via IS number.
 
 ### Tested
 
-- `python data/consolidate.py --check` — validation passes, 0 problems.
+- `python data/consolidate.py --check`, validation passes, 0 problems.
 - Consolidated corpus **loads into the existing pipeline** unmodified
   (45 standards, 40 active / 5 superseded).
 - Rebuilt both indexes over 45 standards successfully.
-- **`pytest` — 37 passed, 0 failed** (unchanged).
+- **`pytest`, 37 passed, 0 failed** (unchanged).
 
 ### The important measurement
 
@@ -1773,7 +2066,7 @@ in the submission rather than letting a judge discover it.
 
 ### Still open
 
-- **Frontend is still not connected to any backend** — 0 network calls. This
+- **Frontend is still not connected to any backend**, 0 network calls. This
   is now the single highest-value remaining task (Phase C).
 - No low-confidence / no-match handling: an out-of-scope query such as
   "safety helmet for construction workers" still returns a cable standard as
@@ -1789,7 +2082,7 @@ in the submission rather than letting a judge discover it.
 
 ---
 
-## Phase A — Backend made runnable, artifact corruption fixed (2026-09-20)
+## Phase A: Backend made runnable, artifact corruption fixed (2026-09-20)
 
 **Goal:** get the existing retrieval backend actually running on a developer
 machine, and establish an honest baseline of what works.
@@ -1805,7 +2098,7 @@ The retrieval backend could not start or be tested on this machine at all:
    Root cause: the LightGBM text format encodes **byte offsets** in its
    `tree_sizes=` header. The repository blob is clean LF (8,319 bytes), but
    with `core.autocrlf=true` Git rewrote it to CRLF on checkout (8,598 bytes
-   — exactly 279 extra bytes for 279 line endings), shifting every offset.
+   exactly 279 extra bytes for 279 line endings), shifting every offset.
    The file looked fine in the repo and was broken on every Windows clone.
 
    Fixed by adding [`.gitattributes`](.gitattributes) marking model and index
@@ -1834,11 +2127,11 @@ The retrieval backend could not start or be tested on this machine at all:
 - Added `.gitattributes`; normalized corrupted model artifacts.
 - Fixed the circular import.
 - Wrote the root `README.md` (did not exist) and this file (did not exist).
-- Reframed the accuracy claims in `MODEL_AND_EVALUATION.md` — see below.
+- Reframed the accuracy claims in `MODEL_AND_EVALUATION.md`, see below.
 
 ### Tested
 
-- **`pytest tests/` — 37 passed, 0 failed.** Previously: 6 collection errors
+- **`pytest tests/`, 37 passed, 0 failed.** Previously: 6 collection errors
   and 3 modules hard-aborting the interpreter.
 - **API smoke test passes.** `/health` returns
   `{"status":"ok","corpus_size":30,"ltr_model_loaded":true}`.
@@ -1853,7 +2146,7 @@ The retrieval backend could not start or be tested on this machine at all:
   | + LTR | 0.9583 | 1.0000 | 0.9846 |
 
   The pipeline is genuinely well-built and each stage measurably improves the
-  last. The caveat is the corpus, not the code — see below.
+  last. The caveat is the corpus, not the code, see below.
 
 ### Honesty pass on metrics
 
@@ -1865,14 +2158,14 @@ written alongside it. Added prominent scope banners to
 
 ### Known-good observation worth keeping
 
-A query for `"safety helmet for construction workers"` (PPE — outside the
+A query for `"safety helmet for construction workers"` (PPE, outside the
 corpus) returns a *cable* standard as its top hit at score 0.31. The system
 has no low-confidence threshold, so it presents a confident-looking wrong
-answer. **This must be fixed before any demo** — see Phase C.
+answer. **This must be fixed before any demo**, see Phase C.
 
 ### Still open
 
-- Frontend is **not connected to any backend** — 0 network calls, 100%
+- Frontend is **not connected to any backend**, 0 network calls, 100%
   hardcoded mock data.
 - `app/services/standards_retrieval/` is a **stale duplicate** of
   `standards-retrieval/` (~6,300 lines, 8 files already drifted, including a
@@ -1888,7 +2181,7 @@ answer. **This must be fixed before any demo** — see Phase C.
 ### Minor issue noted, not yet fixed
 
 Running the test suite **rewrites** `standards-retrieval/data/faiss.index`
-(same size and header, ~26 KB of differing float bytes — the index is
+(same size and header, ~26 KB of differing float bytes, the index is
 regenerated nondeterministically). This makes a committed binary artifact
 show up as modified after every test run. Either the index should be built
 into a temp directory during tests, or it should not be committed at all.
