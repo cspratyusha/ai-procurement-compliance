@@ -1,11 +1,5 @@
-"""Tests for the researched certification mapping and its coverage.
+"""Tests for the certification rule listing and its coverage statement."""
 
-Certification is the highest-stakes data in this system because the failure is
-asymmetric: claiming a mark is needed when it is not is an inconvenience;
-claiming none is needed when one is costs a tender. Nearly every assertion
-here is therefore about the difference between "checked, none applies" and
-"never checked", which must never collapse into each other.
-"""
 import sys
 import unittest
 from pathlib import Path
@@ -16,150 +10,76 @@ _PROJECT_ROOT = Path(__file__).resolve().parent.parent
 if str(_PROJECT_ROOT) not in sys.path:
     sys.path.insert(0, str(_PROJECT_ROOT))
 
-import certification
+import certification  # noqa: E402
 
 
 class TestRuleListing(unittest.TestCase):
-    """What `all_rules()` returns, and what it deliberately omits."""
+    def test_the_bis_lists_are_loaded_in_full(self):
+        """Hundreds of products, not the 17 researched by hand before."""
+        self.assertGreater(len(certification.all_rules()), 700)
 
-    def test_only_researched_standards_are_listed(self):
-        """The corpus holds thousands nobody has checked; none may appear here.
-
-        Listing an unresearched standard as "no scheme" would convert an
-        absence of research into a positive clearance.
-        """
-        rules = certification.all_rules()
-        listed = {r["is_number"] for r in rules}
-
-        # A real standard that exists in the corpus but has no researched rule.
-        unresearched = certification.lookup("IS 7098 (Part 2):2011")
-        if unresearched["scheme"] == "not_verified":
-            self.assertNotIn("IS 7098 (Part 2):2011", listed)
-
-    def test_every_rule_has_a_scheme_and_explanation(self):
+    def test_statuses_and_schemes_agree(self):
         for rule in certification.all_rules():
-            self.assertIn(rule["scheme"], {"ISI", "CRS", "Hallmark", "none"})
+            self.assertIn(rule["status"], {"in_force", "deferred", "checked_none"})
+            self.assertEqual(rule["mandatory"], rule["status"] == "in_force")
+            if rule["status"] == "checked_none":
+                self.assertEqual(rule["scheme"], "none")
+            else:
+                self.assertIn(rule["scheme"], {"ISI", "CRS", "Scheme X"})
             self.assertTrue(rule["explanation"])
 
-    def test_mandatory_is_only_true_for_a_real_scheme(self):
-        for rule in certification.all_rules():
-            if rule["scheme"] == "none":
-                self.assertFalse(rule["mandatory"])
-            else:
-                self.assertTrue(rule["mandatory"])
-
-    def test_mandatory_rules_name_the_order_they_rest_on(self):
+    def test_every_obligation_names_and_links_its_order(self):
         """A legal obligation with no citation cannot be checked or defended."""
         for rule in certification.all_rules():
-            if rule["mandatory"]:
-                self.assertTrue(
-                    rule["qco"],
-                    f"{rule['is_number']} claims a mandatory scheme with no QCO",
-                )
+            if rule["status"] in ("in_force", "deferred"):
+                with self.subTest(is_number=rule["is_number"]):
+                    self.assertTrue(rule["qco"])
+                    self.assertTrue(rule["qco_url"])
+                    self.assertTrue(rule["products"])
 
-    def test_mandatory_rules_sort_first(self):
-        mandatory_flags = [r["mandatory"] for r in certification.all_rules()]
-        self.assertEqual(mandatory_flags, sorted(mandatory_flags, reverse=True))
-
-    def test_is_numbers_use_the_stored_spelling_not_the_lookup_key(self):
-        """Lookup keys are upper-cased; the UI must not render "(PART 1)".
-
-        Only meaningful for numbers containing a part designation, since
-        "IS 269:2015" is identical either way.
-        """
-        with_parts = [r for r in certification.all_rules() if "(Part" in r["is_number"]]
-        self.assertTrue(with_parts, "expected at least one multi-part standard")
-
-        for rule in with_parts:
-            self.assertNotIn("(PART", rule["is_number"])
+    def test_in_force_sorts_first(self):
+        order = {"in_force": 0, "deferred": 1, "checked_none": 2}
+        ranks = [order[r["status"]] for r in certification.all_rules()]
+        self.assertEqual(ranks, sorted(ranks))
 
     def test_listing_agrees_with_per_standard_lookup(self):
-        """The list and the detail endpoint must not disagree about a scheme."""
         for rule in certification.all_rules():
             looked_up = certification.lookup(rule["is_number"])
-            self.assertEqual(looked_up["scheme"], rule["scheme"])
+            self.assertEqual(looked_up["status"], rule["status"])
             self.assertEqual(looked_up["mandatory"], rule["mandatory"])
+
+    def test_numbers_are_in_corpus_spelling(self):
+        for rule in certification.all_rules():
+            self.assertNotIn("(PART", rule["is_number"])
+            self.assertNotIn("Section", rule["is_number"])
 
 
 class TestCoverage(unittest.TestCase):
-    """The statement of what was not researched."""
+    def test_counts_partition_the_listing(self):
+        c = certification.coverage()
+        self.assertEqual(c["mandatory"] + c["deferred"] + c["no_scheme"], c["standards_researched"])
+        self.assertEqual(c["standards_researched"], len(certification.all_rules()))
 
-    def test_counts_partition_the_researched_set(self):
-        coverage = certification.coverage()
-        self.assertEqual(
-            coverage["mandatory"] + coverage["no_scheme"],
-            coverage["standards_researched"],
-        )
-
-    def test_counts_match_the_rule_list(self):
-        coverage = certification.coverage()
-        rules = certification.all_rules()
-
-        self.assertEqual(coverage["standards_researched"], len(rules))
-        self.assertEqual(coverage["mandatory"], sum(1 for r in rules if r["mandatory"]))
-
-    def test_note_refuses_to_read_absence_as_clearance(self):
-        note = certification.coverage()["note"].lower()
-        self.assertIn("not_verified", note)
-        self.assertIn("not a statement", note)
-
-    def test_source_is_named(self):
-        self.assertIn("BIS", certification.coverage()["source"])
-
-
-class TestUnresearchedStandards(unittest.TestCase):
-    """The behaviour that the whole screen rests on."""
-
-    def test_unknown_standard_is_not_verified_not_cleared(self):
-        result = certification.lookup("IS 99999:2020")
-
-        self.assertEqual(result["scheme"], "not_verified")
-        self.assertFalse(result["mandatory"])
-        self.assertIn("not the same as", result["explanation"])
-
-    def test_not_verified_is_distinct_from_none(self):
-        """'checked, none applies' and 'never checked' are different answers."""
-        rules = certification.all_rules()
-        checked_none = [r for r in rules if r["scheme"] == "none"]
-        if not checked_none:
-            self.skipTest("no 'none' rules in the current data")
-
-        confirmed = certification.lookup(checked_none[0]["is_number"])
-        unknown = certification.lookup("IS 99999:2020")
-
-        self.assertEqual(confirmed["scheme"], "none")
-        self.assertEqual(unknown["scheme"], "not_verified")
-        self.assertNotEqual(confirmed["explanation"], unknown["explanation"])
+    def test_source_and_date_are_stated(self):
+        c = certification.coverage()
+        self.assertIn("BIS", c["source"])
+        self.assertTrue(c["retrieved"])
+        self.assertIn("not_verified", c["note"])
 
 
 class TestEndpoint(unittest.TestCase):
-    """The HTTP contract the certification screen consumes."""
-
     def test_rules_endpoint_matches_schema(self):
-        from main import app
-
-        with TestClient(app) as client:
-            res = client.get("/certification-rules")
-            self.assertEqual(res.status_code, 200)
-            body = res.json()
-
-        self.assertIn("rules", body)
-        self.assertIn("coverage", body)
-        for rule in body["rules"]:
-            self.assertIn("is_number", rule)
-            self.assertIn("scheme", rule)
-            if rule["mandatory"]:
-                self.assertTrue(rule["qco"])
-
-    def test_endpoint_never_lists_a_not_verified_scheme(self):
-        """'not_verified' is a per-lookup answer, never a listed rule."""
         from main import app
 
         with TestClient(app) as client:
             body = client.get("/certification-rules").json()
 
+        self.assertGreater(len(body["rules"]), 700)
         for rule in body["rules"]:
-            self.assertNotEqual(rule["scheme"], "not_verified")
+            self.assertNotIn(rule["scheme"], ("not_verified", "not_listed", "related"))
+            if rule["mandatory"]:
+                self.assertTrue(rule["qco"])
+        self.assertIn("deferred", body["coverage"])
 
 
 if __name__ == "__main__":

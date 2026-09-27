@@ -511,6 +511,14 @@ export function getCertificationRules({ signal } = {}) {
 }
 
 /**
+ * Certification status of any one standard, read from BIS's compulsory lists.
+ * `status` is in_force | deferred | checked_none | related_listed | not_listed | not_verified.
+ */
+export function getCertification(idOrNumber, { signal } = {}) {
+  return request(`/standards/${encodeURIComponent(idOrNumber)}/certification`, { signal });
+}
+
+/**
  * What changes if the requirement changes: the full search run on the base
  * description and again with the scenario's conditions added, and the diff.
  * Resolves to `{ base, scenario, added, removed, moved, unchanged, ... }`.

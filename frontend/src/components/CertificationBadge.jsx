@@ -1,75 +1,97 @@
 import Icon from './Icon';
 
 /**
- * Mandatory BIS certification status for a standard.
+ * Mandatory BIS certification status for a standard, read from BIS's lists of
+ * products under compulsory certification.
  *
- * Three states, and the UI must keep them distinct:
+ * `status` keeps materially different answers apart, and the UI must too:
  *
- *   ISI / CRS / Hallmark  a confirmed legal requirement
- *   none                  checked, and nothing applies
- *   not_verified          nobody checked, NOT a clearance
- *
- * Collapsing the last two would tell a procurement official that no
- * certification is needed when the truth is that we never looked, which is the
- * failure that actually costs someone money.
+ *   in_force        an order in force requires certification (ISI, CRS, Scheme X)
+ *   deferred        named in an order whose enforcement is deferred: not yet mandatory
+ *   related_listed  not listed itself, but a parent/general part or successor is
+ *   checked_none    checked by hand: no scheme applies
+ *   not_listed      not on BIS's compulsory lists as read on the retrieval date
+ *   not_verified    the lists could not be read: NOT a clearance
  */
 
-const SCHEME_LABEL = {
+export const SCHEME_LABEL = {
   ISI: 'BIS certification required (ISI mark)',
   CRS: 'BIS registration required (CRS)',
+  'Scheme X': 'BIS certification required (Scheme X)',
   Hallmark: 'BIS Hallmarking required',
+};
+
+export const SCHEME_DESCRIPTION = {
+  ISI: 'Scheme I, Standard Mark (ISI), under a BIS licence',
+  CRS: 'Scheme II, Compulsory Registration Scheme',
+  'Scheme X': 'Scheme X, BIS certificate of conformity',
+  Hallmark: 'BIS Hallmarking',
+};
+
+const SHORT = {
+  ISI: 'ISI mark required',
+  CRS: 'CRS registration required',
+  'Scheme X': 'BIS certificate required',
+  Hallmark: 'Hallmark required',
 };
 
 /** Compact badge for a result card. */
 export function CertificationBadge({ certification }) {
   if (!certification) return null;
-  const { scheme, mandatory } = certification;
+  const { scheme, mandatory, status } = certification;
+  const title = certification.explanation;
 
   if (mandatory) {
     return (
-      <span className="badge badge-accent" title={certification.explanation}>
+      <span className="badge badge-accent" title={title}>
         <Icon name="shield" size={11} />
-        {scheme === 'ISI' ? 'ISI mark required' : `${scheme} required`}
+        {SHORT[scheme] ?? `${scheme} required`}
       </span>
     );
   }
-
-  if (scheme === 'none') {
-    return (
-      <span className="badge badge-neutral" title={certification.explanation}>
-        No certification scheme
-      </span>
-    );
+  if (status === 'deferred') {
+    return <span className="badge badge-warn" title={title}>Certification deferred</span>;
   }
-
-  return (
-    <span className="badge badge-neutral" title={certification.explanation}>
-      Certification unverified
-    </span>
-  );
+  if (status === 'related_listed') {
+    return <span className="badge badge-warn" title={title}>Check related certification</span>;
+  }
+  if (status === 'checked_none' || status === 'not_listed' || scheme === 'none') {
+    return <span className="badge badge-neutral" title={title}>No compulsory certification</span>;
+  }
+  return <span className="badge badge-neutral" title={title}>Certification unverified</span>;
 }
 
 /**
- * Full-width banner for a confirmed requirement.
- *
- * Informational rather than alarming: this is a routine procurement fact, not
- * an error. It names the Quality Control Order so the official can cite it.
+ * Banner for a result that needs attention: an obligation in force, a
+ * deferred one, or a related listing that may apply. Names the order so the
+ * official can cite and check it.
  */
 export function CertificationBanner({ certification, isNumber }) {
-  if (!certification?.mandatory) return null;
+  if (!certification) return null;
+  const { mandatory, status } = certification;
+  if (!mandatory && status !== 'deferred' && status !== 'related_listed') return null;
+
+  const heading = mandatory
+    ? (SCHEME_LABEL[certification.scheme] ?? 'Certification required')
+    : status === 'deferred'
+      ? 'Named in a certification order, enforcement deferred'
+      : 'A related standard is under compulsory certification';
 
   return (
-    <div className="notice notice-info" role="note">
-      <Icon name="shield" size={15} />
+    <div className={`notice ${mandatory ? 'notice-info' : 'notice-warn'}`} role="note">
+      <Icon name={mandatory ? 'shield' : 'alert'} size={15} />
       <div className="stack stack-2">
         <span className="small strong">
-          {SCHEME_LABEL[certification.scheme] ?? 'Certification required'}
+          {heading}
           {isNumber ? `, ${isNumber}` : ''}
         </span>
         <span className="xs">{certification.explanation}</span>
         {certification.qco && (
           <span className="xs">
-            <strong>Governing order:</strong> {certification.qco}
+            <strong>Governing order:</strong>{' '}
+            {certification.qco_url
+              ? <a href={certification.qco_url} target="_blank" rel="noreferrer">{certification.qco}</a>
+              : certification.qco}
             {certification.gazette ? ` (${certification.gazette})` : ''}
           </span>
         )}

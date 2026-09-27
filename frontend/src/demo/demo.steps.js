@@ -278,9 +278,9 @@ export const demoSteps = [
     { nav: 'nav-certification', waitFor: 'cert-title' },
     'Act 5 · Certification',
     'Which standards carry a legal certification requirement.',
-    'BIS Scheme I and Quality Control Orders, with the governing order recorded.',
-    'Researched for 17 standards so far, and the screen reports the '
-      + 'unresearched remainder rather than presenting silence as a clearance.',
+    'Read from BIS’s own compulsory lists: ISI, CRS and Scheme X.',
+    'Hundreds of products, each linked to the Quality Control Order that '
+      + 'imposes it. Orders whose enforcement is deferred are shown as not yet mandatory.',
     4000,
   ),
 

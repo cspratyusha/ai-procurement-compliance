@@ -72,21 +72,29 @@ export default function Builder() {
     [list, certInfo]
   );
 
-  // Standards whose certification status nobody has checked. Surfaced so the
-  // officer knows the silence is unresearched rather than clear.
+  // Standards that need a look before issuing: named in a deferred order, a
+  // related part is listed, or the lists could not be read.
   const unverified = useMemo(
-    () => list.filter((i) => certInfo[i.code]?.scheme === 'not_verified'),
+    () => list.filter((i) => ['deferred', 'related_listed', 'not_verified'].includes(certInfo[i.code]?.status)),
     [list, certInfo]
   );
 
   const critical = gaps.filter((g) => g.severity === 'critical');
   const canExport = count > 0 && critical.length === 0;
 
-  const certClause = (rec) =>
-    `The item shall bear a valid ${rec.scheme} mark under the BIS ` +
-    `certification scheme${rec.qco ? `, as required by ${rec.qco}` : ''}. ` +
-    `The licence number shall be stated in the bid and shall be valid ` +
-    `at the time of supply.`;
+  const certClause = (rec) => {
+    const order = rec.qco ? `, as required by the ${rec.qco}${rec.gazette ? ` (${rec.gazette})` : ''}` : '';
+    if (rec.scheme === 'CRS') {
+      return `The item shall be registered with BIS under the Compulsory Registration Scheme${order}. ` +
+        'The registration number of the model offered shall be stated in the bid and marked on the product.';
+    }
+    if (rec.scheme === 'Scheme X') {
+      return `The item shall be covered by a valid BIS certificate of conformity under Scheme X${order}. ` +
+        'A copy of the certificate shall be furnished with the bid.';
+    }
+    return `The item shall bear a valid ISI mark under BIS Product Certification${order}. ` +
+      'The licence number shall be stated in the bid and shall be valid at the time of supply.';
+  };
 
   const runExport = async (kind) => {
     const project = spec.project || 'Specification';
@@ -294,14 +302,13 @@ export default function Builder() {
               <Icon name="alert" size={15} />
               <div className="stack stack-2">
                 <span className="small strong">
-                  {unverified.length} standard{unverified.length === 1 ? '' : 's'} with
-                  unverified certification status
+                  Check certification for {unverified.length} standard{unverified.length === 1 ? '' : 's'} before issuing
                 </span>
-                <span className="xs">
-                  {unverified.map((i) => i.code).join(', ')}, nobody has checked whether a
-                  mandatory BIS scheme applies. That is not a statement that none does, so
-                  confirm before issuing rather than reading the silence as a clearance.
-                </span>
+                {unverified.map((i) => (
+                  <span key={i.code} className="xs">
+                    <strong className="mono">{i.code}</strong>: {certInfo[i.code].explanation}
+                  </span>
+                ))}
               </div>
             </div>
           )}
