@@ -1,4 +1,4 @@
-from typing import Literal
+from typing import Literal, Optional
 from pydantic import BaseModel, Field
 
 
@@ -14,3 +14,19 @@ class Standard(BaseModel):
     last_amended: str = Field(..., description="Date of the latest amendment, YYYY-MM-DD")
     status: Literal["active", "superseded"] = Field(..., description="Current validity status")
     keywords: list[str] = Field(default_factory=list, description="List of domain keywords and technical terms")
+    superseded_by_number: Optional[str] = Field(
+        default=None,
+        description="IS number of the edition that replaced this one. May name an edition the corpus does not hold.",
+    )
+    withdrawn: bool = Field(
+        default=False,
+        description="BIS lists this edition as withdrawn. With no superseded_by_number, it has no replacement.",
+    )
+    withdrawal_note: Optional[str] = Field(
+        default=None,
+        description="BIS's reason for a withdrawal with no replacement, e.g. 'Decided by council'.",
+    )
+    status_source: Optional[str] = Field(
+        default=None,
+        description="Where the status came from: 'bis' (BIS's record for the standard); absent when inferred from the corpus.",
+    )
