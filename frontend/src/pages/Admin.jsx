@@ -234,14 +234,14 @@ export default function Admin() {
               <div className="card-body stack stack-4">
                 {[
                   {
-                    label: 'Certification confirmed',
+                    label: 'Under compulsory certification',
                     value: data.corpus.certification_mandatory,
-                    hint: 'Against a QCO. Everything else reports not_verified, which is not a clearance.',
+                    hint: `From BIS's compulsory lists${data.corpus.certification_retrieved ? `, read ${data.corpus.certification_retrieved}` : ''}. ${data.corpus.certification_deferred ?? 0} more are named in deferred orders.`,
                   },
                   {
-                    label: 'Amendments researched',
+                    label: 'Amendments found',
                     value: data.corpus.amendments_researched,
-                    hint: `${data.corpus.amendments_total} published amendments recorded across them.`,
+                    hint: `${data.corpus.amendments_total.toLocaleString('en-IN')} amendments read from the standards' archived copies.`,
                   },
                   {
                     label: 'Marked superseded',

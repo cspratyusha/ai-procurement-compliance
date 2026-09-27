@@ -141,12 +141,13 @@ class TestCorpusHealth(unittest.TestCase):
         health = alerts_module.corpus_health()
         self.assertEqual(health["active"] + health["superseded"], health["corpus_size"])
 
-    def test_unverified_certification_is_counted_not_hidden(self):
-        """An unverified status is explicitly not a clearance, so it is reported."""
+    def test_certification_statuses_partition_the_corpus(self):
+        """Every standard has exactly one certification status, and all are counted."""
         health = alerts_module.corpus_health()
-        self.assertGreaterEqual(health["certification_not_verified"], 0)
-        self.assertLessEqual(
-            health["certification_mandatory"] + health["certification_not_verified"],
+        self.assertEqual(
+            health["certification_mandatory"] + health["certification_deferred"]
+            + health["certification_related"] + health["certification_not_listed"]
+            + health["certification_not_verified"],
             health["corpus_size"],
         )
 

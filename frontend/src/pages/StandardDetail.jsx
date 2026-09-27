@@ -149,7 +149,7 @@ export default function StandardDetail() {
 
   const isSuperseded = standard.status === 'superseded';
   const statusBadge = isSuperseded
-    ? { cls: 'badge-crit', icon: 'alert', label: 'Superseded' }
+    ? { cls: 'badge-crit', icon: 'alert', label: standard.withdrawn ? 'Withdrawn' : 'Superseded' }
     : { cls: 'badge-ok', icon: 'check', label: 'Current' };
 
   const basketItem = {
@@ -212,10 +212,30 @@ export default function StandardDetail() {
             <div className="notice notice-warn">
               <Icon name="alert" size={15} />
               <div className="stack stack-2">
-                <span className="xs strong">This edition has been superseded</span>
+                <span className="xs strong">
+                  {standard.withdrawn
+                    ? (standard.superseded_by_number ? 'Withdrawn by BIS and replaced' : 'Withdrawn by BIS, with no replacement')
+                    : 'This edition has been superseded'}
+                </span>
                 <span className="xs">
-                  Citing it in a live tender risks procuring to a withdrawn specification.
-                  Check the BIS record for the current edition before use.
+                  {standard.superseded_by_number ? (
+                    <>
+                      Cite{' '}
+                      <Link to={`/app/standard/${encodeURIComponent(standard.superseded_by_number)}`} className="mono strong">
+                        {standard.superseded_by_number}
+                      </Link>{' '}
+                      instead{standard.status_source === 'bis' ? ', according to BIS’s record for this edition' : ''}.
+                      {' '}If the catalogue does not hold that edition, check its requirements on BIS before citing it.
+                    </>
+                  ) : standard.withdrawn ? (
+                    <>
+                      A withdrawn standard cannot be enforced as a requirement
+                      {standard.withdrawal_note ? ` (BIS: ${standard.withdrawal_note})` : ''}. Specify the
+                      requirement directly or find a current standard that covers it.
+                    </>
+                  ) : (
+                    'Citing it in a live tender risks procuring to a withdrawn specification. Check the BIS record for the current edition before use.'
+                  )}
                 </span>
               </div>
             </div>
@@ -253,7 +273,11 @@ export default function StandardDetail() {
             <div className="row-between wrap" style={{ gap: 'var(--s2)' }}>
               <span className="eyebrow">Amendments</span>
               {amendments?.count > 0 && (
-                <span className="badge badge-warn">{amendments.count} in force</span>
+                <span className="badge badge-warn">
+                  {amendments.status === 'found_in_text'
+                    ? `At least ${amendments.count}`
+                    : amendments.status === 'official' ? `${amendments.count} issued` : `${amendments.count} in force`}
+                </span>
               )}
             </div>
 
@@ -281,19 +305,20 @@ export default function StandardDetail() {
                         </span>
                         <span className="stack stack-2 grow" style={{ minWidth: 0 }}>
                           <span className="xs">
-                            {a.readable_date || 'Date not recorded'}
+                            {a.readable_date || (a.confidence === 'implied'
+                              ? 'Known from a later amendment; date not in the copy'
+                              : a.confidence === 'listed_by_bis' ? 'Listed by BIS; date not in the sources read' : 'Date not recorded')}
                             {a.confidence === 'likely' && (
                               <span className="xs faint"> · unconfirmed date</span>
                             )}
                           </span>
-                          {a.summary && <span className="xs muted">{a.summary}</span>}
+                          {a.summary && <span className="xs muted amend-excerpt">{a.summary}</span>}
                         </span>
                       </div>
                     ))}
                   </div>
-                ) : (
-                  <p className="xs muted">{amendments.note}</p>
-                )}
+                ) : null}
+                <p className="xs muted">{amendments.note}</p>
               </>
             )}
           </section>

@@ -219,32 +219,35 @@ export default function Compliance() {
               </div>
               <div className="card-body stack stack-4">
                 <CoverageBar
-                  label="Certification confirmed"
+                  label="Under compulsory certification"
                   value={health.certification_mandatory}
                   total={health.corpus_size}
                   tone="var(--ok)"
-                  hint="A mandatory BIS scheme positively confirmed against a QCO"
+                  hint="On BIS's compulsory lists under an order in force"
                 />
                 <CoverageBar
-                  label="Certification not verified"
-                  value={health.certification_not_verified}
+                  label="Deferred or related listing"
+                  value={(health.certification_deferred ?? 0) + (health.certification_related ?? 0)}
                   total={health.corpus_size}
                   tone="var(--warn)"
-                  hint="Status unknown, explicitly not a clearance"
+                  hint="Named in a deferred order, or a parent or general part is listed: check before issuing"
                 />
                 <CoverageBar
-                  label="Amendments researched"
+                  label="Amendments found"
                   value={health.amendments_researched}
                   total={health.corpus_size}
                   tone="var(--info)"
-                  hint={`${health.amendments_total} published amendments recorded across them`}
+                  hint={`${health.amendments_total.toLocaleString('en-IN')} amendments read from the standards' own archived copies, of ${(health.amendments_checked ?? 0).toLocaleString('en-IN')} copies read`}
                 />
                 <hr className="divider" />
                 <p className="xs muted">
-                  Certification and amendment research was done when the corpus was smaller
-                  and did not scale with it. A standard with no record has not been checked,
-                  which is not a statement that it is clean, the engine reports this
-                  per-record rather than implying coverage it does not have.
+                  Certification is read from BIS&rsquo;s lists of products under compulsory
+                  certification
+                  {health.certification_retrieved ? `, as read on ${new Date(health.certification_retrieved).toLocaleDateString('en-IN', { dateStyle: 'medium' })}` : ''}.
+                  The other {(health.certification_not_listed ?? 0).toLocaleString('en-IN')} standards are
+                  not on those lists. Amendments are read from the slips bound into each
+                  standard&rsquo;s archived copy; a copy only holds amendments issued before it was
+                  made, so later ones may exist.
                 </p>
               </div>
             </div>
@@ -356,7 +359,7 @@ export default function Compliance() {
                     </span>
                   </div>
                   <span className="xs faint">
-                    Not a statement that they have none, only that nobody has looked.
+                    No archived text to read them from. Not a statement that they have none.
                   </span>
                 </div>
                 <Link to="/app/alerts" className="btn btn-secondary btn-sm">

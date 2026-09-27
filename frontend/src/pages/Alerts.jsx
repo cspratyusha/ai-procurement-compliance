@@ -24,11 +24,11 @@ import { sectorLabel as labelFor } from '../data/sectors';
  * relative times were the most convincing thing on it and the least true, so
  * this one shows none at all rather than a defensible-looking substitute.
  *
- * **A short list is not an all-clear.** Amendments are researched for three
- * standards out of forty-five. A standard raising no finding has almost
- * certainly never been checked, which is a completely different statement
- * from "it is clean", so the coverage line is rendered with the list, not
- * tucked into a tooltip.
+ * **No finding is not an all-clear.** Amendments are read from the slips in
+ * each standard's archived copy, and a copy only holds amendments issued
+ * before it was made. A standard raising no finding may still have later
+ * amendments, so the coverage line is rendered with the list, not tucked
+ * into a tooltip.
  */
 
 const KIND = {
@@ -163,7 +163,7 @@ export default function Alerts() {
                   title={findings.length === 0 ? 'No findings in this corpus' : 'Nothing matches this filter'}
                   body={
                     findings.length === 0
-                      ? 'No superseded editions or researched amendments were found. Most standards have not been checked for amendments, so this is not an all-clear.'
+                      ? 'No superseded editions or amendments were found. Amendments issued after a standard’s archived copy was made would not show here, so this is not an all-clear.'
                       : 'Widen the severity or sector filter to see the rest of the scan.'
                   }
                 />
@@ -279,11 +279,11 @@ export default function Alerts() {
                   <span className="xs tabular strong">{data.coverage.superseded_in_corpus}</span>
                 </div>
                 <div className="row-between">
-                  <span className="xs">Amendments researched</span>
-                  <span className="xs tabular strong">{data.coverage.amendments_researched}</span>
+                  <span className="xs">Read for amendments</span>
+                  <span className="xs tabular strong">{data.coverage.amendments_researched.toLocaleString('en-IN')}</span>
                 </div>
                 <div className="row-between">
-                  <span className="xs faint">Never checked for amendments</span>
+                  <span className="xs faint">No text to read</span>
                   <span className="xs tabular strong" style={{ color: 'var(--warn)' }}>
                     {data.coverage.amendments_unchecked}
                   </span>
