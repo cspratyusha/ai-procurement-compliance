@@ -96,7 +96,7 @@ def tidy_scope(scope: str) -> str:
     """Trim a scope clause that ran past its own section.
 
     The extractor truncates at the next clause heading, but records ingested
-    before that fix carry citation text — "...plywood teachests. 2 REFERENCES
+    before that fix carry citation text, "...plywood teachests. 2 REFERENCES
     2.1 The Indian Standard IS 4900...". Rather than re-fetch thousands of
     documents, the same truncation is applied here at merge time, so the
     corpus is clean regardless of when a record was parsed.

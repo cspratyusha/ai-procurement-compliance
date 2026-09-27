@@ -6,7 +6,7 @@ single query flipping moves P@1 by four percentage points, and 24 queries
 cannot cover 17 sectors.
 
 Queries here are derived from each standard's own title, in the way a
-procurement official would actually phrase a request — not copied verbatim,
+procurement official would actually phrase a request, not copied verbatim,
 because a query identical to the title measures string matching rather than
 retrieval.
 
@@ -53,7 +53,7 @@ _PREFIXES = [
 def query_from_title(title: str, rng: random.Random) -> str:
     """Turn a standard's title into something a person would type."""
     text = _DROP.sub(" ", title)
-    text = re.sub(r"[-—:,()]+", " ", text)
+    text = re.sub(r"[-:,()]+", " ", text)
     text = re.sub(r"\s{2,}", " ", text).strip()
 
     words = text.split()

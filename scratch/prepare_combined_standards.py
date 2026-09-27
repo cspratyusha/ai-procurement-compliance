@@ -11,7 +11,7 @@ seed_additions = [
     {
         "id": "std_011",
         "number": "IS 456:2000",
-        "title": "Plain and Reinforced Concrete — Code of Practice",
+        "title": "Plain and Reinforced Concrete, Code of Practice",
         "scope": "This standard deals with the general structural use of plain and reinforced concrete in buildings and structures. It covers design principles, material quality requirements, execution, quality control, and safety factors for reinforced concrete construction.",
         "description": "Primary Indian code of practice for plain and reinforced concrete design and structural safety. Use for all reinforced concrete construction and civil infrastructure tenders.",
         "category": "structural_steel",
@@ -71,7 +71,7 @@ seed_additions = [
     {
         "id": "std_016",
         "number": "IS 15298-2:2016",
-        "title": "Personal Protective Equipment — Part 2: Safety Footwear",
+        "title": "Personal Protective Equipment, Part 2: Safety Footwear",
         "scope": "This standard specifies basic and additional (optional) requirements for safety footwear used for commercial and industrial work, including impact resistance, slip resistance, and thermal hazards.",
         "description": "Commercial safety boots and shoes meeting stringent industrial safety requirements with steel toe caps and slip-resistant soles.",
         "category": "ppe",

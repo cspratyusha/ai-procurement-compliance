@@ -4,7 +4,7 @@ The pilot corpus was placeholder data: realistic IS numbers with scope text we
 wrote ourselves. This replaces that with the **published scope clause of the
 actual standard**, which is the difference between a demo and a usable tool.
 
-Source: the `gov.in.is.*` collection on archive.org — 22,022 Indian Standards
+Source: the `gov.in.is.*` collection on archive.org, 22,022 Indian Standards
 published by Public.Resource.Org on the principle that law citizens must obey
 should be freely readable. Each item carries a plain-text rendering alongside
 the PDF, so no PDF parsing is needed.
@@ -111,7 +111,7 @@ def http_get(url: str, timeout: int = 45) -> bytes:
 def scrape_all(batch: int = 1000):
     """Yield every item in the collection, via the cursor-based scrape API.
 
-    `advancedsearch` cannot page past 10,000 results — it is Solr underneath,
+    `advancedsearch` cannot page past 10,000 results, it is Solr underneath,
     and deep paging returns a different response shape that has no `response`
     key at all. The first attempt at a full scan died at page 21 for exactly
     that reason, having seen 9,336 of 22,022 standards.
@@ -554,7 +554,7 @@ def _write_output(ingested: List[dict], partial: bool = False) -> None:
         json.dumps(
             {
                 "_meta": {
-                    "source": "https://archive.org/ — gov.in.is.* collection (Public.Resource.Org)",
+                    "source": "https://archive.org/, gov.in.is.* collection (Public.Resource.Org)",
                     "retrieved": time.strftime("%Y-%m-%d"),
                     "provenance": "published_text_ocr",
                     "provenance_meaning": (

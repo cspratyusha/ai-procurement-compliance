@@ -28,9 +28,9 @@ eval_set = [
     {"query_id": "eval_21", "query": "industrial head protection hard hat helmet against falling objects in construction", "correct_id": "std_009", "difficulty": "technical_description"},
     
     # Category: Supersession & Disambiguation Queries (Testing active successor ranking over superseded predecessor)
-    {"query_id": "eval_22", "query": "Tender cites IS 226 structural steel plates for bridge structure — retrieve current valid active replacement standard", "correct_id": "std_001", "difficulty": "supersession_disambiguation"},
+    {"query_id": "eval_22", "query": "Tender cites IS 226 structural steel plates for bridge structure, retrieve current valid active replacement standard", "correct_id": "std_001", "difficulty": "supersession_disambiguation"},
     {"query_id": "eval_23", "query": "Procurement of standard structural steel replacing legacy obsolete IS 226 standard quality", "correct_id": "std_001", "difficulty": "supersession_disambiguation"},
-    {"query_id": "eval_24", "query": "Hot rolled deformed reinforcing steel bars cited under legacy IS 1139 — get current valid replacement rebar standard", "correct_id": "std_012", "difficulty": "supersession_disambiguation"}
+    {"query_id": "eval_24", "query": "Hot rolled deformed reinforcing steel bars cited under legacy IS 1139, get current valid replacement rebar standard", "correct_id": "std_012", "difficulty": "supersession_disambiguation"}
 ]
 
 train_queries = [
