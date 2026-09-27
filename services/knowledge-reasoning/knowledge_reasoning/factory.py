@@ -2,7 +2,7 @@
 
 This is the *only* place that decides fixture vs. live. Business logic
 (Phase 2/3/4) takes `GraphRepository` / `StandardsRepository` / `RetrievalPort`
-as constructor arguments and never imports an adapter directly — so
+as constructor arguments and never imports an adapter directly, so
 pointing at Teammate 1's real database, once it exists, is a change to
 this module (or just the `KR_*` environment variables it reads), never a
 change to the algorithms.

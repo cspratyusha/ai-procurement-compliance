@@ -1,5 +1,5 @@
 """PostgresGraphRepository, run against a real Postgres seeded with the
-same fixture data FixtureGraphRepository uses — proves the two backends
+same fixture data FixtureGraphRepository uses, proves the two backends
 agree, not just that each one independently "does something".
 """
 
@@ -48,7 +48,7 @@ def pg_conn(schema: SchemaMap):
     except BaseException:
         # A failure here (setup errors before the fixture's yield don't
         # otherwise trigger cleanup) must never leave conn open holding
-        # locks on an uncommitted transaction — that's what turned one
+        # locks on an uncommitted transaction, that's what turned one
         # earlier bug (an unmapped relationship type crashing the loader
         # mid-transaction) into a full-suite hang: this connection sat
         # idle-in-transaction indefinitely, blocking every later test
@@ -79,7 +79,7 @@ pytestmark = pytest.mark.live_postgres
 # real FK constraint, so the loader drops that one edge at load time (see
 # fixture_loader.py) and PostgresGraphRepository correctly never reaches it.
 # This is the documented divergence from fixtures/README.md's "ugly cases",
-# not a bug — excluded from the parity comparison below on purpose.
+# not a bug, excluded from the parity comparison below on purpose.
 _KNOWN_DANGLING_TARGET = "IS 99999:1999"
 
 
@@ -118,7 +118,7 @@ def test_expand_cycle_does_not_hang_against_real_postgres(pg_repo) -> None:
 
 def test_expand_dangling_reference_does_not_crash_against_real_postgres(pg_repo) -> None:
     # The dangling edge is dropped at load time (real FK constraints,
-    # unlike Neo4j's MERGE) — this asserts the load+read path survives it,
+    # unlike Neo4j's MERGE), this asserts the load+read path survives it,
     # not that the phantom target is reachable.
     paths = pg_repo.expand(["IS 1944-1:1970"], max_hops=1).paths
     assert isinstance(paths, list)
@@ -170,7 +170,7 @@ def test_unmapped_relationship_type_falls_back_against_real_postgres(pg_repo, pg
 
 
 def test_hub_node_reachable_via_multiple_normative_references(pg_repo) -> None:
-    # IS 12063:1987 is the deliberate hub — five inbound normative_reference
+    # IS 12063:1987 is the deliberate hub, five inbound normative_reference
     # edges (see fixtures/README.md). Confirms multi-seed fan-in resolves
     # against real Postgres the same way it does in-memory.
     paths = pg_repo.expand([PRIMARY], max_hops=1).paths

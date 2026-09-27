@@ -68,34 +68,34 @@
 
 ## 2. Overall System Workflow (Descriptive)
 
-### Stage 1 — Input Capture
-The system accepts input from five entry points: the web app (typed or uploaded), the Chrome extension (captured from a live tender form field), voice input, a direct REST API call from an integrated portal, or a batch document upload in audit mode. All entry points converge on the same backend pipeline — no capability exists in one interface that is absent in another.
+### Stage 1: Input Capture
+The system accepts input from five entry points: the web app (typed or uploaded), the Chrome extension (captured from a live tender form field), voice input, a direct REST API call from an integrated portal, or a batch document upload in audit mode. All entry points converge on the same backend pipeline, no capability exists in one interface that is absent in another.
 
-### Stage 2 — Normalisation
+### Stage 2: Normalisation
 Uploaded documents are parsed (OCR applied for scanned PDFs). Voice is transcribed. Non-English input is detected and translated or handled directly by the multilingual embedding model. The result is a clean, normalised query string plus optional structured hints (product category, sector, use-case parameters from the scenario simulator).
 
-### Stage 3 — Candidate Generation
+### Stage 3: Candidate Generation
 The normalised query is embedded and searched against the vector store for semantic matches, and simultaneously searched via BM25 for exact technical terms and partial standard numbers. Results are merged and de-duplicated into a candidate pool.
 
-### Stage 4 — Ranking
+### Stage 4: Ranking
 A cross-encoder scores each query-candidate pair for precise relevance. The learned re-ranker then applies weights derived from real user behaviour, refining the order beyond what similarity alone can capture.
 
-### Stage 5 — Cluster Construction
-For each top-ranked candidate, the graph is traversed to assemble the complete standard cluster. This converts a list of standards into a structured, relationship-aware recommendation — which is what procurement specs actually require.
+### Stage 5: Cluster Construction
+For each top-ranked candidate, the graph is traversed to assemble the complete standard cluster. This converts a list of standards into a structured, relationship-aware recommendation, which is what procurement specs actually require.
 
-### Stage 6 — Verification
+### Stage 6: Verification
 Every standard in the cluster is checked against authoritative metadata: is this the current version, has it been superseded, does it trigger mandatory certification, does it overlap in scope with another candidate, does its history correlate with disputes. Low-confidence result sets are diverted to the orphan-flagging path instead of being returned as recommendations.
 
-### Stage 7 — Explanation & Generation
+### Stage 7: Explanation & Generation
 Only now does the LLM engage, and only over verified data. It produces human-readable reasoning, version-change summaries, risk/impact statements, and draft clause text. It cannot introduce standards that did not come from retrieval.
 
-### Stage 8 — Delivery & Action
+### Stage 8: Delivery & Action
 The structured result is rendered according to the consumer: rich cards and graph view in the web app, inline suggestions in the extension, redline diff in audit mode, JSON in API responses. The user accepts, rejects, corrects, or edits.
 
-### Stage 9 — Learning
-Every action is logged. Accepted/rejected/corrected recommendations become labelled training pairs. The scheduled retraining job consumes these to improve the learned re-ranker — the system's accuracy compounds with usage at zero labelling cost.
+### Stage 9: Learning
+Every action is logged. Accepted/rejected/corrected recommendations become labelled training pairs. The scheduled retraining job consumes these to improve the learned re-ranker, the system's accuracy compounds with usage at zero labelling cost.
 
-### Stage 10 — Continuous Monitoring
+### Stage 10: Continuous Monitoring
 Independently of user activity, the background scheduler polls for standards revisions and amendments, updates the data stores, and dispatches alerts to subscribed users and organisations.
 
 ---

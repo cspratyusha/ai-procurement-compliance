@@ -2,14 +2,14 @@
 
 `graph/queries.py` and `db/queries.py` are the only modules permitted to
 contain Cypher/SQL, and both build every query by interpolating names out of
-this module — never a hardcoded label, relationship type, table, or column
+this module, never a hardcoded label, relationship type, table, or column
 name anywhere else in the codebase. When Teammate 1's real schema differs
 from what's guessed here, this file (or `schema_map.yaml`) is the only thing
 that needs to change.
 
 Direction matters as much as the name
 --------------------------------------
-`SUPERSEDES` and `SUPERSEDED_BY` are not a naming difference — they assert
+`SUPERSEDES` and `SUPERSEDED_BY` are not a naming difference, they assert
 opposite facts. A relationship-type entry that carries only a name and lets
 the reader assume a direction is a latent bug: the day the name is swapped
 for a same-named-but-reversed edge, traversal silently inverts (e.g. the
@@ -22,13 +22,13 @@ using a known superseded/superseding pair seeded into the fixture.
 Identifier safety
 ------------------
 Every label, relationship type, table, and column name here is interpolated
-directly into Cypher/SQL strings (never as a bound query parameter — Cypher
+directly into Cypher/SQL strings (never as a bound query parameter, Cypher
 does not allow binding schema names as parameters). That makes each of these
-values a structural part of the query, not user data — but it is still an
+values a structural part of the query, not user data, but it is still an
 injection surface if a malformed or malicious value ever reached this map
 (e.g. from a YAML override). Every value is validated against a strict
 identifier pattern at load time, in `validate()`, called once at process
-startup by `load_schema_map()` — never lazily at query time, so a bad config
+startup by `load_schema_map()`, never lazily at query time, so a bad config
 fails loudly before anything talks to a database.
 """
 
@@ -84,7 +84,7 @@ def _validate_identifier(value: str, *, context: str) -> str:
 # ---------------------------------------------------------------------------
 # Defaults. These follow Solution_details/07_Data_Flow_And_Databases.md
 # wherever the planning docs speak, and the original Part 3 brief wherever
-# the docs are silent — see INTEGRATION.md for the full list of divergences
+# the docs are silent, see INTEGRATION.md for the full list of divergences
 # and what needs to be confirmed with Teammate 1.
 # ---------------------------------------------------------------------------
 
@@ -100,10 +100,10 @@ DEFAULT_NODE_LABELS: dict[str, str] = {
 # roles (supersession, overlap, category).
 DEFAULT_RELATIONSHIP_TYPES: dict[str, RelSpec] = {
     # Cluster-membership roles (contracts.cluster.EdgeType) -----------------
-    # Docs: (Standard)-[:NORMATIVE_REFERENCE]->(Standard) — seed references
+    # Docs: (Standard)-[:NORMATIVE_REFERENCE]->(Standard), seed references
     # the target normatively, so seed -> target is outgoing.
     "normative_reference": RelSpec("NORMATIVE_REFERENCE", "outgoing"),
-    # Docs: (TestMethodStandard)-[:TEST_METHOD_FOR]->(ProductStandard) — when
+    # Docs: (TestMethodStandard)-[:TEST_METHOD_FOR]->(ProductStandard), when
     # the seed is the product standard, its test methods are reached by
     # walking the edge backwards, i.e. incoming.
     "test_method_for": RelSpec("TEST_METHOD_FOR", "incoming"),
@@ -111,7 +111,7 @@ DEFAULT_RELATIONSHIP_TYPES: dict[str, RelSpec] = {
     "safety_requirement_for": RelSpec("SAFETY_REQUIREMENT_FOR", "incoming"),
     # CORRECTED against real data (integration Stage B): the demo corpus's
     # one real INSTALLATION_GUIDE_FOR edge is (ProductStandard)->(InstallationCode)
-    # — IS 694:2010 -> IS 732:2019 — the opposite of the guessed direction
+    # IS 694:2010 -> IS 732:2019, the opposite of the guessed direction
     # below this replaced. With the old "incoming" setting, expand() from
     # IS 694:2010 (the frontend's own worked example) returned zero allied
     # standards. Confirmed correct now via the same real pair.
@@ -119,11 +119,11 @@ DEFAULT_RELATIONSHIP_TYPES: dict[str, RelSpec] = {
     # Confirmed real (Stage C): IS 2062:2011 -> IS 800:2007, product ->
     # design code, same direction and role as INSTALLATION_GUIDE_FOR.
     "design_code_for": RelSpec("DESIGN_CODE_FOR", "outgoing"),
-    # Docs are silent on both of these — see INTEGRATION.md.
+    # Docs are silent on both of these, see INTEGRATION.md.
     "related_product": RelSpec("RELATED_PRODUCT", "either"),
     "amended_by": RelSpec("AMENDED_BY", "outgoing"),
     # Three more real, domain-specific "related" variants (Stage C),
-    # symmetric like RELATED_PRODUCT — real data's own direction is
+    # symmetric like RELATED_PRODUCT, real data's own direction is
     # arbitrary per pair, not semantically meaningful either way.
     "complementary_part": RelSpec("COMPLEMENTARY_PART", "either"),
     "related_ppe": RelSpec("RELATED_PPE", "either"),
@@ -147,13 +147,13 @@ DEFAULT_PROPERTY_NAMES: dict[str, str] = {
     "status": "status",  # active / superseded / withdrawn
     "edition": "edition_year",
     # ProductCategory nodes are merged on `id`; `name` is the display
-    # property — confirmed from neo4j_client.upsert_category.
+    # property, confirmed from neo4j_client.upsert_category.
     "category_name": "name",
     "overlap_score": "overlap_score",  # optional property on OVERLAPS_SCOPE_WITH
     # Not present in either of Teammate 1's schemas at all. Was a flat
     # config guess; superseded by real derivation logic in Phase 3's
     # freshness checker (VersionStatus.data_verified / verification_reason),
-    # not a column lookup — see db/queries.py and INTEGRATION.md. Left here
+    # not a column lookup, see db/queries.py and INTEGRATION.md. Left here
     # only for the (currently unpopulated, aspirational) Neo4j path, should
     # Teammate 1 ever add it.
     "verified": "verified",
@@ -165,7 +165,7 @@ DEFAULT_TABLE_NAMES: dict[str, str] = {
     "certification_rules": "certification_rules",
     "product_categories": "product_categories",
     # Confirmed real (data/schema.sql): the graph relationship data itself
-    # lives here, not in Neo4j — see PostgresGraphRepository.
+    # lives here, not in Neo4j, see PostgresGraphRepository.
     "standard_relationships": "standard_relationships",
 }
 
@@ -174,7 +174,7 @@ DEFAULT_TABLE_NAMES: dict[str, str] = {
 # This replaced a flat dict during integration with Teammate 1's real
 # schema (data/schema.sql). The flat version broke on the first real
 # cross-table join: `standards`' own PK is `id`, but `amendments`' FK
-# pointing at it is `standard_id` — two different real column names for
+# pointing at it is `standard_id`, two different real column names for
 # the same concept, in different tables. One flat key cannot represent
 # both without ambiguity ("standard_id" -> "id" would then be silently
 # wrong for `amendments.standard_id`, which really is called that).
@@ -184,7 +184,7 @@ DEFAULT_COLUMN_NAMES: dict[str, dict[str, str]] = {
     "standards": {
         "id": "id",
         # CONFIRMED against data/schema.sql (Teammate 1's real, operative
-        # schema — see INTEGRATION.md "which Part 1 is authoritative").
+        # schema, see INTEGRATION.md "which Part 1 is authoritative").
         "standard_number": "number",
         "title": "title",
         "scope_text": "scope",
@@ -192,34 +192,33 @@ DEFAULT_COLUMN_NAMES: dict[str, dict[str, str]] = {
         "current_version": "version",
         "last_amended": "last_amended",
         # Flat string column, populated for every real standard (confirmed
-        # Stage C: 18/18). This is the real, working category source —
-        # `product_category_id` below exists in their schema but is never
+        # Stage C: 18/18). This is the real, working category source,         # `product_category_id` below exists in their schema but is never
         # populated by their ingestion path; kept only in case that changes.
         "category": "category",
         "superseded_by_id": "superseded_by_id",
         "product_category_id": "product_category_id",
         "sector": "sector",
         # Used by the `verified` derivation (VersionStatus.data_verified /
-        # verification_reason) — see db/queries.py, not a column rename.
+        # verification_reason), see db/queries.py, not a column rename.
         "source_url": "source_url",
         "source_checked_at": "source_checked_at",
     },
     "amendments": {
         "id": "amendment_id",
-        "standard_id": "standard_id",  # FK into standards.id — real table is empty in practice; see AMENDED_BY-edge amendments in db/queries.py
+        "standard_id": "standard_id",  # FK into standards.id, real table is empty in practice; see AMENDED_BY-edge amendments in db/queries.py
         "amendment_number": "amendment_number",
         "date_issued": "date_issued",
         "change_summary": "change_summary",
     },
     "certification_rules": {
-        # Flat TEXT match against standards.category — Teammate 1's real
+        # Flat TEXT match against standards.category, Teammate 1's real
         # table has no product_category_id/standard_id FK columns at all
         # (confirmed Stage A/B), so this is a WHERE equality, never a join.
         "category": "category",
         "scheme_type": "scheme_type",
         "mandatory": "mandatory",
         # None of these four exist in Teammate 1's real schema (confirmed
-        # Stage A/B) — kept as the aspirational config target for if/when
+        # Stage A/B), kept as the aspirational config target for if/when
         # they're added. The query that would read them defaults them to
         # None/[] in code rather than selecting nonexistent columns; see
         # db/queries.py and INTEGRATION.md, "certification traceability".
@@ -276,7 +275,7 @@ class SchemaMap:
         return self.table_names[key]
 
     def column(self, table_key: str, logical_key: str) -> str:
-        """Table-scoped column lookup — see DEFAULT_COLUMN_NAMES' docstring
+        """Table-scoped column lookup, see DEFAULT_COLUMN_NAMES' docstring
         for why this isn't a flat namespace."""
         return self.column_names[table_key][logical_key]
 
@@ -346,7 +345,7 @@ def _merge_nested_dict(
 def load_schema_map(yaml_path: str | Path | None = None) -> SchemaMap:
     """Build the effective schema map: defaults, overridden by a YAML file
     when one is given (env var `KR_SCHEMA_MAP_PATH`, or an explicit path).
-    Always validates before returning — a bad map never reaches a caller.
+    Always validates before returning, a bad map never reaches a caller.
     """
     schema = SchemaMap()
 

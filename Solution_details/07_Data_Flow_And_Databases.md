@@ -8,13 +8,13 @@
 | **Neo4j** | Graph | Standard-to-standard relationships | Allied/normative discovery is inherently a traversal problem; SQL joins scale badly for multi-hop relationship queries |
 | **Vector Database** | Vector | Embeddings of standard titles, scopes, abstracts | Enables semantic similarity search |
 | **Keyword Index** | Inverted index | Tokenised standard text | Exact technical term and partial-number matching |
-| **Analytics / Logging Store** | Relational or columnar | Query logs, candidate sets, scores, user actions, audit trail, LTR training data | Append-heavy, analytical workload — separated so it never contends with transactional reads |
+| **Analytics / Logging Store** | Relational or columnar | Query logs, candidate sets, scores, user actions, audit trail, LTR training data | Append-heavy, analytical workload, separated so it never contends with transactional reads |
 
 ---
 
 ## 2. Core Data Model
 
-### 2.1 PostgreSQL — key entities
+### 2.1 PostgreSQL: key entities
 
 ```
 standards
@@ -56,7 +56,7 @@ dashboard_aggregates
   └── (pre-computed metrics refreshed on schedule)
 ```
 
-### 2.2 Neo4j — graph model
+### 2.2 Neo4j: graph model
 
 **Nodes**
 - `Standard` (standard_id, number, title, status)
@@ -78,7 +78,7 @@ dashboard_aggregates
 
 The graph holds **relationships and identifiers only**; full descriptive metadata stays in PostgreSQL. This avoids duplicating the source of truth.
 
-### 2.3 Vector Database — record shape
+### 2.3 Vector Database: record shape
 
 ```
 {
@@ -92,7 +92,7 @@ The graph holds **relationships and identifiers only**; full descriptive metadat
 
 Metadata is duplicated intentionally so filters can be applied *during* vector search rather than after, improving both speed and precision.
 
-### 2.4 Analytics Store — interaction record
+### 2.4 Analytics Store: interaction record
 
 ```
 interaction
@@ -139,7 +139,7 @@ PostgreSQL     Neo4j        Embedding      Keyword
  cert rules)  cross-ref list)
 ```
 
-**Consistency rule:** PostgreSQL is the **single source of truth**. Neo4j, the vector DB, and the keyword index are all derived projections. If they diverge, they are rebuilt from PostgreSQL — never the reverse. This prevents the classic multi-store drift problem.
+**Consistency rule:** PostgreSQL is the **single source of truth**. Neo4j, the vector DB, and the keyword index are all derived projections. If they diverge, they are rebuilt from PostgreSQL, never the reverse. This prevents the classic multi-store drift problem.
 
 ---
 
@@ -226,7 +226,7 @@ User accepts / rejects / corrects a recommendation
    (versioned)
 ```
 
-Historical acceptance rates computed from the same store are also fed back as a **live feature** during inference — so the system benefits from feedback even between retraining cycles.
+Historical acceptance rates computed from the same store are also fed back as a **live feature** during inference, so the system benefits from feedback even between retraining cycles.
 
 ---
 
@@ -298,14 +298,14 @@ Interaction record written to ANALYTICS STORE
 | Pipeline Step | Reads From | Writes To | AI Involved |
 |---|---|---|---|
 | Ingestion | External source | PostgreSQL, Neo4j, Vector DB, Keyword Index | Embedding model |
-| Query preprocessing | — | — | Speech-to-text, language detection |
-| Candidate retrieval | Vector DB, Keyword Index | — | Embedding model |
-| Cross-encoder rerank | — | — | Cross-encoder model |
-| LTR rerank | Analytics Store (acceptance rates) | — | LightGBM/XGBoost ranker |
-| Graph expansion | Neo4j | — | No |
-| Validation/enrichment | PostgreSQL, Analytics Store | — | No (deterministic) |
-| Reasoning & generation | — (grounded context only) | — | LLM |
-| Response logging | — | Analytics Store | No |
-| Feedback capture | — | Analytics Store | No |
+| Query preprocessing | – | – | Speech-to-text, language detection |
+| Candidate retrieval | Vector DB, Keyword Index | – | Embedding model |
+| Cross-encoder rerank | – | – | Cross-encoder model |
+| LTR rerank | Analytics Store (acceptance rates) | – | LightGBM/XGBoost ranker |
+| Graph expansion | Neo4j | – | No |
+| Validation/enrichment | PostgreSQL, Analytics Store | – | No (deterministic) |
+| Reasoning & generation |, (grounded context only) | – | LLM |
+| Response logging | – | Analytics Store | No |
+| Feedback capture | – | Analytics Store | No |
 | Model retraining | Analytics Store | Model registry | LTR training |
 | Revision monitoring | External source, PostgreSQL | All stores, Notification queue | Embedding model (re-embed) |

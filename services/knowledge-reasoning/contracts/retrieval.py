@@ -1,6 +1,6 @@
 """Input contract: what Part 2 (Retrieval & Ranking) hands to Part 3.
 
-This is a proposal, not yet confirmed by Teammate 2 — see INTEGRATION.md.
+This is a proposal, not yet confirmed by Teammate 2, see INTEGRATION.md.
 """
 
 from __future__ import annotations

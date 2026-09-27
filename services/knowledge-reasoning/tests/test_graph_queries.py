@@ -44,7 +44,7 @@ def test_curated_overlaps_query_is_symmetric_and_deduped() -> None:
 
 def test_merge_relationship_query_never_consults_direction() -> None:
     # Writing always uses the fixture's own explicit from/to, regardless of
-    # what direction is configured for reads — see module docstring.
+    # what direction is configured for reads, see module docstring.
     schema = SchemaMap()
     for rel_key in ("test_method_for", "normative_reference"):
         cypher = queries.build_merge_relationship_query(schema, rel_key)

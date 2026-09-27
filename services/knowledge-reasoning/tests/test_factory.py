@@ -13,7 +13,7 @@ def test_default_settings_wire_up_postgres_graph_and_standards_backends(
     monkeypatch: pytest.MonkeyPatch,
 ) -> None:
     # As of integration Stage E: postgres is the default graph/standards
-    # backend, not fixture — a default pointing at an empty Neo4j that
+    # backend, not fixture, a default pointing at an empty Neo4j that
     # silently returns nothing is a trap. See settings.py.
     monkeypatch.delenv("KR_GRAPH_BACKEND", raising=False)
     monkeypatch.delenv("KR_STANDARDS_BACKEND", raising=False)
@@ -25,7 +25,7 @@ def test_default_settings_wire_up_postgres_graph_and_standards_backends(
 def test_fixture_mode_still_works_end_to_end_when_explicitly_selected(
     monkeypatch: pytest.MonkeyPatch,
 ) -> None:
-    # Offline, no database required — the suite this test lives in relies
+    # Offline, no database required, the suite this test lives in relies
     # on this staying true for the rest of the project.
     monkeypatch.setenv("KR_GRAPH_BACKEND", "fixture")
     monkeypatch.setenv("KR_STANDARDS_BACKEND", "fixture")

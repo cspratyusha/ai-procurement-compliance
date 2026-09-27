@@ -1,6 +1,6 @@
 """Confirms fixtures/sparse_real_topology/ actually has the shape it
-claims to — real-corpus-like sparsity, disconnection, and an unmapped
-relationship type — so this fixture stays a meaningful stand-in for real
+claims to, real-corpus-like sparsity, disconnection, and an unmapped
+relationship type, so this fixture stays a meaningful stand-in for real
 data rather than silently drifting back toward the dense, connected shape
 the other two fixtures deliberately use for their own (different) edge
 cases.
@@ -21,7 +21,7 @@ DOMAIN_DIR = Path(__file__).parent.parent / "fixtures" / "sparse_real_topology"
 def test_edge_density_is_realistically_sparse() -> None:
     domain = load_fixture_domain(DOMAIN_DIR)
     # belongs_to edges are category bookkeeping, not graph-relationship
-    # density — exclude them from the same "edges/node" measure Stage C
+    # density, exclude them from the same "edges/node" measure Stage C
     # used, or every fixture would look artificially denser than the real
     # corpus it's meant to mirror.
     structural_edges = [e for e in domain.edges if e.type != "belongs_to"]
@@ -62,7 +62,7 @@ def test_unmapped_type_falls_back_in_a_realistic_looking_fixture() -> None:
 def test_richest_node_still_reflects_real_corpus_scale() -> None:
     # The real corpus's richest node (IS 2062:2011) has 3 structural edges
     # total. This fixture's richest node should be in the same ballpark,
-    # not a hub — that edge case lives in street_lighting/ on purpose.
+    # not a hub, that edge case lives in street_lighting/ on purpose.
     schema = SchemaMap()
     domain = load_fixture_domain(DOMAIN_DIR)
     repo = FixtureGraphRepository(schema, domains=[domain])

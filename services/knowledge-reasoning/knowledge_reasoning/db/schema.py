@@ -1,6 +1,6 @@
 """Applies db/schema.sql (Phase 1 dev DDL) to a Postgres connection.
 
-Not part of the SQL-centralisation rule in `db/queries.py` — this is
+Not part of the SQL-centralisation rule in `db/queries.py`, this is
 schema *creation*, not a query, and it's Phase 1 dev-only scaffolding: a
 real migration tool is Teammate 1's call once their actual schema exists.
 """

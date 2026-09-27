@@ -1,11 +1,10 @@
 """Deterministic, template-based certification notes.
 
-Not the LLM-backed Part 5 generator the brief describes — that (prompt
+Not the LLM-backed Part 5 generator the brief describes, that (prompt
 templates, an LLM client, the general IS-number hallucination guard) was
 never built in this engagement. This is a narrow, template-only stand-in
 scoped to exactly what's needed to exercise
-`certification_guard.assert_no_fabricated_evidence` against real output —
-useful on its own (deterministic text has no hallucination risk to guard
+`certification_guard.assert_no_fabricated_evidence` against real output, useful on its own (deterministic text has no hallucination risk to guard
 against by construction), and a template an eventual LLM-backed generator
 must produce equivalent output to, not something it replaces.
 """

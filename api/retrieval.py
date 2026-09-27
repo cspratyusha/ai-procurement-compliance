@@ -1,4 +1,4 @@
-"""Hybrid retrieval engine — dense (pgvector) + sparse (BM25) + cross-encoder rerank."""
+"""Hybrid retrieval engine, dense (pgvector) + sparse (BM25) + cross-encoder rerank."""
 
 from __future__ import annotations
 
@@ -55,7 +55,7 @@ def _dense_search(query: str, top_k: int = 20, category: str | None = None) -> l
         ORDER BY embedding <=> %s::vector
         LIMIT %s
     """
-    # Need vec_literal twice — once for score, once for ORDER BY
+    # Need vec_literal twice, once for score, once for ORDER BY
     params_full = [vec_literal] + params[1:]  # category?, top_k
     params_full.insert(len(params_full) - 1, vec_literal)
 

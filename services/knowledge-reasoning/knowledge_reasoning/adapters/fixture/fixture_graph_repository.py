@@ -1,7 +1,7 @@
 """In-memory `GraphRepository` backed by fixtures/*.yaml, via networkx.
 
 This is the implementation business logic (Phase 2/3) tests against by
-default — no Neo4j required. It honours exactly the same `RelSpec`
+default, no Neo4j required. It honours exactly the same `RelSpec`
 direction semantics as `graph/queries.py`'s generated Cypher (see
 `_neighbors`), so swapping this for `Neo4jGraphRepository` never changes
 traversal *behaviour*, only where the data comes from.
@@ -71,14 +71,13 @@ class FixtureGraphRepository:
         return found
 
     def _classify(self, rel_key: str, actual_direction: Direction) -> EdgeType | None:
-        """Decide whether an edge (found in the `actual_direction` sense —
-        'outgoing' if the current node is its source, 'incoming' if it's
+        """Decide whether an edge (found in the `actual_direction` sense,         'outgoing' if the current node is its source, 'incoming' if it's
         the target) counts as a cluster-membership hop, and if so, which
         role. Returns None for a recognised-but-non-membership type
-        (superseded_by/overlaps_scope_with/belongs_to — read via their own
+        (superseded_by/overlaps_scope_with/belongs_to, read via their own
         accessors, never via expand()) or a direction mismatch. A type
         that isn't in schema_map.relationship_types at all is the fallback
-        bucket (decision 3) — always accepted, regardless of direction,
+        bucket (decision 3), always accepted, regardless of direction,
         since we have no configured direction to check it against.
         """
         if rel_key not in self._schema.relationship_types:

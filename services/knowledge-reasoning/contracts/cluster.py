@@ -12,7 +12,7 @@ Two rules enforced by this module and by everything that builds a
 
 Relationship-type names mirror ``Solution_details/07_Data_Flow_And_Databases.md``
 (the planning docs the team has already agreed on), not the earlier draft in
-this brief — see INTEGRATION.md, decision log entry "EdgeType vocabulary".
+this brief, see INTEGRATION.md, decision log entry "EdgeType vocabulary".
 """
 
 from __future__ import annotations
@@ -28,26 +28,25 @@ from contracts.is_number import ISNumberStr, OptionalISNumberStr
 
 
 class EdgeType(str, Enum):
-    """Why a standard is present in a cluster — the traversal edge that found it."""
+    """Why a standard is present in a cluster, the traversal edge that found it."""
 
     NORMATIVE_REFERENCE = "normative_reference"
     TEST_METHOD_FOR = "test_method_for"
     TERMINOLOGY_FOR = "terminology_for"
     SAFETY_REQUIREMENT_FOR = "safety_requirement_for"
     INSTALLATION_GUIDE_FOR = "installation_guide_for"
-    # Confirmed in Teammate 1's real corpus during integration (Stage C) —
-    # a product standard pointing at its own design/construction code,
+    # Confirmed in Teammate 1's real corpus during integration (Stage C),     # a product standard pointing at its own design/construction code,
     # the same real direction and role as INSTALLATION_GUIDE_FOR ("sibling"
     # per integration decision 3), just a distinct label in their data.
     DESIGN_CODE_FOR = "design_code_for"
     # Planning docs are silent on RELATED_PRODUCT and AMENDED_BY; kept from
     # the original brief. AMENDED_BY confirmed real during integration
     # (Stage C: "IS 4984:2016/Amd 1" is a separate Standard node linked
-    # this way) — RELATED_PRODUCT itself is still unconfirmed.
+    # this way), RELATED_PRODUCT itself is still unconfirmed.
     RELATED_PRODUCT = "related_product"
     AMENDED_BY = "amended_by"
     # Three more real, domain-specific "related" variants found in the
-    # corpus (Stage C) — kept distinct from RELATED_PRODUCT rather than
+    # corpus (Stage C), kept distinct from RELATED_PRODUCT rather than
     # merged into it, since Teammate 1 chose to label them distinctly and
     # collapsing that signal is a decision for the team's vocabulary
     # proposal, not something to do silently on my side.
@@ -56,10 +55,10 @@ class EdgeType(str, Enum):
     RELATED_PIPING = "related_piping"
     # The fallback bucket (integration decision 3): any relationship type
     # in real data with no configured mapping lands here rather than being
-    # silently dropped. Never assigned deliberately — see
+    # silently dropped. Never assigned deliberately, see
     # GraphRepository.expand's docstring and ports.types.ExpansionResult.
     RELATED_UNCLASSIFIED = "related_unclassified"
-    # Note: SUPERSEDED_BY is deliberately not a cluster-membership role — a
+    # Note: SUPERSEDED_BY is deliberately not a cluster-membership role, a
     # superseded standard is not "in" the cluster via this edge, it is a
     # version-status fact about a member. See VersionStatus below.
 
@@ -79,11 +78,11 @@ class VersionStatus(BaseModel):
     last_verified: datetime
     data_verified: bool  # False = came from unverified fixture, never hide this
     # Set alongside data_verified whenever it's False, explaining *why* not
-    # (never set when data_verified is True — see
+    # (never set when data_verified is True, see
     # PostgresStandardsRepository's verified-derivation for the exact rule
     # and its own caveat: Teammate 1's real `source_checked_at` currently
     # means "row last written", not "checked against BIS", so today this
-    # under-reports risk more often than it should — real, not decorative,
+    # under-reports risk more often than it should, real, not decorative,
     # evidence for the team, not a solved problem).
     verification_reason: str | None = None
 
@@ -95,10 +94,10 @@ class CertificationRequirement(BaseModel):
     notification_reference: str | None = None
     effective_date: date | None = None
     source_url: str | None = None
-    # Derived, not settable — see the model validator below. False means
+    # Derived, not settable, see the model validator below. False means
     # `required_evidence`/`effective_date`/`source_url` (if populated at
     # all) came from somewhere other than a citable BIS notification, and
-    # Part 5 must not state them as fact — the highest-risk hallucination
+    # Part 5 must not state them as fact, the highest-risk hallucination
     # surface in the system, since a fabricated evidence requirement reads
     # as completely plausible and could go straight into a tender's
     # evaluation criteria. See generation/certification_guard.py.
@@ -125,8 +124,7 @@ class ClusterMember(BaseModel):
     scope_text: str | None = None
     role: EdgeType  # why it is here
     # Cluster-assembly (Phase 2, not built yet) must score a
-    # role=RELATED_UNCLASSIFIED member lower than a confidently-typed one —
-    # Part 5 uses this to phrase it cautiously ("related to", never "is the
+    # role=RELATED_UNCLASSIFIED member lower than a confidently-typed one,     # Part 5 uses this to phrase it cautiously ("related to", never "is the
     # test method for"). Not enforced here since relevance is computed
     # upstream, not validated against role; documented so the constraint
     # isn't lost before that code exists.
@@ -161,7 +159,7 @@ class OverlapWarning(BaseModel):
 
 
 class GraphStats(BaseModel):
-    """Traversal telemetry — what the expansion actually did, for debugging
+    """Traversal telemetry, what the expansion actually did, for debugging
     "why did/didn't this standard appear" without re-running the traversal."""
 
     seeds: list[str]
@@ -174,7 +172,7 @@ class GraphStats(BaseModel):
     # Every relationship-type string the traversal encountered that had no
     # configured mapping (see EdgeType.RELATED_UNCLASSIFIED, decision 3),
     # with how many times each was seen. Surfaced here, not just logged, so
-    # a gap in the vocabulary is visible in the response itself — silently
+    # a gap in the vocabulary is visible in the response itself, silently
     # dropping a third of real edges was the exact failure this exists to
     # prevent. Populated from GraphRepository.expand's
     # ExpansionResult.unmapped_edge_types by cluster-assembly (Phase 2).

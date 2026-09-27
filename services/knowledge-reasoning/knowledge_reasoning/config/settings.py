@@ -3,7 +3,7 @@
 Everything here is what `factory.py` reads to decide which port
 implementation to wire up. Business-logic tuning knobs that belong to a
 specific Phase 2/3 algorithm (hub-degree threshold, orphan confidence
-threshold, etc.) live next to that algorithm's module, not here — this file
+threshold, etc.) live next to that algorithm's module, not here, this file
 is scoped to "which backend, which database, which environment", nothing
 about how the algorithms themselves behave.
 """
@@ -16,14 +16,14 @@ from typing import Literal
 
 # Graph and standards backends default to "postgres", not "fixture", as of
 # integration Stage E: there is no real Neo4j data anywhere (confirmed
-# Stage A/B — nothing has ever written to it), and the real relationship
+# Stage A/B, nothing has ever written to it), and the real relationship
 # data lives in Postgres's `standard_relationships` table. A default that
 # quietly points at an empty database and returns nothing is worse than one
-# that fails loudly when Postgres isn't configured — "postgres" as the
+# that fails loudly when Postgres isn't configured, "postgres" as the
 # default makes that the thing you have to notice, not "live" pointing at
 # an empty Neo4j that silently returns []. `neo4j` stays selectable
 # (`Neo4jGraphRepository` is kept intact) for whenever Teammate 1 populates
-# it for real — see INTEGRATION.md.
+# it for real, see INTEGRATION.md.
 GraphBackend = Literal["fixture", "postgres", "neo4j"]
 StandardsBackend = Literal["fixture", "postgres"]
 RetrievalBackend = Literal["fixture", "live"]

@@ -1,7 +1,7 @@
 """The only module in this codebase permitted to contain Cypher.
 
 Every string built here interpolates *schema* names (labels, relationship
-types, property names) — never user data, and never a raw query fragment
+types, property names), never user data, and never a raw query fragment
 passed in from elsewhere. Values are always bound as `$parameters`, never
 string-formatted into the query. Schema names are safe to interpolate only
 because `config.schema_map` validates every one of them against a strict
@@ -11,7 +11,7 @@ these functions ever run.
 Read vs. write direction
 -------------------------
 `RelSpec.direction` describes, for a given relationship type, which side of
-the (fixed, absolute) edge a typical *expansion seed* sits on — it exists to
+the (fixed, absolute) edge a typical *expansion seed* sits on, it exists to
 build correct one-hop traversal patterns in `build_expand_one_hop_query`.
 Writing edges (the loader) never consults it: fixture/ingested edge records
 carry their own explicit `from`/`to`, matching the relationship's documented
@@ -53,7 +53,7 @@ def build_expand_one_hop_query(schema: SchemaMap, rel_keys: list[str]) -> str:
     direction. Bound parameter: `$seeds` (list of canonical is_numbers).
 
     Returns rows of (seed, target, rel_key, title, scope_text, status,
-    verified) — one row per (seed, edge) pair found.
+    verified), one row per (seed, edge) pair found.
     """
     standard_label = schema.label("standard")
     is_number_prop = schema.prop("is_number")
@@ -152,7 +152,7 @@ RETURN c.{category_name_prop} AS category
 
 
 def build_sample_node_properties_query(schema: SchemaMap) -> str:
-    """One sample Standard node's property keys — used by the schema
+    """One sample Standard node's property keys, used by the schema
     contract test to check expected properties actually exist."""
     standard_label = schema.label("standard")
     return f"MATCH (n:{standard_label}) WITH n LIMIT 1 RETURN keys(n) AS property_keys"
@@ -206,7 +206,7 @@ MERGE (s)-[:{rel_name}]->(c)
 
 def build_merge_relationship_query(schema: SchemaMap, rel_key: str) -> str:
     """Idempotent upsert of one Standard-[:REL]->Standard edge, written
-    exactly as `from`/`to` specify (see module docstring — the loader's
+    exactly as `from`/`to` specify (see module docstring, the loader's
     from/to already match this relationship's absolute documented arrow).
     Bound parameters: from_is_number, to_is_number, verified, and
     overlap_score (only meaningful for overlaps_scope_with; ignored by the

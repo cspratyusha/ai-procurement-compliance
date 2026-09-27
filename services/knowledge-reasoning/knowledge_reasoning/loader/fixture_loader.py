@@ -1,7 +1,7 @@
 """Idempotent loader: fixtures/*.yaml -> Neo4j + Postgres.
 
 Idempotent because every write is a MERGE (Neo4j) or an upsert with
-ON CONFLICT (Postgres) — re-running the loader against the same data is
+ON CONFLICT (Postgres), re-running the loader against the same data is
 always safe, which matters both for local dev iteration and because "the
 loader takes Teammate 1's real data unchanged, in the same format" only
 holds if it can be re-run freely as that data changes.
@@ -10,7 +10,7 @@ Production guard (decision 5): refuses to write any `verified: false`
 record into anything the caller says is `KR_ENV=production`, unless
 `allow_unverified_in_production=True` is passed explicitly. This exists so
 placeholder fixture data cannot reach a real deployment or a demo by
-accident — the check runs before any write, not interleaved with them, so
+accident, the check runs before any write, not interleaved with them, so
 a guard failure never leaves a partial load behind.
 """
 
@@ -44,7 +44,7 @@ class LoadReport:
     # unmapped type is just a VALUE bound as a parameter),
     # graph/queries.py's Cypher relationship type is interpolated directly
     # into the query text, and that file's invariant is "only validated
-    # schema names get interpolated, never raw data" — so an unmapped type
+    # schema names get interpolated, never raw data", so an unmapped type
     # can't safely be MERGEd in. Tracked here (never silently dropped, per
     # decision 4) rather than raising, since Neo4j has no real data or
     # unmapped-type read-side support yet (see Neo4jGraphRepository.expand
@@ -65,7 +65,7 @@ def _guard_unverified(
         ):
             raise ProductionUnverifiedDataError(
                 f"domain {domain.name!r} contains verified=false records and "
-                f"env=production — refusing to load. Pass "
+                f"env=production, refusing to load. Pass "
                 f"allow_unverified_in_production=True (or set "
                 f"KR_ALLOW_UNVERIFIED_IN_PRODUCTION=true) only if you are "
                 f"certain this is intentional."
@@ -135,7 +135,7 @@ def load_into_neo4j(
                 if edge.type not in schema.relationship_types:
                     logger.warning(
                         "Skipping unmapped relationship type %r (%s -> %s) for "
-                        "Neo4j — no schema_map entry, and graph/queries.py can "
+                        "Neo4j, no schema_map entry, and graph/queries.py can "
                         "only interpolate validated schema names into Cypher. "
                         "Recorded in edges_skipped_unmapped_type, not dropped "
                         "silently. The Postgres loader writes this same edge.",
@@ -186,7 +186,7 @@ def load_into_postgres(
                 cur.execute(
                     upsert_standard,
                     {
-                        # Teammate 1's real PK has no default/serial — the
+                        # Teammate 1's real PK has no default/serial, the
                         # canonical IS number is a stable, idempotent id.
                         "id": node.is_number,
                         "is_number": node.is_number,
@@ -205,8 +205,7 @@ def load_into_postgres(
             for edge in domain.edges:
                 if edge.type == "superseded_by":
                     # Confirmed against real Teammate 1 data (integration
-                    # Stage B/C): a supersession fact is written BOTH ways —
-                    # as the standards.superseded_by_id FK (what
+                    # Stage B/C): a supersession fact is written BOTH ways,                     # as the standards.superseded_by_id FK (what
                     # PostgresStandardsRepository.get_version_status reads,
                     # matching "Postgres is source of truth") AND as a
                     # SUPERSEDED_BY row in standard_relationships (what
@@ -214,7 +213,7 @@ def load_into_postgres(
                     # parity with the Neo4j/fixture graph primitives). Their
                     # own scripts/ingest.py does the same: superseded_by_id
                     # comes from standards.json, the SUPERSEDED_BY edge from
-                    # the separate relationships.json — same fact, twice.
+                    # the separate relationships.json, same fact, twice.
                     cur.execute(
                         set_superseded_by,
                         {
@@ -233,7 +232,7 @@ def load_into_postgres(
                         )
                     report.edges_written += 1
                 elif edge.type == "belongs_to":
-                    # No product_categories writes — see db/schema.sql:
+                    # No product_categories writes, see db/schema.sql:
                     # Teammate 1's real ingestion doesn't populate that
                     # table either; `standards.category` (already written
                     # above) is the real, working source. A belongs_to
@@ -244,7 +243,7 @@ def load_into_postgres(
                 else:
                     # Unlike Neo4j's MERGE (which just matches nothing for
                     # a missing endpoint), standard_relationships has real
-                    # FK constraints — inserting a dangling reference would
+                    # FK constraints, inserting a dangling reference would
                     # raise, not no-op. Same dangling-edge policy as the
                     # Neo4j path: record and skip, don't crash the load.
                     if edge.from_is_number not in node_numbers or edge.to_value not in node_numbers:
@@ -254,13 +253,13 @@ def load_into_postgres(
                         continue
                     if edge.type in schema.relationship_types:
                         # Same name schema_map.RELATIONSHIP_TYPES already
-                        # gives this role in Neo4j/Cypher — PostgresGraphRepository
+                        # gives this role in Neo4j/Cypher, PostgresGraphRepository
                         # reads with the same convention.
                         rel_type_value = schema.rel(edge.type).name
                     else:
                         # Fallback bucket (decision 3/Stage E.4): an
                         # unmapped type is never silently dropped or
-                        # allowed to crash the load — it's written as-is,
+                        # allowed to crash the load, it's written as-is,
                         # the same raw string FixtureGraphRepository keys
                         # its unmapped_edge_types counts by, so
                         # PostgresGraphRepository.expand() classifies it
@@ -268,7 +267,7 @@ def load_into_postgres(
                         # across backends.
                         rel_type_value = edge.type
                         logger.warning(
-                            "Loading relationship with unmapped type %r (%s -> %s) — "
+                            "Loading relationship with unmapped type %r (%s -> %s), "
                             "no schema_map entry; will surface as "
                             "RELATED_UNCLASSIFIED / unmapped_edge_types, not dropped.",
                             edge.type,

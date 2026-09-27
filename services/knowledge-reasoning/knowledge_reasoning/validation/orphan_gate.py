@@ -4,7 +4,7 @@ flagged as a potential standards-landscape gap instead (brief B6 / the
 "orphan" path throughout `Solution_details/`).
 
 This is the first piece of actual Phase 3 business logic built in this
-service — everything before it was the repository/adapter/config layer
+service, everything before it was the repository/adapter/config layer
 that logic like this depends on.
 
 Why this isn't an absolute score cutoff
@@ -18,13 +18,12 @@ system:
 - `final_score` is explicitly documented in their own code
   (`retrieval/postprocess.py`) as "a relative ranking signal... not a
   calibrated probability... not comparable across separate /retrieve
-  calls" — it's rescaled per-response (shift + clamp to [0,1] based on
+  calls", it's rescaled per-response (shift + clamp to [0,1] based on
   that response's own min/max), so the same underlying relevance can
   produce different absolute numbers depending on what else is in the
   batch.
 - Their own logged output (`interaction_logs.jsonl`, from their synthetic-
-  query harness) shows a *correct* top-1 match scoring as low as 0.4693 —
-  nowhere near a naive "must be > 0.5" bar.
+  query harness) shows a *correct* top-1 match scoring as low as 0.4693,   nowhere near a naive "must be > 0.5" bar.
 - A BM25-only smoke test (bypassing the full pipeline, see the Stage C
   report) found a genuinely nonsense but real-word query ("quantum flux
   capacitor mounting bracket for interdimensional teleportation") scoring
@@ -38,7 +37,7 @@ Calibration honesty
 ---------------------
 The thresholds below are set from the handful of real numbers available
 (two logged interactions, a four-query BM25 smoke test, 18 standards).
-That is evidence, not a guess — but it is thin evidence. Revisit these
+That is evidence, not a guess, but it is thin evidence. Revisit these
 constants once real usage data exists; `min_margin=0.10` should not be
 read as a precise, validated figure.
 """
@@ -64,14 +63,14 @@ OrphanReason = Literal[
 @dataclass(frozen=True)
 class OrphanGateConfig:
     # Primary signal: rank-1 vs rank-2 score gap. Calibrated against two
-    # real logged accept cases (margins 0.1305 and 0.1982) — set below
+    # real logged accept cases (margins 0.1305 and 0.1982), set below
     # both so a real confident match isn't flagged, with headroom, not at
     # the midpoint of a two-point sample.
     min_margin: float = 0.10
 
     # Secondary signal: population stdev across all returned scores. A
     # margin can technically clear min_margin while every other candidate
-    # sits in a tight cluster near the top two — this catches that shape.
+    # sits in a tight cluster near the top two, this catches that shape.
     # Not independently calibrated against real data (no real example of
     # this specific shape was observed); set conservatively low so it
     # only intervenes on genuinely flat distributions.
@@ -85,7 +84,7 @@ class OrphanGateConfig:
     # pass on score alone.
     require_graph_corroboration_below_margin: float = 0.20
 
-    # Disabled by default (None) — an absolute floor is exactly the
+    # Disabled by default (None), an absolute floor is exactly the
     # untrustworthy signal this module exists to not rely on. Set only as
     # an explicit, deliberate override (e.g. a known-bad low-score regime
     # confirmed some other way), never as the default gate.
@@ -114,7 +113,7 @@ def evaluate_orphan_gate(
     config: OrphanGateConfig = OrphanGateConfig(),
 ) -> OrphanGateResult:
     """Candidates must already be sorted best-first (as Teammate 2's
-    retrieval returns them). `graph_repository` is optional — pass it to
+    retrieval returns them). `graph_repository` is optional, pass it to
     enable the tertiary signal; omitting it degrades gracefully to
     margin + distribution shape only, never raises.
     """

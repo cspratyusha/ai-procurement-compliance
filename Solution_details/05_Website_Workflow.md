@@ -1,4 +1,4 @@
-# Website Workflow (User Journey) — Frontend ↔ Backend
+# Website Workflow (User Journey): Frontend ↔ Backend
 
 ## 1. Journey Map
 
@@ -62,7 +62,7 @@ ACCEPT/EDIT    REDLINE FIX                                    NOTIFICATIONS
 - Summary tiles: queries this month, gaps found, outdated citations flagged
 
 **Backend**
-- A single aggregated summary endpoint returns recent activity, alert queue, and role-appropriate org statistics in one payload — avoiding multiple round trips on page load.
+- A single aggregated summary endpoint returns recent activity, alert queue, and role-appropriate org statistics in one payload, avoiding multiple round trips on page load.
 - Statistics are read from pre-computed aggregates (refreshed by a scheduled job), not recomputed live.
 
 ---
@@ -78,7 +78,7 @@ ACCEPT/EDIT    REDLINE FIX                                    NOTIFICATIONS
 - Runs the full recommendation pipeline (see `04_System_Workflow.md`).
 - Returns structured JSON with ranked standards, scores, explanations, cluster graph, flags, and draft clause.
 
-**Frontend result view — per recommendation card**
+**Frontend result view, per recommendation card**
 - Standard number and title
 - Confidence score badge
 - "Why recommended" explanation
@@ -86,7 +86,7 @@ ACCEPT/EDIT    REDLINE FIX                                    NOTIFICATIONS
 - Certification tag (BIS / CRS / Hallmarking, if applicable)
 - Overlap warning, if a competing-scope standard exists
 - Trust score indicator, where dispute-history data is available
-- Expandable **allied standards cluster** — rendered as an interactive graph
+- Expandable **allied standards cluster**, rendered as an interactive graph
 - Actions: Accept · Reject · Correct (search & substitute) · Copy generated clause
 
 **On user action**
@@ -107,7 +107,7 @@ ACCEPT/EDIT    REDLINE FIX                                    NOTIFICATIONS
 - Extracts all referenced standards, checks freshness and certification, traverses the graph for missing companions, compiles a severity-tagged gap report, and generates impact estimates.
 
 **Frontend gap report view**
-- **Redline / track-changes view** over the original document — additions, deletions, and version corrections shown inline.
+- **Redline / track-changes view** over the original document, additions, deletions, and version corrections shown inline.
 - Severity tags: Critical Gap · Minor · Informational.
 - Each finding expands to show the impact estimate in plain language.
 - One-click "Apply fix" inserts the corrected clause into the working copy.
@@ -132,7 +132,7 @@ ACCEPT/EDIT    REDLINE FIX                                    NOTIFICATIONS
 **Frontend**
 - Starts from an existing query result.
 - Parameter controls: environment (indoor/outdoor/marine), load rating, usage duration, safety class, etc.
-- Adjusting a parameter re-runs the pipeline and renders a **delta view**: standards added, standards removed, standards whose version requirement changed — highlighted against the base cluster.
+- Adjusting a parameter re-runs the pipeline and renders a **delta view**: standards added, standards removed, standards whose version requirement changed, highlighted against the base cluster.
 
 **Backend**
 - Parameters injected as structured context alongside the original query; pipeline re-executed; response diffed against the cached base result.
@@ -193,7 +193,7 @@ Official clicks insert → clause text written directly into the form field
 Action logged to audit trail via API
 ```
 
-**Why this matters:** the official never leaves the portal. Integration friction — the main reason government tools go unadopted — is eliminated.
+**Why this matters:** the official never leaves the portal. Integration friction, the main reason government tools go unadopted, is eliminated.
 
 ---
 

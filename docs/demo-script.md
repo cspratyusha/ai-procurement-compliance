@@ -4,20 +4,31 @@ A seven-minute walkthrough. Every number here was measured on this build; if
 something in the demo contradicts this document, trust the running system and
 fix the document.
 
+**Which corpus.** This script was written and rehearsed against the 45-standard
+curated corpus (`STANDARDS_CORPUS=canonical`), which has the learned ranker and
+the amendment data the IS 456 step relies on. The site itself now serves the
+full 21,848-standard corpus (`STANDARDS_CORPUS=full`). The script has **not**
+been re-rehearsed on the full corpus, so run it on `canonical` as written, or
+walk through it once on `full` before presenting.
+
+The built-in guided demo is separate from this script: **Start Demo** on the
+homepage, or **Start guided demo** in the account menu, drives the live app by
+itself.
+
 ---
 
 ## Before you start
 
 Two terminals, both from the repository root.
 
-**Terminal 1 — the engine**
+**Terminal 1, the engine**
 
 ```bash
 STANDARDS_CORPUS=canonical .venv/Scripts/python -m uvicorn main:app \
   --port 8000 --app-dir standards-retrieval
 ```
 
-Wait for `Application startup complete` — about 20 seconds while the embedding
+Wait for `Application startup complete`, about 20 seconds while the embedding
 and cross-encoder models load. Confirm:
 
 ```bash
@@ -25,16 +36,16 @@ curl http://localhost:8000/health
 # {"status":"ok","corpus_size":45,"ltr_model_loaded":true}
 ```
 
-**Terminal 2 — the interface**
+**Terminal 2, the interface**
 
 ```bash
 cd frontend && npm run dev
 ```
 
-**Optional, for the explanation step:** `ollama serve` with
-`qwen2.5:7b-instruct` pulled. Run one throwaway query with "Explain why each
-standard matched" ticked *before the demo* so the model is warm — the first
-call takes ~60 seconds, later ones ~2.5.
+**Optional, for the explanation step:** Ollama running with
+`qwen2.5:7b-instruct` pulled. Run one throwaway query with **Explain matches**
+switched on in the search box *before the demo* so the model is warm: the
+first call is slow while the model loads, later ones take a few seconds.
 
 **Checklist**
 
@@ -59,7 +70,7 @@ call takes ~60 seconds, later ones ~2.5.
 
 ## 1. Search by meaning (1 minute)
 
-Go to **New query**. Type — do not paste, let them watch it type:
+Go to **New query**. Type, do not paste, let them watch it type:
 
 ```
 PVC insulated copper cable for indoor panel wiring
@@ -91,14 +102,14 @@ Click **New query**, then type:
 safety helmet for construction workers
 ```
 
-That one works — IS 2925:1984. Now type something genuinely outside the
+That one works, IS 2925:1984. Now type something genuinely outside the
 corpus:
 
 ```
 laptop computer for the office
 ```
 
-> The heading changed. It no longer says "Recommended standards" — it says
+> The heading changed. It no longer says "Recommended standards", it says
 > "Nearest text matches", and the list below is labelled "not recommendations".
 >
 > Our corpus covers forty-five standards across seven sectors. IT equipment is
@@ -118,7 +129,7 @@ laptop computer for the office
 ## 3. The whole cluster, not one hit (1 minute)
 
 Search `ordinary portland cement 43 grade`, open **IS 456:2000** from the
-results — or go straight to
+results, or go straight to
 http://localhost:5173/app/standard/IS%20456:2000
 
 Scroll to **Amendments**:
@@ -127,14 +138,13 @@ Scroll to **Amendments**:
 > document from the year 2000 while the site is being built to a 2024 one.
 > Here is the citation to paste instead.
 >
-> Amendment No. 4 shows what it changed — clauses 5.3, 5.3.4, 5.4, 5.4.3 —
-> because we read the published amendment document. The other dates came from
+> Amendment No. 4 shows what it changed, clauses 5.3, 5.3.4, 5.4, 5.4.3, > because we read the published amendment document. The other dates came from
 > secondary sources, so they are marked "unconfirmed".
 
 Scroll to **Allied standards**:
 
 > Ten related standards, grouped by why they are related. These come from the
-> referred-standards annex of IS 456 itself — the cement it permits, the
+> referred-standards annex of IS 456 itself, the cement it permits, the
 > aggregate, the reinforcement.
 >
 > Three are greyed and marked "Not in this corpus". IS 383 for aggregate is a
@@ -147,7 +157,7 @@ Scroll to **Allied standards**:
 
 Back to **New query**. Click the **हिन्दी** example chip.
 
-> `घर की वायरिंग के लिए तांबे का तार` — copper wire for house wiring.
+> `घर की वायरिंग के लिए तांबे का तार`, copper wire for house wiring.
 
 Point at the translation panel:
 
@@ -156,7 +166,7 @@ Point at the translation panel:
 > the wrong standard is the failure that matters.
 >
 > Six languages: English, Hindi, Tamil, Bengali, Marathi, Telugu. Translation
-> runs locally — no API key, no internet.
+> runs locally, no API key, no internet.
 
 Worth stating plainly if asked:
 
@@ -176,12 +186,12 @@ Click **Upload tender** and choose
 
 Point at the extraction panel:
 
-> It found the TECHNICAL SPECIFICATION section and ignored the rest — the
+> It found the TECHNICAL SPECIFICATION section and ignored the rest, the
 > earnest money deposit, the arbitration clause, the signature block. A tender
 > is mostly boilerplate by volume, and feeding all of it to the engine means
 > searching the cover page.
 >
-> "Show the text that was searched" — you can check what it read.
+> "Show the text that was searched", you can check what it read.
 
 The results include the cable standards *and* the cement standard, because the
 tender's third line item is cement.
@@ -193,7 +203,7 @@ tender's third line item is cement.
 Go to **Tender builder**.
 
 > This is how it would sit inside GeM. We have no integration access, and the
-> screen says so — we are demonstrating the pattern, not claiming the
+> screen says so, we are demonstrating the pattern, not claiming the
 > integration.
 
 Type into the item description:
@@ -205,12 +215,12 @@ PVC insulated single core copper conductor cable 1.5 sq mm 1100 V for concealed 
 Standards appear on the right as you type. Set quantity `500`, click
 **Accept** on IS 694:2010.
 
-Read the generated clause aloud — this is the payoff:
+Read the generated clause aloud, this is the payoff:
 
-> **CONFORMANCE** — The item shall conform in all respects to IS 694:2010, in
+> **CONFORMANCE**, The item shall conform in all respects to IS 694:2010, in
 > the latest edition in force on the date of supply, including all amendments.
 >
-> **CERTIFICATION** — IS 694:2010 falls under mandatory BIS certification. The
+> **CERTIFICATION**, IS 694:2010 falls under mandatory BIS certification. The
 > supplier shall hold a valid BIS licence and the goods shall bear the
 > Standard Mark. The licence number shall be quoted in the bid. Governing
 > order: Electrical Wires, Cables, Appliances and Protection Devices and
@@ -220,7 +230,7 @@ Read the generated clause aloud — this is the payoff:
 
 ---
 
-## 7. Optional — plain-language explanations (30 seconds)
+## 7. Optional: plain-language explanations (30 seconds)
 
 Only if the model is warm. Tick **Explain why each standard matched** and
 search `ordinary portland cement 43 grade`.
@@ -233,7 +243,7 @@ Then state the boundary, because it is the interesting part:
 
 > The model never decides anything. It only describes candidates retrieval
 > already chose. Every IS number it returns is checked against that list and
-> discarded if it invented one — there is a test for exactly that. On an
+> discarded if it invented one, there is a test for exactly that. On an
 > out-of-scope query it is not called at all, so a no-match never acquires a
 > fluent explanation of why the wrong standards almost fit.
 
@@ -251,7 +261,7 @@ Then state the boundary, because it is the interesting part:
 > allowed to invent anything.
 >
 > Scaling that is a data exercise, not an engineering one. Every screen that
-> shows sample data says "Illustrative screen — not live data" on it.
+> shows sample data says "Illustrative screen, not live data" on it.
 
 ---
 
@@ -259,22 +269,22 @@ Then state the boundary, because it is the interesting part:
 
 **"How many standards is this really?"**
 Forty-five, across seven sectors. It is stated on the landing page and in the
-README. The data is realistic but unverified against the BIS catalogue —
-except the certification, amendment and relationship data, which was read from
+README. The data is realistic but unverified against the BIS catalogue, except the certification, amendment and relationship data, which was read from
 BIS sources and is cited.
 
 **"What is the AI here?"**
 Four models. A sentence-transformer (e5-base-v2) for dense retrieval, a
 cross-encoder (ms-marco-MiniLM) for re-ranking, a LightGBM LambdaMART ranker
-trained on this corpus, and NLLB-200 for translation — plus an optional local
+trained on this corpus, and NLLB-200 for translation, plus an optional local
 7B LLM for explanations. All run locally. No API keys, no cloud.
 
 **"What is your accuracy?"**
-NDCG@5 of 0.9846 and Top-1 of 95.8% on 24 held-out queries — but read that
-carefully. It is measured on a 45-standard corpus, where retrieval is an easy
-problem. It shows the pipeline is correctly built and that each stage improves
-on the last. It is not a claim about the full catalogue, and the README says
-so.
+On the full 21,848-standard corpus, over 236 held-out queries: the right
+standard is in the top five 98.7% of the time (Recall@5 0.9873) and ranked
+first 92.4% of the time (P@1 0.9237). Two honest caveats: the text is OCR of
+scanned documents and nothing is verified against BIS directly, and the
+confidence thresholds were calibrated on a small corpus and need recalibrating
+at this size. The README says both.
 
 **"Why not just use ChatGPT?"**
 A language model asked which standard applies will produce a plausible IS
@@ -284,7 +294,7 @@ and every standard number it emits is validated against the retrieved set.
 
 **"Is this connected to GeM?"**
 No, and the tender builder says so on screen. We have no integration access.
-The API is the integration surface — `POST /retrieve` returns everything a
+The API is the integration surface, `POST /retrieve` returns everything a
 portal needs.
 
 **"What would you do with more time?"**

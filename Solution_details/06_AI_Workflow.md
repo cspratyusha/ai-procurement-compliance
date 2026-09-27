@@ -2,7 +2,7 @@
 
 ## 1. AI Layer Overview
 
-The system uses **four distinct AI/ML stages**, each with a different job. No single model does everything — this is deliberate, because compliance output requires traceability and each stage is independently verifiable.
+The system uses **four distinct AI/ML stages**, each with a different job. No single model does everything, this is deliberate, because compliance output requires traceability and each stage is independently verifiable.
 
 ```
 Stage 1: EMBEDDING & RETRIEVAL        → find plausible candidates
@@ -13,7 +13,7 @@ Stage 4: LLM REASONING & GENERATION   → explain, summarise, draft
 
 ---
 
-## 2. Stage 1 — Embedding & Hybrid Retrieval
+## 2. Stage 1: Embedding & Hybrid Retrieval
 
 **Purpose:** Convert meaning into searchable form and produce a candidate pool.
 
@@ -32,27 +32,27 @@ Stage 4: LLM REASONING & GENERATION   → explain, summarise, draft
 
 ---
 
-## 3. Stage 2 — Cross-Encoder Re-Ranking
+## 3. Stage 2: Cross-Encoder Re-Ranking
 
 **Purpose:** Precision refinement over the candidate pool.
 
-Bi-encoder retrieval (Stage 1) encodes query and document separately, which is fast but approximate. A cross-encoder processes the query and each candidate *together*, producing a far more accurate relevance score — but it is too slow to run over the entire corpus, which is why it runs only over the shortlist.
+Bi-encoder retrieval (Stage 1) encodes query and document separately, which is fast but approximate. A cross-encoder processes the query and each candidate *together*, producing a far more accurate relevance score, but it is too slow to run over the entire corpus, which is why it runs only over the shortlist.
 
 **Output:** re-ordered candidate list with fine-grained relevance scores.
 
 ---
 
-## 4. Stage 3 — Learned Re-Ranker (Supervised ML Layer)
+## 4. Stage 3: Learned Re-Ranker (Supervised ML Layer)
 
 ### 4.1 Why a supervised layer is added here and not earlier
 
 A supervised classifier cannot be the *core* engine because:
 - No labelled (query → correct standard) dataset exists at project start.
-- Collaborative filtering is inapplicable — this is a correctness problem, not a preference problem; "popular" standards are not necessarily correct ones.
+- Collaborative filtering is inapplicable, this is a correctness problem, not a preference problem; "popular" standards are not necessarily correct ones.
 - Classifiers are fixed to trained classes; new standards would require full retraining.
 - Classification output is not natively explainable, which is disqualifying in an audit context.
 
-But once the system is in use, it *generates* exactly the labelled data a supervised model needs — so the supervised layer is introduced as a **refinement stage on top of retrieval**, not a replacement for it.
+But once the system is in use, it *generates* exactly the labelled data a supervised model needs, so the supervised layer is introduced as a **refinement stage on top of retrieval**, not a replacement for it.
 
 ### 4.2 Position in the pipeline
 
@@ -62,10 +62,10 @@ Retrieval → Cross-encoder → [LEARNED RE-RANKER] → Graph expansion → Vali
 
 ### 4.3 Lifecycle
 
-**Phase 0 — Cold start (day 1):**
+**Phase 0, Cold start (day 1):**
 No feedback data exists. The LTR layer operates as a pass-through; the system runs fully on retrieval + cross-encoder. The product is completely functional without it.
 
-**Phase 1 — Data collection:**
+**Phase 1, Data collection:**
 Every interaction is logged with full context:
 
 | Logged | Purpose |
@@ -77,7 +77,7 @@ Every interaction is logged with full context:
 | Candidates rejected | Negative labels |
 | Manual correction (user-substituted standard) | Strong positive label |
 
-**Phase 2 — Training:**
+**Phase 2, Training:**
 A Learning-to-Rank model (LightGBM Ranker / XGBoost with ranking objective, LambdaMART-style) is trained on grouped query-candidate sets.
 
 **Feature set:**
@@ -93,10 +93,10 @@ A Learning-to-Rank model (LightGBM Ranker / XGBoost with ranking objective, Lamb
 | Category match between query and standard | PostgreSQL + query classifier |
 | Certification-relevance match | Certification rules |
 
-**Phase 3 — Evaluation & promotion:**
+**Phase 3, Evaluation & promotion:**
 Each retrained model is evaluated on a held-out set using ranking metrics (NDCG@k, MRR, Precision@1). A new model is promoted only if it beats the incumbent. Models are versioned so a degrading retrain can be rolled back.
 
-**Phase 4 — Scheduled retraining:**
+**Phase 4, Scheduled retraining:**
 A background job retrains periodically on accumulated feedback, closing the loop.
 
 ### 4.4 Why this is a strong design
@@ -108,7 +108,7 @@ A background job retrains periodically on accumulated feedback, closing the loop
 
 ---
 
-## 5. Stage 4 — LLM Reasoning & Generation
+## 5. Stage 4: LLM Reasoning & Generation
 
 **Purpose:** Turn verified structured results into human-usable output.
 
@@ -119,7 +119,7 @@ A background job retrains periodically on accumulated feedback, closing the loop
 | Task | Output |
 |---|---|
 | Relevance explanation | "Why this standard was recommended" in plain language |
-| Version diff summarisation | "IS X:2022 supersedes IS X:1983 — key changes: …" |
+| Version diff summarisation | "IS X:2022 supersedes IS X:1983, key changes: …" |
 | Impact estimation | Plain-language consequence of a gap or outdated citation |
 | Clause generation | Ready-to-paste specification clause referencing correct standard + version + certification |
 | Multilingual response | Output rendered in the user's query language |

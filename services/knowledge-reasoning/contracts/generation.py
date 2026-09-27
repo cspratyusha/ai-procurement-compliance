@@ -1,7 +1,6 @@
 """Output contract: Part 5's generated response.
 
-Built in Phase 1 alongside the other contracts (per the brief: "contracts —
-build these before anything else"); the generation logic that populates
+Built in Phase 1 alongside the other contracts (per the brief: "contracts, build these before anything else"); the generation logic that populates
 these models is Phase 4 work.
 """
 
@@ -28,7 +27,7 @@ class VersionNote(BaseModel):
 class GroundingReport(BaseModel):
     """The hallucination guard's audit trail for one generation call.
 
-    Built by Phase 4's guard, not hand-authored — every field here is
+    Built by Phase 4's guard, not hand-authored, every field here is
     evidence, not a claim, so the guard's own tests can assert on it
     directly (e.g. "a fabricated number ends up in rejected_numbers, not
     cited_numbers").

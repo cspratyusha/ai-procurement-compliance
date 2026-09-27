@@ -1,4 +1,4 @@
-"""Embedding service — wraps a sentence-transformer model for vector search."""
+"""Embedding service, wraps a sentence-transformer model for vector search."""
 
 from __future__ import annotations
 

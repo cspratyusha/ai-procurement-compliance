@@ -1,4 +1,4 @@
-"""Mock `RetrievalPort` — the "mock retrieval service" required by brief
+"""Mock `RetrievalPort`, the "mock retrieval service" required by brief
 section 6, serving fixed canned results for a fixed set of queries from
 fixtures/mock_queries.yaml (including one deliberately low-confidence query
 that should trip the Phase 3 orphan gate).

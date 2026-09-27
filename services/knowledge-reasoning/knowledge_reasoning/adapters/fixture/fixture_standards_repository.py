@@ -1,7 +1,7 @@
 """In-memory `StandardsRepository` backed by fixtures/*.yaml.
 
 Depends on a `FixtureGraphRepository` for the one-hop supersession fact and
-the category `belongs_to` edge fallback (decision 4) — in a live deployment
+the category `belongs_to` edge fallback (decision 4), in a live deployment
 these two facts come from different databases (Neo4j vs Postgres), but here
 they're both read from the same parsed fixture, which is fine: the point of
 the fixture-backed adapters is interface-shape fidelity, not simulating two
@@ -68,7 +68,7 @@ class FixtureStandardsRepository:
 
     def _amendments_from_graph(self, is_number: str) -> list[Amendment]:
         """Mirrors PostgresStandardsRepository's AMENDED_BY-edge union, for
-        fixture/live parity — see that class's docstring."""
+        fixture/live parity, see that class's docstring."""
         amendments: list[Amendment] = []
         for path in self._graph_repository.expand([is_number], max_hops=1).paths:
             if path.role != EdgeType.AMENDED_BY:
@@ -125,7 +125,7 @@ class FixtureStandardsRepository:
             last_verified=self._loaded_at,
             data_verified=(node.verified if node is not None else False),
             # Fixture data is placeholder by construction (fixtures/README.md)
-            # — every record is verified:false, so this is always set. A
+            # every record is verified:false, so this is always set. A
             # distinct reason from the Postgres derivation's own strings
             # (no_provenance/unchecked_source/stale_check): those describe
             # "we don't know" about real data, this describes "this isn't

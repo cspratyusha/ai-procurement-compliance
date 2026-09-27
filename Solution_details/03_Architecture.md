@@ -85,7 +85,7 @@
 
 | Component | Responsibility |
 |---|---|
-| **Web Application** | Primary UI — query, audit, dashboard, graph visualisation, scenario simulator |
+| **Web Application** | Primary UI, query, audit, dashboard, graph visualisation, scenario simulator |
 | **Chrome Extension** | Injects inline suggestions into GeM/state portal tender forms |
 | **Voice Input Module** | Captures speech, routes to speech-to-text in preprocessing |
 | **Public REST API** | Machine-to-machine access for portals and ERPs |
@@ -111,7 +111,7 @@
 | **Retrieval Engine** | Dense + sparse candidate retrieval, cross-encoder re-ranking, learned LTR re-ranking |
 | **Graph Expansion Service** | Traverses standards graph to surface allied/normative/test/safety/installation standards |
 | **Validation & Enrichment Layer** | Freshness/supersession check, certification mapping, overlap detection, trust scoring, orphan-query detection |
-| **LLM Reasoning Layer** | Generates explanations, version diffs, impact estimates, and draft clause text — grounded only on verified retrieved data |
+| **LLM Reasoning Layer** | Generates explanations, version diffs, impact estimates, and draft clause text, grounded only on verified retrieved data |
 
 ### 2.5 Data Layer
 
@@ -134,18 +134,18 @@
 
 ## 3. How Components Interact
 
-1. **Request entry** — any consumer (web app, extension, voice, API, portal) hits the API Gateway.
-2. **Gateway → Auth** — token/API key validated; role and org context attached to the request.
-3. **Auth → Orchestrator** — authorised request passed to the application layer with user context.
-4. **Orchestrator → Preprocessing** — raw input normalised into a clean, language-normalised query string.
-5. **Orchestrator → Retrieval Engine** — normalised query embedded and searched against Vector DB (dense) and keyword index (sparse); candidates merged, re-ranked by cross-encoder, then re-ordered by the LTR model.
-6. **Orchestrator → Graph Expansion** — top candidates sent to Neo4j; allied standard clusters returned.
-7. **Orchestrator → Validation & Enrichment** — PostgreSQL consulted for version/supersession status and certification rules; overlap detector and trust scorer applied; orphan check applied against confidence threshold.
-8. **Orchestrator → LLM Reasoning** — verified, enriched result set passed as grounding context; explanations, diffs, impact estimates, and clause drafts generated.
-9. **Orchestrator → Response Assembly** — single structured JSON returned to the originating consumer.
-10. **Orchestrator → Logging Store** — full interaction written asynchronously (query, candidates, scores, final output).
-11. **User action → Logging Store** — accept/reject/correct events appended, becoming LTR training labels.
-12. **Background jobs** — read from the Logging Store (retraining) and the Standards stores (revision checks), and push to the Notification Service.
+1. **Request entry**, any consumer (web app, extension, voice, API, portal) hits the API Gateway.
+2. **Gateway → Auth**, token/API key validated; role and org context attached to the request.
+3. **Auth → Orchestrator**, authorised request passed to the application layer with user context.
+4. **Orchestrator → Preprocessing**, raw input normalised into a clean, language-normalised query string.
+5. **Orchestrator → Retrieval Engine**, normalised query embedded and searched against Vector DB (dense) and keyword index (sparse); candidates merged, re-ranked by cross-encoder, then re-ordered by the LTR model.
+6. **Orchestrator → Graph Expansion**, top candidates sent to Neo4j; allied standard clusters returned.
+7. **Orchestrator → Validation & Enrichment**, PostgreSQL consulted for version/supersession status and certification rules; overlap detector and trust scorer applied; orphan check applied against confidence threshold.
+8. **Orchestrator → LLM Reasoning**, verified, enriched result set passed as grounding context; explanations, diffs, impact estimates, and clause drafts generated.
+9. **Orchestrator → Response Assembly**, single structured JSON returned to the originating consumer.
+10. **Orchestrator → Logging Store**, full interaction written asynchronously (query, candidates, scores, final output).
+11. **User action → Logging Store**, accept/reject/correct events appended, becoming LTR training labels.
+12. **Background jobs**, read from the Logging Store (retraining) and the Standards stores (revision checks), and push to the Notification Service.
 
 ---
 
@@ -157,5 +157,5 @@
 | No confident wrong answers | Orphan detector blocks low-confidence forced recommendations |
 | Legal correctness of certification info | Deterministic rules engine, not ML inference |
 | Defensibility under audit | Full immutable interaction log with version stamps |
-| New standards without retraining | Retrieval-based core — add embedding + graph node, no model retrain required |
+| New standards without retraining | Retrieval-based core, add embedding + graph node, no model retrain required |
 | Graceful cold start | LTR layer is pass-through until feedback data exists |

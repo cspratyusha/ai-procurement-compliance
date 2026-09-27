@@ -2,7 +2,7 @@
 backend's data, and whether `config/schema_map.py` has a mapping for it.
 
 The fallback bucket (integration decision 3) means an unmapped type is
-never silently dropped any more — but "not dropped" isn't the same as
+never silently dropped any more, but "not dropped" isn't the same as
 "noticed". This is the tool for noticing: run it after any new data lands
 to see exactly which relationship-type strings the vocabulary doesn't
 cover yet, before they show up as EdgeType.RELATED_UNCLASSIFIED members
@@ -27,7 +27,7 @@ from knowledge_reasoning.config.settings import load_settings
 
 
 def fixture_relationship_type_counts() -> dict[str, int]:
-    """Raw edge `type` values as they appear in fixtures/*.yaml — the
+    """Raw edge `type` values as they appear in fixtures/*.yaml, the
     schema_map *key* namespace (e.g. "normative_reference"), not the raw
     Cypher/SQL name namespace."""
     counts: dict[str, int] = {}
@@ -38,7 +38,7 @@ def fixture_relationship_type_counts() -> dict[str, int]:
 
 
 def postgres_relationship_type_counts(dsn: str, schema: SchemaMap) -> dict[str, int]:
-    """Raw `standard_relationships.type` values — the raw Cypher/SQL name
+    """Raw `standard_relationships.type` values, the raw Cypher/SQL name
     namespace (e.g. "NORMATIVE_REFERENCE"), not the schema_map key
     namespace."""
     import psycopg
@@ -51,12 +51,12 @@ def postgres_relationship_type_counts(dsn: str, schema: SchemaMap) -> dict[str, 
 
 
 def known_keys(schema: SchemaMap) -> set[str]:
-    """schema_map key namespace — what fixture data's `type` field uses."""
+    """schema_map key namespace, what fixture data's `type` field uses."""
     return set(schema.relationship_types.keys())
 
 
 def known_names(schema: SchemaMap) -> set[str]:
-    """Raw Cypher/SQL name namespace — what Postgres/Neo4j actually store."""
+    """Raw Cypher/SQL name namespace, what Postgres/Neo4j actually store."""
     return {spec.name for spec in schema.relationship_types.values()}
 
 
@@ -69,7 +69,7 @@ def report(counts: dict[str, int], known: set[str]) -> int:
         mapped = rel_type in known
         if not mapped:
             unmapped += 1
-        print(f"{rel_type.ljust(width)}  {count:>5}  {'yes' if mapped else 'NO — falls back to RELATED_UNCLASSIFIED'}")
+        print(f"{rel_type.ljust(width)}  {count:>5}  {'yes' if mapped else 'NO, falls back to RELATED_UNCLASSIFIED'}")
     return unmapped
 
 

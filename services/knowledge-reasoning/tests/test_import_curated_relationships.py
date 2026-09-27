@@ -1,5 +1,5 @@
 """Curation importer, run against a real Postgres seeded with the usual
-fixture data — proves it loads a relationships.json-shaped file end to
+fixture data, proves it loads a relationships.json-shaped file end to
 end, skips dangling references instead of crashing, writes (rather than
 drops) unmapped types, and is idempotent on rerun.
 """
@@ -37,7 +37,7 @@ pytestmark = pytest.mark.live_postgres
 PRIMARY = "IS 10322-5-1:2015"
 IP_CODE_HUB = "IS 12063:1987"
 # A cross-domain pair (street_lighting -> reinforcement_steel) with no
-# pre-existing edge in the fixture data — so importing a relationship
+# pre-existing edge in the fixture data, so importing a relationship
 # between them is a genuine addition, not a no-op duplicate of something
 # already there.
 UNRELATED_TARGET = "IS 1786:2008"
@@ -63,7 +63,7 @@ def pg_conn(schema: SchemaMap):
         raise
     yield conn
     # kr_dev is a shared live database across the whole test *session*, not
-    # just this module — test_postgres_graph_repository.py's fixture/Postgres
+    # just this module, test_postgres_graph_repository.py's fixture/Postgres
     # parity tests assume expand(PRIMARY) is identical between backends,
     # which only holds if this module leaves the shared DB exactly as the
     # fixture loader left it. Delete precisely the extra rows the tests
@@ -93,7 +93,7 @@ def test_valid_curated_file_loads_and_is_readable_via_the_graph_repository(
 ) -> None:
     # This codebase's own fixture loader uses the IS number as
     # standards.id (see fixture_loader.load_into_postgres), so that's what
-    # a curated file's source_id/target_id resolve to here too — against
+    # a curated file's source_id/target_id resolve to here too, against
     # Teammate 1's real corpus these would be their std_NNN-style ids
     # instead, per the module docstring.
     rows = [{"source_id": PRIMARY, "target_id": UNRELATED_TARGET, "type": "NORMATIVE_REFERENCE"}]

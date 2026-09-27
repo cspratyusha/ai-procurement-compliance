@@ -3,7 +3,7 @@
 These are distinct from `contracts/` on purpose: `contracts/` is the
 external boundary shared with Teammates 2 and 4 and must stay stable once
 proposed. These types are Part 3's own internal plumbing between the
-port interfaces and the adapters that implement them — they can change
+port interfaces and the adapters that implement them, they can change
 freely as the graph/db expansion algorithms (Phase 2/3) evolve, without
 touching anything a teammate depends on.
 """
@@ -25,7 +25,7 @@ class GraphPath:
     `GraphRepository.expand()`."""
 
     target: str  # canonical is_number reached
-    role: EdgeType  # edge type of the last hop — why it's included
+    role: EdgeType  # edge type of the last hop, why it's included
     path: list[str]  # seed -> ... -> target, inclusive of both ends
     hop_distance: int
 
@@ -36,7 +36,7 @@ class ExpansionResult:
 
     `unmapped_edge_types` (decision 3, integration Stage D) counts every
     relationship-type string the traversal actually encountered that had
-    no configured `schema_map` mapping — each such edge still contributes
+    no configured `schema_map` mapping, each such edge still contributes
     a `GraphPath` (role=EdgeType.RELATED_UNCLASSIFIED), it just isn't
     silently dropped the way an unrecognised type was before this existed.
     Cluster-assembly (Phase 2) copies this into
@@ -58,10 +58,9 @@ class StandardMetadata:
     category: str | None
     verified: bool
     # Raw ISO-date string (Teammate 1's real `last_amended` column is TEXT,
-    # not DATE — confirmed Stage A/B). Used both for display and to derive
+    # not DATE, confirmed Stage A/B). Used both for display and to derive
     # amendment dates when an amendment is modelled as a separate,
-    # AMENDED_BY-linked Standard rather than an `amendments` table row —
-    # see PostgresStandardsRepository.get_version_status.
+    # AMENDED_BY-linked Standard rather than an `amendments` table row,     # see PostgresStandardsRepository.get_version_status.
     last_amended: str | None = None
 
 
@@ -98,7 +97,7 @@ class CertificationRuleRow:
 
     `scheme` is deliberately `str`, not a closed Literal: Teammate 1's real
     data (confirmed Stage A/B) stores free text ("BIS Product
-    Certification"), not the closed vocabulary — narrowing that string
+    Certification"), not the closed vocabulary, narrowing that string
     into ISI/CRS/HALLMARKING is exactly what the not-yet-built mapper is
     for, and pretending it's already closed here would just move the
     mismatch to construction time instead of mapping time.

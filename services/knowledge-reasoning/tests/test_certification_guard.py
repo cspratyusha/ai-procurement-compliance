@@ -23,7 +23,7 @@ def _untraceable() -> CertificationRequirement:
 def test_traceable_is_derived_from_notification_reference_not_settable() -> None:
     assert _traceable().traceable is True
     assert _untraceable().traceable is False
-    # Passing traceable=True explicitly has no effect — it's derived.
+    # Passing traceable=True explicitly has no effect, it's derived.
     sneaky = CertificationRequirement(scheme="ISI", mandatory=True, traceable=True)
     assert sneaky.traceable is False
 
@@ -49,7 +49,7 @@ def test_safe_text_passes_when_untraceable() -> None:
         "tender."
     )
     # "requirements are not" contains neither "required evidence" nor
-    # "evidence required" as a phrase — the safe hedge language itself
+    # "evidence required" as a phrase, the safe hedge language itself
     # must not trip the guard.
     result = check_certification_text(text, _untraceable())
     assert result.passed is True

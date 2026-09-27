@@ -41,7 +41,7 @@ def main() -> int:
     )
 
     if not settings.postgres_dsn:
-        print("KR_POSTGRES_DSN not set — nothing to load into Postgres.", file=sys.stderr)
+        print("KR_POSTGRES_DSN not set, nothing to load into Postgres.", file=sys.stderr)
         return 1
 
     with psycopg.connect(settings.postgres_dsn) as conn:
@@ -61,7 +61,7 @@ def main() -> int:
             f"{postgres_report.edges_dropped_dangling}"
         )
 
-    # Neo4j is optional — there is no real Neo4j data anywhere as of
+    # Neo4j is optional, there is no real Neo4j data anywhere as of
     # integration Stage A/B, so postgres is the default graph backend (see
     # settings.py). Still loaded here if configured, so switching
     # KR_GRAPH_BACKEND=neo4j later has real data to point at.
@@ -78,7 +78,7 @@ def main() -> int:
         driver.close()
         print(f"Neo4j:    {neo4j_report}")
     else:
-        print("KR_NEO4J_URI not set — skipped Neo4j load (postgres is the default graph backend).")
+        print("KR_NEO4J_URI not set, skipped Neo4j load (postgres is the default graph backend).")
 
     return 0
 

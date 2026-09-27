@@ -1,7 +1,7 @@
 """Abstraction over Part 2 (Retrieval & Ranking).
 
 My own business logic never imports `RetrievalCandidate`/`RetrievalResult`
-construction from a concrete source — it depends on this Protocol only, so
+construction from a concrete source, it depends on this Protocol only, so
 swapping the fixture-backed mock retrieval service for Teammate 2's real
 endpoint (once it exists) is a `factory.py` wiring change, not a rewrite.
 """

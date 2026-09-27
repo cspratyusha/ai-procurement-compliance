@@ -2,12 +2,12 @@
 exact shape of Teammate 1's real `data/raw/relationships.json`.
 
 Context: integration Stage C measured the real corpus's graph as very
-sparse (most standards have zero outgoing structural edges — see
+sparse (most standards have zero outgoing structural edges, see
 `fixtures/sparse_real_topology/`). Fixing that corpus gap for real is a
 data-curation problem, not a code problem, and the user is handling it
 with the team directly. This tool exists only so a hand-curated addendum
-file — written by a domain expert, in the exact format Teammate 1's own
-pipeline already uses — can be loaded into this service's Postgres in one
+file, written by a domain expert, in the exact format Teammate 1's own
+pipeline already uses, can be loaded into this service's Postgres in one
 command, without needing Teammate 1's `scripts/ingest.py` or a merge of
 their repo. It does not generate, infer, or validate the cross-references
 themselves; it only loads rows that are already believed correct.
@@ -17,18 +17,17 @@ copied into this repo): a JSON array of objects, each exactly
     {"source_id": "std_017", "target_id": "std_001", "type": "SUPERSEDED_BY"}
 
 `source_id`/`target_id` are Teammate 1's real `standards.id` primary keys
-(the same values `data/raw/standards.json`'s "id" field uses) — NOT IS
+(the same values `data/raw/standards.json`'s "id" field uses), NOT IS
 numbers, and NOT this codebase's own fixture convention of using the IS
 number as `id` (see `loader/fixture_loader.py`). `type` is already the raw
 upper-case relationship name (the `RelSpec.name` convention, e.g.
-"NORMATIVE_REFERENCE"), not a schema_map key — curators are expected to
+"NORMATIVE_REFERENCE"), not a schema_map key, curators are expected to
 use the same vocabulary the real file already does.
 
 A row whose `source_id`/`target_id` isn't an existing `standards.id` in
-the target database is skipped and reported (never crashes the import —
-same dangling-reference policy as `fixture_loader.load_into_postgres`). A
+the target database is skipped and reported (never crashes the import, same dangling-reference policy as `fixture_loader.load_into_postgres`). A
 row whose `type` has no `config/schema_map.py` mapping is still written
-(the fallback bucket, decision 3/Stage E.4) — it will read back as
+(the fallback bucket, decision 3/Stage E.4), it will read back as
 `EdgeType.RELATED_UNCLASSIFIED`, and is reported so it isn't missed;
 run `report_relationship_types.py --backend postgres` any time for the
 full picture.
@@ -60,7 +59,7 @@ logger = logging.getLogger(__name__)
 
 
 class CurationImportError(RuntimeError):
-    """The input file itself is malformed — wrong top-level type, or a row
+    """The input file itself is malformed, wrong top-level type, or a row
     missing one of the three required fields. Distinct from an individual
     dangling reference, which is reported and skipped, not raised."""
 
@@ -79,7 +78,7 @@ def _validate_row(row: object, index: int) -> tuple[str, str, str]:
     for key in ("source_id", "target_id", "type"):
         if not isinstance(row.get(key), str) or not row[key]:
             raise CurationImportError(
-                f"row {index}: missing or invalid {key!r} — expected the exact "
+                f"row {index}: missing or invalid {key!r}, expected the exact "
                 f'data/raw/relationships.json shape: {{"source_id": ..., '
                 f'"target_id": ..., "type": ...}}'
             )
@@ -113,7 +112,7 @@ def import_curated_relationships(
             if source_id not in existing_ids or target_id not in existing_ids:
                 report.rows_dropped_dangling.append((rel_type, source_id, target_id))
                 logger.warning(
-                    "Skipping curated relationship %r (%s -> %s) — one or both "
+                    "Skipping curated relationship %r (%s -> %s), one or both "
                     "endpoints are not an existing standards.id in this database.",
                     rel_type,
                     source_id,
@@ -126,7 +125,7 @@ def import_curated_relationships(
                 )
                 logger.warning(
                     "Curated relationship type %r (%s -> %s) has no schema_map "
-                    "mapping — writing it anyway; it will surface as "
+                    "mapping, writing it anyway; it will surface as "
                     "RELATED_UNCLASSIFIED, not dropped.",
                     rel_type,
                     source_id,
@@ -152,7 +151,7 @@ def main() -> int:
     settings = load_settings()
     dsn = args.dsn or settings.postgres_dsn
     if not dsn:
-        print("No Postgres DSN available — pass --dsn or set KR_POSTGRES_DSN.", file=sys.stderr)
+        print("No Postgres DSN available, pass --dsn or set KR_POSTGRES_DSN.", file=sys.stderr)
         return 1
     schema = load_schema_map(settings.schema_map_path)
 
@@ -171,7 +170,7 @@ def main() -> int:
     print(f"Read {report.rows_read} row(s), wrote {report.rows_written}.")
     if report.rows_dropped_dangling:
         print(
-            f"\n{len(report.rows_dropped_dangling)} row(s) skipped — endpoint not "
+            f"\n{len(report.rows_dropped_dangling)} row(s) skipped, endpoint not "
             f"found in standards table:"
         )
         for rel_type, source_id, target_id in report.rows_dropped_dangling:

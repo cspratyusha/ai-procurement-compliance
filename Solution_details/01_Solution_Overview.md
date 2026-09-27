@@ -9,7 +9,7 @@ This is hard because:
 - There are thousands of published Indian Standards.
 - Scopes overlap between standards, especially across legacy revisions.
 - Standards are revised and amended frequently.
-- A single product almost never maps to a single standard — it maps to a **cluster** (primary standard + normative references + test methods + terminology + safety + installation standards).
+- A single product almost never maps to a single standard, it maps to a **cluster** (primary standard + normative references + test methods + terminology + safety + installation standards).
 - Certification obligations (BIS Product Certification, CRS, Hallmarking) are separate from the standard itself.
 
 **Consequences of getting it wrong:** omitted standards, outdated version references, incomplete technical requirements, ambiguity, reduced product quality, procurement disputes, and litigation.
@@ -34,22 +34,22 @@ It is delivered as a **web application + browser extension + public REST API**, 
 | **Retrieval-first, not classification-first** | No labeled dataset of (query → correct standard) exists; retrieval works without one and handles newly published standards without retraining. |
 | **Graph over flat database** | Allied/normative standard discovery is a relationship problem, not a search problem. |
 | **Explainable by default** | Procurement decisions must be defensible under audit; black-box output is unusable. |
-| **Deterministic where it matters** | Certification mapping and version/freshness logic are rules-based, not probabilistic — correctness here carries legal weight. |
-| **Grounded LLM usage** | The LLM explains and drafts, but never *decides* which standard applies — it only reasons over verified retrieved data. |
+| **Deterministic where it matters** | Certification mapping and version/freshness logic are rules-based, not probabilistic, correctness here carries legal weight. |
+| **Grounded LLM usage** | The LLM explains and drafts, but never *decides* which standard applies, it only reasons over verified retrieved data. |
 | **Integrate, don't isolate** | API-first design so adoption does not depend on officials switching tools. |
 | **Self-improving** | User corrections become training data for a supervised ranking model. |
 
 ## 4. Goals & Objectives
 
-1. **Accurate Standard Identification** — map descriptions to correct IS standards via semantic understanding, not keyword matching.
-2. **Complete Coverage** — return the full applicable standard cluster, not a single hit.
-3. **Currency Assurance** — always surface the latest version/amendment; flag superseded references.
-4. **Certification Awareness** — identify mandatory BIS schemes where applicable.
-5. **Universal Accessibility** — multilingual text, natural-language, and voice-based queries.
-6. **Auditability** — every recommendation explainable, logged, and version-stamped.
-7. **Systemic Reach** — usable by all four stakeholder groups via UI, extension, or API.
-8. **Continuous Improvement** — learn from accept/reject/correct feedback.
-9. **Ecosystem Feedback** — flag gaps in the standards landscape itself, not just navigate them.
+1. **Accurate Standard Identification**, map descriptions to correct IS standards via semantic understanding, not keyword matching.
+2. **Complete Coverage**, return the full applicable standard cluster, not a single hit.
+3. **Currency Assurance**, always surface the latest version/amendment; flag superseded references.
+4. **Certification Awareness**, identify mandatory BIS schemes where applicable.
+5. **Universal Accessibility**, multilingual text, natural-language, and voice-based queries.
+6. **Auditability**, every recommendation explainable, logged, and version-stamped.
+7. **Systemic Reach**, usable by all four stakeholder groups via UI, extension, or API.
+8. **Continuous Improvement**, learn from accept/reject/correct feedback.
+9. **Ecosystem Feedback**, flag gaps in the standards landscape itself, not just navigate them.
 
 ## 5. Stakeholder Benefit Mapping
 
@@ -64,7 +64,7 @@ It is delivered as a **web application + browser extension + public REST API**, 
 
 | File | Contents |
 |---|---|
-| `01_Solution_Overview.md` | This document — problem, solution summary, goals, stakeholders |
+| `01_Solution_Overview.md` | This document, problem, solution summary, goals, stakeholders |
 | `02_Features.md` | Complete feature catalogue (core + differentiating) |
 | `03_Architecture.md` | High-level architecture diagram, system components, component interactions |
 | `04_System_Workflow.md` | End-to-end system workflow and pipeline flow |

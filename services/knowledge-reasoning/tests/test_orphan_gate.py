@@ -52,7 +52,7 @@ class _FakeGraphRepository:
 
 
 # Real logged accept-case scores (Teammate 2's interaction_logs.jsonl,
-# integration Stage C) — a genuinely confident match in their real system.
+# integration Stage C), a genuinely confident match in their real system.
 _REAL_CONFIDENT_SCORES = [0.4693, 0.3388, 0.189, 0.1321, 0.0445, 0.01, 0.01, 0.01, 0.01, 0.01]
 
 
@@ -112,7 +112,7 @@ def test_single_candidate_with_no_graph_repository_degrades_to_orphan() -> None:
 
 def test_flat_distribution_flagged_even_with_passing_margin() -> None:
     # Margin between rank 1 and 2 clears the bar, but every other
-    # candidate sits in the same tight cluster as rank 2 — genuinely flat
+    # candidate sits in the same tight cluster as rank 2, genuinely flat
     # overall, not a confident single winner.
     candidates = [
         _candidate("IS 101:2020", 0.40),

@@ -2,7 +2,7 @@
 
 Genuinely functional, not a stub: it will simply fail to connect until
 Part 2 exposes `POST {base_url}/retrieve`, which is the correct, honest
-behaviour for "the thing it talks to doesn't exist yet" — no silent empty
+behaviour for "the thing it talks to doesn't exist yet", no silent empty
 result. Uses stdlib `urllib` rather than adding an HTTP client dependency;
 swap for `httpx`/`requests` later if this needs retries, connection
 pooling, or async.

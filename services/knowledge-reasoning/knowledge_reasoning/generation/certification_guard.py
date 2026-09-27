@@ -1,7 +1,6 @@
 """The untraceable-certification guard (integration decision 6).
 
-Scope note: Part 5's full LLM-backed generator (the brief's Phase 4 —
-prompt templates, the general hallucination guard checking IS numbers
+Scope note: Part 5's full LLM-backed generator (the brief's Phase 4, prompt templates, the general hallucination guard checking IS numbers
 against grounding context, multilingual rendering) was never built in this
 engagement; everything up to this point has been the repository/adapter
 layer and the first pieces of Phase 3 business logic (the orphan gate).
@@ -14,7 +13,7 @@ Why this is the highest-risk hallucination surface in the system
 An LLM asked to write about "ISI certification for structural steel" will
 happily supply specific-sounding evidence requirements (licence numbers,
 test report formats, notification numbers) from its own training data,
-because that text is genuinely plausible — ISI marking conventions are
+because that text is genuinely plausible, ISI marking conventions are
 common knowledge. A fabricated evidence requirement doesn't read as a
 hallucination; it reads as competent domain knowledge, and it can go
 straight into a tender's evaluation criteria. Every other hallucination
@@ -23,14 +22,14 @@ checkable against the grounding context mechanically. A fabricated *but
 plausible* evidence requirement for a *real* scheme is not.
 
 `CertificationRequirement.traceable` (contracts/cluster.py) is `True` only
-when `notification_reference` is populated — i.e. only when
+when `notification_reference` is populated, i.e. only when
 `required_evidence`/`effective_date`/`source_url` can be traced back to a
 specific, citable BIS notification. When it's `False`, generated text may
 state the scheme and whether it's mandatory (both taken as given from the
-`CertificationRequirement` passed in, not invented by the LLM — no caller
+`CertificationRequirement` passed in, not invented by the LLM, no caller
 populates that field from real category data yet; see INTEGRATION.md's
 "certification mapper" entry), but must not state or imply specific
-evidence requirements — it must say they aren't recorded and need
+evidence requirements, it must say they aren't recorded and need
 verification.
 """
 
@@ -65,7 +64,7 @@ class CertificationGuardResult:
 
 
 class UngroundedCertificationClaimError(ValueError):
-    """Raised by `assert_no_fabricated_evidence` — generated text stated or
+    """Raised by `assert_no_fabricated_evidence`, generated text stated or
     implied certification evidence requirements that `traceable=False`
     means we don't actually have."""
 
@@ -73,7 +72,7 @@ class UngroundedCertificationClaimError(ValueError):
 def check_certification_text(
     text: str, certification: CertificationRequirement
 ) -> CertificationGuardResult:
-    """Non-raising check — use this when you want the result, not an
+    """Non-raising check, use this when you want the result, not an
     exception (e.g. to log and regenerate rather than crash a request)."""
     if certification.traceable:
         return CertificationGuardResult(passed=True, matched_terms=[])

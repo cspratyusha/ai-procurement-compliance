@@ -1,7 +1,7 @@
 """Abstraction over Teammate 1's Postgres standards metadata store.
 
 `get_version_status` reads the one-hop version facts Postgres stores
-directly (status, the superseded_by FK, amendments) — it is a literal read,
+directly (status, the superseded_by FK, amendments), it is a literal read,
 not chain-walking business logic. Postgres is documented as the single
 source of truth (07_Data_Flow_And_Databases.md), so this is authoritative.
 `GraphRepository.get_supersession` reads the *derived* Neo4j projection of

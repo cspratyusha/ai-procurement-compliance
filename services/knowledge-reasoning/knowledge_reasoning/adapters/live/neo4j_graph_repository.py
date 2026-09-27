@@ -1,6 +1,6 @@
 """`GraphRepository` backed by a real Neo4j instance.
 
-Every query it runs comes from `graph/queries.py` — this module never
+Every query it runs comes from `graph/queries.py`, this module never
 builds Cypher itself, only binds parameters and shapes rows into the
 `ports.types` DTOs. Behaviourally identical to `FixtureGraphRepository`
 for the same `SchemaMap` and the same underlying data, since both honour
@@ -8,8 +8,7 @@ for the same `SchemaMap` and the same underlying data, since both honour
 
 KNOWN GAP: `expand` here only queries pre-selected known membership roles
 (`self._rel_keys`), unlike `PostgresGraphRepository`/`FixtureGraphRepository`,
-so `ExpansionResult.unmapped_edge_types` from this class is always empty —
-it does not implement the fallback-bucket detection (decision 3). This is
+so `ExpansionResult.unmapped_edge_types` from this class is always empty, it does not implement the fallback-bucket detection (decision 3). This is
 deliberate, not an oversight: there is no real Neo4j data anywhere
 (integration Stage A/B) to build or verify that logic against, and
 Postgres is the priority target. Extend this the same way

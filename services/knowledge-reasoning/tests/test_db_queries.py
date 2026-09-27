@@ -7,7 +7,7 @@ def test_get_standard_query_uses_configured_table_and_column_names() -> None:
     sql = queries.build_get_standard_query(schema)
     assert "FROM standards s" in sql
     assert "%(is_number)s" in sql
-    # Flat category column, no join — see module docstring.
+    # Flat category column, no join, see module docstring.
     assert "s.category AS category" in sql
     assert "JOIN" not in sql
 
@@ -36,7 +36,7 @@ def test_version_row_query_self_joins_within_standards_table_only() -> None:
 def test_amendments_query_joins_correctly_scoped_columns() -> None:
     schema = SchemaMap()
     sql = queries.build_get_amendments_query(schema)
-    # amendments.standard_id (FK) vs standards.id (PK) — the exact collision
+    # amendments.standard_id (FK) vs standards.id (PK), the exact collision
     # that forced column_names to become table-scoped.
     assert "a.standard_id = s.id" in sql
 

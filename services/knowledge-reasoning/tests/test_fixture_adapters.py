@@ -97,8 +97,7 @@ def test_expand_result_stays_under_truncation_ceiling(
 ) -> None:
     # Phase 1 does not implement the Phase 2 result cap yet, but the fixture
     # itself is small enough that an honest 2-hop expansion from the primary
-    # street lighting standard should already land well under ~25 members —
-    # a smoke check that the graph isn't accidentally over-connected.
+    # street lighting standard should already land well under ~25 members,     # a smoke check that the graph isn't accidentally over-connected.
     paths = graph_repo.expand([PRIMARY], max_hops=2).paths
     assert len({p.target for p in paths}) < 25
 
@@ -121,7 +120,7 @@ def test_supersession_direction_is_resolved_correctly() -> None:
 
 def test_supersession_direction_inverts_if_schema_map_direction_is_flipped() -> None:
     # Proves the fixture repository actually reads RelSpec.direction rather
-    # than hardcoding old->new — the exact failure mode decision 1 warns
+    # than hardcoding old->new, the exact failure mode decision 1 warns
     # about (a swapped name silently inverting traversal).
     from knowledge_reasoning.config.schema_map import RelSpec
 
@@ -135,7 +134,7 @@ def test_supersession_direction_inverts_if_schema_map_direction_is_flipped() -> 
     old = graph_repo.get_supersession(OLD_EDITION)
     # With direction inverted, the fixture's old->new edge now reads as
     # "old is superseded_by nothing" and shows the new edition as a
-    # predecessor instead — the wrong-way-round result decision 1 warns of.
+    # predecessor instead, the wrong-way-round result decision 1 warns of.
     assert old.superseded_by is None
     assert PRIMARY in old.supersedes
 
@@ -183,7 +182,7 @@ def test_category_falls_back_to_edge_when_property_missing(
     standards_repo: FixtureStandardsRepository,
 ) -> None:
     # IS 8623-1:1993 has category: null in nodes.yaml, only a belongs_to
-    # edge in edges.yaml — decision 4's fallback path.
+    # edge in edges.yaml, decision 4's fallback path.
     assert standards_repo.get_product_category(EDGE_ONLY_CATEGORY_NODE) == "Electrical Installation"
 
 
@@ -191,7 +190,7 @@ def test_certification_rules_unmapped_category_returns_empty_not_error(
     standards_repo: FixtureStandardsRepository,
 ) -> None:
     # "Structural & Materials" has no certification_rules.yaml entry at all
-    # — the repository returns [], and it's the Phase 3 mapper's job to
+    # the repository returns [], and it's the Phase 3 mapper's job to
     # turn "no rules found" into scheme: UNKNOWN, never NONE.
     assert standards_repo.get_certification_rules("Structural & Materials") == []
 
@@ -263,7 +262,7 @@ def test_unmapped_relationship_type_falls_back_not_dropped() -> None:
 
 def test_recognised_non_membership_type_is_neither_traversed_nor_unmapped() -> None:
     # superseded_by is a known schema_map key but not a cluster-membership
-    # role — it must be excluded from expand() (read via get_supersession
+    # role, it must be excluded from expand() (read via get_supersession
     # instead), not counted as unmapped just because it's not in
     # _rel_keys.
     from knowledge_reasoning.adapters.fixture.fixture_data import (
@@ -303,7 +302,7 @@ def test_all_real_fixture_relationship_types_are_mapped() -> None:
     # material_grade_variant (fixtures/sparse_real_topology/) is a
     # deliberate, permanent exception: it exists specifically to exercise
     # the fallback bucket (decision 3/Stage E.4) in a realistic-shaped
-    # fixture — see test_unmapped_type_falls_back_in_a_realistic_looking_fixture
+    # fixture, see test_unmapped_type_falls_back_in_a_realistic_looking_fixture
     # in test_sparse_real_topology_fixture.py. Any OTHER unmapped type is
     # still a real regression this test must catch.
     from knowledge_reasoning.loader.report_relationship_types import (

@@ -19,7 +19,7 @@
 | **Graph database** | Neo4j (Cypher) | Native multi-hop traversal for allied-standard discovery; NetworkX is a viable lighter fallback |
 | **Relational database** | PostgreSQL | Source of truth for metadata, versions, certification rules, users |
 | **Analytics store** | PostgreSQL (separate schema/instance) | Append-heavy logging isolated from transactional reads |
-| **LLM reasoning** | Claude / GPT API, context-grounded | Explanation, diff summarisation, impact estimation, clause drafting — with strict grounding |
+| **LLM reasoning** | Claude / GPT API, context-grounded | Explanation, diff summarisation, impact estimation, clause drafting, with strict grounding |
 | **Speech-to-text** | Multilingual STT API | Voice query support for regional and field offices |
 | **Background jobs** | Celery + Redis | Scheduled revision checks, retraining, aggregation, notification dispatch |
 | **Notifications** | SMTP / SendGrid + in-app queue | Alert delivery for subscribed categories |
@@ -36,7 +36,7 @@ The retrieval, re-ranking, and preprocessing components are all Python libraries
 Neo4j, the vector DB, and the keyword index are all rebuildable projections. This avoids the common multi-database drift problem and makes the ingestion pipeline the single write path.
 
 **FAISS/Chroma over managed vector DBs initially.**
-Self-hosted keeps the whole system runnable offline and deployable inside government infrastructure — a genuine requirement for public-sector adoption where external data egress may be restricted. The interface is abstracted so a managed store can replace it at scale.
+Self-hosted keeps the whole system runnable offline and deployable inside government infrastructure, a genuine requirement for public-sector adoption where external data egress may be restricted. The interface is abstracted so a managed store can replace it at scale.
 
 **Cross-encoder + LTR as separate stages.**
 The cross-encoder provides quality from day one with no training data. The LTR model adds usage-derived refinement later. Keeping them separate means the system is never dependent on data it doesn't yet have.
@@ -45,7 +45,7 @@ The cross-encoder provides quality from day one with no training data. The LTR m
 Certification and version logic run in PostgreSQL as plain queries, not inference. This is a deliberate architectural boundary: probabilistic components handle discovery, deterministic components handle legal correctness.
 
 **LLM as the last stage only.**
-Placing generation after validation means the LLM can only ever describe verified data. Reversing this order — LLM first, verification after — is the standard failure pattern in compliance AI tools, and this architecture structurally prevents it.
+Placing generation after validation means the LLM can only ever describe verified data. Reversing this order, LLM first, verification after, is the standard failure pattern in compliance AI tools, and this architecture structurally prevents it.
 
 ---
 

@@ -1,19 +1,18 @@
 """The only module in this codebase permitted to contain SQL.
 
 Same rule as `graph/queries.py`: table and column names are interpolated
-from `config.schema_map` (validated identifiers only, table-scoped — see
+from `config.schema_map` (validated identifiers only, table-scoped, see
 that module's `DEFAULT_COLUMN_NAMES` docstring); every value is bound as a
 `%(name)s` parameter, never string-formatted into the query.
 
 Shape confirmed against Teammate 1's real, operative schema
-(`data/schema.sql`, integration Stage A/B — see INTEGRATION.md "which
+(`data/schema.sql`, integration Stage A/B, see INTEGRATION.md "which
 Part 1 is authoritative"), not the originally-guessed
 `07_Data_Flow_And_Databases.md` shape:
 
 - `standards.category` is a flat string, populated for every real row
-  (Stage C: 18/18). `product_category_id` exists but is never populated —
-  kept as a secondary/aspirational path, never the primary read.
-- `certification_rules` has no FK columns at all — `(category, scheme_type,
+  (Stage C: 18/18). `product_category_id` exists but is never populated,   kept as a secondary/aspirational path, never the primary read.
+- `certification_rules` has no FK columns at all, `(category, scheme_type,
   mandatory)` only, matched by plain string equality, never a join.
 - Real amendments are modelled as separate `Standard` rows linked by an
   `AMENDED_BY` relationship, not rows in `amendments` (which exists but is
@@ -75,8 +74,7 @@ WHERE s.{schema.column('standards', 'standard_number')} = %(is_number)s
 
 
 def build_get_amendments_query(schema: SchemaMap) -> str:
-    """A standard's amendments from the `amendments` table, oldest first —
-    a secondary source, since real amendments are (also, or instead)
+    """A standard's amendments from the `amendments` table, oldest first,     a secondary source, since real amendments are (also, or instead)
     modelled as AMENDED_BY-linked Standard rows; the repository adapter
     unions both. Bound parameter: `%(is_number)s`."""
     standards = schema.table("standards")
@@ -95,7 +93,7 @@ ORDER BY a.{schema.column('amendments', 'date_issued')} ASC
 
 
 def build_get_product_category_query(schema: SchemaMap) -> str:
-    """A standard's category — the flat `standards.category` column
+    """A standard's category, the flat `standards.category` column
     (property strategy's real, working source). Bound parameter:
     `%(is_number)s`."""
     standards = schema.table("standards")
@@ -107,14 +105,14 @@ WHERE s.{schema.column('standards', 'standard_number')} = %(is_number)s
 
 
 def build_get_certification_rules_query(schema: SchemaMap) -> str:
-    """Certification rules for a product category — flat equality match,
+    """Certification rules for a product category, flat equality match,
     no join (Teammate 1's real table has no FK columns at all). Bound
     parameter: `%(category)s`.
 
     Only `category`, `scheme_type`, `mandatory` are selected. The
     traceability fields (`required_evidence`, `notification_reference`,
     `effective_date`, `source_url`) and `standard_is_number` scoping don't
-    exist in Teammate 1's real schema — the repository adapter defaults
+    exist in Teammate 1's real schema, the repository adapter defaults
     them (None/[] /None) in code rather than this query pretending they
     can be selected. See INTEGRATION.md, "certification traceability".
     """
@@ -136,20 +134,20 @@ def build_expand_query(schema: SchemaMap) -> str:
     data actually lives).
 
     Bound parameters: `seeds` (text[]), `max_hops` (int),
-    `outgoing_types`/`incoming_types`/`either_types` (text[] — cluster-
+    `outgoing_types`/`incoming_types`/`either_types` (text[], cluster-
     membership relationship-type names split by `RelSpec.direction`, same
-    as every other backend), `all_known_types` (text[] — every name in
+    as every other backend), `all_known_types` (text[], every name in
     `SchemaMap.relationship_types`, membership or not, e.g. also
     SUPERSEDED_BY/OVERLAPS_SCOPE_WITH/BELONGS_TO).
 
     A hop is only followed if its type+direction matches a configured
     membership role (the three `*_types` lists), OR the type isn't in
-    `all_known_types` at all — the fallback bucket (decision 3): an edge
+    `all_known_types` at all, the fallback bucket (decision 3): an edge
     with no configured mapping is still traversed and returned (as
     `role=NULL`, which the caller maps to `EdgeType.RELATED_UNCLASSIFIED`
     and counts), rather than silently invisible the way it was before this
     existed. A *recognised but non-membership* type (in `all_known_types`
-    but not in any `*_types` list — supersession, overlap, category) is
+    but not in any `*_types` list, supersession, overlap, category) is
     excluded from both traversal and result, exactly as before: those are
     read via their own dedicated accessors, never via expand().
 
@@ -210,13 +208,13 @@ ORDER BY node_id, hop ASC
 
 def build_get_relationship_query(schema: SchemaMap) -> str:
     """Direct (one-hop) neighbours of a single standard via a single named
-    relationship type, both directions — used for `get_supersession`
+    relationship type, both directions, used for `get_supersession`
     (direction-aware) and `get_curated_overlaps`. Bound parameters:
     `is_number`, `type_name`.
 
     Returns rows of (direction, neighbour) where direction is
     'source' (is_number was the source) or 'target' (is_number was the
-    target) — the caller applies `RelSpec.direction` to interpret which
+    target), the caller applies `RelSpec.direction` to interpret which
     one means what, exactly as `graph/queries.py`'s Cypher builders do.
     """
     relationships = schema.table("standard_relationships")
@@ -242,7 +240,7 @@ WHERE s.{schema.column('standards', 'standard_number')} = %(is_number)s AND sr.{
 def build_get_curated_overlaps_query(schema: SchemaMap) -> str:
     """Curated overlap edges among a given set of standards. Bound
     parameters: `is_numbers` (text[]), `type_name`. No `overlap_score`
-    column exists in Teammate 1's real schema — the caller defaults it,
+    column exists in Teammate 1's real schema, the caller defaults it,
     same as the Neo4j path does for an absent property."""
     relationships = schema.table("standard_relationships")
     standards = schema.table("standards")
@@ -260,7 +258,7 @@ WHERE sr.{schema.column('standard_relationships', 'type')} = %(type_name)s
 
 
 # ---------------------------------------------------------------------------
-# Writes (loader) — mirror the real shape above, for fixture-mode Postgres
+# Writes (loader), mirror the real shape above, for fixture-mode Postgres
 # testing (db/schema.sql). No product_categories writes: that table exists
 # in the real schema but is never populated by the real ingestion path
 # either (category is flat on `standards`), so there is nothing faithful
@@ -271,7 +269,7 @@ WHERE sr.{schema.column('standard_relationships', 'type')} = %(type_name)s
 def build_upsert_standard_query(schema: SchemaMap) -> str:
     """Bound parameters: id, is_number, title, scope_text, status, edition,
     last_amended, category. `id` is caller-supplied (Teammate 1's real PK
-    has no default/serial — the loader uses the canonical IS number as a
+    has no default/serial, the loader uses the canonical IS number as a
     stable, idempotent id for fixture rows)."""
     standards = schema.table("standards")
     return f"""
@@ -330,7 +328,7 @@ def build_upsert_standard_relationship_query(schema: SchemaMap) -> str:
     """Bound parameters: source_id, target_id, type. `source_id`/`target_id`
     are canonical IS numbers, reused as the `standards.id` (see
     `build_upsert_standard_query`). No `overlap_score` column exists in
-    Teammate 1's real schema — `PostgresGraphRepository.get_curated_overlaps`
+    Teammate 1's real schema, `PostgresGraphRepository.get_curated_overlaps`
     defaults it to 1.0, same as the Neo4j path defaults an absent property."""
     relationships = schema.table("standard_relationships")
     source_col = schema.column("standard_relationships", "source_id")
@@ -344,7 +342,7 @@ ON CONFLICT ({source_col}, {target_col}, {type_col}) DO NOTHING
 
 
 def build_upsert_certification_rule_query(schema: SchemaMap) -> str:
-    """Idempotent on (category, scheme_type) — Teammate 1's real primary
+    """Idempotent on (category, scheme_type), Teammate 1's real primary
     key. Bound parameters: category, scheme, mandatory."""
     rules = schema.table("certification_rules")
     category_col = schema.column("certification_rules", "category")

@@ -90,7 +90,7 @@ def test_yaml_override_missing_file_raises(tmp_path: Path) -> None:
 
 def test_column_names_is_table_scoped_and_resolves_same_concept_two_ways() -> None:
     # The real bug that forced this: standards' own PK is `id`, but
-    # amendments' FK pointing at it is `standard_id` — two different real
+    # amendments' FK pointing at it is `standard_id`, two different real
     # column names for "the standard" in two different tables.
     schema = SchemaMap()
     assert schema.column("standards", "id") == "id"
@@ -116,7 +116,7 @@ column_names:
 
 def test_relationship_keys_align_with_edge_type_enum() -> None:
     # Cluster-membership roles in RELATIONSHIP_TYPES must be addressable by
-    # EdgeType.value directly (RELATIONSHIP_TYPES[edge_type.value]) — except
+    # EdgeType.value directly (RELATIONSHIP_TYPES[edge_type.value]), except
     # RELATED_UNCLASSIFIED, which is deliberately never a schema_map key: it's
     # the dynamic fallback role assigned at read time for a relationship type
     # with no configured mapping at all (decision 3), not something anyone

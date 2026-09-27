@@ -2,21 +2,21 @@
 -- DEFAULT_TABLE_NAMES / DEFAULT_COLUMN_NAMES, which now mirror Teammate 1's
 -- real, operative schema (data/schema.sql) rather than a guess from
 -- Solution_details/07_Data_Flow_And_Databases.md. This is still NOT
--- Teammate 1's actual file — it exists so the loader and the live adapters
+-- Teammate 1's actual file, it exists so the loader and the live adapters
 -- have something real to run against in dev/fixture-mode. If you override
 -- table/column names via schema_map.yaml, this file needs the matching
 -- override too; it isn't generated from schema_map.py.
 --
 -- Differences from Teammate 1's real data/schema.sql, deliberately: no
 -- pgvector column (unavailable in this sandbox, and not this service's
--- concern — that's Part 2's embedding index), no `description`/`sector`
+-- concern, that's Part 2's embedding index), no `description`/`sector`
 -- population (unused by any query here). `product_categories` exists for
 -- structural fidelity but is intentionally never written to by this
--- service's loader either — confirmed (integration Stage A/B) that
+-- service's loader either, confirmed (integration Stage A/B) that
 -- Teammate 1's real ingestion doesn't populate it either; `standards.category`
 -- is the real, working category source.
 --
--- No `verified` column anywhere — confirmed real absence. `source_url` /
+-- No `verified` column anywhere, confirmed real absence. `source_url` /
 -- `source_checked_at` exist and are what `VersionStatus.data_verified` /
 -- `verification_reason` are derived from (db/queries.py), not selected as
 -- a plain boolean.

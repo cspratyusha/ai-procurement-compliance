@@ -2,7 +2,7 @@
 
 Shared by the in-memory fixture-backed port implementations (this package)
 and `loader/fixture_loader.py`, which writes the same parsed structures into
-a real Neo4j/Postgres. One parser, two destinations — so "the loader takes
+a real Neo4j/Postgres. One parser, two destinations, so "the loader takes
 Teammate 1's real data unchanged, in the same format" is actually true: both
 paths read exactly this shape.
 """
@@ -73,7 +73,7 @@ class FixtureDomain:
 
 
 def _is_standard_edge_target(edge_type: str) -> bool:
-    # belongs_to's `to` is a category name, not a Standard is_number — every
+    # belongs_to's `to` is a category name, not a Standard is_number, every
     # other relationship type points Standard -> Standard.
     return edge_type != "belongs_to"
 

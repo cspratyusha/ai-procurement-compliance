@@ -19,15 +19,15 @@ STAGE 10 Background Jobs, Alerts & Dashboard
 
 ---
 
-## Stage 1 — Data Acquisition & Corpus Construction
+## Stage 1: Data Acquisition & Corpus Construction
 
 **Objective:** Build the foundational standards dataset.
 
 **Key tasks**
-- Identify and scope the source: publicly available BIS standards catalogue metadata (standard number, title, scope/abstract, publication year, amendment list, cross-reference list). Full standard text is copyrighted — work with metadata, scopes and abstracts only.
+- Identify and scope the source: publicly available BIS standards catalogue metadata (standard number, title, scope/abstract, publication year, amendment list, cross-reference list). Full standard text is copyrighted, work with metadata, scopes and abstracts only.
 - Build a scraper/parser for catalogue pages and published metadata listings.
 - Select a focused demo domain: **2–4 product categories** covered deeply (e.g. steel and structural materials, PVC/pipes, electrical fittings, PPE/safety equipment) rather than shallow coverage of the entire corpus.
-- Manually curate and verify the cross-reference relationships for the chosen categories — this is the highest-value manual effort in the entire project.
+- Manually curate and verify the cross-reference relationships for the chosen categories, this is the highest-value manual effort in the entire project.
 - Curate the certification mapping dataset (which product categories fall under BIS Product Certification, CRS, Hallmarking).
 - Normalise all extracted data: consistent numbering format, date formats, status labels, category tagging.
 
@@ -39,7 +39,7 @@ STAGE 10 Background Jobs, Alerts & Dashboard
 
 ---
 
-## Stage 2 — Data Modelling & Storage Setup
+## Stage 2: Data Modelling & Storage Setup
 
 **Objective:** Stand up the four storage layers and the fan-out ingestion pipeline.
 
@@ -59,7 +59,7 @@ STAGE 10 Background Jobs, Alerts & Dashboard
 
 ---
 
-## Stage 3 — Semantic Retrieval Engine
+## Stage 3: Semantic Retrieval Engine
 
 **Objective:** Given a text query, return a well-ranked candidate list of standards.
 
@@ -79,7 +79,7 @@ STAGE 10 Background Jobs, Alerts & Dashboard
 
 ---
 
-## Stage 4 — Knowledge Graph & Allied Standard Expansion
+## Stage 4: Knowledge Graph & Allied Standard Expansion
 
 **Objective:** Convert single-standard hits into complete standard clusters.
 
@@ -98,7 +98,7 @@ STAGE 10 Background Jobs, Alerts & Dashboard
 
 ---
 
-## Stage 5 — Validation & Enrichment Layer
+## Stage 5: Validation & Enrichment Layer
 
 **Objective:** Apply deterministic correctness checks before anything reaches the user.
 
@@ -115,7 +115,7 @@ STAGE 10 Background Jobs, Alerts & Dashboard
 
 ---
 
-## Stage 6 — LLM Reasoning & Generation Layer
+## Stage 6: LLM Reasoning & Generation Layer
 
 **Objective:** Produce human-readable, defensible output from verified data.
 
@@ -134,7 +134,7 @@ STAGE 10 Background Jobs, Alerts & Dashboard
 
 ---
 
-## Stage 7 — Application & API Layer
+## Stage 7: Application & API Layer
 
 **Objective:** Orchestrate the pipeline and expose it for both UI and machine consumption.
 
@@ -154,7 +154,7 @@ STAGE 10 Background Jobs, Alerts & Dashboard
 
 ---
 
-## Stage 8 — Frontend, Extension & Voice Interface
+## Stage 8: Frontend, Extension & Voice Interface
 
 **Objective:** Deliver the user-facing surfaces.
 
@@ -174,13 +174,13 @@ STAGE 10 Background Jobs, Alerts & Dashboard
 
 ---
 
-## Stage 9 — Feedback Loop & Supervised LTR Layer
+## Stage 9: Feedback Loop & Supervised LTR Layer
 
 **Objective:** Make the system improve with usage.
 
 **Key tasks**
 - Implement feedback capture in the UI and API (accept / reject / correct / edit).
-- Ensure interaction records capture the full candidate set with per-stage scores — the LTR layer is impossible without this.
+- Ensure interaction records capture the full candidate set with per-stage scores, the LTR layer is impossible without this.
 - Build the training-set builder: group interactions by query, assign labels from user actions, assemble feature vectors.
 - Implement the LTR model training pipeline (LightGBM/XGBoost ranker).
 - Implement evaluation against held-out data using NDCG@k, MRR, Precision@1.
@@ -195,7 +195,7 @@ STAGE 10 Background Jobs, Alerts & Dashboard
 
 ---
 
-## Stage 10 — Background Jobs, Alerts & Dashboard
+## Stage 10: Background Jobs, Alerts & Dashboard
 
 **Objective:** Deliver continuous monitoring and organisational oversight.
 
@@ -235,4 +235,4 @@ Stage 1 ──▶ Stage 2 ──┬──▶ Stage 3 ──┐
 
 ## Scope Recommendation
 
-Build the **full vertical pipeline for a narrow domain** rather than partial coverage of everything. Two to four product categories with complete graph relationships, certification mapping, validation, explanation, audit mode, and dashboard will demonstrate far more capability than thousands of standards with only keyword search. Scalability is then an argued property of the architecture — which the retrieval-based, no-retraining-required design supports directly.
+Build the **full vertical pipeline for a narrow domain** rather than partial coverage of everything. Two to four product categories with complete graph relationships, certification mapping, validation, explanation, audit mode, and dashboard will demonstrate far more capability than thousands of standards with only keyword search. Scalability is then an argued property of the architecture, which the retrieval-based, no-retraining-required design supports directly.

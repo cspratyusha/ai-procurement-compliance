@@ -30,12 +30,12 @@ logger = logging.getLogger(__name__)
 app = FastAPI(
     title="AI Procurement Compliance",
     version="0.2.0",
-    description="Query Indian Standards for procurement specifications — with semantic & hybrid AI search.",
+    description="Query Indian Standards for procurement specifications, with semantic & hybrid AI search.",
 )
 
 
 # ---------------------------------------------------------------------------
-# Startup — build BM25 index
+# Startup, build BM25 index
 # ---------------------------------------------------------------------------
 
 @app.on_event("startup")
@@ -78,12 +78,12 @@ def _row_to_standard(row: dict) -> dict:
 
 
 # ---------------------------------------------------------------------------
-# Routes — Core CRUD
+# Routes, Core CRUD
 # ---------------------------------------------------------------------------
 
 @app.get("/health")
 def health() -> dict[str, str]:
-    """Liveness check — confirms the database is reachable."""
+    """Liveness check, confirms the database is reachable."""
     with get_connection() as conn:
         conn.execute("SELECT 1")
     return {"status": "ok"}
@@ -160,7 +160,7 @@ def search_standards(
 
 
 # ---------------------------------------------------------------------------
-# Routes — Semantic & Hybrid Search (AI Pipeline)
+# Routes, Semantic & Hybrid Search (AI Pipeline)
 # ---------------------------------------------------------------------------
 
 @app.get("/standards/semantic-search", response_model=list[SemanticSearchResult])
@@ -239,7 +239,7 @@ def hybrid_search_endpoint(
 
 
 # ---------------------------------------------------------------------------
-# Routes — Detail, Categories, Relationships, Amendments, Certification
+# Routes, Detail, Categories, Relationships, Amendments, Certification
 # ---------------------------------------------------------------------------
 
 @app.get("/standards/{standard_id}", response_model=StandardDetail)

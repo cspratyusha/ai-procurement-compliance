@@ -62,7 +62,7 @@ def parse_is_number(raw: str) -> ISNumber | None:
 
     Returns ``None`` if ``raw`` does not contain a recognisable IS number
     (no "IS"/"I.S." prefix followed by digits). Never raises on malformed
-    input — callers that need a hard failure should check for ``None``
+    input, callers that need a hard failure should check for ``None``
     themselves, since "this string is not an IS number" is an expected,
     not exceptional, outcome (e.g. when scanning free-text LLM output for
     hallucinated references).
@@ -100,7 +100,7 @@ def parse_is_number(raw: str) -> ISNumber | None:
         elif section is None:
             section = num
         # A fourth bare number with no more slots to fill is ignored rather
-        # than raising — real-world input is messy and we prefer a partial,
+        # than raising, real-world input is messy and we prefer a partial,
         # honest parse over rejecting the whole string.
 
     return ISNumber(base=base, part=part, section=section, year=year)
@@ -109,8 +109,7 @@ def parse_is_number(raw: str) -> ISNumber | None:
 def canonicalise_is_number(raw: str) -> str:
     """Parse and re-serialise in one step. Raises ``ValueError`` if unparseable.
 
-    This is the function pydantic validators call at the contract boundary —
-    there, an unparseable IS number is a hard error, not an expected outcome.
+    This is the function pydantic validators call at the contract boundary,     there, an unparseable IS number is a hard error, not an expected outcome.
     """
     parsed = parse_is_number(raw)
     if parsed is None:

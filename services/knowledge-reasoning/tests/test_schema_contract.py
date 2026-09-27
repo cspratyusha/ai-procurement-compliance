@@ -1,24 +1,24 @@
-"""The schema contract test — see brief section 4.4.
+"""The schema contract test, see brief section 4.4.
 
 Two tiers, deliberately:
 
 Tier A (always runs, backend-agnostic): exercises the *ports*
 (GraphRepository / StandardsRepository), not raw Cypher/SQL. It runs
 against whatever `KR_GRAPH_BACKEND`/`KR_STANDARDS_BACKEND` currently
-resolve to — the fixture-backed adapters by default, so this tier is what
+resolve to, the fixture-backed adapters by default, so this tier is what
 "right now it runs against my fixture" means in practice, and it is what
 actually ran and passed in the sandbox this was built in (no Docker
-available there — see INTEGRATION.md).
+available there, see INTEGRATION.md).
 
 Tier B (live introspection, skipped if unreachable): connects directly to
 whatever Neo4j/Postgres `KR_NEO4J_URI`/`KR_POSTGRES_DSN` point at and
 asserts the configured labels, relationship types, tables and columns
 literally exist. This is "the day Teammate 1 pushes, I repoint the config
-at their database and run this one test" — point the env vars at their
+at their database and run this one test", point the env vars at their
 database and re-run this file.
 
 Both tiers assert supersession *direction*, not just that the relationship
-type exists (decision 1) — a test that only checks
+type exists (decision 1), a test that only checks
 "SUPERSEDED_BY exists somewhere in the graph" passes on an inverted graph
 just as easily as a correct one.
 """
@@ -49,7 +49,7 @@ EXPECTED_PROPERTY_KEYS = ["is_number", "title", "status", "verified"]
 
 
 # ---------------------------------------------------------------------------
-# Tier A — backend-agnostic, via ports
+# Tier A, backend-agnostic, via ports
 # ---------------------------------------------------------------------------
 
 
@@ -106,7 +106,7 @@ class TestTierA_PortLevelContract:
 
 
 # ---------------------------------------------------------------------------
-# Tier B — live schema introspection, skipped if unreachable
+# Tier B, live schema introspection, skipped if unreachable
 # ---------------------------------------------------------------------------
 
 TEST_NEO4J_URI = os.environ.get("KR_TEST_NEO4J_URI", "bolt://localhost:7687")

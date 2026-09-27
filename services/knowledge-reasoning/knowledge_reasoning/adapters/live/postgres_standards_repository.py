@@ -3,7 +3,7 @@
 Every query it runs comes from `db/queries.py`. A `GraphRepository` is
 injected for two things: the category-fallback path (decision 4), and
 amendments modelled as `AMENDED_BY`-linked `Standard` rows rather than
-`amendments` table rows — confirmed the real, populated representation
+`amendments` table rows, confirmed the real, populated representation
 during integration (Stage A/B: the `amendments` table exists but is never
 written by Teammate 1's actual ingestion path; the one real amendment in
 the demo corpus, "IS 4984:2016/Amd 1", is a separate Standard node linked
@@ -11,8 +11,7 @@ by `AMENDED_BY`). `get_version_status` reads both sources and unions them,
 so a populated `amendments` table (if Teammate 1 ever starts writing to
 it) is picked up automatically without a code change.
 
-`verified` is derived from `standards.source_url`/`source_checked_at` —
-neither Teammate 1 schema has an actual `verified` column (confirmed
+`verified` is derived from `standards.source_url`/`source_checked_at`, neither Teammate 1 schema has an actual `verified` column (confirmed
 Stage A/B), but `data/schema.sql` has these two, and they're the closest
 real signal to "do we know where this came from and when we last looked".
 
@@ -21,21 +20,21 @@ Rule: `source_checked_at` present and within `_RECENT_CHECK_WINDOW_DAYS`
 reason "stale_check"; `source_url` present with no check timestamp at all
 -> not verified, reason "unchecked_source"; neither -> not verified,
 reason "no_provenance". ("stale_check" isn't one of the three cases this
-was specified against — it's the natural interpretation of "recent"
+was specified against, it's the natural interpretation of "recent"
 implying an expiry, added rather than left undefined.)
 
 CAVEAT, real and not decorative: Teammate 1's real `source_checked_at`
 column is `NOT NULL DEFAULT NOW()` (confirmed Stage A/B, `data/schema.sql`)
-and their ingestion never writes `source_url` at all — so today this
+and their ingestion never writes `source_url` at all, so today this
 column means "when this database row was last written", not "when
 someone checked the standard is still current against BIS". Every real
 row will currently derive as `verified=True` shortly after any ingestion
 run, regardless of whether anyone actually re-checked anything. This is
 the best signal available today and correctly derived from it, but the
 underlying signal doesn't yet mean what this derivation needs it to mean
-— flagged in INTEGRATION.md as a real ask, not silently trusted here.
+flagged in INTEGRATION.md as a real ask, not silently trusted here.
 
-Opens one connection per call rather than pooling — correct and simple;
+Opens one connection per call rather than pooling, correct and simple;
 connection pooling is a performance concern, and at this corpus size
 (tens of standards) it isn't one yet.
 """
@@ -115,7 +114,7 @@ class PostgresStandardsRepository:
         )
 
     def _amendments_from_graph(self, is_number: str) -> list[Amendment]:
-        """Amendments modelled as AMENDED_BY-linked Standard rows — see
+        """Amendments modelled as AMENDED_BY-linked Standard rows, see
         module docstring. A missing amendment_number/date is not silently
         dropped: real Teammate-1 data always has both (last_amended is
         enforced non-empty at ingestion), so an absence here means the
@@ -134,7 +133,7 @@ class PostgresStandardsRepository:
                 Amendment(
                     # Real amendment-standards don't carry a clean integer
                     # amendment number (e.g. "IS 4984:2016/Amd 1", edition
-                    # "Amendment 1, 2022") — the edition string is the
+                    # "Amendment 1, 2022"), the edition string is the
                     # closest honest label available.
                     amendment_number=child.edition or child.is_number,
                     date_issued=date_issued,
@@ -174,7 +173,7 @@ class PostgresStandardsRepository:
 
         status = row["status"] if row is not None else "active"
         superseded_by = row["superseded_by"] if row is not None else None
-        # One-hop only — see FixtureStandardsRepository.get_version_status.
+        # One-hop only, see FixtureStandardsRepository.get_version_status.
         current_edition = superseded_by or is_number
         data_verified, verification_reason = (
             _derive_verification(row["source_url"], row["source_checked_at"])
@@ -211,7 +210,7 @@ class PostgresStandardsRepository:
         return [
             CertificationRuleRow(
                 product_category=r["category"],
-                # None of these exist in Teammate 1's real schema — defaulted
+                # None of these exist in Teammate 1's real schema, defaulted
                 # in code, never fabricated. See INTEGRATION.md,
                 # "certification traceability".
                 standard_is_number=None,
