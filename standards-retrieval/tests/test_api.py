@@ -57,7 +57,7 @@ class TestStandardsRetrievalAPI(unittest.TestCase):
         self.assertIsInstance(data["ltr_model_loaded"], bool)
 
         # Ensure exact contract keys
-        expected_keys = {"status", "corpus_size", "ltr_model_loaded"}
+        expected_keys = {"status", "corpus_size", "ltr_model_loaded", "explanations_available"}
         self.assertEqual(set(data.keys()), expected_keys)
 
     # --- 2. Input Validation Tests ---

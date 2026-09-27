@@ -4,8 +4,7 @@ Two problems this solves.
 
 **The suite silently changed meaning with the environment.** Nothing pinned
 which corpus the tests ran against, so `STANDARDS_CORPUS` leaking in from a
-shell — the same variable used to serve the full 6,360-standard corpus —
-quietly repointed every test at different data. Sixteen tests then failed,
+shell, the same variable used to serve the full 6,360-standard corpus, quietly repointed every test at different data. Sixteen tests then failed,
 not because the code was wrong but because they assert on pilot-corpus ids
 (`IS-ELEC-005`) that do not exist in the full corpus. A test that passes or
 fails on an ambient variable is not testing anything reliably, so the corpus
@@ -45,6 +44,19 @@ if str(_PROJECT_ROOT) not in sys.path:
 # were built against, so it is the only one this suite's assertions are
 # meaningful against. Tests that want the full corpus set it themselves.
 _INHERITED_CORPUS = os.environ.pop("STANDARDS_CORPUS", None)
+
+# The API loads the local explanation model at startup when Ollama is
+# running. Tests that start the lifespan must not pull a 4 GB model onto the
+# GPU as a side effect, so warm-up is off for the whole suite.
+os.environ["EXPLANATION_WARMUP"] = "0"
+
+# The engine tests exercise ranking, not sign-in, so they call the API
+# anonymously. test_accounts.py switches this back on for itself. Accounts go
+# to a throwaway database, never the deployment's.
+os.environ["AUTH_REQUIRED"] = "0"
+import tempfile  # noqa: E402
+
+os.environ["ACCOUNTS_DB"] = str(Path(tempfile.mkdtemp(prefix="accounts-test-")) / "accounts.db")
 
 
 @pytest.fixture(scope="session", autouse=True)

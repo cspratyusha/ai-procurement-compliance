@@ -8,7 +8,7 @@
 
 This microservice provides intelligent semantic and lexical retrieval of Indian Standards (BIS) from plain-language procurement tender specifications.
 
-While **Part 1 (Real BIS Standards Corpus Extraction)** is being prepared, this codebase is built against a high-fidelity **synthetic mock corpus** (`data/mock_corpus.json`). The system is architected so that transitioning from the mock dataset to the production corpus requires **zero code modifications**—only a data file swap or environment variable configuration.
+While **Part 1 (Real BIS Standards Corpus Extraction)** is being prepared, this codebase is built against a high-fidelity **synthetic mock corpus** (`data/mock_corpus.json`). The system is architected so that transitioning from the mock dataset to the production corpus requires **zero code modifications**, only a data file swap or environment variable configuration.
 
 ---
 

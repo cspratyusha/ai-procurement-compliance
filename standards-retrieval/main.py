@@ -1,4 +1,5 @@
 import logging
+import os
 import re
 import time
 from contextlib import asynccontextmanager
@@ -10,6 +11,8 @@ from fastapi import FastAPI, HTTPException, Request, UploadFile, File
 from fastapi.middleware.cors import CORSMiddleware
 
 from datetime import datetime, timezone
+import accounts
+import accounts_api
 import alerts as alerts_data
 import audit as audit_engine
 import certification
@@ -62,7 +65,7 @@ class CertificationInfo(BaseModel):
 
     `scheme` distinguishes three materially different answers, and the UI must
     keep them distinct: a confirmed requirement, a confirmed absence of one,
-    and 'not_verified' — which is not a clearance.
+    and 'not_verified', which is not a clearance.
     """
     scheme: Literal["ISI", "CRS", "Hallmark", "none", "not_verified"] = Field(
         ..., description="Certification scheme, or 'not_verified' when status is unknown."
@@ -263,8 +266,9 @@ class AlertCoverage(BaseModel):
 
 
 class AlertsResponse(BaseModel):
-    findings: List[AlertFinding] = Field(default_factory=list, description="Findings, most severe first.")
+    findings: List[AlertFinding] = Field(default_factory=list, description="Findings, most severe first. Empty when summary=true.")
     critical_count: int = Field(..., description="Findings whose replacement is known and named.")
+    total_findings: int = Field(default=0, description="All findings, before any summary trimming.")
     coverage: AlertCoverage = Field(..., description="What this scan covered.")
 
 
@@ -410,18 +414,24 @@ class CertificationRulesResponse(BaseModel):
 # least-bad of a uniformly bad set -- the cross-encoder logit is an absolute
 # relevance estimate and is comparable across queries.
 #
-# Measured on the 30-standard corpus:
-#   in-scope queries      +2.8 .. +9.6  (one outlier at -4.0)
-#   out-of-scope queries  -6.7 .. -11.2
-# The bands do not overlap, but the in-scope outlier sits between them, so
-# anything in the middle is reported as 'uncertain' rather than being forced
-# into a yes/no.
+# Recalibrated on the full 21,848-standard corpus (eval/calibrate_confidence.py):
+#   589 held-out in-scope queries        +1.25 .. (median +8.2)
+#   realistic short, vague in-scope ones  down to -1.8 ("cotton bedsheet",
+#                                          "bricks for wall construction")
+#   35 out-of-scope requests             up to -2.7 (services, software,
+#                                          travel, insurance, nonsense)
+# The first calibration, on 30 standards, put 'none' at -6.0; at full size
+# that sent 29% of out-of-scope requests (catering, taxi hire, app
+# development) to 'uncertain', showing a result under a caution banner where a
+# plain no-match was right. -2.25 sits midway between the highest out-of-scope
+# score and the lowest realistic in-scope one, about 0.45 clear of each; vague
+# in-scope wording stays 'uncertain' rather than being told it is out of scope.
+_CONFIDENCE_STRONG_MIN = 0.0
+_CONFIDENCE_NONE_MAX = -2.25
+
 # How many fused candidates reach the cross-encoder. Each one is a forward
 # pass, so this is the main latency lever in the whole pipeline.
 _RERANK_DEPTH = 10
-
-_CONFIDENCE_STRONG_MIN = 0.0
-_CONFIDENCE_NONE_MAX = -6.0
 
 
 def assess_confidence(results: List["StandardResult"]) -> Dict[str, str]:
@@ -448,10 +458,14 @@ def assess_confidence(results: List["StandardResult"]) -> Dict[str, str]:
     if top_ce <= _CONFIDENCE_NONE_MAX:
         return {
             "level": "none",
+            # Not "outside the covered sectors": with the full archive loaded a
+            # miss is as often a product described in words no standard uses
+            # ("laptop" for IT equipment) as one BIS does not cover at all.
             "reason": (
-                "No standard in the current corpus matches this query. This product "
-                "category is most likely outside the sectors covered so far. The "
-                "entries below are the nearest text matches, not recommendations."
+                "No standard matched this description closely. It may be outside the "
+                "Indian Standards catalogue, or described in words the standards do not "
+                "use; try naming the material, rating or function. The entries below are "
+                "the nearest text matches, not recommendations."
             ),
         }
 
@@ -469,6 +483,32 @@ class HealthResponse(BaseModel):
     status: str = Field(default="ok", description="Service operational status.")
     corpus_size: int = Field(..., description="Number of BIS standards loaded in memory.")
     ltr_model_loaded: bool = Field(..., description="Whether a trained LTR LightGBM model is active.")
+    explanations_available: bool = Field(
+        default=False,
+        description=(
+            "Whether the local explanation model is reachable, so the UI can offer "
+            "explanations before the first search rather than discovering it after."
+        ),
+    )
+
+
+class ExplainRequest(BaseModel):
+    query: str = Field(..., description="The query the results were retrieved for (as searched, i.e. after translation).")
+    numbers: List[str] = Field(
+        ...,
+        description="IS numbers of the results to explain, in rank order. Only the first five are used.",
+    )
+
+
+class ExplainResponse(BaseModel):
+    available: bool = Field(..., description="Whether the explanation model was reachable.")
+    explanations: Dict[str, str] = Field(
+        default_factory=dict,
+        description=(
+            "IS number -> one-sentence reason. Only numbers that were asked about ever "
+            "appear; anything the model invents is discarded before this is returned."
+        ),
+    )
 
 
 # --- Lifespan Startup & Resource Management ---
@@ -524,6 +564,21 @@ async def lifespan(app: FastAPI):
         logger.warning(f"[Lifespan] LTR model not found at '{_LTR_MODEL_PATH}'. Relying on fallback_score().")
         app.state.ltr_model = None
 
+    # 6. Load the optional explanation model in the background, so the first
+    #    person to ask for an explanation does not wait for it to load. Never
+    #    blocks startup; does nothing if Ollama is absent. EXPLANATION_WARMUP=0
+    #    turns it off (the test suite does, to keep runs off the GPU).
+    if os.environ.get("EXPLANATION_WARMUP", "1") != "0":
+        explanation_engine.warm_up()
+
+    # 7. Load the allied-standards graph (~88,000 links) now rather than on the
+    #    first request, which otherwise pays about a second for it.
+    graph = relationships_data.coverage()
+    logger.info(
+        "[Lifespan] Allied-standards graph loaded: %d links (%d curated, %d read from text).",
+        graph["total_relationships"], graph["curated_relationships"], graph["extracted_relationships"],
+    )
+
     yield
 
     logger.info("[Lifespan] Shutting down standards-retrieval service.")
@@ -556,13 +611,24 @@ _ALLOWED_ORIGINS = [
     "http://127.0.0.1:4173",
 ]
 
+# Every route except the docs, /health and the sign-in routes needs a session
+# token or an API key (see accounts_api.PUBLIC_PATHS). Added before CORS so
+# CORS wraps it: a 401 still carries CORS headers and the browser can read it.
+app.add_middleware(accounts_api.AuthMiddleware)
+
+# Extra origins for a deployment, comma separated, e.g.
+# ALLOWED_ORIGINS=https://standeng.example.gov.in
+_ALLOWED_ORIGINS += [o.strip() for o in os.environ.get("ALLOWED_ORIGINS", "").split(",") if o.strip()]
+
 app.add_middleware(
     CORSMiddleware,
     allow_origins=_ALLOWED_ORIGINS,
     allow_credentials=False,
-    allow_methods=["GET", "POST", "OPTIONS"],
-    allow_headers=["Content-Type"],
+    allow_methods=["GET", "POST", "PUT", "PATCH", "DELETE", "OPTIONS"],
+    allow_headers=["Content-Type", "Authorization", "X-API-Key"],
 )
+
+app.include_router(accounts_api.router)
 
 
 # --- API Endpoints ---
@@ -593,7 +659,44 @@ def health_check():
     return HealthResponse(
         status="ok",
         corpus_size=len(corpus),
-        ltr_model_loaded=ltr_loaded
+        ltr_model_loaded=ltr_loaded,
+        explanations_available=explanation_engine.is_available(),
+    )
+
+
+@app.post("/explain", response_model=ExplainResponse, summary="Explain results already retrieved")
+def explain_results(body: ExplainRequest):
+    """One plain-language sentence per result, for results already on screen.
+
+    Split from `/retrieve` so a search never waits on the language model: the
+    results render at retrieval speed and the explanations fill in after.
+
+    The boundary is the same as before. The model sees only standards the
+    caller names, and only those present in the corpus, so it can describe a
+    retrieved candidate but never introduce one; any number it returns that was
+    not asked about is discarded in `explanation.explain`. The caller is
+    responsible for not asking on a `none` verdict: those results are nearest
+    text matches, and a fluent reason beside each would read as endorsement.
+    """
+    query = (body.query or "").strip()
+    if not query:
+        raise HTTPException(status_code=400, detail="query must not be empty")
+
+    available = explanation_engine.is_available()
+    if not available or not body.numbers:
+        return ExplainResponse(available=available)
+
+    by_number = _standards_by_number()
+
+    candidates = []
+    for number in body.numbers[:5]:
+        std = by_number.get(number)
+        if std is not None:
+            candidates.append({"number": std.number, "title": std.title, "scope": std.scope})
+
+    return ExplainResponse(
+        available=True,
+        explanations=explanation_engine.explain(query, candidates) if candidates else {},
     )
 
 
@@ -610,6 +713,28 @@ def health_check():
 )
 def retrieve_standards_post(body: RetrieveRequest):
     """Primary POST retrieval endpoint integrating Part 2's full ranking pipeline."""
+    response = _retrieve(body)
+    top = response.results[0] if response.results else None
+    accounts.record_current(
+        "search.query",
+        f'"{body.query.strip()[:160]}"',
+        {
+            "query": body.query.strip()[:500],
+            "top": top.number if top else None,
+            "confidence": response.confidence,
+            "results": [r.number for r in response.results[:5]],
+        },
+    )
+    return response
+
+
+def _retrieve(body: RetrieveRequest) -> "RetrieveResponse":
+    """The ranking pipeline itself, shared by /retrieve, /boq and /simulate.
+
+    Kept apart from the endpoint so that a BOQ of forty line items, or a
+    scenario's two runs, record one entry in the user's trail rather than one
+    per internal search.
+    """
     # Timed from here so the logged figure is server-side work only, excluding
     # network time the engine cannot influence.
     _started = time.perf_counter()
@@ -853,6 +978,97 @@ def retrieve_standards_get(query: str, top_k: int = 10):
     return retrieve_standards_post(RetrieveRequest(query=query, top_k=top_k))
 
 
+class SimulateRequest(BaseModel):
+    query: str = Field(..., description="The base description, as it would be typed into search.")
+    conditions: List[str] = Field(
+        default_factory=list,
+        description="Extra requirements for the scenario, e.g. 'installed outdoors, exposed to sunlight'.",
+    )
+    top_k: int = Field(10, ge=3, le=20)
+
+
+class ScenarioStandard(BaseModel):
+    number: str
+    title: str
+    id: str
+    status: str = "active"
+    base_rank: Optional[int] = None
+    scenario_rank: Optional[int] = None
+
+
+class SimulateResponse(BaseModel):
+    query: str
+    scenario_query: str
+    conditions: List[str]
+    base_confidence: str
+    scenario_confidence: str
+    base: List[ScenarioStandard]
+    scenario: List[ScenarioStandard]
+    added: List[ScenarioStandard]
+    removed: List[ScenarioStandard]
+    moved: List[ScenarioStandard]
+    unchanged: int
+
+
+@app.post(
+    "/simulate",
+    response_model=SimulateResponse,
+    summary="What changes if the requirement changes",
+    description=(
+        "Runs the full search twice, once on the base description and once with the scenario's "
+        "conditions added, and reports which standards enter the top results, which drop out and "
+        "which move. Every standard in the answer came from a real search over the corpus."
+    ),
+)
+def simulate(body: SimulateRequest):
+    query = (body.query or "").strip()
+    if not query:
+        raise HTTPException(status_code=400, detail="Describe the base item first.")
+    conditions = [c.strip() for c in body.conditions if c and c.strip()][:8]
+    if not conditions:
+        raise HTTPException(status_code=400, detail="Add at least one condition to compare against.")
+
+    scenario_query = query.rstrip(" .,;") + ", " + ", ".join(conditions)
+    base = _retrieve(RetrieveRequest(query=query, top_k=body.top_k))
+    scenario = _retrieve(RetrieveRequest(query=scenario_query, top_k=body.top_k))
+
+    base_rank = {r.number: i + 1 for i, r in enumerate(base.results)}
+    scenario_rank = {r.number: i + 1 for i, r in enumerate(scenario.results)}
+
+    def row(r) -> ScenarioStandard:
+        return ScenarioStandard(
+            number=r.number, title=r.title, id=r.id, status=r.status or "active",
+            base_rank=base_rank.get(r.number), scenario_rank=scenario_rank.get(r.number),
+        )
+
+    base_rows = [row(r) for r in base.results]
+    scenario_rows = [row(r) for r in scenario.results]
+    added = [r for r in scenario_rows if r.base_rank is None]
+    removed = [r for r in base_rows if r.scenario_rank is None]
+    moved = [r for r in scenario_rows if r.base_rank is not None and r.base_rank != r.scenario_rank]
+
+    accounts.record_current(
+        "search.scenario",
+        f'"{query[:120]}" with {", ".join(conditions)[:120]}',
+        {"query": query, "conditions": conditions, "added": [r.number for r in added],
+         "removed": [r.number for r in removed]},
+    )
+
+    return SimulateResponse(
+        query=query,
+        scenario_query=scenario_query,
+        conditions=conditions,
+        base_confidence=base.confidence,
+        scenario_confidence=scenario.confidence,
+        base=base_rows,
+        scenario=scenario_rows,
+        added=added,
+        removed=removed,
+        moved=moved,
+        unchanged=sum(1 for r in scenario_rows if r.base_rank == r.scenario_rank),
+    )
+
+
 @app.get("/search", response_model=RetrieveResponse, summary="Search Standards (GET Alias)")
 def search_standards_get(query: str, top_k: int = 10):
     """Alias for /retrieve providing backwards compatibility."""
@@ -885,6 +1101,109 @@ def list_standards(category: Optional[str] = None):
     if category:
         return [s for s in standards if s.category.lower() == category.lower()]
     return standards
+
+
+class StandardSummary(BaseModel):
+    id: str
+    number: str
+    title: str
+    category: str
+    status: str
+    version: str = ""
+    scope: str = Field(default="", description="Opening of the scope clause, for a list row; the full text is on the detail endpoint.")
+
+
+class CatalogueSectorCount(BaseModel):
+    category: str
+    count: int
+
+
+class StandardSearchResponse(BaseModel):
+    total: int = Field(..., description="Standards matching the filters, before paging.")
+    corpus_size: int
+    superseded_total: int = Field(..., description="Superseded editions in the whole corpus.")
+    sectors: List[CatalogueSectorCount] = Field(..., description="Every sector in the corpus with its size, for a filter.")
+    results: List[StandardSummary]
+
+
+_SCOPE_EXCERPT = 200
+
+
+def _search_index():
+    """(standard, lowercase haystack) pairs, built once per process."""
+    index = getattr(app.state, "search_index", None)
+    if index is None:
+        corpus = getattr(app.state, "corpus", None)
+        standards = list(corpus.values()) if corpus else load_corpus()
+        index = [
+            (s, " ".join([s.number, s.title, s.scope or "", " ".join(s.keywords or [])]).lower())
+            for s in sorted(standards, key=lambda s: (s.category, s.number))
+        ]
+        app.state.search_index = index
+    return index
+
+
+@app.get("/standards/search", response_model=StandardSearchResponse, summary="Search the catalogue")
+def search_standards(
+    q: str = "",
+    category: Optional[str] = None,
+    include_superseded: bool = True,
+    limit: int = 50,
+    offset: int = 0,
+):
+    """One page of the catalogue, filtered on the server.
+
+    `/standards` returns the whole corpus, which at 21,848 records is about
+    10 MB and took seconds to download before the catalogue could draw a row.
+    This matches the same fields the catalogue always searched (IS number,
+    title, scope and keywords) and returns only the page shown, with scope
+    trimmed to an excerpt. With a search term, number matches rank first,
+    then title matches, then scope or keyword matches.
+    """
+    limit = max(1, min(limit, 200))
+    offset = max(0, offset)
+    term = q.strip().lower()
+    index = _search_index()
+
+    matches = [
+        s for s, haystack in index
+        if (not category or s.category == category)
+        and (include_superseded or s.status != "superseded")
+        and (not term or term in haystack)
+    ]
+    if term:
+        # "IS 694" must put IS 694 before IS 6943: a whole-number match (the
+        # term not followed by another digit) outranks a mere prefix.
+        whole_number = re.compile(re.escape(term) + r"(?!\d)")
+
+        def rank(s):
+            number = s.number.lower()
+            if whole_number.match(number):
+                return 0
+            if term in number:
+                return 1
+            return 2 if term in s.title.lower() else 3
+
+        matches.sort(key=lambda s: (rank(s), s.number))
+
+    counts: Dict[str, int] = {}
+    for s, _ in index:
+        counts[s.category] = counts.get(s.category, 0) + 1
+
+    return StandardSearchResponse(
+        total=len(matches),
+        corpus_size=len(index),
+        superseded_total=sum(1 for s, _ in index if s.status == "superseded"),
+        sectors=[CatalogueSectorCount(category=c, count=n) for c, n in sorted(counts.items())],
+        results=[
+            StandardSummary(
+                id=s.id, number=s.number, title=s.title, category=s.category,
+                status=s.status, version=s.version or "",
+                scope=(s.scope or "")[:_SCOPE_EXCERPT],
+            )
+            for s in matches[offset: offset + limit]
+        ],
+    )
 
 
 @app.get("/standards/{standard_id}", response_model=Standard, summary="Get Standard by ID or IS Number")
@@ -1009,17 +1328,37 @@ def get_related(standard_id: str):
     """Standards this one cites, and standards in the corpus that cite it.
 
     `researched: false` means no relationships have been recorded for this
-    standard — which is not a statement that it has none. Entries marked
+    standard, which is not a statement that it has none. Entries marked
     `outside_corpus` are real citations to standards the pilot corpus does not
     contain; they are listed so the cluster is not silently truncated.
     """
     standard = get_standard(standard_id)  # reuses id/IS-number resolution and 404
     result = relationships_data.related_to(standard.number)
+
+    # Extracted links are stored without titles (there are ~88,000 of them),
+    # so fill titles, and whether each target is current, from the corpus.
+    by_number = _standards_by_number()
+    for edge in [e for g in result["depends_on"] for e in g["standards"]] + result["referenced_by"]:
+        held = by_number.get(edge["number"])
+        if held is not None:
+            edge["title"] = edge["title"] or held.title
+            edge["status"] = held.status
+
     return {
         "number": standard.number,
         "title": standard.title,
         **result,
     }
+
+
+def _standards_by_number():
+    """IS number -> Standard for the served corpus, built once and cached."""
+    by_number = getattr(app.state, "by_number", None)
+    if by_number is None:
+        corpus = getattr(app.state, "corpus", None) or {s.id: s for s in load_corpus()}
+        by_number = {s.number: s for s in corpus.values()}
+        app.state.by_number = by_number
+    return by_number
 
 
 @app.get(
@@ -1031,7 +1370,7 @@ def get_certification(standard_id: str):
     """Certification requirement for one standard, by id or IS number.
 
     A 'not_verified' scheme means the status could not be confirmed from the
-    BIS lists — it is explicitly not a statement that no certification is
+    BIS lists, it is explicitly not a statement that no certification is
     required.
     """
     standard = get_standard(standard_id)  # reuses id/IS-number resolution and 404
@@ -1060,6 +1399,12 @@ def record_feedback(body: FeedbackRequest):
         source="live"
     )
     append_log(interaction)
+    verb = {"accept": "Accepted", "reject": "Dismissed", "correct": "Corrected"}.get(body.action, body.action)
+    accounts.record_current(
+        f"result.{body.action}",
+        f'{verb} {body.chosen_id or body.corrected_id or "a result"} for "{body.query[:120]}"',
+        {"query": body.query, "chosen_id": body.chosen_id, "corrected_id": body.corrected_id},
+    )
     return {"status": "logged"}
 
 
@@ -1068,12 +1413,15 @@ def record_feedback(body: FeedbackRequest):
     response_model=List[Dict[str, Any]],
     summary="Get Recent Interaction Logs (Dev/Demo Endpoint)"
 )
-def get_recent_logs(limit: int = 50):
+def get_recent_logs(request: Request, limit: int = 50):
     """Returns the last N lines from the JSONL file, most recent first.
-    
-    NOTE: This is a dev/demo convenience endpoint, not meant for production use.
-    It allows developers and demo UI tools to inspect captured feedback stream in real time.
+
+    The raw feedback stream spans every user, so it is for administrators
+    only. Each user's own actions are at /activity.
     """
+    principal = request.scope.get("state", {}).get("principal")
+    if accounts_api.auth_required() and (principal is None or principal.get("role") != "admin"):
+        raise HTTPException(status_code=403, detail="Only a department administrator can read the raw logs.")
     safe_limit = max(1, min(limit, 500))
     return read_logs(limit=safe_limit)
 
@@ -1119,9 +1467,7 @@ async def analyse_boq(file: UploadFile = File(...), top_k: int = 5):
     for item in line_items:
         # Each item is a full retrieval: same ranking, same confidence gate,
         # same supersession rules as a typed query.
-        retrieval = retrieve_standards_post(
-            RetrieveRequest(query=item["query"], top_k=top_k)
-        )
+        retrieval = _retrieve(RetrieveRequest(query=item["query"], top_k=top_k))
         if retrieval.confidence != "none":
             matched += 1
 
@@ -1136,6 +1482,12 @@ async def analyse_boq(file: UploadFile = File(...), top_k: int = 5):
                 confidence_reason=retrieval.confidence_reason,
             )
         )
+
+    accounts.record_current(
+        "document.boq",
+        f"{file.filename or 'upload'}: {matched} of {len(items)} line items matched",
+        {"filename": file.filename, "items": len(items), "matched": matched},
+    )
 
     return BOQResponse(
         filename=file.filename or "upload",
@@ -1176,6 +1528,12 @@ async def audit_tender(file: UploadFile = File(...)):
         raise HTTPException(status_code=422, detail=str(exc))
 
     result = audit_engine.audit_text(extracted.text)
+
+    accounts.record_current(
+        "document.audit",
+        f"{file.filename or 'upload'}: {len(result.get('findings', []))} findings",
+        {"filename": file.filename, "findings": len(result.get("findings", []))},
+    )
 
     return AuditResponse(
         filename=file.filename or "upload",
@@ -1218,9 +1576,40 @@ def get_certification_rules():
         "no finding carries a timestamp."
     ),
 )
-def get_alerts(category: Optional[str] = None):
-    """Findings that would change what a tender should cite."""
-    return AlertsResponse(**alerts_data.findings(category=category))
+def get_alerts(category: Optional[str] = None, summary: bool = False):
+    """Findings that would change what a tender should cite.
+
+    With the full archive this is ~2,240 findings (about 1.2 MB). Screens that
+    only show counts pass summary=true and get the counts without the list.
+    """
+    data = alerts_data.findings(category=category)
+    data["total_findings"] = len(data["findings"])
+    if summary:
+        data = {**data, "findings": []}
+    return AlertsResponse(**data)
+
+
+class AlertsCheckRequest(BaseModel):
+    numbers: List[str] = Field(..., description="IS numbers to check, e.g. the standards in a spec basket.")
+
+
+@app.post("/alerts/check", response_model=AlertsResponse, summary="Findings for specific standards")
+def check_alerts(body: AlertsCheckRequest):
+    """Only the findings for the standards named.
+
+    The sidebar badge counts replaced editions in the officer's spec basket.
+    It used to download every finding in the corpus on each page change to
+    work that out; this answers for the handful of standards actually held.
+    """
+    wanted = set(body.numbers[:500])
+    data = alerts_data.findings()
+    picked = [f for f in data["findings"] if f["standard"] in wanted]
+    return AlertsResponse(
+        findings=picked,
+        critical_count=sum(1 for f in picked if f["severity"] == "critical"),
+        total_findings=len(picked),
+        coverage=data["coverage"],
+    )
 
 
 @app.get(
@@ -1228,7 +1617,7 @@ def get_alerts(category: Optional[str] = None):
     response_model=CorpusHealthResponse,
     summary="Corpus Metadata Completeness",
     description=(
-        "Counts describing how complete the served corpus's own metadata is — "
+        "Counts describing how complete the served corpus's own metadata is, "
         "supersession, certification and amendment coverage, and the sector spread."
     ),
 )
