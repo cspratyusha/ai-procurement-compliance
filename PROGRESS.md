@@ -5,6 +5,89 @@ at the top.
 
 ---
 
+## Phase Z: BIS's own record for every standard, tender abbreviations, demo (2026-09-28)
+
+### Edition status and amendment counts from BIS
+
+`data/bis_kys.py` read all 34,300 pages of BIS's Know Your Standard service:
+33,761 standards, each with whether it is withdrawn, what replaced it, and
+how many amendments BIS lists. `data/apply_bis_status.py` wrote that into
+the corpus:
+
+| | Editions |
+|---|---|
+| Matched a BIS record | 19,719 |
+| Current per BIS | 12,578 |
+| Withdrawn, replacement held in the corpus | 902 |
+| Withdrawn, replacement not held (named anyway) | 2,531 |
+| Withdrawn with no replacement | 3,708 |
+| Newly marked superseded (were shown as current) | **5,767** |
+| No BIS record under that number | 2,129 |
+
+The corpus is now 13,837 current and 8,011 superseded editions. A withdrawn
+edition's page, search result and audit finding name the replacement from
+BIS's chain (followed up to six hops), e.g. IS 8112:2013 to IS 269:2015 and IS
+10258:2002 to IS 10258:2023. Amendments: BIS's count for 33,761 standards
+(5,548 amended, 8,937 in all), with dates and excerpts from the archived
+slips where they exist; the count agrees with the slips for 86% of standards
+read both ways, and where the slips show more it is marked disputed.
+
+Two display fixes the new data exposed: a standard's record card said
+"Latest amendment: None recorded" beside an amendments card saying "7
+issued" (both now read the same record), and BIS's longer replacement
+numbers ("IS 10052 (Part 1/Sec 1):2019/CISPR 16-1-1:2015") pushed the
+hygiene page sideways on phones (such buttons now wrap).
+
+Held-out accuracy: Recall@5 0.9873 (unchanged), P@1 0.9153 (was 0.9237). 50
+of the 236 labels are editions BIS has since withdrawn; in two the engine now
+ranks the held edition in force first, which the fixed label scores as a miss.
+
+### Tender abbreviations
+
+32 short forms mapped case-sensitively to the standards' own words: GI and MS
+pipe to IS 1239 (Part 1), DI to IS 8329, SWR to IS 13592, ACSR to IS 398, MCB to
+IS/IEC 60898-1, GGBS to IS 16714, plus OPC, PPC, TMT, XLPE, HDPE, uPVC and
+others. "GI pipe 25 mm medium class" previously found spiral welded pipes.
+
+### Guided demo and demo script
+
+A new act searches "laptop for office use" to show the everyday-word note and
+the CRS listing; the audit act now scrolls to what the cited standards depend
+on. `docs/demo-script.md` is rewritten for the full catalogue with every
+example re-run.
+
+---
+
+## Phase Y: security review, bundle size, accessibility (2026-09-28)
+
+### Security review of the accounts code
+
+| Found | Fix |
+|---|---|
+| Login skipped the password hash for an unknown email, so response time revealed which emails have accounts | A dummy hash is checked instead; same work either way |
+| Throttling was per email only; registration was not throttled | Also per client address: 30 failed logins per 15 minutes, 5 registrations per hour (`TRUST_PROXY=1` reads the forwarded address behind a proxy) |
+| Uploads were size-checked only in the browser | The server refuses over 10 MB with 413 on `/audit`, `/boq`, `/extract` |
+| Search text length was unbounded | 4,000 characters for search, 2,000 for a scenario |
+| **The dashboard's recent searches came from the installation-wide log**, so with open registration one organisation could read another's queries | Recent searches now come from the caller's own activity trail; the counts stay installation-wide (numbers only) |
+| Activity entries accepted unbounded extra data | 4 KB cap |
+| A session in use never expired | 30-day absolute limit beyond the 7-day sliding one |
+| No maximum password length (scrypt cost grows with input) | 256 characters |
+| The session token is kept in browser storage | Kept: no third-party scripts, and React escapes output. Noted as the trade-off |
+
+Seven tests cover these (`test_accounts.py`, `test_audit.py::TestUploadLimit`).
+
+### Bundle size and accessibility
+
+Every screen except the entry pages now loads on first visit: the main
+bundle went from 512 kB to 323 kB (98 kB gzipped) and the build no longer
+warns. An axe-core check of all 18 screens on desktop and mobile
+(`e2e/accessibility.spec.js`) found faded low-contrast text on the homepage and
+on references outside the catalogue, and an unnamed account button on phones;
+all fixed, 0 violations in 36 checks, with one documented exclusion axe cannot
+measure (text over a blurred, blended backdrop, checked on the rendered page).
+
+---
+
 ## Phase X: what cited standards depend on, and everyday words (2026-09-28)
 
 ### The audit now checks the set, not just each citation

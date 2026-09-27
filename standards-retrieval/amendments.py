@@ -281,12 +281,12 @@ def citation(is_number: str, count: Optional[int], amendments: List[dict]) -> st
     if amendments:
         latest = amendments[-1]
         date = latest.get("readable_date")
-        suffix = f" (Amendment No. {latest['number']}{f', {date}' if date else ''})"
+        suffix = f" being Amendment No. {latest['number']}{f' ({date})' if date else ''}"
         if count == 1:
             return f"{is_number}, incorporating Amendment No. {latest['number']}" + (
                 f" ({date})" if date else ""
             )
-        return f"{is_number}, incorporating all {count} amendments, latest{suffix}"
+        return f"{is_number}, incorporating all {count} amendments, the latest{suffix}"
 
     plural = "amendment" if count == 1 else "amendments"
     return f"{is_number}, incorporating all {count} published {plural}"

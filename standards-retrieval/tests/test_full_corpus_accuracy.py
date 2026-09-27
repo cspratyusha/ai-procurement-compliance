@@ -28,7 +28,10 @@ _EVAL = _REPO / "data" / "eval_set_full.json"
 _CORPUS = _REPO / "data" / "standards_corpus_full.json"
 
 # Measured on 236 held-out queries at 21,848 standards: Recall@5 0.9873,
-# P@1 0.9237 (6,360 standards: 0.9958 / 0.8771). These floors sit clear of
+# P@1 0.9153 (6,360 standards: 0.9958 / 0.8771). P@1 was 0.9237 before BIS's
+# withdrawn status was applied: 50 of the labels are editions BIS has since
+# withdrawn, and where the corpus holds the edition in force the engine now
+# ranks that one first, which is the right answer. These floors sit clear of
 # that, so normal variation from a corpus rebuild does not fail the build but a
 # real regression does.
 _MIN_RECALL_AT_5 = 0.95

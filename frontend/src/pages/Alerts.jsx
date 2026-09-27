@@ -148,7 +148,7 @@ export default function Alerts() {
             <div className="row wrap" style={{ gap: 'var(--s2)' }}>
               <div className="seg" role="group" aria-label="Filter by severity">
                 <button onClick={() => setSeverity('all')} aria-pressed={severity === 'all'}>
-                  All ({findings.length})
+                  All ({findings.length.toLocaleString('en-IN')})
                 </button>
                 <button onClick={() => setSeverity('critical')} aria-pressed={severity === 'critical'}>
                   Replaced ({criticalCount.toLocaleString('en-IN')})
@@ -202,14 +202,14 @@ export default function Alerts() {
                           <div className="row wrap" style={{ gap: 'var(--s2)' }}>
                             <Link
                               to={`/app/standard/${encodeURIComponent(f.standard)}`}
-                              className="btn btn-secondary btn-sm"
+                              className="btn btn-secondary btn-sm btn-wrap"
                             >
                               Open {f.standard} <Icon name="chevronRight" size={13} />
                             </Link>
                             {f.replacement && (
                               <Link
                                 to={`/app/standard/${encodeURIComponent(f.replacement)}`}
-                                className="btn btn-ghost btn-sm"
+                                className="btn btn-ghost btn-sm btn-wrap"
                               >
                                 Open {f.replacement} <Icon name="chevronRight" size={13} />
                               </Link>

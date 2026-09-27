@@ -327,7 +327,7 @@ export default function Audit() {
                           {f.replacement && (
                             <Link
                               to={`/app/standard/${encodeURIComponent(f.replacement)}`}
-                              className="btn btn-secondary btn-sm"
+                              className="btn btn-secondary btn-sm btn-wrap"
                             >
                               Open {f.replacement} <Icon name="chevronRight" size={13} />
                             </Link>
@@ -335,7 +335,7 @@ export default function Audit() {
                           {f.kind !== 'unknown' && !f.replacement && (
                             <Link
                               to={`/app/standard/${encodeURIComponent(f.cited)}`}
-                              className="btn btn-ghost btn-sm"
+                              className="btn btn-ghost btn-sm btn-wrap"
                             >
                               Open {f.cited} <Icon name="chevronRight" size={13} />
                             </Link>

@@ -255,5 +255,7 @@ cross-validation score and the held-out score, see Phase D in
 | `raw/certification_rules.json` | Earlier placeholder rules, kept for provenance only |
 | `amendments/extracted_amendments.json` | Amendment slips read from every standard's archived text by `extract_amendments.py`: 21,820 copies read, 3,428 with amendments (5,424 amendments, 4,112 dated), each with the year its copy is current to. A slip counts only if it names the standard it is bound into |
 | `amendments/amendments.json` | Amendments researched by hand from BIS documents for 3 standards; these win over the text |
+| `amendments/bis_kys.json` | BIS's Know Your Standard record for 33,761 standards (all 34,300 pages, read 28 September 2026): title, withdrawn flag, replacement, amendment count. 5,548 standards have amendments, 8,937 in all. Fetched by `bis_kys.py fetch` into `archive/kys_cache/` (not committed) and merged by `bis_kys.py combine`. This official count wins over both files above |
+| `apply_bis_status.py` | Writes BIS's withdrawn status and replacement into `standards_corpus_full.json` (`withdrawn`, `superseded_by_number`, `withdrawal_note`, `status_source: "bis"`). Last run: 19,719 editions matched, 7,141 withdrawn, 5,767 newly marked superseded, 2,129 with no BIS record |
 | `archive/` | The archive ingest output, its text cache, and pipeline logs (logs and `backup/` are not committed) |
 | `run_full_ingest.ps1` | Fetch, merge and index the full corpus in one run |

@@ -13,6 +13,20 @@ const sectorLabel = (slug) => labelFor(slug, '–');
 const bisSearchUrl = (number) =>
   `https://www.bis.gov.in/know-your-standard/?lang=en&q=${encodeURIComponent(number)}`;
 
+/**
+ * The sidebar's one-line summary, read from the same amendment record as the
+ * Amendments card so the two never disagree.
+ */
+function latestAmendment(amendments, standard) {
+  if (!amendments) return standard.last_amended || '…';
+  if (!amendments.checked) return 'Not checked';
+  if (!amendments.count) return 'None';
+  const last = amendments.amendments[amendments.amendments.length - 1];
+  const dated = [...amendments.amendments].reverse().find((a) => a.readable_date);
+  if (last && dated && dated.number === last.number) return `No. ${last.number}, ${dated.readable_date}`;
+  return `No. ${amendments.count}${dated ? ` (latest dated: No. ${dated.number}, ${dated.readable_date})` : ''}`;
+}
+
 /** One allied standard: linked when the corpus holds it, flagged when not. */
 function RefRow({ item }) {
   const evidence = item.evidence ? `Read from the standard's text: "${item.evidence}"` : undefined;
@@ -33,7 +47,7 @@ function RefRow({ item }) {
 
   if (item.outside_corpus) {
     return (
-      <div className="ref-row" style={{ opacity: 0.78 }} title={evidence}>
+      <div className="ref-row is-outside" title={evidence}>
         <Icon name="minus" size={13} />
         {body}
       </div>
@@ -400,7 +414,7 @@ export default function StandardDetail() {
               ['Internal id', standard.id],
               ['Status', statusBadge.label],
               ['Edition', standard.version || '–'],
-              ['Latest amendment', standard.last_amended || 'None recorded'],
+              ['Latest amendment', latestAmendment(amendments, standard)],
               ['Sector', sectorLabel(standard.category)],
             ].map(([k, v]) => (
               <div key={k} className="stack stack-2">

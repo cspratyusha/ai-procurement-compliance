@@ -273,14 +273,17 @@ test.describe('Honesty guarantees', () => {
     await expect(page.locator('text=/not a statement that it has none/i')).toBeVisible();
   });
 
-  test('amendments read from a standard’s own copy are shown with their limit', async ({ page }) => {
-    // IS 1537:1976 carries slips 1, 2, 4 and 5; 3 is known only from 4.
+  test('BIS’s amendment count is shown with dates from the standard’s own copy', async ({ page }) => {
+    // BIS lists 7 amendments to IS 1537:1976. Its archived copy carries slips
+    // 1, 2, 4 and 5; 3 is known only from 4; 6 and 7 are known only from BIS.
     await page.goto(`/app/standard/${encodeURIComponent('IS 1537:1976')}`);
-    await expect(page.locator('text=At least 5')).toBeVisible({ timeout: 60_000 });
+    await expect(page.locator('text=7 issued')).toBeVisible({ timeout: 60_000 });
     await expect(page.locator('text=July 1977')).toBeVisible();
     await expect(page.locator('text=/Known from a later amendment/')).toBeVisible();
-    await expect(page.locator('blockquote.clause', { hasText: 'and any later amendments' })).toBeVisible();
-    await expect(page.locator('text=/Later amendments may exist/')).toBeVisible();
+    await expect(page.locator('text=/Listed by BIS; date not in the sources read/').first()).toBeVisible();
+    await expect(page.locator('blockquote.clause', { hasText: 'incorporating all 7 amendments' })).toBeVisible();
+    // The record card agrees with the amendments card.
+    await expect(page.locator('text=/latest dated: No. 5, May 1994/')).toBeVisible();
   });
 
   test('corpus health shows counts against their totals', async ({ page }) => {
