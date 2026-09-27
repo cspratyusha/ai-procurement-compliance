@@ -584,6 +584,37 @@ export default function Query() {
               </div>
             )}
 
+            {response.expanded_with?.length > 0 && (
+              <div className="notice notice-info" role="status" data-demo-target="query-expansion">
+                <Icon name="info" size={15} />
+                <span className="xs">
+                  <strong>Also searched for:</strong> {response.expanded_with.join('; ')}. Standards name
+                  products in technical terms, so the standards&rsquo; own words were added to yours.
+                </span>
+              </div>
+            )}
+
+            {response.bis_products?.length > 0 && (
+              <div className="notice notice-warn" role="note" data-demo-target="query-bis-products">
+                <Icon name="shield" size={15} />
+                <div className="stack stack-2">
+                  <span className="small strong">BIS lists this product under compulsory certification</span>
+                  {response.bis_products.map((p) => (
+                    <span key={`${p.is_number}-${p.product}`} className="xs">
+                      <strong>{p.product}</strong>:{' '}
+                      {p.status === 'deferred' ? 'named in a deferred order, not yet mandatory; ' : ''}
+                      {p.scheme === 'CRS' ? 'BIS registration (CRS)' : p.scheme === 'ISI' ? 'ISI mark' : 'BIS certificate (Scheme X)'} to{' '}
+                      {p.in_corpus
+                        ? <Link to={`/app/certification/${encodeURIComponent(p.is_number)}`} className="mono">{p.is_number}</Link>
+                        : <span className="mono">{p.is_number}</span>}
+                      {p.qco ? <>, under the {p.qco_url ? <a href={p.qco_url} target="_blank" rel="noreferrer">{p.qco}</a> : p.qco}</> : ''}
+                      {!p.in_corpus ? '. The catalogue does not hold this standard’s text.' : '.'}
+                    </span>
+                  ))}
+                </div>
+              </div>
+            )}
+
             {extraction && (
               <div className="card stack stack-3">
                 <div className="row-between wrap" style={{ gap: 'var(--s2)' }}>
@@ -724,11 +755,13 @@ export default function Query() {
                             className="badge badge-warn"
                             title={r.citation}
                           >
-                            {r.amendment_count} amendment{r.amendment_count === 1 ? '' : 's'}
+                            Amended, No. {r.amendment_count}{r.amendment_count > 1 ? ' latest known' : ''}
                           </span>
                         )}
-                        {r.superseded_by && (
-                          <span className="badge badge-warn">Replaced by {r.superseded_by}</span>
+                        {r.replaced_by ? (
+                          <span className="badge badge-warn">Replaced by {r.replaced_by}</span>
+                        ) : r.withdrawn && (
+                          <span className="badge badge-warn">Withdrawn by BIS, no replacement</span>
                         )}
                       </div>
                     </div>

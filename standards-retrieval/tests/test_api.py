@@ -166,6 +166,9 @@ class TestStandardsRetrievalAPI(unittest.TestCase):
                 # Whether a local explanation model is reachable, so the UI can
                 # offer the option without probing Ollama itself.
                 "explanations_available",
+                # The standards' words added for an everyday product name, and
+                # the BIS compulsory-certification listings the query names.
+                "expanded_with", "bis_products",
             },
         )
         self.assertEqual(data["query"], query)
@@ -190,6 +193,9 @@ class TestStandardsRetrievalAPI(unittest.TestCase):
             # How to cite the standard including its amendments, and how many
             # are in force. Null count means the standard was never researched.
             "citation", "amendment_count",
+            # For a superseded edition, the edition in force (following BIS's
+            # replacement chain), and whether BIS lists it as withdrawn.
+            "replaced_by", "withdrawn",
         }
         expected_stage_keys = {"dense", "bm25", "cross_encoder", "ltr_or_fallback"}
 

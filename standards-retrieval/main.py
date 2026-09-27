@@ -15,6 +15,8 @@ import accounts
 import accounts_api
 import alerts as alerts_data
 import audit as audit_engine
+import editions
+import expansion
 import certification
 import extraction
 import translation
@@ -63,18 +65,27 @@ _LTR_MODEL_PATH = _models_dir() / "ltr_model.txt"
 class CertificationInfo(BaseModel):
     """Whether a standard's product category legally requires BIS certification.
 
-    `scheme` distinguishes three materially different answers, and the UI must
-    keep them distinct: a confirmed requirement, a confirmed absence of one,
-    and 'not_verified', which is not a clearance.
+    Read from BIS's lists of products under compulsory certification. `status`
+    keeps materially different answers apart, and the UI must too: an
+    obligation in force, one named but deferred, a checked absence, a listed
+    sibling part, not on the lists, and 'not_verified' (lists unavailable).
     """
-    scheme: Literal["ISI", "CRS", "Hallmark", "none", "not_verified"] = Field(
-        ..., description="Certification scheme, or 'not_verified' when status is unknown."
+    scheme: Literal["ISI", "CRS", "Scheme X", "Hallmark", "none", "related", "not_listed", "not_verified"] = Field(
+        ..., description="Certification scheme, or what kind of non-obligation this is."
     )
-    mandatory: bool = Field(..., description="True only when a scheme was positively confirmed.")
+    status: Literal["in_force", "deferred", "checked_none", "related_listed", "not_listed", "not_verified"] = Field(
+        default="not_verified", description="Whether an obligation is in force, deferred, or absent, and how that is known."
+    )
+    mandatory: bool = Field(..., description="True only for an obligation in force.")
     explanation: str = Field(..., description="Plain-language guidance for a procurement official.")
     qco: Optional[str] = Field(default=None, description="Governing Quality Control Order.")
     gazette: Optional[str] = Field(default=None, description="Gazette notification number and date.")
-    product: Optional[str] = Field(default=None, description="Product description as listed by BIS.")
+    qco_url: Optional[str] = Field(default=None, description="Link to the order.")
+    product: Optional[str] = Field(default=None, description="Products as listed by BIS.")
+    products: List[str] = Field(default_factory=list, description="Products as listed by BIS.")
+    listed_as: Optional[str] = Field(default=None, description="The IS number as BIS lists it.")
+    related: List[str] = Field(default_factory=list, description="Listed standards this one relates to, for related_listed.")
+    source: Optional[str] = Field(default=None, description="The BIS list the answer was read from.")
 
 
 class TranslationInfo(BaseModel):
@@ -116,6 +127,11 @@ class StandardResult(BaseModel):
     superseded_by: Optional[str] = Field(default=None, description="Id of the active replacement, when this entry was penalised as superseded.")
     certification: "CertificationInfo" = Field(..., description="Mandatory BIS certification status for this standard.")
     data_warning: Optional[str] = Field(default=None, description="Known problem with this corpus entry, e.g. an edition that was never published.")
+    replaced_by: Optional[str] = Field(
+        default=None,
+        description="IS number of the edition in force, for a superseded edition, following BIS's replacement chain. May be an edition the corpus does not hold.",
+    )
+    withdrawn: bool = Field(default=False, description="BIS lists this edition as withdrawn.")
     citation: str = Field(
         default="",
         description=(
@@ -157,6 +173,17 @@ class RetrieveRequest(BaseModel):
     )
 
 
+class BisProduct(BaseModel):
+    """A product on BIS's compulsory certification lists that the query names."""
+    product: str = Field(..., description="The product as BIS lists it.")
+    is_number: str = Field(..., description="The standard it must be certified to.")
+    scheme: str = Field(..., description="ISI, CRS or Scheme X.")
+    status: str = Field(..., description="in_force or deferred.")
+    qco: Optional[str] = Field(default=None, description="The order that makes it compulsory.")
+    qco_url: Optional[str] = Field(default=None, description="Link to the order.")
+    in_corpus: bool = Field(default=False, description="Whether the catalogue holds the standard's text.")
+
+
 class RetrieveResponse(BaseModel):
     query: str = Field(..., description="The query string submitted.")
     results: List[StandardResult] = Field(..., description="Ranked list of standard candidates.")
@@ -180,6 +207,14 @@ class RetrieveResponse(BaseModel):
     explanations_available: bool = Field(
         default=False,
         description="Whether a local explanation model is reachable, so the UI can offer the option.",
+    )
+    expanded_with: List[str] = Field(
+        default_factory=list,
+        description="The standards' own words added for an everyday product name, e.g. 'information technology equipment' for 'laptop'.",
+    )
+    bis_products: List["BisProduct"] = Field(
+        default_factory=list,
+        description="Products on BIS's compulsory certification lists that the query names, with their standard and scheme.",
     )
 
 
@@ -260,7 +295,7 @@ class AlertCoverage(BaseModel):
     """
     corpus_size: int = Field(..., description="Standards scanned.")
     superseded_in_corpus: int = Field(..., description="Records marked superseded.")
-    amendments_researched: int = Field(..., description="Standards whose amendments have been researched.")
+    amendments_researched: int = Field(..., description="Standards whose text was read for amendments, or researched by hand.")
     amendments_unchecked: int = Field(..., description="Standards never checked for amendments. Not a statement that they have none.")
     note: str = Field(..., description="Plain-language statement of what this scan does and does not cover.")
 
@@ -287,9 +322,14 @@ class CorpusHealthResponse(BaseModel):
     corpus_size: int = Field(..., description="Standards in the served corpus.")
     active: int = Field(..., description="Records marked active.")
     superseded: int = Field(..., description="Records marked superseded.")
-    certification_mandatory: int = Field(..., description="Standards confirmed to carry a mandatory BIS scheme.")
-    certification_not_verified: int = Field(..., description="Standards whose certification status is unknown. Explicitly not a clearance.")
-    amendments_researched: int = Field(..., description="Standards whose amendments have been researched.")
+    certification_mandatory: int = Field(..., description="Standards under a BIS certification obligation in force.")
+    certification_deferred: int = Field(default=0, description="Standards named in an order whose enforcement is deferred.")
+    certification_related: int = Field(default=0, description="Standards not listed themselves whose parent or general part is.")
+    certification_not_listed: int = Field(default=0, description="Standards not on BIS's compulsory certification lists.")
+    certification_not_verified: int = Field(..., description="Standards whose status cannot be read (lists unavailable). Not a clearance.")
+    certification_retrieved: Optional[str] = Field(default=None, description="Date the BIS lists were read.")
+    amendments_researched: int = Field(..., description="Standards with amendments known: researched, or read from their archived text.")
+    amendments_checked: int = Field(default=0, description="Standards whose archived text was read for amendment slips, or researched.")
     amendments_total: int = Field(..., description="Published amendments recorded across those standards.")
     sectors: List[SectorCount] = Field(default_factory=list, description="Standards per sector, largest first.")
 
@@ -315,6 +355,17 @@ class AuditFinding(BaseModel):
     action: str = Field(..., description="What to change in the tender.")
 
 
+class DependencyGap(BaseModel):
+    """A standard that a cited standard depends on, which the document does not cite."""
+    standard: str = Field(..., description="The standard to add, as the edition in force when the corpus holds it.")
+    title: str = Field(default="", description="Its title, when known.")
+    type: str = Field(..., description="normative_reference, material_spec, test_method or installation.")
+    required_by: List[str] = Field(..., description="The cited standards that depend on it.")
+    evidence: Optional[str] = Field(default=None, description="The sentence the dependency was read from, or the researched note.")
+    in_corpus: bool = Field(default=True, description="Whether the catalogue holds it, so it can be opened.")
+    parts: List[str] = Field(default_factory=list, description="For a series needed in several parts, which parts.")
+
+
 class AuditResponse(BaseModel):
     """Result of checking a tender's citations against the corpus.
 
@@ -330,6 +381,11 @@ class AuditResponse(BaseModel):
     clean_citations: int = Field(..., description="Cited standards that raised no finding.")
     corpus_size: int = Field(..., description="Standards the citations were checked against.")
     note: str = Field(..., description="What this audit did and did not check.")
+    dependency_gaps: List["DependencyGap"] = Field(
+        default_factory=list,
+        description="Standards the cited ones depend on (read from their own text) that the document does not cite, most-needed first.",
+    )
+    dependency_gaps_total: int = Field(default=0, description="All such gaps, before the list was capped.")
     text: str = Field(default="", description="Text read from the document, so the user can verify it.")
     char_count: int = Field(default=0, description="Characters extracted.")
     page_count: Optional[int] = Field(default=None, description="Pages read, for PDFs.")
@@ -376,24 +432,33 @@ class BOQResponse(BaseModel):
 
 
 class CertificationRule(BaseModel):
-    """One researched certification position, with the order it traces to."""
-    is_number: str = Field(..., description="Standard the rule applies to.")
-    scheme: Literal["ISI", "CRS", "Hallmark", "none"] = Field(..., description="Scheme, or 'none' where it was checked and none applies.")
-    mandatory: bool = Field(..., description="True only for a positively confirmed scheme.")
+    """One standard on BIS's compulsory lists (or checked by hand), with its order."""
+    is_number: str = Field(..., description="Standard as BIS lists it.")
+    scheme: Literal["ISI", "CRS", "Scheme X", "Hallmark", "none"] = Field(..., description="Scheme, or 'none' where checked and none applies.")
+    status: Literal["in_force", "deferred", "checked_none"] = Field(..., description="In force, deferred, or checked with none applying.")
+    mandatory: bool = Field(..., description="True only for an obligation in force.")
     explanation: str = Field(..., description="What a procurement official should do about it.")
     qco: Optional[str] = Field(default=None, description="Governing Quality Control Order.")
     gazette: Optional[str] = Field(default=None, description="Gazette notification number and date.")
-    product: Optional[str] = Field(default=None, description="Product description as BIS lists it.")
-    confidence: str = Field(default="likely", description="'confirmed' when matched directly in the BIS list.")
+    qco_url: Optional[str] = Field(default=None, description="Link to the order.")
+    product: Optional[str] = Field(default=None, description="Products as BIS lists them.")
+    products: List[str] = Field(default_factory=list, description="Products as BIS lists them.")
+    category: Optional[str] = Field(default=None, description="Heading the product sits under in the BIS list.")
+    confidence: str = Field(default="confirmed", description="'confirmed' when read from the BIS list.")
+    listed_as: Optional[str] = Field(default=None, description="The IS number as BIS lists it.")
+    corpus_number: Optional[str] = Field(default=None, description="The edition the corpus holds, current one preferred; null if not in the corpus.")
 
 
 class CertificationCoverage(BaseModel):
-    """The limits of the certification mapping."""
-    standards_researched: int = Field(..., description="Standards actually checked against the BIS lists.")
-    mandatory: int = Field(..., description="Of those, how many carry a confirmed obligation.")
-    no_scheme: int = Field(..., description="Of those, how many were checked and carry none.")
+    """What the certification mapping covers."""
+    standards_researched: int = Field(..., description="Standards on the BIS lists, plus those checked by hand.")
+    mandatory: int = Field(..., description="Of those, how many carry an obligation in force.")
+    deferred: int = Field(default=0, description="Of those, how many are named in an order whose enforcement is deferred.")
+    no_scheme: int = Field(..., description="Of those, how many were checked by hand and carry none.")
+    retrieved: Optional[str] = Field(default=None, description="Date the BIS lists were read.")
+    sources: Dict[str, str] = Field(default_factory=dict, description="The BIS list pages, by scheme.")
     source: str = Field(..., description="Where the mapping was read from.")
-    note: str = Field(..., description="Why an absent standard is not a clearance.")
+    note: str = Field(..., description="What each status means, and what the lists cannot say.")
 
 
 class CertificationRulesResponse(BaseModel):
@@ -728,6 +793,20 @@ def retrieve_standards_post(body: RetrieveRequest):
     return response
 
 
+_HELD_FAMILIES: Dict[int, set] = {}
+
+
+def _bis_products(query: str) -> List[dict]:
+    """BIS-listed products the query names, flagged by whether the catalogue holds the standard."""
+    corpus = load_corpus()
+    held = _HELD_FAMILIES.get(id(corpus))
+    if held is None:
+        _HELD_FAMILIES.clear()
+        held = _HELD_FAMILIES[id(corpus)] = {certification.family(s.number) for s in corpus}
+    return [{**p, "in_corpus": certification.family(p["is_number"]) in held}
+            for p in certification.products_for_query(query)]
+
+
 def _retrieve(body: RetrieveRequest) -> "RetrieveResponse":
     """The ranking pipeline itself, shared by /retrieve, /boq and /simulate.
 
@@ -771,6 +850,12 @@ def _retrieve(body: RetrieveRequest) -> "RetrieveResponse":
         )
     query = result["text"]
 
+    # 1c. Add the standards' own words for an everyday product name ("laptop"
+    # -> "information technology equipment"). Retrieval and ranking use the
+    # expanded text; the response keeps the user's words and lists what was
+    # added, so the screen can say so.
+    search_query, expanded_with = expansion.expand(query)
+
     # 2. Access preloaded corpus and models
     corpus = getattr(app.state, "corpus", None)
     if corpus is None:
@@ -778,7 +863,7 @@ def _retrieve(body: RetrieveRequest) -> "RetrieveResponse":
         app.state.corpus = corpus
 
     # 3. Step 1: Hybrid Search (Dense + BM25 RRF) -> Top-20 candidates
-    hybrid_candidates = hybrid_search(query, top_k=20)
+    hybrid_candidates = hybrid_search(search_query, top_k=20)
     candidate_ids = [cid for cid, _ in hybrid_candidates]
     if not candidate_ids:
         return RetrieveResponse(query=query, results=[], translation=translation_info)
@@ -794,12 +879,12 @@ def _retrieve(body: RetrieveRequest) -> "RetrieveResponse":
     # halves that cost for a candidate that was very unlikely to be promoted
     # from rank 11-20 anyway.
     rerank_depth = min(len(candidate_ids), _RERANK_DEPTH)
-    ce_ranked = rerank(query, candidate_ids[:rerank_depth], corpus=corpus, top_k=rerank_depth)
+    ce_ranked = rerank(search_query, candidate_ids[:rerank_depth], corpus=corpus, top_k=rerank_depth)
     ce_dict = dict(ce_ranked)
 
     # Fetch individual dense and bm25 scores for candidate feature extraction
-    dense_dict = dict(dense_search(query, top_k=len(candidate_ids) + 10))
-    bm25_dict = dict(bm25_search(query, top_k=len(candidate_ids) + 10))
+    dense_dict = dict(dense_search(search_query, top_k=len(candidate_ids) + 10))
+    bm25_dict = dict(bm25_search(search_query, top_k=len(candidate_ids) + 10))
 
     # Per-query min-max normalization for BM25 feature
     raw_bm25_vals = [bm25_dict.get(cid, 0.0) for cid in candidate_ids]
@@ -823,7 +908,7 @@ def _retrieve(body: RetrieveRequest) -> "RetrieveResponse":
         ce_s = float(ce_dict.get(cid, -10.0))
 
         fv = build_features(
-            query=query,
+            query=search_query,
             candidate_id=cid,
             standard=std,
             dense_score=d_s,
@@ -909,6 +994,9 @@ def _retrieve(body: RetrieveRequest) -> "RetrieveResponse":
                 version=getattr(std, "version", "") if std else "",
                 last_amended=getattr(std, "last_amended", "") if std else "",
                 superseded_by=item.get("superseded_by"),
+                replaced_by=(editions.for_corpus(load_corpus()).replacement(std)["number"]
+                             if std is not None and getattr(std, "status", "active") == "superseded" else None),
+                withdrawn=bool(getattr(std, "withdrawn", False)) if std else False,
                 certification=CertificationInfo(**certification.lookup(item["number"])),
                 citation=amendment_info["citation"],
                 amendment_count=amendment_info["count"],
@@ -917,6 +1005,24 @@ def _retrieve(body: RetrieveRequest) -> "RetrieveResponse":
         )
 
     confidence = assess_confidence(results)
+
+    # An everyday word matched through the standards' own term ("laptop" ->
+    # "information technology equipment") can still score low on the
+    # cross-encoder, which compares the user's word with technical prose. When
+    # the added term is in the top result's own title, the match is real but
+    # indirect: raised to 'uncertain', never 'strong', and said so.
+    if confidence["level"] == "none" and expanded_with and results:
+        top_title = results[0].title.lower()
+        term = next((t for t in expanded_with
+                     if all(w in top_title for w in re.findall(r"[a-z]{4,}", t.lower()))), None)
+        if term:
+            confidence = {
+                "level": "uncertain",
+                "reason": (
+                    f"Matched through the standards' own term \"{term}\", which appears in the title of "
+                    f"{results[0].number}. Check that it covers what you are buying."
+                ),
+            }
 
     # Explanations are strictly additive: generated after ranking is final,
     # validated against the candidate list, and dropped entirely on any
@@ -942,6 +1048,8 @@ def _retrieve(body: RetrieveRequest) -> "RetrieveResponse":
         corpus_size=len(corpus),
         translation=translation_info,
         explanations_available=explanations_available,
+        expanded_with=expanded_with,
+        bis_products=_bis_products(query),
     )
 
     # Record that this search happened, so the dashboard reports use rather
@@ -1307,10 +1415,12 @@ async def extract_and_search(file: UploadFile = File(...), top_k: int = 10):
     summary="Published Amendments",
 )
 def get_amendments(standard_id: str):
-    """Amendments in force for one standard.
+    """Amendments for one standard.
 
-    `checked: false` means this standard has not been researched, which is
-    explicitly not a statement that it has no amendments.
+    `status` is researched, found_in_text (read from the slips in the archived
+    copy, current to `copy_as_of`: at least these, later ones may exist),
+    none_in_copy (no slips in that copy, not a statement that none exist) or
+    unchecked.
     """
     standard = get_standard(standard_id)  # reuses id/IS-number resolution and 404
     return {
@@ -1369,9 +1479,9 @@ def _standards_by_number():
 def get_certification(standard_id: str):
     """Certification requirement for one standard, by id or IS number.
 
-    A 'not_verified' scheme means the status could not be confirmed from the
-    BIS lists, it is explicitly not a statement that no certification is
-    required.
+    Read from BIS's compulsory lists; `status` says whether an obligation is in
+    force, deferred, related through another part, or absent. 'not_verified'
+    appears only when the lists cannot be read, and is not a clearance.
     """
     standard = get_standard(standard_id)  # reuses id/IS-number resolution and 404
     return CertificationInfo(**certification.lookup(standard.number))
@@ -1549,18 +1659,32 @@ async def audit_tender(file: UploadFile = File(...)):
 @app.get(
     "/certification-rules",
     response_model=CertificationRulesResponse,
-    summary="Researched Certification Rules",
+    summary="Standards under compulsory BIS certification",
     description=(
-        "Every standard whose BIS certification status has been researched, with the "
-        "Quality Control Order and gazette notification it traces to. Standards absent "
-        "from this list have not been checked, which is not a statement that no "
-        "certification is required."
+        "Every standard on BIS's lists of products under compulsory certification (ISI, "
+        "CRS, Scheme X), with the Quality Control Order, gazette notification and a link to "
+        "the order, plus the codes of practice checked by hand. Deferred entries are named "
+        "in an order whose enforcement is deferred and are not mandatory."
     ),
 )
 def get_certification_rules():
     """The certification mapping, with its own coverage stated."""
+    # BIS often lists a number without its edition ("IS 269"). Point each rule
+    # at the edition the corpus holds, preferring the current one, so the
+    # screen can open the standard.
+    editions: Dict[tuple, List[Standard]] = {}
+    for std in load_corpus():
+        editions.setdefault(certification.family(std.number), []).append(std)
+
+    def current(number: str) -> Optional[str]:
+        found = editions.get(certification.family(number))
+        if not found:
+            return None
+        found.sort(key=lambda s: (s.status != "superseded", s.number))
+        return found[-1].number
+
     return CertificationRulesResponse(
-        rules=[CertificationRule(**r) for r in certification.all_rules()],
+        rules=[CertificationRule(**r, corpus_number=current(r["is_number"])) for r in certification.all_rules()],
         coverage=CertificationCoverage(**certification.coverage()),
     )
 

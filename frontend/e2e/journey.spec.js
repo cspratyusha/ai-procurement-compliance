@@ -26,6 +26,20 @@ test.describe('Search', () => {
     await expect(page.locator('.badge-accent').first()).toBeVisible();
   });
 
+  test('an everyday product word finds its standard and its BIS listing', async ({ page }) => {
+    // "Laptop" shares no words with "information technology equipment".
+    await page.goto('/app/query');
+    await page.fill('#spec', 'laptop for office use');
+    await page.click('button[type=submit]');
+
+    await expect(page.locator('[data-demo-target="query-expansion"]'))
+      .toContainText('information technology equipment', { timeout: 120_000 });
+    await expect(page.locator('article.rec').first()).toContainText('IS 13252');
+    const bis = page.locator('[data-demo-target="query-bis-products"]');
+    await expect(bis).toContainText('Laptop');
+    await expect(bis).toContainText('CRS');
+  });
+
   test('an out-of-scope query refuses to recommend', async ({ page }) => {
     // The query has to be outside coverage whatever corpus is served.
     //
@@ -250,13 +264,23 @@ test.describe('Honesty guarantees', () => {
   });
 
   test('the hygiene screen states what it did not check', async ({ page }) => {
-    // A short list must not read as an all-clear: most standards have never
-    // been checked for amendments, and the screen has to say so.
+    // No finding must not read as an all-clear: amendments come from each
+    // standard's archived copy, and later ones would not be in it.
     await page.goto('/app/alerts');
     await expect(page.locator('article.alert-card').first()).toBeVisible({ timeout: 120_000 });
 
-    await expect(page.locator('text=Never checked for amendments')).toBeVisible();
+    await expect(page.locator('text=No text to read')).toBeVisible();
     await expect(page.locator('text=/not a statement that it has none/i')).toBeVisible();
+  });
+
+  test('amendments read from a standard’s own copy are shown with their limit', async ({ page }) => {
+    // IS 1537:1976 carries slips 1, 2, 4 and 5; 3 is known only from 4.
+    await page.goto(`/app/standard/${encodeURIComponent('IS 1537:1976')}`);
+    await expect(page.locator('text=At least 5')).toBeVisible({ timeout: 60_000 });
+    await expect(page.locator('text=July 1977')).toBeVisible();
+    await expect(page.locator('text=/Known from a later amendment/')).toBeVisible();
+    await expect(page.locator('blockquote.clause', { hasText: 'and any later amendments' })).toBeVisible();
+    await expect(page.locator('text=/Later amendments may exist/')).toBeVisible();
   });
 
   test('corpus health shows counts against their totals', async ({ page }) => {
@@ -267,11 +291,11 @@ test.describe('Honesty guarantees', () => {
     const page_ = page.locator('main .container.page');
     // The value and its total are separate spans, so assert on the combined
     // text of the row rather than on a single text node.
-    const ratioRow = page_.locator('.stack', { hasText: 'Certification confirmed' }).first();
+    const ratioRow = page_.locator('.stack', { hasText: 'Under compulsory certification' }).first();
     await expect(ratioRow).toContainText(/\d+\s*\/\s*\d+/);
 
-    // An unverified certification status is not a pass and must be shown.
-    await expect(page.locator('text=Certification not verified')).toBeVisible();
+    // Deferred and related listings need a look before issuing, so they are shown.
+    await expect(page.locator('text=Deferred or related listing')).toBeVisible();
 
     // The retired invented figures must not come back.
     //
@@ -323,6 +347,22 @@ test.describe('Honesty guarantees', () => {
     await expect(finding.locator('text=/Replace the citation with IS/')).toBeVisible();
   });
 
+  test('the audit names what a cited standard depends on but the tender leaves out', async ({ page }) => {
+    // IS 694 specifies its conductor by IS 8130; a tender citing only IS 694
+    // leaves the conductor undefined.
+    await page.goto('/app/audit');
+    await page.setInputFiles('input[type=file]', {
+      name: 'cables.txt',
+      mimeType: 'text/plain',
+      buffer: Buffer.from('Clause 5: PVC insulated cables shall conform to IS 694:2010.'),
+    });
+    const section = page.locator('[data-demo-target="audit-dependencies"]');
+    await expect(section).toBeVisible({ timeout: 120_000 });
+    await expect(section).toContainText('IS 694:2010');
+    await expect(section).toContainText('IS 8130');
+    await expect(section).toContainText('IS 10810');
+  });
+
   test('a BOQ matches each line item on its own terms', async ({ page }) => {
     // Flattening a BOQ into one query lets the first item's vocabulary
     // dominate. Item 2 must come back with cement, not more cable.
@@ -370,28 +410,36 @@ test.describe('Honesty guarantees', () => {
     // a legal obligation with nothing to trace it to is unusable in a tender
     // and indefensible in a dispute.
     await page.goto('/app/certification');
-    await expect(page.locator('text=Researched standards')).toBeVisible({ timeout: 120_000 });
+    await expect(page.locator('text=On BIS’s lists')).toBeVisible({ timeout: 120_000 });
 
-    // The default selection is a mandatory rule, so the detail panel must
-    // name both the order and the gazette notification.
-    // Exact: the phrase also appears in the clause caption below, and both
-    // are correct, so a loose match is a strict-mode violation rather than a
-    // real failure.
+    // Read from BIS's own lists: hundreds of products, not a handful.
+    await expect(page.locator('text=/standards under compulsory certification/')).toBeVisible();
+
+    // The default selection is an obligation in force, so the panel names the
+    // order (linked) and the clause cites it.
     await expect(page.getByText('Statutory order', { exact: true })).toBeVisible();
-    await expect(page.getByText('Quality Control', { exact: false }).first()).toBeVisible();
-
-    // And the generated clause must carry it too, not just the panel.
-    await expect(page.locator('blockquote.clause')).toContainText('BIS licence number');
+    await expect(page.locator('.card a[href*="bis.gov.in"]').first()).toBeVisible();
+    await expect(page.locator('blockquote.clause')).toContainText('as required by');
   });
 
-  test('certification states what it did not research', async ({ page }) => {
-    // Absence of a rule is absence of research, never a clearance.
+  test('a deferred order is not shown as mandatory', async ({ page }) => {
+    // S.O. 5038(E): the Electrical Equipment QCO is deferred except Sr. 1.1(a).
     await page.goto('/app/certification');
-    await expect(page.locator('text=Researched standards')).toBeVisible({ timeout: 120_000 });
+    await expect(page.locator('text=On BIS’s lists')).toBeVisible({ timeout: 120_000 });
+    await page.click('.seg button:has-text("Deferred")');
+    await page.locator('.alert-mini').first().click();
+    await expect(page.locator('text=Deferred, not yet mandatory')).toBeVisible();
+    await expect(page.locator('blockquote.clause')).toHaveCount(0);
+  });
 
-    await expect(page.locator('text=/standards researched/')).toBeVisible();
-    await expect(page.locator("text=/not a statement that no certification is required/i"))
-      .toBeVisible();
+  test('any standard can be checked, including one not on the lists', async ({ page }) => {
+    await page.goto('/app/certification');
+    await expect(page.locator('text=On BIS’s lists')).toBeVisible({ timeout: 120_000 });
+    // Coarse aggregates: in the catalogue, not under any certification order.
+    await page.fill('#cert-search', 'IS 383:2016');
+    await page.click('button:has-text("Check IS 383:2016")');
+    await expect(page.locator('text=No compulsory certification')).toBeVisible();
+    await expect(page.locator('text=/Not on BIS.s lists/')).toBeVisible();
   });
 
   test('no route renders a console error or overflows horizontally', async ({ page }) => {
