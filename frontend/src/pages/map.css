@@ -149,3 +149,32 @@
   gap: 2px;
 }
 .chip-actions .chip-edit { grid-column: auto; grid-row: auto; }
+
+/* ---------- Map root picker (search-as-you-type) ---------- */
+.map-picker { position: relative; }
+.map-picker-list {
+  position: absolute;
+  top: calc(100% + 4px);
+  left: 0;
+  right: 0;
+  z-index: var(--z-modal);
+  margin: 0;
+  padding: var(--s1);
+  list-style: none;
+  background: var(--md-surface-container-low);
+  border-radius: var(--r-md);
+  box-shadow: var(--e3);
+  max-height: 340px;
+  overflow-y: auto;
+}
+.map-picker-list li {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  padding: var(--s2) var(--s3);
+  border-radius: var(--r);
+  cursor: pointer;
+}
+.map-picker-list li:hover,
+.map-picker-list li.is-active { background: color-mix(in srgb, var(--md-primary) var(--state-hover), transparent); }
+.map-picker-list li .faint { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }

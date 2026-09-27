@@ -4,9 +4,9 @@ import Icon from '../components/Icon';
 import ClusterGraph from '../components/ClusterGraph';
 import { EmptyState } from '../components/Primitives';
 import { useSpec } from '../state/SpecStore';
-import { getRelated, listStandards, ApiError } from '../api/client';
+import { getRelated, searchStandards, ApiError } from '../api/client';
 import './map.css';
-import './query.css';   // .notice — shared with the query screen
+import './query.css';   // .notice, shared with the query screen
 
 /**
  * The relationship cluster around one standard, from the engine.
@@ -103,6 +103,83 @@ function layout(root, neighbours) {
   };
 }
 
+/** Nodes drawn in the ring; the rest stay in the list beside it. */
+const GRAPH_LIMIT = 12;
+
+/**
+ * Search-as-you-type picker for the map's root standard.
+ *
+ * It replaced a <select> of every standard in the corpus: at 21,848 options
+ * that downloaded ~10 MB before the page could draw, and nobody can scroll to
+ * the right one anyway. It asks the server for the top matches instead.
+ * Keyed on the current root by its parent, so choosing one resets it.
+ */
+function StandardPicker({ value, onPick }) {
+  const [text, setText] = useState(value);
+  const [open, setOpen] = useState(false);
+  const [items, setItems] = useState([]);
+  const [active, setActive] = useState(-1);
+
+  useEffect(() => {
+    const term = text.trim();
+    if (!open || term.length < 2) return undefined;
+    const controller = new AbortController();
+    const timer = setTimeout(() => {
+      searchStandards({ q: term, limit: 8, signal: controller.signal })
+        .then((data) => { setItems(data.results ?? []); setActive(-1); })
+        .catch(() => { /* suggestions are a convenience */ });
+    }, 250);
+    return () => { clearTimeout(timer); controller.abort(); };
+  }, [text, open]);
+
+  const choose = (number) => { setOpen(false); onPick(number); };
+  const shown = open && text.trim().length >= 2 ? items : [];
+
+  const onKeyDown = (e) => {
+    if (e.key === 'ArrowDown') { e.preventDefault(); setOpen(true); setActive((i) => Math.min(i + 1, shown.length - 1)); }
+    else if (e.key === 'ArrowUp') { e.preventDefault(); setActive((i) => Math.max(i - 1, 0)); }
+    else if (e.key === 'Enter' && shown[active]) { e.preventDefault(); choose(shown[active].number); }
+    else if (e.key === 'Escape') setOpen(false);
+  };
+
+  return (
+    <div className="field map-picker" style={{ minWidth: 280 }}>
+      <label className="label sr-only" htmlFor="map-root">Standard to map</label>
+      <input
+        id="map-root"
+        className="input"
+        role="combobox"
+        aria-expanded={shown.length > 0}
+        aria-controls="map-root-options"
+        aria-autocomplete="list"
+        autoComplete="off"
+        placeholder="Search an IS number or title…"
+        value={text}
+        onChange={(e) => { setText(e.target.value); setOpen(true); }}
+        onFocus={() => setOpen(true)}
+        onBlur={() => setTimeout(() => setOpen(false), 150)}
+        onKeyDown={onKeyDown}
+      />
+      {shown.length > 0 && (
+        <ul className="map-picker-list" id="map-root-options" role="listbox">
+          {shown.map((s, i) => (
+            <li
+              key={s.id}
+              role="option"
+              aria-selected={i === active}
+              className={i === active ? 'is-active' : ''}
+              onMouseDown={(e) => { e.preventDefault(); choose(s.number); }}
+            >
+              <span className="mono xs strong">{s.number}</span>
+              <span className="xs faint">{s.title}</span>
+            </li>
+          ))}
+        </ul>
+      )}
+    </div>
+  );
+}
+
 export default function StandardsMap() {
   const spec = useSpec();
   const [params, setParams] = useSearchParams();
@@ -112,18 +189,6 @@ export default function StandardsMap() {
   const [related, setRelated] = useState(null);
   const [error, setError] = useState(null);
   const [selected, setSelected] = useState(null);
-  const [options, setOptions] = useState([]);
-
-  // Standards that actually have relationships recorded are the only useful
-  // starting points, but the engine does not expose that list -- so offer the
-  // catalogue and let the empty state explain when one has none.
-  useEffect(() => {
-    const controller = new AbortController();
-    listStandards({ signal: controller.signal })
-      .then((data) => setOptions(Array.isArray(data) ? data : []))
-      .catch(() => { /* selector is a convenience; the page works without it */ });
-    return () => controller.abort();
-  }, []);
 
   useEffect(() => {
     if (!root) { setState('empty'); return undefined; }
@@ -163,10 +228,19 @@ export default function StandardsMap() {
     });
   }, [related]);
 
+  // A code of practice can cite hundreds of standards and a sampling method is
+  // cited by over a thousand; a graph of that is unreadable. The graph shows the
+  // closest ring (hand-read links, then standards held in the corpus, then what
+  // this standard cites before what cites it) and the list shows everything.
+  const graphNeighbours = useMemo(() => {
+    const rank = (n) => (n.method === 'curated' ? 0 : 2) + (n.outside_corpus ? 1 : 0) + (n.inbound ? 4 : 0);
+    return [...neighbours].sort((a, b) => rank(a) - rank(b)).slice(0, GRAPH_LIMIT);
+  }, [neighbours]);
+
   const graph = useMemo(() => {
     if (!related) return { nodes: [], edges: [] };
-    return layout({ number: related.number, title: related.title }, neighbours);
-  }, [related, neighbours]);
+    return layout({ number: related.number, title: related.title }, graphNeighbours);
+  }, [related, graphNeighbours]);
 
   const selNode = graph.nodes.find((n) => n.id === selected);
 
@@ -207,25 +281,12 @@ export default function StandardsMap() {
         <div>
           <h1 className="page-title" data-demo-target="map-title">Related standards map</h1>
           <p className="page-sub">
-            The cluster around a standard, read from its referred-standards annexe.
-            Allied standards are a relationship problem rather than a search problem —
-            this is what makes that legible.
+            The cluster around a standard, read from its own references clause and citations.
+            Allied standards are a relationship problem rather than a search problem; this
+            is what makes that legible.
           </p>
         </div>
-        <div className="field" style={{ minWidth: 260 }}>
-          <label className="label sr-only" htmlFor="map-root">Standard</label>
-          <select
-            id="map-root"
-            className="select"
-            value={root}
-            onChange={(e) => pick(e.target.value)}
-          >
-            <option value="">Choose a standard…</option>
-            {options.map((s) => (
-              <option key={s.id || s.number} value={s.number}>{s.number}</option>
-            ))}
-          </select>
-        </div>
+        <StandardPicker key={root} value={root} onPick={pick} />
       </div>
 
       {state === 'empty' && (
@@ -233,7 +294,7 @@ export default function StandardsMap() {
           <EmptyState
             icon="graph"
             title="Choose a standard to map"
-            body="Relationships have been researched for a small number of standards, read from their referred-standards annexes. Pick one above, or open any standard and use its allied-standards section."
+            body="Relationships are read from the text of about 17,000 standards: what each one cites, and what cites it. Pick one above, or open any standard and use its allied-standards section."
             action={<Link to="/app/catalogue" className="btn btn-secondary btn-sm">Browse the catalogue</Link>}
           />
         </div>
@@ -265,9 +326,9 @@ export default function StandardsMap() {
               <div className="stack stack-2">
                 <span className="small strong">No relationships recorded for {related.number}</span>
                 <span className="xs">
-                  Nobody has read this standard's referred-standards annexe yet. That is
-                  not a statement that it has none — relationships have been researched
-                  for a small number of standards, and this is not one of them.
+                  This standard's text has not been read for citations, usually because
+                  the archive holds no readable text for it. That is not a statement that
+                  it has none.
                 </span>
               </div>
             </div>
@@ -277,7 +338,9 @@ export default function StandardsMap() {
             <div className="notice notice-info" role="note">
               <Icon name="info" size={15} />
               <span className="xs">
-                {related.number} was researched and no allied standards were recorded for it.
+                {related.text_read
+                  ? `${related.number}'s text was read and cites no other Indian Standard.`
+                  : `${related.number} was researched and no allied standards were recorded for it.`}
               </span>
             </div>
           )}
@@ -295,6 +358,9 @@ export default function StandardsMap() {
                         {neighbours.length} allied standard{neighbours.length === 1 ? '' : 's'}
                         {' · '}
                         {neighbours.filter((n) => n.outside_corpus).length} outside this corpus
+                        {neighbours.length > GRAPH_LIMIT && ` · the closest ${GRAPH_LIMIT} drawn, all listed`}
+                        {related.referenced_by_total > (related.referenced_by?.length ?? 0) &&
+                          ` · cited by ${related.referenced_by_total.toLocaleString('en-IN')} in all`}
                       </span>
                     </div>
                   </div>
@@ -313,7 +379,7 @@ export default function StandardsMap() {
                     <span className="eyebrow">Selected</span>
                     <h3 className="small strong">
                       <span className="mono">{selNode.id}</span>
-                      {selNode.title ? ` — ${selNode.title}` : ''}
+                      {selNode.title ? `, ${selNode.title}` : ''}
                     </h3>
                     {selNode.note && <p className="xs muted">{selNode.note}</p>}
                     {selNode.outside ? (

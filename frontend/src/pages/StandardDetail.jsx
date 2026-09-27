@@ -7,11 +7,61 @@ import { getStandard, getRelated, getAmendments, ApiError } from '../api/client'
 import './detail.css';
 import { sectorLabel as labelFor } from '../data/sectors';
 
-const sectorLabel = (slug) => labelFor(slug, '—');
+const sectorLabel = (slug) => labelFor(slug, '–');
 
 /** BIS publishes the official record; we link to it rather than reproduce it. */
 const bisSearchUrl = (number) =>
   `https://www.bis.gov.in/know-your-standard/?lang=en&q=${encodeURIComponent(number)}`;
+
+/** One allied standard: linked when the corpus holds it, flagged when not. */
+function RefRow({ item }) {
+  const evidence = item.evidence ? `Read from the standard's text: "${item.evidence}"` : undefined;
+  const body = (
+    <span className="stack stack-2 grow" style={{ minWidth: 0 }}>
+      <span className="row wrap" style={{ gap: 6 }}>
+        <span className="mono xs strong">{item.number}</span>
+        {item.outside_corpus && <span className="badge badge-neutral">Not in this corpus</span>}
+        {item.status === 'superseded' && <span className="badge badge-warn">Superseded</span>}
+        {item.method === 'extracted' && <span className="ref-source" title={evidence}>from text</span>}
+      </span>
+      {item.title
+        ? <span className="xs faint">{item.title}</span>
+        : item.evidence && <span className="xs faint ref-evidence">&ldquo;{item.evidence}&rdquo;</span>}
+      {item.note && <span className="xs faint">{item.note}</span>}
+    </span>
+  );
+
+  if (item.outside_corpus) {
+    return (
+      <div className="ref-row" style={{ opacity: 0.78 }} title={evidence}>
+        <Icon name="minus" size={13} />
+        {body}
+      </div>
+    );
+  }
+  return (
+    <Link to={`/app/standard/${encodeURIComponent(item.number)}`} className="ref-row" title={evidence}>
+      <Icon name="chevronRight" size={13} />
+      {body}
+    </Link>
+  );
+}
+
+/** Long reference lists (a code can cite 80 standards) collapse after a dozen. */
+function CollapsibleList({ items, render, initial = 12 }) {
+  const [open, setOpen] = useState(false);
+  const shown = open ? items : items.slice(0, initial);
+  return (
+    <div className="stack">
+      {shown.map(render)}
+      {items.length > initial && (
+        <button type="button" className="btn btn-ghost btn-sm" style={{ alignSelf: 'flex-start' }} onClick={() => setOpen((v) => !v)}>
+          {open ? 'Show fewer' : `Show all ${items.length}`}
+        </button>
+      )}
+    </div>
+  );
+}
 
 export default function StandardDetail() {
   const { code } = useParams();
@@ -263,71 +313,57 @@ export default function StandardDetail() {
             {related && !related.researched && (
               <p className="xs muted">
                 No relationships have been recorded for this standard yet. That is not
-                the same as having none — the referred-standards annex has not been
-                read for it. Check the standard itself before assuming it stands alone.
+                the same as having none: its text has not been read for citations.
+                Check the standard itself before assuming it stands alone.
+              </p>
+            )}
+
+            {related?.researched && related.total === 0 && related.text_read && (
+              <p className="xs muted">
+                The text of {standard.number} was read and cites no other Indian Standard.
               </p>
             )}
 
             {related?.depends_on?.map((group) => (
               <div key={group.type} className="stack stack-3">
                 <div className="stack stack-2">
-                  <span className="small strong">{group.heading}</span>
+                  <span className="small strong">
+                    {group.heading} <span className="faint">· {group.standards.length}</span>
+                  </span>
                   {group.explanation && <span className="xs muted">{group.explanation}</span>}
                 </div>
-                <div className="stack">
-                  {group.standards.map((item) =>
-                    item.outside_corpus ? (
-                      <div key={item.number} className="ref-row" style={{ opacity: 0.72 }}>
-                        <Icon name="minus" size={13} />
-                        <span className="stack stack-2 grow" style={{ minWidth: 0 }}>
-                          <span className="row wrap" style={{ gap: 6 }}>
-                            <span className="mono xs strong">{item.number}</span>
-                            <span className="badge badge-neutral">Not in this corpus</span>
-                          </span>
-                          <span className="xs faint">{item.title}</span>
-                          {item.note && <span className="xs faint">{item.note}</span>}
-                        </span>
-                      </div>
-                    ) : (
-                      <Link
-                        key={item.number}
-                        to={`/app/standard/${encodeURIComponent(item.number)}`}
-                        className="ref-row"
-                      >
-                        <Icon name="chevronRight" size={13} />
-                        <span className="stack stack-2 grow" style={{ minWidth: 0 }}>
-                          <span className="mono xs strong">{item.number}</span>
-                          <span className="xs faint">{item.title}</span>
-                          {item.note && <span className="xs faint">{item.note}</span>}
-                        </span>
-                      </Link>
-                    ),
-                  )}
-                </div>
+                <CollapsibleList
+                  items={group.standards}
+                  render={(item) => <RefRow key={item.number} item={item} />}
+                />
               </div>
             ))}
 
             {related?.referenced_by?.length > 0 && (
               <div className="stack stack-3">
                 <div className="stack stack-2">
-                  <span className="small strong">Referenced by</span>
+                  <span className="small strong">
+                    Referenced by <span className="faint">· {related.referenced_by_total ?? related.referenced_by.length}</span>
+                  </span>
                   <span className="xs muted">
                     Standards in this corpus that cite {standard.number}.
+                    {related.referenced_by_total > related.referenced_by.length &&
+                      ` Showing the first ${related.referenced_by.length} of ${related.referenced_by_total.toLocaleString('en-IN')}.`}
                   </span>
                 </div>
-                <div className="stack">
-                  {related.referenced_by.map((item) => (
-                    <Link
-                      key={item.number}
-                      to={`/app/standard/${encodeURIComponent(item.number)}`}
-                      className="ref-row"
-                    >
-                      <Icon name="chevronRight" size={13} />
-                      <span className="mono xs strong">{item.number}</span>
-                    </Link>
-                  ))}
-                </div>
+                <CollapsibleList
+                  items={related.referenced_by}
+                  render={(item) => <RefRow key={item.number} item={item} />}
+                />
               </div>
+            )}
+
+            {related?.text_read && related.total > 0 && (
+              <p className="xs faint">
+                Links marked <em>from text</em> were read automatically from the standards&rsquo;
+                own reference clauses and citations; hover one to see the passage. The text is OCR
+                of a scanned document, so check a link against the standard before relying on it.
+              </p>
             )}
           </section>
         </div>
@@ -338,7 +374,7 @@ export default function StandardDetail() {
             {[
               ['Internal id', standard.id],
               ['Status', statusBadge.label],
-              ['Edition', standard.version || '—'],
+              ['Edition', standard.version || '–'],
               ['Latest amendment', standard.last_amended || 'None recorded'],
               ['Sector', sectorLabel(standard.category)],
             ].map(([k, v]) => (

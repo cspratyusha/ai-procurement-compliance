@@ -56,7 +56,7 @@
 }
 .tl-node.is-amendment .tl-dot { border-color: var(--info); background: var(--md-surface); }
 .tl-node.is-revision .tl-dot { border-color: var(--warn); background: var(--warn); }
-/* Superseded editions are de-emphasised, but must stay readable — the
+/* Superseded editions are de-emphasised, but must stay readable, the
    strikethrough and the greyed dot carry the meaning, so dim the dot rather
    than fading the label below the contrast floor. */
 .tl-node.is-superseded .tl-dot { opacity: 0.45; }
@@ -123,7 +123,30 @@
   .conflict-grid { grid-template-columns: 1fr; }
 }
 
-/* A withdrawn standard is not merely superseded — it no longer exists as a
+/* A withdrawn standard is not merely superseded, it no longer exists as a
    citable document. Marked distinctly so it cannot be mistaken for current. */
 .tl-node.is-withdrawn .tl-dot { border-color: var(--crit); background: var(--crit); }
 .tl-node.is-withdrawn .mono { color: var(--crit); }
+
+/* Marks a link read automatically from a standard's text; the tooltip holds
+   the passage it came from, so the link can be checked. */
+.ref-source {
+  display: inline-flex;
+  align-items: center;
+  padding: 0 7px;
+  border-radius: var(--r-full);
+  border: 1px dashed var(--md-outline-variant);
+  font-size: 0.6875rem;
+  color: var(--md-on-surface-variant);
+  cursor: help;
+}
+
+/* Without a title, the cited passage identifies the standard; kept to two lines. */
+.ref-evidence {
+  font-style: italic;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}

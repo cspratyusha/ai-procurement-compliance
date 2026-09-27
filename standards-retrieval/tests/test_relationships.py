@@ -47,9 +47,12 @@ class TestRelationships(unittest.TestCase):
 
         self.assertIn("material_spec", by_type)
         self.assertIn("test_method", by_type)
-        self.assertEqual(
-            {s["number"] for s in by_type["test_method"]["standards"]}, {"IS 10810"}
-        )
+        # The hand-read test series is there, and the conductor spec is not
+        # mixed into the test methods. Parts of IS 10810 read from the text may
+        # join it; that is the same series, correctly grouped.
+        test_numbers = {s["number"] for s in by_type["test_method"]["standards"]}
+        self.assertIn("IS 10810", test_numbers)
+        self.assertNotIn("IS 8130", test_numbers)
 
     def test_citations_outside_the_corpus_are_shown_and_flagged(self):
         """Hiding them would silently truncate the cluster.
@@ -67,7 +70,13 @@ class TestRelationships(unittest.TestCase):
         ]
         self.assertTrue(outside)
         for item in outside:
-            self.assertTrue(item["title"], "an unlinkable entry still needs a title")
+            # Hand-read links carry a title. A link read from text to a standard
+            # the corpus does not hold has no reliable title (guessing one from
+            # OCR would invent it), so it must carry the passage instead.
+            self.assertTrue(
+                item["title"] or item.get("evidence"),
+                "an unlinkable entry needs a title or the passage it was read from",
+            )
 
     def test_reverse_edges_are_derived(self):
         """IS 2062 is cited by several standards; it declares none itself."""
@@ -77,10 +86,42 @@ class TestRelationships(unittest.TestCase):
             self.assertIn(expected, citing)
 
     def test_unresearched_standard_says_so(self):
-        """Absent data must not read as 'this standard has no references'."""
-        result = relationships.related_to("IS 17048:2018")
+        """Absent data must not read as 'this standard has no references'.
+
+        IS 14255:2018 has no text in the archive cache, so it was never read.
+        """
+        result = relationships.related_to("IS 14255:2018")
         self.assertFalse(result["researched"])
+        self.assertFalse(result["text_read"])
         self.assertEqual(result["total"], 0)
+
+    def test_text_read_with_no_citations_is_not_unresearched(self):
+        """Read and citing nothing is a finding; never read is not."""
+        result = relationships.related_to("IS 10006:1981")
+        self.assertTrue(result["researched"])
+        self.assertTrue(result["text_read"])
+        self.assertEqual(result["depends_on"], [])
+
+    def test_extracted_links_carry_their_evidence(self):
+        """Every automatically read link must be checkable by a person."""
+        result = relationships.related_to("IS 456:2000")
+        extracted = [s for g in result["depends_on"] for s in g["standards"] if s["method"] == "extracted"]
+        self.assertGreater(len(extracted), 20)
+        for item in extracted:
+            self.assertTrue(item.get("evidence"), f"{item['number']} has no evidence passage")
+
+    def test_curated_link_wins_over_the_extracted_one(self):
+        """IS 694 -> IS 8130 is hand-read; the text also cites it. Show it once."""
+        result = relationships.related_to("IS 694:2010")
+        rows = [s for g in result["depends_on"] for s in g["standards"] if s["number"].startswith("IS 8130")]
+        self.assertEqual(len(rows), 1)
+        self.assertEqual(rows[0]["method"], "curated")
+
+    def test_popular_standards_cap_the_reverse_list_but_report_the_total(self):
+        """IS 4905 (random sampling) is cited by over a thousand standards."""
+        result = relationships.related_to("IS 4905:1968")
+        self.assertLessEqual(len(result["referenced_by"]), relationships.REFERENCED_BY_LIMIT)
+        self.assertGreater(result["referenced_by_total"], 1000)
 
     def test_is_number_spellings_resolve(self):
         canonical = relationships.related_to("IS 1489 (Part 1):2015")

@@ -1,11 +1,11 @@
 import { useState, useId } from 'react';
-import { NODE_KINDS } from '../data/mock';
+import { NODE_KINDS } from '../data/ui';
 import './graph.css';
 
 /**
  * Node-link view of a standards cluster.
- * Inline SVG on a 100x100 percentage grid — keeps the bundle small and
- * lets node styling inherit the matte theme tokens directly.
+ * Inline SVG on a 100x100 percentage grid, which keeps the bundle small and
+ * lets node styling inherit the theme tokens directly.
  * A data table alternative is always rendered for assistive tech.
  */
 export default function ClusterGraph({ data, height = 320, onSelect, selected }) {
@@ -75,8 +75,8 @@ export default function ClusterGraph({ data, height = 320, onSelect, selected })
               onClick={() => onSelect?.(n.id)}
               title={
                 n.outside
-                  ? `${n.label} — ${n.title} (cited, but outside this corpus)`
-                  : `${n.label} — ${n.title}`
+                  ? `${n.label}: ${n.title} (cited, but outside this corpus)`
+                  : `${n.label}: ${n.title}`
               }
             >
               <span className="graph-dot" style={{ background: kind.color }} />
