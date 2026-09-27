@@ -6,14 +6,14 @@ in a hybrid rule + ML architecture.
 Note on deterministic vs. learned rule:
 With only one or two superseded/active pairs in the mock corpus, there isn't enough 
 training signal for the model to reliably learn this pattern on its own (confirmed by 
-recency_score's near-zero, noisy contribution in the diagnostics) — a hard rule is far 
+recency_score's near-zero, noisy contribution in the diagnostics), a hard rule is far 
 more reliable than hoping a 6-7 feature model with ~70 training queries discovers it, 
 and this is exactly the kind of correctness-critical compliance rule a hybrid rule+ML 
 system should enforce explicitly rather than leave to statistics.
 
 final_score Contract:
 final_score is a relative ranking signal bounded in range [0.0, 1.0], not a calibrated 
-probability or percentage — do not display it directly as a confidence percentage 
+probability or percentage, do not display it directly as a confidence percentage 
 without further calibration. final_score is only comparable within a single response, 
 not across separate /retrieve calls.
 """

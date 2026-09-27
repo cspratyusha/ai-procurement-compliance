@@ -44,11 +44,11 @@ def test_dense_retrieval_sanity():
 
     print(f"\n--- [Test 3] Baseline Behavior on Supersession 'Hard Case' Pair ---")
     # Real supersession pair in corpus:
-    # std_017: IS 226:1975 (Structural Steel, Standard Quality) — superseded
-    # std_001: IS 2062:2011 (Hot Rolled Structural Steel) — active successor
+    # std_017: IS 226:1975 (Structural Steel, Standard Quality), superseded
+    # std_001: IS 2062:2011 (Hot Rolled Structural Steel), active successor
     hard_query = "structural steel standard quality for general construction purposes"
-    active_id = "std_001"       # IS 2062:2011 — active successor
-    superseded_id = "std_017"   # IS 226:1975 — superseded
+    active_id = "std_001"       # IS 2062:2011, active successor
+    superseded_id = "std_017"   # IS 226:1975, superseded
 
     results = dense_search(hard_query, top_k=10)
     retrieved_ids = [r[0] for r in results]

@@ -6,7 +6,7 @@ This module implements the complete closed loop:
 Design & Safety Guarantees:
 ---------------------------
 1. Candidate Isolation: Candidate models are always trained and written to candidate_model_path
-   (e.g., models/ltr_model_candidate.txt) — NEVER directly overwriting the live production model.
+   (e.g., models/ltr_model_candidate.txt), NEVER directly overwriting the live production model.
 2. Cold-Start / Insufficient Data Guard: If there are fewer than min_queries (default 10)
    distinct queries in the training data, the cycle aborts early to prevent near-empty logs
    from producing a degenerate model.

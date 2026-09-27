@@ -17,8 +17,8 @@ def test_near_duplicate_gap_sharpening():
     print("=" * 80)
 
     # Real supersession pairs in the corpus:
-    # std_017 (IS 226:1975, superseded) vs std_001 (IS 2062:2011, active) — structural steel
-    # std_018 (IS 1139:1966, superseded) vs std_012 (IS 1786:2008, active) — deformed bars
+    # std_017 (IS 226:1975, superseded) vs std_001 (IS 2062:2011, active), structural steel
+    # std_018 (IS 1139:1966, superseded) vs std_012 (IS 1786:2008, active), deformed bars
     query_1 = "structural steel standard quality for general construction purposes"
     target_id_1 = "std_001"       # IS 2062:2011 (active successor)
     confounder_id_1 = "std_017"   # IS 226:1975 (superseded)
@@ -134,7 +134,7 @@ def test_full_eval_set_precision_and_latency():
     print(f"  P95 Re-Rank Latency      : {p95_latency:.2f} ms")
     print("=" * 60)
 
-    # Allow up to 10% regression from hybrid baseline — cross-encoder on a small 18-doc corpus
+    # Allow up to 10% regression from hybrid baseline, cross-encoder on a small 18-doc corpus
     # may slightly degrade P@1 on some queries where the superseded standard (IS 226:1975)
     # is semantically very close to the active one. The supersession penalty in postprocess
     # handles this correctly at the final output stage.

@@ -165,10 +165,10 @@ def build_features(
     # 4. Recency decay score
     f_recency = compute_recency_score(standard.last_amended, current_year=current_year)
 
-    # 5. Category match — real computation from query tokens vs category keyword lexicons
+    # 5. Category match, real computation from query tokens vs category keyword lexicons
     f_category_match = _compute_category_match(query, standard)
 
-    # 6. Keyword overlap — fraction of standard's curated keywords found in query
+    # 6. Keyword overlap, fraction of standard's curated keywords found in query
     f_keyword_overlap = _compute_keyword_overlap(query, standard)
 
     # 7. Historical feedback acceptance rate placeholder

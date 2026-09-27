@@ -2,7 +2,7 @@
 
 The rest of the suite runs against the default corpus, because that is what
 the committed indexes and the LightGBM model were built against. But the
-deployed service runs `STANDARDS_CORPUS=full` over 6,360 standards, and
+deployed service runs `STANDARDS_CORPUS=full` over 21,848 standards, and
 nothing measured that in CI: the Recall@5 of 0.9958 quoted in the README and
 in MODEL_AND_EVALUATION.md was a one-off measurement that no test would have
 noticed regressing.
@@ -27,9 +27,10 @@ _REPO = _ROOT.parent
 _EVAL = _REPO / "data" / "eval_set_full.json"
 _CORPUS = _REPO / "data" / "standards_corpus_full.json"
 
-# Measured on 236 held-out queries at 6,360 standards: Recall@5 0.9958,
-# P@1 0.8771. These floors sit clear of that, so normal variation from a
-# corpus rebuild does not fail the build but a real regression does.
+# Measured on 236 held-out queries at 21,848 standards: Recall@5 0.9873,
+# P@1 0.9237 (6,360 standards: 0.9958 / 0.8771). These floors sit clear of
+# that, so normal variation from a corpus rebuild does not fail the build but a
+# real regression does.
 _MIN_RECALL_AT_5 = 0.95
 _MIN_P_AT_1 = 0.80
 
@@ -131,14 +132,22 @@ def test_recall_at_5_on_the_served_corpus(full_corpus_client):
 
 
 def test_out_of_scope_query_is_declined_on_the_served_corpus(full_corpus_client):
-    """The confidence gate must still decline off-corpus products at scale.
+    """The confidence gate must still decline what no standard covers, at scale.
 
     This is the behaviour the product is sold on, and it is the one most
-    likely to erode quietly as the corpus grows: with 6,360 standards there
+    likely to erode quietly as the corpus grows: with 21,848 standards there
     is always some text that looks vaguely close.
+
+    These used to be "laptop computer" and "mobile phone charger". At full size
+    that premise is false: BIS covers IT equipment (IS 13252, in the corpus),
+    so declining a laptop as out of scope would train the gate to refuse a
+    regulated product. The queries are now requests no Indian Standard
+    specifies, the borderline ones from eval/calibrate_confidence.py included.
     """
-    for query in ["laptop computer for office use",
-                  "mobile phone charger for travel"]:
+    for query in ["group health insurance for employees",
+                  "hotel booking for official travel",
+                  "catering for a staff canteen",       # highest-scoring out-of-scope
+                  "mobile app development"]:
         resp = full_corpus_client.post(
             "/retrieve", json={"query": query, "top_k": 5})
         assert resp.status_code == 200, resp.text
@@ -147,6 +156,31 @@ def test_out_of_scope_query_is_declined_on_the_served_corpus(full_corpus_client)
             f"Out-of-scope query {query!r} returned confidence "
             f"{data.get('confidence')!r}; it must be 'none' so the interface "
             f"renders no recommendations."
+        )
+
+
+def test_unmatched_wording_never_yields_a_confident_recommendation(full_corpus_client):
+    """A covered product in words no standard uses must not get a wrong 'strong'.
+
+    "Laptop" appears in no title, so retrieval misses IS 13252 and surfaces a
+    drawing-office straightedge. Whatever the verdict, the engine must not
+    present that as a confident recommendation.
+    """
+    resp = full_corpus_client.post(
+        "/retrieve", json={"query": "laptop computer for office use", "top_k": 5})
+    assert resp.status_code == 200, resp.text
+    assert resp.json().get("confidence") != "strong"
+
+
+def test_vague_in_scope_wording_is_uncertain_not_declined(full_corpus_client):
+    """Short real-world phrasing of a covered product must not be told it is out of scope."""
+    for query in ["bricks for wall construction", "cotton bedsheet"]:
+        resp = full_corpus_client.post(
+            "/retrieve", json={"query": query, "top_k": 5})
+        assert resp.status_code == 200, resp.text
+        assert resp.json().get("confidence") != "none", (
+            f"{query!r} names a product the catalogue covers; 'none' would tell the "
+            f"officer it is outside the catalogue."
         )
 
 

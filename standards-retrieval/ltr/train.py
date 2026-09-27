@@ -36,7 +36,7 @@ def _models_dir() -> Path:
     A model's feature values are computed against a specific corpus, and its
     training labels reference that corpus's ids, so a model is only valid for
     the corpus it was trained on. Each corpus therefore gets its own directory
-    — otherwise retraining against the canonical corpus silently overwrites
+    otherwise retraining against the canonical corpus silently overwrites
     the committed model that the mock corpus (and the test suite) depend on.
     """
     choice = os.environ.get("STANDARDS_CORPUS", "").strip().lower()

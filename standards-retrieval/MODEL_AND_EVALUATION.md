@@ -2,20 +2,46 @@
 
 This document provides a comprehensive technical reference for the multi-stage retrieval, ranking, and evaluation pipeline implemented in `standards-retrieval` (Part 2, Stages A–C). It details model architectures, feature engineering, hyperparameters, training methodology, cross-validation, conservative promotion gates, benchmark evaluation metrics, and scoring contracts.
 
-> ### Current measurement: 4,969 standards, 236 held-out queries
+> ### Current measurement: 21,848 standards, 236 held-out queries
+>
+> The served pipeline (hybrid retrieval + cross-encoder; the learned ranker is
+> not trained for this corpus, so it is off), measured by
+> `tests/test_full_corpus_accuracy.py` with `FULL_EVAL_QUERIES=0`:
+>
+> | Corpus | P@1 | Recall@5 |
+> |---|---|---|
+> | **21,848 standards (the full archive)** | **0.9237** | **0.9873** |
+>
+> Standard error on that P@1 is about 0.017. Where the corpus holds a newer
+> edition of the standard a query is labelled with, the newer edition counts
+> as correct: it is what a tender should cite, and the ranker deliberately
+> puts it first. That relabelling happened between this and the earlier
+> measurement, so the two rows below are not a like-for-like comparison.
+>
+> Earlier measurement, 4,969 standards, same 236 queries:
 >
 > | Pipeline | P@1 | Recall@5 | NDCG@5 |
 > |---|---|---|---|
 > | Hybrid (dense + BM25) | 0.8771 | 0.9958 | 0.9450 |
 > | + cross-encoder | 0.8602 | 0.9915 | 0.9378 |
 >
-> The difference between the rows is -0.0169 against a standard error of
-> 0.0311, so neither pipeline measurably beats the other here.
+> The difference between those rows is -0.0169 against a standard error of
+> 0.0311, so neither pipeline measurably beats the other there.
+>
+> **Confidence thresholds** were recalibrated at this size
+> (`eval/calibrate_confidence.py`): `none` below −2.25 (was −6.0), `strong` at
+> 0.0 and above. 589 in-scope queries score ≥ +1.25; 35 out-of-scope requests
+> score ≤ −2.68.
+>
+> **Learned ranker, retrained at this size and rejected by the promotion
+> gate:** held-out NDCG@5 0.9191 (P@1 84.7%) against the cross-encoder's
+> 0.9614 (P@1 92.4%); 5-fold CV 0.874 ± 0.022. The engine serves the
+> cross-encoder ranking.
 >
 > Every number below this banner was measured on corpora of 30 to 96
 > standards, several of them with an evaluation set that had been trained on.
 > They are kept for the record of how the pipeline was developed. **Quote the
-> table above.**
+> 21,848-standard table above.**
 >
 > ### ⚠️ Differences this small are usually noise
 >
@@ -24,7 +50,7 @@ This document provides a comprehensive technical reference for the multi-stage r
 > evidence that one is better.
 >
 > Measured at 582 standards on 102 held-out queries: hybrid P@1 0.9216,
-> cross-encoder 0.9020 — a difference of +0.0196 against a standard error of
+> cross-encoder 0.9020, a difference of +0.0196 against a standard error of
 > 0.0397. Reading that as "the cross-encoder now hurts" was wrong. Examining
 > the 60 queries where they disagree, the cross-encoder corrects 2 and breaks
 > 1, so it is mildly positive.
@@ -51,7 +77,7 @@ This document provides a comprehensive technical reference for the multi-stage r
 > | 45 standards | 0.9382 | 0.9609 | 0.9846 |
 > | 96 standards | 0.9192 | 0.9609 | 0.9382 *(uncontaminated)* |
 >
-> Serving the 45-corpus model over 96 standards — the mismatch case — drops
+> Serving the 45-corpus model over 96 standards, the mismatch case, drops
 > NDCG@5 to 0.6984 and Recall@5 to 0.75. Retraining recovers most of it. The
 > corpus-size effect that earlier phases could not demonstrate is now visible:
 > more standards means more near-duplicates competing for the same query.
@@ -70,9 +96,9 @@ This document provides a comprehensive technical reference for the multi-stage r
 > - The eval set was authored alongside the corpus, so it shares its
 >   vocabulary and assumptions.
 >
-> These numbers are therefore a **pipeline-correctness signal** — evidence
+> These numbers are therefore a **pipeline-correctness signal**, evidence
 > that each stage improves on the one before it, and that the plumbing is
-> sound — **not** a benchmark of real-world accuracy. Do not present them
+> sound, **not** a benchmark of real-world accuracy. Do not present them
 > as "the system is 95.8% accurate on Indian Standards." The honest claim
 > is: *"on our pilot corpus, the LTR stage improves Top-1 from 87.5% to
 > 95.8% over hybrid search."*
@@ -293,7 +319,7 @@ All benchmarks are evaluated over the **24 held-out evaluation queries** in [`da
 **Scope caveat (see the banner at the top of this document):** a 30-document
 corpus makes retrieval substantially easier than the real task, and the
 corpus is unverified placeholder data. Read the table below as *relative*
-evidence that each stage adds value over the previous one — not as an
+evidence that each stage adds value over the previous one, not as an
 absolute accuracy claim for Indian Standards retrieval.
 
 ### Overall Pipeline Comparison
@@ -304,7 +330,7 @@ absolute accuracy claim for Indian Standards retrieval.
 | **Full Retrieve (+ Cross-Encoder Re-Ranking)** | 91.7% (22/24) | 100.0% (24/24) | 0.9609 | ~45 ms |
 | **LTR Final Pipeline (+ Post-Processing)** | **95.8% (23/24)** | **100.0% (24/24)** | **0.9846** | **~48 ms** |
 
-> **Key Takeaway**: On this pilot corpus, each stage improves on the one before it — the LTR pipeline adds **+8.3 points of Top-1 accuracy** over hybrid search and **+4.1 over the cross-encoder alone**. The ordering of the three rows is the result worth reporting; the absolute values reflect a 30-document corpus and would be lower at realistic scale.
+> **Key Takeaway**: On this pilot corpus, each stage improves on the one before it, the LTR pipeline adds **+8.3 points of Top-1 accuracy** over hybrid search and **+4.1 over the cross-encoder alone**. The ordering of the three rows is the result worth reporting; the absolute values reflect a 30-document corpus and would be lower at realistic scale.
 
 ---
 

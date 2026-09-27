@@ -15,8 +15,8 @@ Verifies:
    Confirms no score returned by full_retrieve() or ltr_retrieve() is negative.
 
 Real supersession pairs in corpus:
-  - std_017 (IS 226:1975) superseded by std_001 (IS 2062:2011) — structural steel
-  - std_018 (IS 1139:1966) superseded by std_012 (IS 1786:2008) — deformed bars
+  - std_017 (IS 226:1975) superseded by std_001 (IS 2062:2011), structural steel
+  - std_018 (IS 1139:1966) superseded by std_012 (IS 1786:2008), deformed bars
 """
 import sys
 from pathlib import Path

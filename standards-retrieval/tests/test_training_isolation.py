@@ -3,8 +3,7 @@
 `build_training_data` used to load the query set *and* the evaluation set as
 its training input. The eval queries were held out from the train/test split
 but not from training, so the model had seen every query it was then scored
-on. On the 96-standard corpus that produced NDCG@5 = 1.0000 and P@1 = 100% —
-a memorisation artifact reported as accuracy.
+on. On the 96-standard corpus that produced NDCG@5 = 1.0000 and P@1 = 100%, a memorisation artifact reported as accuracy.
 
 That is the most dangerous class of bug in this project, because it does not
 look like a failure. It looks like success.

@@ -65,7 +65,7 @@ def test_bm25_retrieval():
     # 3. Assertions on BM25 Strengths (Exact Standard Numbers & Rare Keywords)
     print("\n--- [Step 3] Validating BM25 Strengths (Numbers & Rare Keywords) ---")
     
-    # Filter by difficulty="exact_identifier" — these queries contain standard numbers where BM25 excels
+    # Filter by difficulty="exact_identifier", these queries contain standard numbers where BM25 excels
     bm25_targeted_cases = [c for c in eval_data if c.get("difficulty") == "exact_identifier"]
     assert len(bm25_targeted_cases) >= 3, (
         f"Expected at least 3 exact_identifier test queries in eval_set.json, got {len(bm25_targeted_cases)}"

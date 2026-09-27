@@ -9,7 +9,7 @@ DEFAULT_RRF_K: int = 60
 
 # How many candidates each retriever contributes before fusion.
 #
-# This was 30, chosen when the whole corpus was 30 standards — every document
+# This was 30, chosen when the whole corpus was 30 standards, every document
 # was a candidate, so recall was guaranteed. At a few thousand standards a
 # fixed pool of 30 is a recall ceiling: if the right standard is not in the
 # first 30 dense *or* the first 30 BM25 hits, no amount of re-ranking can
