@@ -3,7 +3,8 @@ import { useParams, Link, useNavigate } from 'react-router-dom';
 import Icon from '../components/Icon';
 import { EmptyState } from '../components/Primitives';
 import { AddButton } from '../components/SpecBasket';
-import { getStandard, getRelated, getAmendments, ApiError } from '../api/client';
+import { CertificationBadge } from '../components/CertificationBadge';
+import { getStandard, getRelated, getAmendments, getCertification, ApiError } from '../api/client';
 import './detail.css';
 import { sectorLabel as labelFor } from '../data/sectors';
 
@@ -37,6 +38,11 @@ function RefRow({ item }) {
         {item.outside_corpus && <span className="badge badge-neutral">Not in this corpus</span>}
         {item.status === 'superseded' && <span className="badge badge-warn">Superseded</span>}
         {item.method === 'extracted' && <span className="ref-source" title={evidence}>from text</span>}
+        {item.method === 'similar_scope' && (
+          <span className="ref-source" title="Found by comparing scope text. This standard does not cite it.">
+            similar scope
+          </span>
+        )}
       </span>
       {item.title
         ? <span className="xs faint">{item.title}</span>
@@ -85,6 +91,7 @@ export default function StandardDetail() {
   const [standard, setStandard] = useState(null);
   const [related, setRelated] = useState(null);
   const [amendments, setAmendments] = useState(null);
+  const [certification, setCertification] = useState(null);   // null while loading, { failed } on error
   const [state, setState] = useState('loading'); // loading | ready | missing | error
   const [error, setError] = useState(null);
 
@@ -92,6 +99,7 @@ export default function StandardDetail() {
     const controller = new AbortController();
     setState('loading');
     setError(null);
+    setCertification(null);
 
     getStandard(decoded, { signal: controller.signal })
       .then((data) => {
@@ -105,6 +113,9 @@ export default function StandardDetail() {
         getAmendments(data.number, { signal: controller.signal })
           .then((a) => { if (!controller.signal.aborted) setAmendments(a); })
           .catch(() => { /* leave the section in its unknown state */ });
+        getCertification(data.number, { signal: controller.signal })
+          .then((c) => { if (!controller.signal.aborted) setCertification(c); })
+          .catch(() => { if (!controller.signal.aborted) setCertification({ failed: true }); });
       })
       .catch((err) => {
         if (controller.signal.aborted || err.name === 'AbortError') return;
@@ -228,24 +239,42 @@ export default function StandardDetail() {
               <div className="stack stack-2">
                 <span className="xs strong">
                   {standard.withdrawn
-                    ? (standard.superseded_by_number ? 'Withdrawn by BIS and replaced' : 'Withdrawn by BIS, with no replacement')
+                    ? (standard.superseded_by_number
+                      ? (standard.replacement_source === 'bis_newer_edition'
+                        ? 'Withdrawn by BIS; a newer edition is in force'
+                        : 'Withdrawn by BIS and replaced')
+                      : 'Withdrawn by BIS; no replacement named')
                     : 'This edition has been superseded'}
                 </span>
                 <span className="xs">
                   {standard.superseded_by_number ? (
                     <>
-                      Cite{' '}
-                      <Link to={`/app/standard/${encodeURIComponent(standard.superseded_by_number)}`} className="mono strong">
-                        {standard.superseded_by_number}
-                      </Link>{' '}
-                      instead{standard.status_source === 'bis' ? ', according to BIS’s record for this edition' : ''}.
+                      {standard.replacement_source === 'bis_newer_edition' ? (
+                        <>
+                          BIS&rsquo;s record for this edition names no replacement, but BIS lists{' '}
+                          <Link to={`/app/standard/${encodeURIComponent(standard.superseded_by_number)}`} className="mono strong">
+                            {standard.superseded_by_number}
+                          </Link>{' '}
+                          as the edition in force. Cite it instead.
+                        </>
+                      ) : (
+                        <>
+                          Cite{' '}
+                          <Link to={`/app/standard/${encodeURIComponent(standard.superseded_by_number)}`} className="mono strong">
+                            {standard.superseded_by_number}
+                          </Link>{' '}
+                          instead{standard.status_source === 'bis' ? ', according to BIS’s record for this edition' : ''}.
+                        </>
+                      )}
                       {' '}If the catalogue does not hold that edition, check its requirements on BIS before citing it.
                     </>
                   ) : standard.withdrawn ? (
                     <>
-                      A withdrawn standard cannot be enforced as a requirement
-                      {standard.withdrawal_note ? ` (BIS: ${standard.withdrawal_note})` : ''}. Specify the
-                      requirement directly or find a current standard that covers it.
+                      BIS&rsquo;s record names no replacement, and BIS lists no newer edition
+                      {standard.withdrawal_note ? ` (BIS: ${standard.withdrawal_note})` : ''}. A withdrawn
+                      standard cannot be enforced as a requirement: specify it directly or find a current
+                      standard that covers it. Standards BIS published after October 2025 are on its new
+                      portal and not in these records, so check there too.
                     </>
                   ) : (
                     'Citing it in a live tender risks procuring to a withdrawn specification. Check the BIS record for the current edition before use.'
@@ -257,7 +286,15 @@ export default function StandardDetail() {
 
           <section className="card stack stack-4">
             <span className="eyebrow">Scope</span>
-            <p className="small" style={{ color: 'var(--ink-soft)' }}>{standard.scope}</p>
+            {standard.scope ? (
+              <p className="small" style={{ color: 'var(--ink-soft)' }}>{standard.scope}</p>
+            ) : (
+              <p className="small muted">
+                This standard is held on its number and official title only: its scope text is not in
+                the catalogue, so it is found by its title alone. Read the published standard before
+                relying on it for a tender.
+              </p>
+            )}
             {standard.description && (
               <>
                 <hr className="divider" />
@@ -424,24 +461,57 @@ export default function StandardDetail() {
             ))}
           </div>
 
-          <div className="card stack stack-3">
+          <div className="card stack stack-3" data-demo-target="detail-certification">
             <div className="row-between wrap" style={{ gap: 'var(--s2)' }}>
               <span className="eyebrow">Certification</span>
-              <span className="badge badge-neutral">Not yet built</span>
+              {certification && !certification.failed && <CertificationBadge certification={certification} />}
             </div>
-            <p className="xs muted">
-              Mandatory certification requirements (BIS Product Certification / ISI mark,
-              CRS, Hallmarking) are not yet mapped in this dataset. Check the official
-              compulsory-certification lists on the BIS site before relying on a tender.
-            </p>
-            <a
-              href="https://www.bis.gov.in/product-certification/products-under-compulsory-certification/"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="btn btn-secondary btn-sm"
-            >
-              <Icon name="external" size={14} /> BIS compulsory certification
-            </a>
+
+            {certification === null && <div className="skeleton" style={{ height: 48 }} />}
+
+            {certification?.failed && (
+              <p className="xs muted">
+                The certification status could not be loaded. That is not a clearance: check
+                BIS&rsquo;s compulsory-certification lists before relying on a tender.
+              </p>
+            )}
+
+            {certification && !certification.failed && (
+              <>
+                <p className="xs">{certification.explanation}</p>
+                {certification.qco && (
+                  <span className="xs">
+                    <strong>Order:</strong>{' '}
+                    {certification.qco_url
+                      ? <a href={certification.qco_url} target="_blank" rel="noopener noreferrer">{certification.qco}</a>
+                      : certification.qco}
+                    {certification.gazette ? ` (${certification.gazette})` : ''}
+                  </span>
+                )}
+                {certification.products?.length > 0 && (
+                  <span className="xs muted">
+                    <strong>Products as BIS lists them:</strong> {certification.products.join('; ')}
+                  </span>
+                )}
+                {certification.related?.length > 0 && (
+                  <span className="xs">
+                    <strong>Listed instead:</strong>{' '}
+                    {certification.related.map((n, i) => (
+                      <span key={n}>
+                        {i > 0 && ', '}
+                        <Link to={`/app/certification/${encodeURIComponent(n)}`} className="mono">{n}</Link>
+                      </span>
+                    ))}
+                  </span>
+                )}
+                <Link
+                  to={`/app/certification/${encodeURIComponent(certification.listed_as || standard.number)}`}
+                  className="btn btn-secondary btn-sm"
+                >
+                  <Icon name="shield" size={14} /> Open in Certification
+                </Link>
+              </>
+            )}
           </div>
         </div>
       </div>

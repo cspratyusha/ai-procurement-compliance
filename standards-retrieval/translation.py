@@ -25,7 +25,9 @@ logger = logging.getLogger("standards-retrieval.translation")
 
 _MODEL_NAME = "facebook/nllb-200-distilled-600M"
 
-# Languages offered in the UI. NLLB uses its own language codes.
+# Languages offered in the UI. NLLB uses its own language codes. Twelve of
+# India's 22 scheduled languages, which between them are the mother tongue of
+# the great majority of Indians; NLLB-200 does not cover Bodo or Dogri.
 SUPPORTED_LANGUAGES: Dict[str, Dict[str, str]] = {
     "en": {"name": "English", "native": "English", "nllb": None},
     "hi": {"name": "Hindi", "native": "हिन्दी", "nllb": "hin_Deva"},
@@ -33,15 +35,41 @@ SUPPORTED_LANGUAGES: Dict[str, Dict[str, str]] = {
     "bn": {"name": "Bengali", "native": "বাংলা", "nllb": "ben_Beng"},
     "mr": {"name": "Marathi", "native": "मराठी", "nllb": "mar_Deva"},
     "te": {"name": "Telugu", "native": "తెలుగు", "nllb": "tel_Telu"},
+    "gu": {"name": "Gujarati", "native": "ગુજરાતી", "nllb": "guj_Gujr"},
+    "kn": {"name": "Kannada", "native": "ಕನ್ನಡ", "nllb": "kan_Knda"},
+    "ml": {"name": "Malayalam", "native": "മലയാളം", "nllb": "mal_Mlym"},
+    "pa": {"name": "Punjabi", "native": "ਪੰਜਾਬੀ", "nllb": "pan_Guru"},
+    "or": {"name": "Odia", "native": "ଓଡ଼ିଆ", "nllb": "ory_Orya"},
+    "ur": {"name": "Urdu", "native": "اردو", "nllb": "urd_Arab"},
+    "as": {"name": "Assamese", "native": "অসমীয়া", "nllb": "asm_Beng"},
 }
 
 # Unicode blocks, used to detect the script when no language is declared.
+# Devanagari (Hindi, Marathi) and the Bengali script (Bengali, Assamese) are
+# each shared by two languages; detect_language tells those apart.
 _SCRIPT_RANGES = [
-    ("hi", r"[ऀ-ॿ]"),  # Devanagari, also Marathi; see _detect note
+    ("hi", r"[ऀ-ॿ]"),
     ("bn", r"[ঀ-৿]"),
+    ("pa", r"[਀-੿]"),
+    ("gu", r"[઀-૿]"),
+    ("or", r"[଀-୿]"),
     ("ta", r"[஀-௿]"),
     ("te", r"[ఀ-౿]"),
+    ("kn", r"[ಀ-೿]"),
+    ("ml", r"[ഀ-ൿ]"),
+    ("ur", r"[؀-ۿݐ-ݿﭐ-﷿ﹰ-﻿]"),
 ]
+
+# Marathi in Devanagari, told from Hindi by words Hindi does not use
+# ("saathi" for, "aani" and, "chya" of, "madhye" in, "aahe" is), and Hindi by
+# its own ("ke liye", "aur", "mein", "hai"). Script alone cannot say.
+_MARATHI_MARKERS = re.compile(r"साठी|च्या|आणि|मध्ये|आहे|ळ")
+_HINDI_MARKERS = re.compile(r"(?:^|\s)(?:के|की|का|लिए|और|में|है|हैं)(?:\s|$)")
+# Letters Assamese writes and Bengali does not (ra, wa).
+_ASSAMESE_LETTERS = re.compile(r"[ৰৱ]")
+
+# A code for text in a script none of the languages above uses.
+UNSUPPORTED = "und"
 
 _model = None
 _tokenizers: Dict[str, object] = {}
@@ -56,14 +84,22 @@ class TranslationUnavailable(Exception):
 def detect_language(text: str) -> str:
     """Best-effort language guess from the script used.
 
-    Script identifies the writing system, not the language: Hindi and Marathi
-    both use Devanagari and cannot be told apart this way, so Devanagari is
-    reported as Hindi. When the user has picked a language explicitly, prefer
-    that over this.
+    Script identifies the writing system, not the language. Devanagari is
+    Marathi when Marathi's own words appear and Hindi's do not, otherwise
+    Hindi; the Bengali script is Assamese when Assamese's own letters appear.
+    Text in a script none of the supported languages uses is UNSUPPORTED, not
+    English. When the user has picked a language explicitly, prefer that.
     """
     for code, pattern in _SCRIPT_RANGES:
         if re.search(pattern, text):
+            if code == "hi" and _MARATHI_MARKERS.search(text) and not _HINDI_MARKERS.search(text):
+                return "mr"
+            if code == "bn" and _ASSAMESE_LETTERS.search(text):
+                return "as"
             return code
+    # Letters beyond Latin that no supported script covers (Sinhala, Thai, Chinese...).
+    if any(ch.isalpha() and ord(ch) > 0x24F for ch in text):
+        return UNSUPPORTED
     return "en"
 
 
@@ -131,8 +167,17 @@ def translate_to_english(text: str, language: Optional[str] = None) -> dict:
     code = language if language and language != "auto" else detect_language(stripped)
     entry = SUPPORTED_LANGUAGES.get(code)
 
+    if code == UNSUPPORTED or (entry is None and code != "en"):
+        # Said plainly: searched as typed, the results would be noise, and a
+        # silent "no match" would read as "no such standard".
+        supported = ", ".join(v["name"] for k, v in SUPPORTED_LANGUAGES.items() if k != "en")
+        return {
+            "text": stripped, "original": text, "detected": UNSUPPORTED, "translated": False,
+            "error": (f"This language is not supported yet, so the query was searched as typed. "
+                      f"Supported: English, {supported}."),
+        }
     if entry is None or entry["nllb"] is None:
-        # English, or a language we do not support: search as typed.
+        # English: search as typed.
         return {"text": stripped, "original": text, "detected": "en", "translated": False, "error": None}
 
     try:

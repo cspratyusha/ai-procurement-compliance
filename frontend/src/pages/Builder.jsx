@@ -92,6 +92,10 @@ export default function Builder() {
       return `The item shall be covered by a valid BIS certificate of conformity under Scheme X${order}. ` +
         'A copy of the certificate shall be furnished with the bid.';
     }
+    if (rec.scheme === 'Hallmark') {
+      return `The articles shall bear the BIS hallmark (BIS logo, purity grade and six-digit HUID)${order}, ` +
+        'and shall be supplied by a BIS-registered jeweller whose registration number is stated in the bid.';
+    }
     return `The item shall bear a valid ISI mark under BIS Product Certification${order}. ` +
       'The licence number shall be stated in the bid and shall be valid at the time of supply.';
   };

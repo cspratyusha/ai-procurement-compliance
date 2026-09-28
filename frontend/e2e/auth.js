@@ -7,6 +7,9 @@
  * (ACCOUNTS_DB) rather than a deployment's real one.
  */
 export const API_URL = process.env.E2E_API_URL ?? 'http://localhost:8000';
+// The web app under test. Override both to run the suite against a second
+// stack (another engine and dev server) without touching a live one.
+export const BASE_URL = process.env.E2E_BASE_URL ?? 'http://localhost:5173';
 export const E2E_EMAIL = process.env.E2E_EMAIL ?? 'e2e.admin@standeng.test';
 export const E2E_PASSWORD = process.env.E2E_PASSWORD ?? 'E2e-Test-Pass-2026';
 export const E2E_NAME = 'E2E Administrator';

@@ -200,7 +200,7 @@ def audit_text(text: str) -> Dict[str, Any]:
 # Which kinds of dependency a tender should carry alongside the standard that
 # needs them, most important first. Terminology is left out: a vocabulary
 # standard does not change what is supplied.
-_GAP_TYPES = {"normative_reference": 0, "material_spec": 1, "test_method": 2, "installation": 3}
+_GAP_TYPES = {"normative_reference": 0, "material_spec": 1, "safety": 2, "test_method": 3, "installation": 4}
 _GAP_LIMIT = 80
 # A dependency, as opposed to a passing mention: read from the standard's
 # references clause, recorded by hand, or stated with obligation wording.
@@ -345,8 +345,8 @@ def _superseded_finding(citation: Dict[str, Any], record: Any, found: Dict[str, 
             "severity": SEVERITY_CRITICAL,
             "replacement": None,
             "detail": (
-                f"BIS lists {citation['cited']} as withdrawn with no replacement{reason}. "
-                f"A withdrawn standard cannot be enforced as a requirement."
+                f"BIS lists {citation['cited']} as withdrawn{reason}, and names no replacement "
+                f"or newer edition. A withdrawn standard cannot be enforced as a requirement."
             ),
             "action": "Remove the citation and specify the requirement directly, or cite a current standard that covers it.",
         }

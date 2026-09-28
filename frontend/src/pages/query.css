@@ -444,6 +444,27 @@
   color: var(--md-on-secondary-container);
 }
 
+/* The language pill. A label does not open the select it wraps, so the select
+   itself fills the pill edge to edge: a click anywhere on it, corners and
+   icons included, opens the list. The icons are laid over it and pass
+   clicks through. */
+.composer-pill.pill-select { padding: 0; }
+.composer-pill.pill-select select {
+  height: 100%;
+  max-width: 230px;
+  padding: 0 calc(var(--s3) + 20px) 0 calc(var(--s3) + 22px);
+  border-radius: inherit;
+}
+.pill-icon {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  display: inline-flex;
+  pointer-events: none;
+}
+.pill-icon-start { left: var(--s3); }
+.pill-icon-end { right: var(--s3); }
+
 /* Send: a round filled button that becomes stop while searching */
 .composer-send {
   flex-shrink: 0;
@@ -700,7 +721,7 @@
   .ai-avatar { position: static; width: 30px; height: 30px; }
   .user-bubble { max-width: 90%; }
   .composer { padding-left: var(--s4); border-radius: var(--r-lg); }
-  .composer-pill span:not(.sr-only) { display: none; }
+  .composer-pill span:not(.sr-only):not(.pill-icon) { display: none; }
   .prompt-hero { min-height: 0; padding-top: var(--s4); }
 }
 

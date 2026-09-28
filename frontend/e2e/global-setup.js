@@ -1,6 +1,6 @@
 import fs from 'node:fs';
 import path from 'node:path';
-import { API_URL, E2E_EMAIL, E2E_PASSWORD, E2E_NAME, STATE_FILE } from './auth.js';
+import { API_URL, BASE_URL, E2E_EMAIL, E2E_PASSWORD, E2E_NAME, STATE_FILE } from './auth.js';
 
 /**
  * Sign in once and hand every test the session.
@@ -38,7 +38,7 @@ export default async function globalSetup() {
   fs.writeFileSync(STATE_FILE, JSON.stringify({
     cookies: [],
     origins: [{
-      origin: 'http://localhost:5173',
+      origin: BASE_URL,
       localStorage: [{ name: 'bis-session', value: token }],
     }],
   }));

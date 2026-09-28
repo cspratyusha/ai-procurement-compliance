@@ -89,8 +89,8 @@ def _supersession_findings(corpus: List[Any]) -> List[Dict[str, Any]]:
                 "replacement": found["number"],
                 "replacement_title": None,
                 "detail": (
-                    f"BIS lists {standard.number} as withdrawn and replaced by "
-                    f"{found['number']}. This corpus does not hold the new edition's text, "
+                    f"BIS lists {standard.number} as withdrawn and {found['number']} as the "
+                    f"edition in force. This corpus does not hold the new edition's text, "
                     f"so check its requirements before citing it."
                 ),
                 "action": f"Cite {found['number']} instead.",
@@ -107,7 +107,8 @@ def _supersession_findings(corpus: List[Any]) -> List[Dict[str, Any]]:
                 "replacement": None,
                 "replacement_title": None,
                 "detail": (
-                    f"BIS lists {standard.number} as withdrawn with no replacement{reason}."
+                    f"BIS lists {standard.number} as withdrawn{reason}, and neither its record "
+                    f"nor BIS's list of current editions names a replacement."
                 ),
                 "action": "Do not cite it. Specify the requirement directly or find a current standard that covers it.",
             })
@@ -290,7 +291,9 @@ def corpus_health() -> Dict[str, Any]:
         "certification_mandatory": statuses.get("in_force", 0),
         "certification_deferred": statuses.get("deferred", 0),
         "certification_related": statuses.get("related_listed", 0),
-        "certification_not_listed": statuses.get("not_listed", 0) + statuses.get("checked_none", 0),
+        # No compulsory certification, whether unlisted, checked, or voluntary only.
+        "certification_not_listed": (statuses.get("not_listed", 0) + statuses.get("checked_none", 0)
+                                     + statuses.get("voluntary", 0)),
         "certification_not_verified": statuses.get("not_verified", 0),
         "certification_retrieved": certification.coverage().get("retrieved"),
         # Standards with amendments known (researched, or read from their text),

@@ -6,8 +6,10 @@ import Icon from './Icon';
  *
  * `status` keeps materially different answers apart, and the UI must too:
  *
- *   in_force        an order in force requires certification (ISI, CRS, Scheme X)
+ *   in_force        an order in force requires certification (ISI, CRS, Scheme X, Hallmark)
  *   deferred        named in an order whose enforcement is deferred: not yet mandatory
+ *   voluntary       a BIS scheme covers the product, no order makes it compulsory
+ *                   (silver hallmarking)
  *   related_listed  not listed itself, but a parent/general part or successor is
  *   checked_none    checked by hand: no scheme applies
  *   not_listed      not on BIS's compulsory lists as read on the retrieval date
@@ -25,7 +27,7 @@ export const SCHEME_DESCRIPTION = {
   ISI: 'Scheme I, Standard Mark (ISI), under a BIS licence',
   CRS: 'Scheme II, Compulsory Registration Scheme',
   'Scheme X': 'Scheme X, BIS certificate of conformity',
-  Hallmark: 'BIS Hallmarking',
+  Hallmark: 'BIS hallmarking: BIS logo, purity grade and HUID',
 };
 
 const SHORT = {
@@ -52,6 +54,13 @@ export function CertificationBadge({ certification }) {
   if (status === 'deferred') {
     return <span className="badge badge-warn" title={title}>Certification deferred</span>;
   }
+  if (status === 'voluntary') {
+    return (
+      <span className="badge badge-neutral" title={title}>
+        {scheme === 'Hallmark' ? 'Hallmarking voluntary' : 'Certification voluntary'}
+      </span>
+    );
+  }
   if (status === 'related_listed') {
     return <span className="badge badge-warn" title={title}>Check related certification</span>;
   }
@@ -63,23 +72,28 @@ export function CertificationBadge({ certification }) {
 
 /**
  * Banner for a result that needs attention: an obligation in force, a
- * deferred one, or a related listing that may apply. Names the order so the
- * official can cite and check it.
+ * deferred one, a related listing that may apply, or a voluntary scheme a
+ * tender may choose to require. Names the order so the official can cite and
+ * check it.
  */
 export function CertificationBanner({ certification, isNumber }) {
   if (!certification) return null;
   const { mandatory, status } = certification;
-  if (!mandatory && status !== 'deferred' && status !== 'related_listed') return null;
+  if (!mandatory && !['deferred', 'related_listed', 'voluntary'].includes(status)) return null;
 
   const heading = mandatory
     ? (SCHEME_LABEL[certification.scheme] ?? 'Certification required')
     : status === 'deferred'
       ? 'Named in a certification order, enforcement deferred'
-      : 'A related standard is under compulsory certification';
+      : status === 'voluntary'
+        ? (certification.scheme === 'Hallmark'
+          ? 'BIS hallmarking available, not compulsory'
+          : 'BIS certification available, not compulsory')
+        : 'A related standard is under compulsory certification';
 
   return (
-    <div className={`notice ${mandatory ? 'notice-info' : 'notice-warn'}`} role="note">
-      <Icon name={mandatory ? 'shield' : 'alert'} size={15} />
+    <div className={`notice ${mandatory || status === 'voluntary' ? 'notice-info' : 'notice-warn'}`} role="note">
+      <Icon name={mandatory ? 'shield' : status === 'voluntary' ? 'info' : 'alert'} size={15} />
       <div className="stack stack-2">
         <span className="small strong">
           {heading}

@@ -17,6 +17,7 @@ import alerts as alerts_data
 import audit as audit_engine
 import editions
 import expansion
+import similar
 import certification
 import extraction
 import translation
@@ -65,15 +66,16 @@ _LTR_MODEL_PATH = _models_dir() / "ltr_model.txt"
 class CertificationInfo(BaseModel):
     """Whether a standard's product category legally requires BIS certification.
 
-    Read from BIS's lists of products under compulsory certification. `status`
-    keeps materially different answers apart, and the UI must too: an
-    obligation in force, one named but deferred, a checked absence, a listed
-    sibling part, not on the lists, and 'not_verified' (lists unavailable).
+    Read from BIS's lists of products under compulsory certification and its
+    hallmarking order. `status` keeps materially different answers apart, and
+    the UI must too: an obligation in force, one named but deferred, a scheme
+    that exists but is voluntary, a checked absence, a listed sibling part, not
+    on the lists, and 'not_verified' (lists unavailable).
     """
     scheme: Literal["ISI", "CRS", "Scheme X", "Hallmark", "none", "related", "not_listed", "not_verified"] = Field(
         ..., description="Certification scheme, or what kind of non-obligation this is."
     )
-    status: Literal["in_force", "deferred", "checked_none", "related_listed", "not_listed", "not_verified"] = Field(
+    status: Literal["in_force", "deferred", "voluntary", "checked_none", "related_listed", "not_listed", "not_verified"] = Field(
         default="not_verified", description="Whether an obligation is in force, deferred, or absent, and how that is known."
     )
     mandatory: bool = Field(..., description="True only for an obligation in force.")
@@ -159,8 +161,9 @@ class RetrieveRequest(BaseModel):
     language: Optional[str] = Field(
         default=None,
         description=(
-            "Language of the query ('hi', 'ta', 'bn', 'mr', 'te', 'en'). "
-            "Omit or pass 'auto' to detect it from the script."
+            "Language of the query: 'en', 'hi', 'ta', 'bn', 'mr', 'te', 'gu', 'kn', 'ml', 'pa', "
+            "'or', 'ur' or 'as' (GET /languages lists them). Omit or pass 'auto' to detect it "
+            "from the script."
         ),
     )
     explain: bool = Field(
@@ -177,8 +180,8 @@ class BisProduct(BaseModel):
     """A product on BIS's compulsory certification lists that the query names."""
     product: str = Field(..., description="The product as BIS lists it.")
     is_number: str = Field(..., description="The standard it must be certified to.")
-    scheme: str = Field(..., description="ISI, CRS or Scheme X.")
-    status: str = Field(..., description="in_force or deferred.")
+    scheme: str = Field(..., description="ISI, CRS, Scheme X or Hallmark.")
+    status: str = Field(..., description="in_force, deferred, or voluntary (a scheme exists but is not compulsory).")
     qco: Optional[str] = Field(default=None, description="The order that makes it compulsory.")
     qco_url: Optional[str] = Field(default=None, description="Link to the order.")
     in_corpus: bool = Field(default=False, description="Whether the catalogue holds the standard's text.")
@@ -325,7 +328,10 @@ class CorpusHealthResponse(BaseModel):
     certification_mandatory: int = Field(..., description="Standards under a BIS certification obligation in force.")
     certification_deferred: int = Field(default=0, description="Standards named in an order whose enforcement is deferred.")
     certification_related: int = Field(default=0, description="Standards not listed themselves whose parent or general part is.")
-    certification_not_listed: int = Field(default=0, description="Standards not on BIS's compulsory certification lists.")
+    certification_not_listed: int = Field(
+        default=0,
+        description="Standards with no compulsory certification: not on BIS's lists, checked with none applying, or voluntary only.",
+    )
     certification_not_verified: int = Field(..., description="Standards whose status cannot be read (lists unavailable). Not a clearance.")
     certification_retrieved: Optional[str] = Field(default=None, description="Date the BIS lists were read.")
     amendments_researched: int = Field(..., description="Standards with amendments known: researched, or read from their archived text.")
@@ -359,7 +365,7 @@ class DependencyGap(BaseModel):
     """A standard that a cited standard depends on, which the document does not cite."""
     standard: str = Field(..., description="The standard to add, as the edition in force when the corpus holds it.")
     title: str = Field(default="", description="Its title, when known.")
-    type: str = Field(..., description="normative_reference, material_spec, test_method or installation.")
+    type: str = Field(..., description="normative_reference, material_spec, safety, test_method or installation.")
     required_by: List[str] = Field(..., description="The cited standards that depend on it.")
     evidence: Optional[str] = Field(default=None, description="The sentence the dependency was read from, or the researched note.")
     in_corpus: bool = Field(default=True, description="Whether the catalogue holds it, so it can be opened.")
@@ -432,10 +438,12 @@ class BOQResponse(BaseModel):
 
 
 class CertificationRule(BaseModel):
-    """One standard on BIS's compulsory lists (or checked by hand), with its order."""
+    """One standard on BIS's compulsory lists or hallmarking order (or checked by hand), with its order."""
     is_number: str = Field(..., description="Standard as BIS lists it.")
     scheme: Literal["ISI", "CRS", "Scheme X", "Hallmark", "none"] = Field(..., description="Scheme, or 'none' where checked and none applies.")
-    status: Literal["in_force", "deferred", "checked_none"] = Field(..., description="In force, deferred, or checked with none applying.")
+    status: Literal["in_force", "deferred", "voluntary", "checked_none"] = Field(
+        ..., description="In force, deferred, voluntary (a scheme with no order making it compulsory), or checked with none applying."
+    )
     mandatory: bool = Field(..., description="True only for an obligation in force.")
     explanation: str = Field(..., description="What a procurement official should do about it.")
     qco: Optional[str] = Field(default=None, description="Governing Quality Control Order.")
@@ -454,6 +462,7 @@ class CertificationCoverage(BaseModel):
     standards_researched: int = Field(..., description="Standards on the BIS lists, plus those checked by hand.")
     mandatory: int = Field(..., description="Of those, how many carry an obligation in force.")
     deferred: int = Field(default=0, description="Of those, how many are named in an order whose enforcement is deferred.")
+    voluntary: int = Field(default=0, description="Of those, how many have a BIS scheme that no order makes compulsory.")
     no_scheme: int = Field(..., description="Of those, how many were checked by hand and carry none.")
     retrieved: Optional[str] = Field(default=None, description="Date the BIS lists were read.")
     sources: Dict[str, str] = Field(default_factory=dict, description="The BIS list pages, by scheme.")
@@ -494,9 +503,26 @@ class CertificationRulesResponse(BaseModel):
 _CONFIDENCE_STRONG_MIN = 0.0
 _CONFIDENCE_NONE_MAX = -2.25
 
+# A buyer describing goods needs the goods' specification first; methods of
+# test are allied standards, shown on the standard's page, not the answer. So
+# unless the query is itself about testing, a test-method title is ranked as if
+# the cross-encoder had scored it 3 lower ("ceramic floor tiles" had put a
+# dozen parts of IS 13630, methods of test, above IS 15622, the tiles). The
+# score reported, and the confidence verdict, keep the raw value.
+_TEST_METHOD_TITLE = re.compile(
+    r"\bmethods?\s+(?:of|for)\s+(?:tests?|testing|sampling|analysis|measurement|determination)\b"
+    r"|\btest(?:ing)?\s+methods?\b|^\s*determination\s+of\b",
+    re.IGNORECASE,
+)
+_TESTING_QUERY = re.compile(r"\btest|\bsampl|\bmethod|\banalys|\bdetermin|\bmeasur|\bassay|\bexamin", re.IGNORECASE)
+_TEST_METHOD_DEMOTION = 3.0
+
 # How many fused candidates reach the cross-encoder. Each one is a forward
-# pass, so this is the main latency lever in the whole pipeline.
-_RERANK_DEPTH = 10
+# pass, so this is the main latency lever in the whole pipeline. 10 let a
+# dozen near-identical parts of one test series (IS 13630, ceramic tiles)
+# crowd the product standard out of scoring altogether, and at 31,372 records
+# 15 still left IS 13983 (stainless steel sinks) just outside.
+_RERANK_DEPTH = 20
 
 
 def assess_confidence(results: List["StandardResult"]) -> Dict[str, str]:
@@ -513,6 +539,18 @@ def assess_confidence(results: List["StandardResult"]) -> Dict[str, str]:
         }
 
     top_ce = results[0].stage_scores.cross_encoder
+
+    if top_ce >= _CONFIDENCE_STRONG_MIN and not (results[0].scope or "").strip():
+        # Matched on a title alone: the catalogue holds only the number and
+        # title, so there is no scope text to confirm what the standard covers.
+        return {
+            "level": "uncertain",
+            "reason": (
+                "The top result matches on its title, but the catalogue holds only its number and "
+                "title, not its scope, so the match cannot be confirmed. Check the standard itself "
+                "before citing it."
+            ),
+        }
 
     if top_ce >= _CONFIDENCE_STRONG_MIN:
         return {
@@ -865,7 +903,8 @@ def _retrieve(body: RetrieveRequest) -> "RetrieveResponse":
             original=result["original"],
             translated_text=result["text"],
             detected_language=result["detected"],
-            language_name=language_entry.get("name", result["detected"]),
+            language_name=language_entry.get(
+                "name", "Unsupported language" if result["detected"] == translation.UNSUPPORTED else result["detected"]),
             translated=result["translated"],
             error=result["error"],
         )
@@ -900,7 +939,27 @@ def _retrieve(body: RetrieveRequest) -> "RetrieveResponse":
     # halves that cost for a candidate that was very unlikely to be promoted
     # from rank 11-20 anyway.
     rerank_depth = min(len(candidate_ids), _RERANK_DEPTH)
-    ce_ranked = rerank(search_query, candidate_ids[:rerank_depth], corpus=corpus, top_k=rerank_depth)
+    window = candidate_ids[:rerank_depth]
+    # A superseded edition being scored brings its current edition with it, so
+    # the supersession rule below has both to choose between. Without this the
+    # 2006 edition of IS 15622 was scored and the 2017 one, just outside the
+    # window, was not.
+    edition_index = editions.for_corpus(load_corpus())
+    for cid in list(window):
+        std = corpus.get(cid)
+        if std is None or getattr(std, "status", "active") != "superseded":
+            continue
+        # Its newer edition, and the replacement BIS names, which can carry a
+        # different number (IS 325 was replaced by IS 12615).
+        found = edition_index.replacement(std)
+        named = found["record"] if found["held"] else None
+        for current in (edition_index.active_in_family(std.number), named):
+            if (current is not None and getattr(current, "status", "active") == "active"
+                    and current.id in corpus and current.id not in window):
+                window.append(current.id)
+                if current.id not in candidate_ids:
+                    candidate_ids.append(current.id)
+    ce_ranked = rerank(search_query, window, corpus=corpus, top_k=len(window))
     ce_dict = dict(ce_ranked)
 
     # Fetch individual dense and bm25 scores for candidate feature extraction
@@ -916,6 +975,7 @@ def _retrieve(body: RetrieveRequest) -> "RetrieveResponse":
     valid_cids = []
     features_list = []
     stage_scores_list = []
+    testing_query = bool(_TESTING_QUERY.search(query))
 
     for cid in candidate_ids:
         std = corpus.get(cid)
@@ -927,6 +987,9 @@ def _retrieve(body: RetrieveRequest) -> "RetrieveResponse":
         raw_b = float(bm25_dict.get(cid, 0.0))
         b_norm = (raw_b - min_b) / (range_b + 1e-6) if range_b > 1e-6 else 0.5
         ce_s = float(ce_dict.get(cid, -10.0))
+        ce_for_rank = ce_s
+        if cid in ce_dict and not testing_query and _TEST_METHOD_TITLE.search(std.title or ""):
+            ce_for_rank -= _TEST_METHOD_DEMOTION
 
         fv = build_features(
             query=search_query,
@@ -934,7 +997,7 @@ def _retrieve(body: RetrieveRequest) -> "RetrieveResponse":
             standard=std,
             dense_score=d_s,
             bm25_score_normalized=b_norm,
-            cross_encoder_score=ce_s,
+            cross_encoder_score=ce_for_rank,
             historical_acceptance_rate=0.0
         )
         features_list.append(fv)
@@ -1474,6 +1537,36 @@ def get_related(standard_id: str):
         if held is not None:
             edge["title"] = edge["title"] or held.title
             edge["status"] = held.status
+            # The link was read when the catalogue lacked the standard; it
+            # holds it now (a record added from BIS's list), so it can be opened.
+            edge["outside_corpus"] = False
+
+    # Related products: the standards closest in scope, which this one does
+    # not cite. Scopes overlap, and choosing between neighbours is the choice
+    # a tender has to get right.
+    corpus = load_corpus()
+    by_id = getattr(app.state, "corpus", None) or {s.id: s for s in corpus}
+    cited = [e["number"] for g in result["depends_on"] for e in g["standards"]]
+    neighbours = similar.similar_scope(standard, by_id, editions.for_corpus(corpus), exclude=cited)
+    if neighbours:
+        edges = [{
+            "number": s.number, "title": s.title, "type": "related_product", "note": None,
+            "outside_corpus": False, "method": "similar_scope", "status": s.status,
+            "similarity": round(score, 3),
+        } for s, score in neighbours]
+        group = next((g for g in result["depends_on"] if g["type"] == "related_product"), None)
+        if group is not None:
+            group["standards"].extend(edges)
+        else:
+            result["depends_on"].append({
+                "type": "related_product",
+                "heading": "Related product standards",
+                "explanation": (
+                    "Standards whose scope is closest to this one's, found by comparing their text; "
+                    "this standard does not cite them. Check which one fits the product being bought."
+                ),
+                "standards": edges,
+            })
 
     return {
         "number": standard.number,
@@ -1703,9 +1796,10 @@ async def audit_tender(file: UploadFile = File(...)):
     summary="Standards under compulsory BIS certification",
     description=(
         "Every standard on BIS's lists of products under compulsory certification (ISI, "
-        "CRS, Scheme X), with the Quality Control Order, gazette notification and a link to "
-        "the order, plus the codes of practice checked by hand. Deferred entries are named "
-        "in an order whose enforcement is deferred and are not mandatory."
+        "CRS, Scheme X) and under BIS hallmarking, with the order, gazette notification and "
+        "a link to the order, plus the codes of practice checked by hand. Deferred entries "
+        "are named in an order whose enforcement is deferred and are not mandatory; voluntary "
+        "ones have a BIS scheme that no order makes compulsory (silver hallmarking)."
     ),
 )
 def get_certification_rules():

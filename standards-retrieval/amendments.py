@@ -76,8 +76,41 @@ def _load() -> None:
 
 
 def reset_cache() -> None:
-    global _CACHE, _EXTRACTED, _BIS
-    _CACHE, _EXTRACTED, _BIS = None, None, None
+    global _CACHE, _EXTRACTED, _BIS, _BIS_FAMILY_TITLE
+    _CACHE, _EXTRACTED, _BIS, _BIS_FAMILY_TITLE = None, None, None, None
+
+
+# Notes BIS appends to a title that are not part of it (mirrors data/apply_bis_status.py).
+_BIS_TITLE_NOTE = re.compile(
+    r"\s*\(\s*(?:withdrawn|superseded|tentative|revised|modified|bi-?lingual|[^()]*\brevision\b[^()]*)\s*\)",
+    re.IGNORECASE,
+)
+_BIS_FAMILY_TITLE: Optional[Dict[str, str]] = None
+
+
+def _clean_title(raw: str) -> str:
+    title = " ".join(_BIS_TITLE_NOTE.sub("", raw or "").split()).strip(" .,-")
+    return title[:1].upper() + title[1:]
+
+
+def bis_title(is_number: str) -> Optional[str]:
+    """BIS's official title for a standard, or None when BIS has no record of it.
+
+    The edition asked for if BIS has it, otherwise the newest edition of the
+    same standard: a citation to "IS 302 (Part 1)" should still read as what it is.
+    """
+    global _BIS_FAMILY_TITLE
+    _load()
+    entry = _BIS.get(_normalize(is_number))
+    if entry and entry.get("title"):
+        return _clean_title(entry["title"]) or None
+    if _BIS_FAMILY_TITLE is None:
+        _BIS_FAMILY_TITLE = {}
+        for key in sorted(_BIS, key=lambda k: k[-4:] if k[-4:].isdigit() else "", reverse=True):
+            if _BIS[key].get("title"):
+                _BIS_FAMILY_TITLE.setdefault(re.sub(r":\d{4}$", "", key), _BIS[key]["title"])
+    family_title = _BIS_FAMILY_TITLE.get(re.sub(r":\d{4}$", "", _normalize(is_number)))
+    return _clean_title(family_title) if family_title else None
 
 
 def _readable_date(value: Optional[str]) -> Optional[str]:

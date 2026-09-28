@@ -305,7 +305,7 @@ export const demoSteps = [
   ...say(
     'Act 5 · Everyday words',
     'The standards’ own term, added and shown.',
-    'Also searched for: information technology equipment.',
+    'Also searched for: information technology equipment safety.',
     null,
     2600,
   ),
@@ -331,7 +331,7 @@ export const demoSteps = [
   ...say(
     'Act 6 · Upload',
     'So each line item is detected and searched separately.',
-    'PDF, DOCX or TXT, up to 10 MB.',
+    'PDF, Word, Excel or text, up to 10 MB.',
     'Items are recognised by how the document numbers them, “Item 3:”, '
       + '“3.”, or a bullet.',
     0,

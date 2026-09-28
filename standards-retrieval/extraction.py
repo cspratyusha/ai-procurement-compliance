@@ -25,7 +25,7 @@ from typing import List, Optional
 MAX_FILE_BYTES = 10 * 1024 * 1024  # 10 MB
 MAX_QUERY_CHARS = 2000
 
-SUPPORTED_EXTENSIONS = {".pdf", ".docx", ".txt"}
+SUPPORTED_EXTENSIONS = {".pdf", ".docx", ".txt", ".xlsx", ".xlsm", ".xls"}
 
 # OCR for scanned tenders. Many real tenders are photocopies or scans with no
 # text layer at all, so without this they simply cannot be searched.
@@ -292,6 +292,116 @@ def extract_docx(data: bytes) -> ExtractedDocument:
     )
 
 
+# The columns of a bill of quantities, as the sheets name them. NIC
+# eProcurement (CPPP) and GeM BOQs are spreadsheets, usually "Sl. No.", "Item
+# Description", "Quantity", "Units", and several rate columns.
+_BOQ_DESCRIPTION = re.compile(r"\b(?:item\s+)?description\b|\bparticulars\b|\bname\s+of\s+(?:item|work)\b|\bitem\b", re.I)
+_BOQ_QUANTITY = re.compile(r"\bqty\b|\bquantity\b", re.I)
+_BOQ_UNIT = re.compile(r"\bunits?\b|\buom\b", re.I)
+_BOQ_SERIAL = re.compile(r"\bs(?:l|r)?\.?\s*no\b|\bserial\b|\bitem\s+no\b|^\s*#\s*$", re.I)
+_SERIAL_VALUE = re.compile(r"^\s*\d+(?:\.\d+)*\s*$")
+
+
+def _sheet_rows(data: bytes, suffix: str) -> List[tuple]:
+    """(sheet name, list of rows of cell strings) for each sheet of a workbook."""
+    if suffix == ".xls":
+        try:
+            import xlrd
+        except ImportError as exc:  # pragma: no cover
+            raise ExtractionError("Excel (.xls) support is not installed on the server (xlrd missing).") from exc
+        try:
+            book = xlrd.open_workbook(file_contents=data)
+        except Exception as exc:
+            raise ExtractionError("This file could not be opened as an Excel (.xls) workbook.") from exc
+        return [(sheet.name, [[str(c.value).strip() for c in sheet.row(r)] for r in range(sheet.nrows)])
+                for sheet in book.sheets()]
+    try:
+        import openpyxl
+    except ImportError as exc:  # pragma: no cover
+        raise ExtractionError("Excel (.xlsx) support is not installed on the server (openpyxl missing).") from exc
+    try:
+        book = openpyxl.load_workbook(io.BytesIO(data), read_only=True, data_only=True)
+    except Exception as exc:
+        raise ExtractionError("This file could not be opened as an Excel (.xlsx) workbook.") from exc
+    sheets = []
+    for sheet in book.worksheets:
+        rows = [["" if v is None else str(v).strip() for v in row] for row in sheet.iter_rows(values_only=True)]
+        sheets.append((sheet.title, rows))
+    book.close()
+    return sheets
+
+
+def _number_text(value: str) -> str:
+    """'50.0' -> '50', as spreadsheets store whole quantities as floats."""
+    return value[:-2] if re.fullmatch(r"\d+\.0", value) else value
+
+
+def _boq_lines(rows: List[List[str]]) -> List[str]:
+    """Rows as text, with each goods row written as a numbered line item.
+
+    The column headings name the description, quantity and unit columns; a
+    row with a description and a quantity or serial number there is an item.
+    Without recognisable headings, a row that starts with a serial number and
+    carries a long text cell is taken as one. Everything else is kept as
+    plain text, so the whole sheet can still be searched.
+    """
+    header_at, columns = None, {}
+    for i, row in enumerate(rows[:40]):
+        found = {}
+        for j, cell in enumerate(row):
+            if not cell:
+                continue
+            if "description" not in found and _BOQ_DESCRIPTION.search(cell) and not _BOQ_SERIAL.search(cell):
+                found["description"] = j
+            elif "quantity" not in found and _BOQ_QUANTITY.search(cell):
+                found["quantity"] = j
+            elif "unit" not in found and _BOQ_UNIT.search(cell):
+                found["unit"] = j
+            elif "serial" not in found and _BOQ_SERIAL.search(cell):
+                found["serial"] = j
+        if "description" in found and ("quantity" in found or "serial" in found):
+            header_at, columns = i, found
+            break
+
+    lines, number = [], 0
+    for i, row in enumerate(rows):
+        cells = [c for c in row if c]
+        if not cells:
+            continue
+        description = quantity = unit = serial = ""
+        if header_at is not None and i > header_at:
+            def cell(key):
+                j = columns.get(key)
+                return row[j] if j is not None and j < len(row) else ""
+            description, quantity, unit, serial = cell("description"), cell("quantity"), cell("unit"), cell("serial")
+        elif header_at is None and _SERIAL_VALUE.match(cells[0]):
+            serial = cells[0]
+            description = max(cells[1:], key=len, default="")
+        if len(description) > 12 and (serial or re.match(r"^\d", quantity)):
+            number += 1
+            line = f"Item {number}: {description}"
+            if quantity:
+                line += f". Qty: {_number_text(quantity)} {unit}".rstrip()
+            lines.append(line)
+        else:
+            lines.append(" | ".join(cells))
+    return lines
+
+
+def extract_spreadsheet(data: bytes, suffix: str) -> ExtractedDocument:
+    """A bill of quantities in Excel, as CPPP and GeM publish them."""
+    sheets = _sheet_rows(data, suffix)
+    parts = []
+    for name, rows in sheets:
+        lines = _boq_lines(rows)
+        if lines:
+            parts.append(f"{name}\n" + "\n".join(lines))
+    text = _clean("\n\n".join(parts))
+    if len(text) < 20:
+        raise ExtractionError("This workbook appears to contain no text.")
+    return ExtractedDocument(text=text, query="", page_count=len(sheets), char_count=len(text), method="spreadsheet")
+
+
 def extract_txt(data: bytes) -> ExtractedDocument:
     for encoding in ("utf-8", "utf-16", "cp1252", "latin-1"):
         try:
@@ -406,6 +516,8 @@ def extract(filename: str, data: bytes) -> ExtractedDocument:
         result = extract_pdf(data)
     elif suffix == ".docx":
         result = extract_docx(data)
+    elif suffix in (".xlsx", ".xlsm", ".xls"):
+        result = extract_spreadsheet(data, suffix)
     else:
         result = extract_txt(data)
 

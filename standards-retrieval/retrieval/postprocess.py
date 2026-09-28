@@ -47,6 +47,20 @@ def extract_base_standard_family(number_str: str) -> str:
     return base
 
 
+def _number_key(number_str: str) -> str:
+    """'IS 12615 : 2011' and 'IS 12615:2011' compare equal."""
+    return re.sub(r"\s*:\s*", ":", " ".join((number_str or "").upper().split()))
+
+
+def _replacement_index():
+    """The served corpus's replacement chains (editions.Editions), or None if unavailable."""
+    try:
+        import editions
+        return editions.for_corpus(load_corpus())
+    except Exception:  # noqa: BLE001 -- the penalty still works on families alone
+        return None
+
+
 def apply_supersession_penalty(
     results: Union[List[Tuple[str, float]], List[Dict[str, Any]]],
     corpus: Optional[Dict[str, Standard]] = None,
@@ -136,28 +150,39 @@ def apply_supersession_penalty(
     pre_sorted = sorted(parsed_items, key=lambda x: x["original_score"], reverse=True)
     pre_penalty_top_k_ids = set(it["id"] for it in pre_sorted[:top_k])
 
-    # 2. Identify highest-scoring active standard per family
+    # 2. Identify highest-scoring active standard per family, and each active
+    # candidate by number, for a replacement BIS names under another number
+    # (IS 325 was replaced by IS 12615, not by a newer IS 325).
     active_family_leaders: Dict[str, Dict[str, Any]] = {}
+    active_by_number: Dict[str, Dict[str, Any]] = {}
     for item in parsed_items:
         std = item["standard"]
         if std and getattr(std, "status", "").lower() == "active":
+            entry = {"id": item["id"], "number": std.number, "score": item["score"]}
+            active_by_number[_number_key(std.number)] = entry
             family = extract_base_standard_family(std.number)
             if family:
                 if family not in active_family_leaders or item["score"] > active_family_leaders[family]["score"]:
-                    active_family_leaders[family] = {
-                        "id": item["id"],
-                        "number": std.number,
-                        "score": item["score"]
-                    }
+                    active_family_leaders[family] = entry
 
     # 3. Apply floored penalty to superseded standards with active sibling present
+    chain = _replacement_index()
     for item in parsed_items:
         std = item["standard"]
         score = item["score"]
         if std and getattr(std, "status", "").lower() == "superseded":
             family = extract_base_standard_family(std.number)
-            if family and family in active_family_leaders:
-                leader = active_family_leaders[family]
+            leader = active_family_leaders.get(family) if family else None
+            if leader is None and chain is not None:
+                # The edition in force at the end of BIS's replacement chain,
+                # which may carry another number (IS 325 -> IS 12615:2011 ->
+                # IS 12615:2018): if it is a candidate, this one yields to it.
+                found = chain.replacement(std)
+                if found.get("held") and found.get("number"):
+                    end = found["number"]
+                    leader = (active_by_number.get(_number_key(end))
+                              or active_family_leaders.get(extract_base_standard_family(end)))
+            if leader is not None:
                 active_floor = leader["score"]
                 item["superseded_by"] = leader["id"]
 

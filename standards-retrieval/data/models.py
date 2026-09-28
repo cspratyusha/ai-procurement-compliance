@@ -30,3 +30,10 @@ class Standard(BaseModel):
         default=None,
         description="Where the status came from: 'bis' (BIS's record for the standard); absent when inferred from the corpus.",
     )
+    replacement_source: Optional[str] = Field(
+        default=None,
+        description=(
+            "'bis_newer_edition' when BIS's record for this edition names no replacement and "
+            "superseded_by_number is the newer edition BIS lists as current; absent when BIS named it."
+        ),
+    )

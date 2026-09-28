@@ -28,6 +28,9 @@ const LANGUAGE_EXAMPLES = [
   { lang: 'hi', label: 'हिन्दी', query: 'घर की वायरिंग के लिए तांबे का तार' },
   { lang: 'ta', label: 'தமிழ்', query: 'குடிநீர் விநியோகத்திற்கான எஃகு குழாய்' },
   { lang: 'bn', label: 'বাংলা', query: 'শ্রমিকদের জন্য নিরাপত্তা হেলমেট' },
+  { lang: 'gu', label: 'ગુજરાતી', query: 'ઘર માટે તાંબાનો વાયર' },
+  { lang: 'kn', label: 'ಕನ್ನಡ', query: 'ಕುಡಿಯುವ ನೀರಿನ ಗುಣಮಟ್ಟ' },
+  { lang: 'ml', label: 'മലയാളം', query: 'കുടിവെള്ളത്തിന്റെ ഗുണനിലവാരം' },
 ];
 
 /** Sector slugs from the backend rendered as readable labels. */
@@ -52,6 +55,14 @@ const EMPTY_EXPLAINED = { key: '', explanations: {}, failed: false };
 const CONFIDENCE_BANNER = {
   uncertain: { cls: 'notice-warn', icon: 'alert', title: 'Low confidence' },
   none: { cls: 'notice-crit', icon: 'alert', title: 'No close match' },
+};
+
+/** What each scheme asks of the supplier, as the product note words it. */
+const BIS_SCHEME_TEXT = {
+  ISI: 'ISI mark',
+  CRS: 'BIS registration (CRS)',
+  'Scheme X': 'BIS certificate (Scheme X)',
+  Hallmark: 'BIS hallmark with HUID',
 };
 
 export default function Query() {
@@ -368,16 +379,17 @@ export default function Query() {
             className="composer-icon"
             onClick={() => fileRef.current?.click()}
             disabled={running}
-            aria-label="Upload a tender document (PDF, DOCX or TXT)"
+            aria-label="Upload a tender document (PDF, Word, Excel or text)"
             title="Upload a tender document"
           >
             <Icon name="paperclip" size={18} />
           </button>
 
           {languages.length > 1 && (
-              <label className="composer-pill" title="Query language, translated to English before searching">
-                <Icon name="globe" size={15} />
+              <label className="composer-pill pill-select" title="Query language, translated to English before searching">
                 <span className="sr-only">Query language</span>
+                {/* The select fills the whole pill, so a click anywhere on it
+                    opens the list; the icons sit on top and let clicks through. */}
                 <select
                   id="q-lang"
                   value={language}
@@ -391,7 +403,8 @@ export default function Query() {
                     </option>
                   ))}
                 </select>
-                <Icon name="chevronDown" size={14} />
+                <span className="pill-icon pill-icon-start" aria-hidden="true"><Icon name="globe" size={15} /></span>
+                <span className="pill-icon pill-icon-end" aria-hidden="true"><Icon name="chevronDown" size={14} /></span>
               </label>
           )}
 
@@ -594,16 +607,25 @@ export default function Query() {
               </div>
             )}
 
-            {response.bis_products?.length > 0 && (
-              <div className="notice notice-warn" role="note" data-demo-target="query-bis-products">
+            {response.bis_products?.length > 0 && (() => {
+              // Silver hallmarking exists but no order makes it compulsory; a
+              // note holding only such schemes must not say "compulsory".
+              const compulsory = response.bis_products.some((p) => p.status !== 'voluntary');
+              return (
+              <div className={`notice ${compulsory ? 'notice-warn' : 'notice-info'}`} role="note" data-demo-target="query-bis-products">
                 <Icon name="shield" size={15} />
                 <div className="stack stack-2">
-                  <span className="small strong">BIS lists this product under compulsory certification</span>
+                  <span className="small strong">
+                    {compulsory
+                      ? 'BIS lists this product under compulsory certification'
+                      : 'BIS certification is available for this product, but not compulsory'}
+                  </span>
                   {response.bis_products.map((p) => (
                     <span key={`${p.is_number}-${p.product}`} className="xs">
                       <strong>{p.product}</strong>:{' '}
                       {p.status === 'deferred' ? 'named in a deferred order, not yet mandatory; ' : ''}
-                      {p.scheme === 'CRS' ? 'BIS registration (CRS)' : p.scheme === 'ISI' ? 'ISI mark' : 'BIS certificate (Scheme X)'} to{' '}
+                      {p.status === 'voluntary' ? 'voluntary; ' : ''}
+                      {BIS_SCHEME_TEXT[p.scheme] ?? p.scheme} to{' '}
                       {p.in_corpus
                         ? <Link to={`/app/certification/${encodeURIComponent(p.is_number)}`} className="mono">{p.is_number}</Link>
                         : <span className="mono">{p.is_number}</span>}
@@ -613,7 +635,8 @@ export default function Query() {
                   ))}
                 </div>
               </div>
-            )}
+              );
+            })()}
 
             {extraction && (
               <div className="card stack stack-3">
@@ -761,7 +784,7 @@ export default function Query() {
                         {r.replaced_by ? (
                           <span className="badge badge-warn">Replaced by {r.replaced_by}</span>
                         ) : r.withdrawn && (
-                          <span className="badge badge-warn">Withdrawn by BIS, no replacement</span>
+                          <span className="badge badge-warn">Withdrawn by BIS, no replacement named</span>
                         )}
                       </div>
                     </div>

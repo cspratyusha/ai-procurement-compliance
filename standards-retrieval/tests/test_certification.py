@@ -7,6 +7,7 @@ obligation names its order, that deferred orders are not reported as in
 force, and that "not on the lists" never appears when the lists are missing.
 """
 
+import json
 import sys
 import unittest
 from pathlib import Path
@@ -65,6 +66,55 @@ class TestDeferred(unittest.TestCase):
         self.assertIn("deferred", result["explanation"])                # its other categories
 
 
+class TestHallmarking(unittest.TestCase):
+    """Hallmarking of Gold Jewellery and Gold Artefacts Order, 2020 (S.O. 205(E)), as amended."""
+
+    def test_gold_jewellery_hallmarking_is_compulsory(self):
+        result = certification.lookup("IS 1417:2016")
+        self.assertEqual((result["scheme"], result["status"]), ("Hallmark", "in_force"))
+        self.assertTrue(result["mandatory"])
+        self.assertIn("Hallmarking of Gold Jewellery", result["qco"])
+        self.assertIn("S.O. 205(E)", result["gazette"])
+        self.assertTrue(result["qco_url"])
+        # Where the order applies, and what it exempts, are part of the answer.
+        self.assertIn("392 districts", result["explanation"])
+        self.assertIn("under 2 g", result["explanation"])
+        self.assertIn("HUID", result["explanation"])
+
+    def test_silver_hallmarking_is_voluntary(self):
+        """The order covers gold only; silver hallmarking exists but is not compulsory."""
+        result = certification.lookup("IS 2112:2014")
+        self.assertEqual((result["scheme"], result["status"]), ("Hallmark", "voluntary"))
+        self.assertFalse(result["mandatory"])
+        self.assertIn("not compulsory", result["explanation"])
+
+    def test_every_hallmarking_fact_traces_to_a_bis_document(self):
+        data_dir = _ROOT.parent / "data" / "certification"
+        payload = json.loads((data_dir / "hallmarking.json").read_text(encoding="utf-8"))
+        for doc in payload["_meta"]["documents"]:
+            with self.subTest(url=doc["url"]):
+                self.assertTrue(doc["url"].startswith("https://www.bis.gov.in/"))
+                if doc["file"]:
+                    self.assertTrue((data_dir / doc["file"]).exists())
+
+    def test_jewellery_queries_name_the_hallmarking_order(self):
+        for query in ("gold jewellery", "22 carat gold necklace", "hallmarked gold ornaments",
+                      "gold jewellery purity and marking"):
+            with self.subTest(query=query):
+                first = certification.products_for_query(query)[:1]
+                self.assertEqual([(h["is_number"], h["scheme"], h["status"]) for h in first],
+                                 [("IS 1417:2016", "Hallmark", "in_force")])
+        silver = certification.products_for_query("silver jewellery fineness")
+        self.assertEqual([(h["scheme"], h["status"]) for h in silver], [("Hallmark", "voluntary")])
+
+    def test_exempt_and_unrelated_items_get_no_hallmarking_note(self):
+        """Gold coins are exempt as bullion; a piston ring or roller chain is not jewellery."""
+        for query in ("gold coins", "piston ring", "roller chain"):
+            with self.subTest(query=query):
+                self.assertEqual(
+                    [h for h in certification.products_for_query(query) if h["scheme"] == "Hallmark"], [])
+
+
 class TestNotObligations(unittest.TestCase):
     def test_code_of_practice_checked_none(self):
         result = certification.lookup("IS 456:2000")
@@ -99,6 +149,10 @@ class TestNotObligations(unittest.TestCase):
             self.assertEqual(result["status"], "not_verified")
             self.assertIn("not the same", result["explanation"])
             self.assertEqual(certification.lookup("IS 456:2000")["status"], "checked_none")
+            # Hallmarking comes from its own order and file, so it still answers,
+            # but it does not make the missing lists look present.
+            self.assertEqual(certification.lookup("IS 1417:2016")["status"], "in_force")
+            self.assertFalse(certification.lists_available())
         finally:
             certification._BIS_PATH = saved
             certification.reset_cache()

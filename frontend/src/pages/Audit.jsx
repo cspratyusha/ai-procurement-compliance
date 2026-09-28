@@ -359,6 +359,7 @@ export default function Audit() {
 const GAP_TYPE = {
   normative_reference: 'Required by reference',
   material_spec: 'Material',
+  safety: 'Safety',
   test_method: 'Test method',
   installation: 'Installation',
 };

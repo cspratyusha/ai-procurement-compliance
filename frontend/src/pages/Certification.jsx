@@ -11,14 +11,15 @@ import './query.css';   // .notice, shared with the query screen
  * Which standards carry a mandatory BIS certification obligation.
  *
  * Read from BIS's own lists of products under compulsory certification
- * (Scheme I ISI mark, Scheme II CRS, Scheme X), every entry with the Quality
- * Control Order that imposes it and a link to that order. The failure that
- * matters is asymmetric (saying no certification is needed when an order
- * requires it puts uncertifiable goods into a live tender), so the statuses
- * are kept strictly apart:
+ * (Scheme I ISI mark, Scheme II CRS, Scheme X) and its hallmarking order,
+ * every entry with the order that imposes it and a link to that order. The
+ * failure that matters is asymmetric (saying no certification is needed when
+ * an order requires it puts uncertifiable goods into a live tender), so the
+ * statuses are kept strictly apart:
  *
  *   in_force        mandatory now, order quoted and linked
  *   deferred        named in an order whose enforcement is deferred: not yet mandatory
+ *   voluntary       a BIS scheme exists, no order makes it compulsory (silver hallmarking)
  *   related_listed  not listed itself; a parent/general part or successor is
  *   checked_none    checked by hand, no scheme (codes of practice)
  *   not_listed      not on BIS's lists as read on the stated date
@@ -29,6 +30,7 @@ const FILTERS = [
   { id: 'ISI', label: 'ISI' },
   { id: 'CRS', label: 'CRS' },
   { id: 'Scheme X', label: 'Scheme X' },
+  { id: 'Hallmark', label: 'Hallmarking' },
   { id: 'deferred', label: 'Deferred' },
 ];
 
@@ -47,6 +49,11 @@ function clauseFor(rule) {
     return `${conform} and shall be covered by a valid BIS certificate of conformity under Scheme X${order}. ` +
       'A copy of the certificate shall be furnished with the bid. Uncertified product shall be rejected at inspection.';
   }
+  if (rule.scheme === 'Hallmark') {
+    return `${conform} and shall bear the BIS hallmark (BIS logo, purity grade and six-digit HUID)${order}. ` +
+      "Articles shall be supplied by a BIS-registered jeweller, whose registration number shall be stated in the bid. " +
+      'Articles without a valid HUID shall be rejected at inspection.';
+  }
   return `${conform} and shall bear a valid ISI mark under BIS Product Certification${order}. ` +
     "The supplier's BIS licence number shall be stated in the bid and shall be valid at the time of supply. " +
     'Uncertified product shall be rejected at inspection.';
@@ -57,6 +64,9 @@ function StatusBadge({ rec }) {
     return <span className="badge badge-accent"><Icon name="shield" size={12} />{rec.scheme} mandatory</span>;
   }
   if (rec.status === 'deferred') return <span className="badge badge-warn">Deferred, not yet mandatory</span>;
+  if (rec.status === 'voluntary') {
+    return <span className="badge badge-neutral">{rec.scheme === 'Hallmark' ? 'Hallmarking voluntary' : 'Voluntary'}</span>;
+  }
   if (rec.status === 'related_listed') return <span className="badge badge-warn">Related standard listed</span>;
   if (rec.status === 'not_verified') return <span className="badge badge-neutral">Could not be checked</span>;
   return <span className="badge badge-neutral">No compulsory certification</span>;
@@ -145,8 +155,8 @@ export default function Certification() {
           <h1 className="page-title" data-demo-target="cert-title">Certification &amp; compliance</h1>
           <p className="page-sub">
             Which products need BIS certification before they can be supplied, read from BIS&rsquo;s
-            own lists of products under compulsory certification. Every obligation names the
-            Quality Control Order that imposes it, with a link to the order.
+            own lists of products under compulsory certification and its hallmarking order for
+            gold. Every obligation names the order that imposes it, with a link to the order.
           </p>
         </div>
       </div>
@@ -187,7 +197,9 @@ export default function Certification() {
               <span className="xs">
                 Sources:{' '}
                 {Object.entries(cov.sources ?? {}).map(([scheme, url], i) => (
-                  <span key={scheme}>{i > 0 && ', '}<a href={url} target="_blank" rel="noreferrer">BIS {scheme === 'X' ? 'Scheme X' : scheme} list</a></span>
+                  <span key={scheme}>{i > 0 && ', '}<a href={url} target="_blank" rel="noreferrer">
+                    {scheme === 'Hallmark' ? 'BIS hallmarking order' : `BIS ${scheme === 'X' ? 'Scheme X' : scheme} list`}
+                  </a></span>
                 ))}
               </span>
             </div>
@@ -241,6 +253,7 @@ export default function Certification() {
                         <span className="mono xs strong">{r.is_number}</span>
                         {r.status === 'in_force' && <span className="badge badge-accent">{r.scheme}</span>}
                         {r.status === 'deferred' && <span className="badge badge-warn">Deferred</span>}
+                        {r.status === 'voluntary' && <span className="badge badge-neutral">{r.scheme} voluntary</span>}
                         {r.status === 'checked_none' && <span className="badge badge-neutral">No scheme</span>}
                       </span>
                       {r.product && <span className="xs faint cert-product">{r.product}</span>}
@@ -309,7 +322,7 @@ export default function Certification() {
                     </div>
                   )}
 
-                  {(rec.status === 'in_force' || rec.status === 'deferred') && (
+                  {['in_force', 'deferred', 'voluntary'].includes(rec.status) && (
                     <>
                       <hr className="divider" />
                       <div className="grid grid-2" style={{ gap: 'var(--s4)' }}>
@@ -319,7 +332,9 @@ export default function Certification() {
                         </div>
                         <div className="stack stack-2">
                           <span className="xs faint">Statutory order</span>
-                          <OrderLink rec={rec} />
+                          {rec.status === 'voluntary'
+                            ? <span className="xs faint">None: the scheme is voluntary</span>
+                            : <OrderLink rec={rec} />}
                         </div>
                         <div className="stack stack-2">
                           <span className="xs faint">Gazette notification</span>
@@ -342,12 +357,16 @@ export default function Certification() {
                   )}
                 </div>
 
-                {rec.status === 'in_force' && (
+                {(rec.status === 'in_force' || rec.status === 'voluntary') && (
                   <div className="card card-flush">
                     <div className="card-head">
                       <div className="stack stack-2">
-                        <h2 className="card-title">Copy-ready tender clause</h2>
-                        <span className="xs faint">Names the standard and the statutory order, so the requirement is enforceable as written</span>
+                        <h2 className="card-title">{rec.status === 'voluntary' ? 'Optional tender clause' : 'Copy-ready tender clause'}</h2>
+                        <span className="xs faint">
+                          {rec.status === 'voluntary'
+                            ? 'Not required by law for this product; include it only if the tender should demand it'
+                            : 'Names the standard and the statutory order, so the requirement is enforceable as written'}
+                        </span>
                       </div>
                       <CopyButton text={clauseFor(rec)} />
                     </div>

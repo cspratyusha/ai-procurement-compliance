@@ -1,4 +1,5 @@
 import { defineConfig, devices } from '@playwright/test';
+import { BASE_URL } from './e2e/auth.js';
 
 /**
  * End-to-end tests run against the real stack: a live backend on :8000 and
@@ -21,7 +22,7 @@ export default defineConfig({
   workers: 1,
   reporter: [['list']],
   use: {
-    baseURL: 'http://localhost:5173',
+    baseURL: BASE_URL,
     storageState: 'e2e/.auth/state.json',
     trace: 'retain-on-failure',
     screenshot: 'only-on-failure',

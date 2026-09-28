@@ -154,6 +154,45 @@ class TestRelationships(unittest.TestCase):
                         "target is absent from the corpus but not flagged outside_corpus",
                     )
 
+    def test_safety_standards_are_grouped_as_such(self):
+        """A ceiling fan standard cites IS 302 (Part 1), the appliance safety standard."""
+        result = relationships.related_to("IS 374:2019")
+        by_type = {g["type"]: g for g in result["depends_on"]}
+        self.assertIn("safety", by_type)
+        self.assertEqual(by_type["safety"]["heading"], "Safety standards")
+        self.assertTrue(any(s["number"].startswith("IS 302 (Part 1)") for s in by_type["safety"]["standards"]))
+
+    def test_only_references_become_safety_standards(self):
+        """A product named 'safety', or a safety glossary or test, keeps its own type."""
+        def edge(title, rel_type):
+            return {"number": title, "title": title, "type": rel_type, "note": None,
+                    "outside_corpus": False, "method": "extracted"}
+
+        edges = relationships._classified([
+            edge("Safety of toys", "normative_reference"),
+            edge("Fire safety of buildings (General): details of construction", "installation"),
+            edge("Safety glass - Specification", "normative_reference"),
+            edge("Specification for Industrial Safety Helmets", "normative_reference"),
+            edge("Glossary of terms associated with fire safety", "terminology"),
+            edge("Methods of test for safety evaluation of cosmetics", "test_method"),
+        ], title_of=lambda n: None)
+        self.assertEqual([e["type"] for e in edges], [
+            "safety", "safety", "normative_reference", "normative_reference", "terminology", "test_method"])
+
+    def test_classification_does_not_change_the_shared_edges(self):
+        """Edges are loaded once and shared across requests; a request must not rewrite them."""
+        relationships.related_to("IS 374:2019")
+        relationships._load()
+        stored = relationships._FORWARD[relationships._normalize("IS 374:2019")]
+        self.assertFalse(any(e["type"] == "safety" for e in stored))
+
+    def test_a_citation_outside_the_corpus_takes_its_title_from_bis(self):
+        # IS 2112:2025 is on BIS's record but not in the catalogue.
+        self.assertTrue(relationships._default_title_of("IS 2112:2025").lower().startswith("silver and silver alloys"))
+        # A citation with no edition year reads as its newest edition's title.
+        self.assertIn("Safety", relationships._default_title_of("IS 302 (Part 1)"))
+        self.assertIsNone(relationships._default_title_of("IS 99999:2020"))
+
     def test_relation_types_are_documented(self):
         """Every type used must have an explanation the UI can show."""
         payload = json.loads(

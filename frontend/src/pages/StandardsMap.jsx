@@ -34,6 +34,7 @@ import './query.css';   // .notice, shared with the query screen
 const TYPE_KIND = {
   material_spec: 'normative',
   test_method: 'test',
+  safety: 'safety',
   terminology: 'terminology',
   installation: 'installation',
   related_product: 'overlap',
@@ -45,9 +46,10 @@ const KIND_ROLE = {
   primary: 'primary',
   normative: 'primary',
   test: 'test',
+  safety: 'safety',
   terminology: 'terminology',
   installation: 'installation',
-  overlap: 'safety',
+  overlap: 'primary',
   certification: 'certification',
 };
 

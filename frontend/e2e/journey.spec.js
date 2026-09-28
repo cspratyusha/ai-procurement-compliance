@@ -40,6 +40,19 @@ test.describe('Search', () => {
     await expect(bis).toContainText('CRS');
   });
 
+  test('gold jewellery names compulsory hallmarking and its order', async ({ page }) => {
+    // Hallmarking of Gold Jewellery and Gold Artefacts Order, 2020, as amended.
+    await page.goto('/app/query');
+    await page.fill('#spec', 'gold jewellery purity and marking');
+    await page.click('button[type=submit]');
+
+    const bis = page.locator('[data-demo-target="query-bis-products"]');
+    await expect(bis).toContainText('BIS hallmark with HUID', { timeout: 120_000 });
+    await expect(bis).toContainText('IS 1417');
+    await expect(bis).toContainText('Hallmarking of Gold Jewellery');
+    await expect(page.locator('article.rec').first()).toContainText('IS 1417');
+  });
+
   test('an out-of-scope query refuses to recommend', async ({ page }) => {
     // The query has to be outside coverage whatever corpus is served.
     //
@@ -75,6 +88,20 @@ test.describe('Search', () => {
 });
 
 test.describe('Multilingual', () => {
+  test('a Gujarati query is detected, translated and shown', async ({ page }) => {
+    await page.goto('/app/query');
+    await page.fill('#spec', 'ઘર માટે તાંબાનો વાયર');
+    await page.click('button[type=submit]');
+    await expect(page.locator('.notice', { hasText: 'Translated from Gujarati' })).toBeVisible({ timeout: 180_000 });
+  });
+
+  test('a language that is not supported says so', async ({ page }) => {
+    await page.goto('/app/query');
+    await page.fill('#spec', 'ගෙදර සඳහා වයර්');     // Sinhala
+    await page.click('button[type=submit]');
+    await expect(page.locator('text=/not supported yet/')).toBeVisible({ timeout: 120_000 });
+  });
+
   test('a Hindi query is translated and shows what was searched', async ({ page }) => {
     await page.goto('/app/query');
 
@@ -133,6 +160,28 @@ test.describe('Catalogue and detail', () => {
     await expect(page.locator('h1.mono')).toContainText('IS 456:2000', { timeout: 60_000 });
     await expect(page.locator('text=Allied standards')).toBeVisible();
     await expect(page.locator('.ref-row').first()).toBeVisible({ timeout: 30_000 });
+  });
+
+  test('a standard detail page shows its real certification status', async ({ page }) => {
+    // IS 694 is under the Electrical Wires, Cables ... (Quality Control) Order.
+    await page.goto(`/app/standard/${encodeURIComponent('IS 694:2010')}`);
+    const card = page.locator('[data-demo-target="detail-certification"]');
+    await expect(card).toContainText('ISI mark required', { timeout: 60_000 });
+    await expect(card).toContainText('Electrical Wires');
+    await expect(card.locator('a[href*="bis.gov.in"]')).toBeVisible();
+    await expect(page.locator('text=Not yet built')).toHaveCount(0);
+
+    // Gold: compulsory hallmarking, with the order and where it applies.
+    await page.goto(`/app/standard/${encodeURIComponent('IS 1417:2016')}`);
+    await expect(card).toContainText('Hallmark required', { timeout: 60_000 });
+    await expect(card).toContainText('392 districts');
+  });
+
+  test('a standard held on its number and title only says so', async ({ page }) => {
+    // IS 2112:2025, silver hallmarking: in BIS's record, not in the archive.
+    await page.goto(`/app/standard/${encodeURIComponent('IS 2112:2025')}`);
+    await expect(page.locator('h1.mono')).toContainText('IS 2112:2025', { timeout: 60_000 });
+    await expect(page.locator('text=/official title only/i')).toBeVisible();
   });
 
   test('a standard outside the corpus says so honestly', async ({ page }) => {
@@ -366,6 +415,16 @@ test.describe('Honesty guarantees', () => {
     await expect(section).toContainText('IS 10810');
   });
 
+  test('an Excel BOQ, as CPPP publishes them, is read line by line', async ({ page }) => {
+    await page.goto('/app/boq');
+    // Relative to the directory Playwright runs from (frontend/).
+    await page.setInputFiles('input[type=file]', 'e2e/fixtures/sample-boq.xlsx');
+    await expect(page.locator('text=/8 line items/')).toBeVisible({ timeout: 240_000 });
+    const body = await page.locator('main').innerText();
+    expect(body).toContain('820 Bags');
+    expect(body).not.toContain('Name of Work');                   // tender details are not items
+  });
+
   test('a BOQ matches each line item on its own terms', async ({ page }) => {
     // Flattening a BOQ into one query lets the first item's vocabulary
     // dominate. Item 2 must come back with cement, not more cable.
@@ -433,6 +492,22 @@ test.describe('Honesty guarantees', () => {
     await page.locator('.alert-mini').first().click();
     await expect(page.locator('text=Deferred, not yet mandatory')).toBeVisible();
     await expect(page.locator('blockquote.clause')).toHaveCount(0);
+  });
+
+  test('hallmarking is compulsory for gold and voluntary for silver', async ({ page }) => {
+    await page.goto('/app/certification');
+    await expect(page.locator('text=On BIS’s lists')).toBeVisible({ timeout: 120_000 });
+    await page.click('.seg button:has-text("Hallmarking")');
+
+    await page.locator('.alert-mini', { hasText: 'IS 1417' }).click();
+    await expect(page.locator('text=Hallmark mandatory')).toBeVisible();
+    await expect(page.locator('text=/392 districts/')).toBeVisible();
+    await expect(page.locator('blockquote.clause')).toContainText('HUID');
+
+    // Silver: a scheme exists, no order makes it compulsory, so the clause is optional.
+    await page.locator('.alert-mini', { hasText: 'IS 2112' }).click();
+    await expect(page.locator('text=Hallmarking voluntary')).toBeVisible();
+    await expect(page.locator('text=Optional tender clause')).toBeVisible();
   });
 
   test('any standard can be checked, including one not on the lists', async ({ page }) => {

@@ -9,12 +9,16 @@ parsed by data/certification/parse_bis_compulsory.py):
   ISI       Scheme I, the ISI mark under a BIS licence
   CRS       Scheme II, the Compulsory Registration Scheme
   Scheme X  Scheme X, certification under the Electrical Equipment QCO
+  Hallmark  BIS hallmarking of precious metals (data/certification/hallmarking.json,
+            read from the Hallmarking Order and its amendments)
 
 Every answer names the order it rests on and when the list was read. The
 statuses a standard can have, and they must never collapse into each other:
 
   in_force        listed, and the order is in force: certification is mandatory
   deferred        listed in an order whose enforcement is deferred: not yet mandatory
+  voluntary       a BIS scheme covers the product but no order makes it
+                  compulsory (silver hallmarking)
   checked_none    researched by hand, and no scheme applies (codes of practice)
   related_listed  not listed itself, but a sibling part or its successor is;
                   the answer says which, rather than guessing
@@ -39,9 +43,10 @@ from typing import Dict, List, Optional, Tuple
 _REPO_ROOT = Path(__file__).resolve().parent.parent
 _RULES_PATH = _REPO_ROOT / "data" / "certification" / "certification_rules.json"
 _BIS_PATH = _REPO_ROOT / "data" / "certification" / "bis_compulsory.json"
+_HALLMARK_PATH = _REPO_ROOT / "data" / "certification" / "hallmarking.json"
 
 MANDATORY_SCHEMES = {"ISI", "CRS", "Scheme X", "Hallmark"}
-_SCHEME_NAME = {"ISI": "ISI", "CRS": "CRS", "X": "Scheme X"}
+_SCHEME_NAME = {"ISI": "ISI", "CRS": "CRS", "X": "Scheme X", "Hallmark": "Hallmark"}
 
 # Plain-language text shown to a procurement official. The scheme name alone
 # ("ISI") does not tell them what to do about it.
@@ -61,10 +66,21 @@ _SCHEME_EXPLANATION = {
         "Control Order). Require the supplier's BIS certificate of conformity."
     ),
     "Hallmark": (
-        "This product requires BIS Hallmarking. Require the hallmark and the supplier's HUID "
-        "registration."
+        "This product falls under compulsory BIS hallmarking. Articles must conform to the "
+        "standard and bear the BIS hallmark, and may be sold only by a BIS-registered jeweller. "
+        "Require hallmarked articles with a valid HUID, and the supplier's BIS registration "
+        "number, in the tender."
     ),
     "none": "No mandatory product certification scheme applies to this standard.",
+}
+
+# A scheme that exists for the product but that no order makes compulsory.
+_VOLUNTARY_EXPLANATION = {
+    "Hallmark": (
+        "BIS hallmarking is available for this product but is not compulsory: the Hallmarking "
+        "Order covers gold jewellery and artefacts only. A tender may still require hallmarked "
+        "articles (BIS logo, fineness and HUID) from a BIS-registered jeweller."
+    ),
 }
 
 _CACHE: Optional[dict] = None
@@ -122,7 +138,20 @@ def _load() -> dict:
     meta: dict = {}
     if _BIS_PATH.exists():
         payload = json.loads(_BIS_PATH.read_text(encoding="utf-8"))
-        meta = payload.get("_meta", {})
+        meta = {**payload.get("_meta", {})}
+        for entry in payload.get("entries", []):
+            listed.setdefault(family(entry["is_number"]), []).append(entry)
+    # Whether BIS's compulsory lists themselves were read. Hallmarking alone
+    # must never make "not on the lists" sayable about everything else.
+    compulsory_loaded = bool(listed)
+
+    # Hallmarking is its own scheme under its own order, not a row on the
+    # compulsory lists, so it is read from its own file and joins them here.
+    if _HALLMARK_PATH.exists():
+        payload = json.loads(_HALLMARK_PATH.read_text(encoding="utf-8"))
+        hm_meta = payload.get("_meta", {})
+        meta["sources"] = {**meta.get("sources", {}), **hm_meta.get("sources", {})}
+        meta["hallmarking_retrieved"] = hm_meta.get("retrieved")
         for entry in payload.get("entries", []):
             listed.setdefault(family(entry["is_number"]), []).append(entry)
 
@@ -143,7 +172,7 @@ def _load() -> dict:
                                             "scheme": _SCHEME_NAME[e["scheme"]]}
 
     _CACHE = {"curated": curated, "withdrawn": withdrawn, "listed": listed,
-              "migrated": migrated, "meta": meta}
+              "migrated": migrated, "meta": meta, "compulsory_loaded": compulsory_loaded}
     return _CACHE
 
 
@@ -153,7 +182,7 @@ def reset_cache() -> None:
 
 
 def lists_available() -> bool:
-    return bool(_load()["listed"])
+    return _load()["compulsory_loaded"]
 
 
 # --- answers -----------------------------------------------------------------
@@ -164,7 +193,8 @@ def _products(entries: List[dict], limit: int = 6) -> List[str]:
 
 def _listed_answer(number: str, entries: List[dict]) -> dict:
     in_force = [e for e in entries if e["status"] == "in_force"]
-    chosen = in_force or entries
+    deferred = [e for e in entries if e["status"] == "deferred"]
+    chosen = in_force or deferred or entries
     first = chosen[0]
     scheme = _SCHEME_NAME[first["scheme"]]
     products = _products(chosen)
@@ -173,12 +203,15 @@ def _listed_answer(number: str, entries: List[dict]) -> dict:
     if in_force:
         explanation = _SCHEME_EXPLANATION[scheme]
         status, mandatory = "in_force", True
-        deferred = [e for e in entries if e["status"] == "deferred"]
         if deferred:
             explanation += (
                 f" Some further categories under this standard ({'; '.join(_products(deferred, 3))}) "
                 "are named in the order but their enforcement is deferred."
             )
+    elif first["status"] == "voluntary":
+        explanation = _VOLUNTARY_EXPLANATION.get(
+            scheme, "A BIS scheme covers this product, but no order makes it compulsory.")
+        status, mandatory = "voluntary", False
     else:
         deferment = first.get("deferment") or {}
         status, mandatory = "deferred", False
@@ -188,6 +221,11 @@ def _listed_answer(number: str, entries: List[dict]) -> dict:
             "so BIS certification is not yet mandatory for it. Check for a notification "
             "bringing it into force before issuing the tender."
         )
+
+    # Where and to what an order applies (hallmarking: the notified districts
+    # and the exempt articles), read from the order itself.
+    if first.get("conditions"):
+        explanation += " " + first["conditions"]
 
     listed_year, asked_year = _year(listed_as), _year(number)
     if listed_year and asked_year and listed_year != asked_year:
@@ -235,7 +273,7 @@ def lookup(is_number: str) -> dict:
                 "explanation": _SCHEME_EXPLANATION["none"] + (f" {curated['note']}" if curated.get("note") else ""),
                 "product": curated.get("product")}
 
-    if not data["listed"]:
+    if not data["compulsory_loaded"]:
         return {**base, "scheme": "not_verified", "status": "not_verified", "mandatory": False,
                 "explanation": (
                     "Certification status has not been verified for this standard. That is not the "
@@ -306,7 +344,34 @@ _ALIAS_INDEX: Optional[List[tuple]] = None
 # Head nouns too general to identify a product without a qualifier.
 _GENERIC_HEADS = {"pipe", "tube", "sheet", "strip", "plate", "bar", "rod", "wire", "cable", "section",
                   "fitting", "conductor", "coil", "flat", "angle", "channel", "beam", "board", "panel",
-                  "box", "bag", "container", "cylinder", "valve", "block", "tile", "paint", "oil"}
+                  "box", "bag", "container", "cylinder", "valve", "block", "tile", "paint", "oil",
+                  "circuit breaker"}
+
+# Two-word product names whose first word says what kind of thing it is. That
+# word belongs to the product, so two different products cannot match on it:
+# an air circuit breaker and a residual current circuit breaker share
+# "circuit", a solar and an electric water heater share "water".
+_COMPOUND_HEADS = {("circuit", "breaker"), ("water", "heater"), ("water", "meter"), ("energy", "meter"),
+                   ("power", "supply"), ("storage", "unit")}
+
+# How a tender line starts before it names the goods: "Supply of", "Supply,
+# installation, testing and commissioning of", "Providing and fixing", "SITC
+# of". Read as the product, "supply" matched BIS's "Power Supplies".
+_TENDER_VERB = (r"(?:supply(?:ing)?|procure(?:ment)?|purchas(?:e|ing)|provid(?:e|ing)|provision|"
+                r"design(?:ing)?|manufactur(?:e|ing)|fabricat(?:e|ion|ing)|install(?:ation|ing)?|"
+                r"erect(?:ion|ing)?|lay(?:ing)?|fix(?:ing)?|test(?:ing)?|commission(?:ing)?|"
+                r"deliver(?:y|ing)?|replac(?:e|ement|ing)|jointing|hiring)")
+_TENDER_LEAD = re.compile(
+    rf"^\s*(?:(?:{_TENDER_VERB}[\s,&/]*(?:and\s+)?)+of\s+"            # "... of"
+    rf"|(?:sitc|s\s*&\s*i|p\s*/\s*f|s\s*/\s*f|p\s*&\s*f)\b[\s.:-]*(?:of\s+)?"   # abbreviations
+    rf"|(?:providing|supplying|supply)\s*(?:,|and|&)\s*"               # "providing and fixing"
+    rf"(?:{_TENDER_VERB}[\s,&]*(?:and\s+)?)+(?:of\s+)?)",
+    re.IGNORECASE,
+)
+
+
+def _strip_tender_lead(text: str) -> str:
+    return _TENDER_LEAD.sub("", text, count=1)
 
 
 # Where a noun phrase's qualifiers start: "power banks for use in ...",
@@ -327,9 +392,24 @@ def _singular(word: str) -> str:
 
 # "Safety of toys", "Performance of solar water heaters": the product is after "of".
 _LEAD = re.compile(r"^(?:safety|performance|requirements?|specification|methods?|quality)\s+(?:requirements?\s+)?of\s+")
-# Everyday head nouns for the ones BIS uses.
-_HEAD_SYNONYMS = {"bulb": "lamp", "tv": "television", "fridge": "refrigerator", "geyser": "heater",
-                  "mixie": "mixer", "almirah": "cupboard", "earbud": "earphone", "headset": "headphone"}
+# Everyday head nouns for the ones BIS uses. Jewellery items map to the
+# hallmarking listing, which still needs its qualifier ("gold", "silver"), so
+# a "piston ring" or a "roller chain" is never taken for jewellery.
+_HEAD_SYNONYMS = {"bulb": "lamp", "tv": "television", "fridge": "refrigerator", "geyser": "water heater",
+                  "mixie": "mixer", "almirah": "storage unit", "cupboard": "storage unit",
+                  "earbud": "earphone", "headset": "headphone",
+                  "jewelry": "jewellery", "ornament": "jewellery", "necklace": "jewellery",
+                  "bangle": "jewellery", "earring": "jewellery", "pendant": "jewellery",
+                  "bracelet": "jewellery", "anklet": "jewellery", "artifact": "artefact"}
+
+# What is said about a product rather than the product itself: "gold
+# jewellery purity" names jewellery, "drinking water quality requirements"
+# names water. Dropped from the end of a phrase before the head noun is taken,
+# on the query and on BIS's listings alike, so a listing that shortens to a
+# bare "Requirements" never becomes a product.
+_ATTRIBUTE_WORDS = {"purity", "fineness", "marking", "hallmarking", "hallmark", "quality", "requirement",
+                    "specification", "standard", "certification", "testing", "test", "performance",
+                    "safety", "rating", "dimension", "design", "installation", "sampling", "method"}
 
 
 # Sizes, ratings and grades describe the item, they are not the item:
@@ -346,8 +426,12 @@ def _head_and_words(text: str):
     phrase = _QUALIFIER.split(text, maxsplit=1)[0]
     words = [_singular(w) for w in re.findall(r"[a-z][a-z0-9]+", phrase)
              if w not in _STOP and w not in _SPEC_WORDS and not re.search(r"\d", w)]
-    if not words:
+    while len(words) > 1 and words[-1] in _ATTRIBUTE_WORDS:
+        words.pop()
+    if not words or words[-1] in _ATTRIBUTE_WORDS:
         return None, set()
+    if len(words) >= 2 and (words[-2], words[-1]) in _COMPOUND_HEADS:
+        return f"{words[-2]} {words[-1]}", set(words[:-2])
     head = _HEAD_SYNONYMS.get(words[-1], words[-1])
     return head, set(words[:-1])
 
@@ -381,7 +465,7 @@ def products_for_query(query: str, limit: int = 5) -> List[dict]:
     noun: a "PVC insulated copper cable" is a cable, not copper) and, if BIS
     qualifies it, the query shares at least one qualifier.
     """
-    q_head, q_words = _head_and_words(query)
+    q_head, q_words = _head_and_words(_strip_tender_lead(query))
     if not q_head or q_head in _AMBIGUOUS:
         return []
     hits = []
@@ -451,8 +535,8 @@ def all_rules() -> List[dict]:
         rules.append({"is_number": rule["is_number"], "category": None,
                       "confidence": rule.get("confidence", "confirmed"), **answer})
 
-    order = {"in_force": 0, "deferred": 1, "checked_none": 2}
-    rules.sort(key=lambda r: (order.get(r["status"], 3), r["is_number"]))
+    order = {"in_force": 0, "deferred": 1, "voluntary": 2, "checked_none": 3}
+    rules.sort(key=lambda r: (order.get(r["status"], 4), r["is_number"]))
     return rules
 
 
@@ -462,6 +546,7 @@ def coverage() -> dict:
     rules = all_rules()
     in_force = sum(1 for r in rules if r["status"] == "in_force")
     deferred = sum(1 for r in rules if r["status"] == "deferred")
+    voluntary = sum(1 for r in rules if r["status"] == "voluntary")
     none = sum(1 for r in rules if r["status"] == "checked_none")
     meta = data["meta"]
     retrieved = meta.get("retrieved")
@@ -469,6 +554,7 @@ def coverage() -> dict:
         "standards_researched": len(rules),
         "mandatory": in_force,
         "deferred": deferred,
+        "voluntary": voluntary,
         "no_scheme": none,
         "retrieved": retrieved,
         "sources": meta.get("sources", {}),
@@ -476,14 +562,18 @@ def coverage() -> dict:
             "BIS lists of products under compulsory certification: Scheme I (ISI mark), "
             "Scheme II (Compulsory Registration Scheme) and Scheme X"
             + (f", read on {retrieved}" if retrieved else "")
-            + ", each entry with its Quality Control Order."
+            + ", each entry with its Quality Control Order; and BIS hallmarking of gold and silver, "
+            "read from the Hallmarking Order and its amendments"
+            + (f" on {meta['hallmarking_retrieved']}" if meta.get("hallmarking_retrieved") else "")
+            + "."
         ),
         "note": (
             "A standard not on these lists reports 'not_listed': certification is voluntary for it "
             "unless an order notified after the retrieval date adds it. A standard whose sibling part "
             "is listed reports 'related_listed' and names it. Deferred entries are named in an order "
-            "whose enforcement is deferred, so they are not reported as mandatory. If the lists are "
-            "unavailable every standard reports 'not_verified', which is not a statement that no "
-            "certification is required."
+            "whose enforcement is deferred, so they are not reported as mandatory. 'voluntary' means "
+            "a BIS scheme covers the product but no order makes it compulsory (silver hallmarking). "
+            "If the lists are unavailable every standard reports 'not_verified', which is not a "
+            "statement that no certification is required."
         ),
     }

@@ -171,7 +171,7 @@ export async function listLanguages({ signal } = {}) {
 }
 
 /** Files the backend can read. Mirrors SUPPORTED_EXTENSIONS in extraction.py. */
-export const SUPPORTED_UPLOAD_TYPES = ['.pdf', '.docx', '.txt'];
+export const SUPPORTED_UPLOAD_TYPES = ['.pdf', '.docx', '.xlsx', '.xls', '.txt'];
 export const MAX_UPLOAD_BYTES = 10 * 1024 * 1024;
 
 /**
@@ -511,8 +511,9 @@ export function getCertificationRules({ signal } = {}) {
 }
 
 /**
- * Certification status of any one standard, read from BIS's compulsory lists.
- * `status` is in_force | deferred | checked_none | related_listed | not_listed | not_verified.
+ * Certification status of any one standard, read from BIS's compulsory lists
+ * and hallmarking order. `status` is in_force | deferred | voluntary |
+ * checked_none | related_listed | not_listed | not_verified.
  */
 export function getCertification(idOrNumber, { signal } = {}) {
   return request(`/standards/${encodeURIComponent(idOrNumber)}/certification`, { signal });

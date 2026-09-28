@@ -1,0 +1,58 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Widget demo</title>
+  <style>
+    body { font: 15px/1.5 system-ui, -apple-system, "Segoe UI", Roboto, sans-serif; margin: 0; background: #f7f2fa; color: #1d1b20; }
+    main { max-width: 760px; margin: 0 auto; padding: 24px 16px 48px; }
+    h1 { font-size: 22px; margin: 0 0 4px; }
+    p { color: #49454f; }
+    label { display: block; font-weight: 600; margin: 18px 0 6px; }
+    input, textarea { width: 100%; box-sizing: border-box; font: inherit; padding: 10px 12px; border: 1px solid #79747e; border-radius: 10px; background: #fff; }
+    textarea { min-height: 110px; resize: vertical; }
+    .setup { background: #fff; border: 1px solid #cac4d0; border-radius: 12px; padding: 12px 14px; font-size: 13px; }
+    code { background: #ece6f0; border-radius: 6px; padding: 1px 5px; }
+  </style>
+</head>
+<body>
+  <main>
+    <h1>Sample specification form</h1>
+    <p>
+      A plain form standing in for a portal's page, to show the embeddable widget. Type a
+      specification and the standards engine's recommendations appear under the field.
+    </p>
+
+    <div class="setup" id="setup">
+      Open this page with your engine address and an API key from <strong>Settings &rarr; API keys</strong>:
+      <code>demo.html?api=http://localhost:8000&amp;key=YOUR_KEY</code>
+    </div>
+
+    <label for="item-name">Item name</label>
+    <input id="item-name" placeholder="e.g. Ceiling fans for the new office block">
+
+    <label for="item-specification">Technical specification</label>
+    <textarea id="item-specification"
+      placeholder="e.g. 1200 mm sweep ceiling fan with electronic regulator, 5 star rated"></textarea>
+  </main>
+
+  <script>
+    // The widget reads its settings from its own script tag, so the tag is
+    // written here from the page address rather than hard-coding a key.
+    (function () {
+      var params = new URLSearchParams(window.location.search);
+      var api = params.get('api') || 'http://localhost:8000';
+      var key = params.get('key');
+      if (!key) return;
+      document.getElementById('setup').hidden = true;
+      var tag = document.createElement('script');
+      tag.src = 'standards-widget.js';
+      tag.setAttribute('data-api', api);
+      tag.setAttribute('data-key', key);
+      tag.setAttribute('data-target', '#item-specification');
+      document.body.appendChild(tag);
+    })();
+  </script>
+</body>
+</html>

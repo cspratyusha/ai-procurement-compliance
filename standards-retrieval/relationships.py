@@ -21,6 +21,11 @@ target, or a person recorded it.
 Some cited standards are outside the corpus. They are still returned,
 flagged `outside_corpus`, because hiding them would silently truncate the
 cluster and produce exactly the incomplete citation this is meant to prevent.
+Their titles come from BIS's own record where the corpus has none.
+
+A cited standard whose title says it sets safety requirements ("Safety of
+household and similar electrical appliances", "Fire safety of buildings") is
+grouped as a safety standard rather than a plain reference.
 """
 
 import json
@@ -50,6 +55,7 @@ _TYPE_ORDER = [
     "normative_reference",
     "material_spec",
     "test_method",
+    "safety",
     "terminology",
     "installation",
     "related_product",
@@ -59,6 +65,7 @@ _GROUP_HEADINGS = {
     "normative_reference": "Normative references",
     "material_spec": "Material specifications",
     "test_method": "Test methods",
+    "safety": "Safety standards",
     "terminology": "Terminology",
     "installation": "Installation practice",
     "related_product": "Related product standards",
@@ -67,9 +74,26 @@ _GROUP_HEADINGS = {
 _DEFAULT_EXPLANATIONS = {
     "normative_reference": "Standards this one cites; their provisions apply through the reference.",
     "test_method": "Methods of test or sampling this standard relies on.",
+    "safety": "Safety requirements this standard cites, which the product must also meet.",
     "terminology": "Vocabulary and definitions this standard uses.",
     "installation": "Codes of practice for installing or laying.",
 }
+
+# A cited standard whose title says it sets safety requirements ("Safety of
+# household and similar electrical appliances", "Fire safety of buildings",
+# "Information technology equipment - Safety"). A product with "safety" in its
+# name (safety glass, safety helmets, safety footwear) is not one, nor is a
+# method of test for "safety evaluation"; they keep the type they were read as.
+_SAFETY_TITLE = re.compile(
+    r"\bsafety\s+(?:of|requirements?|code|rules|regulations|aspects|precautions|practices?|guide|guidelines|in|for)\b"
+    r"|\b(?:code|rules|requirements?|guide)\s+(?:of|for|on)\s+(?:basic\s+)?safety\b"
+    r"|[-\u2013\u2014:]\s*safety\b|\bsafety\s*[-\u2013\u2014:]"
+    r"|\b(?:electrical|fire|radiation|functional|machinery|laser|chemical|occupational|general|basic|intrinsic)\s+safety\b",
+    re.IGNORECASE,
+)
+# Only a reference or a code of practice becomes a safety standard; a test
+# method or a vocabulary about safety stays what it is.
+_SAFETY_FROM = {"normative_reference", "installation"}
 
 
 def _normalize(number: str) -> str:
@@ -169,7 +193,38 @@ def _grouped(items: List[dict]) -> List[dict]:
     return groups
 
 
-def related_to(is_number: str, referenced_by_limit: int = REFERENCED_BY_LIMIT) -> dict:
+_TITLES: Dict[int, Dict[str, str]] = {}
+
+
+def _default_title_of(number: str) -> Optional[str]:
+    """Title of a cited standard: the served corpus first, then BIS's own record."""
+    from data_loader import load_corpus
+    import amendments
+
+    corpus = load_corpus()
+    titles = _TITLES.get(id(corpus))
+    if titles is None:
+        _TITLES.clear()
+        titles = _TITLES[id(corpus)] = {_normalize(s.number): s.title for s in corpus}
+    return titles.get(_normalize(number)) or amendments.bis_title(number)
+
+
+def _classified(edges: List[dict], title_of) -> List[dict]:
+    """Copies of the edges with titles filled and safety standards told apart.
+
+    Copies, because the loaded edges are shared across requests.
+    """
+    out = []
+    for edge in edges:
+        edge = dict(edge)
+        edge["title"] = edge["title"] or title_of(edge["number"]) or ""
+        if edge["type"] in _SAFETY_FROM and edge["title"] and _SAFETY_TITLE.search(edge["title"]):
+            edge["type"] = "safety"
+        out.append(edge)
+    return out
+
+
+def related_to(is_number: str, referenced_by_limit: int = REFERENCED_BY_LIMIT, title_of=None) -> dict:
     """The cluster around one standard.
 
     Returns:
@@ -181,12 +236,17 @@ def related_to(is_number: str, referenced_by_limit: int = REFERENCED_BY_LIMIT) -
                            including a text that was read and cites nothing.
                            False means nobody has looked, not that it has none.
       text_read            True when its own text was read for citations
+
+    `title_of(number)` names each cited standard; by default the served corpus,
+    then BIS's record, which is also how safety standards are recognised.
     """
     _load()
     key = _normalize(is_number)
+    title_of = title_of or _default_title_of
 
-    forward = _FORWARD.get(key, [])
-    reverse = sorted(_REVERSE.get(key, []), key=lambda s: (s["method"] != "curated", s["number"]))
+    forward = _classified(_FORWARD.get(key, []), title_of)
+    reverse = sorted(_classified(_REVERSE.get(key, []), title_of),
+                     key=lambda s: (s["method"] != "curated", s["number"]))
     text_read = key in _READ_WITHOUT_CITATIONS or any(e["method"] == "extracted" for e in forward)
 
     return {

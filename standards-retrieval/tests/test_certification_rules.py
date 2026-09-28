@@ -20,12 +20,12 @@ class TestRuleListing(unittest.TestCase):
 
     def test_statuses_and_schemes_agree(self):
         for rule in certification.all_rules():
-            self.assertIn(rule["status"], {"in_force", "deferred", "checked_none"})
+            self.assertIn(rule["status"], {"in_force", "deferred", "voluntary", "checked_none"})
             self.assertEqual(rule["mandatory"], rule["status"] == "in_force")
             if rule["status"] == "checked_none":
                 self.assertEqual(rule["scheme"], "none")
             else:
-                self.assertIn(rule["scheme"], {"ISI", "CRS", "Scheme X"})
+                self.assertIn(rule["scheme"], {"ISI", "CRS", "Scheme X", "Hallmark"})
             self.assertTrue(rule["explanation"])
 
     def test_every_obligation_names_and_links_its_order(self):
@@ -38,7 +38,7 @@ class TestRuleListing(unittest.TestCase):
                     self.assertTrue(rule["products"])
 
     def test_in_force_sorts_first(self):
-        order = {"in_force": 0, "deferred": 1, "checked_none": 2}
+        order = {"in_force": 0, "deferred": 1, "voluntary": 2, "checked_none": 3}
         ranks = [order[r["status"]] for r in certification.all_rules()]
         self.assertEqual(ranks, sorted(ranks))
 
@@ -57,7 +57,8 @@ class TestRuleListing(unittest.TestCase):
 class TestCoverage(unittest.TestCase):
     def test_counts_partition_the_listing(self):
         c = certification.coverage()
-        self.assertEqual(c["mandatory"] + c["deferred"] + c["no_scheme"], c["standards_researched"])
+        self.assertEqual(c["mandatory"] + c["deferred"] + c["voluntary"] + c["no_scheme"],
+                         c["standards_researched"])
         self.assertEqual(c["standards_researched"], len(certification.all_rules()))
 
     def test_source_and_date_are_stated(self):

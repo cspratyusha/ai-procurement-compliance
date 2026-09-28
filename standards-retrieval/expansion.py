@@ -22,9 +22,15 @@ from typing import List, Tuple
 
 # (pattern over the lower-cased query, phrase the standards use)
 EVERYDAY: List[Tuple[str, str]] = [
-    (r"\blaptops?\b|\bnotebook computers?\b|\bdesktop computers?\b|\bpersonal computers?\b|\bcomputers?\b",
-     "information technology equipment"),
-    (r"\bgeysers?\b|\bwater heaters?\b", "storage type electric water heaters"),
+    # "Computer table" and "computer chair" are furniture, handled below. The
+    # safety standard is what applies to a computer (IS 13252, now IS/IEC
+    # 62368-1); without "safety" the office-equipment measurement methods won.
+    (r"\blaptops?\b|\bnotebook computers?\b|\bdesktop computers?\b|\bpersonal computers?\b"
+     r"|\bcomputers?\b(?!\s+(?:tables?|desks?|chairs?|furniture|trolleys?|stands?))",
+     "information technology equipment safety"),
+    (r"\bcctv\b|\b(?:surveillance|security|ip)\s+cameras?\b", "video surveillance systems for use in security applications"),
+    # Not for a solar water heater, which is a different product with its own entry below.
+    (r"^(?!.*\bsolar\b).*?(?:\bgeysers?\b|\bwater heaters?\b)", "storage type electric water heaters"),
     (r"\belectric kettles?\b|\bkettles?\b", "electric kettles and jugs"),
     (r"\bsolar panels?\b|\bsolar modules?\b|\bsolar plates?\b", "crystalline silicon terrestrial photovoltaic modules"),
     (r"\b(?:plastic|pvc|overhead|loft) (?:water )?tanks?\b|\bwater (?:storage )?tanks?\b",
@@ -45,15 +51,42 @@ EVERYDAY: List[Tuple[str, str]] = [
     (r"\bbike helmets?\b|\bmotorcycle helmets?\b|\bscooter helmets?\b", "protective helmets for two wheeler riders"),
     (r"\bfire extinguishers?\b", "portable fire extinguishers"),
     (r"\bdustbins?\b|\bgarbage bins?\b|\bwaste bins?\b", "mobile containers for solid waste"),
+    (r"\bhume pipes?\b|\bspun pipes?\b", "precast concrete pipes"),
+    # One word in the shop, two in the standards (IS 745, handloom cotton bed sheets).
+    (r"\bbedsheets?\b", "bed sheets"),
+    # Office furniture, in the words of the Furniture (Quality Control) Order, 2025 standards.
+    (r"\b(?:office|revolving|executive|computer|ergonomic|swivel|task) chairs?\b", "work chairs"),
+    (r"\b(?:visitor|plastic|stacking|folding|cafeteria|canteen) chairs?\b|\bstools?\b",
+     "general purpose chairs and stools"),
+    (r"\b(?:office|computer|study|conference|writing) (?:tables?|desks?)\b|\bworkstations?\b",
+     "tables and desks"),
+    (r"\balmirahs?\b|\b(?:steel|filing) (?:cupboards?|cabinets?)\b|\bfiling cabinets?\b",
+     "storage units"),
 ]
 
 # Tender abbreviations. Case-sensitive: short forms are written in capitals,
 # and "MS" or "CI" in lower case is usually part of something else. Each maps
 # to wording a held standard's title uses; ones the catalogue has no standard
-# for (DWC, ERW, MCCB, UPS, CFL, AAC) are left out on purpose. A few need a
-# context word, because the letters mean other things elsewhere ("SRC",
-# "DI"). Lower-case forms are accepted where they cannot be anything else.
+# for (DWC, ERW, ACB, MCCB, VCB, SPD, CFL) are left out on purpose. A few need
+# a context word, because the letters mean other things elsewhere ("SRC",
+# "DI", and "M20", which is also a bolt thread). Lower-case forms are accepted
+# where they cannot be anything else.
 ABBREVIATIONS: List[Tuple[str, str]] = [
+    # Concrete grades (IS 456 defines M10 to M80). Before RCC, so the fuller
+    # phrase wins over "reinforced concrete".
+    (r"\bM\s?-?(?:10|15|20|25|30|35|40|45|50|55|60|65|70|75|80)\b(?=.*\b(?:[Cc]oncrete|RCC|PCC|grade)\b)",
+     "plain and reinforced concrete"),
+    (r"\bNP\s?-?[1-4]\b", "precast concrete pipes"),
+    (r"\bAAC\b", "autoclaved cellular aerated concrete blocks"),
+    (r"\bRMC\b", "ready-mixed concrete"),
+    (r"\bIS(?:MB|MC|LB|JB|HB|WB|A)\s?\d", "hot rolled steel beam column channel and angle sections"),
+    (r"\b(?:AB|ABC)\s+cables?\b", "aerial bunched cables"),
+    (r"\bPPR(?:-C)?\b", "polypropylene random copolymer pipes"),
+    (r"\bVRLA\b|\bSMF\b(?=.*\bbatter)", "stationary regulated lead acid batteries"),
+    # A "UPS battery" is the battery, not the UPS.
+    (r"\bUPS\b(?!\s+batter)", "uninterruptible power systems"),
+    (r"\bRCBOs?\b", "residual current operated circuit-breakers with integral overcurrent protection"),
+    (r"\bRMUs?\b", "high-voltage switchgear and controlgear AC metal-enclosed"),
     (r"\bOPC\b", "ordinary portland cement"),
     (r"\bPPC\b", "portland pozzolana cement"),
     (r"\bPSC\b(?=.*\bcement\b)", "portland slag cement"),
@@ -67,7 +100,8 @@ ABBREVIATIONS: List[Tuple[str, str]] = [
     (r"\bMS\b", "mild steel"),
     (r"\bSS\b", "stainless steel"),
     (r"\bCI\b", "cast iron"),
-    (r"\bDI\s+(?:pipes?|fittings?)\b", "ductile iron pipes"),
+    (r"\bDI\s+(?:fittings?|specials?)\b", "ductile iron fittings for pressure pipes"),
+    (r"\bDI\s+pipes?\b", "ductile iron pipes"),
     (r"\b(?:HDPE|hdpe)\b", "high density polyethylene"),
     (r"\b(?:LDPE|ldpe)\b", "low density polyethylene"),
     (r"\b(?:CPVC|cpvc)\b", "chlorinated polyvinyl chloride"),
@@ -80,6 +114,7 @@ ABBREVIATIONS: List[Tuple[str, str]] = [
     (r"\bMCBs?\b", "circuit-breakers for overcurrent protection"),
     (r"\bRCCBs?\b", "residual current operated circuit-breakers"),
     (r"\bD\.?G\.?\s+sets?\b", "diesel generating sets"),
+    (r"\bRCC\s+(?:hume\s+|spun\s+|NP\s?\d\s+)?pipes?\b", "precast concrete pipes"),
     (r"\bRCC\b", "reinforced concrete"),
     (r"\bPCC\b", "plain and reinforced concrete"),
     (r"\b(?:LPG|lpg)\b", "liquefied petroleum gases"),
@@ -92,21 +127,55 @@ ABBREVIATIONS: List[Tuple[str, str]] = [
 _COMPILED = [(re.compile(p, re.IGNORECASE), phrase) for p, phrase in EVERYDAY]
 _COMPILED_ABBR = [(re.compile(p), phrase) for p, phrase in ABBREVIATIONS]
 
+# Tenders write short forms with full stops: "G.I. pipe", "D.I. fittings",
+# "R.C.C. pipes", "H.D.P.E.". They are read as the plain forms above.
+_DOTTED = re.compile(r"\b(?:[A-Za-z]\.){2,}")
+
+# What a schedule of rates says about the price, not the goods: "Rates
+# including transportation, loading, unloading", "excluding GST levied by GOI",
+# "complete as directed by the Engineer-in-charge". Left in, it outweighs the
+# product words; it is dropped from the text searched (never from what the
+# official typed or sees).
+_BOILERPLATE = [
+    re.compile(p, re.IGNORECASE) for p in (
+        r"\brates?\b[^.;]{0,40}?\b(?:including|inclusive\s+of|excluding|exclusive\s+of)\b[^.;]*",
+        r"\b(?:including|inclusive\s+of|excluding|exclusive\s+of)\b[^.;]*?\b(?:transport\w*|carriage|freight|"
+        r"loading|unloading|stacking|handling|lead\s+and\s+lift|GST|taxes|duties|octroi|insurance)\b[^.;]*",
+        r"\b(?:levied|payable)\s+by\s+(?:the\s+)?(?:GOI|GOM|Govt\w*|government)\b[^.;]*",
+        r"\b(?:complete\s+)?(?:as\s+)?(?:directed|approved|instructed)\s+by\s+(?:the\s+)?"
+        r"(?:engineer[\s-]in[\s-]charge|EIC|department)\b[^.;]*",
+        r"\bcomplete\s+in\s+all\s+respects?\b",
+        r"\betc\.?\s+complete\b",
+    )
+]
+
+
+def search_text(query: str) -> str:
+    """The query as searched: rate and logistics boilerplate taken out."""
+    text = query
+    for pattern in _BOILERPLATE:
+        text = pattern.sub(" ", text)
+    text = " ".join(text.split()).strip(" ,;.")
+    # Never reduce a query to nothing: a line that is all boilerplate is searched as typed.
+    return text if len(text) >= 12 else query
+
 
 def expand(query: str) -> Tuple[str, List[str]]:
     """(query with the standards' phrases added, the phrases added)."""
     added: List[str] = []
-    lowered = query.lower()
+    base = search_text(query)
+    plain = _DOTTED.sub(lambda m: m.group(0).replace(".", "").upper(), base)
+    lowered = plain.lower()
     for pattern, phrase in _COMPILED:
         if pattern.search(lowered) and phrase.lower() not in lowered and phrase not in added:
             added.append(phrase)
     for pattern, phrase in _COMPILED_ABBR:
-        if pattern.search(query) and phrase.lower() not in lowered and phrase not in added:
+        if pattern.search(plain) and phrase.lower() not in lowered and phrase not in added:
             # "GI pipe" and "MS pipe" add the specific phrase; the bare "MS"
             # entry would then only repeat part of it.
             if any(phrase in a for a in added):
                 continue
             added.append(phrase)
     if not added:
-        return query, []
-    return f"{query} ({'; '.join(added)})", added
+        return base, []
+    return f"{base} ({'; '.join(added)})", added

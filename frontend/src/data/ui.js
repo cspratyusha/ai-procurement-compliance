@@ -10,6 +10,7 @@ export const NODE_KINDS = {
   primary:       { label: 'Primary standard',    color: 'var(--ink)' },
   normative:     { label: 'Normative reference', color: 'var(--info)' },
   test:          { label: 'Test method',         color: 'var(--ok)' },
+  safety:        { label: 'Safety standard',     color: 'var(--md-tertiary)' },
   terminology:   { label: 'Terminology',         color: 'var(--ink-faint)' },
   installation:  { label: 'Installation',        color: 'var(--accent)' },
   overlap:       { label: 'Overlapping scope',   color: 'var(--warn)' },
