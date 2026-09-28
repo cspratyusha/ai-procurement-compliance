@@ -5,6 +5,74 @@ at the top.
 
 ---
 
+## Phase AB: the pilot's invented editions removed (2026-09-28)
+
+A second requirement check found that 96 records from the original pilot data
+were still served, and 23 of them named editions BIS's own records do not
+list. They ranked first, as "strong" matches, for everyday procurement
+searches: "43 grade ordinary portland cement" returned IS 8112:2018, though
+BIS withdrew IS 8112 and merged it into IS 269:2015; fly ash bricks, AAC
+blocks, DI pipes, ready mixed concrete, aerial bunched cable, malleable CI
+fittings, casing pipes, hydrophobic cement, fire survival cables, stainless
+steel pipes and boiler tubes did the same (12 of the 15 products these
+records covered). Worse, 10 real current editions were marked superseded by
+them (IS 12894:2002 "superseded by IS 12894:2020"), breaking the "latest
+version" requirement for exactly those products.
+
+- **The rule.** `build_full_corpus.py` keeps a pilot record only when BIS's
+  record lists that exact edition or the archive holds the published
+  standard. 23 were dropped: 15 invented editions, 6 designations BIS does not
+  recognise (IS 15298-2:2016, IS 4984:2016/Amd 1, IS 694 (Part 2):2016) and 2
+  old editions shown as current. Each is listed in
+  `data/pilot_corrections.json` with the reason and the real standard it stood
+  for; the build refuses to drop one that is not explained there.
+- **Moved with them.** Five certification rules, four hand-made links and
+  three query labels now name the real edition (IS 8329:2018 to IS 8329:2000,
+  IS 4926:2017 to IS 4926:2003, IS 12894:2020 to IS 12894:2002). Two links to
+  IS 15298 (Part 1):2011 were removed: its title is Test methods, not General
+  requirements, and one came from a 1984 standard that cannot cite it.
+- **The 73 kept.** Title from the published standard or BIS (IS 269:2015 was
+  "Ordinary Portland Cement (33, 43, and 53 Grades) - Unified Specification";
+  BIS calls it "Ordinary portland cement - Specification"), the old one kept
+  as `pilot_title`. Scope from the published text where the archive has it
+  (42). Otherwise the written summary stays, labelled `scope_written` (30),
+  and the standard's page says it is not the standard's own scope clause.
+  Where the pilot had put a number on the wrong product the real one wins:
+  IS 14257 is BIS's motor vehicle battery standard, not pump cables, and
+  IS 12231 (pump suction pipes, not soil and waste pipes) keeps no scope.
+  The pilot's descriptions ("maintained for archival reference and
+  conservation work on heritage structures"), amendment dates and keywords
+  are gone.
+- **Replacement chains.** BIS names no replacement for IS 12269:1987, but
+  its next edition, IS 12269:2013, went into IS 269:2015; `apply_bis_status.py`
+  now passes a later edition's replacement back (5 editions), so the 1987
+  edition no longer ranks first for "53 grade OPC".
+- **Vocabulary the invented text had covered.** "fly ash bricks" now adds
+  BIS's "pulverized fuel ash-lime bricks" (IS 12894), and "HDPE/PE pipes" for
+  water adds IS 4984's "polyethylene pipes for water supply".
+- `apply_bis_status.py` repairs a mended title's garbled text in the same
+  run (it took two runs before), and `run_full_ingest.ps1` now runs the two
+  BIS steps it had been missing.
+
+**Results.** None of the 15 searches returns an invented edition; 14 put the
+real standard first, and "HDPE pipes for water supply" has IS 4984 second,
+behind a polyethylene geomembrane standard. The 10 real editions are current
+again. Held-out, 236 queries, same standard: P@1 0.826 (was 0.835), Recall@5
+0.945 (was 0.941); of the 8 queries labelled with a former pilot record, 4
+lost first place (Portland slag cement, drinking water, water sampling
+methods, HDPE pipes) because the invented keyword-rich text had been carrying
+them. Real tender lines (MJP schedule of rates) improved to 18/27 first and
+22/27 in the top five (were 17 and 21). The 28 fresh products of the second
+check are unchanged (22/28 first, 25/28 in the top five); the first check's 30
+fresh products give 22/30 first (was 23) and 30/30 in the top five; the 11
+queries in other languages 5/11 first (was 7) and 9/11 in the top five, the
+two lost being drinking water, where IS 10500's OCR scope caught the wrong
+sentence. `tests/test_pilot_verification.py` fails if any served edition
+is neither listed by BIS nor published in the archive, if a written
+description returns, or if a query label points at the wrong record.
+
+---
+
 ## Phase AA: the SIH problem statement, requirement by requirement (2026-09-28)
 
 A check of the build against each line of the problem statement, with fresh

@@ -16,6 +16,8 @@ def test_everyday_words_get_the_standards_terms():
         ("solar panel 330 W", "crystalline silicon terrestrial photovoltaic modules"),
         ("plastic water tank 1000 litre", "rotational moulded polyethylene water storage tanks"),
         ("cotton bedsheet", "bed sheets"),
+        ("fly ash bricks", "pulverized fuel ash-lime bricks"),
+        ("PE pipes for drinking water", "polyethylene pipes for water supply"),
     ]:
         expanded, added = expansion.expand(query)
         assert added == [phrase], query
@@ -24,7 +26,8 @@ def test_everyday_words_get_the_standards_terms():
 
 def test_ambiguous_and_technical_queries_are_left_alone():
     for query in ("paracetamol tablets", "AC contactor 32 A", "PVC insulated copper cable",
-                  "information technology equipment safety"):
+                  "information technology equipment safety",
+                  "PE pipes for gas supply"):                # PE for gas has a standard of its own
         assert expansion.expand(query)[1] == [], query
 
 

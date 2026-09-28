@@ -2,23 +2,43 @@
 
 ## The served corpus
 
-**[`standards_corpus_full.json`](standards_corpus_full.json): 21,848 records,
-19,597 distinct standards, 22 sectors.** This is what the site serves
+**[`standards_corpus_full.json`](standards_corpus_full.json): 31,349 records
+(editions), 25,915 standards, 22 sectors.** This is what the site serves
 (`STANDARDS_CORPUS=full`). It is built from the complete Public.Resource.Org
 archive of the BIS catalogue on archive.org (the `gov.in.is.*` collection),
-merged with the 96 curated records below.
+the editions BIS's Know Your Standard records list as current that the
+archive lacks, and the pilot records that survived checking against BIS.
 
 | | Records |
 |---|---|
-| Published SCOPE clause, read from the standard (OCR) | 13,749 |
-| Real number and title only, no usable scope clause | 8,003 |
-| Curated pilot records | 96 |
-| Of all records: current editions | 19,604 |
-| Of all records: superseded by a newer edition in the corpus | 2,244 |
+| Published SCOPE clause, read from the standard (OCR), `published_text_ocr` | 13,791 |
+| Real number and title only, no usable scope clause, `number_and_title_only` | 17,528 |
+| Number and title checked against BIS, scope a written summary, `scope_written` | 30 |
+| Of all records: current editions | 22,452 |
+| Of all records: superseded or withdrawn | 8,897 |
 
-None of it is verified against BIS directly (`"verified": false` on every
-record), and the archive is a snapshot, so standards published after it are
-missing.
+Every edition is either listed by BIS's own record or published in the
+archive (`tests/test_pilot_verification.py` fails otherwise). Standards BIS
+published after its old portal closed in October 2025 are missing.
+
+**The pilot records.** The project began with 96 hand-made records, and 23
+of them named editions BIS does not list (IS 8112:2018, when BIS merged
+IS 8112 into IS 269:2015; IS 12894:2020, when the current edition is
+IS 12894:2002). Served, they ranked first for everyday searches and made the
+real current editions look superseded. `build_full_corpus.py` now keeps a
+pilot record only when BIS lists that exact edition or the archive holds the
+published standard, and every dropped number is listed in
+[`pilot_corrections.json`](pilot_corrections.json) with the real standard it
+stood for, where links, certification rules and query labels were moved.
+The 73 kept take their title from the published standard or BIS
+(`pilot_title` keeps the old one), their scope from the published text where
+the archive has it, and otherwise keep a written summary labelled
+`scope_written`, which the standard's page says is not the standard's own
+words. Where the pilot had put a number on the wrong product the real one
+wins: IS 14257 (the pilot's pump cables) now carries its published scope as
+BIS's motor vehicle battery standard, and IS 12231 (the pilot's soil and
+waste pipes, BIS's pump suction pipes) keeps no scope. The pilot's written
+descriptions, amendment dates and keywords are gone.
 
 ### How it is built
 
@@ -39,7 +59,7 @@ powershell -File data\run_full_ingest.ps1 -From index   # resume a failed run
    `general` rather than dropped. Of the 22,024 items, 21,937 parse; the rest
    are archive records whose designation cannot be read reliably.
 2. **Merge** ([`build_full_corpus.py`](build_full_corpus.py)): combines the
-   ingest with the curated records (curated wins for the same number), keeps
+   ingest with the pilot records that pass checking against BIS (see above), keeps
    OCR-damaged records on number and title, marks each older archive edition
    superseded by the newest edition present, assigns ids, and re-points
    `eval_set_full.json` and `train_queries_full.json` at those ids. Ids are
@@ -197,7 +217,7 @@ against. It is read in one place (`standards-retrieval/data_loader.py`),
 because `load_corpus()` is called from a dozen sites with no argument.
 
 ```bash
-STANDARDS_CORPUS=full        # data/standards_corpus_full.json (21,848), what the site serves
+STANDARDS_CORPUS=full        # data/standards_corpus_full.json (31,349), what the site serves
 STANDARDS_CORPUS=canonical   # data/standards_corpus.json (45 standards)
 STANDARDS_CORPUS=mock        # data/mock_corpus.json (30), the default
 STANDARDS_CORPUS=/some/path  # that file
@@ -257,6 +277,7 @@ cross-validation score and the held-out score, see Phase D in
 | `amendments/extracted_amendments.json` | Amendment slips read from every standard's archived text by `extract_amendments.py`: 21,820 copies read, 3,428 with amendments (5,424 amendments, 4,112 dated), each with the year its copy is current to. A slip counts only if it names the standard it is bound into |
 | `amendments/amendments.json` | Amendments researched by hand from BIS documents for 3 standards; these win over the text |
 | `amendments/bis_kys.json` | BIS's Know Your Standard record for 33,761 standards (all 34,300 pages, read 28 September 2026): title, withdrawn flag, replacement, amendment count. 5,548 standards have amendments, 8,937 in all. Fetched by `bis_kys.py fetch` into `archive/kys_cache/` (not committed) and merged by `bis_kys.py combine`, which repairs the double-encoded text in 1,556 of BIS's titles. This official count wins over both files above |
+| `pilot_corrections.json` | The 23 pilot editions BIS does not list, each with the reason and the real standard it stood for (`by`, null where the number belongs to another standard). The build refuses to drop a pilot record not explained here, and query labels naming one follow it to `by` |
 | `add_bis_standards.py` | Adds the editions BIS lists as current that the archive never had, as records on number and official title only (`provenance: number_and_title_only`, source BIS's page, ids `IS-BIS-nnnnn` so no existing id shifts). Last run: 9,524 added (6,322 standards not held at all, 3,202 newer editions of standards held only in an older one); 99 BIS entries with a malformed number were left out. Run after `build_full_corpus.py`, before `apply_bis_status.py` |
 | `apply_bis_status.py` | Writes BIS's withdrawn status and replacement into `standards_corpus_full.json` (`withdrawn`, `superseded_by_number`, `withdrawal_note`, `status_source: "bis"`). Where BIS's record names no replacement but BIS lists a newer edition as current, that edition is named (`replacement_source: "bis_newer_edition"`, 1,212 editions). Also replaces broken archive titles with BIS's official title (3,866) and repairs double-encoded text, keeping the original as `archive_title`. Last run: 29,243 editions matched, 7,141 withdrawn, 2,129 with no BIS record |
 | `text_repair.py` | Undoes text encoded as UTF-8 and read as Windows-1252 ("â€“" for an en dash), which BIS's own records carry; used by `bis_kys.py` and `apply_bis_status.py` |

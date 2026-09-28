@@ -26,7 +26,7 @@ load. Confirm:
 
 ```powershell
 curl http://localhost:8000/health
-# {"status":"ok","corpus_size":31372, ...}
+# {"status":"ok","corpus_size":31349, ...}
 ```
 
 **Terminal 2, the interface**
@@ -44,7 +44,7 @@ explanation option simply does not appear.
 
 **Checklist**
 
-- [ ] `/health` reports `corpus_size: 31372`
+- [ ] `/health` reports `corpus_size: 31349`
 - [ ] Signed in, the dashboard loads
 - [ ] Browser zoom at 100%, one window, no other tabs
 
@@ -252,9 +252,9 @@ few seconds after the results appear.
 ## Questions you will be asked
 
 **"How many standards?"**
-31,372 records, 25,919 distinct standards: 99% of the 22,224 standards BIS
-lists as current. 13,845 carry the scope clause read from the published
-document; the rest are held on their number and official title from BIS's
+31,349 records, 25,915 distinct standards: 99% of the 22,224 standards BIS
+lists as current, and every edition is listed by BIS or published in the
+archive. 13,791 carry the scope clause read from the published document; the rest are held on their number and official title from BIS's
 record, and say so. Certification covers BIS's full compulsory lists (about
 750 standards) and its hallmarking order; amendment counts and edition status
 come from BIS's record for each standard.

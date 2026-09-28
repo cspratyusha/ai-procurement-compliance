@@ -41,7 +41,10 @@ _CORPUS = _REPO / "data" / "standards_corpus_full.json"
 # exact-edition figures were 0.9153 / 0.9873: the queries are written from the
 # standards' titles, and the added records put more near-identical parts and
 # editions beside each label. On realistic product queries the same change
-# left accuracy unchanged (see PROGRESS.md). The floors sit clear of the
+# left accuracy unchanged (see PROGRESS.md). At 31,349 records, after the
+# pilot's invented editions were dropped and its written text replaced with
+# the standards' own: same standard P@1 0.826, Recall@5 0.945 (the pilot's
+# keyword-rich summaries had been carrying a few labels). The floors sit clear of the
 # measurement, so a rebuild's normal variation passes and a real regression
 # does not.
 _MIN_RECALL_AT_5 = 0.92

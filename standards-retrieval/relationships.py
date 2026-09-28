@@ -8,7 +8,7 @@ this surfaces.
 Two sources, one graph:
 
 * `data/relationships/relationships.json`: links read and typed by hand
-  (25 across 16 standards). Authoritative where present.
+  (21 across 12 standards). Authoritative where present.
 * `data/relationships/extracted_relationships.json`: links read automatically
   from each standard's own REFERENCES clause and explicit citations
   (`data/extract_references.py`), about 88,000 across 17,000 standards. Each

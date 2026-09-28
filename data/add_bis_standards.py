@@ -31,14 +31,12 @@ from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).resolve().parent))
 from apply_bis_status import _year, clean_bis_title, tidy_replacement  # noqa: E402
-from build_full_corpus import family, keywords_from, mark_superseded_editions, normalize  # noqa: E402
+from build_full_corpus import KYS_URL, family, keywords_from, mark_superseded_editions, normalize  # noqa: E402
 from ingest_archive import classify  # noqa: E402
 
 _REPO_ROOT = Path(__file__).resolve().parent.parent
 CORPUS = _REPO_ROOT / "data" / "standards_corpus_full.json"
 BIS = _REPO_ROOT / "data" / "amendments" / "bis_kys.json"
-KYS_URL = ("https://www.services.bis.gov.in/php/BIS_2.0/bisconnect/knowyourstandards/"
-           "Indian_standards/isdetails_mnd/{id}")
 ID_PREFIX = "IS-BIS-"
 
 

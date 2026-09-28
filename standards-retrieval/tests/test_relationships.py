@@ -88,9 +88,10 @@ class TestRelationships(unittest.TestCase):
     def test_unresearched_standard_says_so(self):
         """Absent data must not read as 'this standard has no references'.
 
-        IS 14255:2018 has no text in the archive cache, so it was never read.
+        IS 1734 (Part 1):1983 is held on its number and title only: its text
+        is not in the archive cache, so it was never read, and nothing cites it.
         """
-        result = relationships.related_to("IS 14255:2018")
+        result = relationships.related_to("IS 1734 (Part 1):1983")
         self.assertFalse(result["researched"])
         self.assertFalse(result["text_read"])
         self.assertEqual(result["total"], 0)
@@ -132,11 +133,14 @@ class TestRelationships(unittest.TestCase):
                 )
 
     def test_every_in_corpus_edge_resolves(self):
-        """A link to a standard we do not hold must be flagged, not broken."""
+        """A link to a standard we do not hold must be flagged, not broken.
+
+        Checked against the corpus the engine serves, not the pilot's.
+        """
         corpus = {
             s["number"]
             for s in json.loads(
-                (_REPO_ROOT / "data" / "standards_corpus.json").read_text(encoding="utf-8")
+                (_REPO_ROOT / "data" / "standards_corpus_full.json").read_text(encoding="utf-8")
             )
         }
         payload = json.loads(

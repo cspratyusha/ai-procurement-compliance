@@ -287,7 +287,16 @@ export default function StandardDetail() {
           <section className="card stack stack-4">
             <span className="eyebrow">Scope</span>
             {standard.scope ? (
-              <p className="small" style={{ color: 'var(--ink-soft)' }}>{standard.scope}</p>
+              <>
+                <p className="small" style={{ color: 'var(--ink-soft)' }}>{standard.scope}</p>
+                {standard.provenance === 'scope_written' && (
+                  <p className="xs muted" data-testid="scope-written-note">
+                    A summary written for this catalogue, not the standard&rsquo;s own scope clause. Its
+                    number and title are checked against BIS&rsquo;s record; read the published standard
+                    for the exact scope before relying on it for a tender.
+                  </p>
+                )}
+              </>
             ) : (
               <p className="small muted">
                 This standard is held on its number and official title only: its scope text is not in

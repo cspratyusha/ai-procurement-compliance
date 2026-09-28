@@ -52,6 +52,11 @@ EVERYDAY: List[Tuple[str, str]] = [
     (r"\bfire extinguishers?\b", "portable fire extinguishers"),
     (r"\bdustbins?\b|\bgarbage bins?\b|\bwaste bins?\b", "mobile containers for solid waste"),
     (r"\bhume pipes?\b|\bspun pipes?\b", "precast concrete pipes"),
+    # Fly ash is what BIS calls pulverized fuel ash (IS 12894, fly ash-lime bricks).
+    (r"\bfly[\s-]?ash(?:[\s-]lime)? bricks?\b", "pulverized fuel ash-lime bricks"),
+    # IS 4984 is titled "Polyethylene pipes for water supply"; HDPE pipes for
+    # sewers, gas or cable ducts have standards of their own, so only for water.
+    (r"\b(?:hdpe|pe|polyethylene) pipes?\b(?=.*\b(?:water|drinking|potable)\b)", "polyethylene pipes for water supply"),
     # One word in the shop, two in the standards (IS 745, handloom cotton bed sheets).
     (r"\bbedsheets?\b", "bed sheets"),
     # Office furniture, in the words of the Furniture (Quality Control) Order, 2025 standards.

@@ -63,8 +63,13 @@ if ($start -eq 0) {
 # --- 1. fetch every standard in the collection (cached texts are reused) ---
 if ($start -le 0) { Run 'fetch' @('data\ingest_archive.py', '--limit', '30000', '--scan', '30000', '--overfetch', '1') }
 
-# --- 2. merge into the served corpus and remap the query sets ---
-if ($start -le 1) { Run 'merge' @('data\build_full_corpus.py') }
+# --- 2. merge into the served corpus and remap the query sets, then add the
+#        editions BIS lists that the archive lacks and apply BIS's status ---
+if ($start -le 1) {
+    Run 'merge' @('data\build_full_corpus.py')
+    Run 'add BIS standards' @('data\add_bis_standards.py')
+    Run 'apply BIS status' @('data\apply_bis_status.py')
+}
 
 # --- 3. rebuild the dense and BM25 indexes for the full corpus ---
 Run 'index' @('standards-retrieval\indexing\build.py') @{

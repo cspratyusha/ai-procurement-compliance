@@ -195,6 +195,7 @@ plain sample form with the widget attached.
   own services.
 - Standards BIS published after October 2025 (on BIS's new portal) are not in
   its records yet.
-- 13,845 of its 31,372 records carry the scope text of the standard (OCR of
-  the published document); the rest are searchable on the official number and
-  title only, and the standard's page says so.
+- 13,791 of its 31,349 records carry the scope text of the standard (OCR of
+  the published document), and 30 a written summary labelled as such; the
+  rest are searchable on the official number and title only, and the
+  standard's page says so.

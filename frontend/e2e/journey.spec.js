@@ -184,6 +184,28 @@ test.describe('Catalogue and detail', () => {
     await expect(page.locator('text=/official title only/i')).toBeVisible();
   });
 
+  test('everyday cement and brick searches name editions BIS actually lists', async ({ page }) => {
+    // The pilot data served IS 8112:2018 and IS 12894:2020, editions that never
+    // existed, first. 43 grade OPC is IS 269:2015; fly ash bricks, IS 12894:2002.
+    await page.goto('/app/query');
+    for (const [query, expected, never] of [
+      ['43 grade ordinary portland cement', 'IS 269:2015', 'IS 8112:2018'],
+      ['fly ash bricks', 'IS 12894:2002', 'IS 12894:2020'],
+    ]) {
+      await page.fill('#spec', query);
+      await page.click('button[type=submit]');
+      await expect(page.locator('article.rec').first()).toContainText(expected, { timeout: 120_000 });
+      await expect(page.locator('main')).not.toContainText(never);
+    }
+  });
+
+  test('a written scope summary is labelled as not the standard’s own words', async ({ page }) => {
+    await page.goto(`/app/standard/${encodeURIComponent('IS 269:2015')}`);
+    await expect(page.locator('h1.mono')).toContainText('IS 269:2015', { timeout: 60_000 });
+    await expect(page.locator('[data-testid="scope-written-note"]')).toBeVisible();
+    await expect(page.locator('text=This edition has been superseded')).toHaveCount(0);
+  });
+
   test('a standard outside the corpus says so honestly', async ({ page }) => {
     await page.goto(`/app/standard/${encodeURIComponent('IS 9999:1900')}`);
     await expect(page.locator('text=Not in the current corpus')).toBeVisible({ timeout: 60_000 });
@@ -449,7 +471,7 @@ test.describe('Honesty guarantees', () => {
     // Open item 2 and check it matched cement rather than cable.
     await page.locator('text=Ordinary Portland Cement').first().click();
     const body = await page.locator('main').innerText();
-    expect(body).toMatch(/IS\s?(269|8112|12269|1489)/);
+    expect(body).toMatch(/IS\s?(269|1489)/);
   });
 
   test('a document with no line items is not rendered as an empty BOQ', async ({ page }) => {

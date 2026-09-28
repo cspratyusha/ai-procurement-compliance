@@ -30,6 +30,14 @@ class Standard(BaseModel):
         default=None,
         description="Where the status came from: 'bis' (BIS's record for the standard); absent when inferred from the corpus.",
     )
+    provenance: Optional[str] = Field(
+        default=None,
+        description=(
+            "Where the scope text came from: 'published_text_ocr' (the standard's own scope clause), "
+            "'scope_written' (a summary written for the catalogue, number and title checked against BIS), "
+            "'number_and_title_only' (no scope held)."
+        ),
+    )
     replacement_source: Optional[str] = Field(
         default=None,
         description=(

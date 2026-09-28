@@ -10,7 +10,8 @@ _REPO = Path(__file__).resolve().parent.parent.parent
 sys.path.insert(0, str(_REPO / "data"))
 
 from apply_bis_status import (  # noqa: E402
-    clean_bis_title, current_editions, newer_current_edition, repair_title, title_damage,
+    clean_bis_title, current_editions, later_edition_replacement, later_edition_replacements,
+    newer_current_edition, repair_title, title_damage,
 )
 from text_repair import fix_text  # noqa: E402
 
@@ -84,6 +85,8 @@ class TestNewerEdition:
         "IS 5405:2025": {"withdrawn": False},
         "IS 101 (PART 1/SEC 2):2023": {"withdrawn": False},
         "IS 2062:2011": {"withdrawn": True},
+        "IS 12269:1987": {"withdrawn": True, "superseded_by": "None"},
+        "IS 12269:2013": {"withdrawn": True, "superseded_by": "IS 269 : 2015"},
     }
 
     def test_bis_listing_a_newer_current_edition_names_it(self):
@@ -92,6 +95,12 @@ class TestNewerEdition:
         assert newer_current_edition("IS 5405:1980", current) == "IS 5405:2025"
         # Corpus spelling, whatever case BIS's key uses.
         assert newer_current_edition("IS 101 (Part 1/Sec 2):1987", current) == "IS 101 (Part 1/Sec 2):2023"
+
+    def test_a_newer_edition_that_was_itself_replaced_passes_its_replacement_on(self):
+        later = later_edition_replacements(self.BIS)
+        # IS 12269:1987 names nothing; IS 12269:2013 went into IS 269:2015.
+        assert later_edition_replacement("IS 12269:1987", later) == "IS 269:2015"
+        assert later_edition_replacement("IS 12269:2013", later) is None      # it is the newest itself
 
     def test_no_newer_current_edition_names_nothing(self):
         current = current_editions(self.BIS)

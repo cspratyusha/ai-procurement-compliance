@@ -14,10 +14,17 @@ between them matters enough to record on every record:
   consolidated              the original pilot data; realistic but unverified
                             throughout.
 
-Curated records win over ingested ones for the same IS number, because the
-curated set is what the certification, amendment and relationship data is
-keyed to. Their scope text is weaker, but breaking those links would lose
-more than it gains.
+The curated records are the pilot's, so none is taken on trust
+(verify_pilot). One is kept only when BIS's own record lists that exact
+edition or the archive holds the published standard; the rest named
+editions that do not exist (IS 8112:2018, when BIS merged IS 8112 into
+IS 269:2015) and are dropped, each accounted for in pilot_corrections.json
+with the real standard it stood for. A kept record takes its title from the
+published standard or BIS, and its scope from the published text where the
+archive has it (provenance published_text_ocr). Where it does not, the
+pilot's written scope stays, labelled scope_written so it is never passed
+off as the standard's words. The pilot's descriptions, amendment dates and
+keywords were written, not read, and are removed.
 
 Run with::
 
@@ -32,11 +39,18 @@ import sys
 from collections import Counter
 from pathlib import Path
 
+sys.path.insert(0, str(Path(__file__).resolve().parent))
+from text_repair import fix_text  # noqa: E402
+
 _REPO_ROOT = Path(__file__).resolve().parent.parent
 
 CURATED = _REPO_ROOT / "data" / "standards_corpus_expanded.json"
 INGESTED = _REPO_ROOT / "data" / "archive" / "ingested_standards.json"
 OUTPUT = _REPO_ROOT / "data" / "standards_corpus_full.json"
+BIS = _REPO_ROOT / "data" / "amendments" / "bis_kys.json"
+CORRECTIONS = _REPO_ROOT / "data" / "pilot_corrections.json"
+KYS_URL = ("https://www.services.bis.gov.in/php/BIS_2.0/bisconnect/knowyourstandards/"
+           "Indian_standards/isdetails_mnd/{id}")
 
 SECTOR_PREFIX = {
     "electrical_cables": "ELEC",
@@ -184,6 +198,100 @@ def keywords_from(title: str, scope: str) -> list:
     return seen
 
 
+_REVISION = re.compile(r"\(\s*([^()]*\brevision\b[^()]*?)\s*\)", re.IGNORECASE)
+_TITLE_STOP = {"specification", "specifications", "code", "practice", "methods", "method", "test", "tests",
+               "part", "for", "and", "the", "with", "use", "general", "requirements"}
+
+
+def _title_words(title: str) -> set:
+    text = re.sub(r"poly\s*vinyl\s+chloride", "pvc", (title or "").lower())
+    words = {w.rstrip("s") for w in re.findall(r"[a-z]{3,}", text)}
+    return words - {w.rstrip("s") for w in _TITLE_STOP}
+
+
+def same_product(pilot_title: str, real_title: str) -> bool:
+    """Whether the pilot's title and the real one describe the same thing.
+
+    The pilot sometimes put a real number on the wrong product (IS 14257,
+    which BIS publishes for motor vehicle batteries, carried a scope for
+    submersible pump cables). Its written scope then describes something the
+    standard does not cover and cannot be kept.
+    """
+    pilot, real = _title_words(pilot_title), _title_words(real_title)
+    return bool(pilot and real) and len(pilot & real) / min(len(pilot), len(real)) >= 0.5
+
+
+def verify_pilot(curated: list, ingested: list, bis_raw: dict, corrections: dict):
+    """(records kept, numbers dropped, counts) for the pilot's records.
+
+    Kept only where BIS lists the exact edition or the archive holds the
+    published standard. See the module docstring for what each keeps.
+    """
+    from apply_bis_status import clean_bis_title, normalize as upper_key, title_damage
+
+    archive = {upper_key(i["number"]): i for i in ingested}
+    bis = {upper_key(k): v for k, v in bis_raw.items()}
+    kept, dropped, counts = [], [], Counter()
+
+    for record in curated:
+        number = normalize(record["number"])
+        entry, copy = bis.get(upper_key(number)), archive.get(upper_key(number))
+        if entry is None and copy is None:
+            dropped.append(number)
+            continue
+
+        # The published standard's own title first; BIS's where the archive's
+        # is broken or shouting in capitals and BIS's is not.
+        bis_title = clean_bis_title(entry.get("title")) if entry else ""
+        archive_title = (copy or {}).get("title") or ""
+        usable = archive_title and title_damage(archive_title) is None and not (
+            archive_title.isupper() and bis_title and not bis_title.isupper())
+        if usable or (archive_title and not bis_title):
+            title, title_source = archive_title, "archive"
+        else:
+            title, title_source = bis_title, "bis"
+        title = title.strip(" -:,")
+
+        scope = tidy_scope(copy.get("scope") or "") if copy else ""
+        if copy and copy.get("provenance") != "number_and_title_only" and usable_scope(scope):
+            provenance = "published_text_ocr"
+        elif same_product(record["title"], title):
+            scope, provenance = record["scope"], "scope_written"
+        else:
+            scope, provenance = "", "number_and_title_only"
+        counts[provenance] += 1
+
+        revision = _REVISION.search(fix_text(entry.get("title") or "")) if entry else None
+        sector = (copy or {}).get("category")
+        kept.append({
+            **record,
+            "number": number,
+            "title": title,
+            "title_source": title_source,
+            "pilot_title": record["title"],
+            "scope": scope,
+            "description": "",
+            "category": sector if sector in SECTOR_PREFIX else record["category"],
+            "family": family(number),
+            "version": revision.group(1).title() if revision else (copy or {}).get("version", ""),
+            "last_amended": "",
+            # BIS's own record sets withdrawn editions later (apply_bis_status).
+            "status": "active",
+            "superseded_by_number": None,
+            "keywords": keywords_from(title, scope),
+            "sources": (["archive.org/gov.in.is"] if copy else []) + (["bis.gov.in/knowyourstandards"] if entry else []),
+            "source_url": (copy or {}).get("source_url")
+            or (KYS_URL.format(id=entry["page_id"]) if entry and entry.get("page_id") else None),
+            "verified": False,
+            "provenance": provenance,
+        })
+
+    unexplained = sorted(set(dropped) - set(corrections))
+    if unexplained:
+        raise SystemExit(f"pilot records BIS does not list and pilot_corrections.json does not explain: {unexplained}")
+    return kept, dropped, counts
+
+
 def main() -> int:
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--check", action="store_true", help="report only; write nothing")
@@ -198,10 +306,18 @@ def main() -> int:
     ingested = payload["standards"]
     ingest_provenance = payload["_meta"]["provenance"]
 
+    corrections = json.loads(CORRECTIONS.read_text(encoding="utf-8"))["replaced"]
+    bis_raw = json.loads(BIS.read_text(encoding="utf-8"))["standards"]
+    curated, dropped, pilot_counts = verify_pilot(curated, ingested, bis_raw, corrections)
+    print(f"pilot records : {len(curated) + len(dropped)} checked against BIS and the archive")
+    print(f"  kept        : {len(curated)} ({dict(pilot_counts)})")
+    print(f"  dropped     : {len(dropped)} editions BIS does not list (pilot_corrections.json)")
+
     merged = []
     seen = set()
 
-    # Curated first: they carry the certification and relationship links.
+    # Verified pilot records first: the certification and relationship links
+    # are keyed to their numbers.
     for record in curated:
         key = normalize(record["number"])
         seen.add(key)
@@ -326,8 +442,12 @@ def main() -> int:
     )
     print(f"wrote {OUTPUT.relative_to(_REPO_ROOT)}")
 
-    if remap_query_sets(merged):
-        return 1
+    # Labels naming an edition only BIS's record supplies resolve once
+    # add_bis_standards.py has run; their ids are stable (IS-BIS-nnnnn).
+    # tests/test_pilot_verification.py checks every label on the final corpus.
+    missing = remap_query_sets(merged)
+    if missing:
+        print(f"{missing} labels name editions not held yet; add_bis_standards.py adds BIS's current editions")
     return 0
 
 
@@ -350,6 +470,9 @@ def remap_query_sets(corpus: list) -> int:
     Returns the number of entries whose standard is no longer in the corpus.
     """
     by_number = {r["number"]: r for r in corpus}
+    # A label naming a pilot edition that never existed stood for the real
+    # standard; it follows it (IS 12894:2020 -> IS 12894:2002).
+    corrections = json.loads(CORRECTIONS.read_text(encoding="utf-8"))["replaced"] if CORRECTIONS.exists() else {}
     lost_total = 0
     for path in QUERY_SETS:
         if not path.exists():
@@ -358,6 +481,9 @@ def remap_query_sets(corpus: list) -> int:
         changed = 0
         lost = []
         for item in items:
+            real = (corrections.get(normalize(item["correct_number"])) or {}).get("by")
+            if real:
+                item["correct_number"] = real
             record = by_number.get(normalize(item["correct_number"]))
             if record is None:
                 lost.append(item["correct_number"])

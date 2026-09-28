@@ -14,6 +14,10 @@ For every corpus edition with a BIS record:
   standard as current -> that edition, with replacement_source
   'bis_newer_edition' (BIS's record for IS 4246:2002 names nothing, yet BIS
   lists IS 4246:2025 as in force)
+* withdrawn, no replacement named, no current edition, but a newer edition
+  was itself withdrawn and replaced -> that replacement, also
+  'bis_newer_edition' (IS 12269:1987 names nothing; IS 12269:2013 went into
+  IS 269:2015, which is in force)
 * withdrawn with no replacement and no newer edition -> status 'superseded',
   withdrawn true, no replacement named
 * not withdrawn -> left as the corpus has it: an edition superseded by a
@@ -164,6 +168,32 @@ def newer_current_edition(number, current):
     return tidy_replacement(newer)[0] if newer and _year(newer) > _year(number) else None
 
 
+def later_edition_replacements(bis_raw):
+    """For each standard, the newest edition's replacement, where BIS names one.
+
+    BIS's record for IS 12269:1987 names no replacement, but the edition after
+    it, IS 12269:2013, was merged into IS 269:2015: that is where the 1987
+    edition's buyers went too.
+    """
+    newest = {}
+    for number in bis_raw:
+        if _year(number) > _year(newest.get(_stem(number), "")):
+            newest[_stem(number)] = number
+    out = {}
+    for stem, number in newest.items():
+        entry = bis_raw[number]
+        replacement = tidy_replacement(entry.get("superseded_by"))[0] if entry.get("withdrawn") else None
+        if replacement:
+            out[stem] = (number, replacement)
+    return out
+
+
+def later_edition_replacement(number, later):
+    """The replacement BIS names for a newer edition of this standard, if any."""
+    found = later.get(_stem(number))
+    return found[1] if found and _year(found[0]) > _year(number) else None
+
+
 def main():
     ap = argparse.ArgumentParser(description=__doc__)
     ap.add_argument("--dry-run", action="store_true")
@@ -196,6 +226,8 @@ def main():
         if new is None and fix_text(record["title"]) != record["title"]:
             new, source = fix_text(record["title"]), record.get("title_source") or "archive_mended"
             titles["garbled -> mended"] += 1
+        elif new:
+            new = fix_text(new)     # a mended title can still carry the garbling, so one run is enough
         if new and new != record["title"]:
             record.setdefault("archive_title", record["title"])
             record["title"] = new
@@ -206,6 +238,7 @@ def main():
     print("title examples:", title_examples)
 
     current_by_stem = current_editions(bis_raw)
+    later_by_stem = later_edition_replacements(bis_raw)
 
     stats = Counter()
     examples = []
@@ -223,6 +256,10 @@ def main():
         record.pop("replacement_source", None)
         if not replacement:
             replacement = newer_current_edition(record["number"], current_by_stem)
+            if not replacement:
+                replacement = later_edition_replacement(record["number"], later_by_stem)
+                if replacement:
+                    stats["replaced_via_later_edition"] += 1
             if replacement:
                 record["replacement_source"] = "bis_newer_edition"
                 stats["replaced_by_newer_bis_edition"] += 1
