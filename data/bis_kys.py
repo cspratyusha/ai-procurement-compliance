@@ -35,6 +35,9 @@ from pathlib import Path
 
 from bs4 import BeautifulSoup
 
+sys.path.insert(0, str(Path(__file__).resolve().parent))
+from text_repair import fix_text  # noqa: E402
+
 _REPO_ROOT = Path(__file__).resolve().parent.parent
 CACHE = _REPO_ROOT / "data" / "archive" / "kys_cache"
 OUTPUT = _REPO_ROOT / "data" / "amendments" / "bis_kys.json"
@@ -173,6 +176,9 @@ def parse() -> None:
         # Records fetched before clean_number existed are cleaned here too.
         number, remark = clean_number(record["number"])
         record["number"], record["remark"] = number, record.get("remark") or remark
+        # BIS stores some text double-encoded ("â€“" for an en dash).
+        for field in ("title", "superseded_by", "remark"):
+            record[field] = fix_text(record.get(field))
         record["page_id"] = int(path.stem)
         standards.setdefault(record["number"], record)
     OUTPUT.write_text(json.dumps({
