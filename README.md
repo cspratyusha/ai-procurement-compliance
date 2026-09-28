@@ -15,23 +15,25 @@ We would rather state our scope plainly than imply coverage we do not have.
 
 | | Status |
 |---|---|
-| **Standards in the corpus** | **21,848 records** ([`data/standards_corpus_full.json`](data/standards_corpus_full.json)), covering **19,597 distinct standards**. Each published edition is its own record |
-| **Current vs. superseded** | **13,837 current** and **8,011 superseded** editions. An edition is superseded when BIS's record for it says withdrawn (**7,141**, with the replacement BIS names, even one the corpus does not hold) or when the corpus holds a newer edition of the same standard |
-| **Where it comes from** | The complete Public.Resource.Org archive of the BIS catalogue on archive.org: 21,937 readable standards out of 22,024 items. It includes 579 IS/ISO and IS/IEC adoptions and 69 SP publications, such as the National Building Code (SP 7) |
-| **Where the text comes from** | **13,749** records carry the **published SCOPE clause** of the actual standard. It is OCR of a scanned document, so it contains recognition errors. **8,003** are kept on their real number and title only, because no usable scope clause could be read. No scope text is ever written to fill the gap |
-| **Currency** | The archive is a snapshot. Standards BIS published after it are not in the corpus |
-| **Checked against BIS's records** | **19,719 of 21,848 editions** matched a record on BIS's Know Your Standard service (all 34,300 pages read 28 September 2026): whether the edition is withdrawn, what replaced it, and how many amendments BIS lists. The other 2,129 have no BIS record under that number and keep the archive's status. The scope text itself is still the archive's OCR, so every record keeps `"verified": false` |
-| **Certification data** | **BIS's full lists of products under compulsory certification**: 749 standards across Scheme I (ISI mark), Scheme II (CRS) and Scheme X, each with its Quality Control Order, gazette notification and a link to the order (read 27 September 2026). 902 corpus standards fall under an order in force. Orders whose enforcement is deferred (most of the Electrical Equipment QCO, by S.O. 5038(E)) are shown as **not yet mandatory**. A standard not on the lists reports `not_listed`, stated with the date the lists were read |
+| **Standards in the corpus** | **31,372 records** ([`data/standards_corpus_full.json`](data/standards_corpus_full.json)), covering **25,919 distinct standards**. Each published edition is its own record |
+| **Coverage of BIS's catalogue** | **22,102 of the 22,224 standards BIS lists as current** are held in the edition BIS lists (99%). 9,524 of them were added from BIS's own record because the archive never had them (6,322 standards) or had only an older edition (3,202) |
+| **Current vs. superseded** | **23,361 current** and **8,011 superseded** editions. An edition is superseded when BIS's record for it says withdrawn (**7,141**) or when the corpus holds a newer edition of the same standard. A withdrawn edition names its replacement: the one BIS names, or, where BIS's record names none, the newer edition BIS lists as current (1,212 editions) |
+| **Where it comes from** | The complete Public.Resource.Org archive of the BIS catalogue on archive.org (21,937 readable standards out of 22,024 items, including 579 IS/ISO and IS/IEC adoptions and 69 SP publications such as the National Building Code), plus BIS's Know Your Standard records for what the archive lacks |
+| **Where the text comes from** | **13,845** records carry the **published SCOPE clause** of the actual standard. It is OCR of a scanned document, so it contains recognition errors. **17,527** are kept on their real number and official title only: 8,003 archive records with no usable scope clause, and the 9,524 added from BIS's record. They are searchable on their title and their page says so. No scope text is ever written to fill the gap |
+| **Titles** | 3,866 archive titles were broken (the archive's item id in place of a title, the year glued to the front, lower-case starts) and are replaced with BIS's official title; BIS's own text was double-encoded in 1,556 titles ("â€“" for a dash) and is repaired. The original is kept as `archive_title` |
+| **Currency** | Standards BIS published after 1 October 2025 are on BIS's new portal and not yet in its records here |
+| **Checked against BIS's records** | **29,243 of 31,372 editions** match a record on BIS's Know Your Standard service (all 34,300 pages read 28 September 2026): whether the edition is withdrawn, what replaced it, and how many amendments BIS lists. The other 2,129 have no BIS record under that number and keep the archive's status. The scope text itself is still the archive's OCR, so every record keeps `"verified": false` |
+| **Certification data** | **BIS's full lists of products under compulsory certification**: 749 standards across Scheme I (ISI mark), Scheme II (CRS) and Scheme X, each with its Quality Control Order, gazette notification and a link to the order (read 27 September 2026); and **BIS hallmarking**: gold jewellery and artefacts (IS 1417) compulsory under the Hallmarking Order in 392 districts, with its exemptions, and silver (IS 2112) voluntary, read from the gazette notifications (saved in `data/certification/source/hallmarking/`). Orders whose enforcement is deferred (most of the Electrical Equipment QCO, by S.O. 5038(E)) are shown as **not yet mandatory**. A standard not on the lists reports `not_listed`, stated with the date the lists were read |
 | **Amendments** | **BIS's official count for 33,761 standards** (5,548 with amendments, 8,937 in all), with dates and excerpts read from the amendment slips bound into each standard's own archived copy (3,428 standards, 5,424 slips). Where the copy shows more amendments than BIS lists, the larger number is shown and marked disputed. A standard BIS has no record for falls back to its copy, which reports "at least" and the year the copy is current to |
-| **Related-standards graph** | **88,623 links from 16,944 standards**, read automatically from each standard's own REFERENCES clause and citations, plus 25 read and typed by hand. Every automatic link carries the passage it was read from. On samples it found every hand-read link the text supports and read about 97% of links correctly. Citations to standards outside the corpus are shown and flagged rather than hidden |
+| **Allied standards** | **88,632 links from 16,944 standards**, read automatically from each standard's own REFERENCES clause and citations, plus 25 read and typed by hand, grouped as normative references, material specifications, test methods, **safety standards**, terminology and installation practice. Every automatic link carries the passage it was read from; on samples about 97% were read correctly. **Related product standards** are the standards closest in scope, read from the search index and required to share a word of the title |
 
-**What this means in practice:** search covers essentially the whole
-published catalogue, certification comes from BIS's own compulsory lists, and
-edition status and amendment counts come from BIS's record for each standard.
-What remains open: standards BIS published after the archive snapshot are not
-searchable (their numbers appear only as replacements), amendments known only
-from BIS's count have no date or text, and scope text is OCR that has not been
-proof-read.
+**What this means in practice:** search covers 99% of the standards BIS lists
+as current, certification comes from BIS's own compulsory lists and hallmarking
+order, and edition status and amendment counts come from BIS's record for each
+standard. What remains open: about half the records are searchable on their
+title alone, standards published after October 2025 are not yet in BIS's
+records here, amendments known only from BIS's count have no date or text, and
+scope text is OCR that has not been proof-read.
 
 ## Usage figures
 
@@ -160,22 +162,29 @@ per-response `final_score`, is comparable across queries. On a `none` verdict
 the UI drops the "Recommended standards" heading entirely and presents the
 results as "Nearest text matches … not recommendations".
 
-**Current measurement: 21,848 standards, 236 held-out queries**
-(`standards-retrieval/tests/test_full_corpus_accuracy.py`, with
-`FULL_EVAL_QUERIES=0`):
+**Current measurement: 31,372 records**
 
-| Metric | 6,360 standards | 21,848 standards |
+| Query set | Right standard first | In the top five |
 |---|---|---|
-| Recall@5 (right standard in the top five) | 0.9958 | **0.9873** |
-| P@1 (right standard ranked first) | 0.8771 | **0.9153** |
-| Median query time, warm, CPU | ~231 ms | ~375 ms |
+| 30 fresh product queries, written before any were run and never tuned on | 23/30 | **30/30** |
+| 27 real tender lines citing an IS number (Maharashtra Jeevan Pradhikaran schedule of rates 2023-24, `eval/real_tender_eval.py`) | 17/27 | 21/27 |
+| 11 queries in other Indian languages and scripts | 7/11 | 9/11 |
+| 236 held-out queries (`tests/test_full_corpus_accuracy.py`, `FULL_EVAL_QUERIES=0`), same standard in any edition | 0.835 | **0.941** |
 
-A query labelled with an edition the corpus now holds a newer edition of
-counts the current edition as correct, because that is what a tender should
-cite and what the ranker deliberately puts first. P@1 was 0.9237 before BIS's
-withdrawn status was applied; 50 labels are editions BIS has since withdrawn,
-and in two of them the engine now puts the held edition in force first, which
-the fixed labels score as a miss. The learned ranker is not
+Query time, warm, on a laptop CPU: median 367 ms, 90th percentile 624 ms, over
+69 product queries.
+
+The held-out queries are written from the standards' titles, so they are the
+easiest set and the least like a buyer. Scored on the exact edition labelled
+they give 0.826 / 0.928; at 21,848 records, before 9,524 of BIS's current
+standards were added, they gave 0.9153 / 0.9873. The added records put more
+near-identical parts and editions beside each label; on the fresh product
+queries the same change made no difference. Which edition to cite is decided
+by the supersession rule (the edition in force ranks first and a superseded
+one names it), which is tested on its own, so the held-out test scores the
+standard in any edition. The tender-line sample is small and informed two of
+the fixes (short forms written with full stops, rate boilerplate); one of its
+six misses is the schedule's own wrong citation. The learned ranker is not
 trained for this corpus yet (`/health` reports `ltr_model_loaded: false`), so
 these figures come from hybrid retrieval plus the cross-encoder.
 
@@ -448,15 +457,16 @@ git checkout -- standards-retrieval/models/ltr_model.txt
 
 | Capability | State |
 |---|---|
-| Semantic search (dense + BM25 + cross-encoder + learned ranker) | Live, ~375 ms over 21,848 standards |
+| Semantic search (dense + BM25 + cross-encoder + learned ranker) | Live over 31,372 records, 99% of the standards BIS lists as current, ~370 ms |
 | Refuses to answer outside its coverage | Live, thresholds calibrated on the full corpus |
 | Superseded editions flagged, with the current edition named | Live, 8,011 editions (7,141 withdrawn per BIS) |
-| Mandatory BIS certification flags with governing QCO | BIS's full compulsory lists (ISI, CRS, Scheme X), 749 standards |
+| Mandatory certification with its governing order: BIS Product Certification (ISI), CRS, Scheme X and Hallmarking | BIS's full compulsory lists, 749 standards, plus the Hallmarking Order for gold (silver voluntary) |
 | Published amendments with paste-ready citation | BIS's count for 33,761 standards (5,548 amended), dates from 3,428 archived copies |
-| Tender abbreviations and everyday words (GI pipe, MCB, laptop) | Live, 32 abbreviations and 21 everyday terms |
-| Allied-standards cluster, read from each standard's references and citations | 88,623 links, 16,944 standards |
-| Queries in 6 languages, translated locally | Live |
-| Tender document upload (PDF/DOCX/TXT, OCR for scans) | Live |
+| Tender abbreviations and everyday words (GI pipe, M25 concrete, MCB, UPS, laptop, office chair) | Live, 43 abbreviations and 27 everyday terms |
+| Allied standards: normative references, test methods, terminology, safety, installation and related products | 88,632 links read from the standards, plus related products by scope |
+| Queries in 13 languages (English and 12 Indian), translated locally | Live; an unsupported script is told so |
+| Tender document upload (PDF, Word, Excel, text; OCR for scans) | Live |
+| Integration with procurement portals: API keys, OpenAPI, and an embeddable widget | Live, see [docs/integration-guide.md](docs/integration-guide.md) |
 | Tender builder with live recommendations and clause generation | Live |
 | Usage dashboard counted from the engine's own logs | Live |
 | Standards-hygiene findings (superseded editions, amendments in force) | Live |

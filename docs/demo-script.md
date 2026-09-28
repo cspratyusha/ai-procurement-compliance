@@ -26,7 +26,7 @@ load. Confirm:
 
 ```powershell
 curl http://localhost:8000/health
-# {"status":"ok","corpus_size":21848, ...}
+# {"status":"ok","corpus_size":31372, ...}
 ```
 
 **Terminal 2, the interface**
@@ -44,7 +44,7 @@ explanation option simply does not appear.
 
 **Checklist**
 
-- [ ] `/health` reports `corpus_size: 21848`
+- [ ] `/health` reports `corpus_size: 31372`
 - [ ] Signed in, the dashboard loads
 - [ ] Browser zoom at 100%, one window, no other tabs
 
@@ -53,7 +53,7 @@ explanation option simply does not appear.
 ## 0. The problem (45 seconds)
 
 > A procurement officer writing a tender has to cite the right Indian
-> Standards. There are about 22,000. Cite the wrong one and the tender
+> Standards. BIS lists over 22,000 as current. Cite the wrong one and the tender
 > specifies the wrong goods; cite a withdrawn edition and it specifies
 > something that can no longer lawfully be supplied; miss a mandatory
 > certification and an uncertified supplier can win the contract.
@@ -94,23 +94,33 @@ laptop for office use
 ```
 
 > "Laptop" appears in no Indian Standard title. The engine adds the standards'
-> own words, "information technology equipment", and says so in the blue note,
-> the way it shows a translation. It finds IS 13252, and because the match is
-> indirect it says "uncertain" and why.
+> own words, "information technology equipment safety", and says so in the blue
+> note, the way it shows a translation. It finds IS 13252. It says "uncertain"
+> and why: the catalogue holds that standard on its number and title only, so
+> the match cannot be confirmed from its scope.
 >
 > The shield note is BIS: laptops are under compulsory registration, CRS, to
 > IS/IEC 62368-1. BIS names products in everyday words, so the engine checks
 > those lists too.
 
-Then a tender line full of abbreviations:
+Then a tender line as a schedule of rates writes it:
 
 ```
-GI pipe 25 mm medium class
+Providing ISI mark G.I. pipe 25 mm medium class, excluding GST
 ```
 
-> GI, MS, OPC, TMT, XLPE, MCB, DI: tenders are written in short forms. This
-> finds IS 1239 (Part 1), the standard for galvanized steel tubes. Before this
-> it found spiral welded pipes.
+> GI, MS, DI, RCC, OPC, TMT, XLPE, MCB, M25: tenders are written in short forms,
+> often with full stops, and padded with rates and taxes. This finds IS 1239
+> (Part 1), the standard for galvanized steel tubes, and ignores the GST.
+
+Office furniture, the most common GeM purchase:
+
+```
+office chair
+```
+
+> IS 17631, work chairs, and the shield note: ISI mark compulsory under the
+> Furniture (Quality Control) Order, 2025.
 
 ---
 
@@ -119,15 +129,12 @@ GI pipe 25 mm medium class
 **Do not skip this.**
 
 ```
-CCTV camera for office
+insurance cover for office vehicles
 ```
 
-> "No close match". The catalogue holds no standard text for CCTV cameras, and
-> rather than offering the nearest camera-sounding standard as an answer, it
-> says so and labels the list "nearest text matches, not recommendations".
->
-> But BIS does list CCTV cameras under compulsory registration, so the note
-> still tells the buyer what the law requires.
+> "No close match". Services have no Indian Standard, and rather than offering
+> the nearest vehicle standard as an answer, it says so and labels the list
+> "nearest text matches, not recommendations".
 
 > A tool that is confidently wrong about a legal requirement is worse than no
 > tool.
@@ -144,7 +151,13 @@ http://localhost:5173/app/standard/IS%20694:2010
   citation to paste ("including all amendments").
 - **Allied standards:** what IS 694 depends on, read from its own references
   clause, each with the sentence it came from: IS 8130 for conductors, IS 5831
-  for insulation, IS 10810 for tests.
+  for insulation, IS 10810 for tests; and **related product standards**, the
+  cable standards closest in scope (IS 1554, IS 7098), which it does not cite
+  but a buyer has to choose between.
+- **Certification:** ISI mark compulsory, with the order and a link.
+
+For **safety standards**, open IS 374:2019 (ceiling fans): it cites IS 302,
+the appliance safety standard, grouped as such.
 
 Then open a withdrawn edition, e.g.
 http://localhost:5173/app/standard/IS%2010258:2002
@@ -166,6 +179,13 @@ Go to **Certification**.
 > switches, but a 2025 order defers all of them except small breakers. They
 > are shown as not yet mandatory. Reading the list without that order would
 > tell a buyer something the law does not.
+
+Filter to **Hallmarking**:
+
+> Gold jewellery and artefacts, IS 1417: hallmarking compulsory under the
+> Hallmarking Order, in the 392 districts its latest amendment lists, with the
+> order's exemptions. Silver, IS 2112: hallmarking available but voluntary, so
+> the tender clause is offered as optional.
 
 Type any IS number to check it, e.g. `IS 383:2016`: "not on BIS's compulsory
 lists", with the date the lists were read.
@@ -190,6 +210,11 @@ State the limit plainly:
 > It cannot tell whether the tender cites the right product standard in the
 > first place. No findings is not a pass.
 
+Then **Upload tender / BOQ** with `frontend/public/demo/sample-boq.xlsx`:
+
+> A bill of quantities in Excel, as CPPP publishes them: each row is matched
+> on its own, with its quantity.
+
 ---
 
 ## 7. Any language (30 seconds)
@@ -197,8 +222,9 @@ State the limit plainly:
 **New query**, click the **हिन्दी** chip (`घर की वायरिंग के लिए तांबे का तार`,
 copper wire for house wiring).
 
-> It shows what you typed and what it searched for. Six languages, translated
-> on this machine, no internet.
+> It shows what you typed and what it searched for. Thirteen languages, English
+> and twelve Indian ones, translated on this machine, no internet. Type in a
+> script it does not support and it says so rather than returning nothing.
 
 ---
 
@@ -215,19 +241,22 @@ few seconds after the results appear.
 
 ## 9. Close (30 seconds)
 
-> 21,848 standards. Certification from BIS's own compulsory lists, amendments
-> and edition status from BIS's record for each standard, an allied-standards
-> graph of 88,000 links read from the standards themselves, a tender audit,
-> six languages, accounts with an activity trail, and everything runs on your
-> own machine.
+> 99% of the standards BIS lists as current. Certification from BIS's own
+> compulsory lists and its hallmarking order, amendments and edition status
+> from BIS's record for each standard, allied standards of all six kinds read
+> from the standards themselves, a tender and BOQ audit, thirteen languages,
+> an API and a widget for portals, and everything runs on your own machine.
 
 ---
 
 ## Questions you will be asked
 
 **"How many standards?"**
-21,848, read from the published documents. Certification covers BIS's full
-compulsory lists (about 750 standards); amendment counts and edition status
+31,372 records, 25,919 distinct standards: 99% of the 22,224 standards BIS
+lists as current. 13,845 carry the scope clause read from the published
+document; the rest are held on their number and official title from BIS's
+record, and say so. Certification covers BIS's full compulsory lists (about
+750 standards) and its hallmarking order; amendment counts and edition status
 come from BIS's record for each standard.
 
 **"What is the AI here?"**
@@ -236,9 +265,12 @@ cross-encoder for re-ranking, NLLB-200 for translation, and an optional local
 7B model for explanations. All local. No API keys, no cloud.
 
 **"What is your accuracy?"**
-Over 236 held-out queries on the full corpus: the right standard is in the top
-five 98.7% of the time (Recall@5 0.9873) and first 91.5% (P@1 0.9153). The
-confidence gate was calibrated on 35 genuinely out-of-scope queries.
+On 30 product queries written before they were run and never tuned on, the
+right standard is in the top five for all 30 and first for 23. On 27 real
+tender lines from a state schedule of rates, the standard the line cites is in
+the top five for 21 and first for 17. On 236 held-out queries written from the
+standards' titles, Recall@5 0.94 and P@1 0.83 (the standard, in any edition).
+The confidence gate was calibrated on 35 genuinely out-of-scope queries.
 
 **"Why not just use ChatGPT?"**
 Asked which standard applies, a language model produces a plausible IS number
@@ -248,8 +280,11 @@ language model is used, every IS number it writes is checked against what was
 retrieved.
 
 **"Is it connected to GeM?"**
-No, and the tender builder says so. The API is the integration surface: a
-portal calls `POST /retrieve` with an API key from Settings.
+Not to GeM itself: GeM has no public interface for third parties. Any portal
+can integrate two ways: its backend calls `POST /retrieve` with an API key
+from Settings ([docs/integration-guide.md](integration-guide.md)), or its
+specification page adds one script tag and gets the recommendations under the
+text field (`/widget/demo.html` shows it on a sample form).
 
 **"Is it secure?"**
 Accounts with hashed passwords and tokens, role-based access, throttled
@@ -258,8 +293,8 @@ other's work.
 
 **"What is not done?"**
 Standards published after October 2025 (on BIS's new portal), dates for
-amendments known only from BIS's count, and the text of the newer editions BIS
-lists but the archive does not hold.
+amendments known only from BIS's count, the scope text of the records held on
+number and title only, and hosting: it runs on this machine today.
 
 ---
 

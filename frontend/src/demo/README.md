@@ -125,7 +125,7 @@ A step uploads whichever file it names:
 
 To use a PDF instead: drop `sample.pdf` into `frontend/public/demo/`, then set
 `path: '/demo/sample.pdf'` and `type: 'application/pdf'`. The backend reads
-`.pdf`, `.docx` and `.txt`.
+`.pdf`, `.docx`, `.xlsx`, `.xls` and `.txt`.
 
 ### How the upload is shown
 

@@ -5,6 +5,125 @@ at the top.
 
 ---
 
+## Phase AA: the SIH problem statement, requirement by requirement (2026-09-28)
+
+A check of the build against each line of the problem statement, with fresh
+queries rather than the ones it had been tuned on, found gaps the tests had not
+covered. All of them are closed here.
+
+### Certification (requirement 5)
+
+- **Hallmarking**, named in the problem statement, had no data. Gold jewellery
+  and artefacts (IS 1417) are now compulsory under the Hallmarking of Gold
+  Jewellery and Gold Artefacts Order, 2020 (S.O. 205(E)), in the 392 districts
+  of its Annexure as last substituted by S.O. 4345(E) on 3 August 2026, with
+  the order's exemptions (under 2 g, bullion and coins, Kundan, Polki and
+  Jadau jewellery, turnover up to Rs 40 lakh and others); silver (IS 2112) is
+  `voluntary`, a new status for a scheme no order makes compulsory. Every fact
+  cites the gazette notification it was read from, saved in
+  `data/certification/source/hallmarking/`.
+- The standard page's certification card said "Not yet built" whatever the
+  data held; it now shows the real status, order and link.
+- Product notes misfired: "Supply of ... cable" matched BIS's "Power
+  Supplies" (the tender verb was read as the product), "drinking water quality
+  requirements" matched a wheel-rim listing, "solar water heater" matched
+  electric heaters, "air circuit breaker" matched residual current breakers.
+  Tender verbs and attribute words are now dropped before the product is read,
+  and two-word products ("water heater", "circuit breaker") are compared whole.
+  Office furniture maps to the Furniture (Quality Control) Order, 2025 standards.
+
+### Allied standards (requirement 3)
+
+The problem statement lists six kinds; two were missing. **Safety standards**
+are cited standards whose title says they set safety requirements (IS 302
+appliance safety for a ceiling fan or pressure cooker, the fire-safety codes
+for IS 456); products named "safety" (safety glass, helmets) and safety test
+methods keep their own type. **Related product standards** are the standards
+closest in scope, read from the dense index; similarity alone paired the
+pressure cooker with a hand grinder (0.92) and baking powder (0.90), so a
+neighbour must also share a meaningful word of the title. Citations to
+standards outside the catalogue now show BIS's title.
+
+### Latest version (requirement 4)
+
+- **Coverage**: the archive held the current edition of only 57% of the
+  22,224 standards BIS lists as current. `data/add_bis_standards.py` adds the
+  rest from BIS's record, on number and official title (9,524 records: 6,322
+  standards not held at all, 3,202 newer editions): **99% are now held**.
+  897 older archive editions are superseded by a newer edition now held.
+- 1,212 withdrawn editions said "no replacement" although BIS lists a newer
+  edition as current (IS 4246:2002 -> IS 4246:2025); they now name it.
+- 3,866 broken archive titles ("gov.in.is.16242.1.2014", "2019: Laying of
+  Paver Blocks") are replaced with BIS's official title; BIS's own text was
+  double-encoded in 1,556 titles ("â€“") and is repaired at the source.
+
+### Input and languages (requirements 1 and 6)
+
+- **Excel BOQs** (.xlsx, .xls), as CPPP and NIC eProcurement publish them:
+  the header row names the description, quantity and unit columns, and each
+  goods row becomes a line item.
+- **13 languages**: Gujarati, Kannada, Malayalam, Punjabi, Odia, Urdu and
+  Assamese added. Marathi is told from Hindi by its own words, Assamese from
+  Bengali by its own letters, and a script none of them uses is told it is not
+  supported instead of getting a silent "no match". On 15 test phrases the
+  script was detected correctly every time and 12 translations were good;
+  Assamese was the weakest ("drinking water" as "food").
+
+### Integration with procurement portals
+
+`docs/integration-guide.md` (API keys, the calls a portal needs, what each
+field means, limits) and an embeddable widget,
+`frontend/public/widget/standards-widget.js`: one script tag on a portal's
+specification form shows the recommendations, the certification the law
+requires and replaced editions under the field, and inserts the citation.
+A browser test mints a real API key, loads the sample form and types into it.
+
+### Tender language
+
+- Short forms: M20/M25 concrete, NP pipe classes, AAC, RMC, ISMB/ISA sections,
+  AB cable, PPR, VRLA, UPS, RCBO, RMU, RCC and DI pipes and fittings; written
+  with full stops too ("G.I.", "D.I.", "R.C.C.").
+- Rate boilerplate ("Rates including transportation, loading, unloading",
+  "excluding GST levied by GOI") is left out of what is searched.
+- `eval/real_tender_eval.py` takes tender documents, uses the IS numbers
+  their lines cite as the answer key, and asks the engine. On the 27 item lines
+  of Maharashtra Jeevan Pradhikaran's 2023-24 schedule of rates that cite one:
+  cited standard first 17/27, in the top five 21/27 (16 and 18 before the
+  short-form and boilerplate fixes, which this sample informed). One "miss" is
+  the schedule's own error: its fire-hydrant line cites IS 900, the induction
+  motor code; the engine answered IS 908, stand-post hydrants.
+
+### Ranking
+
+A superseded edition being scored brings its current edition, and the
+replacement BIS names under another number, into scoring with it, and yields
+to the end of the replacement chain (IS 325 -> IS 12615). A test-method title
+ranks below the product standard unless the query is about testing ("ceramic
+floor tiles" had put a dozen parts of IS 13630 above IS 15622). Twenty
+candidates are re-ranked instead of ten. A match on a title alone is never
+"strong": the catalogue cannot confirm what the standard covers.
+
+### Accuracy, measured
+
+| Set | First | Top five |
+|---|---|---|
+| 30 fresh product queries, not tuned on | 23/30 | 30/30 |
+| 39 product and tender queries (tuned on) | 27/39 | 38/39 |
+| 11 queries in other languages and scripts | 7/11 | 9/11 |
+| 27 real tender lines (MJP schedule of rates) | 17/27 | 21/27 |
+| 236 held-out queries, same standard any edition | 0.835 | 0.941 |
+
+The held-out queries are written from the standards' titles. With 9,524
+records added, more near-identical parts and editions sit beside each label:
+exact-edition figures went from 0.9153 / 0.9873 at 21,848 records to 0.826 /
+0.928 at 31,372, while the fresh product queries were unchanged. The test now
+scores the standard in any edition, since which edition to cite is decided by
+the supersession rule and tested on its own.
+
+Tests: 308 backend and 7 full-corpus accuracy tests pass.
+
+---
+
 ## Phase Z: BIS's own record for every standard, tender abbreviations, demo (2026-09-28)
 
 ### Edition status and amendment counts from BIS

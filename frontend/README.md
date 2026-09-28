@@ -65,9 +65,9 @@ Five top-level destinations in the left rail; everything else nests inside one.
 ## Workflows
 
 - **A, Quick lookup** (the primary demo path): query → ranked cards → detail → add branch from the map → builder → copy clause.
-- **B, Full document analysis**: upload BOQ → per-item recommendations → accept each → one consolidated spec.
+- **B, Full document analysis**: upload BOQ (PDF, Word, Excel or text) → per-item recommendations → accept each → one consolidated spec.
 - **C, Audit an existing tender**: upload → status table → apply fixes → export review report.
-- **D, Regional-language query**: Hindi/Tamil/Bengali input, with the interpreted English shown for confirmation.
+- **D, Regional-language query**: 12 Indian languages (Hindi, Marathi, Bengali, Assamese, Tamil, Telugu, Kannada, Malayalam, Gujarati, Punjabi, Odia, Urdu), detected from the script, with the interpreted English shown for confirmation.
 - **E, Amendment watch**: subscriptions plus a revision feed on the Alerts screen.
 
 ## Designed states
@@ -152,9 +152,17 @@ and the few fixed interface lists (graph colours, dismiss reasons) from
 every `/app` route; a 401 from any call signs the tab out. See the root README for roles,
 first-run setup and API keys.
 
-Not yet built: the Chrome extension overlay for GeM.
+**Portal widget.** [`public/widget/standards-widget.js`](public/widget/standards-widget.js) is a
+dependency-free script a procurement portal adds to its own specification form: it shows the
+engine's recommendations under the field and inserts the citation. It reads its settings from its
+own script tag (`data-api`, `data-key`, `data-target`) and writes everything the engine returns with
+`textContent`. [`public/widget/demo.html`](public/widget/demo.html) is a plain sample form with it
+attached; see [`docs/integration-guide.md`](../docs/integration-guide.md).
 
 End-to-end tests sign in once in [`e2e/global-setup.js`](e2e/global-setup.js) with the account
 named in [`e2e/auth.js`](e2e/auth.js). On an installation with no accounts it creates that
 account as the administrator, so run the suite with the engine pointed at a throwaway
-`ACCOUNTS_DB`.
+`ACCOUNTS_DB`. To leave a live stack untouched, run a second engine and dev server and point the
+suite at them: `E2E_API_URL=http://localhost:8001 E2E_BASE_URL=http://localhost:5174` (start the
+dev server with `VITE_API_URL=http://localhost:8001`, and allow its origin on that engine with
+`ALLOWED_ORIGINS=http://localhost:5174`).
