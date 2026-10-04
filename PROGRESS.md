@@ -5,6 +5,151 @@ at the top.
 
 ---
 
+## Phase AC: BIS's new portal, scope clauses, a fixed benchmark, safer keys (2026-10-04)
+
+A check against the problem statement left four gaps (the latest version, amendment
+details, accuracy in other languages, portal integration) and a few things a real
+user would hit. This closes most of them.
+
+### What BIS published since October 2025
+
+BIS's Know Your Standard pages stop at 1 October 2025. Its new portal
+(standards.bis.gov.in) is a browser application over a public JSON API, the
+same calls its pages make without signing in. `data/bis_portal.py` reads it:
+
+- **Published**: 1,681 standards published or revised from 1 October 2025 to
+  4 October 2026 (763 new, 918 revisions), listed by department. 1,674 are
+  added (the rest malformed or already held); a revision supersedes its older
+  edition by the existing rule (IS 1946:1961 by IS 1946:2026, IS 11233:1985 by
+  IS 11233:2026). Two IS/IEC numbers with old years (IS/IEC 60154 (Part
+  3):1982) are adoptions BIS made in 2025-26; adopted standards keep the IEC
+  year.
+- **Details**: each served edition's current record, withdrawn and when, and
+  every amendment with its year. 72 editions were withdrawn after the snapshot
+  (IS 4246:2002 on 23 June 2026); 115 amendments were issued since; dated
+  amendments went from 4,118 to 6,727 of 9,052. The run was stopped at the
+  2-hour background limit with 16,085 of 24,133 editions read, ordered so that
+  every new and every amended standard was among them; the rest (never-amended
+  editions, checked only for withdrawal) are read on the next refresh, which
+  resumes from its cache.
+- The portal's record is overlaid on the Know Your Standard one before
+  `add_bis_standards.py`, `apply_bis_status.py` and the amendments layer read
+  it, so no rule changed. An edition withdrawn since is still added (and marked
+  superseded), so a withdrawal never shifts the ids after it.
+- `data/refresh_bis.ps1` runs the portal steps, the merge and the index; it is
+  meant for a weekly scheduled task (the command is in the script) and re-reads
+  records older than 30 days.
+
+### Scope clauses, read where they actually are
+
+Most OCR renderings run clause 1's heading into the text ("1 SCOPE This
+standard prescribes ..."); the extractor only matched a heading on a line of
+its own and otherwise took the first "This standard specifies ..." sentence it
+met, often in the foreword. IS 10500 was searched as "the acceptable limits and
+the permissible limits in the absence of alternate source", and missed for
+"drinking water" in every language. `ingest_archive.py --rescope` re-reads the
+cached texts with no download: 2,896 standards gained a scope clause and 3,721
+were corrected.
+
+Taking the whole clause first diluted it ("1.1.1 The standard also covers pipes
+for agricultural use. 1.2 ...") and lost IS 4985 for PVC water pipes in seven
+languages (cross-encoder 7.13 with the opening statement, 6.38 with the whole
+clause), so the scope stops at the first sub-clause unless the opening alone is
+too short to say anything.
+
+Two more data fixes came out of the misses:
+
+- **New editions held on BIS's record only** had no text and lost to the
+  scoped edition they replace (IS 1299:2026 ranked below IS 1313 for its own
+  title). 2,845 are now searched with the scope of the edition they revise,
+  `provenance: scope_from_previous_edition` with `scope_edition`, and their page
+  says it is the earlier edition's clause.
+- **168 titles carried BIS's amendment note** ("Pressed Ceramic Tiles -
+  Specification Amendment - 2", "Amendment No. 2 to IS 18297: 2023 ..."); it is
+  removed. IS 15622 scored 3.31 for "ceramic floor tiles" with it and 4.02
+  without, and is back in the top three.
+- The merge re-pointed the query sets before BIS's records got their ids, so
+  48 held-out labels named the wrong record after this rebuild; both BIS steps
+  now re-point them too.
+
+### A benchmark that can be re-run
+
+The earlier spot checks (30 and 28 fresh products, 11 multilingual queries)
+were typed at the time and not all saved. `data/benchmark_queries.json` holds
+52 English buyer-language queries and 8 everyday items in each of 12 Indian
+languages, every label checked against the corpus title; `eval/benchmark.py`
+runs them as a user sends them (language detected, not declared). Three labels
+were widened after the first run where the engine's answer is a current
+standard for the words as written (IS 432 (Part 1) for "steel rods for
+concrete" without "high strength"; either part of IS 2202; IS 15410 for
+"packaged drinking water bottles"); a superseded edition ranked first is still
+a miss. The non-English queries have not been reviewed by native speakers.
+
+| | Before | After |
+|---|---|---|
+| English, first / top five | 29/52 / 47/52 | **35/52 / 48/52** |
+| 12 Indian languages, first / top five | 40/96 / 67/96 | **41/96 / 77/96** |
+| Held-out 236, P@1 / Recall@5 | 0.826 / 0.945 | **0.852 / 0.966** |
+
+The language was detected correctly for all 96. Right-first in other languages
+barely moved because the misses are translation misses: "ceiling fan" becomes
+"roof fan" or "sealing fan" from Hindi, Urdu, Gujarati and Odia, "steel rods"
+becomes "steel rails". NLLB-200 1.3B was tried on all 96 (`TRANSLATION_MODEL`
+now selects the checkpoint): 8 s a query on this CPU against 0.7 s, fixing some
+and breaking others ("electric roof electric fence", "The concrete is then cut
+into strips of wood"), so it was not adopted. Its top three translations name
+the right product a little more often (Punjabi and Odia "ceiling fan" second),
+not enough to justify three searches per query.
+
+"hotel booking for official travel" is no longer out of scope: BIS published
+IS 19384:2025 on online travel agency services. The out-of-scope test uses a
+legal-advice request instead.
+
+### API keys reached account routes
+
+A key acted with its creator's role, and only minting another key was
+refused. A widget key sits in a portal's page source; made by an
+administrator, it let anyone create an administrator in the organisation and
+receive its temporary password (confirmed: 200 and the password returned).
+Keys now reach the engine's routes only (search, standards, certification,
+audit, BOQ) and get 403 elsewhere; can be issued for named web addresses
+(refused from any other page); and are limited to `API_KEY_RATE_PER_MINUTE`
+(120) calls, 429 with Retry-After beyond. The widget can also run with no key
+behind a portal-side relay (nginx example in the integration guide).
+
+### Forgotten passwords
+
+With `SMTP_HOST`, `SMTP_FROM` and `PUBLIC_URL` set (`mailer.py`), "Forgot
+password?" emails a single-use link valid for an hour. The reply is the same
+whether or not the address has an account; three requests an hour per address
+and ten per network address; a reset signs out every session. Without a mail
+server the sign-in page keeps saying to ask the administrator.
+
+### Tested
+
+347 backend tests pass (1 skipped), including 7 full-corpus accuracy tests
+with all 236 held-out queries, 14 new ones for the portal overlay, the scope
+clause, titles and inherited scopes, and 9 new account tests for key scope,
+web addresses, rate limits and password reset. The frontend builds and lints
+with no new warnings. End to end on desktop against the rebuilt corpus, 71 of
+73 passed; the two failures asserted facts the portal data improved on
+(IS 2112:2025 now carries its previous edition's scope; IS 1537's undated
+amendments now have BIS's years) and were rewritten against other standards
+that still show those states. Mobile was not run.
+
+### Still open
+
+- The weekly refresh is written but not scheduled.
+- 8,048 never-amended editions await their withdrawal re-check (next refresh).
+- 13,507 records are searchable on title only; a quarter of amendments have
+  no date.
+- Translation quality decides right-first in other languages.
+- The benchmark's non-English queries need a native speaker's review.
+- Deployment (a Dockerfile for this engine, hosting, HTTPS) was out of scope
+  for this phase.
+
+---
+
 ## Phase AB: the pilot's invented editions removed (2026-09-28)
 
 A second requirement check found that 96 records from the original pilot data

@@ -252,9 +252,12 @@ few seconds after the results appear.
 ## Questions you will be asked
 
 **"How many standards?"**
-31,349 records, 25,915 distinct standards: 99% of the 22,224 standards BIS
-lists as current, and every edition is listed by BIS or published in the
-archive. 13,791 carry the scope clause read from the published document; the rest are held on their number and official title from BIS's
+33,023 records, 26,818 distinct standards: 99.5% of the editions BIS lists as
+current, including the 1,681 BIS published or revised between October 2025
+and October 2026, read from its new standards portal. Every edition is listed
+by BIS or published in the archive. 16,656 carry the scope clause read from
+the published document and 2,845 new editions the scope of the edition they
+revise; the rest are held on their number and official title from BIS's
 record, and say so. Certification covers BIS's full compulsory lists (about
 750 standards) and its hallmarking order; amendment counts and edition status
 come from BIS's record for each standard.
@@ -292,9 +295,10 @@ sign-in, an activity trail per user, and organisations cannot see each
 other's work.
 
 **"What is not done?"**
-Standards published after October 2025 (on BIS's new portal), dates for
-amendments known only from BIS's count, the scope text of the records held on
-number and title only, and hosting: it runs on this machine today.
+Scheduling the weekly refresh from BIS's portal, dates for the quarter of
+amendments that have none, the scope text of the records held on number and
+title only, translation quality in other languages, and hosting: it runs on
+this machine today.
 
 ---
 

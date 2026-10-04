@@ -15,25 +15,26 @@ We would rather state our scope plainly than imply coverage we do not have.
 
 | | Status |
 |---|---|
-| **Standards in the corpus** | **31,349 records** ([`data/standards_corpus_full.json`](data/standards_corpus_full.json)), covering **25,915 distinct standards**. Each published edition is its own record, and every one is either listed by BIS's own record or published in the archive: the 23 editions from the original pilot data that were neither (IS 8112:2018, IS 12894:2020 and others) were removed, each recorded in [`data/pilot_corrections.json`](data/pilot_corrections.json) with the real standard it stood for |
-| **Coverage of BIS's catalogue** | **22,102 of the 22,224 standards BIS lists as current** are held in the edition BIS lists (99%). 9,524 of them were added from BIS's own record because the archive never had them (6,322 standards) or had only an older edition (3,202) |
-| **Current vs. superseded** | **22,452 current** and **8,897 superseded** editions. An edition is superseded when BIS's record for it says withdrawn (**7,141**) or when the corpus holds a newer edition of the same standard. A withdrawn edition names its replacement: the one BIS names, or, where BIS's record names none, the newer edition BIS lists as current or the replacement BIS names for a later edition (1,217 editions) |
-| **Where it comes from** | The complete Public.Resource.Org archive of the BIS catalogue on archive.org (21,937 readable standards out of 22,024 items, including 579 IS/ISO and IS/IEC adoptions and 69 SP publications such as the National Building Code), plus BIS's Know Your Standard records for what the archive lacks |
-| **Where the text comes from** | **13,791** records carry the **published SCOPE clause** of the actual standard. It is OCR of a scanned document, so it contains recognition errors. **17,528** are kept on their real number and official title only: archive records with no usable scope clause, and the 9,524 added from BIS's record. They are searchable on their title and their page says so. **30** pilot records whose number and title BIS confirms keep a written scope summary, labelled `scope_written`, and their page says it is not the standard's own words |
-| **Titles** | 3,866 archive titles were broken (the archive's item id in place of a title, the year glued to the front, lower-case starts) and are replaced with BIS's official title; BIS's own text was double-encoded in 1,556 titles ("â€“" for a dash) and is repaired. The original is kept as `archive_title` |
-| **Currency** | Standards BIS published after 1 October 2025 are on BIS's new portal and not yet in its records here |
-| **Checked against BIS's records** | **29,243 of 31,349 editions** match a record on BIS's Know Your Standard service (all 34,300 pages read 28 September 2026): whether the edition is withdrawn, what replaced it, and how many amendments BIS lists. The other 2,106 have no BIS record under that number and keep the archive's status. The scope text itself is still the archive's OCR, so every record keeps `"verified": false` |
+| **Standards in the corpus** | **33,023 records** ([`data/standards_corpus_full.json`](data/standards_corpus_full.json)), covering **26,818 distinct standards**. Each published edition is its own record, and every one is either listed by BIS (its Know Your Standard record or its new standards portal) or published in the archive: the 23 editions from the original pilot data that were neither (IS 8112:2018, IS 12894:2020 and others) were removed, each recorded in [`data/pilot_corrections.json`](data/pilot_corrections.json) with the real standard it stood for |
+| **Coverage of BIS's catalogue** | **23,702 of the 23,831 editions BIS lists as current are held (99.5%)**, including the **1,681 standards BIS published or revised between 1 October 2025 and 4 October 2026** (763 new, 918 revisions), read from its new standards portal. 11,198 records were added from BIS's record because the archive never had the standard or had only an older edition |
+| **Current vs. superseded** | **23,849 current** and **9,174 superseded** editions. An edition is superseded when BIS lists it as withdrawn (**7,215**, of which 72 were withdrawn after October 2025 and carry the date) or when the corpus holds a newer edition of the same standard (a 2026 revision supersedes its 1961 edition, IS 1946). A withdrawn edition names its replacement: the one BIS names, or, where BIS names none, the newer edition BIS lists as current or the replacement BIS names for a later edition |
+| **Where it comes from** | The complete Public.Resource.Org archive of the BIS catalogue on archive.org (21,937 readable standards out of 22,024 items, including 579 IS/ISO and IS/IEC adoptions and 69 SP publications such as the National Building Code), plus BIS's Know Your Standard records and its standards portal (standards.bis.gov.in) for what the archive lacks |
+| **Where the text comes from** | **16,656** records carry the **published SCOPE clause** of the actual standard, its opening statement up to the first sub-clause. It is OCR of a scanned document, so it contains recognition errors. **2,845** new editions held only on BIS's record are searched with the scope clause of the edition they revise, and their page says so (`scope_from_previous_edition`). **13,507** are kept on their real number and official title only, searchable on the title, and their page says so. **15** pilot records whose number and title BIS confirms keep a written summary, labelled `scope_written` |
+| **Titles** | 3,866 archive titles were broken (the archive's item id in place of a title, the year glued to the front, lower-case starts) and are replaced with BIS's official title; BIS's own text was double-encoded in 1,556 titles ("â€“" for a dash) and is repaired, and the amendment notes BIS writes into 168 titles ("... Specification Amendment - 2") are removed. The original is kept as `archive_title` |
+| **Currency** | Read from BIS's standards portal on 4 October 2026. [`data/refresh_bis.ps1`](data/refresh_bis.ps1) brings in what BIS publishes, withdraws or amends after that, and is meant to run weekly; until it is scheduled, the corpus is as current as its last run. Of the 24,133 editions it re-checks for withdrawal, 16,085 were read in the first run (every new and every amended standard among them) and the rest are read on the next |
+| **Checked against BIS's records** | **30,917 of 33,023 editions** match BIS's own record (Know Your Standard, all 34,300 pages read 28 September 2026, brought up to date from the portal): whether the edition is withdrawn, what replaced it, and its amendments. The other 2,106 have no BIS record under that number and keep the archive's status. The scope text itself is still the archive's OCR, so every record keeps `"verified": false` |
 | **Certification data** | **BIS's full lists of products under compulsory certification**: 749 standards across Scheme I (ISI mark), Scheme II (CRS) and Scheme X, each with its Quality Control Order, gazette notification and a link to the order (read 27 September 2026); and **BIS hallmarking**: gold jewellery and artefacts (IS 1417) compulsory under the Hallmarking Order in 392 districts, with its exemptions, and silver (IS 2112) voluntary, read from the gazette notifications (saved in `data/certification/source/hallmarking/`). Orders whose enforcement is deferred (most of the Electrical Equipment QCO, by S.O. 5038(E)) are shown as **not yet mandatory**. A standard not on the lists reports `not_listed`, stated with the date the lists were read |
-| **Amendments** | **BIS's official count for 33,761 standards** (5,548 with amendments, 8,937 in all), with dates and excerpts read from the amendment slips bound into each standard's own archived copy (3,428 standards, 5,424 slips). Where the copy shows more amendments than BIS lists, the larger number is shown and marked disputed. A standard BIS has no record for falls back to its copy, which reports "at least" and the year the copy is current to |
+| **Amendments** | **BIS's official record for 35,601 editions** (5,574 with amendments, 9,052 in all, 115 of them issued after October 2025), with the year of **6,727** of those amendments: from BIS's portal (which lists each amendment with its year) and from the amendment slips bound into each standard's archived copy (3,428 standards, 5,424 slips, with excerpts). Where the copy shows more amendments than BIS lists, the larger number is shown and marked disputed. A standard BIS has no record for falls back to its copy, which reports "at least" and the year the copy is current to |
 | **Allied standards** | **88,632 links from 16,944 standards**, read automatically from each standard's own REFERENCES clause and citations, plus 25 read and typed by hand, grouped as normative references, material specifications, test methods, **safety standards**, terminology and installation practice. Every automatic link carries the passage it was read from; on samples about 97% were read correctly. **Related product standards** are the standards closest in scope, read from the search index and required to share a word of the title |
 
-**What this means in practice:** search covers 99% of the standards BIS lists
-as current, certification comes from BIS's own compulsory lists and hallmarking
-order, and edition status and amendment counts come from BIS's record for each
-standard. What remains open: about half the records are searchable on their
-title alone, standards published after October 2025 are not yet in BIS's
-records here, amendments known only from BIS's count have no date or text, and
-scope text is OCR that has not been proof-read.
+**What this means in practice:** search covers 99.5% of the editions BIS
+lists as current, including those published up to 4 October 2026;
+certification comes from BIS's own compulsory lists and hallmarking order; and
+edition status and amendments come from BIS's record for each standard. What
+remains open: 41% of records are searchable on their title alone (mostly
+standards the archive holds no text for), a quarter of
+amendments have no date, scope text is OCR that has not been proof-read, and
+the corpus stays current only if the weekly refresh is scheduled.
 
 ## Usage figures
 
@@ -92,12 +93,13 @@ Two more screens read from the engine rather than from fixtures:
   researched), always as a ratio against the total, because 13 confirmed
   records mean nothing without the total they are out of.
 
-Neither is a notification feed. **Nothing monitors BIS for newly published
-revisions**, so no finding carries a timestamp: the corpus cannot say when a
-revision was published, and a relative time on a fact read from a static file
-would be an invention. A short amendment list is not an all-clear either,
-because amendments are researched for only 3 standards, and the screen states
-the unchecked remainder rather than implying a clean bill of health.
+Neither is a notification feed. The corpus follows BIS through a weekly
+refresh from its standards portal (`data/refresh_bis.ps1`, to be scheduled),
+not a live feed, so findings carry no relative time: a withdrawal shows the
+date BIS gives for it where the portal has one, and nothing more. A short
+amendment list is not an all-clear either: a standard BIS has no record for is
+checked only against its archived copy, and the screen states the unchecked
+remainder rather than implying a clean bill of health.
 
 ## Plain-language explanations (optional)
 
@@ -138,9 +140,13 @@ never acquires a fluent explanation of why the wrong standards almost fit.
 
 ## Languages
 
-Queries can be written in **English, Hindi, Tamil, Bengali, Marathi or
-Telugu**. Non-English queries are translated to English before searching
-(facebook/nllb-200-distilled-600M, running locally, no API key), and the UI
+Queries can be written in **English and 12 Indian languages**: Hindi,
+Marathi, Bengali, Assamese, Tamil, Telugu, Kannada, Malayalam, Gujarati,
+Punjabi, Odia and Urdu. The script is detected (Marathi told from Hindi, and
+Assamese from Bengali, by their own words and letters), and a script none of
+them uses is told so rather than given a silent "no match". Non-English
+queries are translated to English before searching (NLLB-200, running
+locally, no API key; `TRANSLATION_MODEL` picks the checkpoint), and the UI
 shows both what you typed and what was actually searched, because a wrong
 machine translation quietly returning wrong standards is the failure worth
 guarding against.
@@ -162,29 +168,34 @@ per-response `final_score`, is comparable across queries. On a `none` verdict
 the UI drops the "Recommended standards" heading entirely and presents the
 results as "Nearest text matches … not recommendations".
 
-**Current measurement: 31,349 records**
+**Current measurement: 33,023 records (4 October 2026)**
 
 | Query set | Right standard first | In the top five |
 |---|---|---|
-| 30 fresh product queries, written before any were run and never tuned on | 22/30 | **30/30** |
-| 28 further fresh product queries (second requirement check) | 22/28 | 25/28 |
-| 15 everyday products the pilot's invented editions used to answer (43 grade cement, fly ash bricks, AAC blocks, DI pipes, ...) | 14/15, none an invented edition | 15/15 |
-| 27 real tender lines citing an IS number (Maharashtra Jeevan Pradhikaran schedule of rates 2023-24, `eval/real_tender_eval.py`) | 18/27 | 22/27 |
-| 11 queries in other Indian languages and scripts | 5/11 | 9/11 |
-| 236 held-out queries (`tests/test_full_corpus_accuracy.py`, `FULL_EVAL_QUERIES=0`), same standard in any edition | 0.826 | **0.945** |
+| 52 buyer-language product queries in English ([`data/benchmark_queries.json`](data/benchmark_queries.json), `eval/benchmark.py`) | 35/52 (67%) | **48/52 (92%)** |
+| The same kind of items in 12 Indian languages, 8 each (96 queries) | 41/96 (43%) | **77/96 (80%)** |
+| 236 held-out queries (`tests/test_full_corpus_accuracy.py`, `FULL_EVAL_QUERIES=0`), same standard in any edition | 0.852 | **0.966** |
 
-Removing the pilot's invented text cost a few first places where it had been
-carrying a standard: IS 10500 (drinking water) now ranks second or third,
-because the archive's OCR of its scope clause caught the wrong sentence, and
-the two drinking-water queries in other languages fell with it.
+The benchmark is committed so every figure can be re-run after a change; the
+spot checks quoted before it (30 and 28 fresh products, 11 multilingual
+queries, 27 tender lines) were typed at the time and not all saved. On the
+benchmark at the start of 4 October the figures were 29/52 and 47/52 in
+English, 40/96 and 67/96 in other languages, and 0.826 / 0.945 held out. What
+moved them: the scope clause read where its heading runs into the text (IS
+10500, drinking water, had been searched by a sentence from its foreword), new
+editions searched with the scope of the edition they revise, and BIS's
+amendment notes taken out of 168 titles. Right-first in other languages is
+held back mostly by translation: "ceiling fan" comes back as "roof fan" or
+"sealing fan" from Hindi, Urdu and Gujarati. The larger NLLB model (1.3B) was
+tried and rejected: eleven times slower on a CPU and no more often right.
 
 Query time, warm, on a laptop CPU: median 367 ms, 90th percentile 624 ms, over
 69 product queries.
 
 The held-out queries are written from the standards' titles, so they are the
-easiest set and the least like a buyer. Scored on the exact edition labelled
-they give 0.826 / 0.928; at 21,848 records, before 9,524 of BIS's current
-standards were added, they gave 0.9153 / 0.9873. The added records put more
+easiest set and the least like a buyer. On 28 September, scored on the exact
+edition labelled, they gave 0.826 / 0.928; at 21,848 records, before 9,524 of
+BIS's current standards were added, 0.9153 / 0.9873. The added records put more
 near-identical parts and editions beside each label; on the fresh product
 queries the same change made no difference. Which edition to cite is decided
 by the supersession rule (the edition in force ranks first and a superseded
@@ -333,7 +344,7 @@ another corpus's artifacts.
 
 | Value | Corpus | Used for |
 |---|---|---|
-| `full` | 21,848 standards from the archive | the site |
+| `full` | 33,023 records: the archive and BIS's record | the site |
 | `canonical` | the 45 curated pilot standards | the end-to-end suite and the demo script |
 | `mock` (default) | the original 30 standards | the unit tests and the committed ranker |
 
@@ -399,10 +410,20 @@ organisation's name and creates its **administrator** account. After that:
   are stored only as SHA-256 hashes, so a copy of the database holds no working
   credential. Five wrong passwords lock that email for 15 minutes. Changing a
   password signs out every other session, and disabling a member signs them
-  out at once. Forgotten passwords are reset by an administrator.
+  out at once.
+- **Forgotten passwords.** With a mail server configured (`SMTP_HOST`,
+  `SMTP_FROM` and `PUBLIC_URL`, see `standards-retrieval/mailer.py`), "Forgot
+  password?" on the sign-in page emails a single-use link valid for an hour;
+  the reply is the same whether or not the address has an account, requests
+  are rate limited, and a reset signs out every session. Without one, an
+  administrator resets it from Settings.
 - **API keys** (administrators and integrators, Settings, API keys) are shown
   once when created. Send one as `Authorization: Bearer sk_...` or
-  `X-API-Key: sk_...`. Each key counts its calls and can be revoked.
+  `X-API-Key: sk_...`. Each key counts its calls and can be revoked. A key
+  reaches the engine's search and standards routes only, never accounts,
+  members or keys, whoever created it; it can be issued for named web
+  addresses (for the portal widget, whose key anyone can read in the page);
+  and it is limited to `API_KEY_RATE_PER_MINUTE` calls (120 by default).
 - **Activity trail.** Every search, scenario, upload, decision on a result,
   project change, sign-in and settings change is recorded against the account
   that did it (Settings, Activity, exportable as CSV).
@@ -464,7 +485,7 @@ git checkout -- standards-retrieval/models/ltr_model.txt
 
 | Capability | State |
 |---|---|
-| Semantic search (dense + BM25 + cross-encoder + learned ranker) | Live over 31,349 records, 99% of the standards BIS lists as current, ~370 ms |
+| Semantic search (dense + BM25 + cross-encoder + learned ranker) | Live over 33,023 records, 99.5% of the editions BIS lists as current as of 4 October 2026, ~370 ms |
 | Refuses to answer outside its coverage | Live, thresholds calibrated on the full corpus |
 | Superseded editions flagged, with the current edition named | Live, 8,011 editions (7,141 withdrawn per BIS) |
 | Mandatory certification with its governing order: BIS Product Certification (ISI), CRS, Scheme X and Hallmarking | BIS's full compulsory lists, 749 standards, plus the Hallmarking Order for gold (silver voluntary) |
@@ -487,7 +508,9 @@ git checkout -- standards-retrieval/models/ltr_model.txt
 | Scenario simulator: what changes when the requirement changes | Live |
 | Audit of what cited standards depend on but the tender omits | Live, read from each standard's references and obligations |
 | Everyday product words ("laptop", "geyser") mapped to the standards' terms, with BIS product listings | Live |
-| Accounts, roles, API keys, per-user activity trail | Live |
+| Accounts, roles, API keys, per-user activity trail | Live; keys limited to the engine's routes, a rate and optionally the portal's web address |
+| Password reset by email | Live when a mail server is configured; otherwise by an administrator |
+| Weekly refresh from BIS's new standards portal (new standards, revisions, withdrawals, amendments) | `data/refresh_bis.ps1`, to be scheduled |
 | Projects saved per user on the server | Live |
 | Guided demo that drives the live app | Live, from the homepage or the account menu |
 
@@ -504,14 +527,20 @@ $env:PYTHONPATH = 'standards-retrieval'
 $env:FULL_EVAL_QUERIES = '0'
 .venv\Scripts\python -m pytest standards-retrieval\tests\test_full_corpus_accuracy.py -q -s
 
+# Buyer-language benchmark, English and 12 Indian languages (a few minutes)
+cd standards-retrieval; ..\.venv\Scripts\python evalenchmark.py --out results.json; cd ..
+
 # End-to-end, needs both servers running
 cd frontend; npm run test:e2e
 ```
 
-Last run (2026-09-27): the backend suite is **219 passed, 1 skipped**. End to
-end, each of the 42 tests passed on both desktop and mobile in its latest run,
-including the full guided-demo sequence (the six that failed in the first full
-run were fixed and re-run individually). The suite signs in once through `e2e/global-setup.js`; run
+Last run (2026-10-04): the backend suite is **347 passed, 1 skipped**, with
+all 236 held-out queries in the full-corpus accuracy tests. End to end, on
+desktop, 71 of 73 passed in the full run (including the guided demo); the two
+that failed asserted facts the portal data had improved on (IS 2112:2025 is
+now searched with its previous edition's scope; IS 1537's undated amendments
+now have BIS's years), were rewritten against the new data, and pass, with
+one test added. The mobile project was not run this time. The suite signs in once through `e2e/global-setup.js`; run
 it with the engine pointed at a throwaway `ACCOUNTS_DB`, because on an empty
 installation it creates its own administrator.
 

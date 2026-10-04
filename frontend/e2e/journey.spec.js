@@ -178,10 +178,21 @@ test.describe('Catalogue and detail', () => {
   });
 
   test('a standard held on its number and title only says so', async ({ page }) => {
-    // IS 2112:2025, silver hallmarking: in BIS's record, not in the archive.
+    // IS 19609:2026, uPVC door and window profiles: a new standard from BIS's
+    // portal, with no earlier edition whose scope it could be searched by.
+    await page.goto(`/app/standard/${encodeURIComponent('IS 19609:2026')}`);
+    await expect(page.locator('h1.mono')).toContainText('IS 19609:2026', { timeout: 60_000 });
+    await expect(page.locator('text=/official title only/i')).toBeVisible();
+  });
+
+  test('a new edition searched by the scope of the one it revises says so', async ({ page }) => {
+    // IS 2112:2025, silver hallmarking: in BIS's record, not in the archive,
+    // searched with the scope clause of IS 2112:2014.
     await page.goto(`/app/standard/${encodeURIComponent('IS 2112:2025')}`);
     await expect(page.locator('h1.mono')).toContainText('IS 2112:2025', { timeout: 60_000 });
-    await expect(page.locator('text=/official title only/i')).toBeVisible();
+    const note = page.getByTestId('scope-previous-edition-note');
+    await expect(note).toBeVisible();
+    await expect(note).toContainText('IS 2112:2014');
   });
 
   test('everyday cement and brick searches name editions BIS actually lists', async ({ page }) => {
@@ -346,15 +357,23 @@ test.describe('Honesty guarantees', () => {
 
   test('BIS’s amendment count is shown with dates from the standard’s own copy', async ({ page }) => {
     // BIS lists 7 amendments to IS 1537:1976. Its archived copy carries slips
-    // 1, 2, 4 and 5; 3 is known only from 4; 6 and 7 are known only from BIS.
+    // 1, 2, 4 and 5 with their months; BIS's portal gives the years of 3, 6
+    // and 7, which the copy cannot.
     await page.goto(`/app/standard/${encodeURIComponent('IS 1537:1976')}`);
     await expect(page.locator('text=7 issued')).toBeVisible({ timeout: 60_000 });
     await expect(page.locator('text=July 1977')).toBeVisible();
-    await expect(page.locator('text=/Known from a later amendment/')).toBeVisible();
-    await expect(page.locator('text=/Listed by BIS; date not in the sources read/').first()).toBeVisible();
     await expect(page.locator('blockquote.clause', { hasText: 'incorporating all 7 amendments' })).toBeVisible();
-    // The record card agrees with the amendments card.
-    await expect(page.locator('text=/latest dated: No. 5, May 1994/')).toBeVisible();
+    await expect(page.locator('blockquote.clause', { hasText: 'Amendment No. 7 (2016)' })).toBeVisible();
+  });
+
+  test('an amendment with no known date says why', async ({ page }) => {
+    // IS 10885:1984: amendment 2 is known only because a later note implies it.
+    await page.goto(`/app/standard/${encodeURIComponent('IS 10885:1984')}`);
+    await expect(page.locator('text=/Known from a later amendment/')).toBeVisible({ timeout: 60_000 });
+    // IS 11060:2020: BIS counts one amendment and no source read gives its date.
+    await page.goto(`/app/standard/${encodeURIComponent('IS 11060:2020')}`);
+    await expect(page.locator('text=/Listed by BIS; date not in the sources read/').first())
+      .toBeVisible({ timeout: 60_000 });
   });
 
   test('corpus health shows counts against their totals', async ({ page }) => {

@@ -230,9 +230,10 @@ plain sample form with the widget attached.
 - It does not issue or verify BIS licences, registrations or hallmarks. It says
   which are required and cites the order; check the supplier's licence on BIS's
   own services.
-- Standards BIS published after October 2025 (on BIS's new portal) are not in
-  its records yet.
-- 13,791 of its 31,349 records carry the scope text of the standard (OCR of
-  the published document), and 30 a written summary labelled as such; the
-  rest are searchable on the official number and title only, and the
-  standard's page says so.
+- Its record of BIS's standards is as current as its last refresh from BIS's
+  standards portal (`data/refresh_bis.ps1`).
+- 16,656 of its 33,023 records carry the scope text of the standard (OCR of
+  the published document), 2,845 new editions the scope of the edition they
+  revise, and 15 a written summary, each labelled as such; the rest are
+  searchable on the official number and title only, and the standard's page
+  says so.

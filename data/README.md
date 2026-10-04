@@ -70,6 +70,39 @@ powershell -File data\run_full_ingest.ps1 -From index   # resume a failed run
 
 Restart the API afterwards; it reads the corpus once, at startup.
 
+Between merge and index, `add_bis_standards.py` and `apply_bis_status.py`
+bring in BIS's own record (below), and both re-point the query sets again,
+since the ids of BIS's records are assigned after the merge.
+
+The extractor was improved after the texts were fetched, so
+`ingest_archive.py --rescope` re-reads every cached text and re-extracts its
+scope without downloading anything. Most OCR renderings run clause 1's
+heading into the text ("1 SCOPE This standard prescribes ..."), which only a
+heading on a line of its own used to match; those fell through to the first
+"This standard specifies ..." sentence anywhere near the top, often in the
+foreword. The rescope of 4 October 2026 found a scope clause for 2,896
+standards that had none and corrected 2,865 (IS 10500, drinking water, had
+been searched as "the acceptable limits and the permissible limits in the
+absence of alternate source").
+
+### Keeping up with BIS
+
+BIS's Know Your Standard pages stop at 1 October 2025; what BIS has published,
+withdrawn or amended since is on its new standards portal
+(standards.bis.gov.in), whose pages read a public JSON API.
+[`bis_portal.py`](bis_portal.py) reads it in three resumable steps,
+`published` (every standard published or revised in a date range, by
+department), `details` (each standard's current record: withdrawn and when,
+and every amendment with its year) and `combine`, into
+`amendments/bis_portal.json`. That record is overlaid on the Know Your
+Standard one before `add_bis_standards.py` and `apply_bis_status.py` read it,
+so a revision supersedes the older edition by the same rules as before.
+
+[`refresh_bis.ps1`](refresh_bis.ps1) runs all of it, then the merge and index,
+unattended; it is meant for a weekly scheduled task (the command to register
+one is in the script). It re-reads any record older than 30 days, which is how
+withdrawals and new amendments are noticed.
+
 ### The allied-standards graph
 
 [`extract_references.py`](extract_references.py) reads the cached text of
@@ -278,8 +311,12 @@ cross-validation score and the held-out score, see Phase D in
 | `amendments/amendments.json` | Amendments researched by hand from BIS documents for 3 standards; these win over the text |
 | `amendments/bis_kys.json` | BIS's Know Your Standard record for 33,761 standards (all 34,300 pages, read 28 September 2026): title, withdrawn flag, replacement, amendment count. 5,548 standards have amendments, 8,937 in all. Fetched by `bis_kys.py fetch` into `archive/kys_cache/` (not committed) and merged by `bis_kys.py combine`, which repairs the double-encoded text in 1,556 of BIS's titles. This official count wins over both files above |
 | `pilot_corrections.json` | The 23 pilot editions BIS does not list, each with the reason and the real standard it stood for (`by`, null where the number belongs to another standard). The build refuses to drop a pilot record not explained here, and query labels naming one follow it to `by` |
-| `add_bis_standards.py` | Adds the editions BIS lists as current that the archive never had, as records on number and official title only (`provenance: number_and_title_only`, source BIS's page, ids `IS-BIS-nnnnn` so no existing id shifts). Last run: 9,524 added (6,322 standards not held at all, 3,202 newer editions of standards held only in an older one); 99 BIS entries with a malformed number were left out. Run after `build_full_corpus.py`, before `apply_bis_status.py` |
+| `add_bis_standards.py` | Adds the editions BIS lists as current that the archive never had, as records on number and official title only (`provenance: number_and_title_only`, source BIS's page, ids `IS-BIS-nnnnn` so no existing id shifts). Last run (4 October 2026, with the portal overlaid): 11,198 added (7,225 standards not held at all, 3,973 newer editions of standards held only in an older one, 1,674 of them published after the Know Your Standard snapshot); 106 entries with a malformed number were left out. A newer edition is searched with the scope clause of the edition it revises where that is held (2,845, `provenance: scope_from_previous_edition`, `scope_edition`). Run after `build_full_corpus.py`, before `apply_bis_status.py` |
 | `apply_bis_status.py` | Writes BIS's withdrawn status and replacement into `standards_corpus_full.json` (`withdrawn`, `superseded_by_number`, `withdrawal_note`, `status_source: "bis"`). Where BIS's record names no replacement but BIS lists a newer edition as current, that edition is named (`replacement_source: "bis_newer_edition"`, 1,212 editions). Also replaces broken archive titles with BIS's official title (3,866) and repairs double-encoded text, keeping the original as `archive_title`. Last run: 29,243 editions matched, 7,141 withdrawn, 2,129 with no BIS record |
+| `bis_portal.py`, `amendments/bis_portal.json` | BIS's new standards portal: the 1,681 standards published or revised from 1 October 2025 to 4 October 2026 (763 new, 918 revisions), and each served edition's current record (withdrawn and when, amendments with their years). Per-standard records are cached in `archive/portal_cache/` (not committed). Overlaid on `bis_kys.json` by `add_bis_standards.py`, `apply_bis_status.py` and the amendments layer, as BIS's newer record |
+| `refresh_bis.ps1` | The weekly refresh: portal, then merge and index |
+| `benchmark_queries.json` | The fixed buyer-language benchmark (52 English queries, 8 items in each of 12 Indian languages), run by `standards-retrieval/eval/benchmark.py` |
+| `benchmark_results/` | Per-query benchmark results (`--out`), kept so a later run can be compared query by query. `2026-10-04_before.json` is the corpus as committed on 28 September, scored with the current labels; `2026-10-04_after.json` is this rebuild |
 | `text_repair.py` | Undoes text encoded as UTF-8 and read as Windows-1252 ("â€“" for an en dash), which BIS's own records carry; used by `bis_kys.py` and `apply_bis_status.py` |
 | `archive/` | The archive ingest output, its text cache, and pipeline logs (logs and `backup/` are not committed) |
 | `run_full_ingest.ps1` | Fetch, merge and index the full corpus in one run |
