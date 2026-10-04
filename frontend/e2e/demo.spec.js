@@ -179,11 +179,19 @@ test.describe('Demo Mode', () => {
   test('the full sequence runs start to finish with no user interaction', async ({ page }) => {
     test.setTimeout(FULL_RUN);
 
-    // Surface any step failure as a test failure rather than a silent stop.
+    // Surface any step failure as a test failure rather than a silent stop,
+    // and keep the demo's own breadcrumbs, so a run that stops says where.
     const problems = [];
+    const demoLog = [];
     page.on('console', (m) => {
-      if (m.type() === 'error' && m.text().includes('[demo]')) problems.push(m.text());
+      if (!m.text().includes('[demo]')) return;
+      demoLog.push(`${m.type()}: ${m.text()}`);
+      if (m.type() === 'error') problems.push(m.text());
     });
+    const withLog = (err) => {
+      err.message += `\nDemo log (last 25):\n${demoLog.slice(-25).join('\n')}`;
+      throw err;
+    };
 
     // Every screen the demo opens, in order.
     //
@@ -206,7 +214,7 @@ test.describe('Demo Mode', () => {
 
     // ── Act 3: the engine query, waited for rather than guessed at ──────────
     await expect(page.locator('[data-demo-target="query-results"]'))
-      .toBeVisible({ timeout: 150_000 });
+      .toBeVisible({ timeout: 150_000 }).catch(withLog);
     await expect(page.locator('article.rec').first()).toBeVisible();
 
     // ── Act 5: everyday words, shown for real ──────────────────────────────

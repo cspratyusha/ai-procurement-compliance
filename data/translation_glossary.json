@@ -1,124 +1,21 @@
 {
   "_meta": {
-    "purpose": "Procurement words in each language whose literal machine translation goes wrong ('छत का पंखा' became 'roofed fan', 'ಕುಡಿಯುವ ನೀರಿನ' lost 'drinking', 'കമ്പികൾ' became 'ropes'). Each is replaced by the English trade name before the query is translated; the translator keeps English words as they are.",
-    "scope": "Native words only, for goods bought by government departments: ceiling fan, fan, reinforcement bars, bricks, drinking water, electric, wire, water tank, sand, coarse aggregate, shoes, stove, windows, doors, glass, steel. Words already borrowed from English (pump, meter, cylinder, helmet, plywood, cooker) are left to the translator. A word with a common second meaning is left out (Bengali তার is also 'his', Marathi तारा is also 'star').",
-    "matching": "Whole words only, longest first, in the language the query was detected as. Inflected forms are listed rather than matched by prefix.",
-    "review": "Written 2026-10-05, not reviewed by native speakers. Judged on data/benchmark_heldout_queries.json as well as the benchmark it was written after."
+      "purpose": "Procurement words in each language whose literal machine translation goes wrong ('छत का पंखा' became 'roofed fan', 'ಕುಡಿಯುವ ನೀರಿನ' lost 'drinking', 'കമ്പികൾ' became 'ropes'). Each is replaced by the English trade name before the query is translated; the translator keeps English words as they are.",
+      "scope": "Native words only, for goods bought by government departments: ceiling fan, fan, reinforcement bars, bricks, drinking water, electric, wire, water tank, sand, coarse aggregate, shoes, stove, windows, doors, glass, steel. Words already borrowed from English (pump, meter, cylinder, helmet, plywood, cooker) are left to the translator. A word with a common second meaning is left out (Bengali তার is also 'his', Marathi तारा is also 'star').",
+      "matching": "Whole words only, longest first, in the language the query was detected as. Inflected forms are listed rather than matched by prefix.",
+      "review": "Written 2026-10-05, not reviewed by native speakers. Judged on data/benchmark_heldout_queries.json as well as the benchmark it was written after.",
+      "loanwords": "Also English loanwords written in the script, where the translator mangles them ('টাইলস' came back as 'tires', 'গিজার' as 'Giza', 'व्हॉल्व्ह' as 'the wolf'): found by translating a fixed list of 20 procurement loanwords in each script, alone and in a phrase (40 of 240 mangled), not from test queries. Bengali and Assamese কেবল ('cable') is left out: it is also the word for 'only'."
   },
-  "hi": {
-    "छत का पंखा": "ceiling fan", "छत के पंखे": "ceiling fan", "छत वाला पंखा": "ceiling fan", "छत वाले पंखे": "ceiling fan",
-    "सीलिंग पंखा": "ceiling fan", "सीलिंग पंखे": "ceiling fan", "पंखा": "fan", "पंखे": "fan",
-    "सरिया": "steel reinforcement bars", "सरिये": "steel reinforcement bars", "सरियों": "steel reinforcement bars",
-    "ईंट": "bricks", "ईंटें": "bricks", "ईंटों": "bricks",
-    "पेयजल": "drinking water", "पीने का पानी": "drinking water", "पीने के पानी": "drinking water",
-    "बिजली का": "electric", "बिजली की": "electric", "बिजली के": "electric", "बिजली वाला": "electric", "बिजली का तार": "electric wire", "बिजली के तार": "electric wire", "बिजली": "electric", "विद्युत": "electric",
-    "तार": "wire", "तारों": "wire",
-    "टंकी": "tank", "टंकियां": "tanks", "टंकियों": "tanks",
-    "रेत": "sand", "बालू": "sand", "गिट्टी": "coarse aggregate",
-    "जूते": "shoes", "जूता": "shoes", "चूल्हा": "stove", "चूल्हे": "stove",
-    "खिड़की": "windows", "खिड़कियां": "windows", "खिड़कियों": "windows",
-    "दरवाजा": "doors", "दरवाज़ा": "doors", "दरवाजे": "doors", "दरवाज़े": "doors",
-    "कांच": "glass", "शीशा": "glass", "शीशे": "glass", "इस्पात": "steel"
-  },
-  "mr": {
-    "छताचा पंखा": "ceiling fan", "छताचे पंखे": "ceiling fan", "छतावरील पंखा": "ceiling fan", "सीलिंग पंखा": "ceiling fan",
-    "पंखा": "fan", "पंखे": "fan",
-    "सळई": "steel reinforcement bars", "सळया": "steel reinforcement bars", "सळ्या": "steel reinforcement bars",
-    "वीट": "bricks", "विटा": "bricks", "विटांचे": "bricks",
-    "पिण्याचे पाणी": "drinking water", "पिण्याच्या पाण्याच्या": "drinking water", "पिण्याच्या पाण्यासाठी": "for drinking water",
-    "पिण्याच्या पाण्याची": "drinking water",
-    "वीज": "electric", "विजेचा": "electric", "विजेचे": "electric", "विजेची": "electric", "विद्युत": "electric",
-    "तार": "wire", "टाकी": "tank", "टाक्या": "tanks",
-    "वाळू": "sand", "खडी": "coarse aggregate", "बूट": "shoes", "चूल": "stove",
-    "खिडकी": "windows", "खिडक्या": "windows", "दरवाजा": "doors", "दरवाजे": "doors", "काच": "glass", "पोलाद": "steel"
-  },
-  "bn": {
-    "ছাদের পাখা": "ceiling fan", "সিলিং পাখা": "ceiling fan", "পাখা": "fan",
-    "লোহার রড": "steel bars", "স্টিলের রড": "steel bars",
-    "ইট": "bricks", "ইটের": "bricks",
-    "পানীয় জল": "drinking water", "খাবার জল": "drinking water",
-    "বৈদ্যুতিক তার": "electric wire", "বিদ্যুৎ": "electric", "বিদ্যুতের": "electric", "বৈদ্যুতিক": "electric",
-    "বালি": "sand", "পাথরকুচি": "coarse aggregate", "জুতো": "shoes", "জুতা": "shoes", "উনুন": "stove", "চুলা": "stove",
-    "জানালা": "windows", "দরজা": "doors", "কাচ": "glass", "কাঁচ": "glass", "ইস্পাত": "steel"
-  },
-  "as": {
-    "চিলিং ফেন": "ceiling fan", "চিলিং পাংখা": "ceiling fan", "পাংখা": "fan",
-    "তীখাৰ ৰড": "steel bars", "তীখা": "steel",
-    "ইটা": "bricks", "খোৱা পানী": "drinking water",
-    "বিদ্যুৎ": "electric", "বিদ্যুতৰ": "electric", "বৈদ্যুতিক": "electric", "তাঁৰ": "wire",
-    "বালি": "sand", "জোতা": "shoes", "খিৰিকী": "windows", "দুৱাৰ": "doors", "কাঁচ": "glass"
-  },
-  "ta": {
-    "கூரை மின்விசிறி": "ceiling fan", "சீலிங் ஃபேன்": "ceiling fan", "மின்விசிறி": "electric fan",
-    "எஃகு கம்பிகள்": "steel bars", "எஃகு கம்பி": "steel bars", "இரும்புக் கம்பிகள்": "steel bars", "இரும்பு கம்பி": "steel bars",
-    "செங்கல்": "bricks", "செங்கற்கள்": "bricks", "குடிநீர்": "drinking water",
-    "மின் கம்பிகள்": "electric wire", "மின் கம்பி": "electric wire", "மின்கம்பி": "electric wire",
-    "மின்சார": "electric", "மின்": "electric",
-    "தொட்டி": "tank", "மணல்": "sand", "ஜல்லி": "coarse aggregate", "காலணி": "shoes", "காலணிகள்": "shoes",
-    "அடுப்பு": "stove", "ஜன்னல்": "windows", "கதவு": "doors", "கதவுகள்": "doors", "கண்ணாடி": "glass",
-    "ஓடுகள்": "tiles", "எஃகு": "steel"
-  },
-  "te": {
-    "పైకప్పు ఫ్యాన్": "ceiling fan", "పంకా": "fan",
-    "ఉక్కు కడ్డీలు": "steel bars", "ఇనుప కడ్డీలు": "steel bars", "కడ్డీలు": "bars",
-    "ఇటుకలు": "bricks", "ఇటుక": "bricks",
-    "తాగునీరు": "drinking water", "తాగునీటి": "drinking water", "మంచినీరు": "drinking water", "మంచినీటి": "drinking water",
-    "విద్యుత్ తీగలు": "electric wire", "తీగలు": "wire", "తీగ": "wire", "విద్యుత్": "electric", "కరెంటు": "electric",
-    "నీటి తొట్టి": "water tank", "ఇసుక": "sand", "కంకర": "coarse aggregate", "బూట్లు": "shoes", "పొయ్యి": "stove",
-    "కిటికీ": "windows", "కిటికీలు": "windows", "తలుపు": "doors", "తలుపులు": "doors", "గాజు": "glass", "ఉక్కు": "steel"
-  },
-  "gu": {
-    "છતનો પંખો": "ceiling fan", "સીલિંગ પંખો": "ceiling fan", "સીલિંગ પંખા": "ceiling fan", "પંખો": "fan", "પંખા": "fan",
-    "સળિયા": "steel bars", "સળિયો": "steel bars",
-    "ઇંટ": "bricks", "ઇંટો": "bricks", "ઈંટ": "bricks", "ઈંટો": "bricks",
-    "પીવાનું પાણી": "drinking water", "પીવાના પાણી": "drinking water", "પીવાના પાણીની": "drinking water",
-    "વીજળી": "electric", "વીજ": "electric", "વિદ્યુત": "electric", "તાર": "wire",
-    "ટાંકી": "tank", "રેતી": "sand", "કપચી": "coarse aggregate", "જૂતા": "shoes", "બૂટ": "shoes", "ચૂલો": "stove",
-    "બારી": "windows", "બારીઓ": "windows", "દરવાજો": "doors", "દરવાજા": "doors", "કાચ": "glass", "પોલાદ": "steel"
-  },
-  "kn": {
-    "ಮೇಲ್ಛಾವಣಿ ಫ್ಯಾನ್": "ceiling fan",
-    "ಉಕ್ಕಿನ ಸರಳುಗಳು": "steel bars", "ಕಬ್ಬಿಣದ ಸರಳುಗಳು": "steel bars", "ಸರಳುಗಳು": "bars",
-    "ಇಟ್ಟಿಗೆ": "bricks", "ಇಟ್ಟಿಗೆಗಳು": "bricks",
-    "ಕುಡಿಯುವ ನೀರು": "drinking water", "ಕುಡಿಯುವ ನೀರಿನ": "drinking water",
-    "ವಿದ್ಯುತ್": "electric", "ತಂತಿ": "wire", "ತಂತಿಗಳು": "wire",
-    "ತೊಟ್ಟಿ": "tank", "ಮರಳು": "sand", "ಜಲ್ಲಿ": "coarse aggregate", "ಶೂಗಳು": "shoes", "ಪಾದರಕ್ಷೆ": "shoes", "ಒಲೆ": "stove",
-    "ಕಿಟಕಿ": "windows", "ಕಿಟಕಿಗಳು": "windows", "ಬಾಗಿಲು": "doors", "ಬಾಗಿಲುಗಳು": "doors", "ಗಾಜು": "glass",
-    "ಉಕ್ಕು": "steel", "ಉಕ್ಕಿನ": "steel"
-  },
-  "ml": {
-    "സ്റ്റീൽ കമ്പികൾ": "steel bars", "ഇരുമ്പ് കമ്പികൾ": "steel bars", "കമ്പികൾ": "bars",
-    "ഇഷ്ടിക": "bricks", "ഇഷ്ടികകൾ": "bricks",
-    "കുടിവെള്ളം": "drinking water", "കുടിവെള്ളത്തിന്റെ": "drinking water", "കുടിവെള്ള": "drinking water",
-    "വൈദ്യുതി": "electric", "വൈദ്യുത": "electric",
-    "മണൽ": "sand", "അടുപ്പ്": "stove", "ജനൽ": "windows", "ജനലുകൾ": "windows", "വാതിൽ": "doors", "വാതിലുകൾ": "doors",
-    "ചില്ല്": "glass", "ഉരുക്ക്": "steel"
-  },
-  "pa": {
-    "ਛੱਤ ਦਾ ਪੱਖਾ": "ceiling fan", "ਛੱਤ ਵਾਲਾ ਪੱਖਾ": "ceiling fan", "ਸੀਲਿੰਗ ਪੱਖਾ": "ceiling fan", "ਪੱਖਾ": "fan", "ਪੱਖੇ": "fan",
-    "ਸਰੀਆ": "steel reinforcement bars", "ਸਰੀਏ": "steel reinforcement bars",
-    "ਇੱਟ": "bricks", "ਇੱਟਾਂ": "bricks",
-    "ਪੀਣ ਵਾਲਾ ਪਾਣੀ": "drinking water", "ਪੀਣ ਵਾਲੇ ਪਾਣੀ": "drinking water",
-    "ਬਿਜਲੀ ਦਾ": "electric", "ਬਿਜਲੀ ਦੀ": "electric", "ਬਿਜਲੀ ਦੇ": "electric", "ਬਿਜਲੀ ਵਾਲਾ": "electric", "ਬਿਜਲੀ": "electric", "ਤਾਰ": "wire", "ਤਾਰਾਂ": "wire",
-    "ਟੈਂਕੀ": "tank", "ਰੇਤ": "sand", "ਬਜਰੀ": "coarse aggregate", "ਜੁੱਤੇ": "shoes", "ਜੁੱਤੀਆਂ": "shoes", "ਚੁੱਲ੍ਹਾ": "stove",
-    "ਖਿੜਕੀ": "windows", "ਖਿੜਕੀਆਂ": "windows", "ਦਰਵਾਜ਼ਾ": "doors", "ਦਰਵਾਜ਼ੇ": "doors", "ਸ਼ੀਸ਼ਾ": "glass", "ਕੱਚ": "glass"
-  },
-  "or": {
-    "ସିଲିଂ ଫ୍ୟାନ": "ceiling fan", "ପଙ୍ଖା": "fan",
-    "ଲୁହା ଛଡ଼": "steel bars", "ଛଡ଼": "bars",
-    "ଇଟା": "bricks", "ପାନୀୟ ଜଳ": "drinking water", "ପିଇବା ପାଣି": "drinking water",
-    "ବିଦ୍ୟୁତ": "electric", "ବିଦ୍ୟୁତ୍": "electric", "ବୈଦ୍ୟୁତିକ": "electric", "ତାର": "wire",
-    "ଟାଙ୍କି": "tank", "ବାଲି": "sand", "ଗୋଡ଼ି": "coarse aggregate", "ଜୋତା": "shoes", "ଚୁଲି": "stove",
-    "ଝରକା": "windows", "କବାଟ": "doors", "କାଚ": "glass", "ଇସ୍ପାତ": "steel"
-  },
-  "ur": {
-    "چھت کا پنکھا": "ceiling fan", "چھت والا پنکھا": "ceiling fan", "سیلنگ فین": "ceiling fan", "پنکھا": "fan", "پنکھے": "fan",
-    "سریا": "steel reinforcement bars", "سریے": "steel reinforcement bars", "سلاخیں": "bars", "سلاخوں": "bars",
-    "اینٹ": "bricks", "اینٹیں": "bricks", "اینٹوں": "bricks",
-    "پینے کا پانی": "drinking water", "پینے کے پانی": "drinking water",
-    "بجلی کا": "electric", "بجلی کی": "electric", "بجلی کے": "electric", "بجلی والا": "electric", "بجلی": "electric", "تار": "wire", "تاریں": "wire", "تاروں": "wire",
-    "ٹینکی": "tank", "ٹنکی": "tank", "ریت": "sand", "بجری": "coarse aggregate", "جوتے": "shoes", "چولہا": "stove",
-    "کھڑکی": "windows", "کھڑکیاں": "windows", "دروازہ": "doors", "دروازے": "doors", "شیشہ": "glass", "کانچ": "glass",
-    "فولاد": "steel"
-  }
+  "hi": {"छत का पंखा": "ceiling fan", "छत के पंखे": "ceiling fan", "छत वाला पंखा": "ceiling fan", "छत वाले पंखे": "ceiling fan", "सीलिंग पंखा": "ceiling fan", "सीलिंग पंखे": "ceiling fan", "पंखा": "fan", "पंखे": "fan", "सरिया": "steel reinforcement bars", "सरिये": "steel reinforcement bars", "सरियों": "steel reinforcement bars", "ईंट": "bricks", "ईंटें": "bricks", "ईंटों": "bricks", "पेयजल": "drinking water", "पीने का पानी": "drinking water", "पीने के पानी": "drinking water", "बिजली का": "electric", "बिजली की": "electric", "बिजली के": "electric", "बिजली वाला": "electric", "बिजली का तार": "electric wire", "बिजली के तार": "electric wire", "बिजली": "electric", "विद्युत": "electric", "तार": "wire", "तारों": "wire", "टंकी": "tank", "टंकियां": "tanks", "टंकियों": "tanks", "रेत": "sand", "बालू": "sand", "गिट्टी": "coarse aggregate", "जूते": "shoes", "जूता": "shoes", "चूल्हा": "stove", "चूल्हे": "stove", "खिड़की": "windows", "खिड़कियां": "windows", "खिड़कियों": "windows", "दरवाजा": "doors", "दरवाज़ा": "doors", "दरवाजे": "doors", "दरवाज़े": "doors", "कांच": "glass", "शीशा": "glass", "शीशे": "glass", "इस्पात": "steel", "प्रेशर कुकर": "pressure cooker"},
+  "mr": {"छताचा पंखा": "ceiling fan", "छताचे पंखे": "ceiling fan", "छतावरील पंखा": "ceiling fan", "सीलिंग पंखा": "ceiling fan", "पंखा": "fan", "पंखे": "fan", "सळई": "steel reinforcement bars", "सळया": "steel reinforcement bars", "सळ्या": "steel reinforcement bars", "वीट": "bricks", "विटा": "bricks", "विटांचे": "bricks", "पिण्याचे पाणी": "drinking water", "पिण्याच्या पाण्याच्या": "drinking water", "पिण्याच्या पाण्यासाठी": "for drinking water", "पिण्याच्या पाण्याची": "drinking water", "वीज": "electric", "विजेचा": "electric", "विजेचे": "electric", "विजेची": "electric", "विद्युत": "electric", "तार": "wire", "टाकी": "tank", "टाक्या": "tanks", "वाळू": "sand", "खडी": "coarse aggregate", "बूट": "shoes", "चूल": "stove", "खिडकी": "windows", "खिडक्या": "windows", "दरवाजा": "doors", "दरवाजे": "doors", "काच": "glass", "पोलाद": "steel", "व्हॉल्व्ह": "valve", "गीझर": "geyser"},
+  "bn": {"ছাদের পাখা": "ceiling fan", "সিলিং পাখা": "ceiling fan", "পাখা": "fan", "লোহার রড": "steel bars", "স্টিলের রড": "steel bars", "ইট": "bricks", "ইটের": "bricks", "পানীয় জল": "drinking water", "খাবার জল": "drinking water", "বৈদ্যুতিক তার": "electric wire", "বিদ্যুৎ": "electric", "বিদ্যুতের": "electric", "বৈদ্যুতিক": "electric", "বালি": "sand", "পাথরকুচি": "coarse aggregate", "জুতো": "shoes", "জুতা": "shoes", "উনুন": "stove", "চুলা": "stove", "জানালা": "windows", "দরজা": "doors", "কাচ": "glass", "কাঁচ": "glass", "ইস্পাত": "steel", "গিজার": "geyser", "টাইলস": "tiles"},
+  "as": {"চিলিং ফেন": "ceiling fan", "চিলিং পাংখা": "ceiling fan", "পাংখা": "fan", "তীখাৰ ৰড": "steel bars", "তীখা": "steel", "ইটা": "bricks", "খোৱা পানী": "drinking water", "বিদ্যুৎ": "electric", "বিদ্যুতৰ": "electric", "বৈদ্যুতিক": "electric", "তাঁৰ": "wire", "বালি": "sand", "জোতা": "shoes", "খিৰিকী": "windows", "দুৱাৰ": "doors", "কাঁচ": "glass", "চাবমাৰ্চিবল": "submersible", "প্লাইউড": "plywood", "গীজাৰ": "geyser", "হেলমেট": "helmet", "টাইলছ": "tiles", "কুলাৰ": "cooler", "ৰেগুলেটৰ": "regulator"},
+  "ta": {"கூரை மின்விசிறி": "ceiling fan", "சீலிங் ஃபேன்": "ceiling fan", "மின்விசிறி": "electric fan", "எஃகு கம்பிகள்": "steel bars", "எஃகு கம்பி": "steel bars", "இரும்புக் கம்பிகள்": "steel bars", "இரும்பு கம்பி": "steel bars", "செங்கல்": "bricks", "செங்கற்கள்": "bricks", "குடிநீர்": "drinking water", "மின் கம்பிகள்": "electric wire", "மின் கம்பி": "electric wire", "மின்கம்பி": "electric wire", "மின்சார": "electric", "மின்": "electric", "தொட்டி": "tank", "மணல்": "sand", "ஜல்லி": "coarse aggregate", "காலணி": "shoes", "காலணிகள்": "shoes", "அடுப்பு": "stove", "ஜன்னல்": "windows", "கதவு": "doors", "கதவுகள்": "doors", "கண்ணாடி": "glass", "ஓடுகள்": "tiles", "எஃகு": "steel", "ப்ளைவுட்": "plywood", "பிரஷர் குக்கர்": "pressure cooker", "கீசர்": "geyser", "டைல்ஸ்": "tiles"},
+  "te": {"పైకప్పు ఫ్యాన్": "ceiling fan", "పంకా": "fan", "ఉక్కు కడ్డీలు": "steel bars", "ఇనుప కడ్డీలు": "steel bars", "కడ్డీలు": "bars", "ఇటుకలు": "bricks", "ఇటుక": "bricks", "తాగునీరు": "drinking water", "తాగునీటి": "drinking water", "మంచినీరు": "drinking water", "మంచినీటి": "drinking water", "విద్యుత్ తీగలు": "electric wire", "తీగలు": "wire", "తీగ": "wire", "విద్యుత్": "electric", "కరెంటు": "electric", "నీటి తొట్టి": "water tank", "ఇసుక": "sand", "కంకర": "coarse aggregate", "బూట్లు": "shoes", "పొయ్యి": "stove", "కిటికీ": "windows", "కిటికీలు": "windows", "తలుపు": "doors", "తలుపులు": "doors", "గాజు": "glass", "ఉక్కు": "steel", "మీటర్": "meter", "టైల్స్": "tiles"},
+  "gu": {"છતનો પંખો": "ceiling fan", "સીલિંગ પંખો": "ceiling fan", "સીલિંગ પંખા": "ceiling fan", "પંખો": "fan", "પંખા": "fan", "સળિયા": "steel bars", "સળિયો": "steel bars", "ઇંટ": "bricks", "ઇંટો": "bricks", "ઈંટ": "bricks", "ઈંટો": "bricks", "પીવાનું પાણી": "drinking water", "પીવાના પાણી": "drinking water", "પીવાના પાણીની": "drinking water", "વીજળી": "electric", "વીજ": "electric", "વિદ્યુત": "electric", "તાર": "wire", "ટાંકી": "tank", "રેતી": "sand", "કપચી": "coarse aggregate", "જૂતા": "shoes", "બૂટ": "shoes", "ચૂલો": "stove", "બારી": "windows", "બારીઓ": "windows", "દરવાજો": "doors", "દરવાજા": "doors", "કાચ": "glass", "પોલાદ": "steel", "ગીઝર": "geyser", "ટાઇલ્સ": "tiles"},
+  "kn": {"ಮೇಲ್ಛಾವಣಿ ಫ್ಯಾನ್": "ceiling fan", "ಉಕ್ಕಿನ ಸರಳುಗಳು": "steel bars", "ಕಬ್ಬಿಣದ ಸರಳುಗಳು": "steel bars", "ಸರಳುಗಳು": "bars", "ಇಟ್ಟಿಗೆ": "bricks", "ಇಟ್ಟಿಗೆಗಳು": "bricks", "ಕುಡಿಯುವ ನೀರು": "drinking water", "ಕುಡಿಯುವ ನೀರಿನ": "drinking water", "ವಿದ್ಯುತ್": "electric", "ತಂತಿ": "wire", "ತಂತಿಗಳು": "wire", "ತೊಟ್ಟಿ": "tank", "ಮರಳು": "sand", "ಜಲ್ಲಿ": "coarse aggregate", "ಶೂಗಳು": "shoes", "ಪಾದರಕ್ಷೆ": "shoes", "ಒಲೆ": "stove", "ಕಿಟಕಿ": "windows", "ಕಿಟಕಿಗಳು": "windows", "ಬಾಗಿಲು": "doors", "ಬಾಗಿಲುಗಳು": "doors", "ಗಾಜು": "glass", "ಉಕ್ಕು": "steel", "ಉಕ್ಕಿನ": "steel", "ಪ್ರೆಶರ್ ಕುಕ್ಕರ್": "pressure cooker", "ಟ್ರಾನ್ಸ್‌ಫಾರ್ಮರ್": "transformer", "ಗೀಸರ್": "geyser", "ಹೆಲ್ಮೆಟ್": "helmet", "ಟೈಲ್ಸ್": "tiles"},
+  "ml": {"സ്റ്റീൽ കമ്പികൾ": "steel bars", "ഇരുമ്പ് കമ്പികൾ": "steel bars", "കമ്പികൾ": "bars", "ഇഷ്ടിക": "bricks", "ഇഷ്ടികകൾ": "bricks", "കുടിവെള്ളം": "drinking water", "കുടിവെള്ളത്തിന്റെ": "drinking water", "കുടിവെള്ള": "drinking water", "വൈദ്യുതി": "electric", "വൈദ്യുത": "electric", "മണൽ": "sand", "അടുപ്പ്": "stove", "ജനൽ": "windows", "ജനലുകൾ": "windows", "വാതിൽ": "doors", "വാതിലുകൾ": "doors", "ചില്ല്": "glass", "ഉരുക്ക്": "steel", "ഗീസർ": "geyser", "കൂളർ": "cooler"},
+  "pa": {"ਛੱਤ ਦਾ ਪੱਖਾ": "ceiling fan", "ਛੱਤ ਵਾਲਾ ਪੱਖਾ": "ceiling fan", "ਸੀਲਿੰਗ ਪੱਖਾ": "ceiling fan", "ਪੱਖਾ": "fan", "ਪੱਖੇ": "fan", "ਸਰੀਆ": "steel reinforcement bars", "ਸਰੀਏ": "steel reinforcement bars", "ਇੱਟ": "bricks", "ਇੱਟਾਂ": "bricks", "ਪੀਣ ਵਾਲਾ ਪਾਣੀ": "drinking water", "ਪੀਣ ਵਾਲੇ ਪਾਣੀ": "drinking water", "ਬਿਜਲੀ ਦਾ": "electric", "ਬਿਜਲੀ ਦੀ": "electric", "ਬਿਜਲੀ ਦੇ": "electric", "ਬਿਜਲੀ ਵਾਲਾ": "electric", "ਬਿਜਲੀ": "electric", "ਤਾਰ": "wire", "ਤਾਰਾਂ": "wire", "ਟੈਂਕੀ": "tank", "ਰੇਤ": "sand", "ਬਜਰੀ": "coarse aggregate", "ਜੁੱਤੇ": "shoes", "ਜੁੱਤੀਆਂ": "shoes", "ਚੁੱਲ੍ਹਾ": "stove", "ਖਿੜਕੀ": "windows", "ਖਿੜਕੀਆਂ": "windows", "ਦਰਵਾਜ਼ਾ": "doors", "ਦਰਵਾਜ਼ੇ": "doors", "ਸ਼ੀਸ਼ਾ": "glass", "ਕੱਚ": "glass", "ਗੀਜ਼ਰ": "geyser", "ਟਾਈਲਾਂ": "tiles", "ਪ੍ਰਿੰਟਰ": "printer"},
+  "or": {"ସିଲିଂ ଫ୍ୟାନ": "ceiling fan", "ପଙ୍ଖା": "fan", "ଲୁହା ଛଡ଼": "steel bars", "ଛଡ଼": "bars", "ଇଟା": "bricks", "ପାନୀୟ ଜଳ": "drinking water", "ପିଇବା ପାଣି": "drinking water", "ବିଦ୍ୟୁତ": "electric", "ବିଦ୍ୟୁତ୍": "electric", "ବୈଦ୍ୟୁତିକ": "electric", "ତାର": "wire", "ଟାଙ୍କି": "tank", "ବାଲି": "sand", "ଗୋଡ଼ି": "coarse aggregate", "ଜୋତା": "shoes", "ଚୁଲି": "stove", "ଝରକା": "windows", "କବାଟ": "doors", "କାଚ": "glass", "ଇସ୍ପାତ": "steel", "ଇନଭର୍ଟର": "inverter", "ଗିଜର": "geyser", "ଟାଇଲ୍ସ": "tiles"},
+  "ur": {"چھت کا پنکھا": "ceiling fan", "چھت والا پنکھا": "ceiling fan", "سیلنگ فین": "ceiling fan", "پنکھا": "fan", "پنکھے": "fan", "سریا": "steel reinforcement bars", "سریے": "steel reinforcement bars", "سلاخیں": "bars", "سلاخوں": "bars", "اینٹ": "bricks", "اینٹیں": "bricks", "اینٹوں": "bricks", "پینے کا پانی": "drinking water", "پینے کے پانی": "drinking water", "بجلی کا": "electric", "بجلی کی": "electric", "بجلی کے": "electric", "بجلی والا": "electric", "بجلی": "electric", "تار": "wire", "تاریں": "wire", "تاروں": "wire", "ٹینکی": "tank", "ٹنکی": "tank", "ریت": "sand", "بجری": "coarse aggregate", "جوتے": "shoes", "چولہا": "stove", "کھڑکی": "windows", "کھڑکیاں": "windows", "دروازہ": "doors", "دروازے": "doors", "شیشہ": "glass", "کانچ": "glass", "فولاد": "steel", "سب مرسیبل": "submersible", "پریشر ککر": "pressure cooker", "والو": "valve", "ٹائلز": "tiles", "پرنٹر": "printer"}
 }

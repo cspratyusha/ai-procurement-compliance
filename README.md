@@ -24,7 +24,7 @@ We would rather state our scope plainly than imply coverage we do not have.
 | **Currency** | Current to BIS's standards portal as of 5 October 2026: the engine's first in-app refresh completed then, with 22,256 editions checked against BIS's current record. While the engine runs it keeps itself current: at startup, if the last complete refresh is more than a week old, it reads what BIS has published, withdrawn or amended since, rebuilds the index in the background and swaps the new corpus in without a restart |
 | **Checked against BIS's records** | **30,917 of 33,023 editions** match BIS's own record (Know Your Standard, all 34,300 pages read 28 September 2026, brought up to date from the portal): whether the edition is withdrawn, what replaced it, and its amendments. The other 2,106 have no BIS record under that number and keep the archive's status. The scope text itself is still the archive's OCR, so every record keeps `"verified": false` |
 | **Certification data** | **BIS's full lists of products under compulsory certification**: 749 standards across Scheme I (ISI mark), Scheme II (CRS) and Scheme X, each with its Quality Control Order, gazette notification and a link to the order (read 27 September 2026); and **BIS hallmarking**: gold jewellery and artefacts (IS 1417) compulsory under the Hallmarking Order in 392 districts, with its exemptions, and silver (IS 2112) voluntary, read from the gazette notifications (saved in `data/certification/source/hallmarking/`). Orders whose enforcement is deferred (most of the Electrical Equipment QCO, by S.O. 5038(E)) are shown as **not yet mandatory**. A standard not on the lists reports `not_listed`, stated with the date the lists were read |
-| **Amendments** | **BIS's official record for 35,601 editions** (5,574 with amendments, 9,052 in all, 115 of them issued after October 2025), with the year of **6,727** of those amendments: from BIS's portal (which lists each amendment with its year) and from the amendment slips bound into each standard's archived copy (3,428 standards, 5,424 slips, with excerpts). Where the copy shows more amendments than BIS lists, the larger number is shown and marked disputed. A standard BIS has no record for falls back to its copy, which reports "at least" and the year the copy is current to |
+| **Amendments** | **BIS's official record** (5,574 standards with amendments, 9,087 in all, 115 of them issued after October 2025), with the year of **7,854** of them (86%): from BIS's portal, which lists each amendment with its year, for current and superseded editions alike (tenders still cite old ones), and from the amendment slips bound into each standard's archived copy (3,428 standards, 5,424 slips, with excerpts). Where the copy shows more amendments than BIS lists, the larger number is shown and marked disputed. A standard BIS has no record for falls back to its copy, which reports "at least" and the year the copy is current to |
 | **Allied standards** | **88,632 links from 16,944 standards**, read automatically from each standard's own REFERENCES clause and citations, plus 25 read and typed by hand, grouped as normative references, material specifications, test methods, **safety standards**, terminology and installation practice. Every automatic link carries the passage it was read from; on samples about 97% were read correctly. **Related product standards** are the standards closest in scope, read from the search index and required to share a word of the title |
 
 **What this means in practice:** search covers 99.5% of the editions BIS
@@ -32,7 +32,7 @@ lists as current, including those published up to 4 October 2026;
 certification comes from BIS's own compulsory lists and hallmarking order; and
 edition status and amendments come from BIS's record for each standard. What
 remains open: 38% of records are searchable on their title alone (mostly
-standards the archive holds no text for), a quarter of
+standards the archive holds no text for), 14% of
 amendments have no date, scope text is OCR that has not been proof-read, and
 the corpus stays current only if the weekly refresh is scheduled.
 
@@ -177,8 +177,8 @@ results as "Nearest text matches … not recommendations".
 | Query set | Right standard first | In the top five |
 |---|---|---|
 | 52 buyer-language product queries in English ([`data/benchmark_queries.json`](data/benchmark_queries.json), `eval/benchmark.py`) | 36/52 (69%) | **49/52 (94%)** |
-| The same kind of items in 12 Indian languages, 8 each (96 queries) | 57/96 (59%) | **90/96 (94%)** |
-| A second multilingual set, 8 other items in 12 languages ([`data/benchmark_heldout_queries.json`](data/benchmark_heldout_queries.json)), see below | 78/96 (81%) | **92/96 (96%)** |
+| The same kind of items in 12 Indian languages, 8 each (96 queries) | 57/96 (59%) | **91/96 (95%)** |
+| A second multilingual set, 8 other items in 12 languages ([`data/benchmark_heldout_queries.json`](data/benchmark_heldout_queries.json)), see below | 78/96 (81%) | **94/96 (98%)** |
 | 236 held-out queries (`tests/test_full_corpus_accuracy.py`, `FULL_EVAL_QUERIES=0`), same standard in any edition | 0.852 | **0.962** |
 
 In other languages the gain is the translation word list
@@ -193,6 +193,16 @@ set's later gains are not all independent: two everyday-word mappings
 (electric meter, domestic LPG cylinder) were added after reading its misses
 and account for 22 of its 30 extra first places; BIS's summary of IS 2347
 accounts for another 8 (pressure cookers).
+
+The word list also restores English loanwords the translator mangles when
+written in an Indian script ("টাইলস" came back as "tires", "গিজার" as
+"Giza", Urdu "submersible" as "the marble"): 40 of 240, found by translating a
+fixed list of 20 procurement loanwords in every script rather than from test
+queries. Most remaining misses are no longer translation: the English query
+misses too, because a neighbouring standard outranks the product (paving
+bricks for bricks, a drinking-water utility standard for IS 10500). Guides to
+manufacture, dimension tables, management systems and glossaries are now
+ranked below the product specification unless the query asks for one.
 
 The benchmark is committed so every figure can be re-run after a change; the
 spot checks quoted before it (30 and 28 fresh products, 11 multilingual
@@ -555,12 +565,12 @@ cd frontend; npm run dev
 cd frontend; npm run test:e2e
 ```
 
-Last run (2026-10-05): the backend suite is **362 passed, 1 skipped**, with
+Last run (2026-10-05): the backend suite is **365 passed, 1 skipped**, with
 all 236 held-out queries in the full-corpus accuracy tests. End to end on
-mobile, against the test engine beside a running one, 73 of 75 passed: the
-title-only example (IS 19609:2026) had gained its own scope clause and was
-replaced, and the guided demo's full sequence timed out once and passed when
-run again alone, so it is intermittent in a full run. The real usage logs were
+mobile, against the test engine beside a running one: 73 of 75 in the first
+run (the title-only example, IS 19609:2026, had gained its own scope clause
+and was replaced; the guided demo timed out once), then **75 of 75 in each of
+two further full runs**. A demo failure now reports the demo's own log. The real usage logs were
 byte-for-byte unchanged after the run. Desktop last ran in full on 4 October. The suite signs in once through `e2e/global-setup.js`, creating its own
 administrator on an empty installation, and its searches and clicks would
 otherwise be recorded as use. So it runs against the test engine,

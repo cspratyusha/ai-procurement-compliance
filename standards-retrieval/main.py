@@ -518,6 +518,26 @@ _TEST_METHOD_TITLE = re.compile(
 _TESTING_QUERY = re.compile(r"\btest|\bsampl|\bmethod|\banalys|\bdetermin|\bmeasur|\bassay|\bexamin", re.IGNORECASE)
 _TEST_METHOD_DEMOTION = 3.0
 
+# The same for other standards that accompany a product rather than specify
+# it: guides to making it, tables of its dimensions, management systems for the
+# service around it, glossaries. "Drinking water quality requirements" put
+# IS 17482 (drinking water supply management system) above IS 10500, and
+# "burnt clay bricks for construction" put IS 2117 (guide for manufacture of
+# hand-made bricks) and IS 6165 (dimensions for special shapes) above IS 1077,
+# in English and in every language. Codes of practice are not among them: for
+# works ("earthing for a substation") the code is the answer.
+_SECONDARY_TITLE = re.compile(
+    r"\bguide(?:lines?)?\s+(?:for|to|on)\s+(?:the\s+)?(?:manufacture|making|production)\b"
+    r"|^\s*dimensions?\s+(?:for|of)\b|\bmanagement\s+systems?\b"
+    r"|\bglossary\b|\bterminology\b|\bvocabulary\b",
+    re.IGNORECASE,
+)
+_SECONDARY_QUERY = re.compile(
+    r"\bguide|\bmanufactur|\bdimension|\bsizes?\b|\bmanagement\b|\bglossary|\bterm(?:s|inology)\b"
+    r"|\bvocabular|\bdefinition",
+    re.IGNORECASE,
+)
+
 # How many fused candidates reach the cross-encoder. Each one is a forward
 # pass, so this is the main latency lever in the whole pipeline. 10 let a
 # dozen near-identical parts of one test series (IS 13630, ceramic tiles)
@@ -1021,6 +1041,7 @@ def _retrieve(body: RetrieveRequest) -> "RetrieveResponse":
     features_list = []
     stage_scores_list = []
     testing_query = bool(_TESTING_QUERY.search(query))
+    secondary_query = bool(_SECONDARY_QUERY.search(query))
 
     for cid in candidate_ids:
         std = corpus.get(cid)
@@ -1034,6 +1055,8 @@ def _retrieve(body: RetrieveRequest) -> "RetrieveResponse":
         ce_s = float(ce_dict.get(cid, -10.0))
         ce_for_rank = ce_s
         if cid in ce_dict and not testing_query and _TEST_METHOD_TITLE.search(std.title or ""):
+            ce_for_rank -= _TEST_METHOD_DEMOTION
+        elif cid in ce_dict and not secondary_query and _SECONDARY_TITLE.search(std.title or ""):
             ce_for_rank -= _TEST_METHOD_DEMOTION
 
         fv = build_features(

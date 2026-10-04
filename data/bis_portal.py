@@ -63,6 +63,7 @@ PUBLISHED = CACHE / "published.json"
 OUTPUT = _REPO_ROOT / "data" / "amendments" / "bis_portal.json"
 CORPUS = _REPO_ROOT / "data" / "standards_corpus_full.json"
 KYS = _REPO_ROOT / "data" / "amendments" / "bis_kys.json"
+EXTRACTED = _REPO_ROOT / "data" / "amendments" / "extracted_amendments.json"
 
 PORTAL = "https://standards.bis.gov.in"
 MASTER = "https://standardsadmin.bis.gov.in/master-service"
@@ -103,7 +104,8 @@ def number_key(number: str) -> str:
     text = re.sub(r"\s*\)", ")", text)
     text = re.sub(r"\s*:\s*", ":", text)
     text = re.sub(r"\s*/\s*", "/", text)
-    return text.upper()
+    # "(Part 01)" in a few archive designations is BIS's "(Part 1)".
+    return re.sub(r"\b(PART|SEC) 0+(?=\d)", r"\1 ", text.upper())
 
 
 def tidy_number(number: str) -> str:
@@ -223,7 +225,11 @@ def _cache_path(number: str) -> Path:
 def fetch_detail(number: str, want_amendments: bool, delay: float, recheck_days: float = 0) -> str:
     path = _cache_path(number)
     if path.exists() and not (recheck_days and time.time() - path.stat().st_mtime > recheck_days * 86400):
-        return "cached"
+        cached = json.loads(path.read_text(encoding="utf-8"))
+        # Read once without its amendments (they were not asked for then);
+        # read again now that they are.
+        if not (want_amendments and cached.get("found") and "amendments" not in cached):
+            return "cached"
     try:
         record = detail(number, want_amendments)
     except Exception as exc:  # noqa: BLE001 -- reported, retried on the next run
@@ -240,19 +246,32 @@ def targets(only_amended: bool) -> list:
 
     Ordered by what the run is for, since a full run takes hours: the
     standards published since the snapshot first, then the amended ones
-    (their dates), then the rest (whether BIS has withdrawn them since)."""
+    (their dates), then the rest (whether BIS has withdrawn them since), then
+    superseded editions with amendments: tenders still cite old editions, and
+    the audit names their amendments, so their dates matter too.
+
+    An edition counts as amended when BIS's older record counts any, or its
+    archived copy carries amendment slips (BIS's record says none for some
+    that have them)."""
     kys = {}
     if KYS.exists():
         kys = {number_key(k): v for k, v in json.loads(KYS.read_text(encoding="utf-8"))["standards"].items()}
+    in_copy = set()
+    if EXTRACTED.exists():
+        in_copy = {number_key(k) for k, v in json.loads(EXTRACTED.read_text(encoding="utf-8"))["standards"].items()
+                   if v.get("count_in_copy")}
     out = {}
     if PUBLISHED.exists():
         for item in json.loads(PUBLISHED.read_text(encoding="utf-8"))["standards"].values():
             out[item["number"]] = (0, True)
     for record in json.loads(CORPUS.read_text(encoding="utf-8")):
+        key = number_key(record["number"])
+        old = kys.get(key)
+        amended = old is None or bool(old.get("amendment_count")) or key in in_copy
         if record.get("status") != "active":
+            if old is not None and (old.get("amendment_count") or key in in_copy):
+                out.setdefault(record["number"], (3, True))
             continue
-        old = kys.get(number_key(record["number"]))
-        amended = old is None or bool(old.get("amendment_count"))
         if only_amended and not amended:
             continue
         out.setdefault(record["number"], (1 if amended else 2, amended))

@@ -66,6 +66,35 @@ two items (22 of its 30 extra first places).
 | Second set, first / top five | 48/96 / 71/96 | **78/96 / 92/96** (22 of the 30 from two mappings informed by it) |
 | Held-out 236, P@1 / Recall@5 | 0.852 / 0.966 | **0.852 / 0.962** |
 
+### Loanwords, secondary standards, amendment years
+
+- **Loanwords.** English words written in an Indian script were mangled by the
+  translator: "tiles" became "tires" in seven scripts, "geyser" "Giza" or
+  "ginger", Urdu "submersible" "the marble", Assamese "plywood" a sentence
+  about the Bible. Translating a fixed list of 20 procurement loanwords in
+  every script, alone and in a phrase, found 40 of 240 mangled; 38 went into
+  the word list (Bengali and Assamese কেবল, "cable", is also "only").
+- **Secondary standards.** Guides to manufacture, dimension tables, management
+  systems and glossaries are ranked below the product specification unless the
+  query asks for one, as test methods already were (IS 17482, a drinking water
+  supply management system, had outranked IS 10500; IS 2117, a guide to making
+  bricks, IS 1077). Codes of practice are not among them. 1,451 titles.
+- **Amendment years.** The portal was asked only about current editions; it is
+  now asked about superseded editions with amendments too (tenders still cite
+  them), wherever an archived copy shows amendments BIS's older record did
+  not count, and with "(Part 01)" read as "(Part 1)". Dated amendments went
+  from 6,727 to 7,854 of 9,087 (86%); the rest are mostly where BIS's record
+  gives no year.
+
+Benchmark in 12 languages: top five 90 to 91 of 96; second set: top five 92 to
+94; first place and the held-out 236 (0.852 / 0.962) unchanged. The rule moved
+the standards it targets out of first place; the next neighbours (paving
+bricks, fly ash bricks) are products in their own right, and going further
+would be tuning to the queries.
+
+The intermittent demo timeout on mobile did not recur in two more full mobile
+runs (75 of 75 each). A failure now reports the demo's own log.
+
 ### Test runs no longer write to the real usage logs
 
 `USAGE_LOG_DIR` sends both usage logs elsewhere and `/health` says when it
