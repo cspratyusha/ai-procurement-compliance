@@ -747,6 +747,7 @@ def _serve_refreshed_corpus(app: FastAPI) -> None:
     app.state.faiss_index, app.state.faiss_ids = faiss_index, faiss_ids
     app.state.bm25_index, app.state.bm25_ids = bm25_index, bm25_ids
     amendments_data.reset_cache()
+    certification.reset_cache()
     logger.info("[BIS refresh] Now serving %d standards.", len(standards))
 
 

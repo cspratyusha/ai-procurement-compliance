@@ -66,6 +66,17 @@ two items (22 of its 30 extra first places).
 | Second set, first / top five | 48/96 / 71/96 | **78/96 / 92/96** (22 of the 30 from two mappings informed by it) |
 | Held-out 236, P@1 / Recall@5 | 0.852 / 0.966 | **0.852 / 0.962** |
 
+### Certification lists kept current
+
+BIS's compulsory-certification lists are now read again on every in-app
+refresh (`parse_bis_compulsory.py --fetch`). A plain download got BIS's Hindi
+page, whose headings the parser does not read, and parsed to nothing: written
+over the list, that would have reported every product as uncertified. So the
+English page is asked for, and the previous list is kept if a scheme parses to
+no rows or the total falls by more than a tenth. Read on 5 October: 904
+entries, identical to 27 September. The hallmarking order stays as read from
+its gazette notifications, which change only with a new order.
+
 ### Loanwords, secondary standards, amendment years
 
 - **Loanwords.** English words written in an Indian script were mangled by the

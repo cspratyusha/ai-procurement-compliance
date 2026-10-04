@@ -24,11 +24,19 @@ Output: data/certification/bis_compulsory.json
 
 The pages as read, and the deferment order, are kept in data/certification/source/.
 
-Usage (refresh the pages from the URLs above first to pick up new orders):
+Usage:
+  python data/certification/parse_bis_compulsory.py --fetch      # read BIS's pages now
   python data/certification/parse_bis_compulsory.py \\
       --scheme ISI data/certification/source/bis_scheme_i.html \\
       --scheme CRS data/certification/source/bis_scheme_ii_crs.html \\
       --scheme X   data/certification/source/bis_scheme_x.html
+
+--fetch downloads the English pages (BIS serves the Hindi page by default,
+whose column headings this parser does not read: a plain download parsed to
+nothing) into source/, and keeps the previous list if a scheme parses to no
+rows or the total falls by more than a tenth, since that is a page that
+changed shape, not BIS lifting a tenth of its orders overnight. The engine's
+refresh runs it (standards-retrieval/bis_refresh.py).
 """
 
 import argparse
@@ -40,6 +48,9 @@ from pathlib import Path
 from bs4 import BeautifulSoup
 
 OUT = Path(__file__).resolve().parent / "bis_compulsory.json"
+SOURCE_DIR = Path(__file__).resolve().parent / "source"
+SOURCE_FILES = {"ISI": "bis_scheme_i.html", "CRS": "bis_scheme_ii_crs.html", "X": "bis_scheme_x.html"}
+MAX_DROP = 0.10
 
 SOURCES = {
     "ISI": "https://www.bis.gov.in/product-certification/products-under-compulsory-certification/scheme-i-mark-scheme/",
@@ -237,15 +248,47 @@ def parse(path: Path, scheme: str):
     return entries
 
 
+def fetch() -> list:
+    """Download the English pages to temporary files; [(scheme, path)]."""
+    import urllib.request
+
+    fetched = []
+    for scheme, url in SOURCES.items():
+        request = urllib.request.Request(url + "?lang=en", headers={
+            "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) StandEng standards research",
+            "Accept-Language": "en-US,en;q=0.9",
+        })
+        with urllib.request.urlopen(request, timeout=120) as response:
+            html = response.read()
+        path = SOURCE_DIR / (SOURCE_FILES[scheme] + ".new")
+        path.write_bytes(html)
+        fetched.append((scheme, path))
+    return fetched
+
+
+def _discard(sources) -> None:
+    for _, path in sources:
+        if path.suffix == ".new":
+            path.unlink(missing_ok=True)
+
+
 def main():
     ap = argparse.ArgumentParser()
-    ap.add_argument("--scheme", action="append", nargs=2, metavar=("SCHEME", "HTML"), required=True)
+    ap.add_argument("--scheme", action="append", nargs=2, metavar=("SCHEME", "HTML"))
+    ap.add_argument("--fetch", action="store_true", help="download BIS's pages now and parse them")
     args = ap.parse_args()
+    if not args.fetch and not args.scheme:
+        ap.error("give --fetch or --scheme")
 
+    sources = fetch() if args.fetch else [(s, Path(h)) for s, h in args.scheme]
     entries = []
-    for scheme, html in args.scheme:
+    for scheme, html in sources:
         got = parse(Path(html), scheme.upper())
         print(f"{scheme}: {len(got)} rows from {html}")
+        if args.fetch and not got:
+            print(f"KEPT the previous list: {scheme} parsed to no rows, so its page has changed shape")
+            _discard(sources)
+            return 0
         entries += got
 
     seen, unique = set(), []
@@ -255,10 +298,21 @@ def main():
             seen.add(key)
             unique.append(e)
 
+    if args.fetch and OUT.exists():
+        before = len(json.loads(OUT.read_text(encoding="utf-8"))["entries"])
+        if len(unique) < before * (1 - MAX_DROP):
+            print(f"KEPT the previous list: {len(unique)} entries against {before} before")
+            _discard(sources)
+            return 0
+        added = len(unique) - before
+        for scheme, path in sources:
+            path.replace(SOURCE_DIR / SOURCE_FILES[scheme])     # the pages as read, kept
+        print(f"{'+' if added >= 0 else ''}{added} entries since the last read")
+
     payload = {
         "_meta": {
             "description": "Products under BIS compulsory certification, as published by BIS.",
-            "sources": {s.upper(): SOURCES[s.upper()] for s, _ in args.scheme},
+            "sources": {s.upper(): SOURCES[s.upper()] for s, _ in sources},
             "retrieved": date.today().isoformat(),
             "note": (
                 "Rows as BIS lists them, IS numbers rewritten in corpus spelling. status "
@@ -270,7 +324,8 @@ def main():
     }
     OUT.write_text(json.dumps(payload, ensure_ascii=False, indent=1), encoding="utf-8")
     print(f"wrote {len(unique)} entries to {OUT}")
+    return 0
 
 
 if __name__ == "__main__":
-    main()
+    raise SystemExit(main())

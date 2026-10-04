@@ -309,7 +309,7 @@ cross-validation score and the held-out score, see Phase D in
 | `seed_standards.json` | Earlier seed dataset, superseded by the canonical corpus |
 | `derived/` | Generated index artifacts |
 | `schema.sql` | Relational schema for the Postgres ingestion path in `app/` |
-| `certification/bis_compulsory.json` | BIS's lists of products under compulsory certification (Scheme I ISI, Scheme II CRS, Scheme X): 904 entries, 749 standards, each with its order, gazette notification, link and in-force or deferred status. Rebuilt by `certification/parse_bis_compulsory.py` from the saved BIS pages |
+| `certification/bis_compulsory.json` | BIS's lists of products under compulsory certification (Scheme I ISI, Scheme II CRS, Scheme X): 904 entries, 749 standards, each with its order, gazette notification, link and in-force or deferred status. Rebuilt by `certification/parse_bis_compulsory.py --fetch`, which the engine's refresh runs: it reads BIS's English pages and keeps the previous list if a page no longer parses |
 | `certification/certification_rules.json` | Hand-researched rules: codes of practice checked as needing no certification, and withdrawn editions. BIS's lists win where both exist |
 | `certification/hallmarking.json` | BIS hallmarking: gold jewellery and artefacts (IS 1417) compulsory under the Hallmarking of Gold Jewellery and Gold Artefacts Order, 2020 (S.O. 205(E)), in the 392 districts of its Annexure as last substituted by S.O. 4345(E) on 3 August 2026, with the order's exemptions; silver (IS 2112) voluntary. Every fact cites the gazette notification it was read from; the notifications are saved in `certification/source/hallmarking/` |
 | `raw/certification_rules.json` | Earlier placeholder rules, kept for provenance only |

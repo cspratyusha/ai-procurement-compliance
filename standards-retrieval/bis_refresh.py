@@ -16,6 +16,7 @@ it loaded:
   3. data/bis_portal.py combine, then summaries (BIS's plain-language
                                     summary of each standard, 3,000 new
                                     look-ups per refresh)
+     then BIS's compulsory-certification lists (parse_bis_compulsory.py --fetch)
   4. build_full_corpus.py, add_bis_standards.py, apply_bis_status.py
   5. indexing/build.py              the dense and BM25 indexes
 
@@ -197,6 +198,10 @@ def refresh(on_success: Optional[Callable[[], None]] = None) -> bool:
         # BIS's summaries are looked up once per standard, a batch per refresh,
         # so the whole catalogue is covered over a few weeks of use.
         _run("portal: summaries", ["data/bis_portal.py", "summaries", "--limit", _SUMMARY_BATCH])
+        # BIS's lists of products under compulsory certification, which change
+        # whenever a Quality Control Order is notified. The previous list is
+        # kept if a page comes back in a shape the parser does not read.
+        _run("certification lists", ["data/certification/parse_bis_compulsory.py", "--fetch"])
         _set(step="backing up the served corpus and index")
         _back_up()
         backed_up = True

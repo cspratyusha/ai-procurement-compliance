@@ -177,8 +177,9 @@ def _load() -> dict:
 
 
 def reset_cache() -> None:
-    global _CACHE
+    global _CACHE, _ALIAS_INDEX
     _CACHE = None
+    _ALIAS_INDEX = None       # built from the lists, so rebuilt with them
 
 
 def lists_available() -> bool:
