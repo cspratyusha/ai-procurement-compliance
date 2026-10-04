@@ -273,8 +273,8 @@ export default function StandardDetail() {
                       BIS&rsquo;s record names no replacement, and BIS lists no newer edition
                       {standard.withdrawal_note ? ` (BIS: ${standard.withdrawal_note})` : ''}. A withdrawn
                       standard cannot be enforced as a requirement: specify it directly or find a current
-                      standard that covers it. Standards BIS published after October 2025 are on its new
-                      portal and not in these records, so check there too.
+                      standard that covers it. These records follow BIS&rsquo;s standards portal as of its
+                      last refresh, so check the portal for anything published since.
                     </>
                   ) : (
                     'Citing it in a live tender risks procuring to a withdrawn specification. Check the BIS record for the current edition before use.'
@@ -289,6 +289,13 @@ export default function StandardDetail() {
             {standard.scope ? (
               <>
                 <p className="small" style={{ color: 'var(--ink-soft)' }}>{standard.scope}</p>
+                {standard.provenance === 'scope_from_previous_edition' && (
+                  <p className="xs muted" data-testid="scope-previous-edition-note">
+                    This is the scope clause of {standard.scope_edition || 'the previous edition'}, which this
+                    edition revises; this edition&rsquo;s own text is not in the catalogue yet. A revision
+                    can change the scope, so read this edition before relying on it for a tender.
+                  </p>
+                )}
                 {standard.provenance === 'scope_written' && (
                   <p className="xs muted" data-testid="scope-written-note">
                     A summary written for this catalogue, not the standard&rsquo;s own scope clause. Its

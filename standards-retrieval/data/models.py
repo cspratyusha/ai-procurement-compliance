@@ -35,9 +35,17 @@ class Standard(BaseModel):
         description=(
             "Where the scope text came from: 'published_text_ocr' (the standard's own scope clause), "
             "'scope_written' (a summary written for the catalogue, number and title checked against BIS), "
-            "'number_and_title_only' (no scope held)."
+            "'scope_from_previous_edition' (a new edition searched with the scope clause of the edition "
+            "it revises, named in scope_edition), 'number_and_title_only' (no scope held)."
         ),
     )
+    scope_edition: Optional[str] = Field(
+        default=None,
+        description="For provenance 'scope_from_previous_edition': the earlier edition the scope text is from.",
+    )
+    published_on: Optional[str] = Field(
+        default=None, description="Publication date from BIS's standards portal, for editions published since October 2025.")
+    withdrawn_on: Optional[str] = Field(default=None, description="Date BIS withdrew this edition, where its portal gives one.")
     replacement_source: Optional[str] = Field(
         default=None,
         description=(

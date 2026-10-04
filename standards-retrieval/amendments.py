@@ -5,11 +5,15 @@ criteria. A tender that cites the base edition of a standard which has since
 been amended can specify something that is no longer conformant, which is why
 the problem statement asks for amendments alongside the latest version.
 
-Three sources, in order of authority:
+Four sources, in order of authority:
 
+  BIS portal     data/amendments/bis_portal.json, BIS's new standards portal
+                 (data/bis_portal.py): each amendment with its year, including
+                 those issued after the Know Your Standard snapshot, and the
+                 standards published since
   BIS record     data/amendments/bis_kys.json, BIS's own "Know Your
-                 Standard" page for each standard: the current official
-                 number of amendments (data/bis_kys.py)
+                 Standard" page for each standard: the official number of
+                 amendments as of 1 October 2025 (data/bis_kys.py)
   researched     data/amendments/amendments.json, read by hand from BIS
                  product manuals and published amendment documents
   standard text  data/amendments/extracted_amendments.json, the amendment
@@ -37,11 +41,14 @@ _REPO_ROOT = Path(__file__).resolve().parent.parent
 _DATA_PATH = _REPO_ROOT / "data" / "amendments" / "amendments.json"
 _EXTRACTED_PATH = _REPO_ROOT / "data" / "amendments" / "extracted_amendments.json"
 _BIS_PATH = _REPO_ROOT / "data" / "amendments" / "bis_kys.json"
+_PORTAL_PATH = _REPO_ROOT / "data" / "amendments" / "bis_portal.json"
 
 _CACHE: Optional[Dict[str, dict]] = None
 _EXTRACTED: Optional[Dict[str, dict]] = None
 _BIS: Optional[Dict[str, dict]] = None
 _BIS_META: dict = {}
+_PORTAL: Optional[Dict[str, dict]] = None
+_PORTAL_META: dict = {}
 
 _MONTHS = {
     "01": "January", "02": "February", "03": "March", "04": "April",
@@ -59,10 +66,14 @@ def _normalize(number: str) -> str:
 
 
 def _load() -> None:
-    global _CACHE, _EXTRACTED, _BIS, _BIS_META
+    global _CACHE, _EXTRACTED, _BIS, _BIS_META, _PORTAL, _PORTAL_META
     if _CACHE is not None:
         return
-    _CACHE, _EXTRACTED, _BIS = {}, {}, {}
+    _CACHE, _EXTRACTED, _BIS, _PORTAL = {}, {}, {}, {}
+    if _PORTAL_PATH.exists():
+        payload = json.loads(_PORTAL_PATH.read_text(encoding="utf-8"))
+        _PORTAL_META = payload.get("_meta", {})
+        _PORTAL = {_normalize(k): v for k, v in payload.get("standards", {}).items()}
     if _BIS_PATH.exists():
         payload = json.loads(_BIS_PATH.read_text(encoding="utf-8"))
         _BIS_META = payload.get("_meta", {})
@@ -76,8 +87,8 @@ def _load() -> None:
 
 
 def reset_cache() -> None:
-    global _CACHE, _EXTRACTED, _BIS, _BIS_FAMILY_TITLE
-    _CACHE, _EXTRACTED, _BIS, _BIS_FAMILY_TITLE = None, None, None, None
+    global _CACHE, _EXTRACTED, _BIS, _BIS_FAMILY_TITLE, _PORTAL
+    _CACHE, _EXTRACTED, _BIS, _BIS_FAMILY_TITLE, _PORTAL = None, None, None, None, None
 
 
 # Notes BIS appends to a title that are not part of it (mirrors data/apply_bis_status.py).
@@ -137,7 +148,7 @@ def for_standard(is_number: str) -> dict:
     """
     _load()
     key = _normalize(is_number)
-    bis = _BIS.get(key)
+    bis = _with_portal(_BIS.get(key), _PORTAL.get(key))
     if bis is not None and bis.get("amendment_count") is not None:
         return _official(is_number, bis, _CACHE.get(key), _EXTRACTED.get(key))
 
@@ -207,11 +218,37 @@ def for_standard(is_number: str) -> dict:
     }
 
 
+def _with_portal(kys: Optional[dict], portal: Optional[dict]) -> Optional[dict]:
+    """The Know Your Standard record brought up to date with the portal's.
+
+    The portal is BIS's newer record: where it lists more amendments, the
+    later ones were issued after the snapshot, so its list is taken; where it
+    lists the same number, its years fill those the older record left blank.
+    A standard published after the snapshot has only the portal's record.
+    """
+    if portal is None or portal.get("amendment_count") is None:
+        return kys
+    merged = dict(kys or {})
+    merged.setdefault("withdrawn", portal.get("withdrawn", False))
+    if portal.get("withdrawn"):
+        merged["withdrawn"] = True
+    old = merged.get("amendment_count")
+    if old is None or portal["amendment_count"] >= old:
+        merged["amendment_count"] = portal["amendment_count"]
+        merged["amendments"] = portal.get("amendments", [])
+        merged["from_portal"] = True
+    return merged
+
+
 def _official(is_number: str, bis: dict, researched: Optional[dict], extracted: Optional[dict]) -> dict:
     """BIS's current count, with dates and excerpts from the other sources."""
     official = bis["amendment_count"]
-    retrieved = _BIS_META.get("retrieved")
-    source = "BIS's record for this standard" + (f" (read {retrieved})" if retrieved else "")
+    if bis.get("from_portal"):
+        retrieved = _PORTAL_META.get("retrieved")
+        source = "BIS's standards portal" + (f" (read {retrieved})" if retrieved else "")
+    else:
+        retrieved = _BIS_META.get("retrieved")
+        source = "BIS's record for this standard" + (f" (read {retrieved})" if retrieved else "")
 
     # Dates: BIS's own table where it gives years, then the researched entry,
     # then the slips read from the archived copy.
@@ -226,7 +263,8 @@ def _official(is_number: str, bis: dict, researched: Optional[dict], extracted: 
     for item in bis.get("amendments", []):
         if item.get("number") and item.get("year") and not (known.get(item["number"]) or {}).get("date"):
             known[item["number"]] = {**known.get(item["number"], {}), "date": str(item["year"]),
-                                     "confidence": "confirmed", "source": "bis"}
+                                     "confidence": "confirmed",
+                                     "source": "bis_portal" if bis.get("from_portal") else "bis"}
 
     in_text = (extracted or {}).get("count_in_copy") or 0
     count = max(official, in_text)
@@ -343,13 +381,17 @@ def describe(info: dict, number: str) -> str:
 def coverage() -> dict:
     """How much has been checked, for honest reporting."""
     _load()
-    keys = set(_CACHE) | set(_EXTRACTED) | {k for k, v in _BIS.items() if v.get("amendment_count") is not None}
-    counts = {k: for_standard(k)["count"] or 0 for k in keys}
+    official = {k for k, v in _BIS.items() if v.get("amendment_count") is not None}
+    official |= {k for k, v in _PORTAL.items() if v.get("amendment_count") is not None}
+    keys = set(_CACHE) | set(_EXTRACTED) | official
+    infos = {k: for_standard(k) for k in keys}
     return {
         "standards_checked": len(keys),
         "standards_researched": len(_CACHE),
-        "standards_official": sum(1 for v in _BIS.values() if v.get("amendment_count") is not None),
-        "standards_with_amendments": sum(1 for c in counts.values() if c),
-        "total_amendments": sum(counts.values()),
+        "standards_official": len(official),
+        "standards_with_amendments": sum(1 for i in infos.values() if i["count"]),
+        "total_amendments": sum(i["count"] or 0 for i in infos.values()),
+        "amendments_dated": sum(1 for i in infos.values() for a in i["amendments"] if a.get("date")),
         "bis_retrieved": _BIS_META.get("retrieved"),
+        "bis_portal_retrieved": _PORTAL_META.get("retrieved"),
     }

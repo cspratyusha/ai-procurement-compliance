@@ -28,13 +28,14 @@ class _WithoutBIS(unittest.TestCase):
 
     @classmethod
     def setUpClass(cls):
-        cls._saved = amendments._BIS_PATH
-        amendments._BIS_PATH = cls._saved.with_name("no-such-file.json")
+        cls._saved = amendments._BIS_PATH, amendments._PORTAL_PATH
+        amendments._BIS_PATH = cls._saved[0].with_name("no-such-file.json")
+        amendments._PORTAL_PATH = cls._saved[1].with_name("no-such-file.json")
         amendments.reset_cache()
 
     @classmethod
     def tearDownClass(cls):
-        amendments._BIS_PATH = cls._saved
+        amendments._BIS_PATH, amendments._PORTAL_PATH = cls._saved
         amendments.reset_cache()
 
 

@@ -22,6 +22,7 @@ Run with::
     python data/ingest_archive.py --list        # what would be fetched
     python data/ingest_archive.py --limit 50    # fetch 50, for a trial run
     python data/ingest_archive.py               # fetch the full target set
+    python data/ingest_archive.py --rescope     # re-extract scopes from the cached texts
 """
 
 import argparse
@@ -277,6 +278,20 @@ def clean_ocr(text: str) -> str:
     return text.strip()
 
 
+# Clause 1 with its heading run into the text, as most OCR renderings have it:
+# "1 SCOPE This standard prescribes ...", "1. Scope 1.1 This standard (Part 2)
+# covers ...", up to the next numbered clause ("2 REFERENCES"). The clause
+# must open the way scope clauses do, so a "1 Scope" inside a table or a
+# later clause ("3.1 Scope The specimen shall ...") is not taken for it.
+_INLINE_SCOPE = re.compile(
+    r"(?:^|\s)1\s*\.?\s*(?:SCOPE|Scope)\s*[-:.—]*\s+"
+    r"((?:\d\.\d(?:\.\d)?\s*)?(?:This|These)\s+(?:Indian\s+)?"
+    r"(?:standard|code|specification|part|guide|method|International|Standard|test|terminology|glossary)\b"
+    r".{30,2500}?)(?=\s+2\s*\.?\s+[A-Z][A-Za-z]{3,}|\Z)",
+    re.DOTALL,
+)
+
+
 def extract_scope(text: str) -> Optional[str]:
     """Pull the SCOPE clause, which is what retrieval actually needs.
 
@@ -284,12 +299,22 @@ def extract_scope(text: str) -> Optional[str]:
     covers. It is the single most useful paragraph for semantic search, far
     better than the title alone.
     """
-    # The heading, then everything until the next numbered clause heading.
+    # The heading on a line of its own, then everything until the next
+    # numbered clause heading.
     match = re.search(
         r"^\s*\d*\.?\s*SCOPE\s*\n(.{40,2500}?)(?=\n\s*\d+\.\s*[A-Z]{3,}|\n\s*[A-Z]{4,}\s*\n)",
         text,
         re.MULTILINE | re.DOTALL | re.IGNORECASE,
     )
+    if not match:
+        # The heading run into the text. Without this, a third of the
+        # collection fell through to the sentence search below, which takes
+        # the first "This standard specifies ..." it meets, often in the
+        # foreword: IS 10500 was searched as "the acceptable limits and the
+        # permissible limits in the absence of alternate source" rather than
+        # its scope, "requirements and the methods of sampling and test for
+        # drinking water".
+        match = _INLINE_SCOPE.search(text[:40000])
     if not match:
         # Fall back to a "This standard ..." sentence anywhere near the top.
         match = re.search(
@@ -301,7 +326,19 @@ def extract_scope(text: str) -> Optional[str]:
             return None
 
     scope = " ".join(match.group(1).split())
-    scope = re.sub(r"^\d+\.\d+\s*", "", scope)  # drop a leading clause number
+    scope = re.sub(r"^\d+\.\d+(?:\.\d+)?\s*", "", scope)  # drop a leading clause number
+
+    # Keep the clause's opening statement, up to its first sub-clause. What
+    # follows ("1.1.1 The standard also covers pipes for agricultural use.
+    # 1.2 It does not cover ...") dilutes the statement in the index: with it,
+    # IS 4985 scored 6.38 against "PVC pipe for drinking water supply" on the
+    # cross-encoder, without it 7.13, and IS 2062 fell below a dimensions
+    # standard for "structural steel plates and angles".
+    # An opening too short to say anything ("This standard covers") keeps
+    # what follows instead.
+    opening = re.split(r"\s+\d+\.\d+(?:\.\d+)?\s+(?=[A-Z(])", scope, maxsplit=1)[0]
+    if len(opening.strip()) >= 40:
+        scope = opening
 
     # Stop at the next clause heading.
     #
@@ -377,6 +414,37 @@ def title_from_search(raw_title: str) -> str:
     return title
 
 
+def rescope() -> int:
+    """Re-run scope extraction over the cached texts of every ingested record.
+
+    For when the extractor improves: the texts are already on disk, so there
+    is nothing to fetch. Number, title and identifier are kept; scope,
+    provenance and sector become what a fresh ingest would now give them.
+    """
+    from collections import Counter
+
+    payload = json.loads(OUTPUT.read_text(encoding="utf-8"))
+    changes = Counter()
+    for record in payload["standards"]:
+        cached = CACHE_DIR / f"{record['identifier']}.txt"
+        if not cached.exists():
+            changes["no cached text"] += 1
+            continue
+        scope = extract_scope(clean_ocr(cached.read_text(encoding="utf-8", errors="replace"))) or ""
+        old = record.get("scope") or ""
+        if scope == old:
+            changes["unchanged"] += 1
+            continue
+        changes["scope found" if not old else "scope lost" if not scope else "scope changed"] += 1
+        record["scope"] = scope
+        record["provenance"] = "published_text_ocr" if scope else "number_and_title_only"
+        record["category"] = classify(record["title"], scope) or "general"
+    payload["_meta"]["rescoped"] = time.strftime("%Y-%m-%d")
+    OUTPUT.write_text(json.dumps(payload, ensure_ascii=False, indent=2), encoding="utf-8")
+    print(f"rescoped {len(payload['standards'])} records: {dict(changes)} -> {OUTPUT}")
+    return 0
+
+
 def main() -> int:
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--limit", type=int, default=600, help="how many standards to keep")
@@ -388,7 +456,14 @@ def main() -> int:
         help="candidates fetched per standard kept; many yield no usable record",
     )
     parser.add_argument("--list", action="store_true", help="list candidates without fetching text")
+    parser.add_argument(
+        "--rescope",
+        action="store_true",
+        help="re-extract every ingested record's scope from the cached texts, without fetching",
+    )
     args = parser.parse_args()
+    if args.rescope:
+        return rescope()
 
     print(f"scanning up to {args.scan} archive records for standards in our sectors...")
 

@@ -5,6 +5,8 @@ edition of the same standard (build_full_corpus.mark_superseded_editions), so
 an edition BIS withdrew years ago still reads as current when the corpus has
 nothing newer. BIS's "Know Your Standard" page for each edition says whether
 it is withdrawn and what replaced it (data/bis_kys.py, data/amendments/bis_kys.json).
+That record stops at 1 October 2025; withdrawals and editions since then come
+from BIS's new portal (data/bis_portal.py) and are overlaid on it first.
 
 For every corpus edition with a BIS record:
 
@@ -51,6 +53,8 @@ from collections import Counter
 from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).resolve().parent))
+from bis_portal import overlay  # noqa: E402
+from build_full_corpus import remap_query_sets  # noqa: E402
 from text_repair import fix_text  # noqa: E402
 
 _REPO_ROOT = Path(__file__).resolve().parent.parent
@@ -106,8 +110,31 @@ _BIS_NOTE = re.compile(
 )
 
 
+# Which amendment the record was last updated for, written into the title:
+# "Pressed Ceramic Tiles - Specification Amendment - 2", "... AMENDMENT 5",
+# "(Amendment-1)", "Amendment No. 2 to IS 18297: 2023 Cabinet Hinges", or a
+# draft note cut off mid-word. It is not part of the title, and in the search
+# index it made IS 15622 a weaker match for "ceramic floor tiles" (3.31 on the
+# cross-encoder against 4.02 without). A number is required, so a title that
+# is about an amendment ("Iron pyrites as soil amendment") is left alone.
+_ORDINAL = r"(?:first|second|third|fourth|fifth|sixth|seventh|eighth|ninth|tenth)"
+_AMENDMENT_TAIL = re.compile(
+    r"\s*[-–—,:]?\s*\(?\s*(?:" + _ORDINAL + r"\s+)?amendment\s*(?:no\.?)?\s*[-:.]?\s*\d+\s*\)?\s*$"
+    r"|\s*\(\s*draft\b[^)]*$",
+    re.IGNORECASE,
+)
+_AMENDMENT_HEAD = re.compile(
+    r"^amendment\s*(?:no\.?)?\s*\d+\s*(?:to\s+)?(?:IS[\s/A-Z]*\d[\w\s()/.-]*?:\s*(?:19|20)\d{2}\s*)?",
+    re.IGNORECASE,
+)
+# "IS 303: 2024 Plywood for General Purposes": the number repeated in front.
+_NUMBER_HEAD = re.compile(r"^IS\s*\d[\w\s()/.-]*?:\s*(?:19|20)\d{2}\s+(?=[A-Za-z])")
+
+
 def clean_bis_title(raw):
     title = " ".join(_BIS_NOTE.sub("", fix_text(raw) or "").split()).strip(" .,-")
+    for pattern in (_AMENDMENT_TAIL, _AMENDMENT_HEAD, _NUMBER_HEAD):
+        title = pattern.sub("", title).strip(" .,-–—")
     return title[:1].upper() + title[1:]      # BIS's own record is sometimes lower-case too
 
 
@@ -201,6 +228,9 @@ def main():
 
     corpus = json.loads(CORPUS.read_text(encoding="utf-8"))
     bis_raw = json.loads(BIS.read_text(encoding="utf-8"))["standards"]
+    # Withdrawals and editions since the Know Your Standard snapshot, from
+    # BIS's new portal (data/bis_portal.py), when it has been read.
+    print("BIS portal overlay:", overlay(bis_raw))
     bis = {normalize(k): v for k, v in bis_raw.items()}
     held = {normalize(r["number"]) for r in corpus}
 
@@ -271,6 +301,8 @@ def main():
         record["status_source"] = "bis"
         if note:
             record["withdrawal_note"] = note
+        if entry.get("withdrawn_on"):
+            record["withdrawn_on"] = entry["withdrawn_on"]
         if replacement:
             record["superseded_by_number"] = replacement
             stats["withdrawn_replaced_held" if normalize(replacement) in held else "withdrawn_replaced_not_held"] += 1
@@ -288,6 +320,8 @@ def main():
     if not args.dry_run:
         CORPUS.write_text(json.dumps(corpus, ensure_ascii=False, indent=2), encoding="utf-8")
         print(f"wrote {CORPUS}")
+        # A label on an edition now withdrawn follows it to its replacement.
+        remap_query_sets(corpus)
 
 
 if __name__ == "__main__":

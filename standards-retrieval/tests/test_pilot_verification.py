@@ -93,11 +93,16 @@ class TestServedCorpus:
     def test_no_pilot_record_or_written_description_is_served(self, served):
         assert not [r["number"] for r in served if r.get("provenance") in ("consolidated", "number_and_title_referenced")]
         assert not [r["number"] for r in served
-                    if set(r.get("sources") or []) - {"archive.org/gov.in.is", "bis.gov.in/knowyourstandards"}]
+                    if set(r.get("sources") or []) - {"archive.org/gov.in.is", "bis.gov.in/knowyourstandards",
+                                                       "standards.bis.gov.in"}]
         assert not [r["number"] for r in served if (r.get("description") or "").strip()]
 
     def test_every_edition_is_listed_by_bis_or_published_in_the_archive(self, served):
         bis = {upper_key(k) for k in json.loads(_BIS.read_text(encoding="utf-8"))["standards"]}
+        # Published since the Know Your Standard snapshot, from BIS's new portal.
+        portal = _BIS.with_name("bis_portal.json")
+        if portal.exists():
+            bis |= {upper_key(s["number"]) for s in json.loads(portal.read_text(encoding="utf-8"))["published"]}
         unbacked = [r["number"] for r in served
                     if upper_key(r["number"]) not in bis and "archive.org/gov.in.is" not in (r.get("sources") or [])]
         assert unbacked == []

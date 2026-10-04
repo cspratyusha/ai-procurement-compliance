@@ -165,9 +165,14 @@ def test_out_of_scope_query_is_declined_on_the_served_corpus(full_corpus_client)
     so declining a laptop as out of scope would train the gate to refuse a
     regulated product. The queries are now requests no Indian Standard
     specifies, the borderline ones from eval/calibrate_confidence.py included.
+
+    "hotel booking for official travel" was one, until BIS published IS
+    19384:2025 on online travel agency services (read from its portal in
+    October 2026): a related standard now exists, and "uncertain" is the
+    honest verdict for it.
     """
     for query in ["group health insurance for employees",
-                  "hotel booking for official travel",
+                  "legal advice on a contract dispute",
                   "catering for a staff canteen",       # highest-scoring out-of-scope
                   "mobile app development"]:
         resp = full_corpus_client.post(
