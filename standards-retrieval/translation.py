@@ -17,13 +17,16 @@ no API key. Loaded lazily, because the English-only path must not pay for it.
 """
 
 import logging
+import os
 import re
 import threading
 from typing import Dict, Optional
 
 logger = logging.getLogger("standards-retrieval.translation")
 
-_MODEL_NAME = "facebook/nllb-200-distilled-600M"
+# TRANSLATION_MODEL swaps in another NLLB-200 checkpoint with the same
+# language codes, e.g. facebook/nllb-200-distilled-1.3B.
+_MODEL_NAME = os.environ.get("TRANSLATION_MODEL", "facebook/nllb-200-distilled-600M")
 
 # Languages offered in the UI. NLLB uses its own language codes. Twelve of
 # India's 22 scheduled languages, which between them are the mother tongue of
