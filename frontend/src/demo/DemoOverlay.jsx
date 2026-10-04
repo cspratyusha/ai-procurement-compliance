@@ -10,16 +10,35 @@
  * normal application carries no overlay, no listeners and no extra paint.
  */
 
+import { useLayoutEffect, useRef } from 'react';
 import { useDemo } from './useDemo';
 
-/** The pointer itself, an arrow drawn to read as a real macOS/Windows cursor. */
-function DemoCursor({ cursor }) {
-  if (!cursor?.visible) return null;
+/**
+ * The pointer itself, an arrow drawn to read as a real macOS/Windows cursor.
+ *
+ * Its position is written straight to the element from the engine's cursor
+ * channel, never through React: it changes every frame, and a React render
+ * per frame is what made the whole overlay stutter on a busy page.
+ */
+function DemoCursor({ cursor, subscribe }) {
+  const ref = useRef(null);
+  const visible = Boolean(cursor?.visible);
+
+  // Layout effect, so the first position lands before the first paint and the
+  // arrow never flashes at the top-left corner.
+  useLayoutEffect(() => {
+    if (!visible || !subscribe) return undefined;
+    return subscribe(({ x, y }) => {
+      if (ref.current) ref.current.style.transform = `translate3d(${x}px, ${y}px, 0)`;
+    });
+  }, [visible, subscribe]);
+
+  if (!visible) return null;
 
   return (
     <div
+      ref={ref}
       className={`demo-cursor ${cursor.pressing ? 'is-pressing' : ''}`}
-      style={{ transform: `translate3d(${cursor.x}px, ${cursor.y}px, 0)` }}
       aria-hidden="true"
     >
       <span className="demo-cursor-glow" />
@@ -114,6 +133,10 @@ export default function DemoOverlay() {
   const {
     cursor, ripple, spotlight, caption, picker, running, paused, finished, error,
   } = state;
+  // The dimming is the ring's own box-shadow, so unmounting the ring the
+  // moment the spotlight clears snapped the page from dim to bright while the
+  // veil's fade-out ran over nothing. The last box stays mounted for the fade.
+  const ring = spotlight ?? state.lastSpotlight;
 
   // Progress is counted in acts, the captioned chapters a viewer sees go by
   // not in engine steps, which advance unevenly and mean nothing to them.
@@ -126,15 +149,15 @@ export default function DemoOverlay() {
           a huge spread shadow darkens everything outside the ring. */}
       {running && (
         <div className={`demo-veil ${spotlight ? 'has-focus' : ''}`}>
-          {spotlight && (
+          {ring && (
             <div
-              className="demo-spotlight"
+              className={`demo-spotlight ${ring.follow ? 'is-following' : ''} ${spotlight ? '' : 'is-leaving'}`}
               style={{
-                top: spotlight.top,
-                left: spotlight.left,
-                width: spotlight.width,
-                height: spotlight.height,
-                borderRadius: spotlight.radius,
+                top: ring.top,
+                left: ring.left,
+                width: ring.width,
+                height: ring.height,
+                borderRadius: ring.radius,
               }}
             />
           )}
@@ -154,7 +177,7 @@ export default function DemoOverlay() {
         />
       )}
 
-      <DemoCursor cursor={cursor} />
+      <DemoCursor cursor={cursor} subscribe={demo.subscribeCursor} />
 
       {/* Narration */}
       {running && caption && (
@@ -167,15 +190,38 @@ export default function DemoOverlay() {
       )}
 
       {/* Indicator + controls. The only interactive part of the overlay. */}
-      {running && (
+      {/* Hidden for a clean take: nothing is drawn until the presenter's
+          pointer reaches the corner the panel lives in, or H is pressed. */}
+      {running && demo.hudHidden && (
+        <div className="demo-hud-restore">
+          <button type="button" className="demo-btn is-primary" onClick={demo.showHud}>
+            Show controls
+          </button>
+        </div>
+      )}
+
+      {running && !demo.hudHidden && (
         <div className="demo-hud">
           <div className="demo-hud-head">
             <span className={`demo-badge ${paused ? 'is-paused' : ''}`}>
               <span className="demo-badge-dot" aria-hidden="true" />
               {paused ? 'Recording Paused' : 'Recording'}
             </span>
-            <span className="demo-hud-step">
-              {done} / {state.total}
+            <span className="demo-hud-side">
+              <span className="demo-hud-step">
+                {done} / {state.total}
+              </span>
+              <button
+                type="button"
+                className="demo-hud-hide"
+                onClick={demo.hideHud}
+                aria-label="Hide the controls"
+                title="Hide the controls (H)"
+              >
+                <svg width="14" height="14" viewBox="0 0 14 14" aria-hidden="true">
+                  <path d="M3 7h8" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" />
+                </svg>
+              </button>
             </span>
           </div>
 
@@ -205,7 +251,7 @@ export default function DemoOverlay() {
               Stop
             </button>
           </div>
-          <p className="demo-hud-hint">Space pauses · → skips · Esc stops</p>
+          <p className="demo-hud-hint">Space pauses · → skips · H hides · Esc stops</p>
         </div>
       )}
 

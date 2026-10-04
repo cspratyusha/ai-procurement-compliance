@@ -17,6 +17,9 @@ import { DemoContext, useDemo } from './useDemo';
 import DemoOverlay from './DemoOverlay';
 import './demo.css';
 
+/** Keys that type, activate, move focus or scroll: the demo's job while it runs. */
+const DRIVING_KEYS = /^(Enter|Tab|Backspace|Delete|Arrow\w+|PageUp|PageDown|Home|End)$/;
+
 export function DemoProvider({ children }) {
   const navigate = useNavigate();
   const [state, setState] = useState(null);
@@ -40,26 +43,72 @@ export function DemoProvider({ children }) {
     return () => engine.stop();
   }, [engine]);
 
+  // Whether the presenter has hidden the control panel. Kept across runs, so
+  // a second take starts the way the first one was set up.
+  const [hudHidden, setHudHidden] = useState(false);
+
   const running = Boolean(state?.running);
   const finished = Boolean(state?.finished);
 
-  // Escape stops the demo. A presenter whose demo goes wrong on camera needs
-  // one key, not a hunt for the right button.
+  // The keyboard, while the demo drives.
+  //
+  // Escape stops the demo: a presenter whose demo goes wrong on camera needs
+  // one key, not a hunt for the right button. Space pauses, → skips.
+  //
+  // Every other real keystroke is held back from the app too. The engine
+  // leaves focus on whatever it last clicked or typed into, so a presenter's
+  // Space used to press that button again, or type into the demo's query.
+  // The exceptions are fields under `data-demo-ignore`, the sign-in card the
+  // viewer types into while the tour waits, and the demo's own controls.
+  // Synthetic events are the engine's own typing and always pass.
   useEffect(() => {
     if (!running) return undefined;
     const onKey = (e) => {
-      if (e.key === 'Escape') { e.preventDefault(); engine.stop(); }
-      if (e.key === ' ' && e.target === document.body) {
+      if (!e.isTrusted || e.ctrlKey || e.metaKey || e.altKey) return;
+      const down = e.type === 'keydown';
+
+      if (e.key === 'Escape') {
+        if (down) { e.preventDefault(); engine.stop(); }
+        return;
+      }
+
+      const t = e.target instanceof Element ? e.target : null;
+      const exempt = Boolean(t?.closest('[data-demo-ignore="true"]'));
+      const editing = Boolean(t && (t.isContentEditable || /^(INPUT|TEXTAREA|SELECT)$/.test(t.tagName)));
+      // The viewer typing their own credentials into the sign-in card.
+      if (exempt && editing) return;
+
+      // H hides and shows the control panel, so a take can be recorded clean.
+      if (e.key === 'h' || e.key === 'H') {
         e.preventDefault();
-        if (state?.paused) engine.resume();
+        e.stopPropagation();
+        if (down && !e.repeat) setHudHidden((hidden) => !hidden);
+        return;
+      }
+
+      const control = e.key === ' ' || e.key === 'ArrowRight';
+      // The demo's own buttons keep Enter and Tab.
+      if (exempt && !control) return;
+      // Function keys (F11 for a full-screen recording) are the browser's.
+      if (!control && e.key.length !== 1 && !DRIVING_KEYS.test(e.key)) return;
+
+      e.preventDefault();
+      e.stopPropagation();
+      if (!down || e.repeat) return;
+      if (e.key === ' ') {
+        if (engine.state.paused) engine.resume();
         else engine.pause();
       }
       // Cut a long beat short without losing the demo.
-      if (e.key === 'ArrowRight') { e.preventDefault(); engine.skip(); }
+      if (e.key === 'ArrowRight') engine.skip();
     };
     window.addEventListener('keydown', onKey, true);
-    return () => window.removeEventListener('keydown', onKey, true);
-  }, [running, state?.paused, engine]);
+    window.addEventListener('keyup', onKey, true);
+    return () => {
+      window.removeEventListener('keydown', onKey, true);
+      window.removeEventListener('keyup', onKey, true);
+    };
+  }, [running, engine]);
 
   const api = useMemo(() => ({
     state,
@@ -71,7 +120,11 @@ export function DemoProvider({ children }) {
     skip: () => engine.skip(),
     stop: () => engine.stop(),
     dismissError: () => engine.dismissError(),
-  }), [state, running, finished, engine]);
+    subscribeCursor: engine.subscribeCursor,
+    hudHidden,
+    hideHud: () => setHudHidden(true),
+    showHud: () => setHudHidden(false),
+  }), [state, running, finished, engine, hudHidden]);
 
   return (
     <DemoContext.Provider value={api}>

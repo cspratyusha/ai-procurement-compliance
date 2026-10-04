@@ -1,0 +1,39 @@
+/* ---------------- Dropzone ----------------
+ *
+ * Shared by the upload screens (Audit, Upload tender / BOQ), and imported by
+ * each. It used to live in audit.css, which only the Audit screen imports:
+ * pages load on demand, so opening Upload tender before Audit in a session
+ * rendered the drop area unstyled, a small plain box instead of the panel.
+ */
+
+.dropzone {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  gap: var(--s3);
+  padding: var(--s9) var(--s5);
+  border: 2px dashed var(--md-outline-variant);
+  border-radius: var(--r-xl);
+  background: var(--md-surface-container-low);
+  transition: border-color var(--t-slow), background var(--t-slow);
+}
+
+.dropzone:hover {
+  border-color: var(--md-primary);
+  background: color-mix(in srgb, var(--md-primary) 5%, var(--md-surface-container-low));
+}
+
+.dropzone-icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 64px;
+  height: 64px;
+  border-radius: var(--r-lg);
+  background: var(--md-primary-container);
+  color: var(--md-on-primary-container);
+  margin-bottom: var(--s2);
+  transition: transform var(--t-slow);
+}
+.dropzone:hover .dropzone-icon { transform: translateY(-3px); }

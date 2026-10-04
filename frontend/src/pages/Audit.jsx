@@ -4,6 +4,7 @@ import Icon from '../components/Icon';
 import { EmptyState, CopyButton } from '../components/Primitives';
 import { auditDocument, SUPPORTED_UPLOAD_TYPES, MAX_UPLOAD_BYTES, ApiError } from '../api/client';
 import './audit.css';
+import './dropzone.css';
 import './query.css';   // .notice, shared with the query screen
 
 /**

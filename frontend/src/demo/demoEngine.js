@@ -67,9 +67,11 @@ export class DemoEngine {
       total: steps.filter(isAct).length,
       caption: null,
       error: null,
-      // Cursor is kept in state so React renders it; the engine mutates it
-      // through setState so there is one source of truth.
-      cursor: { x: 0, y: 0, visible: false, pressing: false },
+      // Only the cursor's visibility and press state live here. Its position
+      // changes every animation frame, and pushing that through React state
+      // re-rendered the whole overlay (and every useDemo consumer) at 60fps,
+      // so position goes out on its own channel: see subscribeCursor().
+      cursor: { visible: false, pressing: false },
       ripple: null,
       spotlight: null,
       picker: null,        // the demo's own file-chooser panel, when shown
@@ -81,6 +83,55 @@ export class DemoEngine {
     this._skip = false;      // set by skip(); cleared as each step begins
     this._skipped = [];      // steps stepped over this run, for the summary
     this._absent = new Set();// targets proved missing on the current screen
+
+    this.cursorPos = { x: 0, y: 0 };
+    this._cursorListeners = new Set();
+    this._spot = null;       // { el, pad, radius }, the element under the ring
+    this._pickerGuard = null;// see _blockFilePicker
+    this.subscribeCursor = this.subscribeCursor.bind(this);
+  }
+
+  /**
+   * Keep the operating system's file picker shut while the demo drives.
+   *
+   * The upload pages' "Select file" button calls `input.click()` on a hidden
+   * file input. The engine clicks that button so the viewer sees it pressed,
+   * and when the viewer has touched a key or the control panel in the last
+   * few seconds the browser counts that as a user gesture and opens the real
+   * picker, on the presenter's own Downloads folder, mid-recording. A
+   * cancelled click on a file input never opens it; the demo's own chooser
+   * and the file it hands over through `files` are unaffected.
+   */
+  _blockFilePicker(on) {
+    if (on && !this._pickerGuard) {
+      this._pickerGuard = (e) => {
+        if (e.target instanceof HTMLInputElement && e.target.type === 'file') {
+          e.preventDefault();
+          this._log('info', 'Held back the system file picker, the demo supplies the file');
+        }
+      };
+      window.addEventListener('click', this._pickerGuard, true);
+    } else if (!on && this._pickerGuard) {
+      window.removeEventListener('click', this._pickerGuard, true);
+      this._pickerGuard = null;
+    }
+  }
+
+  /**
+   * Follow the cursor's position without going through React state.
+   *
+   * The listener is called at once with the current position, then on every
+   * frame the cursor moves. Returns the unsubscribe function.
+   */
+  subscribeCursor(fn) {
+    this._cursorListeners.add(fn);
+    fn(this.cursorPos);
+    return () => this._cursorListeners.delete(fn);
+  }
+
+  _placeCursor(x, y) {
+    this.cursorPos = { x, y };
+    this._cursorListeners.forEach((fn) => fn(this.cursorPos));
   }
 
   /**
@@ -102,6 +153,9 @@ export class DemoEngine {
 
   _set(patch) {
     this.state = { ...this.state, ...patch };
+    // Kept after the spotlight clears, so the overlay can fade the dimming
+    // out around the last ring instead of dropping it in one frame.
+    if (patch.spotlight) this.state.lastSpotlight = patch.spotlight;
     this.onState?.(this.state);
   }
 
@@ -136,26 +190,34 @@ export class DemoEngine {
       error: null,
       caption: null,
       spotlight: null,
+      lastSpotlight: null,
+      ripple: null,
+      picker: null,
       log: [],
-      // Start the cursor low and centre-left, like a hand resting on a mouse.
-      cursor: {
-        x: window.innerWidth * 0.5,
-        y: window.innerHeight * 0.78,
-        visible: true,
-        pressing: false,
-      },
+      cursor: { visible: true, pressing: false },
     });
+    // Start the cursor low and centred, like a hand resting on a mouse.
+    this._placeCursor(window.innerWidth * 0.5, window.innerHeight * 0.78);
+    this._trackSpotlight(signal);
+    this._blockFilePicker(true);
 
     this._log('info', `Demo started, ${this.steps.length} steps`);
 
     try {
       await this._run(signal);
       if (!signal.aborted) {
+        // The completion card takes over. A synthetic cursor left parked on
+        // the last target reads as the page still being driven.
+        this._blockFilePicker(false);
+        this._spot = null;
         this._set({
           finished: true,
           running: false,
           spotlight: null,
           picker: null,
+          ripple: null,
+          caption: null,
+          cursor: { visible: false, pressing: false },
           skipped: this._skipped.length,
         });
         this._log(
@@ -171,12 +233,16 @@ export class DemoEngine {
       // A step that cannot recover stops the demo and says why, rather than
       // leaving a half-dimmed screen and a cursor parked on nothing.
       this._log('error', err.message);
+      this._blockFilePicker(false);
+      this._spot = null;
       this._set({
         running: false,
         error: err.message,
         spotlight: null,
         caption: null,
         picker: null,
+        ripple: null,
+        cursor: { visible: false, pressing: false },
       });
       document.documentElement.removeAttribute('data-demo');
     }
@@ -208,6 +274,8 @@ export class DemoEngine {
   stop() {
     this._abort?.abort();
     this.resume();   // unblock any pending gate so the loop can unwind
+    this._blockFilePicker(false);
+    this._spot = null;
     this._set({
       running: false,
       paused: false,
@@ -215,7 +283,7 @@ export class DemoEngine {
       caption: null,
       ripple: null,
       picker: null,
-      cursor: { ...this.state.cursor, visible: false, pressing: false },
+      cursor: { visible: false, pressing: false },
     });
     document.documentElement.removeAttribute('data-demo');
     this._log('info', 'Stopped, control returned to you');
@@ -223,6 +291,7 @@ export class DemoEngine {
 
   dismissError() {
     this._set({ error: null, finished: false });
+    if (!this.state.running) document.documentElement.removeAttribute('data-demo');
   }
 
   // ──────────────────────────── the step loop ─────────────────────────────
@@ -300,6 +369,7 @@ export class DemoEngine {
         // Leave nothing of the failed step on screen: a ring or a caption
         // pointing at an element that never appeared is what actually reads
         // as broken.
+        this._spot = null;
         this._set({ spotlight: null, picker: null });
       }
 
@@ -334,6 +404,21 @@ export class DemoEngine {
     }
   }
 
+  /**
+   * The interval between two checks in a polling loop.
+   *
+   * Not skip-aware, unlike _sleep. A skipped _sleep returns at once, and a
+   * polling loop built on it then spins through microtasks without ever
+   * yielding to the browser: the page cannot render the state being waited
+   * for, and the tab freezes until the loop's deadline, which for a
+   * retrieval wait is five minutes.
+   */
+  async _poll(ms, signal) {
+    await this._gate(signal);
+    if (signal.aborted) return;
+    await new Promise((r) => setTimeout(r, ms));
+  }
+
   // ───────────────────────────── the actions ──────────────────────────────
 
   async _execute(step, signal) {
@@ -365,7 +450,7 @@ export class DemoEngine {
 
       case 'navigate':
         // The outgoing screen's ring must not survive into the new one.
-        this._set({ spotlight: null });
+        this._clearSpotlight();
         this._log('info', `Navigating to ${step.to}`);
         this.navigate?.(step.to);
         // One frame for React to commit, then settle.
@@ -391,7 +476,7 @@ export class DemoEngine {
         const r = el.getBoundingClientRect();
         const cx = r.left + r.width / 2;
         const cy = r.top + r.height / 2;
-        const away = Math.hypot(cx - this.state.cursor.x, cy - this.state.cursor.y);
+        const away = Math.hypot(cx - this.cursorPos.x, cy - this.cursorPos.y);
         if (step.follow !== false && away > Math.max(220, r.height)) {
           await this._moveCursorTo(el, DEMO_TIMING.cursorMove, signal);
         }
@@ -404,14 +489,19 @@ export class DemoEngine {
       case 'scrollTo': {
         const el = await this._require(step.target, signal);
         await this._scrollIntoView(el, step.block ?? 'center', signal, true);
+        // A ring already up moves to what the page was scrolled to, rather
+        // than following its old element off screen.
+        if (this.state.spotlight) this._spotlight(el);
         return null;
       }
 
       case 'click': {
         const el = await this._require(step.target, signal);
         await this._scrollIntoView(el, step.block, signal);
-        await this._moveCursorTo(el, undefined, signal);
-        await this._sleep(DEMO_TIMING.beforeClick, signal);
+        const travelled = await this._moveCursorTo(el, undefined, signal);
+        // Already resting on the target (a moveTo and highlight came first):
+        // the full settle again is a dead beat before every click.
+        await this._sleep(travelled ? DEMO_TIMING.beforeClick : 220, signal);
         await this._click(el, signal);
         await this._sleep(DEMO_TIMING.afterClick, signal);
         return null;
@@ -436,7 +526,7 @@ export class DemoEngine {
         return null;
 
       case 'finish':
-        this._set({ spotlight: null });
+        this._clearSpotlight();
         return null;
 
       default:
@@ -491,7 +581,7 @@ export class DemoEngine {
       if (Date.now() > deadline) {
         throw new Error(`target "${key}" never appeared`);
       }
-      await this._sleep(150, signal);
+      await this._poll(150, signal);
       el = this._find(key);
     }
     return el;
@@ -513,11 +603,15 @@ export class DemoEngine {
     // well as its success state. A search whose backend errors renders an
     // error card and never renders results; without this the demo would wait
     // out the whole timeout for a panel that is not coming.
+    // It takes one key or a list: a wait on a transient state (a spinner)
+    // must also end on the state that follows it, or a fast backend that
+    // skips the spinner leaves the demo waiting out the whole timeout.
+    const alternatives = [].concat(step.orTarget ?? []);
     const satisfied = step.until
       ? DEMO_CONDITIONS[step.until]
       : () => Boolean(
         this._find(step.target)
-        || (step.orTarget && this._find(step.orTarget)),
+        || alternatives.some((key) => this._find(key)),
       );
 
     if (step.until && !satisfied) throw new Error(`unknown condition "${step.until}"`);
@@ -527,10 +621,17 @@ export class DemoEngine {
     this._log('info', `Waiting for ${label}…`);
     while (!satisfied()) {
       if (signal.aborted) throw new Error('aborted');
+      // Skip is the presenter deciding not to wait any longer, except on a
+      // wait for the viewer (signing in), where there is nothing to skip to.
+      if (this._skip && step.skippable === false) this._skip = false;
+      if (this._skip) {
+        this._log('info', `Stopped waiting for ${label}`);
+        return;
+      }
       if (Date.now() > deadline) {
         throw new Error(`timed out after ${Math.round(timeout / 1000)}s waiting for ${label}`);
       }
-      await this._sleep(200, signal);
+      await this._poll(200, signal);
     }
     this._log('info', `${label} ready`);
   }
@@ -545,15 +646,23 @@ export class DemoEngine {
    * pointing at where the element used to be.
    */
   async _moveCursorTo(el, duration = DEMO_TIMING.cursorMove, signal) {
-    const from = { x: this.state.cursor.x, y: this.state.cursor.y };
+    const from = { ...this.cursorPos };
     const target = () => {
       const r = el.getBoundingClientRect();
       return { x: r.left + r.width / 2 + TIP_OFFSET.x, y: r.top + r.height / 2 + TIP_OFFSET.y };
     };
 
-    // A first-ever move has no meaningful origin; drop in near the target.
+    // Travel time scales with distance, as a hand's does. A fixed duration
+    // made a 40px hop as slow as a sweep across the screen, and spent all of
+    // it animating nothing when the cursor was already on the target.
+    const first = target();
+    const span = Math.hypot(first.x - from.x, first.y - from.y);
+    if (span < 3) {
+      this._placeCursor(first.x, first.y);
+      return false;
+    }
     const start = performance.now();
-    const total = Math.max(120, duration);
+    const total = Math.max(160, Math.min(duration, 240 + span * 0.9));
 
     for (;;) {
       if (signal.aborted) return;
@@ -573,21 +682,15 @@ export class DemoEngine {
       const nx = dist ? -dy / dist : 0;
       const ny = dist ? dx / dist : 0;
 
-      this._set({
-        cursor: {
-          ...this.state.cursor,
-          visible: true,
-          x: from.x + dx * e + nx * bow,
-          y: from.y + dy * e + ny * bow,
-        },
-      });
+      this._placeCursor(from.x + dx * e + nx * bow, from.y + dy * e + ny * bow);
 
       if (t >= 1) break;
       await raf();
     }
 
     const end = target();
-    this._set({ cursor: { ...this.state.cursor, x: end.x, y: end.y } });
+    this._placeCursor(end.x, end.y);
+    return true;
   }
 
   /**
@@ -598,8 +701,13 @@ export class DemoEngine {
    * directions and dim nothing at all, which reads as a broken highlight.
    */
   _spotlight(el, pad = 8) {
-    const r = el.getBoundingClientRect();
     const radius = Math.min(14, Number.parseFloat(getComputedStyle(el).borderRadius) || 6);
+    this._spot = { el, pad, radius };
+    this._set({ spotlight: this._measureSpot(this._spot) });
+  }
+
+  _measureSpot({ el, pad, radius }) {
+    const r = el.getBoundingClientRect();
     const m = 10;   // never let the ring sit flush against the viewport edge
 
     const top = Math.max(m, r.top - pad);
@@ -607,15 +715,50 @@ export class DemoEngine {
     const bottom = Math.min(window.innerHeight - m, r.bottom + pad);
     const right = Math.min(window.innerWidth - m, r.right + pad);
 
-    this._set({
-      spotlight: {
-        top,
-        left,
-        width: Math.max(0, right - left),
-        height: Math.max(0, bottom - top),
-        radius: radius + pad / 2,
-      },
-    });
+    return {
+      top,
+      left,
+      width: Math.max(0, right - left),
+      height: Math.max(0, bottom - top),
+      radius: radius + pad / 2,
+    };
+  }
+
+  _clearSpotlight() {
+    this._spot = null;
+    this._set({ spotlight: null });
+  }
+
+  /**
+   * Keep the ring on its element for as long as it is shown.
+   *
+   * Measured once, the ring stayed where the element *was*: a smooth scroll,
+   * a results list expanding above it, or a window resize left it framing
+   * the wrong thing, and a route change left it framing nothing at all. Each
+   * frame re-measures, and state changes only when the box actually moved,
+   * so a still page costs one getBoundingClientRect per frame.
+   */
+  _trackSpotlight(signal) {
+    const tick = () => {
+      if (signal.aborted || !this.state.running) return;
+      const cur = this.state.spotlight;
+      if (cur && this._spot) {
+        const { el } = this._spot;
+        const r = el.getBoundingClientRect();
+        if (!el.isConnected || (r.width === 0 && r.height === 0)) {
+          this._clearSpotlight();
+        } else {
+          const next = this._measureSpot(this._spot);
+          const moved = ['top', 'left', 'width', 'height']
+            .some((k) => Math.abs(next[k] - cur[k]) > 0.5);
+          // `follow` turns the CSS glide off: the ring is tracking its own
+          // element, and easing behind a scroll makes it trail like rubber.
+          if (moved) this._set({ spotlight: { ...next, follow: true } });
+        }
+      }
+      requestAnimationFrame(tick);
+    };
+    requestAnimationFrame(tick);
   }
 
   /**
@@ -642,7 +785,7 @@ export class DemoEngine {
 
     while (Date.now() < deadline) {
       if (signal.aborted) return;
-      await this._sleep(80, signal);
+      await this._poll(80, signal);
       const y = Math.round(el.getBoundingClientRect().top);
       if (last !== null && Math.abs(y - last) < 1) {
         if (++still >= 2) break;
@@ -651,9 +794,6 @@ export class DemoEngine {
       }
       last = y;
     }
-
-    // The spotlight was measured before the scroll; re-measure it after.
-    if (this.state.spotlight) this._spotlight(el);
   }
 
   // ────────────────────────────── interaction ─────────────────────────────
@@ -670,9 +810,10 @@ export class DemoEngine {
     const x = r.left + r.width / 2;
     const y = r.top + r.height / 2;
 
+    const ripple = { x, y, id: Date.now() };
     this._set({
       cursor: { ...this.state.cursor, pressing: true },
-      ripple: { x, y, id: Date.now() },
+      ripple,
     });
 
     const opts = {
@@ -695,7 +836,10 @@ export class DemoEngine {
     el.click();
 
     this._set({ cursor: { ...this.state.cursor, pressing: false } });
-    setTimeout(() => this._set({ ripple: null }), 650);
+    // Clear only this ripple: a later click may already have replaced it.
+    setTimeout(() => {
+      if (this.state.ripple === ripple) this._set({ ripple: null });
+    }, 650);
   }
 
   /**
@@ -825,18 +969,24 @@ export class DemoEngine {
     await this._sleep(180, signal);
     this._set({ cursor: { ...this.state.cursor, pressing: false } });
 
-    // The panel closes, and only then does the file reach the application,     // so the upload starts exactly when the viewer sees the dialog dismissed.
+    // The panel closes, and only then does the file reach the application,
+    // so the upload starts exactly when the viewer sees the dialog dismissed.
     // The spotlight goes with it: it was measured against a row that no longer
     // exists, and would otherwise hang over the page as an empty ring.
-    this._set({ picker: null, spotlight: null });
+    this._set({ picker: null, ripple: null });
+    this._clearSpotlight();
     await this._sleep(260, signal);
 
     const dt = new DataTransfer();
     dt.items.add(file);
-    Object.defineProperty(input, 'files', {
-      configurable: true,
-      get: () => dt.files,
-    });
+    // Assigned rather than redefined. A getter pinned on the element outlived
+    // the demo: the page clears `value` after each pick, but a real upload on
+    // the same input afterwards still read back the demo's file.
+    try {
+      input.files = dt.files;
+    } catch {
+      Object.defineProperty(input, 'files', { configurable: true, get: () => dt.files });
+    }
 
     input.dispatchEvent(new Event('input', { bubbles: true }));
     input.dispatchEvent(new Event('change', { bubbles: true }));

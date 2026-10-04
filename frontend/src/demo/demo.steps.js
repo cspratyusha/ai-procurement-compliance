@@ -157,7 +157,8 @@ export const demoSteps = [
       + 'you do is recorded in your own activity trail.',
     0,
   ),
-  { action: 'waitFor', until: 'onWorkbench', timeout: 600000 },
+  // Not skippable: every act after this one needs a signed-in session.
+  { action: 'waitFor', until: 'onWorkbench', timeout: 600000, skippable: false },
 
   // ═══════════════════════ Act 2, search by meaning ══════════════════════
   { action: 'label', name: 'workbench' },
@@ -183,7 +184,11 @@ export const demoSteps = [
   {
     action: 'type',
     target: 'query-input',
-    text: 'PVC insulated copper cable, single core, 1100 V, for indoor panel wiring',
+    // Deliberately not one of the example cards under the search box (or the
+    // landing page's cable): typing a suggestion the viewer can already see
+    // proves nothing. Its top result is IS 2082, compulsory under a 2023 QCO,
+    // which the narration below names, so change both together.
+    text: 'Electric storage water heater for staff quarters bathrooms, 25 litre',
   },
   { action: 'wait', ms: 800 },
   ...press('query-submit'),
@@ -215,8 +220,9 @@ export const demoSteps = [
     'Act 2 · Search',
     'And this one is legally mandatory.',
     'ISI mark required, the banner names the order that makes it so.',
-    'Quality Control Order S.O. 189(E) of 2003. A specification that omits it '
-      + 'lets an uncertified supplier win the contract lawfully.',
+    'The Electrical Appliances for Domestic Water Heating (Quality Control) '
+      + 'Order, 2023. A specification that omits it lets an uncertified '
+      + 'supplier win the contract lawfully.',
     3800,
   ),
 
@@ -260,7 +266,7 @@ export const demoSteps = [
     'Act 4 · The cluster',
     'One product needs a set of standards, not one.',
     'Normative references, test methods, terminology, installation practice.',
-    'Cite the cable standard alone and there is no test method, so the '
+    'Cite the product standard alone and there is no test method, so the '
       + 'acceptance criteria cannot be measured at inspection.',
     3600,
   ),
@@ -300,7 +306,15 @@ export const demoSteps = [
   { action: 'type', target: 'query-input', text: 'laptop for office use' },
   { action: 'wait', ms: 600 },
   ...press('query-submit'),
-  { action: 'waitFor', target: 'query-expansion', orTarget: 'any-error', timeout: 300000 },
+  // Results without an expansion notice are an answer too: waiting on the
+  // notice alone would hold the demo for five minutes if the engine found
+  // nothing to add.
+  {
+    action: 'waitFor',
+    target: 'query-expansion',
+    orTarget: ['query-results', 'any-error'],
+    timeout: 300000,
+  },
   { action: 'highlight', target: 'query-expansion', optional: true },
   ...say(
     'Act 5 · Everyday words',
@@ -353,7 +367,15 @@ export const demoSteps = [
   ),
 
   // ═══════════════════════ Act 6b, wait on real processing ═══════════════
-  { action: 'waitFor', target: 'boq-running', timeout: 20000, optional: true },
+  // A short document can finish before the progress card ever paints, so the
+  // results end this wait too, rather than it running out its 20 seconds.
+  {
+    action: 'waitFor',
+    target: 'boq-running',
+    orTarget: ['boq-results', 'any-error'],
+    timeout: 20000,
+    optional: true,
+  },
   ...say(
     'Act 6 · Upload',
     'One independent retrieval per line item.',

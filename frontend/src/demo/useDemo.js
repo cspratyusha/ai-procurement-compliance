@@ -1,7 +1,8 @@
 /**
  * The demo context and its hook.
  *
- * Separate from DemoProvider.jsx so that file exports only components,  * otherwise Vite's fast refresh cannot hot-reload the provider, which is
+ * Separate from DemoProvider.jsx so that file exports only components,
+ * otherwise Vite's fast refresh cannot hot-reload the provider, which is
  * exactly the file worth iterating on while tuning a demo.
  */
 

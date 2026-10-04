@@ -164,8 +164,9 @@ export const DEMO_TIMING = {
 ```
 
 Raise `afterClick` and the `wait` steps for a slower, more narrated recording;
-lower them for a shorter clip. A full pass currently runs about 2–3 minutes,
-most of which is the engine genuinely retrieving.
+lower them for a shorter clip. Cursor travel scales with distance, up to
+`cursorMove` for a sweep across the screen, and a click on an element the
+cursor already rests on skips the travel and most of the `beforeClick` settle.
 
 ### The sequence
 
@@ -193,7 +194,7 @@ Each entry is one action:
 | `click` | `target` | ripple, then a real click |
 | `type` | `target`, `text`, `speed?` | keystroke-by-keystroke |
 | `wait` | `ms` | a deliberate pause |
-| `waitFor` | `target` or `until`, `timeout?` | wait for real app state |
+| `waitFor` | `target` or `until`, `orTarget?`, `timeout?`, `skippable?` | wait for real app state; `orTarget` (one key or a list) also ends it |
 | `scrollTo` | `target`, `block?` | smooth-scroll into view and settle |
 | `upload` | `target`, `file?` | hand the demo file to a file input |
 | `navigate` | `to` | route change via react-router |
@@ -262,12 +263,20 @@ the sign-in act when it is started from inside the app:
 ## Controls
 
 While running: **Pause**, **Resume**, **Skip**, **Stop**, an act counter and a
-progress bar, bottom right. `Space` pauses, `→` skips, `Esc` stops.
+progress bar, bottom right. `Space` pauses, `→` skips, `H` hides the panel,
+`Esc` stops.
+
+- **Hide** (the – in the panel's corner, or `H`) removes the panel entirely
+  for a clean recording; the shortcuts keep working. Bring it back with `H`,
+  or by moving the pointer into the bottom-right corner, where a "Show
+  controls" button appears only while hovered.
 
 - **Skip** cuts the current pause short, useful mid-recording when a
   narration beat or a slow retrieval is taking longer than the take allows. It
   only shortens *waiting*; clicks, typing and cursor travel still happen, so
-  skipping cannot desynchronise the demo from the application.
+  skipping cannot desynchronise the demo from the application. On a `waitFor`
+  it stops waiting and moves on, except where the step says
+  `skippable: false`: the sign-in wait, which is waiting on the viewer.
 - **Stop** returns control instantly, the lock, the dimming, the cursor and
   the narration all go at once, leaving the app on whatever screen it reached.
 
@@ -276,13 +285,26 @@ engine steps, which advance unevenly and mean nothing to a viewer.
 
 User input is blocked while the demo drives, so a stray click cannot ruin a
 take. This is `pointer-events: none` on the app root, which blocks hit-testing
-for real input devices but not the engine's own dispatched events.
+for real input devices but not the engine's own dispatched events. Keys that
+type, activate, move focus or scroll are held back as well, since the engine
+leaves focus on whatever it last clicked. Fields inside `data-demo-ignore`
+(the sign-in card) still take typing, and function keys such as F11 still
+reach the browser.
+
+The cursor's position never goes through React state: the engine writes it to
+the cursor element directly each frame (`subscribeCursor`), so a moving
+cursor does not re-render the overlay or anything reading `useDemo()`. The
+spotlight re-measures its element every frame and follows it through scrolls
+and reflows, and clears itself when the element leaves the page.
 
 ## When a step fails
 
-A required target that never appears stops the demo, shows a card naming the
-step and the cause, and hands control back. The application underneath is
-untouched and stays usable. Every step is also logged to the console with a
+A step whose target never appears is logged and stepped over, and the run
+carries on: losing a four-minute take to one late element is worse than one
+skipped beat. The completion card reports how many were skipped. A step marked
+`resilient: false` stops the demo instead, with a card naming the step and the
+cause, and hands control back. Either way the application underneath is
+untouched and stays usable. Every step is logged to the console with a
 `[demo]` prefix, so a failed recording can be diagnosed from the log.
 
 ## Tests

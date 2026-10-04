@@ -6,6 +6,7 @@ import { CertificationBadge } from '../components/CertificationBadge';
 import { useSpec } from '../state/SpecStore';
 import { analyseBOQ, SUPPORTED_UPLOAD_TYPES, MAX_UPLOAD_BYTES, ApiError } from '../api/client';
 import './query.css';   // .notice, shared with the query screen
+import './dropzone.css';
 
 /**
  * Upload a bill of quantities and match every line item.
@@ -150,7 +151,8 @@ export default function BOQ() {
             <p className="strong">Upload a tender or bill of quantities</p>
             <p className="small muted" style={{ maxWidth: '48ch' }}>
               {SUPPORTED_UPLOAD_TYPES.join(', ')} up to {MAX_UPLOAD_BYTES / 1048576} MB.
-              Line items are recognised by how the document numbers them,               “Item 3:”, “3.”, or a bullet.
+              Line items are recognised by how the document numbers them,
+              “Item 3:”, “3.”, or a bullet.
             </p>
             <button
               className="btn btn-primary"

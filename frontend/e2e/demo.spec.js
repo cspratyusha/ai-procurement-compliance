@@ -219,7 +219,8 @@ test.describe('Demo Mode', () => {
     // ── Act 6: the file is visibly chosen, then reaches the real component ─
     await expect(page).toHaveURL(/\/app\/boq/, { timeout: 60_000 });
 
-    // The demo's own chooser appears, names the file, and gets selected,     // without this the upload would have no visible cause on camera.
+    // The demo's own chooser appears, names the file, and gets selected,
+    // without this the upload would have no visible cause on camera.
     const picker = page.locator('.demo-picker');
     await expect(picker).toBeVisible({ timeout: 90_000 });
     await expect(picker).toContainText('Tender-BOQ-Substation-Works');
