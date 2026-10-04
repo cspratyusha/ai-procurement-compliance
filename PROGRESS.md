@@ -36,9 +36,25 @@ same calls its pages make without signing in. `data/bis_portal.py` reads it:
   `add_bis_standards.py`, `apply_bis_status.py` and the amendments layer read
   it, so no rule changed. An edition withdrawn since is still added (and marked
   superseded), so a withdrawal never shifts the ids after it.
-- `data/refresh_bis.ps1` runs the portal steps, the merge and the index; it is
-  meant for a weekly scheduled task (the command is in the script) and re-reads
-  records older than 30 days.
+- The engine refreshes itself while it runs (`bis_refresh.py`, below): no
+  scheduled task. A first version was a PowerShell script for Windows Task
+  Scheduler; it was dropped because this machine's default execution policy
+  blocks scripts, and the refresh should happen when the app is in use.
+
+### The engine refreshes itself while it runs
+
+The refresh is part of the engine (`standards-retrieval/bis_refresh.py`), not a
+scheduled task: at startup, when the last complete refresh is more than
+`BIS_REFRESH_DAYS` (7) old or none has completed, a background thread runs the
+portal steps, the merge and the index build while the engine keeps serving,
+then swaps the new corpus and indexes in without a restart. The corpus, query
+sets and index are copied aside before the merge and put back if a step fails;
+if the engine is closed mid-way, the next start rolls the pair back before
+loading it. One refresh runs at a time (a lock file). `/health` reports its
+state and step. Only the full corpus is refreshed; the test suite and the
+evaluation scripts set `BIS_AUTO_REFRESH=0`. `python
+standards-retrieval/bis_refresh.py` runs one by hand. 7 tests cover when it is
+due, the lock, rollback on failure and recovery after an interruption.
 
 ### Scope clauses, read where they actually are
 

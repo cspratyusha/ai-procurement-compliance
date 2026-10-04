@@ -50,6 +50,10 @@ _INHERITED_CORPUS = os.environ.pop("STANDARDS_CORPUS", None)
 # GPU as a side effect, so warm-up is off for the whole suite.
 os.environ["EXPLANATION_WARMUP"] = "0"
 
+# Nor may a test that starts the engine on the full corpus set off the
+# background refresh from BIS's portal, which rewrites the corpus and index.
+os.environ["BIS_AUTO_REFRESH"] = "0"
+
 # The engine tests exercise ranking, not sign-in, so they call the API
 # anonymously. test_accounts.py switches this back on for itself. Accounts go
 # to a throwaway database, never the deployment's.

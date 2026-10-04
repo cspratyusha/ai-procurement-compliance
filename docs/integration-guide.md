@@ -231,7 +231,7 @@ plain sample form with the widget attached.
   which are required and cites the order; check the supplier's licence on BIS's
   own services.
 - Its record of BIS's standards is as current as its last refresh from BIS's
-  standards portal (`data/refresh_bis.ps1`).
+  standards portal; a running engine refreshes itself weekly.
 - 16,656 of its 33,023 records carry the scope text of the standard (OCR of
   the published document), 2,845 new editions the scope of the edition they
   revise, and 15 a written summary, each labelled as such; the rest are

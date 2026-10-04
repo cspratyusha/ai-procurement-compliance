@@ -288,7 +288,7 @@ priority.
 
 ## Limits to keep in mind
 
-- The data is as current as its last refresh from BIS's standards portal (4 October 2026 at first; `data/refresh_bis.ps1` is meant to run weekly). A standard published since then is not in it yet.
+- The data is as current as its last refresh from BIS's standards portal (the engine refreshes itself in the background when it starts and the data is more than a week old). A standard published since then is not in it yet.
 - A new edition held only on BIS's record may be searched with the scope of the edition it revises; its page says so.
 - The top result is right most of the time, not always. Check the standard before issuing a tender, especially when the verdict is **Uncertain**.
 - Machine translation can be wrong. The screen always shows what was actually searched.

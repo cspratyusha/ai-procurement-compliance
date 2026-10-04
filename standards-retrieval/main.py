@@ -24,6 +24,7 @@ import translation
 import relationships as relationships_data
 import explanation as explanation_engine
 import amendments as amendments_data
+import bis_refresh
 from data.models import Standard
 from data_loader import load_corpus, get_standard_by_id
 from feedback.schema import FeedbackRequest, InteractionLog
@@ -593,6 +594,13 @@ class HealthResponse(BaseModel):
             "explanations before the first search rather than discovering it after."
         ),
     )
+    bis_refresh: Optional[Dict[str, Any]] = Field(
+        default=None,
+        description=(
+            "The background refresh from BIS's standards portal: state (idle, running, failed), "
+            "the step it is on, when the last one completed, and whether it is enabled."
+        ),
+    )
 
 
 class ExplainRequest(BaseModel):
@@ -620,6 +628,11 @@ class ExplainResponse(BaseModel):
 async def lifespan(app: FastAPI):
     """Preloads all models, vector indices, and sparse dictionaries into memory once on startup."""
     logger.info("[Lifespan] Initializing standards-retrieval service...")
+
+    # 0. If the engine was closed in the middle of a BIS refresh, the corpus and
+    #    index on disk may disagree; put back the pair from before it.
+    if bis_refresh.enabled():
+        bis_refresh.recover()
 
     # 1. Preload corpus
     standards = load_corpus()
@@ -682,9 +695,35 @@ async def lifespan(app: FastAPI):
         graph["total_relationships"], graph["curated_relationships"], graph["extracted_relationships"],
     )
 
+    # 8. Bring the corpus up to date with BIS when the last refresh is more than
+    #    a week old. It runs in the background while this corpus is served, and
+    #    swaps the new one in when it is complete.
+    bis_refresh.start_if_due(on_success=lambda: _serve_refreshed_corpus(app))
+
     yield
 
     logger.info("[Lifespan] Shutting down standards-retrieval service.")
+
+
+def _serve_refreshed_corpus(app: FastAPI) -> None:
+    """Swap in the corpus and indexes a BIS refresh has just written.
+
+    Everything is read before anything is replaced, and the corpus goes in
+    first: an index id the old corpus lacks would be skipped, but every id the
+    old index holds is still in the new corpus, since records are never dropped.
+    Caches derived from the corpus (editions, hygiene findings) are keyed on it
+    and rebuild on their own; the IS-number map and the amendment record are
+    cleared here.
+    """
+    standards = load_corpus(force_reload=True)
+    faiss_index, faiss_ids = load_faiss_index(force_reload=True)
+    bm25_index, bm25_ids = load_bm25_index(force_reload=True)
+    app.state.corpus = {s.id: s for s in standards}
+    app.state.by_number = None
+    app.state.faiss_index, app.state.faiss_ids = faiss_index, faiss_ids
+    app.state.bm25_index, app.state.bm25_ids = bm25_index, bm25_ids
+    amendments_data.reset_cache()
+    logger.info("[BIS refresh] Now serving %d standards.", len(standards))
 
 
 # --- FastAPI Application ---
@@ -764,6 +803,7 @@ def health_check():
         corpus_size=len(corpus),
         ltr_model_loaded=ltr_loaded,
         explanations_available=explanation_engine.is_available(),
+        bis_refresh=bis_refresh.status(),
     )
 
 

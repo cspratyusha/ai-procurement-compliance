@@ -98,10 +98,16 @@ and every amendment with its year) and `combine`, into
 Standard one before `add_bis_standards.py` and `apply_bis_status.py` read it,
 so a revision supersedes the older edition by the same rules as before.
 
-[`refresh_bis.ps1`](refresh_bis.ps1) runs all of it, then the merge and index,
-unattended; it is meant for a weekly scheduled task (the command to register
-one is in the script). It re-reads any record older than 30 days, which is how
-withdrawals and new amendments are noticed.
+The engine runs all of it itself, while it is running: at startup, if the
+last complete refresh is more than a week old (`BIS_REFRESH_DAYS`), a
+background thread runs the portal steps, the merge and the index, and the
+engine swaps in the new corpus when they finish, without a restart
+([`standards-retrieval/bis_refresh.py`](../standards-retrieval/bis_refresh.py)).
+There is no scheduled task. It re-reads any record older than 30 days, which
+is how withdrawals and new amendments are noticed; the corpus and index are
+backed up first and put back if a step fails or the engine is closed mid-way.
+`BIS_AUTO_REFRESH=0` turns it off; `python standards-retrieval/bis_refresh.py`
+runs one by hand.
 
 ### The allied-standards graph
 
@@ -314,7 +320,7 @@ cross-validation score and the held-out score, see Phase D in
 | `add_bis_standards.py` | Adds the editions BIS lists as current that the archive never had, as records on number and official title only (`provenance: number_and_title_only`, source BIS's page, ids `IS-BIS-nnnnn` so no existing id shifts). Last run (4 October 2026, with the portal overlaid): 11,198 added (7,225 standards not held at all, 3,973 newer editions of standards held only in an older one, 1,674 of them published after the Know Your Standard snapshot); 106 entries with a malformed number were left out. A newer edition is searched with the scope clause of the edition it revises where that is held (2,845, `provenance: scope_from_previous_edition`, `scope_edition`). Run after `build_full_corpus.py`, before `apply_bis_status.py` |
 | `apply_bis_status.py` | Writes BIS's withdrawn status and replacement into `standards_corpus_full.json` (`withdrawn`, `superseded_by_number`, `withdrawal_note`, `status_source: "bis"`). Where BIS's record names no replacement but BIS lists a newer edition as current, that edition is named (`replacement_source: "bis_newer_edition"`, 1,212 editions). Also replaces broken archive titles with BIS's official title (3,866) and repairs double-encoded text, keeping the original as `archive_title`. Last run: 29,243 editions matched, 7,141 withdrawn, 2,129 with no BIS record |
 | `bis_portal.py`, `amendments/bis_portal.json` | BIS's new standards portal: the 1,681 standards published or revised from 1 October 2025 to 4 October 2026 (763 new, 918 revisions), and each served edition's current record (withdrawn and when, amendments with their years). Per-standard records are cached in `archive/portal_cache/` (not committed). Overlaid on `bis_kys.json` by `add_bis_standards.py`, `apply_bis_status.py` and the amendments layer, as BIS's newer record |
-| `refresh_bis.ps1` | The weekly refresh: portal, then merge and index |
+| `archive/bis_refresh_state.json`, `archive/bis_refresh.log` | When the engine's last BIS refresh completed, and what each run did (not committed) |
 | `benchmark_queries.json` | The fixed buyer-language benchmark (52 English queries, 8 items in each of 12 Indian languages), run by `standards-retrieval/eval/benchmark.py` |
 | `benchmark_results/` | Per-query benchmark results (`--out`), kept so a later run can be compared query by query. `2026-10-04_before.json` is the corpus as committed on 28 September, scored with the current labels; `2026-10-04_after.json` is this rebuild |
 | `text_repair.py` | Undoes text encoded as UTF-8 and read as Windows-1252 ("â€“" for an en dash), which BIS's own records carry; used by `bis_kys.py` and `apply_bis_status.py` |
