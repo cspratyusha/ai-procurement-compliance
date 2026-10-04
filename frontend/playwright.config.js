@@ -7,7 +7,9 @@ import { BASE_URL } from './e2e/auth.js';
  * point is to catch the integration failures that unit tests cannot, such as
  * missing CORS, a stale server, or a response shape the UI cannot render.
  *
- * Start both servers, then: npm run test:e2e
+ * Start the test engine (npm run e2e:engine, which keeps the suite's clicks
+ * out of the real usage logs and accounts) and the dev server (npm run dev),
+ * then: npm run test:e2e
  *
  * The workbench requires an account: global-setup signs in once (see
  * e2e/auth.js for which account) and every test starts with that session.

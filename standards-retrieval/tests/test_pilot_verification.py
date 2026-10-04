@@ -95,7 +95,9 @@ class TestServedCorpus:
         assert not [r["number"] for r in served
                     if set(r.get("sources") or []) - {"archive.org/gov.in.is", "bis.gov.in/knowyourstandards",
                                                        "standards.bis.gov.in"}]
-        assert not [r["number"] for r in served if (r.get("description") or "").strip()]
+        # A description is BIS's own published summary, labelled as such, or nothing.
+        assert not [r["number"] for r in served
+                    if (r.get("description") or "").strip() and r.get("description_source") != "bis_summary"]
 
     def test_every_edition_is_listed_by_bis_or_published_in_the_archive(self, served):
         bis = {upper_key(k) for k in json.loads(_BIS.read_text(encoding="utf-8"))["standards"]}

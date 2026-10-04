@@ -5,6 +5,77 @@ at the top.
 
 ---
 
+## Phase AD: translation, text for title-only records, isolated test runs (2026-10-05)
+
+### The first refresh, run by the engine
+
+The engine's own refresh ran for the first time when it was restarted: it
+checked 22,256 editions against BIS's portal (90 withdrawn since the snapshot,
+up from 72), rebuilt the index in the background and swapped the new corpus in
+without a restart.
+
+### Translation
+
+`data/translation_glossary.json` replaces procurement words whose literal
+translation goes wrong by their English trade name before translating ("छत का
+पंखा" had come back as "roofed fan", "ಕುಡಿಯುವ ನೀರಿನ" lost "drinking",
+"കമ്പികൾ" became "ropes"); the translator keeps English words as they are, and
+the language is detected on what was typed. Native words only, matched whole
+(Bengali তার is also "his", so it is not in it).
+
+A second multilingual set, `data/benchmark_heldout_queries.json` (8 other
+items in 12 languages), was written before the list. Measured with the list
+off and on, on the same index: the first set went from 41/96 first and 77/96
+in the top five to 57 and 90; the second did not move (48 and 71), its items
+being mostly words the translator already handles. So the list fixes what it
+covers and harms nothing else, and does not generalise beyond it.
+
+The second set's misses were mostly not translation: "electric meter" found the
+meter data exchange standard (the meter's is titled "AC static watthour
+meters") and "domestic LPG cylinder" missed IS 3196's "welded low carbon steel
+cylinders for low pressure liquefiable gases". Both went into the everyday-word
+map, informed by that set, so its later figures are not independent for those
+two items (22 of its 30 extra first places).
+
+### Text for records held on their title only
+
+- **New standards.** BIS's portal links each standard it publishes to the
+  document, free to read. `bis_portal.py scopes` reads the SCOPE clause with
+  the archive's extractor and keeps only that: 1,417 of the 1,681 standards
+  published since October 2025 (the rest have no clause the extractor can
+  read). 1,413 records now carry their own scope (`published_text_bis`),
+  replacing the previous edition's where they had borrowed it.
+- **BIS's summaries.** BIS publishes a one-page plain-language summary for 7 in
+  10 standards under compulsory certification, written for consumers. 497 were
+  read (`bis_portal.py summaries`); the opening is searched and the whole
+  shown, labelled as BIS's. With all of it searched, competing summaries
+  pushed a few English queries off first place (IS 2062 for structural steel),
+  so only the first two sentences are. For records held on title only they are
+  rare: 5 of 800 looked up had one, so that run was stopped rather than send
+  BIS 12,000 requests for a few dozen; the refresh continues a batch each week.
+- Title-only records went from 13,507 to 12,580 (current ones from 10,899 to
+  9,972). The remainder is mostly standards the archive holds no text for,
+  which BIS's portal does not link a document to either.
+- One title still carried BIS's draft and classification notes ("( Draft
+  Second Amendment of IS 303:2024) ( ICS 79.060.10)"); both are removed.
+
+| | Start of 5 October | After |
+|---|---|---|
+| English benchmark, first / top five | 35/52 / 48/52 | **36/52 / 49/52** |
+| 12 languages, first / top five | 41/96 / 77/96 | **57/96 / 90/96** |
+| Second set, first / top five | 48/96 / 71/96 | **78/96 / 92/96** (22 of the 30 from two mappings informed by it) |
+| Held-out 236, P@1 / Recall@5 | 0.852 / 0.966 | **0.852 / 0.962** |
+
+### Test runs no longer write to the real usage logs
+
+`USAGE_LOG_DIR` sends both usage logs elsewhere and `/health` says when it
+does. `npm run e2e:engine` starts the engine with throwaway logs and accounts
+and no BIS refresh, on any port (`E2E_ENGINE_PORT`), so the suite can run
+beside an engine in use; `global-setup.js` refuses an engine that writes to the
+real logs.
+
+---
+
 ## Phase AC: BIS's new portal, scope clauses, a fixed benchmark, safer keys (2026-10-04)
 
 A check against the problem statement left four gaps (the latest version, amendment

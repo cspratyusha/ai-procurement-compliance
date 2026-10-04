@@ -17,6 +17,18 @@ export default async function globalSetup() {
     body: JSON.stringify(body),
   });
 
+  // The suite's searches and clicks are not use. An engine writing them to the
+  // real usage logs would put them on the dashboard and in the ranker's
+  // training data, so it must be the test engine (npm run e2e:engine).
+  const health = await (await fetch(`${API_URL}/health`)).json();
+  if (!health.usage_logs_redirected && process.env.E2E_ALLOW_REAL_LOGS !== '1') {
+    throw new Error(
+      'The engine on :8000 writes to the real usage logs. Start the test engine with '
+      + '`npm run e2e:engine` (throwaway logs and accounts), or set E2E_ALLOW_REAL_LOGS=1 '
+      + 'to run against this one anyway.',
+    );
+  }
+
   const status = await (await fetch(`${API_URL}/auth/status`)).json();
   const res = status.setup_required
     ? await post('/auth/setup', {

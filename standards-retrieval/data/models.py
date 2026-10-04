@@ -34,10 +34,20 @@ class Standard(BaseModel):
         default=None,
         description=(
             "Where the scope text came from: 'published_text_ocr' (the standard's own scope clause), "
+            "'published_text_bis' (the scope clause of a standard published since October 2025, from the "
+            "document BIS's portal links), "
             "'scope_written' (a summary written for the catalogue, number and title checked against BIS), "
             "'scope_from_previous_edition' (a new edition searched with the scope clause of the edition "
             "it revises, named in scope_edition), 'number_and_title_only' (no scope held)."
         ),
+    )
+    bis_summary: Optional[str] = Field(
+        default=None,
+        description="BIS's full plain-language summary of the standard, where it publishes one; the description holds its opening.",
+    )
+    description_source: Optional[str] = Field(
+        default=None,
+        description="'bis_summary' when the description is BIS's published plain-language summary of the standard.",
     )
     scope_edition: Optional[str] = Field(
         default=None,

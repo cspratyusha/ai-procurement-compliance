@@ -7,6 +7,7 @@ JSONL (JSON Lines) format ensures:
 """
 import json
 import logging
+import os
 from pathlib import Path
 from typing import List, Dict, Any, Union
 
@@ -18,13 +19,31 @@ _BASE_DIR = Path(__file__).resolve().parent.parent
 _DEFAULT_LOG_PATH = _BASE_DIR / "data" / "interaction_logs.jsonl"
 
 
-def _resolve_log_path(path: Union[str, Path]) -> Path:
-    """Resolves log path, ensuring relative paths point to project data directory."""
+# The usage logs are the dashboard's evidence and the ranker's training data.
+# USAGE_LOG_DIR sends both to another folder, so an engine started for tests
+# (npm run e2e:engine) never writes clicks nobody made into the real ones.
+USAGE_LOGS = {"interaction_logs.jsonl", "query_logs.jsonl"}
+
+
+def usage_logs_redirected() -> bool:
+    return bool(os.environ.get("USAGE_LOG_DIR"))
+
+
+def resolve_usage_path(path: Union[str, Path]) -> Path:
+    """An absolute path as given; a relative one against the project root,
+    unless it names a usage log and USAGE_LOG_DIR is set."""
     p = Path(path)
     if p.is_absolute():
         return p
-    # If path starts with 'data/', resolve relative to project root
+    redirect = os.environ.get("USAGE_LOG_DIR")
+    if redirect and p.name in USAGE_LOGS:
+        return Path(redirect) / p.name
     return _BASE_DIR / p
+
+
+def _resolve_log_path(path: Union[str, Path]) -> Path:
+    """Resolves log path, ensuring relative paths point to project data directory."""
+    return resolve_usage_path(path)
 
 
 def append_log(log: InteractionLog, path: Union[str, Path] = "data/interaction_logs.jsonl") -> None:

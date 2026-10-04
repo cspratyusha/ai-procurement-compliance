@@ -32,6 +32,16 @@ Usage:
   python data/bis_portal.py published [--from 2025-10-01] [--to YYYY-MM-DD]
   python data/bis_portal.py details [--workers 3] [--delay 0.4] [--limit N] [--only-amended] [--recheck-days 30]
   python data/bis_portal.py combine
+  python data/bis_portal.py summaries [--limit N] [--workers 2]
+  python data/bis_portal.py scopes [--limit N]
+
+  scopes     the SCOPE clause of each standard published since the snapshot,
+             from the document BIS's portal links; only the clause is kept,
+             in data/bis_scopes.json
+
+  summaries  BIS's one-page summary of each current standard where it
+             publishes one, certification standards first, each looked up
+             once; written to data/bis_summaries.json
 """
 
 import argparse
@@ -138,6 +148,8 @@ def published(start: str, end: str, delay: float) -> None:
                         "type": item.get("typeOfStandardName"),
                         "department": dept,
                         "standard_id": item.get("standardId"),
+                        # The published standard itself, which BIS makes free to read.
+                        "document": item.get("is_documents") or None,
                     })
                 last_page = (reply.get("pagination") or {}).get("last_page") or 1
                 page += 1
@@ -263,6 +275,173 @@ def details(workers: int, delay: float, limit: int, only_amended: bool, recheck_
     print("done", len(wanted), counts, flush=True)
 
 
+# --- summaries: BIS's plain-language account of a standard ---------------------
+#
+# BIS publishes a one-page summary for many product standards ("Summary of
+# Unplasticized PVC Pipes for Potable Water Supplies (IS 4985)"): what the
+# product is, what buyers expect of it, and what the standard sets. It is
+# written for consumers, so it reads the way a buyer searches. Found for about
+# 7 in 10 standards under compulsory certification and 1 in 15 of the rest, so
+# those are looked up first, and the rest a batch per refresh.
+
+SUMMARIES = CACHE / "summaries"
+SUMMARY_OUTPUT = _REPO_ROOT / "data" / "bis_summaries.json"
+CERTIFICATION = _REPO_ROOT / "data" / "certification" / "bis_compulsory.json"
+OBJECT_STORE = "https://bmqsdqljvwgm.compat.objectstorage.ap-mumbai-1.oraclecloud.com"
+
+
+def _summary_text(pdf: bytes) -> str:
+    import pymupdf
+    with pymupdf.open(stream=pdf, filetype="pdf") as document:
+        text = " ".join(page.get_text() for page in document)
+    text = re.sub(r"\*\*\s*Summary of[^*]*\*\*", "", text, flags=re.IGNORECASE)   # the heading
+    text = fix_text(" ".join(text.replace("**", "").split()))
+    return text[:2000]
+
+
+def summary(number: str) -> dict:
+    """BIS's summary for one edition: {"number", "found", "text", "file"}."""
+    reply = post(f"{REVIEW}/searchKnowStandards", {"searchText": number})
+    key = number_key(number)
+    for match in [d for d in reply.get("data") or [] if number_key(d.get("standardNumber")) == key]:
+        details = post(f"{REVIEW}/getSummaryDetails", {"standardId": match["standardEncId"]}).get("data") or {}
+        path = details.get("file_path")
+        if not path:
+            continue
+        request = urllib.request.Request(f"{OBJECT_STORE}/{path}", headers={"User-Agent": HEADERS["User-Agent"]})
+        with urllib.request.urlopen(request, timeout=60) as response:
+            text = _summary_text(response.read())
+        if text:
+            return {"number": number, "found": True, "text": text, "file": path}
+    return {"number": number, "found": False}
+
+
+def _summary_path(number: str) -> Path:
+    return SUMMARIES / (re.sub(r"[^A-Za-z0-9]+", "_", number_key(number)).strip("_") + ".json")
+
+
+def fetch_summary(number: str, delay: float) -> str:
+    path = _summary_path(number)
+    if path.exists():
+        return "cached"
+    try:
+        record = summary(number)
+    except Exception as exc:  # noqa: BLE001 -- reported, retried on the next run
+        return f"failed: {exc}"
+    path.write_text(json.dumps(record, ensure_ascii=False), encoding="utf-8")
+    time.sleep(delay)
+    return "found" if record["found"] else "none"
+
+
+def summary_targets() -> list:
+    """Current editions served: those under compulsory certification first,
+    then those held without a scope clause (where a summary is the only text
+    describing the standard), then the rest."""
+    listed = set()
+    if CERTIFICATION.exists():
+        payload = json.loads(CERTIFICATION.read_text(encoding="utf-8"))
+        entries = payload.get("entries") or payload.get("standards") or []
+        for entry in entries if isinstance(entries, list) else entries.values():
+            number = isinstance(entry, dict) and (entry.get("is_number") or entry.get("number"))
+            if number:
+                listed.add(re.sub(r"\s*:\s*\d{4}.*$", "", number_key(number)))
+    records = [r for r in json.loads(CORPUS.read_text(encoding="utf-8")) if r.get("status") == "active"]
+    family = lambda n: re.sub(r"\s*:\s*\d{4}.*$", "", number_key(n))
+    ordered = sorted(records, key=lambda r: (family(r["number"]) not in listed, bool(r.get("scope")), r["number"]))
+    return [r["number"] for r in ordered]
+
+
+def summaries(workers: int, delay: float, limit: int) -> None:
+    """Look up summaries not yet looked up, at most `limit` of them (0: all)."""
+    SUMMARIES.mkdir(parents=True, exist_ok=True)
+    wanted = [n for n in summary_targets() if not _summary_path(n).exists()]
+    if limit:
+        wanted = wanted[:limit]
+    counts, started = {}, time.time()
+    with cf.ThreadPoolExecutor(max_workers=workers) as pool:
+        futures = [pool.submit(fetch_summary, n, delay) for n in wanted]
+        for i, future in enumerate(cf.as_completed(futures), 1):
+            status = future.result().split(":")[0]
+            counts[status] = counts.get(status, 0) + 1
+            if i % 100 == 0:
+                print(f"{i}/{len(wanted)} {counts} {i / (time.time() - started):.1f}/s", flush=True)
+    found = [json.loads(p.read_text(encoding="utf-8")) for p in SUMMARIES.glob("*.json")]
+    found = {r["number"]: {"text": r["text"], "file": r["file"]} for r in found if r.get("found")}
+    SUMMARY_OUTPUT.write_text(json.dumps({
+        "_meta": {
+            "source": "BIS standards portal, standard summaries (" + PORTAL + ")",
+            "retrieved": date.today().isoformat(),
+            "looked_up": len(list(SUMMARIES.glob("*.json"))),
+            "found": len(found),
+            "note": "BIS's one-page plain-language summary of a standard, as text read from its PDF.",
+        },
+        "summaries": dict(sorted(found.items())),
+    }, ensure_ascii=False, indent=1), encoding="utf-8")
+    print(f"looked up {len(wanted)} {counts}; {len(found)} summaries -> {SUMMARY_OUTPUT}")
+
+
+# --- scopes: the scope clause of each standard published since the snapshot -----
+#
+# BIS's portal links each newly published standard to its document, free to
+# read. Only its SCOPE clause is kept, read by the archive's own extractor
+# (data/ingest_archive.py), and the document is not stored: the same use the
+# archive copies are put to. Born-digital text, not OCR.
+
+SCOPES = CACHE / "scopes"
+SCOPE_OUTPUT = _REPO_ROOT / "data" / "bis_scopes.json"
+
+
+def fetch_scope(item: dict, delay: float) -> str:
+    path = SCOPES / (re.sub(r"[^A-Za-z0-9]+", "_", number_key(item["number"])).strip("_") + ".json")
+    if path.exists():
+        return "cached"
+    from ingest_archive import clean_ocr, extract_scope
+    import pymupdf
+    try:
+        request = urllib.request.Request(f"{OBJECT_STORE}/{item['document']}",
+                                         headers={"User-Agent": HEADERS["User-Agent"]})
+        with urllib.request.urlopen(request, timeout=120) as response:
+            data = response.read()
+        with pymupdf.open(stream=data, filetype="pdf") as document:
+            # The scope is on the first pages; reading them all costs only time
+            # on a large standard.
+            text = "\n".join(document[i].get_text() for i in range(min(len(document), 8)))
+        scope = extract_scope(clean_ocr(text))
+    except Exception as exc:  # noqa: BLE001 -- reported, retried on the next run
+        return f"failed: {exc}"
+    path.write_text(json.dumps({"number": item["number"], "scope": scope or ""}, ensure_ascii=False),
+                    encoding="utf-8")
+    time.sleep(delay)
+    return "found" if scope else "none"
+
+
+def scopes(workers: int, delay: float, limit: int) -> None:
+    SCOPES.mkdir(parents=True, exist_ok=True)
+    listed = json.loads(PUBLISHED.read_text(encoding="utf-8"))["standards"].values() if PUBLISHED.exists() else []
+    wanted = [i for i in listed if i.get("document")]
+    if limit:
+        wanted = wanted[:limit]
+    counts = {}
+    with cf.ThreadPoolExecutor(max_workers=workers) as pool:
+        for i, future in enumerate(cf.as_completed([pool.submit(fetch_scope, item, delay) for item in wanted]), 1):
+            status = future.result().split(":")[0]
+            counts[status] = counts.get(status, 0) + 1
+            if i % 100 == 0:
+                print(f"{i}/{len(wanted)} {counts}", flush=True)
+    found = {}
+    for path in SCOPES.glob("*.json"):
+        record = json.loads(path.read_text(encoding="utf-8"))
+        if record.get("scope"):
+            found[record["number"]] = record["scope"]
+    SCOPE_OUTPUT.write_text(json.dumps({
+        "_meta": {"source": "SCOPE clause of each standard BIS published since 1 October 2025, read from the "
+                            "document its standards portal links (" + PORTAL + ")",
+                  "retrieved": date.today().isoformat(), "found": len(found)},
+        "scopes": dict(sorted(found.items())),
+    }, ensure_ascii=False, indent=1), encoding="utf-8")
+    print(f"{len(wanted)} documents {counts}; {len(found)} scopes -> {SCOPE_OUTPUT}")
+
+
 # --- overlay: the portal's newer facts on the Know Your Standard record ---------
 
 PORTAL_SOURCE_URL = PORTAL + "/website/know-your-standards"
@@ -374,11 +553,23 @@ def main():
     d.add_argument("--recheck-days", type=float, default=0,
                    help="fetch again any record cached more than this many days ago (withdrawals, new amendments)")
     sub.add_parser("combine")
+    sc = sub.add_parser("scopes")
+    sc.add_argument("--workers", type=int, default=2)
+    sc.add_argument("--delay", type=float, default=0.5)
+    sc.add_argument("--limit", type=int, default=0)
+    m = sub.add_parser("summaries")
+    m.add_argument("--workers", type=int, default=2)
+    m.add_argument("--delay", type=float, default=0.4)
+    m.add_argument("--limit", type=int, default=0, help="look up at most this many new standards (0: all)")
     args = ap.parse_args()
     if args.cmd == "published":
         published(args.start, args.end, args.delay)
     elif args.cmd == "details":
         details(args.workers, args.delay, args.limit, args.only_amended, args.recheck_days)
+    elif args.cmd == "scopes":
+        scopes(args.workers, args.delay, args.limit)
+    elif args.cmd == "summaries":
+        summaries(args.workers, args.delay, args.limit)
     else:
         combine()
     return 0

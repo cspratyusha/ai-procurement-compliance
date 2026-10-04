@@ -52,6 +52,14 @@ EVERYDAY: List[Tuple[str, str]] = [
     (r"\bfire extinguishers?\b", "portable fire extinguishers"),
     (r"\bdustbins?\b|\bgarbage bins?\b|\bwaste bins?\b", "mobile containers for solid waste"),
     (r"\bhume pipes?\b|\bspun pipes?\b", "precast concrete pipes"),
+    # The meter on a house is a "watthour meter" in the standards (IS 13779, class 1
+    # and 2); "electric meter" alone found the meter-reading data exchange
+    # standard, and "watthour meters" alone the transformer-operated class 0.2S ones.
+    (r"\b(?:electric|electricity|energy|power|kwh|single phase|three phase) meters?\b",
+     "AC static watthour meters class 1 and 2"),
+    # IS 3196 (Part 1) names the domestic LPG cylinder by its construction.
+    (r"\b(?:domestic|household|home|cooking)\b.*\blpg\b.*\bcylinders?\b|\blpg\b.*\bcylinders?\b.*\b(?:domestic|household|home)\b",
+     "welded low carbon steel cylinders for low pressure liquefiable gases"),
     # Fly ash is what BIS calls pulverized fuel ash (IS 12894, fly ash-lime bricks).
     (r"\bfly[\s-]?ash(?:[\s-]lime)? bricks?\b", "pulverized fuel ash-lime bricks"),
     # IS 4984 is titled "Polyethylene pipes for water supply"; HDPE pipes for

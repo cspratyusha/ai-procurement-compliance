@@ -306,17 +306,28 @@ export default function StandardDetail() {
               </>
             ) : (
               <p className="small muted">
-                This standard is held on its number and official title only: its scope text is not in
-                the catalogue, so it is found by its title alone. Read the published standard before
-                relying on it for a tender.
+                {standard.description_source === 'bis_summary'
+                  ? 'The scope clause of this standard is not in the catalogue; it is found by its title and BIS’s summary below.'
+                  : 'This standard is held on its number and official title only: its scope text is not in the catalogue, so it is found by its title alone.'}
+                {' '}Read the published standard before relying on it for a tender.
               </p>
             )}
             {standard.description && (
               <>
                 <hr className="divider" />
                 <div className="stack stack-2">
-                  <span className="xs faint">Where it applies</span>
-                  <p className="small" style={{ color: 'var(--ink-soft)' }}>{standard.description}</p>
+                  <span className="xs faint">
+                    {standard.description_source === 'bis_summary' ? 'BIS’s summary of this standard' : 'Where it applies'}
+                  </span>
+                  <p className="small" style={{ color: 'var(--ink-soft)' }}>
+                    {standard.bis_summary || standard.description}
+                  </p>
+                  {standard.description_source === 'bis_summary' && (
+                    <p className="xs muted" data-testid="bis-summary-note">
+                      Published by BIS for consumers on its standards portal, as plain-language guidance; the
+                      standard itself is what a tender cites.
+                    </p>
+                  )}
                 </div>
               </>
             )}

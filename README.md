@@ -17,11 +17,11 @@ We would rather state our scope plainly than imply coverage we do not have.
 |---|---|
 | **Standards in the corpus** | **33,023 records** ([`data/standards_corpus_full.json`](data/standards_corpus_full.json)), covering **26,818 distinct standards**. Each published edition is its own record, and every one is either listed by BIS (its Know Your Standard record or its new standards portal) or published in the archive: the 23 editions from the original pilot data that were neither (IS 8112:2018, IS 12894:2020 and others) were removed, each recorded in [`data/pilot_corrections.json`](data/pilot_corrections.json) with the real standard it stood for |
 | **Coverage of BIS's catalogue** | **23,702 of the 23,831 editions BIS lists as current are held (99.5%)**, including the **1,681 standards BIS published or revised between 1 October 2025 and 4 October 2026** (763 new, 918 revisions), read from its new standards portal. 11,198 records were added from BIS's record because the archive never had the standard or had only an older edition |
-| **Current vs. superseded** | **23,849 current** and **9,174 superseded** editions. An edition is superseded when BIS lists it as withdrawn (**7,215**, of which 72 were withdrawn after October 2025 and carry the date) or when the corpus holds a newer edition of the same standard (a 2026 revision supersedes its 1961 edition, IS 1946). A withdrawn edition names its replacement: the one BIS names, or, where BIS names none, the newer edition BIS lists as current or the replacement BIS names for a later edition |
+| **Current vs. superseded** | **23,831 current** and **9,192 superseded** editions. An edition is superseded when BIS lists it as withdrawn (**7,233**, of which 90 were withdrawn after October 2025 and carry the date) or when the corpus holds a newer edition of the same standard (a 2026 revision supersedes its 1961 edition, IS 1946). A withdrawn edition names its replacement: the one BIS names, or, where BIS names none, the newer edition BIS lists as current or the replacement BIS names for a later edition |
 | **Where it comes from** | The complete Public.Resource.Org archive of the BIS catalogue on archive.org (21,937 readable standards out of 22,024 items, including 579 IS/ISO and IS/IEC adoptions and 69 SP publications such as the National Building Code), plus BIS's Know Your Standard records and its standards portal (standards.bis.gov.in) for what the archive lacks |
-| **Where the text comes from** | **16,656** records carry the **published SCOPE clause** of the actual standard, its opening statement up to the first sub-clause. It is OCR of a scanned document, so it contains recognition errors. **2,845** new editions held only on BIS's record are searched with the scope clause of the edition they revise, and their page says so (`scope_from_previous_edition`). **13,507** are kept on their real number and official title only, searchable on the title, and their page says so. **15** pilot records whose number and title BIS confirms keep a written summary, labelled `scope_written` |
+| **Where the text comes from** | **16,656** records carry the **published SCOPE clause** of the standard from its archived copy (OCR of a scanned document, so it contains recognition errors), up to its first sub-clause. **1,413** standards BIS published since October 2025 carry their own scope clause, read from the document BIS's portal links (born-digital text; only the clause is kept). **2,359** newer editions held only on BIS's record are searched with the scope clause of the edition they revise, and their page says so. **491** standards also carry **BIS's own plain-language summary** (published on its portal for 7 in 10 standards under compulsory certification): its opening is searched, and the page shows it whole, labelled as BIS's. **12,580** (38%) are held on their number and official title only, mostly standards the archive holds no text for, and their page says so. **15** pilot records keep a written summary, labelled `scope_written` |
 | **Titles** | 3,866 archive titles were broken (the archive's item id in place of a title, the year glued to the front, lower-case starts) and are replaced with BIS's official title; BIS's own text was double-encoded in 1,556 titles ("â€“" for a dash) and is repaired, and the amendment notes BIS writes into 168 titles ("... Specification Amendment - 2") are removed. The original is kept as `archive_title` |
-| **Currency** | Read from BIS's standards portal on 4 October 2026. While the engine runs it keeps itself current: at startup, if the last complete refresh is more than a week old, it reads what BIS has published, withdrawn or amended since, rebuilds the index in the background and swaps the new corpus in without a restart. Of the 24,133 editions re-checked for withdrawal, 16,085 were read in the first run (every new and every amended standard among them); the rest are read on the next |
+| **Currency** | Current to BIS's standards portal as of 5 October 2026: the engine's first in-app refresh completed then, with 22,256 editions checked against BIS's current record. While the engine runs it keeps itself current: at startup, if the last complete refresh is more than a week old, it reads what BIS has published, withdrawn or amended since, rebuilds the index in the background and swaps the new corpus in without a restart |
 | **Checked against BIS's records** | **30,917 of 33,023 editions** match BIS's own record (Know Your Standard, all 34,300 pages read 28 September 2026, brought up to date from the portal): whether the edition is withdrawn, what replaced it, and its amendments. The other 2,106 have no BIS record under that number and keep the archive's status. The scope text itself is still the archive's OCR, so every record keeps `"verified": false` |
 | **Certification data** | **BIS's full lists of products under compulsory certification**: 749 standards across Scheme I (ISI mark), Scheme II (CRS) and Scheme X, each with its Quality Control Order, gazette notification and a link to the order (read 27 September 2026); and **BIS hallmarking**: gold jewellery and artefacts (IS 1417) compulsory under the Hallmarking Order in 392 districts, with its exemptions, and silver (IS 2112) voluntary, read from the gazette notifications (saved in `data/certification/source/hallmarking/`). Orders whose enforcement is deferred (most of the Electrical Equipment QCO, by S.O. 5038(E)) are shown as **not yet mandatory**. A standard not on the lists reports `not_listed`, stated with the date the lists were read |
 | **Amendments** | **BIS's official record for 35,601 editions** (5,574 with amendments, 9,052 in all, 115 of them issued after October 2025), with the year of **6,727** of those amendments: from BIS's portal (which lists each amendment with its year) and from the amendment slips bound into each standard's archived copy (3,428 standards, 5,424 slips, with excerpts). Where the copy shows more amendments than BIS lists, the larger number is shown and marked disputed. A standard BIS has no record for falls back to its copy, which reports "at least" and the year the copy is current to |
@@ -31,7 +31,7 @@ We would rather state our scope plainly than imply coverage we do not have.
 lists as current, including those published up to 4 October 2026;
 certification comes from BIS's own compulsory lists and hallmarking order; and
 edition status and amendments come from BIS's record for each standard. What
-remains open: 41% of records are searchable on their title alone (mostly
+remains open: 38% of records are searchable on their title alone (mostly
 standards the archive holds no text for), a quarter of
 amendments have no date, scope text is OCR that has not been proof-read, and
 the corpus stays current only if the weekly refresh is scheduled.
@@ -149,7 +149,11 @@ queries are translated to English before searching (NLLB-200, running
 locally, no API key; `TRANSLATION_MODEL` picks the checkpoint), and the UI
 shows both what you typed and what was actually searched, because a wrong
 machine translation quietly returning wrong standards is the failure worth
-guarding against.
+guarding against. Before translating, procurement words whose literal
+translation goes wrong are replaced by their English trade name, from a word
+list per language ([`data/translation_glossary.json`](data/translation_glossary.json),
+`TRANSLATION_GLOSSARY=0` turns it off); the language is detected on what was
+typed.
 
 This is not cosmetic. Untranslated, a Hindi query scores −8.4 on the
 cross-encoder and is correctly rejected as no-match; translated, the same
@@ -168,13 +172,27 @@ per-response `final_score`, is comparable across queries. On a `none` verdict
 the UI drops the "Recommended standards" heading entirely and presents the
 results as "Nearest text matches … not recommendations".
 
-**Current measurement: 33,023 records (4 October 2026)**
+**Current measurement: 33,023 records (5 October 2026)**
 
 | Query set | Right standard first | In the top five |
 |---|---|---|
-| 52 buyer-language product queries in English ([`data/benchmark_queries.json`](data/benchmark_queries.json), `eval/benchmark.py`) | 35/52 (67%) | **48/52 (92%)** |
-| The same kind of items in 12 Indian languages, 8 each (96 queries) | 41/96 (43%) | **77/96 (80%)** |
-| 236 held-out queries (`tests/test_full_corpus_accuracy.py`, `FULL_EVAL_QUERIES=0`), same standard in any edition | 0.852 | **0.966** |
+| 52 buyer-language product queries in English ([`data/benchmark_queries.json`](data/benchmark_queries.json), `eval/benchmark.py`) | 36/52 (69%) | **49/52 (94%)** |
+| The same kind of items in 12 Indian languages, 8 each (96 queries) | 57/96 (59%) | **90/96 (94%)** |
+| A second multilingual set, 8 other items in 12 languages ([`data/benchmark_heldout_queries.json`](data/benchmark_heldout_queries.json)), see below | 78/96 (81%) | **92/96 (96%)** |
+| 236 held-out queries (`tests/test_full_corpus_accuracy.py`, `FULL_EVAL_QUERIES=0`), same standard in any edition | 0.852 | **0.962** |
+
+In other languages the gain is the translation word list
+([`data/translation_glossary.json`](data/translation_glossary.json)):
+procurement words whose literal translation went wrong ("छत का पंखा" came back
+as "roofed fan") are replaced by their English trade name before translating.
+Measured with it off and on, it took the first set from 41 to 57 first and 77
+to 90 in the top five, and left the second set unchanged, whose items are
+mostly words the translator already handles (it was written before the list,
+to check the list does no harm on items it was not made from). The second
+set's later gains are not all independent: two everyday-word mappings
+(electric meter, domestic LPG cylinder) were added after reading its misses
+and account for 22 of its 30 extra first places; BIS's summary of IS 2347
+accounts for another 8 (pressure cookers).
 
 The benchmark is committed so every figure can be re-run after a change; the
 spot checks quoted before it (30 and 28 fresh products, 11 multilingual
@@ -530,19 +548,29 @@ $env:FULL_EVAL_QUERIES = '0'
 # Buyer-language benchmark, English and 12 Indian languages (a few minutes)
 cd standards-retrieval; ..\.venv\Scripts\python evalenchmark.py --out results.json; cd ..
 
-# End-to-end, needs both servers running
+# End-to-end: the test engine (throwaway usage logs and accounts), the dev
+# server, then the suite, each in its own terminal
+cd frontend; npm run e2e:engine
+cd frontend; npm run dev
 cd frontend; npm run test:e2e
 ```
 
-Last run (2026-10-04): the backend suite is **347 passed, 1 skipped**, with
-all 236 held-out queries in the full-corpus accuracy tests. End to end, on
-desktop, 71 of 73 passed in the full run (including the guided demo); the two
-that failed asserted facts the portal data had improved on (IS 2112:2025 is
-now searched with its previous edition's scope; IS 1537's undated amendments
-now have BIS's years), were rewritten against the new data, and pass, with
-one test added. The mobile project was not run this time. The suite signs in once through `e2e/global-setup.js`; run
-it with the engine pointed at a throwaway `ACCOUNTS_DB`, because on an empty
-installation it creates its own administrator.
+Last run (2026-10-05): the backend suite is **362 passed, 1 skipped**, with
+all 236 held-out queries in the full-corpus accuracy tests. End to end on
+mobile, against the test engine beside a running one, 73 of 75 passed: the
+title-only example (IS 19609:2026) had gained its own scope clause and was
+replaced, and the guided demo's full sequence timed out once and passed when
+run again alone, so it is intermittent in a full run. The real usage logs were
+byte-for-byte unchanged after the run. Desktop last ran in full on 4 October. The suite signs in once through `e2e/global-setup.js`, creating its own
+administrator on an empty installation, and its searches and clicks would
+otherwise be recorded as use. So it runs against the test engine,
+`npm run e2e:engine`, which keeps accounts and both usage logs
+(`USAGE_LOG_DIR`) in a throwaway folder and does not refresh from BIS; the
+setup refuses an engine that writes to the real logs unless
+`E2E_ALLOW_REAL_LOGS=1`. To run beside an engine already on :8000, set
+`E2E_ENGINE_PORT`, start the dev server with `VITE_API_URL` pointing at it on
+another port (listed in `E2E_ALLOWED_ORIGIN`), and point the suite at both
+with `E2E_API_URL` and `E2E_BASE_URL`.
 
 The end-to-end suite runs against a live backend rather than mocks, because
 the failures worth catching are integration failures. Two of its tests exist

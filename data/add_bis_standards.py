@@ -45,6 +45,9 @@ from ingest_archive import classify  # noqa: E402
 _REPO_ROOT = Path(__file__).resolve().parent.parent
 CORPUS = _REPO_ROOT / "data" / "standards_corpus_full.json"
 BIS = _REPO_ROOT / "data" / "amendments" / "bis_kys.json"
+# The SCOPE clause of standards published since the snapshot, read from the
+# documents BIS's portal links (data/bis_portal.py scopes).
+OWN_SCOPES = _REPO_ROOT / "data" / "bis_scopes.json"
 ID_PREFIX = "IS-BIS-"
 
 
@@ -54,7 +57,7 @@ def corpus_spelling(bis_number):
     return normalize(number) if number else None
 
 
-def additions(corpus, bis):
+def additions(corpus, bis, own_scopes=None):
     """(records to add, counts) for BIS's current editions the corpus lacks."""
     held = {normalize(r["number"]).upper() for r in corpus}
     newest_held = {}
@@ -105,27 +108,34 @@ def additions(corpus, bis):
         from_portal = entry.get("status_from") == "bis_portal" and not entry.get("page_id")
         if from_portal:
             counts["published after the Know Your Standard snapshot"] += 1
+        # The edition's own scope clause where BIS's document gives it; else the
+        # clause of the edition it revises; else none (title only).
+        own = (own_scopes or {}).get(normalize(number).upper(), "")
         earlier = scoped_edition.get(fam)
-        inherited = earlier["scope"] if earlier and _year(earlier["number"]) < year else ""
-        if inherited:
+        inherited = "" if own else (earlier["scope"] if earlier and _year(earlier["number"]) < year else "")
+        scope = own or inherited
+        if own:
+            counts["with its own scope clause"] += 1
+        elif inherited:
             counts["searched with the previous edition's scope"] += 1
         added.append({
             "number": number,
             "title": title,
-            "scope": inherited,
+            "scope": scope,
             "description": "",
-            "category": classify(title, inherited) or "general",
+            "category": classify(title, scope) or "general",
             "family": fam,
             "version": str(year) if year else "",
             "last_amended": "",
             "status": "active",
             "superseded_by_number": None,
-            "keywords": keywords_from(title, inherited),
+            "keywords": keywords_from(title, scope),
             "sources": ["standards.bis.gov.in" if from_portal else "bis.gov.in/knowyourstandards"],
             "source_url": entry.get("source_url") or (KYS_URL.format(id=entry["page_id"]) if entry.get("page_id") else None),
             **({"published_on": entry["published_on"]} if entry.get("published_on") else {}),
             "verified": False,
-            "provenance": "scope_from_previous_edition" if inherited else "number_and_title_only",
+            "provenance": ("published_text_bis" if own else
+                           "scope_from_previous_edition" if inherited else "number_and_title_only"),
             **({"scope_edition": earlier["number"]} if inherited else {}),
             "status_source": "bis",
             "title_source": "bis",
@@ -147,7 +157,11 @@ def main():
     # BIS's new portal: standards published, withdrawn or amended since the
     # Know Your Standard snapshot (data/bis_portal.py), when it has been read.
     print("BIS portal overlay:", overlay(bis))
-    added, counts = additions(corpus, bis)
+    own_scopes = {}
+    if OWN_SCOPES.exists():
+        own_scopes = {normalize(k).upper(): v
+                      for k, v in json.loads(OWN_SCOPES.read_text(encoding="utf-8"))["scopes"].items()}
+    added, counts = additions(corpus, bis, own_scopes)
     print(f"corpus {len(corpus)}; adding {len(added)}: {dict(counts)}")
     print("examples:", [(r["number"], r["title"][:50], r["category"]) for r in added[:6]])
     if args.dry_run:

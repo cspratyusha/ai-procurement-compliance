@@ -60,6 +60,42 @@ from text_repair import fix_text  # noqa: E402
 _REPO_ROOT = Path(__file__).resolve().parent.parent
 CORPUS = _REPO_ROOT / "data" / "standards_corpus_full.json"
 BIS = _REPO_ROOT / "data" / "amendments" / "bis_kys.json"
+SUMMARIES = _REPO_ROOT / "data" / "bis_summaries.json"
+
+
+def attach_summaries(corpus) -> int:
+    """BIS's plain-language summary as each edition's description.
+
+    Read by data/bis_portal.py summaries. The description is part of what is
+    searched, and BIS writes these for buyers ("uPVC pipes are widely used for
+    the transportation of potable (drinking) water ..."), so they match buyers'
+    words where the scope clause does not. Only BIS's own text is used, labelled
+    description_source 'bis_summary'; an edition BIS has no summary for keeps
+    an empty description.
+    """
+    if not SUMMARIES.exists():
+        return 0
+    found = {normalize(k): v["text"] for k, v in json.loads(SUMMARIES.read_text(encoding="utf-8"))["summaries"].items()}
+    attached = 0
+    for record in corpus:
+        text = found.get(normalize(record["number"]))
+        if text:
+            # Searched: the opening, which says what the product is. The rest
+            # (what buyers expect, what the standard tests) is shown on the
+            # standard's page but diluted the match in the index: with all of
+            # it, a summary of a neighbouring standard outranked IS 2062 for
+            # "structural steel plates and angles".
+            record["description"] = summary_opening(text)
+            record["bis_summary"] = text
+            record["description_source"] = "bis_summary"
+            attached += 1
+    return attached
+
+
+def summary_opening(text: str, sentences: int = 2, limit: int = 400) -> str:
+    parts = re.split(r"(?<=[.!?])\s+(?=[A-Za-z(])", text.strip())
+    opening = " ".join(parts[:sentences])
+    return opening if len(opening) <= limit else opening[:limit].rsplit(" ", 1)[0]
 
 
 def normalize(number: str) -> str:
@@ -120,20 +156,22 @@ _BIS_NOTE = re.compile(
 _ORDINAL = r"(?:first|second|third|fourth|fifth|sixth|seventh|eighth|ninth|tenth)"
 _AMENDMENT_TAIL = re.compile(
     r"\s*[-–—,:]?\s*\(?\s*(?:" + _ORDINAL + r"\s+)?amendment\s*(?:no\.?)?\s*[-:.]?\s*\d+\s*\)?\s*$"
-    r"|\s*\(\s*draft\b[^)]*$",
+    r"|\s*\(\s*draft\b[^)]*\)?\s*$",
     re.IGNORECASE,
 )
 _AMENDMENT_HEAD = re.compile(
     r"^amendment\s*(?:no\.?)?\s*\d+\s*(?:to\s+)?(?:IS[\s/A-Z]*\d[\w\s()/.-]*?:\s*(?:19|20)\d{2}\s*)?",
     re.IGNORECASE,
 )
+# A classification code BIS appends: "... Specification ( ICS 79.060.10)".
+_ICS_NOTE = re.compile(r"\s*\(\s*ICS\b[^)]*\)", re.IGNORECASE)
 # "IS 303: 2024 Plywood for General Purposes": the number repeated in front.
 _NUMBER_HEAD = re.compile(r"^IS\s*\d[\w\s()/.-]*?:\s*(?:19|20)\d{2}\s+(?=[A-Za-z])")
 
 
 def clean_bis_title(raw):
     title = " ".join(_BIS_NOTE.sub("", fix_text(raw) or "").split()).strip(" .,-")
-    for pattern in (_AMENDMENT_TAIL, _AMENDMENT_HEAD, _NUMBER_HEAD):
+    for pattern in (_ICS_NOTE, _AMENDMENT_TAIL, _AMENDMENT_HEAD, _NUMBER_HEAD):
         title = pattern.sub("", title).strip(" .,-–—")
     return title[:1].upper() + title[1:]      # BIS's own record is sometimes lower-case too
 
@@ -315,6 +353,7 @@ def main():
                 examples.append((record["number"], replacement))
 
     print(dict(stats))
+    print("BIS summaries attached:", attach_summaries(corpus))
     print("examples newly marked:", examples)
     print("examples named from BIS's newer edition:", newer_examples)
     if not args.dry_run:

@@ -178,10 +178,12 @@ test.describe('Catalogue and detail', () => {
   });
 
   test('a standard held on its number and title only says so', async ({ page }) => {
-    // IS 19609:2026, uPVC door and window profiles: a new standard from BIS's
-    // portal, with no earlier edition whose scope it could be searched by.
-    await page.goto(`/app/standard/${encodeURIComponent('IS 19609:2026')}`);
-    await expect(page.locator('h1.mono')).toContainText('IS 19609:2026', { timeout: 60_000 });
+    // IS 62740:2015, root cause analysis: adopted by BIS since October 2025,
+    // with no earlier edition to borrow a scope from and no scope clause the
+    // extractor can read in its document. (IS 19609:2026 was this example until
+    // its own scope clause was read from BIS's portal.)
+    await page.goto(`/app/standard/${encodeURIComponent('IS 62740:2015')}`);
+    await expect(page.locator('h1.mono')).toContainText('IS 62740:2015', { timeout: 60_000 });
     await expect(page.locator('text=/official title only/i')).toBeVisible();
   });
 

@@ -16,10 +16,12 @@ Model: facebook/nllb-200-distilled-600M, open weights, runs locally on CPU,
 no API key. Loaded lazily, because the English-only path must not pay for it.
 """
 
+import json
 import logging
 import os
 import re
 import threading
+from pathlib import Path
 from typing import Dict, Optional
 
 logger = logging.getLogger("standards-retrieval.translation")
@@ -78,6 +80,48 @@ _model = None
 _tokenizers: Dict[str, object] = {}
 _load_lock = threading.Lock()
 _load_failed = False
+
+# Procurement words whose literal translation goes wrong ("छत का पंखा" came
+# back as "roofed fan"), replaced by their English trade name before the query
+# is translated; the translator keeps English words as they are. See
+# data/translation_glossary.json for what is in it and why. TRANSLATION_GLOSSARY=0
+# turns it off.
+_GLOSSARY_PATH = Path(__file__).resolve().parent.parent / "data" / "translation_glossary.json"
+_glossary: Optional[Dict[str, list]] = None
+# Letters of the scripts above, combining marks included: a glossary word
+# matches only where neither side continues the word.
+_LETTER = r"\u0900-\u0DFF\u0600-\u06FF\u0750-\u077F\uFB50-\uFDFF\uFE70-\uFEFF\u200C\u200D"
+_LATIN_ONLY = re.compile(r"^[\x00-\u024F\s]*$")
+
+
+def _load_glossary() -> Dict[str, list]:
+    global _glossary
+    if _glossary is None:
+        _glossary = {}
+        if _GLOSSARY_PATH.exists():
+            payload = json.loads(_GLOSSARY_PATH.read_text(encoding="utf-8"))
+            for code, terms in payload.items():
+                if code.startswith("_"):
+                    continue
+                # Longest first, so "छत का पंखा" wins over "पंखा".
+                ordered = sorted(terms.items(), key=lambda kv: -len(kv[0]))
+                _glossary[code] = [
+                    (re.compile(rf"(?<![{_LETTER}]){re.escape(native)}(?![{_LETTER}])"), english)
+                    for native, english in ordered
+                ]
+    return _glossary
+
+
+def apply_glossary(text: str, code: str) -> tuple:
+    """(text with glossary words in English, the words replaced)."""
+    if os.environ.get("TRANSLATION_GLOSSARY", "1") == "0":
+        return text, []
+    replaced = []
+    for pattern, english in _load_glossary().get(code, []):
+        text, n = pattern.subn(english, text)
+        if n:
+            replaced.append(english)
+    return text, replaced
 
 
 class TranslationUnavailable(Exception):
@@ -183,11 +227,18 @@ def translate_to_english(text: str, language: Optional[str] = None) -> dict:
         # English: search as typed.
         return {"text": stripped, "original": text, "detected": "en", "translated": False, "error": None}
 
+    # The language is detected on what was typed; the glossary is applied after.
+    prepared, glossary_terms = apply_glossary(stripped, code)
+    if glossary_terms and _LATIN_ONLY.match(prepared):
+        # Every word was in the glossary: nothing is left to translate.
+        return {"text": " ".join(prepared.split()), "original": text, "detected": code,
+                "translated": True, "error": None, "glossary": glossary_terms}
+
     try:
         model = _ensure_model()
         tokenizer = _ensure_tokenizer(entry["nllb"])
 
-        encoded = tokenizer(stripped, return_tensors="pt", truncation=True, max_length=512)
+        encoded = tokenizer(prepared, return_tensors="pt", truncation=True, max_length=512)
         generated = model.generate(
             **encoded,
             forced_bos_token_id=tokenizer.convert_tokens_to_ids("eng_Latn"),
@@ -204,6 +255,7 @@ def translate_to_english(text: str, language: Optional[str] = None) -> dict:
             "detected": code,
             "translated": True,
             "error": None,
+            "glossary": glossary_terms,
         }
 
     except TranslationUnavailable as exc:

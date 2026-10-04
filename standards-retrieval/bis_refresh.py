@@ -7,12 +7,15 @@ background thread runs the refresh while the engine keeps serving the corpus
 it loaded:
 
   1. data/bis_portal.py published   what BIS published or revised since the
-                                    Know Your Standard snapshot
+                                    Know Your Standard snapshot, then scopes
+                                    (each new one's SCOPE clause)
   2. data/bis_portal.py details     each served edition's current record;
                                     any older than 30 days is read again,
                                     which is how withdrawals and new
                                     amendments are noticed
-  3. data/bis_portal.py combine
+  3. data/bis_portal.py combine, then summaries (BIS's plain-language
+                                    summary of each standard, 3,000 new
+                                    look-ups per refresh)
   4. build_full_corpus.py, add_bis_standards.py, apply_bis_status.py
   5. indexing/build.py              the dense and BM25 indexes
 
@@ -52,6 +55,7 @@ _INDEX_DIR = _ROOT / "data" / "index" / "standards_corpus_full"
 _GUARDED = [_DATA / "standards_corpus_full.json", _DATA / "eval_set_full.json", _DATA / "train_queries_full.json"]
 _STALE_LOCK_S = 8 * 3600
 _RECHECK_DAYS = "30"
+_SUMMARY_BATCH = "3000"
 
 _status = {"state": "idle", "step": None, "started": None, "error": None}
 _lock = threading.Lock()
@@ -185,8 +189,14 @@ def refresh(on_success: Optional[Callable[[], None]] = None) -> bool:
     backed_up = False
     try:
         _run("portal: published since the snapshot", ["data/bis_portal.py", "published"])
+        # The scope clause of each newly published standard, from its document
+        # (only those not read before).
+        _run("portal: scopes", ["data/bis_portal.py", "scopes"])
         _run("portal: records", ["data/bis_portal.py", "details", "--recheck-days", _RECHECK_DAYS])
         _run("portal: combine", ["data/bis_portal.py", "combine"])
+        # BIS's summaries are looked up once per standard, a batch per refresh,
+        # so the whole catalogue is covered over a few weeks of use.
+        _run("portal: summaries", ["data/bis_portal.py", "summaries", "--limit", _SUMMARY_BATCH])
         _set(step="backing up the served corpus and index")
         _back_up()
         backed_up = True

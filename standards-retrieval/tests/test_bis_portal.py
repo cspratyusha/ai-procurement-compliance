@@ -110,6 +110,8 @@ class TestTitles:
             "Cabinet Hinges — Specification"
         assert clean_bis_title("IS 303: 2024 Plywood for General Purposes - Specification ( Draft Second Amendme") == \
             "Plywood for General Purposes - Specification"
+        assert clean_bis_title("Plywood for General Purposes - Specification ( Draft Second Amendment of "
+                               "IS 303:2024) ( ICS 79.060.10)") == "Plywood for General Purposes - Specification"
         assert clean_bis_title("Valves of Automotive Air Brake Systems - Method of Test (Amendment-1)") == \
             "Valves of Automotive Air Brake Systems - Method of Test"
 
@@ -133,6 +135,27 @@ class TestNewEditions:
         assert revision["scope"] == held[0]["scope"]
         assert revision["provenance"] == "scope_from_previous_edition"
         assert revision["scope_edition"] == "IS 1299:1984"
+        # Its own scope clause, where BIS's document gives it, comes first.
+        own, _ = additions(held, bis, {"IS 1299:2026": "This standard covers the 2026 method."})
+        own = {r["number"]: r for r in own}["IS 1299:2026"]
+        assert own["scope"] == "This standard covers the 2026 method."
+        assert own["provenance"] == "published_text_bis" and "scope_edition" not in own
         # A standard with no earlier edition has no scope to borrow.
         new = by_number["IS 19609:2026"]
         assert new["scope"] == "" and new["provenance"] == "number_and_title_only"
+
+
+class TestSummaries:
+    def test_bis_summary_becomes_the_labelled_description(self, tmp_path, monkeypatch):
+        import json as _json
+        import apply_bis_status
+        path = tmp_path / "bis_summaries.json"
+        path.write_text(_json.dumps({"summaries": {"IS 4985:2021": {"text": "uPVC pipes for drinking water.",
+                                                                   "file": "x.pdf"}}}), encoding="utf-8")
+        monkeypatch.setattr(apply_bis_status, "SUMMARIES", path)
+        corpus = [{"number": "IS 4985 : 2021", "description": ""}, {"number": "IS 456:2000", "description": ""}]
+        assert apply_bis_status.attach_summaries(corpus) == 1
+        assert corpus[0]["description"] == "uPVC pipes for drinking water."
+        assert corpus[0]["bis_summary"] == "uPVC pipes for drinking water."
+        assert corpus[0]["description_source"] == "bis_summary"
+        assert corpus[1]["description"] == "" and "description_source" not in corpus[1]

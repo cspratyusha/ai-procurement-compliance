@@ -13,7 +13,7 @@ after translation, since a miss in another language is usually a
 translation miss.
 
 Usage:
-  python eval/benchmark.py [--lang hi,ta] [--top-k 5] [--out results.json] [--misses 40]
+  python eval/benchmark.py [--queries file] [--lang hi,ta] [--top-k 5] [--out results.json] [--misses 40]
 
 Runs the engine in-process on a throwaway accounts database with query
 logging off, so nothing reaches the real usage figures.
@@ -52,6 +52,9 @@ def answers(result_number, expected):
 
 def main():
     ap = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
+    ap.add_argument("--queries", default=str(_QUERIES),
+                    help="query file (default data/benchmark_queries.json; data/benchmark_heldout_queries.json "
+                         "is the second set, kept apart for judging changes made on the first)")
     ap.add_argument("--lang", help="only these languages, comma separated")
     ap.add_argument("--top-k", type=int, default=5)
     ap.add_argument("--out", help="write per-query results as JSON")
@@ -70,7 +73,7 @@ def main():
 
     engine.append_query = lambda *a, **k: None
 
-    items = json.loads(_QUERIES.read_text(encoding="utf-8"))["queries"]
+    items = json.loads(Path(args.queries).read_text(encoding="utf-8"))["queries"]
     if args.lang:
         wanted = set(args.lang.split(","))
         items = [q for q in items if q["lang"] in wanted]

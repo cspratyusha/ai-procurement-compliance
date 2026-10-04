@@ -28,7 +28,7 @@ import bis_refresh
 from data.models import Standard
 from data_loader import load_corpus, get_standard_by_id
 from feedback.schema import FeedbackRequest, InteractionLog
-from feedback.logger import append_log, read_logs
+from feedback.logger import append_log, read_logs, usage_logs_redirected
 from feedback.query_log import append_query
 from feedback.stats import compute_stats
 from indexing.embed_index import (
@@ -594,6 +594,10 @@ class HealthResponse(BaseModel):
             "explanations before the first search rather than discovering it after."
         ),
     )
+    usage_logs_redirected: bool = Field(
+        default=False,
+        description="True when USAGE_LOG_DIR sends the usage logs elsewhere, as a test engine does.",
+    )
     bis_refresh: Optional[Dict[str, Any]] = Field(
         default=None,
         description=(
@@ -803,6 +807,7 @@ def health_check():
         corpus_size=len(corpus),
         ltr_model_loaded=ltr_loaded,
         explanations_available=explanation_engine.is_available(),
+        usage_logs_redirected=usage_logs_redirected(),
         bis_refresh=bis_refresh.status(),
     )
 

@@ -129,3 +129,28 @@ class TestTranslationRouting(unittest.TestCase):
 
 if __name__ == "__main__":
     unittest.main()
+
+
+class TestGlossary:
+    """Procurement words replaced by their English trade name before translating."""
+
+    def test_the_longest_phrase_wins_and_whole_words_only(self):
+        text, used = translation.apply_glossary("छत का पंखा और तारीख", "hi")
+        assert text.startswith("ceiling fan ")
+        assert "तारीख" in text          # "तार" (wire) inside "तारीख" (date) is not replaced
+        assert used == ["ceiling fan"]
+
+    def test_a_word_is_replaced_only_for_its_own_language(self):
+        assert translation.apply_glossary("सरिया", "mr")[0] == "सरिया"
+        assert translation.apply_glossary("सरिया", "hi")[0] == "steel reinforcement bars"
+
+    def test_it_can_be_switched_off(self, monkeypatch):
+        monkeypatch.setenv("TRANSLATION_GLOSSARY", "0")
+        assert translation.apply_glossary("छत का पंखा", "hi") == ("छत का पंखा", [])
+
+    def test_a_query_made_only_of_glossary_words_needs_no_translator(self, monkeypatch):
+        def no_model():
+            raise AssertionError("the translator must not be loaded")
+        monkeypatch.setattr(translation, "_ensure_model", no_model)
+        result = translation.translate_to_english("छत का पंखा")
+        assert result["text"] == "ceiling fan" and result["detected"] == "hi" and result["translated"]

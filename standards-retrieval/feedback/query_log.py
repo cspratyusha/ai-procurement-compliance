@@ -21,14 +21,13 @@ from typing import Any, Dict, List, Optional, Union
 
 logger = logging.getLogger("standards-retrieval.querylog")
 
-_BASE_DIR = Path(__file__).resolve().parent.parent
 DEFAULT_QUERY_LOG = "data/query_logs.jsonl"
 
 
 def _resolve(path: Union[str, Path]) -> Path:
-    """Resolve a relative path against the project root, as feedback/logger.py does."""
-    p = Path(path)
-    return p if p.is_absolute() else _BASE_DIR / p
+    """Resolve a relative path as feedback/logger.py does, USAGE_LOG_DIR included."""
+    from feedback.logger import resolve_usage_path
+    return resolve_usage_path(path)
 
 
 def append_query(
