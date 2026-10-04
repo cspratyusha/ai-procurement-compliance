@@ -18,6 +18,7 @@ import accounts
 PUBLIC_PATHS = {
     "/", "/docs", "/docs/oauth2-redirect", "/redoc", "/openapi.json", "/favicon.ico",
     "/health", "/auth/status", "/auth/setup", "/auth/register", "/auth/login",
+    "/auth/forgot", "/auth/reset",
 }
 
 
@@ -32,6 +33,41 @@ def _bearer(headers: Dict[bytes, bytes]) -> Optional[str]:
         return value[7:].strip()
     key = headers.get(b"x-api-key", b"").decode("latin-1").strip()
     return key or None
+
+
+async def _refuse(send, status: int, detail: str, extra_headers=()) -> None:
+    body = json.dumps({"detail": detail}).encode()
+    await send({"type": "http.response.start", "status": status, "headers": [
+        (b"content-type", b"application/json"),
+        (b"content-length", str(len(body)).encode()),
+        *extra_headers,
+    ]})
+    await send({"type": "http.response.body", "body": body})
+
+
+def _key_refusal(principal: Dict[str, Any], path: str, headers: Dict[bytes, bytes]):
+    """(status, detail[, headers]) when an API key may not make this call, else None.
+
+    A key is for a portal: engine routes only, from the web addresses it was
+    issued for (when it names any), at a bounded rate.
+    """
+    if not accounts.key_may_call(path):
+        return (403, "API keys can search and read standards only. Accounts, members, keys, projects "
+                     "and activity need a signed-in person.")
+    allowed = principal.get("origins") or []
+    if allowed:
+        # Browsers always send Origin on these calls and pages cannot forge
+        # it, so another website cannot use a key copied from the portal's
+        # page. A script can set any header it likes; the rate limit and the
+        # engine-only scope are what bound that.
+        origin = headers.get(b"origin", b"").decode("latin-1").strip().rstrip("/").lower()
+        if origin not in allowed:
+            return (403, "This API key is not issued for this web address.")
+    wait = accounts.key_rate_exceeded(principal["key_id"])
+    if wait:
+        return (429, f"Too many requests with this API key. Try again in {wait} seconds.",
+                [(b"retry-after", str(wait).encode())])
+    return None
 
 
 class AuthMiddleware:
@@ -55,14 +91,14 @@ class AuthMiddleware:
         path = scope.get("path", "")
 
         if principal is None and auth_required() and path not in PUBLIC_PATHS:
-            body = json.dumps({"detail": "Sign in to use the standards engine."}).encode()
-            await send({"type": "http.response.start", "status": 401, "headers": [
-                (b"content-type", b"application/json"),
-                (b"www-authenticate", b"Bearer"),
-                (b"content-length", str(len(body)).encode()),
-            ]})
-            await send({"type": "http.response.body", "body": body})
+            await _refuse(send, 401, "Sign in to use the standards engine.", [(b"www-authenticate", b"Bearer")])
             return
+
+        if principal is not None and principal.get("kind") == "api_key":
+            refusal = _key_refusal(principal, path, headers)
+            if refusal:
+                await _refuse(send, *refusal)
+                return
 
         scope.setdefault("state", {})["principal"] = principal
         token = accounts.current_principal.set(principal)
@@ -108,6 +144,15 @@ class LoginRequest(BaseModel):
     password: str
 
 
+class ForgotRequest(BaseModel):
+    email: str = Field(..., max_length=254)
+
+
+class ResetRequest(BaseModel):
+    token: str = Field(..., max_length=200)
+    new_password: str
+
+
 class ProfileUpdate(BaseModel):
     name: Optional[str] = None
     language: Optional[str] = None
@@ -137,6 +182,9 @@ class MemberUpdate(BaseModel):
 
 class KeyCreate(BaseModel):
     name: str
+    # Web addresses a browser may use the key from, e.g. the portal's
+    # https://eproc.example.gov.in. Empty: any (for a key kept on a server).
+    origins: List[str] = Field(default_factory=list)
 
 
 class ProjectCreate(BaseModel):
@@ -167,6 +215,7 @@ def auth_status(request: Request):
         "roles": accounts.ROLES,
         "org_types": accounts.ORG_TYPES,
         "min_password_length": accounts.MIN_PASSWORD_LENGTH,
+        "password_reset_by_email": accounts.password_reset_by_email(),
     }
 
 
@@ -195,6 +244,19 @@ def auth_register(body: SetupRequest, request: Request):
 @router.post("/auth/login", tags=["accounts"], summary="Sign in")
 def auth_login(body: LoginRequest, request: Request):
     return _run(accounts.login, body.email, body.password, _client(request))
+
+
+@router.post("/auth/forgot", tags=["accounts"], summary="Email a link to set a new password")
+def auth_forgot(body: ForgotRequest, request: Request):
+    _run(accounts.request_password_reset, body.email, _client(request))
+    # The same answer whether or not the address has an account.
+    return {"status": "If that address has an account, a reset link is on its way."}
+
+
+@router.post("/auth/reset", tags=["accounts"], summary="Set a new password with an emailed link")
+def auth_reset(body: ResetRequest):
+    _run(accounts.reset_password, body.token, body.new_password)
+    return {"status": "Password changed. Sign in with the new password."}
 
 
 @router.post("/auth/logout", tags=["accounts"], summary="Sign out this session")
@@ -254,7 +316,7 @@ def keys_list(request: Request):
 
 @router.post("/keys", tags=["accounts"], summary="Create an API key (secret shown once)")
 def keys_create(body: KeyCreate, request: Request):
-    return _run(accounts.create_key, _principal(request), body.name)
+    return _run(accounts.create_key, _principal(request), body.name, body.origins)
 
 
 @router.delete("/keys/{key_id}", tags=["accounts"], summary="Revoke an API key")

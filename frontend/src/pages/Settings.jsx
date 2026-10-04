@@ -422,6 +422,7 @@ function KeysTab() {
   const [keys, setKeys] = useState(null);
   const [error, setError] = useState('');
   const [name, setName] = useState('');
+  const [origins, setOrigins] = useState('');
   const [secret, setSecret] = useState(null);
   const [busy, setBusy] = useState(false);
 
@@ -435,9 +436,10 @@ function KeysTab() {
     setBusy(true);
     setError('');
     try {
-      const data = await createApiKey(name);
+      const data = await createApiKey(name, origins.split(/[\s,]+/).filter(Boolean));
       setSecret({ label: `API key "${data.key.name}"`, value: data.secret });
       setName('');
+      setOrigins('');
       await load();
     } catch (err) {
       setError(err.message);
@@ -459,7 +461,9 @@ function KeysTab() {
         <span className="xs">
           Keys let a portal call the engine without a person signing in. Send one as
           <code className="mono"> Authorization: Bearer sk_…</code> or <code className="mono">X-API-Key</code>.
-          It acts with your role, and every call counts against it below.
+          A key can search and read standards only, never accounts or settings, and is limited
+          to a steady rate of calls. For the widget, whose key anyone can read in the portal&apos;s
+          page, name the portal&apos;s web address so no other site can use it.
           {user.role === 'admin' ? ' As an administrator you see every key in the organisation.' : ''}
         </span>
       </div>
@@ -477,6 +481,10 @@ function KeysTab() {
             <label className="sr-only" htmlFor="k-name">Key name</label>
             <input id="k-name" className="input input-sm" placeholder="What will use it, e.g. GeM portal"
               value={name} onChange={(e) => setName(e.target.value)} required maxLength={120} />
+            <label className="sr-only" htmlFor="k-origins">Allowed web addresses</label>
+            <input id="k-origins" className="input input-sm"
+              placeholder="Widget only: https://portal.example.gov.in"
+              value={origins} onChange={(e) => setOrigins(e.target.value)} maxLength={600} />
             <button className="btn btn-primary btn-sm" disabled={busy}>
               <Icon name="plus" size={14} /> Create key
             </button>
@@ -493,6 +501,7 @@ function KeysTab() {
                 <tr>
                   <th scope="col">Name</th>
                   <th scope="col">Key</th>
+                  <th scope="col">Web addresses</th>
                   <th scope="col">Owner</th>
                   <th scope="col">Created</th>
                   <th scope="col">Last used</th>
@@ -505,6 +514,7 @@ function KeysTab() {
                   <tr key={k.id}>
                     <td className="small strong">{k.name}</td>
                     <td className="mono xs">{k.prefix}…</td>
+                    <td className="xs muted">{k.origins?.length ? k.origins.join(', ') : 'Any (server use)'}</td>
                     <td className="xs muted nowrap">{k.owner}</td>
                     <td className="xs muted nowrap">{when(k.created_at)}</td>
                     <td className="xs muted nowrap">{k.last_used_at ? when(k.last_used_at) : 'Never'}</td>

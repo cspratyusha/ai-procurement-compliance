@@ -30,6 +30,7 @@ import hashlib
 import hmac
 import json
 import os
+import re
 import secrets
 import sqlite3
 import threading
@@ -121,6 +122,13 @@ CREATE TABLE IF NOT EXISTS sessions (
     expires_at    REAL NOT NULL,
     last_seen_at  REAL NOT NULL
 );
+CREATE TABLE IF NOT EXISTS password_resets (
+    token_hash    TEXT PRIMARY KEY,
+    user_id       INTEGER NOT NULL REFERENCES users(id) ON DELETE CASCADE,
+    created_at    REAL NOT NULL,
+    expires_at    REAL NOT NULL,
+    used_at       REAL
+);
 CREATE TABLE IF NOT EXISTS api_keys (
     id            INTEGER PRIMARY KEY,
     user_id       INTEGER NOT NULL REFERENCES users(id) ON DELETE CASCADE,
@@ -131,7 +139,8 @@ CREATE TABLE IF NOT EXISTS api_keys (
     created_at    TEXT NOT NULL,
     last_used_at  TEXT,
     calls         INTEGER NOT NULL DEFAULT 0,
-    revoked_at    TEXT
+    revoked_at    TEXT,
+    origins       TEXT
 );
 CREATE TABLE IF NOT EXISTS activity (
     id       INTEGER PRIMARY KEY,
@@ -173,8 +182,16 @@ def _db() -> sqlite3.Connection:
         conn.execute("PRAGMA foreign_keys = ON")
         conn.execute("PRAGMA journal_mode = WAL")
         conn.executescript(_SCHEMA)
+        _migrate(conn)
         _conn, _conn_path = conn, path
     return _conn
+
+
+def _migrate(conn: sqlite3.Connection) -> None:
+    """Columns added after a database was first created."""
+    columns = {row["name"] for row in conn.execute("PRAGMA table_info(api_keys)")}
+    if "origins" not in columns:
+        conn.execute("ALTER TABLE api_keys ADD COLUMN origins TEXT")
 
 
 def _q(sql: str, params: tuple = ()) -> List[sqlite3.Row]:
@@ -196,6 +213,7 @@ def reset_for_tests() -> None:
             _conn.close()
         _conn, _conn_path = None, None
         _failures.clear()
+        _key_calls.clear()
 
 
 def _now() -> str:
@@ -470,7 +488,7 @@ def authenticate(token: Optional[str]) -> Optional[Dict[str, Any]]:
         return {"user_id": row["id"], "org_id": row["org_id"], "role": row["role"], "kind": "session"}
     if token.startswith("sk_"):
         rows = _q(
-            "SELECT k.id AS key_id, k.revoked_at, u.id, u.org_id, u.role, u.disabled FROM api_keys k "
+            "SELECT k.id AS key_id, k.revoked_at, k.origins, u.id, u.org_id, u.role, u.disabled FROM api_keys k "
             "JOIN users u ON u.id = k.user_id WHERE k.key_hash = ?",
             (digest,),
         )
@@ -479,7 +497,7 @@ def authenticate(token: Optional[str]) -> Optional[Dict[str, Any]]:
         row = rows[0]
         _x("UPDATE api_keys SET calls = calls + 1, last_used_at = ? WHERE id = ?", (_now(), row["key_id"]))
         return {"user_id": row["id"], "org_id": row["org_id"], "role": row["role"],
-                "kind": "api_key", "key_id": row["key_id"]}
+                "kind": "api_key", "key_id": row["key_id"], "origins": _origins_list(row["origins"])}
     return None
 
 
@@ -510,6 +528,79 @@ def change_password(principal: Dict[str, Any], current: str, new: str, keep_toke
     _x("DELETE FROM sessions WHERE user_id = ? AND token_hash != ?",
        (user["id"], _token_hash(keep_token or "")))
     record(user["id"], user["org_id"], "account.password", "Changed password")
+
+
+# --- forgotten passwords, by email ------------------------------------------
+
+RESET_TTL_S = 60 * 60
+_RESETS_PER_EMAIL = 3          # an hour
+_RESETS_PER_ADDRESS = 10       # an hour, from one network address
+
+
+def password_reset_by_email() -> bool:
+    import mailer
+    return mailer.available()
+
+
+def request_password_reset(email: str, client: Optional[str] = None) -> None:
+    """Email a single-use link to set a new password.
+
+    Answers the same whether or not the address has an account, so the form
+    cannot be used to find out who has one. Without a mail server it says so,
+    and the administrator's reset remains the way back in.
+    """
+    import mailer
+
+    if not mailer.available():
+        raise AccountError("Password reset by email is not set up here. Ask your administrator to reset it.", 503)
+    email = (email or "").strip().lower()
+    if (_count_recent(f"reset:{email}", 3600) >= _RESETS_PER_EMAIL
+            or (client and _count_recent(f"reset-ip:{client}", 3600) >= _RESETS_PER_ADDRESS)):
+        raise AccountError("Too many reset requests. Try again in an hour.", 429)
+    _note(f"reset:{email}")
+    if client:
+        _note(f"reset-ip:{client}")
+
+    rows = _q("SELECT * FROM users WHERE email = ?", (email,))
+    if not rows or rows[0]["disabled"]:
+        return
+    user = rows[0]
+    token = "rst_" + secrets.token_urlsafe(32)
+    now = time.time()
+    _x("INSERT INTO password_resets (token_hash, user_id, created_at, expires_at) VALUES (?, ?, ?, ?)",
+       (_token_hash(token), user["id"], now, now + RESET_TTL_S))
+    _x("DELETE FROM password_resets WHERE expires_at < ?", (now - 86400,))
+    link = f"{mailer.public_url()}/reset-password?token={token}"
+    try:
+        _send_reset(mailer, user, link)
+    except mailer.MailError as exc:
+        raise AccountError(str(exc), 502) from exc
+    record(user["id"], user["org_id"], "account.password_reset_requested", "Asked for a password reset email")
+
+
+def _send_reset(mailer, user, link: str) -> None:
+    mailer.send(user["email"], "Reset your password", (
+        f"Hello {user['name']},\n\n"
+        f"Someone asked to reset the password for {user['email']} on the standards engine. "
+        f"To choose a new password, open this link within the next hour:\n\n{link}\n\n"
+        "It works once. If you did not ask for this, ignore this email; your password is unchanged.\n"
+    ))
+
+
+def reset_password(token: str, new: str) -> None:
+    """Set a new password with an emailed link, and sign out every session."""
+    rows = _q("SELECT r.*, u.org_id, u.disabled FROM password_resets r JOIN users u ON u.id = r.user_id "
+              "WHERE r.token_hash = ?", (_token_hash(token or ""),))
+    if not rows or rows[0]["used_at"] or rows[0]["expires_at"] < time.time() or rows[0]["disabled"]:
+        raise AccountError("This reset link has expired or has already been used. Ask for a new one.", 400)
+    _check_password_rules(new)
+    row = rows[0]
+    _x("UPDATE users SET password_hash = ?, must_change_password = 0 WHERE id = ?",
+       (hash_password(new), row["user_id"]))
+    _x("UPDATE password_resets SET used_at = ? WHERE user_id = ? AND used_at IS NULL", (time.time(), row["user_id"]))
+    _x("DELETE FROM sessions WHERE user_id = ?", (row["user_id"],))
+    _failures.pop(_user_row(row["user_id"])["email"], None)
+    record(row["user_id"], row["org_id"], "account.password_reset", "Reset password from an emailed link")
 
 
 # --- organisation and members -----------------------------------------------
@@ -603,6 +694,60 @@ def update_member(principal: Dict[str, Any], user_id: int, role: Optional[str],
 
 # --- API keys ---------------------------------------------------------------
 
+# A key is meant for a portal, so it reaches the engine and nothing else:
+# searching, reading standards, checking documents. Never accounts, members,
+# keys, projects or activity, which need a signed-in person. A key placed in
+# a portal's page (the widget) can be read by anyone who opens that page, and
+# if it carried its creator's administrator rights, anyone could add members
+# to the organisation.
+KEY_PATHS = ("/retrieve", "/search", "/explain", "/standards", "/languages", "/certification-rules",
+             "/audit", "/boq", "/extract", "/simulate", "/alerts", "/feedback", "/health")
+
+# Calls per key per minute; a copied key cannot be used to drain the engine.
+KEY_RATE_PER_MINUTE = int(os.environ.get("API_KEY_RATE_PER_MINUTE", "120"))
+_key_calls: Dict[int, List[float]] = {}
+
+
+def key_may_call(path: str) -> bool:
+    return any(path == p or path.startswith(p + "/") for p in KEY_PATHS)
+
+
+def key_rate_exceeded(key_id: int) -> Optional[int]:
+    """Seconds until the key may call again, or None when it may call now."""
+    if KEY_RATE_PER_MINUTE <= 0:
+        return None
+    now = time.time()
+    with _lock:
+        recent = [t for t in _key_calls.get(key_id, []) if t > now - 60]
+        if len(recent) >= KEY_RATE_PER_MINUTE:
+            _key_calls[key_id] = recent
+            return max(1, int(recent[0] + 60 - now) + 1)
+        recent.append(now)
+        _key_calls[key_id] = recent
+    return None
+
+
+def _origins_list(value: Optional[str]) -> List[str]:
+    return [o for o in (value or "").split(",") if o]
+
+
+def clean_origins(origins: Optional[List[str]]) -> List[str]:
+    """'https://Portal.example.gov.in/' -> 'https://portal.example.gov.in'.
+    A scheme and host (and port), nothing else: that is what a browser sends."""
+    out = []
+    for raw in origins or []:
+        origin = (raw or "").strip().rstrip("/").lower()
+        if not origin:
+            continue
+        if not re.fullmatch(r"https?://[a-z0-9.-]+(?::\d{1,5})?", origin):
+            raise AccountError(f"'{raw}' is not a web address like https://portal.example.gov.in.")
+        if origin not in out:
+            out.append(origin)
+    if len(out) > 10:
+        raise AccountError("At most 10 web addresses per key.")
+    return out
+
+
 def _key_out(row: sqlite3.Row) -> Dict[str, Any]:
     return {
         "id": row["id"],
@@ -611,6 +756,7 @@ def _key_out(row: sqlite3.Row) -> Dict[str, Any]:
         "created_at": row["created_at"],
         "last_used_at": row["last_used_at"],
         "calls": row["calls"],
+        "origins": _origins_list(row["origins"]),
         "owner": row["owner"] if "owner" in row.keys() else None,
     }
 
@@ -628,18 +774,22 @@ def list_keys(principal: Dict[str, Any]) -> List[Dict[str, Any]]:
     return [_key_out(r) for r in rows]
 
 
-def create_key(principal: Dict[str, Any], name: str) -> Dict[str, Any]:
+def create_key(principal: Dict[str, Any], name: str, origins: Optional[List[str]] = None) -> Dict[str, Any]:
     if principal.get("role") not in KEY_ROLES:
         raise AccountError("Only administrators and integrators can create API keys.", 403)
     if principal.get("kind") == "api_key":
         raise AccountError("Sign in to create API keys; a key cannot mint another key.", 403)
     name = _clean_name(name, "key name")
+    allowed = clean_origins(origins)
     secret = "sk_" + secrets.token_urlsafe(32)
     key_id = _x(
-        "INSERT INTO api_keys (user_id, org_id, name, prefix, key_hash, created_at) VALUES (?, ?, ?, ?, ?, ?)",
-        (principal["user_id"], principal["org_id"], name, secret[:10], _token_hash(secret), _now()),
+        "INSERT INTO api_keys (user_id, org_id, name, prefix, key_hash, created_at, origins) "
+        "VALUES (?, ?, ?, ?, ?, ?, ?)",
+        (principal["user_id"], principal["org_id"], name, secret[:10], _token_hash(secret), _now(),
+         ",".join(allowed) or None),
     )
-    record(principal["user_id"], principal["org_id"], "api_key.create", f"Created API key {name}")
+    where = f" for {', '.join(allowed)}" if allowed else ""
+    record(principal["user_id"], principal["org_id"], "api_key.create", f"Created API key {name}{where}")
     row = _q("SELECT k.*, u.name AS owner FROM api_keys k JOIN users u ON u.id = k.user_id WHERE k.id = ?",
              (key_id,))[0]
     return {"key": _key_out(row), "secret": secret}

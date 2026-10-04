@@ -32,6 +32,19 @@ Send it on every request:
 X-API-Key: <the key>
 ```
 
+What a key can do, whoever created it:
+
+- **Engine routes only**: searching (`/retrieve`), reading standards,
+  certification and amendments, checking documents (`/audit`, `/boq`). Never
+  accounts, members, keys, projects or the activity trail; those need a
+  person signed in, and a key gets `403`.
+- **A steady rate**: 120 calls a minute per key by default
+  (`API_KEY_RATE_PER_MINUTE` on the engine). Beyond it the engine answers
+  `429` with a `Retry-After` header.
+- **Optionally, named web addresses**: a key created with the portal's
+  address (Settings, API keys, "Widget only") is refused from any other web
+  page. Use this for the widget's key.
+
 ## 2. Allow the portal's origin (browser calls only)
 
 Calls from the portal's server need nothing more. Calls from a browser (the
@@ -171,9 +184,30 @@ The script is served with the engine's screens (from `frontend/public/widget/`);
 - Nothing is sent until the text is long enough to describe goods (12
   characters), and each pause sends one request.
 
-Because the key is visible in the page, give the widget its own key, and allow
-only the portal's origin (step 2). Revoke and replace the key from Settings if
-it is ever exposed beyond the portal.
+A key in `data-key` can be read by anyone who opens the page. Give the widget
+its own key, created with the portal's web address so no other site can use
+it, and allow that address on the engine (step 2). A script outside a browser
+can still send it; the engine-only scope and the rate limit bound what that
+can do, and the key can be revoked from Settings at any time.
+
+**To keep the key out of the page entirely**, leave out `data-key` and point
+`data-api` at a path on the portal's own server that adds the key and passes
+the call on. The portal's own sign-in then protects it. With nginx:
+
+```nginx
+location /standards-engine/ {
+    # Only signed-in portal users reach this, under the portal's own rules.
+    proxy_pass https://<engine API address>/;
+    proxy_set_header X-API-Key "<the key>";
+    proxy_set_header Origin "";
+}
+```
+
+```html
+<script src="https://<engine web address>/widget/standards-widget.js"
+        data-api="/standards-engine"
+        data-target="#item-specification"></script>
+```
 
 A working example is at `/widget/demo.html` on the engine's web address: a
 plain sample form with the widget attached.
@@ -183,6 +217,9 @@ plain sample form with the widget attached.
 - Uploads over 10 MB are refused with `413`.
 - Queries over 4,000 characters are refused with `422`.
 - A missing or revoked key is refused with `401`.
+- A key used for an account route, or from a web address it was not issued
+  for, is refused with `403`.
+- A key over its rate is refused with `429`; wait the `Retry-After` seconds.
 - An unsupported file type is refused with `422` and a message naming the
   supported ones.
 - Errors carry a `detail` field written for the person using the portal; it is

@@ -11,6 +11,13 @@
  * requires, and a warning when an edition has been replaced. "Insert
  * citation" appends the citation, with its amendments, to the field.
  *
+ * Without data-key, data-api names a path on the portal's own server that
+ * passes the call on to the engine with the key added (see the integration
+ * guide), so the key never appears in the page:
+ *
+ *   <script src=".../standards-widget.js" data-api="/standards-engine"
+ *           data-target="#item-specification"></script>
+ *
  * Plain JavaScript with no dependencies, so it drops into any portal page.
  * Everything the engine returns is written with textContent, never as HTML,
  * so nothing in a response can inject markup into the portal.
@@ -155,7 +162,9 @@
       render({ loading: true });
       fetch(API + '/retrieve', {
         method: 'POST',
-        headers: { 'Content-Type': 'application/json', 'X-API-Key': KEY },
+        headers: KEY ? { 'Content-Type': 'application/json', 'X-API-Key': KEY }
+                     : { 'Content-Type': 'application/json' },
+        credentials: KEY ? 'omit' : 'same-origin',
         body: JSON.stringify({ query: query.slice(0, 4000), top_k: SHOWN }),
         signal: controller ? controller.signal : undefined
       })
@@ -179,8 +188,8 @@
   }
 
   function init() {
-    if (!API || !KEY) {
-      if (window.console) console.warn('standards-widget: data-api and data-key are required.');
+    if (!API) {
+      if (window.console) console.warn('standards-widget: data-api is required.');
       return;
     }
     injectStyles();

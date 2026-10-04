@@ -85,6 +85,7 @@ export default function App() {
           <Routes>
             <Route path="/" element={<Landing />} />
             <Route path="/login" element={<Login />} />
+            <Route path="/reset-password" element={<Login />} />
 
             {/* Workbench */}
             <Route path="/app"               element={app(<Dashboard />)} />

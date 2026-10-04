@@ -170,13 +170,64 @@ def test_api_key_works_once_and_stops_when_revoked(client):
     assert listed[0]["prefix"] == secret[:10]
     assert "secret" not in listed[0]
 
-    assert client.get("/stats", headers={"X-API-Key": secret}).status_code == 200
+    assert client.get("/languages", headers={"X-API-Key": secret}).status_code == 200
     assert client.get("/keys", headers=auth(admin)).json()["keys"][0]["calls"] == 1
     # A key cannot mint another key.
     assert client.post("/keys", headers={"X-API-Key": secret}, json={"name": "child"}).status_code == 403
 
     client.delete(f"/keys/{created['key']['id']}", headers=auth(admin))
-    assert client.get("/stats", headers={"X-API-Key": secret}).status_code == 401
+    assert client.get("/languages", headers={"X-API-Key": secret}).status_code == 401
+
+
+def test_an_administrators_key_reaches_the_engine_only(client):
+    """A widget key sits in a portal's page source. Made by an administrator,
+    it must still not add members, read the organisation or manage keys."""
+    admin = setup_admin(client)
+    secret = client.post("/keys", headers=auth(admin), json={"name": "Widget"}).json()["secret"]
+    key = {"X-API-Key": secret}
+    assert client.get("/standards/search?q=cement", headers=key).status_code == 200
+    assert client.get("/certification-rules", headers=key).status_code == 200
+    for method, path, body in [
+        ("post", "/org/members", {"name": "Intruder", "email": "x@evil.test", "role": "admin"}),
+        ("get", "/org/members", None),
+        ("patch", "/org", {"name": "Taken"}),
+        ("get", "/keys", None),
+        ("get", "/activity?scope=org", None),
+        ("get", "/projects", None),
+        ("get", "/auth/me", None),
+        ("get", "/stats", None),
+        ("get", "/logs", None),
+    ]:
+        call = getattr(client, method)
+        response = call(path, headers=key, json=body) if body is not None else call(path, headers=key)
+        assert response.status_code == 403, (method, path, response.status_code)
+    members = client.get("/org/members", headers=auth(admin)).json()
+    assert all(m.get("email") != "x@evil.test" for m in members.get("members", members))
+
+
+def test_a_key_issued_for_a_portal_refuses_other_web_addresses(client):
+    admin = setup_admin(client)
+    created = client.post("/keys", headers=auth(admin),
+                          json={"name": "Widget", "origins": ["https://Eproc.Example.gov.in/"]}).json()
+    assert created["key"]["origins"] == ["https://eproc.example.gov.in"]
+    key = {"X-API-Key": created["secret"]}
+    assert client.get("/languages", headers={**key, "Origin": "https://eproc.example.gov.in"}).status_code == 200
+    assert client.get("/languages", headers={**key, "Origin": "https://copycat.example.com"}).status_code == 403
+    assert client.get("/languages", headers=key).status_code == 403
+
+    bad = client.post("/keys", headers=auth(admin), json={"name": "W2", "origins": ["eproc.example.gov.in/form"]})
+    assert bad.status_code == 400
+
+
+def test_a_key_is_rate_limited(client, monkeypatch):
+    monkeypatch.setattr(accounts, "KEY_RATE_PER_MINUTE", 3)
+    admin = setup_admin(client)
+    key = {"X-API-Key": client.post("/keys", headers=auth(admin), json={"name": "Portal"}).json()["secret"]}
+    assert [client.get("/languages", headers=key).status_code for _ in range(4)] == [200, 200, 200, 429]
+    limited = client.get("/languages", headers=key)
+    assert limited.status_code == 429 and int(limited.headers["retry-after"]) >= 1
+    # A signed-in person is not held to a key's limit.
+    assert client.get("/languages", headers=auth(admin)).status_code == 200
 
 
 def test_activity_records_what_the_user_did(client):
@@ -263,3 +314,65 @@ def test_projects_are_private_to_their_owner(client):
     officer = client.post("/auth/login", json={"email": "ravi@test.gov.in",
                                                "password": invited["temporary_password"]}).json()["token"]
     assert client.get(f"/projects/{active['id']}", headers=auth(officer)).status_code == 404
+
+
+@pytest.fixture
+def outbox(monkeypatch):
+    """Email switched on, with messages captured instead of sent."""
+    import mailer
+    sent = []
+    monkeypatch.setattr(mailer, "available", lambda: True)
+    monkeypatch.setattr(mailer, "public_url", lambda: "https://standards.example.gov.in")
+    monkeypatch.setattr(mailer, "send", lambda to, subject, body: sent.append((to, subject, body)))
+    return sent
+
+
+def _reset_token(body):
+    import re
+    return re.search(r"token=(rst_[\w-]+)", body).group(1)
+
+
+def test_without_email_the_reset_form_points_to_the_administrator(client):
+    setup_admin(client)
+    assert client.get("/auth/status").json()["password_reset_by_email"] is False
+    response = client.post("/auth/forgot", json={"email": ADMIN["email"]})
+    assert response.status_code == 503
+    assert "administrator" in response.json()["detail"]
+
+
+def test_a_forgotten_password_is_reset_by_an_emailed_link_once(client, outbox):
+    admin = setup_admin(client)
+    assert client.get("/auth/status").json()["password_reset_by_email"] is True
+
+    known = client.post("/auth/forgot", json={"email": "ASHA.RAO@test.gov.in"})
+    unknown = client.post("/auth/forgot", json={"email": "nobody@test.gov.in"})
+    # The same answer either way, and mail only to the real account.
+    assert known.status_code == unknown.status_code == 200
+    assert known.json() == unknown.json()
+    assert [to for to, _, _ in outbox] == ["asha.rao@test.gov.in"]
+    token = _reset_token(outbox[0][2])
+    assert "https://standards.example.gov.in/reset-password?token=" in outbox[0][2]
+
+    weak = client.post("/auth/reset", json={"token": token, "new_password": "short"})
+    assert weak.status_code == 400
+    assert client.post("/auth/reset", json={"token": token, "new_password": "New-Horse-42"}).status_code == 200
+    # Single use, and every session signed out.
+    assert client.post("/auth/reset", json={"token": token, "new_password": "Other-Horse-42"}).status_code == 400
+    assert client.get("/auth/me", headers=auth(admin)).status_code == 401
+    assert client.post("/auth/login", json={"email": ADMIN["email"], "password": "New-Horse-42"}).status_code == 200
+
+
+def test_reset_links_expire_and_requests_are_limited(client, outbox, monkeypatch):
+    setup_admin(client)
+    client.post("/auth/forgot", json={"email": ADMIN["email"]})
+    token = _reset_token(outbox[0][2])
+    monkeypatch.setattr(accounts, "RESET_TTL_S", -1)
+    client.post("/auth/forgot", json={"email": ADMIN["email"]})
+    expired = _reset_token(outbox[1][2])
+    assert client.post("/auth/reset", json={"token": expired, "new_password": "New-Horse-42"}).status_code == 400
+    assert client.post("/auth/reset", json={"token": "rst_made-up", "new_password": "New-Horse-42"}).status_code == 400
+    # The first, unexpired link still works.
+    assert client.post("/auth/reset", json={"token": token, "new_password": "New-Horse-42"}).status_code == 200
+
+    statuses = [client.post("/auth/forgot", json={"email": ADMIN["email"]}).status_code for _ in range(3)]
+    assert statuses[-1] == 429

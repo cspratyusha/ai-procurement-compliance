@@ -535,6 +535,14 @@ export function getAuthStatus({ signal } = {}) {
   return request('/auth/status', { signal });
 }
 
+export function requestPasswordReset(email) {
+  return request('/auth/forgot', { method: 'POST', body: { email } });
+}
+
+export function resetPassword(token, newPassword) {
+  return request('/auth/reset', { method: 'POST', body: { token, new_password: newPassword } });
+}
+
 /** First run only: creates the organisation and its administrator. */
 export async function setupAccount(body) {
   const data = await request('/auth/setup', { method: 'POST', body });
@@ -598,8 +606,8 @@ export function listApiKeys({ signal } = {}) {
 }
 
 /** Resolves to `{ key, secret }`; the secret is never retrievable again. */
-export function createApiKey(name) {
-  return request('/keys', { method: 'POST', body: { name } });
+export function createApiKey(name, origins = []) {
+  return request('/keys', { method: 'POST', body: { name, origins } });
 }
 
 export function revokeApiKey(id) {
