@@ -51,6 +51,7 @@ from ingest_archive import clean_ocr  # noqa: E402
 CORPUS = _REPO_ROOT / "data" / "standards_corpus_full.json"
 INGESTED = _REPO_ROOT / "data" / "archive" / "ingested_standards.json"
 CACHE = _REPO_ROOT / "data" / "archive" / "cache"
+MISFILED = _REPO_ROOT / "data" / "archive" / "misfiled.json"
 OUTPUT = _REPO_ROOT / "data" / "relationships" / "extracted_relationships.json"
 
 _ROMAN = {"I": 1, "II": 2, "III": 3, "IV": 4, "V": 5, "VI": 6, "VII": 7, "VIII": 8,
@@ -61,14 +62,14 @@ _PART = r"(?:\s*\(\s*Part\s*([0-9]{1,3}|[IVX]{1,5})\s*(?:[/,]\s*Sec(?:tion)?\s*(
 
 # Inside a references block: a bare number with an edition year.
 _BLOCK_CITE = re.compile(
-    rf"(?<![\d./:])(?<!: )(?<!:  )(?:IS\s*[:.]?\s*)?(\d{{2,5}})(?![\dA-Za-z%]){_PART}\s*[:\-–]\s*{_YEAR}(?!\d)",
+    rf"(?<![\d./:])(?<!: )(?<!:  )(?:IS\s*[:.]?\s*)?(\d{{2,5}})(?![\dA-Za-z%])(?!\s*['`’]\s*\d){_PART}\s*[:\-–]\s*{_YEAR}(?!\d)",
     re.IGNORECASE,
 )
 # In the body: an explicit IS prefix, year optional.
 _BODY_CITE = re.compile(
     # Not followed by a digit or a decimal part, but a sentence-ending full stop is
     # fine: "Grade A of IS 2062." is a citation.
-    rf"\bIS\s*[:.]?\s*(\d{{2,5}})(?![\dA-Za-z%]){_PART}(?:\s*[:\-–]\s*{_YEAR})?(?!\d|\.\d)",
+    rf"\bIS\s*[:.]?\s*(\d{{2,5}})(?![\dA-Za-z%])(?!\s*['`’]\s*\d){_PART}(?:\s*[:\-–]\s*{_YEAR})?(?!\d|\.\d)",
 )
 
 _REF_HEADING = re.compile(
@@ -107,8 +108,10 @@ _IMPRINT = re.compile(r"B\s*U\s*R\s*E\s*A\s*U\s+O\s*F", re.IGNORECASE)
 
 # In a references table a bare number is accepted, so one belonging to another
 # body ("ISO 9001 : 2000", "IEC 60227") must not be read as an Indian Standard.
-# "1S0" and "IS0" are how OCR often renders "ISO".
-_FOREIGN_BODY = re.compile(r"(?:ISO|IS0|1S0|I\s?SO|IEC|EN|BS|DIN|ASTM|ANSI|JIS)\s*[:/-]?\s*$", re.IGNORECASE)
+# "1S0", "IS0", "LSO" and "I5O" are how OCR often renders "ISO" ("LSO 53:1998"
+# had become a citation of IS 53, Brunswick green, in a gear standard).
+_FOREIGN_BODY = re.compile(r"(?:ISO|IS0|1S0|LSO|I5O|lSO|I\s?SO|IEC|EN|BS|DIN|ASTM|ANSI|JIS)\s*[:/-]?\s*$",
+                           re.IGNORECASE)
 
 
 def _family(base, part, sec=None):
@@ -179,8 +182,15 @@ def extract(source, text, by_family):
     own_base = own_base.group(1) if own_base else None
     found = {}
 
-    def is_self(base, part):
-        return fam_of(base, part) == own or (not part and base.lstrip("0") == own_base)
+    def is_self(base, part, text=None, end=None):
+        if fam_of(base, part) == own or (not part and base.lstrip("0") == own_base):
+            return True
+        # Its own number with the next clause number run into it: "IS : 1811
+        # 3. SAMPLING" read as IS 18113, "IS:13141. SCOPE" in IS 1314.
+        digits = base.lstrip("0")
+        return bool(own_base and text is not None and digits.startswith(own_base)
+                    and 0 < len(digits) - len(own_base) <= 2
+                    and re.match(r"\s*\.\s*[A-Z]{3,}", text[end:end + 20]))
 
     def fam_of(base, part):
         return _family(base, part)
@@ -198,7 +208,7 @@ def extract(source, text, by_family):
         if int(m.group(1)) > _MAX_IS_NUMBER or _IMPRINT.search(text, m.end(), m.end() + 40):
             continue
         fam = _family(m.group(1), _arabic(m.group(2)), _arabic(m.group(3)))
-        if is_self(m.group(1), _arabic(m.group(2))) or fam in found:
+        if is_self(m.group(1), _arabic(m.group(2)), text, m.end()) or fam in found:
             continue
         # The clause around the citation, for the history filter. Bounded both by
         # sentence ends and by distance: lists of materials run for hundreds of
@@ -218,11 +228,12 @@ def build(sample=None):
     sources = corpus if sample is None else random.Random(7).sample(corpus, sample)
 
     relationships, no_text, with_refs = [], 0, 0
+    wrong_text = set(json.loads(MISFILED.read_text(encoding="utf-8"))["misfiled"]) if MISFILED.exists() else set()
     read_without_citations = []
     kinds, where_counts, resolution = Counter(), Counter(), Counter()
     for source in sources:
         ident = identifier.get(source["number"])
-        path = CACHE / f"{ident}.txt" if ident else None
+        path = CACHE / f"{ident}.txt" if ident and ident not in wrong_text else None
         if not path or not path.exists():
             no_text += 1
             continue

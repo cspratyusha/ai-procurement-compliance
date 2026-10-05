@@ -66,6 +66,31 @@ two items (22 of its 30 extra first places).
 | Second set, first / top five | 48/96 / 71/96 | **78/96 / 92/96** (22 of the 30 from two mappings informed by it) |
 | Held-out 236, P@1 / Recall@5 | 0.852 / 0.966 | **0.852 / 0.962** |
 
+### Allied standards and sectors, checked by hand
+
+- **Links.** 40 links drawn at random and read by hand: 36 right. The README
+  had said about 97%. The errors were OCR: a number broken by an apostrophe
+  ("IS 365'7" read as IS 365), a clause number run into the standard's own
+  ("IS : 1811 3. SAMPLING" read as IS 18113), "LSO 53" for ISO 53, and a
+  misread digit (IS 1360 for IS 1369). The first three are filtered in
+  `extract_references.py`; a misread digit is indistinguishable from a real
+  citation of the neighbouring number (IS 1786 does cite IS 1785), so it stays.
+  88,623 links became 88,029. A second sample of 40 after the change: 37 right.
+- **Misfiled texts.** Six archive items are another document: three amendment
+  slips for the next number, SP 62's handbook filed as IS 62, IS/ISO 11951
+  (blackplate) filed as IS 11951 (desert cooler pumps), IS 1293 filed as IS 12
+  (Part 3). Found by comparing each text's opening with its title, listed in
+  `data/archive/misfiled.json`, and no longer read for scope or citations.
+- **Sectors.** An edit on 26 September turned every `\b` in nine sector rules
+  of `ingest_archive.py` into a backspace character, so those sectors could not
+  match: metals 4 records, petroleum 4, paper, automotive, medical, fittings and
+  refractories none. Restored; 1,785 records changed sector and "general" went
+  from 13,148 to 10,373. A test now fails if a control character returns.
+  Sector ids are positional, so these records were renumbered; saved projects
+  key standards by IS number and are unaffected.
+
+Search accuracy unchanged on all three sets (held-out 0.852 / 0.962).
+
 ### Certification lists kept current
 
 BIS's compulsory-certification lists are now read again on every in-app

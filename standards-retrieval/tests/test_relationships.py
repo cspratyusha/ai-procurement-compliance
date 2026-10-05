@@ -88,10 +88,13 @@ class TestRelationships(unittest.TestCase):
     def test_unresearched_standard_says_so(self):
         """Absent data must not read as 'this standard has no references'.
 
-        IS 1734 (Part 1):1983 is held on its number and title only: its text
-        is not in the archive cache, so it was never read, and nothing cites it.
+        IS 15530:2021 is held on its number and title only: the archive item
+        filed under it is an amendment to IS 15532 (data/archive/misfiled.json),
+        so its own text was never read, and nothing cites it. (IS 1734 (Part
+        1):1983 was this example until the corpus held the edition 19 standards
+        cite.)
         """
-        result = relationships.related_to("IS 1734 (Part 1):1983")
+        result = relationships.related_to("IS 15530:2021")
         self.assertFalse(result["researched"])
         self.assertFalse(result["text_read"])
         self.assertEqual(result["total"], 0)
@@ -119,10 +122,13 @@ class TestRelationships(unittest.TestCase):
         self.assertEqual(rows[0]["method"], "curated")
 
     def test_popular_standards_cap_the_reverse_list_but_report_the_total(self):
-        """IS 4905 (random sampling) is cited by over a thousand standards."""
+        """IS 4905 (random sampling) is cited by over a thousand standards, now
+        split between its 1968 edition and the 2015 one the corpus also holds."""
         result = relationships.related_to("IS 4905:1968")
         self.assertLessEqual(len(result["referenced_by"]), relationships.REFERENCED_BY_LIMIT)
-        self.assertGreater(result["referenced_by_total"], 1000)
+        self.assertGreater(result["referenced_by_total"], relationships.REFERENCED_BY_LIMIT)
+        both = result["referenced_by_total"] + relationships.related_to("IS 4905:2015")["referenced_by_total"]
+        self.assertGreater(both, 1000)
 
     def test_is_number_spellings_resolve(self):
         canonical = relationships.related_to("IS 1489 (Part 1):2015")

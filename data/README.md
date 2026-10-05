@@ -134,7 +134,12 @@ standards, about 28 MB):
 - **Evidence:** every link keeps the passage it was read from.
 - **Measured:** it finds all 16 of the hand-read links whose text supports
   them (4 of the 20 checkable were added from domain knowledge and are not in
-  the text), and about 97% of a random sample of links were read correctly.
+  the text). Two random samples of 40 links, read by hand on 5 October,
+  had 36 and then 37 right: the errors were OCR (a digit misread, "IS 365'7"
+  read as IS 365, a clause number run into the standard's own number, "LSO 53"
+  for ISO 53) and texts filed under the wrong number. The last three are now
+  filtered (577 links fewer); a misread digit cannot be told from a real
+  citation of the next number, so those remain.
 
 The 25 hand-read links in `relationships/relationships.json` take precedence
 wherever both describe the same pair. The API also reports standards whose

@@ -40,6 +40,13 @@ from typing import Dict, List, Optional
 _REPO_ROOT = Path(__file__).resolve().parent.parent
 OUTPUT = _REPO_ROOT / "data" / "archive" / "ingested_standards.json"
 CACHE_DIR = _REPO_ROOT / "data" / "archive" / "cache"
+# Archive items whose text is another document (an amendment slip for the next
+# number, SP 62's handbook filed as IS 62): their scope is not read.
+MISFILED = _REPO_ROOT / "data" / "archive" / "misfiled.json"
+
+
+def misfiled() -> set:
+    return set(json.loads(MISFILED.read_text(encoding="utf-8"))["misfiled"]) if MISFILED.exists() else set()
 
 SEARCH_URL = "https://archive.org/advancedsearch.php"
 SCRAPE_URL = "https://archive.org/services/search/v1/scrape"
@@ -91,15 +98,15 @@ SECTOR_RULES = [
     # These sit after the rules above deliberately. Classification is
     # first-match, so the established sectors keep their claim on a record
     # and these only catch what would otherwise have been discarded.
-    ("electronics_telecom", r"electronic|semiconductor|transistor|diode|capacitor|resistor|varistor|printed circuit|telecommunication|antenna|radio|television|signal generator|amplifier|integrated circuit|relay|connector"),
-    ("metals_alloys", r"aluminium|copper|brass|bronze|zinc|nickel|lead|tin|alloy|ingot|casting|forging|metallurg|non-ferrous|smelting|foundry"),
-    ("paints_coatings", r"paints?|varnish|pigment|lacquer|enamel|primer|coating|anti-?corrosi|galvani[sz]|electroplat|powder coat"),
-    ("petroleum_lubricants", r"petroleum|lubricat|grease|diesel|petrol|kerosene|bitumen|asphalt|crude oil|fuel oil|refiner"),
-    ("refractories_ceramics", r"refractor|ceramic|dolomite|fireclay|kiln|porcelain|vitreous|silica brick|crucible"),
-    ("mechanical_fittings", r"fitting|coupling|stud|nipple|elbow|union|spindle|bush(ing)?|washer|spring|seal(s|ing)?|gasket"),
-    ("paper_printing", r"paper|paperboard|printing|ink|stationery|cardboard|pulp"),
-    ("automotive", r"automotive|vehicle|automobile|tractor|motorcycle|brake|clutch|chassis|windscreen"),
-    ("medical_laboratory", r"medical|surgical|hospital|syringe|pharmaceutic|laborator|dental|diagnostic"),
+    ("electronics_telecom", r"\belectronic|semiconductor|\btransistor|\bdiode\b|\bcapacitor|\bresistor|\bvaristor\b|printed circuit|telecommunication|\bantenna|\bradio\b|\btelevision\b|signal generator|\bamplifier|integrated circuit|\brelay\b|\bconnector"),
+    ("metals_alloys", r"\baluminium\b|\bcopper\b|\bbrass\b|\bbronze\b|\bzinc\b|\bnickel\b|\blead\b|\btin\b|\balloy\b|\bingot|\bcasting|\bforging|\bmetallurg|non-ferrous|\bsmelting|\bfoundry\b"),
+    ("paints_coatings", r"\bpaints?\b|\bvarnish|\bpigment|\blacquer|\benamel\b|\bprimer\b|\bcoating|anti-?corrosi|galvani[sz]|electroplat|\bpowder coat"),
+    ("petroleum_lubricants", r"\bpetroleum\b|\blubricat|\bgrease\b|\bdiesel\b|\bpetrol\b|\bkerosene\b|\bbitumen|\basphalt|\bcrude oil|fuel oil|\brefiner"),
+    ("refractories_ceramics", r"\brefractor|\bceramic|\bdolomite\b|\bfireclay|\bkiln\b|\bporcelain|\bvitreous|\bsilica brick|\bcrucible"),
+    ("mechanical_fittings", r"\bfitting|\bcoupling|\bstud\b|\bnipple\b|\belbow\b|\bunion\b|\bspindle|\bbush(ing)?\b|\bwasher\b|\bspring\b|\bseal(s|ing)?\b|\bgasket"),
+    ("paper_printing", r"\bpaper\b|\bpaperboard|\bprinting\b|\bink\b|\bstationery|\bcardboard|\bpulp\b"),
+    ("automotive", r"\bautomotive|\bvehicle|\bautomobile|\btractor\b|\bmotorcycle|\bbrake\b|\bclutch\b|\bchassis|\bwindscreen"),
+    ("medical_laboratory", r"\bmedical\b|\bsurgical|\bhospital|\bsyringe|\bpharmaceutic|\blaborator|\bdental\b|\bdiagnostic"),
 ]
 
 
@@ -425,13 +432,21 @@ def rescope() -> int:
 
     payload = json.loads(OUTPUT.read_text(encoding="utf-8"))
     changes = Counter()
+    wrong_text = misfiled()
     for record in payload["standards"]:
         cached = CACHE_DIR / f"{record['identifier']}.txt"
         if not cached.exists():
             changes["no cached text"] += 1
             continue
-        scope = extract_scope(clean_ocr(cached.read_text(encoding="utf-8", errors="replace"))) or ""
+        if record["identifier"] in wrong_text:
+            scope = ""
+        else:
+            scope = extract_scope(clean_ocr(cached.read_text(encoding="utf-8", errors="replace"))) or ""
         old = record.get("scope") or ""
+        sector = classify(record["title"], scope) or "general"
+        if sector != record.get("category"):
+            changes["sector changed"] += 1
+            record["category"] = sector
         if scope == old:
             changes["unchanged"] += 1
             continue
