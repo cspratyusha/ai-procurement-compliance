@@ -29,13 +29,24 @@ class TestCitations:
         # "IS 365'7" is IS 3657 with OCR noise, not IS 365.
         assert cited("any one of the IQIs described in IS 365'7 may be used") == []
 
+    def test_other_bodies_numbers_in_a_references_block_are_not_read(self):
+        block = ("2 REFERENCES The following Indian Standards are necessary adjuncts: "
+                 "IS No. Title 2062 : 2011 Hot rolled steel ISO/DIS 14682 : 1996 Side guards "
+                 "CISPR 22 : 2005 Information technology equipment ASTM D3418 : 2015 Transition "
+                 "temperatures IEC/TR 61000 : 2002 Compatibility given 456 : 2000 Concrete "
+                 "equipIS0 8058 : 1985 Air cargo ISIISO 9001 : 1994 Quality prEN 1904 : 1995 Solders "
+                 "residential buildings of Workmen 3861 : 1975 Plinth area slabs 6126 : 1971 Nitro")
+        assert cited(block) == ["IS 2062", "IS 3861", "IS 456", "IS 6126"]
+
 
 class TestSectors:
     def test_the_sector_rules_carry_word_boundaries_not_control_characters(self):
         # A "\b" turned into a backspace by an edit made 9 sectors unmatchable
         # from 26 September to 5 October (metals: 4 records, automotive: 0).
-        source = (_REPO / "data" / "ingest_archive.py").read_text(encoding="utf-8")
-        assert "\x08" not in source
+        # The same slip recurred in extract_references.py on 6 October.
+        for name in ("ingest_archive.py", "extract_references.py"):
+            source = (_REPO / "data" / name).read_text(encoding="utf-8")
+            assert "\x08" not in source, name
 
     def test_each_sector_is_reachable(self):
         for title, sector in [("Aluminium alloy ingots", "metals_alloys"),

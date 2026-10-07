@@ -5,6 +5,133 @@ at the top.
 
 ---
 
+## Phase AE: the engine starts again; links, withdrawn editions, loanwords (2026-10-06)
+
+### Smart App Control blocked scikit-learn
+
+The engine would not start: Windows Smart App Control refused
+`sklearn\utils\_isfinite.cp311-win_amd64.pyd` from scikit-learn 1.9.1 ("An
+Application Control policy has blocked this file"), which sentence-transformers
+imports. The same file had loaded until 5 October, and reinstalling it did not
+help (same file, same verdict). scikit-learn 1.9.0 loads and is installed in
+the venv; nothing in Windows was changed. A fresh install on this machine will
+pick 1.9.1 again; if it does, `pip install scikit-learn==1.9.0`.
+
+### Other bodies' numbers read as Indian Standards
+
+A references block lists ISO, IEC, CISPR and ASTM documents beside Indian
+Standards, and a bare number there was read as IS: "CISPR 22:2005" as IS 22,
+"ASTM D3418" as IS 3418, "ISO/TR 9007" and "ISO/DIS 14682" as IS 9007 and IS
+14682. The filter now knows drafts and reports (ISO/DIS, ISO/TR, IEC/TS),
+CISPR, IEEE, NFPA, ASME and ASTM's lettered numbers. The short codes (EN, BS,
+DIN) now match whole words only: "Workmen 3861" and "slabs 6126" end in "en"
+and "bs" and had been dropped as EN and BS numbers, though they are IS 3861
+and IS 6126. The long codes still match glued to the word before, because OCR
+writes "equipIS0 8058" and "ISIISO 9001". 113 links removed (all checked:
+other bodies' numbers, or an undated link replaced by its dated one), 13 added
+(all Indian Standards): 87,929 links from 16,910 standards.
+
+The first version of this edit wrote `\b` as a backspace character, the slip
+that broke nine sector rules on 26 September; the test that guards
+`ingest_archive.py` against it now covers `extract_references.py` too.
+
+### Withdrawn editions no longer lead
+
+- **A replacement named without a year.** BIS names "IS 15683" for IS
+  13849:1993; the chain looked up that exact string, found nothing, and called
+  the replacement not held, so the withdrawn edition kept first place for "ABC
+  dry powder fire extinguisher" and its page said the replacement was not
+  held. It now resolves to the edition in force, IS 15683:2018.
+- **Withdrawn with nothing among the candidates to cite instead.** IS 9582
+  (Part 1):1980, a withdrawn laundry-motor standard, led IS 366 for "electric
+  dry iron". A withdrawn edition whose replacement is not among the candidates
+  now never ranks above the best standard in force; it keeps its place below
+  it.
+
+### Smaller fixes
+
+- `GET /standards/IS 694` (no year, as officials write it) returned 404; it
+  now returns the edition in force. A part is never dropped.
+- "house wiring cable" found low-frequency and automobile cables; it now adds
+  IS 694's wording, only when a cable or wire is what is bought ("modular
+  switches for domestic wiring" are switches; the first version of the rule
+  took IS 3854 out of first place, caught by the benchmark).
+- A second loanword list (LED, inverter, battery, generator, motor, switch,
+  socket, printer, CCTV camera, solar panel, PVC pipe, computer), alone and
+  "LED" with "bulb" and "light", in 12 scripts: 3 of 168 mangled, all added.
+  Kannada and Assamese "LED bulb" had come back as "the light bulb" (Kannada
+  found a 1987 bicycle dynamo lamp, as a strong match), Punjabi "socket" as
+  "socks". Assamese মটৰ ("the engine") is left out: it is also a motor car.
+
+### Spoken queries
+
+A microphone button in the search box. The browser records up to 30 seconds
+(an AudioWorklet capturing raw samples, turned into a 16 kHz WAV in the page,
+so the engine needs no audio decoder) and `POST /transcribe` runs Whisper
+(`openai/whisper-small`) on the engine's CPU (`speech.py`). The browser's own
+speech recognition was not used: it sends the audio to the browser maker.
+
+- The transcript goes into the query box for the official to check; it is
+  never searched by itself, because a misheard grade would search for the
+  wrong product unseen. Speech in an Indian language comes back in its script
+  and is translated like typed text.
+- English and 11 of the 12 Indian query languages; Whisper does not know
+  Odia, and choosing Odia and speaking says so. Silence is refused before the
+  model sees it (Whisper invents "Thank you." on silence).
+- 4 to 5 s to transcribe 5 to 12 s of speech, warm. The model (about 1 GB)
+  downloads on first use and loads in the background at startup (7 s from
+  disk); `SPEECH_INPUT=0` turns it off, `SPEECH_WARMUP=0` skips the load (the
+  tests, the benchmark and the e2e engine do).
+- `/transcribe` needs a signed-in session; API keys do not reach it.
+- A bug the browser test caught: the microphone opened before the capture was
+  ready, so the first second of speech was lost ("ceiling fan with regulator"
+  arrived as "with regulator"). The capture is now set up first.
+
+Measured on 7 October, English only: the 52 English benchmark queries read
+by Windows' two English voices (104 recordings). Whisper's raw text lost
+searches mostly to its captioning style, not to mishearing: "GI Pipes Medium
+Class" (Title Case) missed the case-sensitive GI pipe rule, "5 Liter" and
+"jewelry" are not the standards' spelling, "two burner" came back "2. Burner".
+`speech.tidy` now lowers Title Case (acronyms stay), uses British spelling and
+mm, and drops the closing full stop; `heard` keeps Whisper's own text.
+
+| 104 spoken queries | Raw transcript | Tidied |
+|---|---|---|
+| Word-perfect / word error rate | 73 / 8.1% | 81 / 6.4% |
+| First / top five (typed: 72 / 100) | 66 / 97 | 66 / **98** |
+
+What is left is mishearing of technical words ("ductyliron", "batuman",
+"borwell", "gastove"). A prompt of procurement vocabulary could steer Whisper
+but may push other languages towards English; not tried. Synthetic voices are
+cleaner than real speech, so these are upper bounds.
+
+Tests: 12 in `test_speech.py` (WAV reading, resampling, refusals, the endpoint,
+and a real transcription of `fixtures/spoken_query_en.wav`, Windows' English
+voice, skipped when the model is not downloaded), and `e2e/voice.spec.js`,
+where Chromium's fake microphone plays that recording and the search returns
+IS 374. Speech in Indian languages has not been measured: this machine has
+English voices only and no speaker recordings have been collected.
+
+### Measured
+
+| | 5 October | 6 October |
+|---|---|---|
+| English, first / top five | 36/52 / 49/52 | **36/52 / 50/52** |
+| 12 languages, first / top five | 57/96 / 91/96 | 57/96 / 91/96 |
+| Second set, first / top five | 78/96 / 94/96 | 78/96 / 94/96 |
+
+389 backend tests pass (1 skipped), including the 236 held-out queries and 12 for
+spoken queries. End to end on desktop, 76 of 76 pass, the voice test among them;
+mobile ran the voice test only (passed).
+
+### Still open
+
+As in Phase AD, plus: the interface is English only (central government sites
+are expected to be bilingual), and the portal integration is a widget and an
+API that no real portal has used yet.
+
+---
+
 ## Phase AD: translation, text for title-only records, isolated test runs (2026-10-05)
 
 ### The first refresh, run by the engine

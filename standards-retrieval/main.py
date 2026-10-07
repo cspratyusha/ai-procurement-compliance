@@ -7,7 +7,7 @@ from pathlib import Path
 from typing import List, Optional, Dict, Any, Literal
 import numpy as np
 from pydantic import BaseModel, Field
-from fastapi import FastAPI, HTTPException, Request, UploadFile, File
+from fastapi import FastAPI, HTTPException, Request, UploadFile, File, Form
 from fastapi.middleware.cors import CORSMiddleware
 
 from datetime import datetime, timezone
@@ -20,6 +20,7 @@ import expansion
 import similar
 import certification
 import extraction
+import speech
 import translation
 import relationships as relationships_data
 import explanation as explanation_engine
@@ -618,6 +619,10 @@ class HealthResponse(BaseModel):
         default=False,
         description="True when USAGE_LOG_DIR sends the usage logs elsewhere, as a test engine does.",
     )
+    speech: Optional[Dict[str, Any]] = Field(
+        default=None,
+        description="Spoken queries: enabled (offer the microphone), ready (model loaded), model, error.",
+    )
     bis_refresh: Optional[Dict[str, Any]] = Field(
         default=None,
         description=(
@@ -710,6 +715,11 @@ async def lifespan(app: FastAPI):
     #    turns it off (the test suite does, to keep runs off the GPU).
     if os.environ.get("EXPLANATION_WARMUP", "1") != "0":
         explanation_engine.warm_up()
+
+    # 6b. The same for the speech model behind the microphone button (about
+    #     1 GB, ~20 s to load from disk). SPEECH_WARMUP=0 turns it off.
+    if os.environ.get("SPEECH_WARMUP", "1") != "0":
+        speech.warm_up()
 
     # 7. Load the allied-standards graph (~88,000 links) now rather than on the
     #    first request, which otherwise pays about a second for it.
@@ -829,6 +839,7 @@ def health_check():
         ltr_model_loaded=ltr_loaded,
         explanations_available=explanation_engine.is_available(),
         usage_logs_redirected=usage_logs_redirected(),
+        speech=speech.status(),
         bis_refresh=bis_refresh.status(),
     )
 
@@ -1489,6 +1500,17 @@ def get_standard(standard_id: str):
         if _normalize_is_number(candidate.number) == wanted:
             return candidate
 
+    # No edition year ("IS 694", as officials usually write it): the edition in
+    # force, or the newest held if every edition is superseded. A part is never
+    # dropped: "IS 1554" does not match "IS 1554 (Part 1):1988".
+    if not re.search(r":\d{4}$", wanted):
+        editions = [c for c in standards if _normalize_is_number(c.number).split(":")[0] == wanted]
+        if editions:
+            def edition_year(c):
+                m = re.search(r":(\d{4})$", c.number)
+                return int(m.group(1)) if m else 0
+            return max(editions, key=lambda c: (c.status == "active", edition_year(c)))
+
     raise HTTPException(
         status_code=404,
         detail=f"No standard found with id or IS number '{standard_id}'.",
@@ -1523,6 +1545,33 @@ class ExtractionResponse(BaseModel):
     )
     warnings: List[str] = Field(default_factory=list)
     retrieval: RetrieveResponse = Field(..., description="Search results for the extracted query.")
+
+
+class TranscriptionResponse(BaseModel):
+    text: str = Field(..., description="What was heard, in the script of the language spoken. Not searched yet.")
+    seconds: float = Field(..., description="Length of the recording.")
+    model: str = Field(..., description="The speech model that transcribed it.")
+    language_hint: Optional[str] = Field(default=None, description="The query language given, if any.")
+    heard: Optional[str] = Field(
+        default=None,
+        description="Whisper's own text, before casing, spelling and punctuation were tidied into `text`.",
+    )
+
+
+@app.post("/transcribe", response_model=TranscriptionResponse, summary="Transcribe a Spoken Query")
+def transcribe_speech(audio: UploadFile = File(...), language: Optional[str] = Form(default=None)):
+    """Turn a short recording (16-bit PCM WAV, up to 30 seconds) into query text.
+
+    Runs on this engine; no audio is sent anywhere. The text is returned for
+    the official to check and correct before searching, never searched here.
+    """
+    data = audio.file.read(speech.MAX_BYTES + 1)
+    try:
+        return TranscriptionResponse(**speech.transcribe(data, language))
+    except speech.SpeechError as exc:
+        raise HTTPException(status_code=422, detail=str(exc))
+    except speech.SpeechUnavailable as exc:
+        raise HTTPException(status_code=503, detail=str(exc))
 
 
 @app.post(

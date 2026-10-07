@@ -49,6 +49,7 @@ _INHERITED_CORPUS = os.environ.pop("STANDARDS_CORPUS", None)
 # running. Tests that start the lifespan must not pull a 4 GB model onto the
 # GPU as a side effect, so warm-up is off for the whole suite.
 os.environ["EXPLANATION_WARMUP"] = "0"
+os.environ["SPEECH_WARMUP"] = "0"
 
 # Nor may a test that starts the engine on the full corpus set off the
 # background refresh from BIS's portal, which rewrites the corpus and index.

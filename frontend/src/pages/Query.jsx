@@ -5,6 +5,7 @@ import { EmptyState } from '../components/Primitives';
 import { AddButton } from '../components/SpecBasket';
 import { useSpec } from '../state/SpecStore';
 import { useAuth } from '../state/Auth';
+import { useVoiceInput, canRecord, MAX_SECONDS } from '../state/useVoiceInput';
 import {
   retrieve, explainResults, getHealth, extractAndSearch, listLanguages, sendFeedback, ApiError, BASE_URL,
   SUPPORTED_UPLOAD_TYPES,
@@ -93,6 +94,16 @@ export default function Query() {
   // rather than kept as its own flag that would have to be reset in sync.
   const [explained, setExplained] = useState(EMPTY_EXPLAINED);
   const explainAbortRef = useRef(null);
+  // A spoken query lands in the box, after anything already typed, for the
+  // official to read and correct before searching: a misheard grade would
+  // otherwise search for the wrong product unseen.
+  const voice = useVoiceInput({
+    language,
+    onText: (heard) => {
+      setText((prev) => (prev.trim() ? `${prev.trim()} ${heard}` : heard));
+      requestAnimationFrame(() => inputRef.current?.focus());
+    },
+  });
   // What the officer asked, shown as their turn in the thread. The input
   // clears on send (the chat convention), so the question lives here.
   const [submitted, setSubmitted] = useState(null); // { kind: 'text', text } | { kind: 'file', name }
@@ -297,6 +308,8 @@ export default function Query() {
   }
 
   const explanationsAvailable = Boolean(health?.explanations_available);
+  // Offered only when the engine has a speech model and this page may use the microphone.
+  const speechOffered = Boolean(health?.speech?.enabled) && canRecord();
 
   // The recommendations worth explaining: the top five, never a 'none'
   // verdict (those are nearest text matches, and a fluent reason beside each
@@ -385,6 +398,29 @@ export default function Query() {
             <Icon name="paperclip" size={18} />
           </button>
 
+          {speechOffered && (
+            <button
+              type="button"
+              className={`composer-icon composer-mic is-${voice.state}`}
+              onClick={voice.state === 'recording' ? voice.stop : voice.start}
+              disabled={running || voice.state === 'transcribing'}
+              aria-pressed={voice.state === 'recording'}
+              aria-label={voice.state === 'recording'
+                ? 'Stop recording and transcribe'
+                : 'Speak the query (transcribed on the engine, then shown here to check)'}
+              title={voice.state === 'recording' ? 'Stop recording' : 'Speak the query'}
+            >
+              <Icon name={voice.state === 'recording' ? 'stop' : 'mic'} size={voice.state === 'recording' ? 14 : 18} />
+            </button>
+          )}
+          {voice.state !== 'idle' && (
+            <span className="composer-voice-status xs" role="status">
+              {voice.state === 'recording'
+                ? `Listening… ${Math.floor(voice.seconds)}s of ${MAX_SECONDS}`
+                : 'Transcribing…'}
+            </span>
+          )}
+
           {languages.length > 1 && (
               <label className="composer-pill pill-select" title="Query language, translated to English before searching">
                 <span className="sr-only">Query language</span>
@@ -441,6 +477,13 @@ export default function Query() {
             : <Icon name="arrowUp" size={20} strokeWidth={2.25} />}
         </button>
       </div>
+      {voice.error && (
+        <p className="composer-voice-error xs" role="alert">
+          {voice.error}
+          {' '}
+          <button type="button" className="link-button" onClick={voice.clearError}>Dismiss</button>
+        </p>
+      )}
     </form>
   );
 

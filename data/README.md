@@ -113,7 +113,7 @@ runs one by hand.
 
 [`extract_references.py`](extract_references.py) reads the cached text of
 every standard and records the standards it cites, writing
-`relationships/extracted_relationships.json` (88,623 links from 16,944
+`relationships/extracted_relationships.json` (87,929 links from 16,910
 standards, about 28 MB):
 
 ```powershell

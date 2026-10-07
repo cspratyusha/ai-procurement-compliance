@@ -195,3 +195,18 @@ if __name__ == "__main__":
     print("\n" + "=" * 70)
     print("All supersession resolution and contract tests PASSED!")
     print("=" * 70)
+
+
+def test_a_withdrawn_edition_with_nothing_to_cite_instead_never_leads():
+    """IS 9582 (Part 1):1980, withdrawn with no replacement, had led IS 366 for "electric dry iron"."""
+    from data.models import Standard
+
+    def std(sid, number, status="active", withdrawn=False):
+        return Standard(id=sid, number=number, title=number, scope="", description="", category="",
+                        version="", last_amended="", status=status, withdrawn=withdrawn)
+
+    corpus = {s.id: s for s in (std("OLD", "IS 9582 (Part 1):1980", "superseded", withdrawn=True),
+                                std("IRON", "IS 366:1991"), std("OTHER", "IS 6390 (Part 2):1992"))}
+    ranked = [cid for cid, _ in apply_supersession_penalty(
+        [("OLD", 0.95), ("OTHER", 0.80), ("IRON", 0.90)], corpus=corpus)]
+    assert ranked == ["IRON", "OLD", "OTHER"]

@@ -225,6 +225,45 @@ export async function extractAndSearch(file, { topK = 10, signal } = {}) {
 }
 
 /**
+ * Text of a spoken query (a 16 kHz WAV from useVoiceInput), transcribed on
+ * the engine. Returns { text, seconds, model }; it is not searched.
+ */
+export async function transcribeAudio(wav, { language, signal } = {}) {
+  const form = new FormData();
+  form.append('audio', wav, 'query.wav');
+  if (language && language !== 'auto') form.append('language', language);
+
+  // Not request(): FormData must not get a JSON Content-Type, and the first
+  // spoken query after a start waits for the speech model to load.
+  const controller = new AbortController();
+  const timer = setTimeout(() => controller.abort(), 120000);
+  if (signal) signal.addEventListener('abort', () => controller.abort(), { once: true });
+
+  try {
+    const res = await fetch(`${BASE_URL}/transcribe`, {
+      method: 'POST',
+      headers: authHeaders(),
+      body: form,
+      signal: controller.signal,
+    });
+    if (!res.ok) throw await failure(res, 'Transcription failed');
+    return await res.json();
+  } catch (err) {
+    if (err instanceof ApiError) throw err;
+    if (err.name === 'AbortError') {
+      if (signal?.aborted) throw err;
+      throw new ApiError('Transcribing the recording took too long.', { kind: 'timeout' });
+    }
+    throw new ApiError(
+      `Cannot reach the standards engine at ${BASE_URL}. Start the backend, then try again.`,
+      { kind: 'offline' },
+    );
+  } finally {
+    clearTimeout(timer);
+  }
+}
+
+/**
  * Every standard in the corpus, optionally filtered by sector.
  *
  * At full size this is about 10 MB. Screens should use `searchStandards`,

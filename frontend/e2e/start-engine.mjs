@@ -47,6 +47,7 @@ const engine = spawn(python, [
     BIS_AUTO_REFRESH: '0',
     ...(process.env.E2E_ALLOWED_ORIGIN ? { ALLOWED_ORIGINS: process.env.E2E_ALLOWED_ORIGIN } : {}),
     EXPLANATION_WARMUP: '0',
+    SPEECH_WARMUP: '0',
     PYTHONIOENCODING: 'utf-8',
   },
 });

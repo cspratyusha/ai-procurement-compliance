@@ -43,6 +43,15 @@ def test_bis_replacement_wins_over_an_older_sibling_marked_active():
     assert (found["number"], found["held"]) == ("IS 3400 (Part 5):2022", True)
 
 
+def test_a_replacement_named_without_a_year_is_its_edition_in_force():
+    """BIS names IS 15683 for IS 13849:1993; the corpus holds IS 15683:2006 and :2018."""
+    old = std("IS 13849:1993", "superseded", superseded_by="IS 15683", withdrawn=True)
+    mid = std("IS 15683:2006", "superseded", superseded_by="IS 15683:2018", withdrawn=True)
+    new = std("IS 15683:2018")
+    found = Editions([old, mid, new]).replacement(old)
+    assert (found["number"], found["held"]) == ("IS 15683:2018", True)
+
+
 def test_withdrawn_with_no_replacement_says_so():
     old = std("IS 10080:1982", "superseded", withdrawn=True, note="Decided by council")
     found = Editions([old]).replacement(old)

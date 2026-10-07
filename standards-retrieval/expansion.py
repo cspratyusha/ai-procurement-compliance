@@ -38,6 +38,12 @@ EVERYDAY: List[Tuple[str, str]] = [
     (r"\b(?:mobile|phone|laptop|usb) chargers?\b|\bchargers?\b|\bpower adapters?\b", "switch mode power supply"),
     (r"\btube ?lights?\b", "tubular fluorescent lamps"),
     (r"\bled bulbs?\b|\bled lamps?\b", "self-ballasted LED lamps for general lighting"),
+    # The wire in a building's walls is IS 694's PVC insulated cable; "house wiring
+    # cable" alone found low-frequency, data and automobile cables. Only when the
+    # cable or wire is what is bought: "switches for domestic wiring" are switches.
+    (r"^(?=.*\b(?:cables?|wires?)\b)(?:.*\b(?:house|home|domestic|building|internal|indoor|electrical)\s+wiring\b"
+     r"|.*\bwiring\s+(?:inside|in)\s+(?:a\s+|the\s+)?(?:house|home|building|office))",
+     "polyvinyl chloride insulated cables with rigid and flexible conductor for building wiring"),
     (r"\bstreet ?lights?\b", "luminaires for road and street lighting"),
     (r"\bfridges?\b", "household refrigerating appliances"),
     (r"\bmixies?\b|\bmixer grinders?\b", "domestic electric food mixers"),

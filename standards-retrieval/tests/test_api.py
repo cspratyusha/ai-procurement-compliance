@@ -58,7 +58,7 @@ class TestStandardsRetrievalAPI(unittest.TestCase):
 
         # Ensure exact contract keys
         expected_keys = {"status", "corpus_size", "ltr_model_loaded", "explanations_available", "bis_refresh",
-                         "usage_logs_redirected"}
+                         "usage_logs_redirected", "speech"}
         self.assertEqual(set(data.keys()), expected_keys)
 
     # --- 2. Input Validation Tests ---
@@ -309,6 +309,21 @@ class TestStandardsRetrievalAPI(unittest.TestCase):
                 resp = self.client.get(f"/standards/{spelling}")
                 self.assertEqual(resp.status_code, 200)
                 self.assertEqual(resp.json()["number"], number)
+
+    def test_standard_lookup_without_year_returns_edition_in_force(self):
+        """Officials write "IS 694", not "IS 694:2010"; that names the edition in force."""
+        standards = self.client.get("/standards").json()
+        by_family = {}
+        for s in standards:
+            by_family.setdefault(s["number"].split(":")[0], []).append(s)
+        family, editions = next((f, e) for f, e in by_family.items()
+                                if any(s["status"] == "active" for s in e))
+        expected = max((s for s in editions if s["status"] == "active"),
+                       key=lambda s: s["number"].split(":")[-1])
+
+        resp = self.client.get(f"/standards/{family.lower()}")
+        self.assertEqual(resp.status_code, 200)
+        self.assertEqual(resp.json()["number"], expected["number"])
 
     def test_unknown_standard_returns_404(self):
         """A standard outside the corpus must 404, not return a near match."""

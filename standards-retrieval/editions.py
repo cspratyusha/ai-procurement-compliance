@@ -73,6 +73,12 @@ class Editions:
             seen.add(_key(nxt))
             named = nxt
             held = self.by_number.get(_key(nxt))
+            if held is None and ":" not in nxt:
+                # BIS often names the replacement without a year ("IS 15683" for
+                # IS 13849:1993): that is the edition of it in force.
+                held = self.active_in_family(nxt)
+                if held is not None:
+                    named = held.number
             if held is None or getattr(held, "status", "active") == "active":
                 current = held
                 break

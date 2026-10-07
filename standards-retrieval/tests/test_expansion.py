@@ -18,6 +18,8 @@ def test_everyday_words_get_the_standards_terms():
         ("cotton bedsheet", "bed sheets"),
         ("fly ash bricks", "pulverized fuel ash-lime bricks"),
         ("PE pipes for drinking water", "polyethylene pipes for water supply"),
+        ("house wiring cable", "polyvinyl chloride insulated cables with rigid and flexible conductor for building wiring"),
+        ("cables for wiring inside a house", "polyvinyl chloride insulated cables with rigid and flexible conductor for building wiring"),
     ]:
         expanded, added = expansion.expand(query)
         assert added == [phrase], query
@@ -27,7 +29,8 @@ def test_everyday_words_get_the_standards_terms():
 def test_ambiguous_and_technical_queries_are_left_alone():
     for query in ("paracetamol tablets", "AC contactor 32 A", "PVC insulated copper cable",
                   "information technology equipment safety",
-                  "PE pipes for gas supply"):                # PE for gas has a standard of its own
+                  "PE pipes for gas supply",
+                  "modular switches 6 A for domestic wiring"):  # switches, not cable                # PE for gas has a standard of its own
         assert expansion.expand(query)[1] == [], query
 
 

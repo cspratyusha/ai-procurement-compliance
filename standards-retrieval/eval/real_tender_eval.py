@@ -112,6 +112,7 @@ def main():
     os.environ.setdefault("STANDARDS_CORPUS", "full")
     os.environ["AUTH_REQUIRED"] = "0"
     os.environ["EXPLANATION_WARMUP"] = "0"
+    os.environ["SPEECH_WARMUP"] = "0"
     os.environ["BIS_AUTO_REFRESH"] = "0"
     os.environ["ACCOUNTS_DB"] = str(Path(tempfile.mkdtemp(prefix="tender-eval-")) / "accounts.db")
     os.chdir(_ROOT)

@@ -25,7 +25,7 @@ We would rather state our scope plainly than imply coverage we do not have.
 | **Checked against BIS's records** | **30,917 of 33,023 editions** match BIS's own record (Know Your Standard, all 34,300 pages read 28 September 2026, brought up to date from the portal): whether the edition is withdrawn, what replaced it, and its amendments. The other 2,106 have no BIS record under that number and keep the archive's status. The scope text itself is still the archive's OCR, so every record keeps `"verified": false` |
 | **Certification data** | **BIS's full lists of products under compulsory certification**: 749 standards across Scheme I (ISI mark), Scheme II (CRS) and Scheme X, each with its Quality Control Order, gazette notification and a link to the order (read 27 September 2026); and **BIS hallmarking**: gold jewellery and artefacts (IS 1417) compulsory under the Hallmarking Order in 392 districts, with its exemptions, and silver (IS 2112) voluntary, read from the gazette notifications (saved in `data/certification/source/hallmarking/`). Orders whose enforcement is deferred (most of the Electrical Equipment QCO, by S.O. 5038(E)) are shown as **not yet mandatory**. A standard not on the lists reports `not_listed`, stated with the date the lists were read |
 | **Amendments** | **BIS's official record** (5,574 standards with amendments, 9,087 in all, 115 of them issued after October 2025), with the year of **7,854** of them (86%): from BIS's portal, which lists each amendment with its year, for current and superseded editions alike (tenders still cite old ones), and from the amendment slips bound into each standard's archived copy (3,428 standards, 5,424 slips, with excerpts). Where the copy shows more amendments than BIS lists, the larger number is shown and marked disputed. A standard BIS has no record for falls back to its copy, which reports "at least" and the year the copy is current to |
-| **Allied standards** | **88,029 links from 16,917 standards**, read automatically from each standard's own REFERENCES clause and citations, plus 25 read and typed by hand, grouped as normative references, material specifications, test methods, **safety standards**, terminology and installation practice. Every automatic link carries the passage it was read from; on a hand-checked random sample of 40, 37 were right (the misses are OCR misreading a digit). **Related product standards** are the standards closest in scope, read from the search index and required to share a word of the title |
+| **Allied standards** | **87,929 links from 16,910 standards**, read automatically from each standard's own REFERENCES clause and citations, plus 25 read and typed by hand, grouped as normative references, material specifications, test methods, **safety standards**, terminology and installation practice. Every automatic link carries the passage it was read from; on a hand-checked random sample of 40, 37 were right (the misses are OCR misreading a digit). **Related product standards** are the standards closest in scope, read from the search index and required to share a word of the title |
 
 **What this means in practice:** search covers 99.5% of the editions BIS
 lists as current, including those published up to 4 October 2026;
@@ -162,6 +162,41 @@ query scores +3.9 and returns the standard the English phrasing returns.
 The interface itself is English-only; only queries and results are
 multilingual.
 
+### Spoken queries
+
+The microphone button in the search box records a spoken query (up to 30
+seconds) and the engine transcribes it with **Whisper** (`openai/whisper-small`,
+open weights, on the engine's CPU). No audio leaves the engine: the browser's
+built-in speech recognition was not used because it sends the audio to the
+browser maker's servers. The transcript goes into the query box, in the
+script of the language spoken, for the official to read and correct, and is
+searched only when they press search, since a misheard grade or rating
+would otherwise search for the wrong product unseen. A query in an Indian
+language is then translated as a typed one is.
+
+- Languages: English and every query language above except **Odia**, which
+  Whisper was not trained on; choosing Odia and speaking is told so.
+- Speed, on a laptop CPU: about 4 to 5 seconds to transcribe 5 to 12 seconds
+  of speech, measured. The model (about 1 GB) downloads on first use and then loads in the background
+  at startup (`SPEECH_WARMUP=0` skips that; `SPEECH_INPUT=0` turns the feature
+  off; `SPEECH_MODEL` picks another Whisper checkpoint).
+- The browser allows the microphone only on `https://` or `localhost`.
+- Accuracy, English: the 52 English benchmark queries read by both of
+  Windows' English voices (104 recordings), transcribed, then searched. Right
+  standard first 66/104 and in the top five **98/104**, against 72 and 100
+  typed; 81 of 104 transcribed word-perfect (word error rate 6.4%), median
+  2.1 s. The losses are technical words misheard ("ductile iron" as
+  "ductyliron", "borewell" as "borwell", "gas stove" as "gastove"). The
+  transcript is tidied first: Whisper writes Title Case, American spelling
+  ("liter") and "2. Burner", which had cost more searches than mishearing. A
+  synthetic voice is clearer than a person in an office, so expect lower
+  figures from real speech.
+- Silence is refused rather than transcribed (Whisper invents "Thank you."
+  on an empty recording). Spoken queries in Indian languages have not been
+  measured: Windows on the development machine has English voices only, and
+  no recordings by speakers have been collected yet.
+- API keys do not reach `/transcribe`: a portal's widget searches typed text.
+
 ---
 
 ## Accuracy, and saying when it does not know
@@ -172,11 +207,11 @@ per-response `final_score`, is comparable across queries. On a `none` verdict
 the UI drops the "Recommended standards" heading entirely and presents the
 results as "Nearest text matches … not recommendations".
 
-**Current measurement: 33,023 records (5 October 2026)**
+**Current measurement: 33,023 records (6 October 2026)**
 
 | Query set | Right standard first | In the top five |
 |---|---|---|
-| 52 buyer-language product queries in English ([`data/benchmark_queries.json`](data/benchmark_queries.json), `eval/benchmark.py`) | 36/52 (69%) | **49/52 (94%)** |
+| 52 buyer-language product queries in English ([`data/benchmark_queries.json`](data/benchmark_queries.json), `eval/benchmark.py`) | 36/52 (69%) | **50/52 (96%)** |
 | The same kind of items in 12 Indian languages, 8 each (96 queries) | 57/96 (59%) | **91/96 (95%)** |
 | A second multilingual set, 8 other items in 12 languages ([`data/benchmark_heldout_queries.json`](data/benchmark_heldout_queries.json)), see below | 78/96 (81%) | **94/96 (98%)** |
 | 236 held-out queries (`tests/test_full_corpus_accuracy.py`, `FULL_EVAL_QUERIES=0`), same standard in any edition | 0.852 | **0.962** |
@@ -363,6 +398,8 @@ Every other route needs a signed-in session or an API key (see
 | `ALLOWED_ORIGINS` | none | extra browser origins for a deployment, comma separated |
 | `REGISTRATION` | `open` | `closed` hides "Create an account"; members are then added by an administrator only |
 | `EXPLANATION_WARMUP` | `1` | `0` skips loading the local language model at startup |
+| `SPEECH_INPUT` | `1` | `0` turns spoken queries off (no microphone button) |
+| `SPEECH_WARMUP` | `1` | `0` skips loading the speech model at startup |
 
 #### Choosing a corpus
 
@@ -519,8 +556,9 @@ git checkout -- standards-retrieval/models/ltr_model.txt
 | Mandatory certification with its governing order: BIS Product Certification (ISI), CRS, Scheme X and Hallmarking | BIS's full compulsory lists, 749 standards, plus the Hallmarking Order for gold (silver voluntary) |
 | Published amendments with paste-ready citation | BIS's count for 33,761 standards (5,548 amended), dates from 3,428 archived copies |
 | Tender abbreviations and everyday words (GI pipe, M25 concrete, MCB, UPS, laptop, office chair) | Live, 43 abbreviations and 27 everyday terms |
-| Allied standards: normative references, test methods, terminology, safety, installation and related products | 88,632 links read from the standards, plus related products by scope |
+| Allied standards: normative references, test methods, terminology, safety, installation and related products | 87,929 links read from the standards, plus related products by scope |
 | Queries in 13 languages (English and 12 Indian), translated locally | Live; an unsupported script is told so |
+| Spoken queries, transcribed on the engine (Whisper), checked by the official before searching | Live; English and 11 Indian languages (not Odia) |
 | Tender document upload (PDF, Word, Excel, text; OCR for scans) | Live |
 | Integration with procurement portals: API keys, OpenAPI, and an embeddable widget | Live, see [docs/integration-guide.md](docs/integration-guide.md) |
 | Tender builder with live recommendations and clause generation | Live |
@@ -565,7 +603,7 @@ cd frontend; npm run dev
 cd frontend; npm run test:e2e
 ```
 
-Last run (2026-10-05): the backend suite is **373 passed, 1 skipped**, with
+Last run (2026-10-06): the backend suite is **386 passed, 1 skipped** (end to end on desktop, 76 of 76), with
 all 236 held-out queries in the full-corpus accuracy tests. End to end on
 mobile, against the test engine beside a running one: 73 of 75 in the first
 run (the title-only example, IS 19609:2026, had gained its own scope clause

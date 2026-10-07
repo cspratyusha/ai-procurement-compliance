@@ -167,6 +167,7 @@ def apply_supersession_penalty(
 
     # 3. Apply floored penalty to superseded standards with active sibling present
     chain = _replacement_index()
+    best_active = max(active_by_number.values(), key=lambda e: e["score"], default=None)
     for item in parsed_items:
         std = item["standard"]
         score = item["score"]
@@ -190,6 +191,12 @@ def apply_supersession_penalty(
                 # Ensure it ranks below active sibling (active_floor - 0.1) and below unrelated
                 penalized_score = max(0.0, min(score - penalty, max(0.0, active_floor - 0.1)))
                 item["score"] = penalized_score
+            elif best_active is not None and getattr(std, "withdrawn", False) and score > best_active["score"]:
+                # Withdrawn, with no replacement or none among the candidates: it
+                # cannot go into a new tender, so it never leads a standard in force ("electric dry
+                # iron" had put IS 9582 (Part 1):1980, laundry motors, above IS 366).
+                # It keeps its place below that one, as the nearest withdrawn text.
+                item["score"] = max(0.0, best_active["score"] - 0.01)
 
     # 4. Sort descending: primary by floored score, secondary by pre-penalty score (tie-breaker at floor)
     parsed_items.sort(key=lambda x: (x["score"], x["original_score"]), reverse=True)

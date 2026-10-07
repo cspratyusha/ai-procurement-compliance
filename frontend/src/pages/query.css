@@ -406,6 +406,35 @@
 .composer-icon:active:not(:disabled) { transform: scale(0.9); }
 .composer-icon:disabled { opacity: 0.4; cursor: not-allowed; }
 
+/* Microphone: red and pulsing while it listens, so nobody forgets it is on. */
+.composer-mic.is-recording {
+  background: var(--crit);
+  color: #fff;
+  animation: mic-pulse 1.4s ease-in-out infinite;
+}
+.composer-mic.is-recording:hover:not(:disabled) { background: var(--crit); color: #fff; }
+@keyframes mic-pulse {
+  0%, 100% { box-shadow: 0 0 0 0 color-mix(in srgb, var(--crit) 45%, transparent); }
+  50%      { box-shadow: 0 0 0 6px color-mix(in srgb, var(--crit) 0%, transparent); }
+}
+.composer-voice-status {
+  color: var(--md-on-surface-variant);
+  font-variant-numeric: tabular-nums;
+  white-space: nowrap;
+}
+.composer-voice-error {
+  margin: var(--s2) 0 0;
+  padding: var(--s2) var(--s3);
+  border-radius: var(--r-sm, 8px);
+  background: var(--crit-soft);
+  color: var(--crit);
+}
+.composer-voice-error button {
+  color: inherit;
+  text-decoration: underline;
+  font: inherit;
+}
+
 /* Toolbar pills: the language picker and the explain toggle */
 .composer-pill {
   position: relative;

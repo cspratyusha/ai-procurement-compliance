@@ -109,9 +109,17 @@ _IMPRINT = re.compile(r"B\s*U\s*R\s*E\s*A\s*U\s+O\s*F", re.IGNORECASE)
 # In a references table a bare number is accepted, so one belonging to another
 # body ("ISO 9001 : 2000", "IEC 60227") must not be read as an Indian Standard.
 # "1S0", "IS0", "LSO" and "I5O" are how OCR often renders "ISO" ("LSO 53:1998"
-# had become a citation of IS 53, Brunswick green, in a gear standard).
-_FOREIGN_BODY = re.compile(r"(?:ISO|IS0|1S0|LSO|I5O|lSO|I\s?SO|IEC|EN|BS|DIN|ASTM|ANSI|JIS)\s*[:/-]?\s*$",
-                           re.IGNORECASE)
+# had become a citation of IS 53, Brunswick green, in a gear standard). Drafts
+# and reports ("ISO/DIS 14682", "IEC/TR 61000"), CISPR's numbers ("CISPR 22"
+# had become IS 22) and ASTM's lettered ones ("ASTM D3418") belong to their
+# bodies too. OCR glues "ISO" to the word before it ("equipIS0 8058", "ISIISO
+# 9001"), so the long codes match anywhere; the short ones only as whole words
+# (or BIS's "prEN"), because "Workmen 3861" and "slabs 6126" end in "en" and "bs"
+# and are Indian Standards.
+_FOREIGN_BODY = re.compile(
+    r"(?:(?:ISO|IS0|1S0|LSO|I5O|lSO|I\s?SO|IEC|ASTM|ANSI|CISPR|IEEE|NFPA|ASME)|(?:\b|pr)EN|\b(?:BS|DIN|JIS|SAE|ITU-?[TR]))"
+    r"(?:\s*/\s*(?:DIS|FDIS|TR|TS|PAS|IEC|ASTM))*\s*[:/-]?\s*(?:[A-Z]\s?)?$",
+    re.IGNORECASE)
 
 
 def _family(base, part, sec=None):
@@ -198,7 +206,7 @@ def extract(source, text, by_family):
     start, block = _references_block(text)
     if block:
         for m in _BLOCK_CITE.finditer(block):
-            if int(m.group(1)) > _MAX_IS_NUMBER or _FOREIGN_BODY.search(block[max(0, m.start() - 8): m.start()]):
+            if int(m.group(1)) > _MAX_IS_NUMBER or _FOREIGN_BODY.search(block[max(0, m.start() - 16): m.start()]):
                 continue
             fam = _family(m.group(1), _arabic(m.group(2)), _arabic(m.group(3)))
             if not is_self(m.group(1), _arabic(m.group(2))):
