@@ -107,10 +107,17 @@ def _supersession_findings(corpus: List[Any]) -> List[Dict[str, Any]]:
                 "replacement": None,
                 "replacement_title": None,
                 "detail": (
-                    f"BIS lists {standard.number} as withdrawn{reason}, and neither its record "
-                    f"nor BIS's list of current editions names a replacement."
+                    (f"{standard.number} was replaced by {found['via']}, which BIS has since withdrawn{reason}; "
+                     f"nothing is named in its place."
+                     if found.get("via") else
+                     f"BIS lists {standard.number} as withdrawn{reason}, and neither its record "
+                     f"nor BIS's list of current editions names a replacement.")
+                    + (f" The standard is now published in parts: {', '.join(found['now_in_parts'])}."
+                       if found.get("now_in_parts") else "")
                 ),
-                "action": "Do not cite it. Specify the requirement directly or find a current standard that covers it.",
+                "action": ("Do not cite it. Cite the part that covers the requirement."
+                           if found.get("now_in_parts") else
+                           "Do not cite it. Specify the requirement directly or find a current standard that covers it."),
             })
             continue
         if replacement is not None:

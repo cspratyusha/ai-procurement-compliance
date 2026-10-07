@@ -105,6 +105,8 @@ export const DEMO_TARGETS = {
   ],
   'query-expansion':  ['[data-demo-target="query-expansion"]'],
   'query-bis-products': ['[data-demo-target="query-bis-products"]'],
+  'query-translation': ['[data-demo-target="query-translation"]'],
+  'query-mic':        ['[data-demo-target="query-mic"]'],
   'query-add-first':  [
     '[data-demo-target="query-results"] article.rec .rec-foot button.btn-primary',
     'article.rec .rec-foot button.btn-primary',

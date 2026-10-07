@@ -268,6 +268,17 @@ export default function StandardDetail() {
                       )}
                       {' '}If the catalogue does not hold that edition, check its requirements on BIS before citing it.
                     </>
+                  ) : standard.withdrawn && standard.now_in_parts?.length > 0 ? (
+                    <>
+                      BIS&rsquo;s record names no replacement, but the standard is now published in parts:{' '}
+                      {standard.now_in_parts.map((part, i) => (
+                        <span key={part}>
+                          {i > 0 && ', '}
+                          <Link to={`/app/standard/${encodeURIComponent(part)}`} className="mono strong">{part}</Link>
+                        </span>
+                      ))}
+                      . Cite the part that covers the requirement; none is named by BIS as this edition&rsquo;s replacement.
+                    </>
                   ) : standard.withdrawn ? (
                     <>
                       BIS&rsquo;s record names no replacement, and BIS lists no newer edition

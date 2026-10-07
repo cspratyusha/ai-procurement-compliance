@@ -228,9 +228,11 @@ export function SpecProvider({ children }) {
     return undefined;
   }, [unsaved, state.rev, flush]);
 
-  // A save still waiting when the tab closes goes out with keepalive.
+  // An unsaved change goes out with keepalive when the tab closes or reloads.
+  // Checked on the change itself, not the timer: a rename followed at once by
+  // a reload left the page before the timer was set, and the name was lost.
   useEffect(() => {
-    const onHide = () => { if (pending.current) flush({ keepalive: true }); };
+    const onHide = () => { flush({ keepalive: true }); };
     window.addEventListener('pagehide', onHide);
     return () => window.removeEventListener('pagehide', onHide);
   }, [flush]);

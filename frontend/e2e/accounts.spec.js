@@ -109,8 +109,11 @@ test.describe('Projects', () => {
     const name = `Tender ${Date.now()}`;
     await page.click('button[aria-label="Rename project"]');
     await page.fill('#project-name', name);
+    // "Saved" already shows before the rename, so wait for the save itself.
+    const saved = page.waitForResponse((r) => r.request().method() === 'PUT'
+      && /\/projects\/\d+$/.test(new URL(r.url()).pathname) && r.ok());
     await page.click('button:has-text("Save")');
-    await expect(page.locator('text=Saved').first()).toBeVisible({ timeout: 10_000 });
+    await saved;
 
     await page.reload();
     await expect(page.locator('.card-title', { hasText: name })).toBeVisible({ timeout: 15_000 });

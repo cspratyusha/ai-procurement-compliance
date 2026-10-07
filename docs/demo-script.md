@@ -1,7 +1,7 @@
 # Demo script
 
-An eight-minute walkthrough on the full catalogue. Every example here was run
-on this build; if something in the demo contradicts this document, trust the
+A nine-minute walkthrough on the full catalogue. Every example here was run
+on this build (7 October 2026); if something in the demo contradicts this document, trust the
 running system and fix the document.
 
 The built-in guided demo is separate: **Start Demo** on the homepage, or
@@ -22,11 +22,12 @@ $env:STANDARDS_CORPUS = 'full'
 ```
 
 Wait for `Application startup complete`, about 20 seconds while the models
-load. Confirm:
+load; the speech model loads in the background for a few seconds more.
+Confirm:
 
 ```powershell
 curl http://localhost:8000/health
-# {"status":"ok","corpus_size":31349, ...}
+# {"status":"ok","corpus_size":33023, ... "speech":{"enabled":true,"ready":true,...}}
 ```
 
 **Terminal 2, the interface**
@@ -38,13 +39,19 @@ cd frontend; npm run dev
 Open http://localhost:5173 and **sign in** with your account (on a fresh
 installation the sign-in page sets up the first administrator).
 
+**For the voice step:** a microphone, and the site opened as
+`http://localhost:5173` (browsers allow the microphone only on `localhost` or
+`https://`). Allow it when the browser asks, once, before the demo.
+
 **Optional, for the explanation step:** Ollama running with
 `qwen2.5:7b-instruct`. The engine loads it at startup; without it the
 explanation option simply does not appear.
 
 **Checklist**
 
-- [ ] `/health` reports `corpus_size: 31349`
+- [ ] `/health` reports `corpus_size: 33023` and `speech.ready: true`
+- [ ] The microphone button shows in the search box, and the browser has been
+      allowed to use the microphone (say "ceiling fan" once to check)
 - [ ] Signed in, the dashboard loads
 - [ ] Browser zoom at 100%, one window, no other tabs
 
@@ -95,9 +102,9 @@ laptop for office use
 
 > "Laptop" appears in no Indian Standard title. The engine adds the standards'
 > own words, "information technology equipment safety", and says so in the blue
-> note, the way it shows a translation. It finds IS 13252. It says "uncertain"
-> and why: the catalogue holds that standard on its number and title only, so
-> the match cannot be confirmed from its scope.
+> note, the way it shows a translation. It finds the IS 13252 series. It says
+> "uncertain" and why: the catalogue holds that standard on its number and
+> title only, so the match cannot be confirmed from its scope.
 >
 > The shield note is BIS: laptops are under compulsory registration, CRS, to
 > IS/IEC 62368-1. BIS names products in everyday words, so the engine checks
@@ -199,6 +206,17 @@ Go to **Audit** and upload `frontend/public/demo/sample-tender.txt`.
 > Every IS number in the document, checked: an outdated edition with its
 > replacement named, citations with no year, amendments not cited.
 
+Point at **IS 2062:2011**:
+
+> The structural steel standard. BIS withdrew this edition in June 2026 and
+> its record names no replacement, but BIS now publishes IS 2062 in parts:
+> Part 1 (2025) and Part 2 (2026). The audit says so, and does not pretend
+> either part is a confirmed replacement. IS 226:1975, which IS 2062 replaced,
+> is followed down the same chain.
+
+And **IS 1239**, cited with no part: the standard is published in parts, and
+the audit names them rather than calling it unknown.
+
 Scroll to **What the cited standards depend on**:
 
 > And what the cited standards themselves require that the tender leaves out,
@@ -217,14 +235,33 @@ Then **Upload tender / BOQ** with `frontend/public/demo/sample-boq.xlsx`:
 
 ---
 
-## 7. Any language (30 seconds)
+## 7. Any language, or spoken (1 minute)
 
 **New query**, click the **हिन्दी** chip (`घर की वायरिंग के लिए तांबे का तार`,
-copper wire for house wiring).
+copper wire for house wiring). IS 694 comes first, ISI mark required.
 
 > It shows what you typed and what it searched for. Thirteen languages, English
 > and twelve Indian ones, translated on this machine, no internet. Type in a
 > script it does not support and it says so rather than returning nothing.
+
+Then click the **microphone**, say clearly, and click it again:
+
+```
+ceiling fan with regulator for office use, twelve hundred millimetre sweep
+```
+
+The words appear in the box after two to four seconds. Read them out, then
+search: IS 374:2019, ISI mark required under the Electric Ceiling Type Fans
+(Quality Control) Order, 2023.
+
+> Transcribed on this engine by Whisper, open weights; no audio leaves the
+> machine, which rules out the browser's own speech recognition. The words go
+> into the box to be checked, never straight into a search: a misheard "43
+> grade" would otherwise search for the wrong cement. English and eleven of
+> the Indian languages; not Odia, which Whisper does not know.
+
+If a word comes out wrong ("borewell" as "borwell"), correct it in the box
+before searching, and say that is the point of the box.
 
 ---
 
@@ -264,16 +301,19 @@ come from BIS's record for each standard.
 
 **"What is the AI here?"**
 A sentence-transformer (e5-base-v2) for meaning, BM25 for exact terms, a
-cross-encoder for re-ranking, NLLB-200 for translation, and an optional local
-7B model for explanations. All local. No API keys, no cloud.
+cross-encoder for re-ranking, NLLB-200 for translation, Whisper for spoken
+queries, and an optional local 7B model for explanations. All local. No API
+keys, no cloud.
 
 **"What is your accuracy?"**
-On 30 product queries written before they were run and never tuned on, the
-right standard is in the top five for all 30 and first for 23. On 27 real
-tender lines from a state schedule of rates, the standard the line cites is in
-the top five for 21 and first for 17. On 236 held-out queries written from the
-standards' titles, Recall@5 0.94 and P@1 0.83 (the standard, in any edition).
-The confidence gate was calibrated on 35 genuinely out-of-scope queries.
+On a committed benchmark of buyer-language queries: in English, the right
+standard is in the top five for 50 of 52 and first for 36; in twelve Indian
+languages, top five for 91 of 96; on a second multilingual set written before
+the translation fixes, 94 of 96. Spoken, the 52 English queries read by two
+synthetic voices: top five for 98 of 104 (typed: 100). On 236 held-out
+queries written from the standards' titles, Recall@5 0.96 and P@1 0.85. The
+confidence gate was calibrated on 35 genuinely out-of-scope queries. Be
+plain about what is not measured: speech in Indian languages, and real users.
 
 **"Why not just use ChatGPT?"**
 Asked which standard applies, a language model produces a plausible IS number
@@ -295,10 +335,12 @@ sign-in, an activity trail per user, and organisations cannot see each
 other's work.
 
 **"What is not done?"**
-Scheduling the weekly refresh from BIS's portal, dates for the quarter of
-amendments that have none, the scope text of the records held on number and
-title only, translation quality in other languages, and hosting: it runs on
-this machine today.
+Hosting: it runs on this machine today. The scope text of the 38% of records
+held on number and title only (needs BIS's full texts), dates for the 14% of
+amendments BIS gives none for, an interface in Hindi (queries are
+multilingual, the screens are English), speech measured in Indian languages,
+and a pilot with real officials. The weekly refresh from BIS's portal is done:
+the engine runs it itself while it is in use.
 
 ---
 
@@ -308,6 +350,11 @@ this machine today.
 still hold port 8000. Check the port owner, not the log. If the interface looks
 out of date, restart `npm run dev`: a dev server left running for days can
 stop picking up file changes.
+
+**No microphone button.** The engine reports no speech model (`/health`,
+`speech.enabled`), or the page is not on `localhost` or `https://`. If the
+browser refused the microphone, allow it from the padlock in the address bar.
+Skip to typing; nothing else depends on it.
 
 **Explanations do not appear.** Ollama is not running or the model is still
 loading; everything else works unchanged.

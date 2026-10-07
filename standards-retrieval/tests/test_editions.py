@@ -52,6 +52,27 @@ def test_a_replacement_named_without_a_year_is_its_edition_in_force():
     assert (found["number"], found["held"]) == ("IS 15683:2018", True)
 
 
+def test_withdrawn_into_parts_lists_the_parts_published_after_it():
+    """IS 2062:2011, withdrawn naming nothing; BIS now publishes IS 2062 in parts."""
+    old = std("IS 2062:2011", "superseded", withdrawn=True)
+    p2, p1 = std("IS 2062 (Part 2):2026"), std("IS 2062 (Part 1):2025")
+    earlier = std("IS 2062 (Part 9):1990")                 # older than the edition: not its successor
+    found = Editions([old, p2, p1, earlier]).replacement(old)
+    assert found["number"] is None and found["withdrawn_without_replacement"] is True
+    assert found["now_in_parts"] == ["IS 2062 (Part 1):2025", "IS 2062 (Part 2):2026"]
+
+
+def test_a_replacement_itself_withdrawn_is_followed_to_its_parts():
+    """IS 226:1975 -> "IS 2062" -> only IS 2062:2011 held, withdrawn naming nothing."""
+    old = std("IS 226:1975", "superseded", superseded_by="IS 2062", withdrawn=True)
+    mid = std("IS 2062:2011", "superseded", withdrawn=True)
+    part = std("IS 2062 (Part 1):2025")
+    found = Editions([old, mid, part]).replacement(old)
+    assert found["number"] is None and found["withdrawn_without_replacement"] is True
+    assert found["via"] == "IS 2062:2011"
+    assert found["now_in_parts"] == ["IS 2062 (Part 1):2025"]
+
+
 def test_withdrawn_with_no_replacement_says_so():
     old = std("IS 10080:1982", "superseded", withdrawn=True, note="Decided by council")
     found = Editions([old]).replacement(old)

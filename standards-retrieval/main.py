@@ -352,12 +352,18 @@ class AuditFinding(BaseModel):
             "ambiguity, not a defect in the tender."
         ),
     )
-    kind: Literal["superseded", "amendment", "undated", "unknown"] = Field(..., description="What kind of problem this is.")
+    kind: Literal["superseded", "amendment", "undated", "no_part", "unknown"] = Field(
+        ..., description="What kind of problem this is. 'no_part': a standard published in parts, cited without one.")
     cited: str = Field(..., description="The IS number exactly as the document cites it.")
     title: str = Field(default="", description="Title of that standard, when the corpus holds it.")
     occurrences: int = Field(..., description="Times this standard is cited in the document.")
     context: str = Field(..., description="Text around the first citation, so it can be located.")
     replacement: Optional[str] = Field(default=None, description="Edition to cite instead, when one is known.")
+    now_in_parts: List[str] = Field(
+        default_factory=list,
+        description="The parts the standard is now published in, when the citation names none or BIS withdrew "
+                    "it naming no replacement. Not a confirmed replacement: choose the part that covers the goods.",
+    )
     amendment_count: Optional[int] = Field(default=None, description="Amendments in force, for amendment findings.")
     detail: str = Field(..., description="Plain-language statement of the problem.")
     action: str = Field(..., description="What to change in the tender.")
@@ -1478,6 +1484,14 @@ def search_standards(
     )
 
 
+def _with_parts(standard: Standard) -> Standard:
+    """A withdrawn edition with no replacement, with the parts BIS publishes it in now."""
+    if standard.status != "superseded" or standard.superseded_by_number:
+        return standard
+    parts = editions.for_corpus(load_corpus()).replacement(standard).get("now_in_parts") or []
+    return standard.model_copy(update={"now_in_parts": parts}) if parts else standard
+
+
 @app.get("/standards/{standard_id}", response_model=Standard, summary="Get Standard by ID or IS Number")
 def get_standard(standard_id: str):
     """Retrieve a single standard by internal id or by IS number.
@@ -1489,7 +1503,7 @@ def get_standard(standard_id: str):
     """
     standard = get_standard_by_id(standard_id)
     if standard:
-        return standard
+        return _with_parts(standard)
 
     # Fall back to IS-number lookup, normalising case and spacing so that
     # "is 694:2010" and "IS 694 : 2010" resolve to the same standard.
@@ -1498,7 +1512,7 @@ def get_standard(standard_id: str):
     standards = list(corpus.values()) if corpus else load_corpus()
     for candidate in standards:
         if _normalize_is_number(candidate.number) == wanted:
-            return candidate
+            return _with_parts(candidate)
 
     # No edition year ("IS 694", as officials usually write it): the edition in
     # force, or the newest held if every edition is superseded. A part is never
@@ -1509,7 +1523,7 @@ def get_standard(standard_id: str):
             def edition_year(c):
                 m = re.search(r":(\d{4})$", c.number)
                 return int(m.group(1)) if m else 0
-            return max(editions, key=lambda c: (c.status == "active", edition_year(c)))
+            return _with_parts(max(editions, key=lambda c: (c.status == "active", edition_year(c))))
 
     raise HTTPException(
         status_code=404,

@@ -196,8 +196,8 @@ export const demoSteps = [
   ...say(
     'Act 2 · Search',
     'Four retrieval stages are running.',
-    'Dense vectors and BM25 together, a cross-encoder re-read, then a learned ranker.',
-    'Typically about 231 ms. The first search after a cold start also loads '
+    'Dense vectors and BM25 together, then a cross-encoder re-reads every candidate.',
+    'Typically under half a second. The first search after a cold start also loads '
       + 'the models, so the demo waits for the real result rather than '
       + 'guessing at a duration.',
     0,
@@ -230,8 +230,8 @@ export const demoSteps = [
     'Act 2 · Search',
     'Accepting a standard collects it in the spec basket.',
     'The basket follows you across every screen in the app.',
-    'Both the acceptance and everything passed over are logged, the ranker '
-      + 'learns as much from the rejections as from the picks.',
+    'Both the acceptance and everything passed over are logged: that is what '
+      + 'the learned ranker will be trained on, the rejections as much as the picks.',
     0,
   ),
   { action: 'scrollTo', target: 'query-top-result', block: 'start' },
@@ -330,6 +330,48 @@ export const demoSteps = [
     'CRS, to IS/IEC 62368-1, with the order that requires it.',
     'Tender abbreviations work the same way: OPC, TMT, GI pipe, XLPE, MCB.',
     3800,
+  ),
+
+  // ═══════════════════════ Act 5b, any language, or spoken ═══════════════
+  // Hindi for "copper wire for house wiring". The everyday words map to IS
+  // 694's own, as in English; the narration names IS 694, so change both.
+  ...say(
+    'Act 5 · Any language',
+    'An official can write in their own language.',
+    'Thirteen languages: English and twelve Indian ones, translated on this machine.',
+    'The engine shows what was typed and what it actually searched, because a '
+      + 'wrong translation quietly returning wrong standards is the failure to guard against.',
+    2600,
+  ),
+  ...press('query-input'),
+  { action: 'type', target: 'query-input', text: 'घर की वायरिंग के लिए तांबे का तार' },
+  { action: 'wait', ms: 600 },
+  ...press('query-submit'),
+  {
+    action: 'waitFor',
+    target: 'query-translation',
+    orTarget: ['query-results', 'any-error'],
+    timeout: 300000,
+  },
+  { action: 'highlight', target: 'query-translation', optional: true },
+  ...say(
+    'Act 5 · Any language',
+    'Translated, then searched: IS 694, the house wiring cable, ISI mark required.',
+    'What was typed and what was searched, side by side.',
+    null,
+    3000,
+  ),
+  // Shown, not used: the tour cannot speak, and a browser asks before it
+  // opens the microphone. Absent when the engine has no speech model.
+  { action: 'moveTo', target: 'query-mic', optional: true },
+  { action: 'highlight', target: 'query-mic', optional: true },
+  ...say(
+    'Act 5 · Any language',
+    'Or say it: the microphone turns speech into the query.',
+    'Transcribed on this engine by Whisper; no audio leaves the machine.',
+    'The words land in the box to check before searching: a misheard grade '
+      + 'would otherwise search for the wrong product unseen.',
+    3400,
   ),
 
   // ═══════════════════════ Act 6, upload a BOQ ═══════════════════════════

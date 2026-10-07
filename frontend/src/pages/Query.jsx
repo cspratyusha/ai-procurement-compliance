@@ -402,6 +402,7 @@ export default function Query() {
             <button
               type="button"
               className={`composer-icon composer-mic is-${voice.state}`}
+              data-demo-target="query-mic"
               onClick={voice.state === 'recording' ? voice.stop : voice.start}
               disabled={running || voice.state === 'transcribing'}
               aria-pressed={voice.state === 'recording'}
@@ -615,7 +616,7 @@ export default function Query() {
         {phase === 'done' && response && (
           <div className="stack stack-4 fade-in" data-demo-target="query-results">
             {response?.translation && (
-              <div className={`notice ${response.translation.translated ? 'notice-info' : 'notice-warn'}`} role="status">
+              <div className={`notice ${response.translation.translated ? 'notice-info' : 'notice-warn'}`} role="status" data-demo-target="query-translation">
                 <Icon name={response.translation.translated ? 'info' : 'alert'} size={15} />
                 <div className="stack stack-2">
                   <span className="small strong">

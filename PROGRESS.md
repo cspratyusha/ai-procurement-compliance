@@ -5,6 +5,74 @@ at the top.
 
 ---
 
+## Phase AF: demo readiness (2026-10-07)
+
+Every example in `docs/demo-script.md` was re-run on the full catalogue, in
+process with logging off. The searches all still hold (IS 2082, IS 694, IS
+1239 (Part 1), IS 17631, IS 374, "no close match" for insurance, IS 694 from
+Hindi), as do the standard pages and the BOQ. The tender audit did not.
+
+### What the demo tender's audit got wrong
+
+- **IS 2062:2011, "names no replacement".** BIS withdrew it on 29 June 2026
+  and its record names nothing, but BIS now publishes IS 2062 in parts: (Part
+  1):2025 and (Part 2):2026, both held. The replacement chain only followed
+  the same number. A withdrawn edition with no replacement now lists the parts
+  of the standard in force published after it (`now_in_parts`, 34 standards
+  in the corpus, IS 384, IS 1500, IS 1501 among them), on the audit, the
+  hygiene screen and the standard's page, each with a link. They are never
+  presented as a replacement: BIS names none.
+- **IS 226:1975, "IS 2062 is the edition in force; this corpus does not hold
+  its text".** BIS names "IS 2062" without a year, and no edition of it is in
+  force. The chain now follows a yearless replacement to its newest edition,
+  and when that was itself withdrawn naming nothing, says so (`via`) and lists
+  its parts.
+- **IS 1239, "not in this corpus".** It is: as IS 1239 (Part 1) and (Part 2),
+  and the search a minute earlier in the demo had found Part 1. A standard
+  published only in parts, cited without one, is now `no_part` (minor), with
+  the parts named and linked.
+- **IS 694:1990, "not in this corpus".** An earlier edition of a standard
+  whose edition in force is held (IS 694:2010) is now superseded by it
+  (critical, replacement named). A cited year newer than the held edition
+  stays "unknown": the corpus may be behind BIS.
+
+### The guided demo and the script
+
+- The guided demo claimed a learned ranker (rejected for this corpus, not
+  loaded) and "typically about 231 ms" (median 367 ms); both captions are
+  corrected, and the feedback caption says the logged decisions are what the
+  ranker will be trained on, not that it learns from them now.
+- A new act after "Everyday words": a Hindi query, the translation notice, and
+  the microphone shown and explained (the tour cannot speak, and a browser
+  asks before opening a microphone).
+- `docs/demo-script.md`: the corpus size, the speech check in the checklist,
+  the audit's IS 2062 and IS 1239 findings, a spoken query in step 7 with what
+  to do when a word comes out wrong, accuracy answered from the committed
+  benchmarks (typed and spoken), and "what is not done" brought up to date
+  (the weekly refresh runs itself now; a Hindi interface and speech in Indian
+  languages are not done).
+
+### A rename lost on reload
+
+The end-to-end suite caught it on mobile: a project renamed and the page
+reloaded at once came back "Untitled specification". The store saves 500 ms
+after an edit and sends a waiting save when the page goes away, but it checked
+for the timer, not for the unsaved change, and a reload straight after the
+rename left before the timer was set. It now sends any unsaved change. The
+test had also accepted a "Saved" label that showed before the rename; it waits
+for the save request itself.
+
+### Tested
+
+395 backend tests pass (1 skipped), including 9 new ones for the parts, the
+chain through a withdrawn replacement and the earlier-edition finding. End to
+end, desktop and mobile, 150 of 152 in one run alongside the backend suite;
+the two failures were the guided demo on desktop (the BOQ step timed out with
+the CPU shared) and the rename above. Rerun alone, the desktop demo passes in
+5.6 minutes with the new act, and the account tests pass 18 of 18 on both.
+
+---
+
 ## Phase AE: the engine starts again; links, withdrawn editions, loanwords (2026-10-06)
 
 ### Smart App Control blocked scikit-learn

@@ -163,6 +163,21 @@ def audit_text(text: str) -> Dict[str, Any]:
             if record is not None:
                 findings.append(_undated_finding(citation, record))
                 continue
+            # "IS 1239" when the standard is published only in parts: held,
+            # but the tender has not said which part.
+            parts = editions.parts_of(cited)
+            if parts:
+                findings.append(_no_part_finding(citation, parts))
+                continue
+
+        # An edition the corpus does not hold, older than the one it does hold
+        # in force ("IS 694:1990" beside IS 694:2010): an earlier edition, not
+        # a gap in coverage.
+        if record is None and citation["year"]:
+            current = _active_in_family(extract_base_standard_family(cited), families)
+            if current is not None and _year_of(current.number) > int(citation["year"]):
+                findings.append(_earlier_edition_finding(citation, current))
+                continue
 
         if record is None:
             findings.append(_unknown_finding(citation))
@@ -338,6 +353,21 @@ def _superseded_finding(citation: Dict[str, Any], record: Any, found: Dict[str, 
             ),
             "action": f"Replace the citation with {found['number']}.",
         }
+    if found["withdrawn_without_replacement"] and found.get("now_in_parts"):
+        reason = f" ({found['note']})" if found["note"] else ""
+        parts = found["now_in_parts"]
+        return {
+            **base,
+            "severity": SEVERITY_CRITICAL,
+            "replacement": None,
+            "now_in_parts": parts,
+            "detail": (
+                f"{_withdrawn_phrase(citation['cited'], found, reason)}, "
+                f"but the standard is now published in parts: {', '.join(parts)}. "
+                f"A withdrawn standard cannot be enforced as a requirement."
+            ),
+            "action": "Cite the part that covers the requirement.",
+        }
     if found["withdrawn_without_replacement"]:
         reason = f" ({found['note']})" if found["note"] else ""
         return {
@@ -345,8 +375,8 @@ def _superseded_finding(citation: Dict[str, Any], record: Any, found: Dict[str, 
             "severity": SEVERITY_CRITICAL,
             "replacement": None,
             "detail": (
-                f"BIS lists {citation['cited']} as withdrawn{reason}, and names no replacement "
-                f"or newer edition. A withdrawn standard cannot be enforced as a requirement."
+                f"{_withdrawn_phrase(citation['cited'], found, reason)}. "
+                f"A withdrawn standard cannot be enforced as a requirement."
             ),
             "action": "Remove the citation and specify the requirement directly, or cite a current standard that covers it.",
         }
@@ -407,6 +437,58 @@ def _undated_finding(citation: Dict[str, Any], record: Any) -> Dict[str, Any]:
             f"in this corpus."
         ),
         "action": f"Cite {record.number} explicitly.",
+    }
+
+
+def _withdrawn_phrase(cited: str, found: Dict[str, Any], reason: str) -> str:
+    """'BIS lists X as withdrawn and names no replacement', or the replacement's own withdrawal."""
+    if found.get("via"):
+        return (f"{cited} was replaced by {found['via']}, which BIS has since withdrawn{reason} "
+                f"naming nothing in its place")
+    return f"BIS lists {cited} as withdrawn{reason} and names no replacement or newer edition"
+
+
+def _year_of(number: str) -> int:
+    m = re.search(r":(\d{4})", number or "")
+    return int(m.group(1)) if m else 0
+
+
+def _earlier_edition_finding(citation: Dict[str, Any], current: Any) -> Dict[str, Any]:
+    """An edition older than the one in force, which the corpus does not hold itself."""
+    return {
+        "severity": SEVERITY_CRITICAL,
+        "kind": "superseded",
+        "cited": citation["cited"],
+        "title": current.title,
+        "occurrences": citation["occurrences"],
+        "context": citation["context"],
+        "replacement": current.number,
+        "detail": (
+            f"{citation['cited']} is an earlier edition; {current.number} is the edition in force. "
+            f"A supplier can meet the earlier edition and still fail the current requirement."
+        ),
+        "action": f"Replace the citation with {current.number}.",
+    }
+
+
+def _no_part_finding(citation: Dict[str, Any], parts: List[Any]) -> Dict[str, Any]:
+    """A standard published only in parts, cited without one."""
+    names = ", ".join(f"{p.number} ({p.title})" for p in parts[:4])
+    more = f" and {len(parts) - 4} more" if len(parts) > 4 else ""
+    return {
+        "severity": SEVERITY_MINOR,
+        "kind": "no_part",
+        "cited": citation["cited"],
+        "title": parts[0].title,
+        "occurrences": citation["occurrences"],
+        "context": citation["context"],
+        "replacement": None,
+        "now_in_parts": [p.number for p in parts],
+        "detail": (
+            f"{citation['cited']} is published in parts, and the citation names none, so "
+            f"which requirement applies is left open: {names}{more}."
+        ),
+        "action": "Cite the part that covers the goods, with its edition year.",
     }
 
 

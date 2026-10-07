@@ -39,6 +39,7 @@ const KIND_LABEL = {
   superseded: 'Superseded edition',
   amendment:  'Amendments not cited',
   undated:    'No edition year',
+  no_part:    'No part named',
   unknown:    'Outside corpus coverage',
 };
 
@@ -325,6 +326,17 @@ export default function Audit() {
 
                       {(f.replacement || f.kind !== 'unknown') && (
                         <div className="row wrap" style={{ gap: 'var(--s2)' }}>
+                          {/* Published in parts: one link per part, since the
+                              number cited alone opens nothing. */}
+                          {f.now_in_parts?.slice(0, 4).map((part) => (
+                            <Link
+                              key={part}
+                              to={`/app/standard/${encodeURIComponent(part)}`}
+                              className="btn btn-secondary btn-sm btn-wrap"
+                            >
+                              Open {part} <Icon name="chevronRight" size={13} />
+                            </Link>
+                          ))}
                           {f.replacement && (
                             <Link
                               to={`/app/standard/${encodeURIComponent(f.replacement)}`}
@@ -333,7 +345,7 @@ export default function Audit() {
                               Open {f.replacement} <Icon name="chevronRight" size={13} />
                             </Link>
                           )}
-                          {f.kind !== 'unknown' && !f.replacement && (
+                          {f.kind !== 'unknown' && f.kind !== 'no_part' && !f.replacement && (
                             <Link
                               to={`/app/standard/${encodeURIComponent(f.cited)}`}
                               className="btn btn-ghost btn-sm btn-wrap"

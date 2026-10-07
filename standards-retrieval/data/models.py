@@ -1,4 +1,4 @@
-from typing import Literal, Optional
+from typing import List, Literal, Optional
 from pydantic import BaseModel, Field
 
 
@@ -25,6 +25,11 @@ class Standard(BaseModel):
     withdrawal_note: Optional[str] = Field(
         default=None,
         description="BIS's reason for a withdrawal with no replacement, e.g. 'Decided by council'.",
+    )
+    now_in_parts: List[str] = Field(
+        default_factory=list,
+        description="Filled on a single standard's page: for a withdrawal with no replacement, the parts "
+                    "the standard is now published in (IS 2062:2011 -> IS 2062 (Part 1):2025, (Part 2):2026).",
     )
     status_source: Optional[str] = Field(
         default=None,

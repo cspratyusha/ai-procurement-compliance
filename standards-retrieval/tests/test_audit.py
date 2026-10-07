@@ -140,6 +140,54 @@ class TestAuditFindings(unittest.TestCase):
         )
 
 
+class TestEditionsAndParts(unittest.TestCase):
+    """Citations the demo tender makes, on the records the full corpus holds for them."""
+
+    @classmethod
+    def setUpClass(cls):
+        from data.models import Standard
+
+        def std(number, status="active", withdrawn=False, superseded_by=None):
+            return Standard(id=number, number=number, title=f"Title of {number}", scope="", description="",
+                            category="", version="", last_amended="", status=status,
+                            withdrawn=withdrawn, superseded_by_number=superseded_by)
+
+        cls.corpus = [
+            std("IS 2062:2011", "superseded", withdrawn=True),
+            std("IS 2062 (Part 1):2025"), std("IS 2062 (Part 2):2026"),
+            std("IS 1239 (Part 1):2004"), std("IS 1239 (Part 2):2011"),
+            std("IS 694:2010"),
+        ]
+
+    def audit(self, text):
+        from unittest import mock
+        with mock.patch.object(audit_module, "load_corpus", return_value=self.corpus):
+            return {f["cited"]: f for f in audit_module.audit_text(text)["findings"]}
+
+    def test_a_standard_withdrawn_into_parts_names_the_parts(self):
+        """BIS withdrew IS 2062:2011 naming nothing; it is IS 2062 (Part 1):2025 and (Part 2):2026 now."""
+        f = self.audit("Steel to IS 2062:2011.")["IS 2062:2011"]
+        self.assertEqual(f["severity"], "critical")
+        self.assertEqual(f["now_in_parts"], ["IS 2062 (Part 1):2025", "IS 2062 (Part 2):2026"])
+        self.assertIn("now published in parts", f["detail"])
+        self.assertIsNone(f["replacement"])            # BIS names none; a part is not asserted
+
+    def test_a_standard_cited_without_its_part_is_not_called_unknown(self):
+        f = self.audit("Galvanized tubes to IS 1239.")["IS 1239"]
+        self.assertEqual(f["kind"], "no_part")
+        self.assertEqual(f["now_in_parts"], ["IS 1239 (Part 1):2004", "IS 1239 (Part 2):2011"])
+        self.assertNotIn("not in this corpus", f["detail"])
+
+    def test_an_earlier_edition_not_held_is_superseded_by_the_one_in_force(self):
+        f = self.audit("Cables to IS 694:1990.")["IS 694:1990"]
+        self.assertEqual((f["severity"], f["kind"], f["replacement"]), ("critical", "superseded", "IS 694:2010"))
+
+    def test_a_newer_edition_than_the_corpus_holds_stays_unknown(self):
+        """The corpus may be behind BIS: a later year is not called superseded."""
+        f = self.audit("Cables to IS 694:2030.")["IS 694:2030"]
+        self.assertEqual(f["kind"], "unknown")
+
+
 class TestLineItemSplitting(unittest.TestCase):
     """Splitting a bill of quantities into the goods it lists."""
 
